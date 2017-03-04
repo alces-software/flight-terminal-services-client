@@ -1,0 +1,96 @@
+#!/bin/bash
+#=============================================================================
+# Copyright (C) 2016 Stephen F. Norledge and Alces Flight Ltd.
+#
+# This file is part of Flight Lackey
+#
+# All rights reserved, see LICENSE.txt.
+#=============================================================================
+set -e
+set -o pipefail
+
+# Script to run a command within the Docker container.
+#
+# Usage: docker-run [port] command
+# If no port is given the default port is used.
+
+CLIENT_DIR=$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" && pwd)
+PORT=
+ARGS=
+
+main() {
+    parse_arguments "$@"
+    check_dependencies
+    docker_run
+}
+
+docker_run() {
+    local args
+    args=()
+    if [ "${PORT}x" != "x" ] ; then
+        args+=(" -p $PORT:$PORT")
+    fi
+    docker run -it --rm \
+        -v ${CLIENT_DIR}:/home/lackey/lackey \
+        -v ${HOME}/.cache/yarn:/home/lackey/.cache/yarn \
+        -v /home/barmston/src/flight-common:/home/flight-common \
+        ${args[@]} \
+        lackey-client $ARGS
+}
+
+usage() {
+    echo "Usage: $(basename $0) [--port PORT] [-- ARGS]"
+    echo
+    echo "Run ARGS on the lackey-client docker container."
+}
+
+check_dependencies() {
+    type -p docker > /dev/null || { echo "Please install docker" ; exit 1; }
+}
+
+parse_arguments() {
+    while [[ $# > 0 ]] ; do
+        key="$1"
+
+        case $key in
+            --port|-p)
+                PORT=$2;
+                shift
+                shift
+                ;;
+
+            --help)
+                usage
+                exit 0
+                ;;
+
+            --)
+                # We've done processing options.  All args after `--` are to
+                # be passed to docker run.
+                shift
+                ARGS="$@"
+                break
+                ;;
+
+            *)
+                echo "$(basename $0): unrecognized option ${key}"
+                usage
+                exit 1
+                ;;
+        esac
+    done
+}
+
+header() {
+    echo -e "\n>>> $@ <<<"
+}
+
+subheader() {
+    echo -e " ---> $@"
+}
+
+indent() {
+    sed 's/^/  /'
+}
+
+main "$@"

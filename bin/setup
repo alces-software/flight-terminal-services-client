@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#==============================================================================
+# Copyright (C) 2016 Stephen F. Norledge and Alces Flight Ltd.
+#
+# This file is part of Flight Lackey
+#
+# All rights reserved, see LICENSE.txt.
+#==============================================================================
+set -eu
+set -o pipefail
+
+SOURCE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+main() {
+    parse_arguments "$@"
+    check_dependencies
+    setup
+}
+
+setup() {
+    header "Building docker container"
+    docker build -t lackey-client --build-arg USER_ID="$(id -u)" .  2> >(indent 1>&2) | indent
+
+    header "Installing packages"
+    "${SOURCE_DIR}/docker-run" -- yarn 2> >(indent 1>&2) | indent
+    # "${SOURCE_DIR}/docker-run" -- npm install --only=dev 2> >(indent 1>&2) | indent
+    # "${SOURCE_DIR}/docker-run" -- npm install 2> >(indent 1>&2) | indent
+
+    header "Running development web server"
+    "${SOURCE_DIR}/docker-run" --port 4002 -- yarn run start 2> >(indent 1>&2) | indent
+
+    # Make sure the prompt isn't indented.
+    echo
+}
+
+usage() {
+    echo "Usage: $(basename $0)"
+    echo
+    echo "Build and start the docker container."
+}
+
+
+check_dependencies() {
+    type -p docker > /dev/null || { echo "Please install docker and docker-compose" ; exit 1; }
+    type -p docker-compose > /dev/null || { echo "Please install docker-compose" ; exit 1; }
+}
+
+parse_arguments() {
+    while [[ $# > 0 ]] ; do
+        key="$1"
+
+        case $key in
+            --help)
+                usage
+                exit 0
+                ;;
+
+            *)
+                echo "$(basename $0): unrecognized option ${key}"
+                usage
+                exit 1
+                ;;
+        esac
+    done
+}
+
+header() {
+    echo -e "\n>>> $@ <<<"
+}
+
+subheader() {
+    echo -e " ---> $@"
+}
+
+indent() {
+    sed 's/^/  /'
+}
+
+main "$@"
