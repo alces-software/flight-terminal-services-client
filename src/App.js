@@ -1,18 +1,33 @@
+/*=============================================================================
+ * Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
+ *
+ * This file is part of Alces Lackey.
+ *
+ * All rights reserved, see LICENSE.txt.
+ *===========================================================================*/
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { CookieBanner, Footer, Header } from 'flight-common';
+
+import ClusterCards from './ClusterCards';
+
+const productName = 'Flight Lackey'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <div className="stickyFooter-wrapper-wrapper">
+        <div className="flight">
+          <Header homePageLink="/" productName={productName} />
+          <div className="pageContainer">
+            <CookieBanner />
+            <ClusterCards />
+          </div>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Footer
+          firstCopyrightYear="2017"
+          productName={productName}
+        />
       </div>
     );
   }
