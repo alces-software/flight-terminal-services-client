@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { Component } from 'react';
-import './App.scss';
+import './styles/main.scss';
 import { CookieBanner, Footer, Header } from 'flight-common';
 
 import ClusterCards from './ClusterCards';
@@ -16,8 +16,8 @@ const productName = 'Flight Lackey'
 class App extends Component {
   render() {
     return (
-      <div className="stickyFooter-wrapper-wrapper">
-        <div className="flight">
+      <div className="sticky-footer-wrapper">
+        <div className="flight sticky-footer-main-content">
           <Header homePageLink="/" productName={productName} />
           <div className="pageContainer">
             <CookieBanner />
