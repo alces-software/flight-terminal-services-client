@@ -15,7 +15,7 @@ const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
 };
 
-const ClusterCard = ({ clusterSpec }) => (
+const ClusterSpecCard = ({ clusterSpec }) => (
   <Card
     className="clusterSpecCard"
     subtitle={clusterSpec.subtitle}
@@ -30,6 +30,6 @@ const ClusterCard = ({ clusterSpec }) => (
   </Card>
 );
 
-ClusterCard.propTypes = propTypes;
+ClusterSpecCard.propTypes = propTypes;
 
-export default ClusterCard;
+export default ClusterSpecCard;

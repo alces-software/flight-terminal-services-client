@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import './styles/main.scss';
 import { CookieBanner, Footer, Header } from 'flight-common';
 
-import ClusterCards from './ClusterCards';
+import ClusterSpecCards from './ClusterSpecCards';
 import Blurb from './Blurb';
 
 const productName = 'Flight Lackey'
@@ -24,7 +24,7 @@ class App extends Component {
             <CookieBanner />
             <div>
               <Blurb />
-              <ClusterCards />
+              <ClusterSpecCards />
             </div>
           </div>
         </div>

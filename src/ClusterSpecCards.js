@@ -7,19 +7,22 @@
  *===========================================================================*/
 import React from 'react';
 
-import ClusterCard from './ClusterCard';
+import ClusterSpecCard from './ClusterSpecCard';
 import clusterSpecs from './clusterSpecs.json';
 
 const propTypes = { };
 
-const ClusterCards = () => (
+const ClusterSpecCards = () => (
   <div className="container">
     <div className="card-deck">
-      {clusterSpecs.map(clusterSpec => <ClusterCard key={clusterSpec.title} clusterSpec={clusterSpec} />)}
+      {
+        clusterSpecs.map(clusterSpec =>
+          <ClusterSpecCard key={clusterSpec.title} clusterSpec={clusterSpec} />)
+      }
     </div>
   </div>
 );
 
-ClusterCards.propTypes = propTypes;
+ClusterSpecCards.propTypes = propTypes;
 
-export default ClusterCards;
+export default ClusterSpecCards;
