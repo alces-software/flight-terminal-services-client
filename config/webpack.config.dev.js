@@ -7,6 +7,7 @@ var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeMod
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
 
+var moduleAliases = require('./moduleAliases');
 
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -73,13 +74,13 @@ module.exports = {
     // some tools, although we do not recommend using it, see:
     // https://github.com/facebookincubator/create-react-app/issues/290
     extensions: ['.js', '.json', '.jsx', ''],
-    alias: {
+    alias: Object.assign({
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
-    }
+      'react-native': 'react-native-web',
+    }, moduleAliases)
   },
-  
+
   module: {
     // First, run the linter.
     // It's important to do this before Babel processes the JS.

@@ -30,6 +30,12 @@ var nodePaths = (process.env.NODE_PATH || '')
   .filter(folder => !path.isAbsolute(folder))
   .map(resolveApp);
 
+var appSrcPaths = (process.env.APP_SRC_PATH || '')
+  .split(process.platform === 'win32' ? ';' : ':')
+  .filter(Boolean)
+  .filter(folder => !path.isAbsolute(folder))
+  .map(resolveApp);
+
 var envPublicUrl = process.env.PUBLIC_URL;
 
 function ensureSlash(path, needsSlash) {
@@ -68,7 +74,7 @@ module.exports = {
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),
   appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
+  appSrc: [resolveApp('src')].concat(appSrcPaths),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
