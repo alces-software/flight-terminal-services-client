@@ -10,6 +10,7 @@ import './styles/main.scss';
 import { CookieBanner, Footer, Header } from 'flight-common';
 
 import ClusterCards from './ClusterCards';
+import Blurb from './Blurb';
 
 const productName = 'Flight Lackey'
 
@@ -21,7 +22,8 @@ class App extends Component {
           <Header homePageLink="/" productName={productName} />
           <div className="pageContainer">
             <CookieBanner />
-            <div className="container">
+            <div>
+              <Blurb />
               <ClusterCards />
             </div>
           </div>

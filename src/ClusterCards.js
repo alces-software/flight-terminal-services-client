@@ -13,8 +13,10 @@ import clusterSpecs from './clusterSpecs.json';
 const propTypes = { };
 
 const ClusterCards = () => (
-  <div className="card-deck">
-    {clusterSpecs.map(clusterSpec => <ClusterCard key={clusterSpec.title} clusterSpec={clusterSpec} />)}
+  <div className="container">
+    <div className="card-deck">
+      {clusterSpecs.map(clusterSpec => <ClusterCard key={clusterSpec.title} clusterSpec={clusterSpec} />)}
+    </div>
   </div>
 );
 
