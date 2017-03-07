@@ -1,0 +1,176 @@
+/*=============================================================================
+ * Copyright (C) 2016 Stephen F. Norledge and Alces Flight Ltd.
+ *
+ * This file is part of Alces Prime.
+ *
+ * All rights reserved, see LICENSE.txt.
+ *===========================================================================*/
+
+.card {
+    $card-title-logo-height: 50px;
+
+    position: relative;
+    display: block;
+    margin-bottom: 0.75rem;
+    background-color: $panel-bg;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: $panel-border-radius;
+
+    .card-block {
+        padding: 1rem;
+    }
+
+    .card-title-block-inner {
+        height: $card-title-logo-height;
+
+        .card-title {
+            line-height: $card-title-logo-height;
+            margin-top: 0;
+            margin-bottom: 0;
+            text-align: right;
+        }
+
+        .card-title-logo-container {
+            float: left;
+            height: $card-title-logo-height;
+            max-width: 40%;
+
+            .card-title-logo-helper {
+                height: 100%;
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+            .card-title-logo {
+                max-height: $card-title-logo-height;
+                max-width: 100%;
+            }
+        }
+    }
+
+    .card-title {
+        margin-bottom: 0.75rem;
+        @extend %ellipsis;
+        color: $c-primary-color--dark;
+    }
+    .card-subtitle {
+        @extend %ellipsis;
+        @extend .text-muted;
+
+        &.x-large {
+            max-height: 27px;
+        }
+        &.large {
+            max-height: 22px;
+        }
+        &.medium {
+            max-height: 17px;
+        }
+
+    }
+
+    .card-text {
+        OL > LI, UL > LI {
+            font-family: $c-copy-fontFamily;
+        }
+    }
+    .card-icons-group {
+        $card-icon-width: 106px;
+
+        margin-right: auto;
+        margin-bottom: 20px;
+        margin-left: auto;
+
+        .card-icon {
+            display: inline-block;
+            text-align: center;
+            @extend %ellipsis;
+
+            .flight-icon {
+                display: block;
+                width: 100%;
+                color: $c-primary-color--dark;
+            }
+            .card-icon--text {
+                @extend .text-muted;
+            }
+
+            width: $card-icon-width;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        &.card-icons-group--1 {
+            width: $card-icon-width;
+        }
+        &.card-icons-group--2 {
+            width: $card-icon-width * 2;
+        }
+        &.card-icons-group--3 {
+            width: $card-icon-width * 3;
+        }
+        &.card-icons-group--4 {
+            width: $card-icon-width * 4;
+        }
+    }
+
+    .card-footer {
+        border-top: 1px solid #ccc;
+        padding-top: 1.25rem;
+        text-align: center;
+        a {
+            @extend .text-muted;
+        }
+        button.btn.btn-link {
+            @extend .text-muted;
+            font-size: 16px;
+        }
+    }
+}
+
+.card.card--logo-right {
+    .card-title-block-inner {
+        .card-title-logo-container {
+            float: right;
+        }
+
+        .card-title {
+            text-align: left;
+        }
+    }
+}
+
+.card-deck {
+    $card-deck-padding: 12px;
+
+    margin-left: -$card-deck-padding / 2;
+    margin-right: -$card-deck-padding / 2;
+    .card-wrapper {
+        float: left;
+
+        padding-left: $card-deck-card-padding / 2;
+        padding-right: $card-deck-card-padding / 2;
+
+        .card {
+            overflow: hidden;
+        }
+
+        .card:hover {
+            box-shadow: 0px 0px 8px #777;
+            cursor: pointer;
+        }
+    }
+}
+
+.card-icon-tooltip.ellipsis {
+    .tooltip-inner {
+        white-space: nowrap;
+        @extend %ellipsis;
+    }
+}
+
+.clusterSpecCard {
+    width: $card-width;
+}

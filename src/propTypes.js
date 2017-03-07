@@ -5,12 +5,11 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { PropTypes } from 'react';
 
-// Settings which need to be set prior to importing flight-common styles.
-@import "./pre-settings";
-
-@import '~flight-common/src/styles/main.scss';
-@import './stickyFooter';
-
-/* UI components */
-@import "./card";
+export const clusterSpecShape = PropTypes.shape({
+  body: PropTypes.string.isRequired,
+  logoUrl: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+});

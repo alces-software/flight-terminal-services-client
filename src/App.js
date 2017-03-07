@@ -21,7 +21,9 @@ class App extends Component {
           <Header homePageLink="/" productName={productName} />
           <div className="pageContainer">
             <CookieBanner />
-            <ClusterCards />
+            <div className="container">
+              <ClusterCards />
+            </div>
           </div>
         </div>
         <Footer

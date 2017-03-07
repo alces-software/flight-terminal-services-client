@@ -21,6 +21,7 @@ const propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   titleIcon: PropTypes.node,
+  titleLogoOnRight: PropTypes.bool.isRequired,
   titleLogoUrl: PropTypes.string,
   footer: PropTypes.node,
   title: PropTypes.node.isRequired,
@@ -28,6 +29,10 @@ const propTypes = {
   titleSize: CardTitle.propTypes.titleSize,
   subtitle: PropTypes.node,
   subtitleSize: CardTitle.propTypes.subtitleSize,
+};
+
+const defaultProps = {
+  titleLogoOnRight: false,
 };
 
 const Card = ({
@@ -39,11 +44,14 @@ const Card = ({
   subtitleSize,
   title,
   titleIcon,
+  titleLogoOnRight,
   titleLogoUrl,
   titlePopoverText,
   titleSize,
 }) => {
-  const cardClassNames = classNames('card', className);
+  const cardClassNames = classNames('card', className, {
+    'card--logo-right': titleLogoOnRight,
+  });
 
   return (
     <div className="card-wrapper" >
@@ -74,6 +82,7 @@ const Card = ({
 };
 
 Card.propTypes = propTypes;
+Card.defaultProps = defaultProps;
 
 Card.Title = CardTitle;
 Card.TitleLogo = CardTitleLogo;

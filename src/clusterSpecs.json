@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Tiny cluster",
+    "subtitle": "Two nodes. Spot instances. SGE scheduler.",
+    "body": "A fixed size cluster of 2 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the Slurm scheduler.",
+    "logoUrl": "http://alces-flight.com/images/logo.png",
+    "autoscaling": false,
+    "usesSpot": true,
+    "scheduler": "Slurm"
+  },
+  {
+    "title": "Small cluster",
+    "subtitle": "Autoscaling upto 8 nodes. Spot instances. SGE scheduler.",
+    "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
+    "logoUrl": "http://alces-flight.com/images/logo.png",
+    "autoscaling": true,
+    "usesSpot": true,
+    "scheduler": "SGE"
+  },
+  {
+    "title": "Big cluster",
+    "subtitle": "Autoscaling upto 16 nodes. Dedicated instances. SGE scheduler.",
+    "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
+    "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
+    "autoscaling": true,
+    "usesSpot": false,
+    "scheduler": "SGE"
+  },
+  {
+    "title": "Huge cluster",
+    "subtitle": "Autoscaling upto 512 nodes. Dedicated instances. SGE scheduler.",
+    "body": "An autoscaling cluster, scaling upto a maximum of 512 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
+    "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
+    "autoscaling": true,
+    "usesSpot": false,
+    "scheduler": "SGE"
+  }
+]

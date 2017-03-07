@@ -5,18 +5,11 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import Card from './Card';
-
-console.log('Card:', Card);  // eslint-disable-line no-console
-
-const clusterSpecShape = PropTypes.shape({
-  body: PropTypes.string.isRequired,
-  logoUrl: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-});
+import FooterIcons from './ClusterSpecCardFooterIcons';
+import { clusterSpecShape } from './propTypes';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
@@ -24,13 +17,16 @@ const propTypes = {
 
 const ClusterCard = ({ clusterSpec }) => (
   <Card
+    className="clusterSpecCard"
     subtitle={clusterSpec.subtitle}
     subtitleSize="medium"
     title={clusterSpec.title}
+    titleLogoOnRight
     titleLogoUrl={clusterSpec.logoUrl}
     titleSize="large"
   >
     {clusterSpec.body}
+    <FooterIcons clusterSpec={clusterSpec} />
   </Card>
 );
 
