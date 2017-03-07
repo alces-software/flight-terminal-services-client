@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap-sass": "^3.3.7",
     "flight-common": "file:///home/flight-common/",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
@@ -10,12 +11,16 @@
     "redux": "^3.6.0"
   },
   "devDependencies": {
+    "node-sass": "^4.5.0",
+    "node-sass-package-importer": "^3.0.4",
     "react-scripts": "0.9.3"
   },
   "scripts": {
     "start": "PORT=4002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:css": "node-sass --importer node_modules/node-sass-package-importer/dist/cli.js src/App.scss -o src/",
+    "watch:css": "yarn run build:css && yarn run build:css -- --watch"
   }
 }
