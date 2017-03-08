@@ -30,7 +30,7 @@ const ClusterSpecCard = ({ clusterSpec }) => (
         titleLogoUrl={clusterSpec.logoUrl}
         titleSize="large"
       >
-        {clusterSpec.body}
+        <p className="ClusterSpecCard-body">{clusterSpec.body}</p>
         <FooterIcons clusterSpec={clusterSpec} />
       </Card>
       <Card
