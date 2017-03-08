@@ -20,7 +20,7 @@ const ClusterSpecCards = () => (
     <Scroll.Element name="#launch">
       <Panel className="launch">
         <h3>
-          Launch Alces Flight on AWS now.
+          Launch Alces Flight.
         </h3>
         <p>
           Ready to get going? Choose a cluster specification and launch your

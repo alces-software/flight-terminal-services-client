@@ -11,6 +11,7 @@ import { CookieBanner, Footer, Header } from 'flight-common';
 
 import ClusterSpecCards from './ClusterSpecCards';
 import Blurb from './Blurb';
+import Tagline from './Tagline';
 
 const productName = 'Flight Lackey'
 
@@ -23,6 +24,7 @@ class App extends Component {
           <div className="pageContainer">
             <CookieBanner />
             <div>
+              <Tagline />
               <Blurb />
               <ClusterSpecCards />
             </div>
