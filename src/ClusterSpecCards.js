@@ -7,23 +7,36 @@
  *===========================================================================*/
 import React from 'react';
 import Scroll from 'react-scroll';
+import { Panel } from 'react-bootstrap';
 
 import ClusterSpecCard from './ClusterSpecCard';
 import clusterSpecs from './clusterSpecs.json';
+import './styles/ClusterSpecCards.scss';
 
 const propTypes = { };
 
 const ClusterSpecCards = () => (
-  <Scroll.Element name="#launch">
-    <div className="container">
-      <div className="card-deck">
-        {
-          clusterSpecs.map(clusterSpec =>
-            <ClusterSpecCard key={clusterSpec.title} clusterSpec={clusterSpec} />)
-        }
+  <section className="ClusterSpecCards">
+    <Scroll.Element name="#launch">
+      <Panel className="launch">
+        <h3>
+          Launch Alces Flight on AWS now.
+        </h3>
+        <p>
+          Ready to get going? Choose a cluster specification and launch your
+          cluster now!
+        </p>
+      </Panel>
+      <div className="container">
+        <div className="card-deck">
+          {
+            clusterSpecs.map(clusterSpec =>
+              <ClusterSpecCard key={clusterSpec.title} clusterSpec={clusterSpec} />)
+          }
+        </div>
       </div>
-    </div>
-  </Scroll.Element>
+    </Scroll.Element>
+  </section>
 );
 
 ClusterSpecCards.propTypes = propTypes;
