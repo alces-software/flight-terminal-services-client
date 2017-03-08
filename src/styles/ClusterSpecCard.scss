@@ -19,6 +19,14 @@
     .card {
         height: $card-height;
     }
+
+    .card-icons-group {
+        margin-bottom: 0;
+    }
+
+    .ClusterSpecCard-body {
+        height: 72px;
+    }
 }
 
 .card-deck .ClusterSpecCard {
