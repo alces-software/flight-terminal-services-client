@@ -6,6 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React from 'react';
+import Scroll from 'react-scroll';
 
 import ClusterSpecCard from './ClusterSpecCard';
 import clusterSpecs from './clusterSpecs.json';
@@ -13,14 +14,16 @@ import clusterSpecs from './clusterSpecs.json';
 const propTypes = { };
 
 const ClusterSpecCards = () => (
-  <div className="container">
-    <div className="card-deck">
-      {
-        clusterSpecs.map(clusterSpec =>
-          <ClusterSpecCard key={clusterSpec.title} clusterSpec={clusterSpec} />)
-      }
+  <Scroll.Element name="#launch">
+    <div className="container">
+      <div className="card-deck">
+        {
+          clusterSpecs.map(clusterSpec =>
+            <ClusterSpecCard key={clusterSpec.title} clusterSpec={clusterSpec} />)
+        }
+      </div>
     </div>
-  </div>
+  </Scroll.Element>
 );
 
 ClusterSpecCards.propTypes = propTypes;

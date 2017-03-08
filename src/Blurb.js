@@ -6,9 +6,10 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React from 'react';
-import { Button, Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 import Box from './Box';
+import ScrollButton from './ScrollButton';
 
 const Blurb = () => (
   <section>
@@ -49,9 +50,19 @@ const Blurb = () => (
           </Row>
           <Row>
             <Col md={12} className="text-center">
-              <Button bsStyle="link" className="box-btn" href="#launch">
+              <ScrollButton
+                bsStyle="link"
+                className="box-btn"
+                href="#launch"
+                to="#launch"
+                spy
+                smooth
+                offset={-50}
+                duration={500}
+                delay={50}
+              >
                 Launch a cluster on AWS
-              </Button>
+              </ScrollButton>
             </Col>
           </Row>
         </Col>
