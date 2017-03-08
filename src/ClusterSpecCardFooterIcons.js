@@ -10,6 +10,10 @@ import React from 'react';
 import Card from './Card';
 import { clusterSpecShape } from './propTypes';
 
+import autoScalingIcon from '../aws-icons/AWS_Simple_Icons_EPS-SVG_v17.1.19/Compute/Compute_AmazonEC2_AutoScaling.png'
+import spotInstanceIcon from '../aws-icons/AWS_Simple_Icons_EPS-SVG_v17.1.19/Compute/Compute_AmazonEC2_Spotinstance.png'
+import onDemandInstanceIcon from '../aws-icons/AWS_Simple_Icons_EPS-SVG_v17.1.19/Compute/Compute_AmazonEC2_instances.png'
+
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
 };
@@ -19,7 +23,7 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => (
     {
       clusterSpec.autoscaling ?
         <Card.FooterIcon
-          name="arrows"
+          iconSrc={autoScalingIcon}
           text="Autoscaling"
           tooltip="This cluster uses autoscaling"
         /> :
@@ -32,14 +36,14 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => (
     {
       clusterSpec.usesSpot ?
         <Card.FooterIcon
-          name="cc"
+          iconSrc={spotInstanceIcon}
           text="Spot instances"
           tooltip="This cluster uses spot instances"
         /> :
         <Card.FooterIcon
-          name="square-o"
-          text="Dedicated instances"
-          tooltip="This cluster uses dedicated instances"
+          iconSrc={onDemandInstanceIcon}
+          text="On-demand instances"
+          tooltip="This cluster uses on-demand instances"
         />
     }
     <Card.FooterIcon
