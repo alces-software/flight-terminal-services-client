@@ -13,7 +13,7 @@ import ClusterSpecCards from './ClusterSpecCards';
 import Blurb from './Blurb';
 import Tagline from './Tagline';
 
-const productName = 'Flight Lackey'
+const productName = process.env.REACT_APP_PRODUCT_NAME;
 
 class App extends Component {
   render() {

@@ -19,6 +19,9 @@ main() {
 }
 
 setup() {
+    header "Creating .env file (if it doesn't exist)"
+    cp -an .env.example .env
+
     header "Building docker container"
     docker build -t lackey-client --build-arg USER_ID="$(id -u)" .  2> >(indent 1>&2) | indent
 
