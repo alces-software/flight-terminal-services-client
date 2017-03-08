@@ -6,28 +6,46 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React from 'react';
+import FlipCard from 'react-flipcard';
 
 import Card from './Card';
 import FooterIcons from './ClusterSpecCardFooterIcons';
+import ClusterLaunchForm from './ClusterLaunchForm';
 import { clusterSpecShape } from './propTypes';
+import './styles/ClusterSpecCard.scss';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
 };
 
 const ClusterSpecCard = ({ clusterSpec }) => (
-  <Card
-    className="clusterSpecCard"
-    subtitle={clusterSpec.subtitle}
-    subtitleSize="medium"
-    title={clusterSpec.title}
-    titleLogoOnRight
-    titleLogoUrl={clusterSpec.logoUrl}
-    titleSize="large"
-  >
-    {clusterSpec.body}
-    <FooterIcons clusterSpec={clusterSpec} />
-  </Card>
+  <div className="ClusterSpecCard">
+    <FlipCard>
+      <Card
+        className="clusterSpecCard"
+        subtitle={clusterSpec.subtitle}
+        subtitleSize="medium"
+        title={clusterSpec.title}
+        titleLogoOnRight
+        titleLogoUrl={clusterSpec.logoUrl}
+        titleSize="large"
+      >
+        {clusterSpec.body}
+        <FooterIcons clusterSpec={clusterSpec} />
+      </Card>
+      <Card
+        className="clusterSpecCard"
+        subtitle={clusterSpec.subtitle}
+        subtitleSize="medium"
+        title={clusterSpec.title}
+        titleLogoOnRight
+        titleLogoUrl={clusterSpec.logoUrl}
+        titleSize="large"
+      >
+        <ClusterLaunchForm clusterSpec={clusterSpec} />
+      </Card>
+    </FlipCard>
+  </div>
 );
 
 ClusterSpecCard.propTypes = propTypes;

@@ -1,0 +1,34 @@
+/*=============================================================================
+ * Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
+ *
+ * This file is part of Alces Lackey.
+ *
+ * All rights reserved, see LICENSE.txt.
+ *===========================================================================*/
+@import "./pre-settings";
+
+.ClusterSpecCard {
+    .ReactFlipCard,
+    .ReactFlipCard__Front,
+    .ReactFlipCard__Back {
+        box-sizing: border-box;
+        width: $card-width;
+        height: $card-height;
+    }
+
+    .card {
+        height: $card-height;
+    }
+}
+
+.card-deck .ClusterSpecCard {
+    float: left;
+    padding-left: $card-deck-card-padding / 2;
+    padding-right: $card-deck-card-padding / 2;
+
+    .card-wrapper {
+            float: none;
+            padding-left: 0;
+            padding-right: 0;
+    }
+}
