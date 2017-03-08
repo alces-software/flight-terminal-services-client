@@ -10,8 +10,6 @@ import { Icon as FlightIcon } from 'flight-common';
 
 const sizeToPixels = (size) => {
   switch (size) {
-    case '1x':
-      return '16px';
     case '2x':
       return '32px';
     case '3x':
