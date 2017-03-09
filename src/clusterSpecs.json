@@ -7,7 +7,7 @@
       "logoUrl": "http://alces-flight.com/images/logo.png",
       "autoscaling": false,
       "usesSpot": true,
-      "scheduler": "Slurm",
+      "scheduler": "slurm",
       "cost": 10
     },
     "fly": {
@@ -31,7 +31,7 @@
       "logoUrl": "http://alces-flight.com/images/logo.png",
       "autoscaling": true,
       "usesSpot": true,
-      "scheduler": "SGE"
+      "scheduler": "gridscheduler"
     },
     "fly": {
       "args": [
@@ -54,7 +54,7 @@
       "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
       "autoscaling": true,
       "usesSpot": false,
-      "scheduler": "SGE"
+      "scheduler": "gridscheduler"
     },
     "fly": {
       "args": [
@@ -77,7 +77,7 @@
       "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
       "autoscaling": true,
       "usesSpot": false,
-      "scheduler": "SGE"
+      "scheduler": "gridscheduler"
     },
     "fly": {
       "args": [
@@ -100,7 +100,8 @@
       "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
       "autoscaling": true,
       "usesSpot": false,
-      "scheduler": "SGE"
+      "scheduler": "gridscheduler",
+      "preloadedSoftware": "bioinformatics"
     },
     "fly": {
       "args": [
@@ -119,12 +120,13 @@
   {
     "ui": { 
       "title": "Big Chemistry cluster",
-      "subtitle": "Autoscaling upto 16 nodes. Dedicated instances. SGE scheduler.",
-      "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler, and comes with common Chemistry software preinstalled.",
+      "subtitle": "Autoscaling upto 16 nodes. Spot instances. SGE scheduler.",
+      "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler, and comes with common Chemistry software preinstalled.",
       "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
       "autoscaling": true,
-      "usesSpot": false,
-      "scheduler": "SGE"
+      "usesSpot": true,
+      "scheduler": "gridscheduler",
+      "preloadedSoftware": "chemistry"
     },
     "fly": {
       "args": [
@@ -133,7 +135,7 @@
       "parameterDirectory": {
         "cluster-compute": {
           "AutoscalingPolicy": "enabled",
-          "ComputeSpotPrice": "0",
+          "ComputeSpotPrice": "0.3",
           "SchedulerType": "gridscheduler"
         },
         "cluster-master": {

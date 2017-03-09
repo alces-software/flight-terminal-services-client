@@ -10,49 +10,60 @@ import React from 'react';
 import Card from './Card';
 import { clusterSpecShape } from './propTypes';
 
-import autoScalingIcon from '../aws-icons/AWS_Simple_Icons_EPS-SVG_v17.1.19/Compute/Compute_AmazonEC2_AutoScaling.png'
-import spotInstanceIcon from '../aws-icons/AWS_Simple_Icons_EPS-SVG_v17.1.19/Compute/Compute_AmazonEC2_Spotinstance.png'
-import onDemandInstanceIcon from '../aws-icons/AWS_Simple_Icons_EPS-SVG_v17.1.19/Compute/Compute_AmazonEC2_instances.png'
+import autoScalingIcon from './icons/Compute_AmazonEC2_AutoScaling.png';
+import spotInstanceIcon from './icons/Compute_AmazonEC2_Spotinstance.png'
+import depotToIcon from './utils/depotToIcon';
+import schedulerToIcon from './utils/schedulerToIcon';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
 };
 
-const ClusterSpecCardFooterIcons = ({ clusterSpec }) => (
-  <Card.FooterIcons>
-    {
-      clusterSpec.ui.autoscaling ?
-        <Card.FooterIcon
-          iconSrc={autoScalingIcon}
-          text="Autoscaling"
-          tooltip="This cluster uses autoscaling"
-        /> :
-        <Card.FooterIcon
-          name="sitemap"
-          text="Fixed size"
-          tooltip="This cluster has a fixed size"
-        />
-    }
-    {
-      clusterSpec.ui.usesSpot ?
-        <Card.FooterIcon
-          iconSrc={spotInstanceIcon}
-          text="Spot instances"
-          tooltip="This cluster uses spot instances"
-        /> :
-        <Card.FooterIcon
-          iconSrc={onDemandInstanceIcon}
-          text="On-demand instances"
-          tooltip="This cluster uses on-demand instances"
-        />
-    }
-    <Card.FooterIcon
-      name="calendar-o"
-      text={clusterSpec.ui.scheduler}
-      tooltip={<span>This cluster uses the {clusterSpec.ui.scheduler} scheduler</span>}
-    />
-  </Card.FooterIcons>
-);
+const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
+  const depotIcon = depotToIcon(clusterSpec.ui.preloadedSoftware);
+  const schedulerIcon = schedulerToIcon(clusterSpec.ui.scheduler);
+
+  return (
+    <Card.FooterIcons>
+      {
+        clusterSpec.ui.autoscaling ?
+          <Card.FooterIcon
+            iconSrc={autoScalingIcon}
+            text="Autoscaling"
+            tooltip="This cluster uses autoscaling"
+          /> :
+          null
+      }
+      {
+        clusterSpec.ui.usesSpot ?
+          <Card.FooterIcon
+            iconSrc={spotInstanceIcon}
+            text="Spot instances"
+            tooltip="This cluster uses spot instances"
+          /> :
+          null
+      }
+      {
+        schedulerIcon ?
+          <Card.FooterIcon
+            iconSrc={schedulerIcon.icon}
+            text={schedulerIcon.text}
+            tooltip={<span>This cluster uses the {schedulerIcon.text} scheduler</span>}
+          /> :
+          null
+      }
+      {
+        depotIcon ?
+          <Card.FooterIcon
+            iconSrc={depotIcon.icon}
+            text={depotIcon.depotText}
+            tooltip={<span>This cluster has {depotIcon.depotText} software preinstalled</span>}
+          /> :
+          null
+      }
+    </Card.FooterIcons>
+  );
+};
 
 ClusterSpecCardFooterIcons.propTypes = propTypes;
 
