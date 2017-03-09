@@ -13,6 +13,27 @@ import ClusterSpecCard from './ClusterSpecCard';
 import clusterSpecs from './clusterSpecs.json';
 import './styles/ClusterSpecCards.scss';
 
+const processedClusterSpecs = clusterSpecs.map(clusterSpec => {
+  const parameterDirectory = clusterSpec.fly.parameterDirectory;
+  const pfs = Object.keys(parameterDirectory).map(key => parameterDirectory[key]);
+
+  const autoscaling = pfs.some(pf => pf.AutoscalingPolicy === 'enabled');
+  const preloadedSoftware = (pfs.find(pf => pf.PreloadedSoftware != null) || {} ).PreloadedSoftware;
+  const usesSpot = pfs.some(pf => pf.ComputeSpotPrice != null && pf.ComputeSpotPrice !== '0');
+  const scheduler = pfs.find(pf => pf.SchedulerType != null).SchedulerType;
+
+  return {
+    ...clusterSpec,
+    ui: {
+      autoscaling,
+      preloadedSoftware,
+      scheduler,
+      usesSpot,
+      ...clusterSpec.ui,
+    }
+  };
+});
+
 const propTypes = { };
 
 const ClusterSpecCards = () => (
@@ -30,7 +51,7 @@ const ClusterSpecCards = () => (
       <div className="container">
         <div className="card-deck">
           {
-            clusterSpecs.map(clusterSpec => <ClusterSpecCard
+            processedClusterSpecs.map(clusterSpec => <ClusterSpecCard
               key={clusterSpec.ui.title}
               clusterSpec={clusterSpec}
             />)

@@ -5,9 +5,6 @@
       "subtitle": "Two nodes. Spot instances. SGE scheduler.",
       "body": "A fixed size cluster of 2 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the Slurm scheduler.",
       "logoUrl": "http://alces-flight.com/images/logo.png",
-      "autoscaling": false,
-      "usesSpot": true,
-      "scheduler": "slurm",
       "cost": 10
     },
     "fly": {
@@ -28,10 +25,7 @@
       "title": "Small SGE cluster",
       "subtitle": "Autoscaling upto 8 nodes. Spot instances. SGE scheduler.",
       "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
-      "logoUrl": "http://alces-flight.com/images/logo.png",
-      "autoscaling": true,
-      "usesSpot": true,
-      "scheduler": "gridscheduler"
+      "logoUrl": "http://alces-flight.com/images/logo.png"
     },
     "fly": {
       "args": [
@@ -51,10 +45,7 @@
       "title": "Big SGE cluster",
       "subtitle": "Autoscaling upto 16 nodes. Dedicated instances. SGE scheduler.",
       "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
-      "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
-      "autoscaling": true,
-      "usesSpot": false,
-      "scheduler": "gridscheduler"
+      "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
     },
     "fly": {
       "args": [
@@ -74,10 +65,7 @@
       "title": "Huge SGE cluster",
       "subtitle": "Autoscaling upto 512 nodes. Dedicated instances. SGE scheduler.",
       "body": "An autoscaling cluster, scaling upto a maximum of 512 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
-      "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
-      "autoscaling": true,
-      "usesSpot": false,
-      "scheduler": "gridscheduler"
+      "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
     },
     "fly": {
       "args": [
@@ -97,11 +85,7 @@
       "title": "Small Bioinformatics cluster",
       "subtitle": "Autoscaling upto 8 nodes. Dedicated instances. SGE scheduler.",
       "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler, and comes with common Bioinformatics software preinstalled.",
-      "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
-      "autoscaling": true,
-      "usesSpot": false,
-      "scheduler": "gridscheduler",
-      "preloadedSoftware": "bioinformatics"
+      "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
     },
     "fly": {
       "args": [
@@ -122,11 +106,7 @@
       "title": "Big Chemistry cluster",
       "subtitle": "Autoscaling upto 16 nodes. Spot instances. SGE scheduler.",
       "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler, and comes with common Chemistry software preinstalled.",
-      "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png",
-      "autoscaling": true,
-      "usesSpot": true,
-      "scheduler": "gridscheduler",
-      "preloadedSoftware": "chemistry"
+      "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
     },
     "fly": {
       "args": [
