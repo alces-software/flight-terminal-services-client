@@ -30,8 +30,10 @@ const ClusterSpecCards = () => (
       <div className="container">
         <div className="card-deck">
           {
-            clusterSpecs.map(clusterSpec =>
-              <ClusterSpecCard key={clusterSpec.title} clusterSpec={clusterSpec} />)
+            clusterSpecs.map(clusterSpec => <ClusterSpecCard
+              key={clusterSpec.ui.title}
+              clusterSpec={clusterSpec}
+            />)
           }
         </div>
       </div>

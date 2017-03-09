@@ -21,7 +21,7 @@ const propTypes = {
 const ClusterSpecCardFooterIcons = ({ clusterSpec }) => (
   <Card.FooterIcons>
     {
-      clusterSpec.autoscaling ?
+      clusterSpec.ui.autoscaling ?
         <Card.FooterIcon
           iconSrc={autoScalingIcon}
           text="Autoscaling"
@@ -34,7 +34,7 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => (
         />
     }
     {
-      clusterSpec.usesSpot ?
+      clusterSpec.ui.usesSpot ?
         <Card.FooterIcon
           iconSrc={spotInstanceIcon}
           text="Spot instances"
@@ -48,8 +48,8 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => (
     }
     <Card.FooterIcon
       name="calendar-o"
-      text={clusterSpec.scheduler}
-      tooltip={<span>This cluster uses the {clusterSpec.scheduler} scheduler</span>}
+      text={clusterSpec.ui.scheduler}
+      tooltip={<span>This cluster uses the {clusterSpec.ui.scheduler} scheduler</span>}
     />
   </Card.FooterIcons>
 );

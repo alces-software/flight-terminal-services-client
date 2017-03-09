@@ -26,7 +26,7 @@ const defaultProps = {
 const ClusterLaunchForm = ({ clusterSpec, handleSubmit }) => (
   <form className="ClusterLaunchForm" onSubmit={handleSubmit} >
     <FormGroup
-      controlId={`cluster-launch-${clusterSpec.title}-access-key`}
+      controlId={`cluster-launch-${clusterSpec.ui.title}-access-key`}
     >
       <FormControl
         type="text"
@@ -34,7 +34,7 @@ const ClusterLaunchForm = ({ clusterSpec, handleSubmit }) => (
       />
     </FormGroup>
     <FormGroup
-      controlId={`cluster-launch-${clusterSpec.title}-secret-key`}
+      controlId={`cluster-launch-${clusterSpec.ui.title}-secret-key`}
     >
       <FormControl
         type="text"

@@ -23,23 +23,23 @@ const ClusterSpecCard = ({ clusterSpec }) => (
     <FlipCard>
       <Card
         className="clusterSpecCard"
-        subtitle={clusterSpec.subtitle}
+        subtitle={clusterSpec.ui.subtitle}
         subtitleSize="medium"
-        title={clusterSpec.title}
+        title={clusterSpec.ui.title}
         titleLogoOnRight
-        titleLogoUrl={clusterSpec.logoUrl}
+        titleLogoUrl={clusterSpec.ui.logoUrl}
         titleSize="large"
       >
-        <p className="ClusterSpecCard-body">{clusterSpec.body}</p>
+        <p className="ClusterSpecCard-body">{clusterSpec.ui.body}</p>
         <FooterIcons clusterSpec={clusterSpec} />
       </Card>
       <Card
         className="clusterSpecCard"
-        subtitle={clusterSpec.subtitle}
+        subtitle={clusterSpec.ui.subtitle}
         subtitleSize="medium"
-        title={clusterSpec.title}
+        title={clusterSpec.ui.title}
         titleLogoOnRight
-        titleLogoUrl={clusterSpec.logoUrl}
+        titleLogoUrl={clusterSpec.ui.logoUrl}
         titleSize="large"
       >
         <ClusterLaunchForm clusterSpec={clusterSpec} />

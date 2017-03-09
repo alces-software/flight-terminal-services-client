@@ -8,8 +8,14 @@
 import { PropTypes } from 'react';
 
 export const clusterSpecShape = PropTypes.shape({
-  body: PropTypes.string.isRequired,
-  logoUrl: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  ui: PropTypes.shape({
+    body: PropTypes.string.isRequired,
+    logoUrl: PropTypes.string.isRequired,
+    subtitle: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }),
+  fly: PropTypes.shape({
+    args: PropTypes.array,
+    parameterDirectory: PropTypes.object.isRequired,
+  }),
 });
