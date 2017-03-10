@@ -6,48 +6,44 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import { Button, FormGroup, FormControl } from 'react-bootstrap';
 import { Icon } from 'flight-common';
 
 import { clusterSpecShape } from './propTypes';
+import Credentials from './ClusterLaunchCredentials';
+import ClusterName from './ClusterLaunchClusterName';
+import Email from './ClusterLaunchEmail';
+import MultiPageForm from './MultiPageForm';
 
-const propTypes = {
-  clusterSpec: clusterSpecShape.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-};
+class ClusterLaunchForm extends React.Component {
+  static propTypes = {
+    clusterSpec: clusterSpecShape.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+  };
 
-const defaultProps = {
-  handleSubmit: (event) => {
-    alert('XXX Implement the backend');
-    event.preventDefault();
+  static defaultProps = {
+    className: 'ClusterLaunchForm',
+    handleSubmit: (event) => {
+      alert('XXX Implement the backend');
+      event.preventDefault();
+    }
+  }
+
+  pages = [
+    () => <Credentials id={this.props.clusterSpec.ui.title} />,
+    () => <ClusterName id={this.props.clusterSpec.ui.title} />,
+    () => <Email id={this.props.clusterSpec.ui.title} />,
+  ]
+
+  render() {
+    return (
+      <MultiPageForm
+        className="ClusterLaunchForm"
+        handleSubmit={this.props.handleSubmit}
+        pages={this.pages}
+        submitButtonContent={<span>Launch{' '}<Icon name="plane" /></span>}
+      />
+    );
   }
 }
-
-const ClusterLaunchForm = ({ clusterSpec, handleSubmit }) => (
-  <form className="ClusterLaunchForm" onSubmit={handleSubmit} >
-    <FormGroup
-      controlId={`cluster-launch-${clusterSpec.ui.title}-access-key`}
-    >
-      <FormControl
-        type="text"
-        placeholder="Enter your AWS Access Key ID"
-      />
-    </FormGroup>
-    <FormGroup
-      controlId={`cluster-launch-${clusterSpec.ui.title}-secret-key`}
-    >
-      <FormControl
-        type="text"
-        placeholder="Enter your AWS Secret Access Key"
-      />
-    </FormGroup>
-    <Button type="submit" bsStyle="success">
-      Launch{' '}<Icon name="plane" />
-    </Button>
-  </form>
-);
-
-ClusterLaunchForm.propTypes = propTypes;
-ClusterLaunchForm.defaultProps = defaultProps;
 
 export default ClusterLaunchForm;
