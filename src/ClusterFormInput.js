@@ -8,22 +8,44 @@
 import React, { PropTypes } from 'react';
 import { FormGroup, FormControl } from 'react-bootstrap';
 
-const propTypes = {
-  id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-};
+class ClusterFormInput extends React.Component {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
+    validate: PropTypes.func,
+  };
 
-const ClusterFormInput = ({ id, placeholder }) => (
-  <FormGroup
-    controlId={`cluster-launch-${id}`}
-  >
-    <FormControl
-      type="text"
-      placeholder={placeholder}
-    />
-  </FormGroup>
-);
+  state = {
+    value: ''
+  };
 
-ClusterFormInput.propTypes = propTypes;
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+  }
+
+  getValidationState() {
+    if (this.props.validate == null) {
+      return undefined;
+    }
+    return this.props.validate(this.state.value);
+  }
+
+  render() {
+    const { id, placeholder } = this.props;
+    return (
+      <FormGroup
+        controlId={`cluster-launch-${id}`}
+        validationState={this.getValidationState()}
+      >
+        <FormControl
+          type="text"
+          placeholder={placeholder}
+          onChange={this.handleChange}
+          value={this.state.value}
+        />
+      </FormGroup>
+    );
+  }
+}
 
 export default ClusterFormInput;
