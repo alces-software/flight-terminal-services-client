@@ -19,6 +19,7 @@ const propTypes = {
 const ClusterName = ({ error, id, onChange, value }) => (
   <div>
     <Input
+      autofocus
       error={error}
       id={`${id}-clusterName`}
       name="clusterName"

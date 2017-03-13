@@ -70,3 +70,12 @@ describe('validation state', () => {
     });
   });
 });
+
+xit('focuses the input if props.autofocus is set', () => {
+  // This test is excluded as enzyme doesn't currently support ':focus'.
+  const wrapper = mount(
+    <ClusterFormInput id="" name="" placeholder="" autofocus />
+  );
+
+  expect(wrapper).toMatchSelector(':focus');
+});

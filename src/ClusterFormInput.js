@@ -26,6 +26,12 @@ class ClusterFormInput extends React.Component {
     touched: false,
   };
 
+  componentDidMount() {
+    if (this.props.autofocus) {
+      this.inputEl.focus();
+    }
+  }
+
   handleChange = (event) => {
     this.setState({ touched: true });
     if (this.props.onChange) {
@@ -56,6 +62,7 @@ class ClusterFormInput extends React.Component {
           placeholder={placeholder}
           onChange={this.handleChange}
           value={this.props.value}
+          inputRef={(inputEl) => { this.inputEl = inputEl }}
         />
         {
           this.props.optional

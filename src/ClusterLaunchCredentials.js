@@ -28,17 +28,17 @@ const Credentials = ({ errors, id, onChange, values }) => (
       error={errors.awsAccessKeyId}
       id={`${id}-access-key`}
       name="awsAccessKeyId"
+      onChange={onChange}
       placeholder="Enter your AWS Access Key ID"
       value={values.awsAccessKeyId}
-      onChange={onChange}
     />
     <Input
       error={errors.awsSecrectAccessKey}
       id={`${id}-secret-key`}
       name="awsSecrectAccessKey"
+      onChange={onChange}
       placeholder="Enter your AWS Secret Access Key"
       value={values.awsSecrectAccessKey}
-      onChange={onChange}
     />
   </div>
 );

@@ -19,6 +19,7 @@ const propTypes = {
 const ClusterEmail = ({ error, id, onChange, value }) => (
   <div>
     <Input
+      autofocus
       error={error}
       help="If you enter your email address we will send you an email when
       your cluster is available."
