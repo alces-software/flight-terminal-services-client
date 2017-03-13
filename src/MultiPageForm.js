@@ -12,25 +12,32 @@ import invariant from 'invariant';
 class MultiPageForm extends React.Component {
   static propTypes = {
     className: PropTypes.string,
+    currentPageIndex: PropTypes.number,
     handleSubmit: PropTypes.func.isRequired,
+    onShowNextPage: PropTypes.func,
+    onShowPreviousPage: PropTypes.func,
     pages: PropTypes.arrayOf(PropTypes.func.isRequired).isRequired,
     submitButtonContent: PropTypes.node.isRequired,
   };
 
-  state = {
-    page: 0,
+  static defaultProps = {
+    currentPageIndex: 0,
   };
 
   showNextPage = () => {
-    this.setState({ page: this.state.page + 1 });
+    if (this.props.onShowNextPage) {
+      this.props.onShowNextPage();
+    }
   }
 
   showPreviousPage = () => {
-    this.setState({ page: this.state.page - 1 });
+    if (this.props.onShowPreviousPage) {
+      this.props.onShowPreviousPage();
+    }
   }
 
   renderSubmitOrNextButton() {
-    if (this.state.page === this.props.pages.length - 1) {
+    if (this.props.currentPageIndex === this.props.pages.length - 1) {
       return (
         <Button key="submitForm" type="submit" bsStyle="success">
           {this.props.submitButtonContent}
@@ -49,7 +56,7 @@ class MultiPageForm extends React.Component {
       <ButtonToolbar>
         <Button
           key="previousPage"
-          disabled={this.state.page === 0}
+          disabled={this.props.currentPageIndex === 0}
           onClick={this.showPreviousPage}
         >
           Previous
@@ -60,8 +67,9 @@ class MultiPageForm extends React.Component {
   }
 
   renderPage()  {
-    const page = this.props.pages[this.state.page]; 
-    invariant(page, 'Page %s has not been configured', this.state.page);
+    const currentPageIndex = this.props.currentPageIndex;
+    const page = this.props.pages[currentPageIndex]; 
+    invariant(page, 'Page %s has not been configured', currentPageIndex);
     return page();
   }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf, action, linkTo } from '@kadira/storybook';
 import Button from './Button';
 import Welcome from './Welcome';
-import ClusterLaunchForm from '../ClusterLaunchForm';
+import { ClusterLaunchForm } from '../ClusterLaunchForm';
 
 import '../styles/main.scss';
 
@@ -38,5 +38,26 @@ storiesOf('ClusterLaunchForm', module)
     </div>
   ))
   .add('on credentials page', () => (
-    <ClusterLaunchForm clusterSpec={clusterSpec} />
+    <ClusterLaunchForm
+      clusterSpec={clusterSpec}
+      currentPageIndex={0}
+      onShowNextPage={() => {}}
+      onShowPreviousPage={() => {}}
+    />
+  ))
+  .add('on cluster name page', () => (
+    <ClusterLaunchForm
+      clusterSpec={clusterSpec}
+      currentPageIndex={1}
+      onShowNextPage={() => {}}
+      onShowPreviousPage={() => {}}
+    />
+  ))
+  .add('on email page', () => (
+    <ClusterLaunchForm
+      clusterSpec={clusterSpec}
+      currentPageIndex={2}
+      onShowNextPage={() => {}}
+      onShowPreviousPage={() => {}}
+    />
   ));

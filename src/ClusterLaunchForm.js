@@ -14,14 +14,16 @@ import ClusterName from './ClusterLaunchClusterName';
 import Email from './ClusterLaunchEmail';
 import MultiPageForm from './MultiPageForm';
 
-class ClusterLaunchForm extends React.Component {
+export class ClusterLaunchForm extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
+    currentPageIndex: PropTypes.number.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    onShowNextPage: PropTypes.func.isRequired,
+    onShowPreviousPage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    className: 'ClusterLaunchForm',
     handleSubmit: (event) => {
       alert('XXX Implement the backend');
       event.preventDefault();
@@ -38,12 +40,45 @@ class ClusterLaunchForm extends React.Component {
     return (
       <MultiPageForm
         className="ClusterLaunchForm"
+        currentPageIndex={this.props.currentPageIndex}
         handleSubmit={this.props.handleSubmit}
         pages={this.pages}
         submitButtonContent={<span>Launch{' '}<Icon name="plane" /></span>}
+        onShowNextPage={this.props.onShowNextPage}
+        onShowPreviousPage={this.props.onShowPreviousPage}
       />
     );
   }
 }
 
-export default ClusterLaunchForm;
+class ClusterLaunchFormContainer extends React.Component {
+  static propTypes = {
+    clusterSpec: clusterSpecShape.isRequired,
+  };
+
+  state = {
+    currentPageIndex: 0,
+  }
+
+  handleShowNextPage = () => {
+    this.setState({ currentPageIndex: this.state.currentPageIndex + 1 });
+  }
+
+  handleShowPreviousPage = () => {
+    this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
+  }
+
+
+  render() {
+    return (
+      <ClusterLaunchForm
+        {...this.state}
+        {...this.props}
+        onShowNextPage={this.handleShowNextPage}
+        onShowPreviousPage={this.handleShowPreviousPage}
+      />
+    );
+  }
+}
+
+export default ClusterLaunchFormContainer;

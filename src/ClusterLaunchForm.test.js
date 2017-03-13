@@ -9,7 +9,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 
-import ClusterLaunchForm from './ClusterLaunchForm';
+import { ClusterLaunchForm } from './ClusterLaunchForm';
 
 const clusterSpec = {
   ui: {
@@ -26,14 +26,22 @@ const clusterSpec = {
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <ClusterLaunchForm clusterSpec={clusterSpec} handleSubmit={() => {}} />,
+    <ClusterLaunchForm
+      clusterSpec={clusterSpec}
+      currentPageIndex={0}
+      handleSubmit={() => {}}
+    />,
     div
   );
 });
 
 describe('pages render without crashing', () => {
   const wrapper = shallow(
-    <ClusterLaunchForm clusterSpec={clusterSpec} handleSubmit={() => {}} />
+    <ClusterLaunchForm
+      clusterSpec={clusterSpec}
+      currentPageIndex={0}
+      handleSubmit={() => {}}
+    />
   );
 
   const instance = wrapper.instance();
