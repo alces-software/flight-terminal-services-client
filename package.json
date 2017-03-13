@@ -61,14 +61,15 @@
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.2",
     "webpack-manifest-plugin": "1.1.0",
-    "whatwg-fetch": "2.0.2"
+    "whatwg-fetch": "2.0.2",
+    "@kadira/storybook": "^2.21.0"
   },
   "scripts": {
     "start": "PORT=4002 node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "build:css": "node-sass --importer node_modules/node-sass-package-importer/dist/cli.js src/App.scss -o src/",
-    "watch:css": "yarn run build:css && yarn run build:css -- --watch"
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook"
   },
   "jest": {
     "collectCoverageFrom": [
