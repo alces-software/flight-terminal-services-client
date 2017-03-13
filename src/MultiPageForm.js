@@ -43,15 +43,21 @@ class MultiPageForm extends React.Component {
     const currentPage = this.props.pages[this.props.currentPageIndex];
     const disabled = currentPage.valid != null ? !currentPage.valid() : false;
 
+    const commonProps = {
+      disabled,
+      type: 'submit',
+      bsStyle: 'success',
+    };
+
     if (this.props.currentPageIndex === this.props.pages.length - 1) {
       return (
-        <Button key="submitForm" type="submit" bsStyle="success" disabled={disabled} >
+        <Button key="submitForm" {...commonProps} >
           {this.props.submitButtonContent}
         </Button>
       );
     }
     return (
-      <Button key="nextPage" bsStyle="success" onClick={this.showNextPage} disabled={disabled} >
+      <Button key="nextPage" onClick={this.showNextPage} {...commonProps} >
         Next
       </Button>
     );
