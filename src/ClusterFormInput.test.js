@@ -13,29 +13,27 @@ import ClusterFormInput from './ClusterFormInput';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<ClusterFormInput id="" placeholder="" />, div);
+  ReactDOM.render(<ClusterFormInput id="" name="" placeholder="" />, div);
 });
 
-it('stores the input text in its state', () => {
+it('has the input text match its prop.value', () => {
   const wrapper = mount(
-    <ClusterFormInput id="" placeholder="" />
+    <ClusterFormInput id="" name="" placeholder="" value="my value" />
   );
-  expect(wrapper).not.toHaveState('value', 'some text');
+
+  expect(wrapper.find('input').get(0).value).toEqual('my value');
+});
+
+it('calls the onChange prop when the value changes', () => {
+  const onChange = jest.fn();
+  const wrapper = mount(
+    <ClusterFormInput id="" placeholder="" name="my name" value="my value" onChange={onChange} />
+  );
 
   wrapper.find('input').first().simulate('change', {target: {value: 'some text'}});
 
-  expect(wrapper).toHaveState('value', 'some text');
-});
-
-it('has the input text match its state', () => {
-  const wrapper = mount(
-    <ClusterFormInput id="" placeholder="" />
-  );
-  expect(wrapper.find('input').get(0).value).not.toEqual('some text');
-
-  wrapper.setState({ value: 'some text' });
-
-  expect(wrapper.find('input').get(0).value).toEqual('some text');
+  expect(onChange).toHaveBeenCalledTimes(1);
+  expect(onChange).toHaveBeenCalledWith({ name: "my name", value: 'some text' });
 });
 
 describe('validation state', () => {
@@ -45,7 +43,7 @@ describe('validation state', () => {
     'good input': 'success',
   };
 
-  const validate = (value) => {
+  const validate = ({ value }) => {
     return validationStates[value];
   };
 
@@ -53,11 +51,8 @@ describe('validation state', () => {
     const expectedValidationState = validationStates[key];
     it(`sets ${expectedValidationState} state correctly`, () => {
       const wrapper = mount(
-        <ClusterFormInput id="" placeholder="" validate={validate} />
+        <ClusterFormInput id="" name="" placeholder="" validate={validate} value={key} />
       );
-      expect(wrapper.find(`.has-${expectedValidationState}`)).toBeEmpty();
-
-      wrapper.setState({ value: key });
 
       expect(wrapper.find(`.has-${expectedValidationState}`)).not.toBeEmpty();
     });

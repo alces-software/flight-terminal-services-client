@@ -11,23 +11,32 @@ import { FormGroup, FormControl } from 'react-bootstrap';
 class ClusterFormInput extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func,
     placeholder: PropTypes.string.isRequired,
     validate: PropTypes.func,
+    value: PropTypes.string,
   };
 
   state = {
-    value: ''
+    touched: false,
   };
 
   handleChange = (event) => {
-    this.setState({ value: event.target.value });
+    this.setState({ touched: true });
+    if (this.props.onChange) {
+      this.props.onChange({
+        value: event.target.value,
+        name: this.props.name,
+      });
+    }
   }
 
   getValidationState() {
     if (this.props.validate == null) {
       return undefined;
     }
-    return this.props.validate(this.state.value);
+    return this.props.validate({ ...this.state, value: this.props.value });
   }
 
   render() {
@@ -41,7 +50,7 @@ class ClusterFormInput extends React.Component {
           type="text"
           placeholder={placeholder}
           onChange={this.handleChange}
-          value={this.state.value}
+          value={this.props.value}
         />
       </FormGroup>
     );

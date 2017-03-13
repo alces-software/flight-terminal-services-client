@@ -31,9 +31,27 @@ export class ClusterLaunchForm extends React.Component {
   }
 
   pages = [
-    () => <Credentials id={this.props.clusterSpec.ui.title} />,
-    () => <ClusterName id={this.props.clusterSpec.ui.title} />,
-    () => <Email id={this.props.clusterSpec.ui.title} />,
+    () => (
+      <Credentials
+        id={this.props.clusterSpec.ui.title}
+        values={{
+          awsAccessKeyId: this.props.values.awsAccessKeyId,
+          awsSecrectAccessKey: this.props.values.awsSecrectAccessKey,
+        }}
+        onChange={this.props.onChange}
+      />),
+    () => (
+      <ClusterName
+        id={this.props.clusterSpec.ui.title}
+        value={this.props.values.clusterName}
+        onChange={this.props.onChange}
+      />),
+    () => (
+      <Email
+        id={this.props.clusterSpec.ui.title} 
+        value={this.props.values.email}
+        onChange={this.props.onChange}
+      />),
   ]
 
   render() {
@@ -58,6 +76,21 @@ class ClusterLaunchFormContainer extends React.Component {
 
   state = {
     currentPageIndex: 0,
+    values: {
+      awsAccessKeyId: '',
+      awsSecrectAccessKey: '',
+      clusterName: '',
+      email: '',
+    },
+  }
+
+  handleFormChange = ({ name, value }) => {
+    this.setState({
+      values: {
+        ...this.state.values,
+        [name]: value,
+      },
+    });
   }
 
   handleShowNextPage = () => {
@@ -74,6 +107,7 @@ class ClusterLaunchFormContainer extends React.Component {
       <ClusterLaunchForm
         {...this.state}
         {...this.props}
+        onChange={this.handleFormChange}
         onShowNextPage={this.handleShowNextPage}
         onShowPreviousPage={this.handleShowPreviousPage}
       />

@@ -23,6 +23,9 @@ const clusterSpec = {
   },
 };
 
+const values = {
+};
+
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
@@ -30,6 +33,9 @@ it('renders without crashing', () => {
       clusterSpec={clusterSpec}
       currentPageIndex={0}
       handleSubmit={() => {}}
+      values={values}
+      onShowNextPage={() => {}}
+      onShowPreviousPage={() => {}}
     />,
     div
   );
@@ -41,6 +47,9 @@ describe('pages render without crashing', () => {
       clusterSpec={clusterSpec}
       currentPageIndex={0}
       handleSubmit={() => {}}
+      values={values}
+      onShowNextPage={() => {}}
+      onShowPreviousPage={() => {}}
     />
   );
 

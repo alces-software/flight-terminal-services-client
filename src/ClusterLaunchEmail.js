@@ -13,11 +13,14 @@ const propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-const ClusterEmail = ({ id }) => (
+const ClusterEmail = ({ id, onChange, value }) => (
   <div>
     <Input
       id={`${id}-clusterEmail`}
+      name="email"
       placeholder="Enter your email address"
+      value={value}
+      onChange={onChange}
     />
   </div>
 );

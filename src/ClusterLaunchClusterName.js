@@ -13,11 +13,14 @@ const propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-const ClusterName = ({ id }) => (
+const ClusterName = ({ id, onChange, value }) => (
   <div>
     <Input
       id={`${id}-clusterName`}
+      name="clusterName"
       placeholder="Enter a name for your cluster"
+      value={value}
+      onChange={onChange}
     />
   </div>
 );
