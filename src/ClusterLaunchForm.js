@@ -14,21 +14,15 @@ import ClusterName from './ClusterLaunchClusterName';
 import Email from './ClusterLaunchEmail';
 import MultiPageForm from './MultiPageForm';
 
-export class ClusterLaunchForm extends React.Component {
+class ClusterLaunchForm extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
     currentPageIndex: PropTypes.number.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
   };
-
-  static defaultProps = {
-    handleSubmit: (event) => {
-      alert('XXX Implement the backend');
-      event.preventDefault();
-    }
-  }
 
   pages = [
     {
@@ -77,96 +71,18 @@ export class ClusterLaunchForm extends React.Component {
         className="ClusterLaunchForm"
         currentPageIndex={this.props.currentPageIndex}
         handleSubmit={this.props.handleSubmit}
-        pages={this.pages}
-        submitButtonContent={<span>Launch{' '}<Icon name="plane" /></span>}
         onShowNextPage={this.props.onShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}
+        pages={this.pages}
+        submitButtonContent={<span>Launch{' '}<Icon name="plane" /></span>}
+        submittingButtonContent={<span>
+          Launching&hellip;{' '}
+          <Icon name="spinner" spin />
+        </span>}
+        submitting={this.props.submitting}
       />
     );
   }
 }
 
-class ClusterLaunchFormContainer extends React.Component {
-  static propTypes = {
-    clusterSpec: clusterSpecShape.isRequired,
-  };
-
-  componentDidMount() {
-    this.setState({ errors: this.validate(this.state.values) });
-  }
-
-  state = {
-    currentPageIndex: 0,
-    values: {
-      awsAccessKeyId: '',
-      awsSecrectAccessKey: '',
-      clusterName: '',
-      email: '',
-    },
-    errors: {
-      awsAccessKeyId: null,
-      awsSecrectAccessKey: null,
-      clusterName: null,
-      email: null,
-    }
-  }
-
-  handleFormChange = ({ name, value }) => {
-    const errors = this.validate({
-      ...this.state.values,
-      [name]: value,
-    });
-
-    this.setState({
-      values: {
-        ...this.state.values,
-        [name]: value,
-      },
-      errors: errors,
-    });
-  }
-
-  handleShowNextPage = () => {
-    this.setState({ currentPageIndex: this.state.currentPageIndex + 1 });
-  }
-
-  handleShowPreviousPage = () => {
-    this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
-  }
-
-  validate(allValues) {
-    const errors = {};
-
-    if (allValues.awsAccessKeyId == null ||
-      allValues.awsAccessKeyId.length < 16
-    ) {
-      errors.awsAccessKeyId = 'error';
-    }
-
-    if (allValues.awsSecrectAccessKey == null ||
-      allValues.awsSecrectAccessKey.length < 16
-    ) {
-      errors.awsSecrectAccessKey = 'error';
-    }
-
-    if (allValues.clusterName == null || allValues.clusterName.length < 1) {
-      errors.clusterName = 'error';
-    }
-
-    return errors;
-  }
-
-  render() {
-    return (
-      <ClusterLaunchForm
-        {...this.state}
-        {...this.props}
-        onChange={this.handleFormChange}
-        onShowNextPage={this.handleShowNextPage}
-        onShowPreviousPage={this.handleShowPreviousPage}
-      />
-    );
-  }
-}
-
-export default ClusterLaunchFormContainer;
+export default ClusterLaunchForm;

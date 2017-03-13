@@ -172,6 +172,37 @@ describe('submit/next button', () => {
       expect(submitButton.dive()).toBeDisabled();
     });
   });
+
+  it('disables button if props.submitting is true', () => {
+    const wrapper = shallow(
+      <MultiPageForm
+        currentPageIndex={1}
+        pages={validPages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+        submitting
+      />,
+    );
+    const submitButton = wrapper.find(Button).find('[type="submit"]');
+
+    expect(submitButton.dive()).toBeDisabled();
+  });
+
+  it('uses props.submittingButtonContent if props.submitting is true', () => {
+    const wrapper = shallow(
+      <MultiPageForm
+        currentPageIndex={1}
+        pages={validPages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+        submittingButtonContent="Submitting..."
+        submitting
+      />,
+    );
+    const submitButton = wrapper.find(Button).find('[type="submit"]');
+
+    expect(submitButton.dive()).toIncludeText('Submitting...');
+  });
 });
 
 describe('previous button', () => {

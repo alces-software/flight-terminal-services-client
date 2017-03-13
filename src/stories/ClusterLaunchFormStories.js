@@ -1,7 +1,7 @@
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { linkTo, storiesOf } from '@kadira/storybook';
 
-import { ClusterLaunchForm } from '../ClusterLaunchForm';
+import ClusterLaunchForm from '../ClusterLaunchForm';
 
 const clusterSpec = {
   ui: {
@@ -17,6 +17,7 @@ const clusterSpec = {
 
 const commonProps = {
   clusterSpec: clusterSpec,
+  handleSubmit: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
   values: {},
@@ -55,6 +56,17 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       currentPageIndex={2}
+      handleSubmit={(event) => {
+        event.preventDefault();
+        linkTo('ClusterLaunchForm', 'when submitting')();
+      }}
+    />
+  ))
+  .add('when submitting', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      currentPageIndex={2}
+      submitting
     />
   ));
 

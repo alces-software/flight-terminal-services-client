@@ -10,7 +10,7 @@ import FlipCard from 'react-flipcard';
 
 import Card from './Card';
 import FooterIcons from './ClusterSpecCardFooterIcons';
-import ClusterLaunchForm from './ClusterLaunchForm';
+import ClusterLaunchFormContainer from './ClusterLaunchFormContainer';
 import { clusterSpecShape } from './propTypes';
 import './styles/ClusterSpecCard.scss';
 
@@ -42,7 +42,7 @@ const ClusterSpecCard = ({ clusterSpec }) => (
         titleLogoUrl={clusterSpec.ui.logoUrl}
         titleSize="large"
       >
-        <ClusterLaunchForm clusterSpec={clusterSpec} />
+        <ClusterLaunchFormContainer clusterSpec={clusterSpec} />
       </Card>
     </FlipCard>
   </div>

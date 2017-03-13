@@ -9,7 +9,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 
-import { ClusterLaunchForm } from './ClusterLaunchForm';
+import ClusterLaunchForm from './ClusterLaunchForm';
 
 const clusterSpec = {
   ui: {

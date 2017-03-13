@@ -21,10 +21,13 @@ class MultiPageForm extends React.Component {
       valid: PropTypes.func,
     }).isRequired).isRequired,
     submitButtonContent: PropTypes.node.isRequired,
+    submittingButtonContent: PropTypes.node.isRequired,
+    submitting: PropTypes.bool,
   };
 
   static defaultProps = {
     currentPageIndex: 0,
+    submittingButtonContent: "Submitting",
   };
 
   showNextPage = () => {
@@ -42,9 +45,10 @@ class MultiPageForm extends React.Component {
   renderSubmitOrNextButton() {
     const currentPage = this.props.pages[this.props.currentPageIndex];
     const disabled = currentPage.valid != null ? !currentPage.valid() : false;
+    const submitting = this.props.submitting;
 
     const commonProps = {
-      disabled,
+      disabled: disabled || submitting,
       type: 'submit',
       bsStyle: 'success',
     };
@@ -52,7 +56,11 @@ class MultiPageForm extends React.Component {
     if (this.props.currentPageIndex === this.props.pages.length - 1) {
       return (
         <Button key="submitForm" {...commonProps} >
-          {this.props.submitButtonContent}
+          {
+            submitting
+              ? this.props.submittingButtonContent
+              : this.props.submitButtonContent
+          }
         </Button>
       );
     }
