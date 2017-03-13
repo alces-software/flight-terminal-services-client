@@ -9,6 +9,7 @@ import React from 'react';
 
 import { clusterSpecShape } from './propTypes';
 import ClusterLaunchForm from './ClusterLaunchForm';
+import ClusterLaunchedModal from './ClusterLaunchedModal';
 
 class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {
@@ -19,15 +20,18 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ errors: this.validate(this.state.values) });
   }
 
+  initialValues = {
+    awsAccessKeyId: '',
+    awsSecrectAccessKey: '',
+    clusterName: '',
+    email: '',
+  }
+
   state = {
     currentPageIndex: 0,
+    showModal: false,
     submitting: false,
-    values: {
-      awsAccessKeyId: '',
-      awsSecrectAccessKey: '',
-      clusterName: '',
-      email: '',
-    },
+    values: this.initialValues,
     errors: {
       awsAccessKeyId: null,
       awsSecrectAccessKey: null,
@@ -52,13 +56,21 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleSubmit = (event) => {
+    // XXX Need to remove focus from email input too.
     event.preventDefault();
     this.setState({ submitting: true });
     console.log('this.state.values:', this.state.values);  // eslint-disable-line no-console
     const promise = new Promise((resolve) => {
       setTimeout(() => {
-        this.setState({ submitting: false });
-        resolve()
+        const errors = this.validate(this.initialValues);
+        this.setState({
+          submitting: false,
+          showModal: true,
+          values: this.initialValues,
+          currentPageIndex: 0,
+          errors: errors,
+        });
+        resolve();
       }, 2000);
     });
     return promise;
@@ -70,6 +82,10 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleShowPreviousPage = () => {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
+  }
+
+  hideModal = () => {
+    this.setState({ showModal: false });
   }
 
   validate(allValues) {
@@ -96,14 +112,20 @@ class ClusterLaunchFormContainer extends React.Component {
 
   render() {
     return (
-      <ClusterLaunchForm
-        {...this.state}
-        {...this.props}
-        onChange={this.handleFormChange}
-        onShowNextPage={this.handleShowNextPage}
-        onShowPreviousPage={this.handleShowPreviousPage}
-        handleSubmit={this.handleSubmit}
-      />
+      <div>
+        <ClusterLaunchedModal
+          show={this.state.showModal}
+          onHide={this.hideModal}
+        />
+        <ClusterLaunchForm
+          {...this.state}
+          {...this.props}
+          onChange={this.handleFormChange}
+          onShowNextPage={this.handleShowNextPage}
+          onShowPreviousPage={this.handleShowPreviousPage}
+          handleSubmit={this.handleSubmit}
+        />
+      </div>
     );
   }
 }
