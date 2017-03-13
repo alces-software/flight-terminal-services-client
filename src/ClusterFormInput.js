@@ -6,14 +6,18 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import { FormGroup, FormControl } from 'react-bootstrap';
+import { Label, FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
+
+import './styles/ClusterFormInput.scss';
 
 class ClusterFormInput extends React.Component {
   static propTypes = {
     error: PropTypes.string,
+    help: PropTypes.node,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    optional: PropTypes.bool,
     placeholder: PropTypes.string.isRequired,
     value: PropTypes.string,
   };
@@ -43,6 +47,7 @@ class ClusterFormInput extends React.Component {
     const { id, placeholder } = this.props;
     return (
       <FormGroup
+        className="ClusterFormInput"
         controlId={`cluster-launch-${id}`}
         validationState={this.getValidationState()}
       >
@@ -52,6 +57,16 @@ class ClusterFormInput extends React.Component {
           onChange={this.handleChange}
           value={this.props.value}
         />
+        {
+          this.props.optional
+            ? <Label bsStyle="success" className="optional-label">optional</Label>
+            : null
+        }
+        {
+          this.props.help
+            ? <HelpBlock>{this.props.help}</HelpBlock>
+            : null
+        }
       </FormGroup>
     );
   }

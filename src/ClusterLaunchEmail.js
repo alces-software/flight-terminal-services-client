@@ -20,11 +20,14 @@ const ClusterEmail = ({ error, id, onChange, value }) => (
   <div>
     <Input
       error={error}
+      help="If you enter your email address we will send you an email when
+      your cluster is available."
       id={`${id}-clusterEmail`}
       name="email"
+      onChange={onChange}
+      optional
       placeholder="Enter your email address"
       value={value}
-      onChange={onChange}
     />
   </div>
 );
