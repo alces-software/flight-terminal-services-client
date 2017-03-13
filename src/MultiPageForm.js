@@ -16,7 +16,10 @@ class MultiPageForm extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func,
     onShowPreviousPage: PropTypes.func,
-    pages: PropTypes.arrayOf(PropTypes.func.isRequired).isRequired,
+    pages: PropTypes.arrayOf(PropTypes.shape({
+      render: PropTypes.func.isRequired,
+      valid: PropTypes.func,
+    }).isRequired).isRequired,
     submitButtonContent: PropTypes.node.isRequired,
   };
 
@@ -37,15 +40,18 @@ class MultiPageForm extends React.Component {
   }
 
   renderSubmitOrNextButton() {
+    const currentPage = this.props.pages[this.props.currentPageIndex];
+    const disabled = currentPage.valid != null ? !currentPage.valid() : false;
+
     if (this.props.currentPageIndex === this.props.pages.length - 1) {
       return (
-        <Button key="submitForm" type="submit" bsStyle="success">
+        <Button key="submitForm" type="submit" bsStyle="success" disabled={disabled} >
           {this.props.submitButtonContent}
         </Button>
       );
     }
     return (
-      <Button key="nextPage" bsStyle="success" onClick={this.showNextPage} >
+      <Button key="nextPage" bsStyle="success" onClick={this.showNextPage} disabled={disabled} >
         Next
       </Button>
     );
@@ -70,7 +76,7 @@ class MultiPageForm extends React.Component {
     const currentPageIndex = this.props.currentPageIndex;
     const page = this.props.pages[currentPageIndex]; 
     invariant(page, 'Page %s has not been configured', currentPageIndex);
-    return page();
+    return page.render();
   }
 
   render() {

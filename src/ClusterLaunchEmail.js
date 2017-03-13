@@ -10,12 +10,16 @@ import React, { PropTypes } from 'react';
 import Input from './ClusterFormInput';
 
 const propTypes = {
+  error: PropTypes.string,
   id: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
 };
 
-const ClusterEmail = ({ id, onChange, value }) => (
+const ClusterEmail = ({ error, id, onChange, value }) => (
   <div>
     <Input
+      error={error}
       id={`${id}-clusterEmail`}
       name="email"
       placeholder="Enter your email address"

@@ -31,28 +31,45 @@ export class ClusterLaunchForm extends React.Component {
   }
 
   pages = [
-    () => (
-      <Credentials
-        id={this.props.clusterSpec.ui.title}
-        values={{
-          awsAccessKeyId: this.props.values.awsAccessKeyId,
-          awsSecrectAccessKey: this.props.values.awsSecrectAccessKey,
-        }}
-        onChange={this.props.onChange}
-      />),
-    () => (
-      <ClusterName
-        id={this.props.clusterSpec.ui.title}
-        value={this.props.values.clusterName}
-        onChange={this.props.onChange}
-      />),
-    () => (
-      <Email
-        id={this.props.clusterSpec.ui.title} 
-        value={this.props.values.email}
-        onChange={this.props.onChange}
-      />),
-  ]
+    {
+      render: () => (
+        <Credentials
+          id={this.props.clusterSpec.ui.title}
+          errors={{
+            awsAccessKeyId: this.props.errors.awsAccessKeyId,
+            awsSecrectAccessKey: this.props.errors.awsSecrectAccessKey,
+          }}
+          values={{
+            awsAccessKeyId: this.props.values.awsAccessKeyId,
+            awsSecrectAccessKey: this.props.values.awsSecrectAccessKey,
+          }}
+          onChange={this.props.onChange}
+        />),
+      valid: () => (
+        !this.props.errors.awsAccessKeyId && !this.props.errors.awsSecrectAccessKey
+      ),
+    },
+    {
+      render: () => (
+        <ClusterName
+          id={this.props.clusterSpec.ui.title}
+          error={this.props.errors.clusterName}
+          value={this.props.values.clusterName}
+          onChange={this.props.onChange}
+        />),
+      valid: () => !this.props.errors.clusterName,
+    },
+    {
+      render: () => (
+        <Email
+          id={this.props.clusterSpec.ui.title} 
+          error={this.props.errors.email}
+          value={this.props.values.email}
+          onChange={this.props.onChange}
+        />),
+      valid: () => !this.props.errors.email,
+    },
+  ];
 
   render() {
     return (
@@ -74,6 +91,10 @@ class ClusterLaunchFormContainer extends React.Component {
     clusterSpec: clusterSpecShape.isRequired,
   };
 
+  componentDidMount() {
+    this.setState({ errors: this.validate(this.state.values) });
+  }
+
   state = {
     currentPageIndex: 0,
     values: {
@@ -82,14 +103,26 @@ class ClusterLaunchFormContainer extends React.Component {
       clusterName: '',
       email: '',
     },
+    errors: {
+      awsAccessKeyId: null,
+      awsSecrectAccessKey: null,
+      clusterName: null,
+      email: null,
+    }
   }
 
   handleFormChange = ({ name, value }) => {
+    const errors = this.validate({
+      ...this.state.values,
+      [name]: value,
+    });
+
     this.setState({
       values: {
         ...this.state.values,
         [name]: value,
       },
+      errors: errors,
     });
   }
 
@@ -101,6 +134,27 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
   }
 
+  validate(allValues) {
+    const errors = {};
+
+    if (allValues.awsAccessKeyId == null ||
+      allValues.awsAccessKeyId.length < 16
+    ) {
+      errors.awsAccessKeyId = 'error';
+    }
+
+    if (allValues.awsSecrectAccessKey == null ||
+      allValues.awsSecrectAccessKey.length < 16
+    ) {
+      errors.awsSecrectAccessKey = 'error';
+    }
+
+    if (allValues.clusterName == null || allValues.clusterName.length < 1) {
+      errors.clusterName = 'error';
+    }
+
+    return errors;
+  }
 
   render() {
     return (

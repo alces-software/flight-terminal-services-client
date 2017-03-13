@@ -16,7 +16,7 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
     <MultiPageForm
-      pages={[() => <div>page 1</div>]}
+      pages={[ { render: () => <div>page 1</div> } ]}
       handleSubmit={() => {}}
       submitButtonContent="Submit"
     />,
@@ -29,8 +29,8 @@ it('calls props.onShowNextPage when the Next button is clicked', () => {
   const wrapper = shallow(
     <MultiPageForm
       pages={[
-        () => <div>page 1</div>,
-        () => <div>page 2</div>,
+        { render: () => <div>page 1</div> },
+        { render: () => <div>page 2</div> },
       ]}
       handleSubmit={() => {}}
       onShowNextPage={handleShowNextPage}
@@ -50,8 +50,8 @@ it('calls props.onShowPreviousPage when the Previous button is clicked', () => {
     <MultiPageForm
       currentPageIndex={1}
       pages={[
-        () => <div>page 1</div>,
-        () => <div>page 2</div>,
+        { render: () => <div>page 1</div> },
+        { render: () => <div>page 2</div> },
       ]}
       handleSubmit={() => {}}
       onShowPreviousPage={handleShowPreviousPage}
@@ -67,9 +67,9 @@ it('calls props.onShowPreviousPage when the Previous button is clicked', () => {
 
 describe('showing the correct page', () => {
   const pages = [
-    () => <div>page 1</div>,
-    () => <div>page 2</div>,
-    () => <div>page 3</div>,
+    { render: () => <div>page 1</div> },
+    { render: () => <div>page 2</div> },
+    { render: () => <div>page 3</div> },
   ];
 
   pages.forEach((page, index) => {
@@ -83,116 +83,219 @@ describe('showing the correct page', () => {
         />,
       );
 
-      expect(wrapper).toContainReact(page());
+      expect(wrapper).toContainReact(page.render());
     });
   });
 });
 
-it('shows the submit button on the final page', () => {
-  const pages = [
-    () => <div>page 1</div>,
-    () => <div>page 2</div>,
-  ];
+describe('submit button', () => {
+  it('shows the submit button on the final page', () => {
+    const pages = [
+      { render: () => <div>page 1</div> },
+      { render: () => <div>page 2</div> },
+    ];
 
-  const wrapper = shallow(
-    <MultiPageForm
-      currentPageIndex={1}
-      pages={pages}
-      handleSubmit={() => {}}
-      submitButtonContent="My submit button"
-    />,
-  );
-  const submitButton = wrapper.find(Button).find('[type="submit"]');
+    const wrapper = shallow(
+      <MultiPageForm
+        currentPageIndex={1}
+        pages={pages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+      />,
+    );
+    const submitButton = wrapper.find(Button).find('[type="submit"]');
 
-  expect(submitButton.dive()).toIncludeText('My submit button');
+    expect(submitButton.dive()).toIncludeText('My submit button');
+  });
+
+  it('does not show the submit button on non-final pages', () => {
+    const pages = [
+      { render: () => <div>page 1</div> },
+      { render: () => <div>page 2</div> },
+    ];
+
+    const wrapper = shallow(
+      <MultiPageForm
+        pages={pages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+      />,
+    );
+    const submitButton = wrapper.find(Button).find('[type="submit"]');
+
+    expect(submitButton).toBeEmpty();
+  });
+
+  it('disables submit button if page is invalid', () => {
+    const pages = [
+      {
+        render: () => <div>page 1</div>,
+        valid: () => false,
+      },
+      {
+        render: () => <div>page 2</div>,
+        valid: () => false,
+      }
+    ];
+
+    const wrapper = shallow(
+      <MultiPageForm
+        currentPageIndex={1}
+        pages={pages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+      />,
+    );
+    const submitButton = wrapper.find(Button).find('[type="submit"]');
+
+    expect(submitButton.dive()).toBeDisabled();
+  });
+
+  it('enables Submit button if page is valid', () => {
+    const pages = [
+      {
+        render: () => <div>page 1</div>,
+        valid: () => true,
+      },
+      {
+        render: () => <div>page 2</div>,
+        valid: () => true,
+      }
+    ];
+
+    const wrapper = shallow(
+      <MultiPageForm
+        currentPageIndex={1}
+        pages={pages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+      />,
+    );
+    const submitButton = wrapper.find(Button).find('[type="submit"]');
+
+    expect(submitButton.dive()).not.toBeDisabled();
+  });
 });
 
-it('does not show the submit button on non-final pages', () => {
-  const pages = [
-    () => <div>page 1</div>,
-    () => <div>page 2</div>,
-  ];
+describe('previous button', () => {
+  test('previous button is disabled on the first page', () => {
+    const wrapper = shallow(
+      <MultiPageForm
+        currentPageIndex={0}
+        pages={[
+          { render: () => <div>page 1</div> },
+          { render: () => <div>page 2</div> },
+        ]}
+        handleSubmit={() => {}}
+        submitButtonContent="Submit"
+      />,
+    );
+    const previousButton = wrapper.find(Button).first();
 
-  const wrapper = shallow(
-    <MultiPageForm
-      pages={pages}
-      handleSubmit={() => {}}
-      submitButtonContent="My submit button"
-    />,
-  );
-  const submitButton = wrapper.find(Button).find('[type="submit"]');
+    expect(previousButton).toBeDisabled();
+  });
 
-  expect(submitButton).toBeEmpty();
+  test('previous button is not disabled on subsequent pages', () => {
+    const wrapper = shallow(
+      <MultiPageForm
+        currentPageIndex={1}
+        pages={[
+          { render: () => <div>page 1</div> },
+          { render: () => <div>page 2</div> },
+        ]}
+        handleSubmit={() => {}}
+        submitButtonContent="Submit"
+      />,
+    );
+    const previousButton = wrapper.find(Button).first();
+
+    expect(previousButton).not.toBeDisabled();
+  });
 });
 
-test('previous button is disabled on the first page', () => {
-  const wrapper = shallow(
-    <MultiPageForm
-      currentPageIndex={0}
-      pages={[
-        () => <div>page 1</div>,
-        () => <div>page 2</div>,
-      ]}
-      handleSubmit={() => {}}
-      submitButtonContent="Submit"
-    />,
-  );
-  const previousButton = wrapper.find(Button).first();
+describe('next button', () => {
+  it('does not show a Next button on the final page', () => {
+    const pages = [
+      { render: () => <div>page 1</div> },
+      { render: () => <div>page 2</div> },
+    ];
 
-  expect(previousButton).toBeDisabled();
+    const wrapper = shallow(
+      <MultiPageForm
+        currentPageIndex={1}
+        pages={pages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+      />,
+    );
+    const submitButton = wrapper.find(Button).last()
+
+    expect(submitButton.dive()).not.toIncludeText('Next');
+  });
+
+  it('shows a Next button on non-final pages', () => {
+    const pages = [
+      { render: () => <div>page 1</div> },
+      { render: () => <div>page 2</div> },
+    ];
+
+    const wrapper = shallow(
+      <MultiPageForm
+        pages={pages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+      />,
+    );
+    const nextButton = wrapper.find(Button).last()
+
+    expect(nextButton.dive()).toIncludeText('Next');
+  });
+
+  it('enables Next button if page is valid', () => {
+    const pages = [
+      {
+        render: () => <div>page 1</div>,
+        valid: () => true,
+      },
+      {
+        render: () => <div>page 2</div>,
+        valid: () => false,
+      }
+    ];
+
+    const wrapper = shallow(
+      <MultiPageForm
+        pages={pages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+      />,
+    );
+    const nextButton = wrapper.find(Button).last()
+
+    expect(nextButton.dive()).not.toBeDisabled();
+  });
+
+  it('disables Next button if page is invalid', () => {
+    const pages = [
+      {
+        render: () => <div>page 1</div>,
+        valid: () => false,
+      },
+      {
+        render: () => <div>page 2</div>,
+        valid: () => false,
+      }
+    ];
+
+    const wrapper = shallow(
+      <MultiPageForm
+        pages={pages}
+        handleSubmit={() => {}}
+        submitButtonContent="My submit button"
+      />,
+    );
+    const nextButton = wrapper.find(Button).last()
+
+    expect(nextButton.dive()).toBeDisabled();
+  });
 });
-
-test('previous button is not disabled on subsequent pages', () => {
-  const wrapper = shallow(
-    <MultiPageForm
-      currentPageIndex={1}
-      pages={[
-        () => <div>page 1</div>,
-        () => <div>page 2</div>,
-      ]}
-      handleSubmit={() => {}}
-      submitButtonContent="Submit"
-    />,
-  );
-  const previousButton = wrapper.find(Button).first();
-
-  expect(previousButton).not.toBeDisabled();
-});
-
-it('does not show a Next button on the final page', () => {
-  const pages = [
-    () => <div>page 1</div>,
-    () => <div>page 2</div>,
-  ];
-
-  const wrapper = shallow(
-    <MultiPageForm
-      currentPageIndex={1}
-      pages={pages}
-      handleSubmit={() => {}}
-      submitButtonContent="My submit button"
-    />,
-  );
-  const submitButton = wrapper.find(Button).last()
-
-  expect(submitButton.dive()).not.toIncludeText('Next');
-});
-
-it('shows a Next button on non-final pages', () => {
-  const pages = [
-    () => <div>page 1</div>,
-    () => <div>page 2</div>,
-  ];
-
-  const wrapper = shallow(
-    <MultiPageForm
-      pages={pages}
-      handleSubmit={() => {}}
-      submitButtonContent="My submit button"
-    />,
-  );
-  const submitButton = wrapper.find(Button).last()
-
-  expect(submitButton.dive()).toIncludeText('Next');
-});
-

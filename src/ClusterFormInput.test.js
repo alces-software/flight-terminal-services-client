@@ -43,18 +43,30 @@ describe('validation state', () => {
     'good input': 'success',
   };
 
-  const validate = ({ value }) => {
+  const validate = (value) => {
     return validationStates[value];
   };
 
   Object.keys(validationStates).forEach(key => {
     const expectedValidationState = validationStates[key];
-    it(`sets ${expectedValidationState} state correctly`, () => {
+    it(`sets ${expectedValidationState} state correctly for touched inputs`, () => {
       const wrapper = mount(
-        <ClusterFormInput id="" name="" placeholder="" validate={validate} value={key} />
+        <ClusterFormInput id="" name="" placeholder="" error={validate(key)} value={key} />
       );
+      wrapper.setState({ touched: true });
 
       expect(wrapper.find(`.has-${expectedValidationState}`)).not.toBeEmpty();
+    });
+  });
+
+  Object.keys(validationStates).forEach(key => {
+    const expectedValidationState = validationStates[key];
+    it(`does not set ${expectedValidationState} state for untouched inputs`, () => {
+      const wrapper = mount(
+        <ClusterFormInput id="" name="" placeholder="" error={validate(key)} value={key} />
+      );
+
+      expect(wrapper.find(`.has-${expectedValidationState}`)).toBeEmpty();
     });
   });
 });

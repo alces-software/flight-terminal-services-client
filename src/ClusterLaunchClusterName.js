@@ -10,12 +10,16 @@ import React, { PropTypes } from 'react';
 import Input from './ClusterFormInput';
 
 const propTypes = {
+  error: PropTypes.string,
   id: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
 };
 
-const ClusterName = ({ id, onChange, value }) => (
+const ClusterName = ({ error, id, onChange, value }) => (
   <div>
     <Input
+      error={error}
       id={`${id}-clusterName`}
       name="clusterName"
       placeholder="Enter a name for your cluster"

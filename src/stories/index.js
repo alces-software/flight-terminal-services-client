@@ -31,9 +31,6 @@ const clusterSpec = {
   },
 };
 
-const values = {
-};
-
 storiesOf('ClusterLaunchForm', module)
   .addDecorator(story => (
     <div style={{ width: '500px', margin: '10px' }}>
@@ -46,7 +43,8 @@ storiesOf('ClusterLaunchForm', module)
       currentPageIndex={0}
       onShowNextPage={() => {}}
       onShowPreviousPage={() => {}}
-      values={values}
+      values={{}}
+      errors={{}}
     />
   ))
   .add('on cluster name page', () => (
@@ -55,7 +53,8 @@ storiesOf('ClusterLaunchForm', module)
       currentPageIndex={1}
       onShowNextPage={() => {}}
       onShowPreviousPage={() => {}}
-      values={values}
+      values={{}}
+      errors={{}}
     />
   ))
   .add('on email page', () => (
@@ -64,6 +63,7 @@ storiesOf('ClusterLaunchForm', module)
       currentPageIndex={2}
       onShowNextPage={() => {}}
       onShowPreviousPage={() => {}}
-      values={values}
+      values={{}}
+      errors={{}}
     />
   ));

@@ -23,9 +23,6 @@ const clusterSpec = {
   },
 };
 
-const values = {
-};
-
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
@@ -33,7 +30,8 @@ it('renders without crashing', () => {
       clusterSpec={clusterSpec}
       currentPageIndex={0}
       handleSubmit={() => {}}
-      values={values}
+      errors={{}}
+      values={{}}
       onShowNextPage={() => {}}
       onShowPreviousPage={() => {}}
     />,
@@ -47,7 +45,8 @@ describe('pages render without crashing', () => {
       clusterSpec={clusterSpec}
       currentPageIndex={0}
       handleSubmit={() => {}}
-      values={values}
+      errors={{}}
+      values={{}}
       onShowNextPage={() => {}}
       onShowPreviousPage={() => {}}
     />
@@ -57,7 +56,7 @@ describe('pages render without crashing', () => {
   instance.pages.forEach((page, index) => {
     test(`page ${index}`, () => {
       const div = document.createElement('div');
-      ReactDOM.render(page(), div);
+      ReactDOM.render(page.render(), div);
     });
   });
 });
