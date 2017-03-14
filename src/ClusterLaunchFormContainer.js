@@ -37,6 +37,10 @@ class ClusterLaunchFormContainer extends React.Component {
       awsSecrectAccessKey: null,
       clusterName: null,
       email: null,
+    },
+    modalProps: {
+      clusterName: null,
+      cloudformationUrl: null,
     }
   }
 
@@ -56,7 +60,8 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleSubmit = (event) => {
-    // XXX Need to remove focus from email input too.
+    // XXX Need to remove focus from email input too.  Calling `blur()` on the
+    // input will do the trick.
     event.preventDefault();
     this.setState({ submitting: true });
     console.log('this.state.values:', this.state.values);  // eslint-disable-line no-console
@@ -69,6 +74,11 @@ class ClusterLaunchFormContainer extends React.Component {
           values: this.initialValues,
           currentPageIndex: 0,
           errors: errors,
+          modalProps: {
+            clusterName: this.state.values.clusterName,
+            cloudformationUrl: 'https://eu-west-1.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=arn:aws:cloudformation:eu-west-1:700366075446:stack%2Fflight-cluster-bens-bio-cluster-6%2F43147250-08d1-11e7-99ac-500c4240649a',
+            email: this.state.values.email,
+          },
         });
         resolve();
       }, 2000);
@@ -114,6 +124,7 @@ class ClusterLaunchFormContainer extends React.Component {
     return (
       <div>
         <ClusterLaunchedModal
+          {...this.state.modalProps}
           show={this.state.showModal}
           onHide={this.hideModal}
         />

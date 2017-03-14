@@ -5,10 +5,18 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { StandardModal } from 'flight-common';
 
-const ClusterLaunchModal = ({ onHide, show }) => (
+const propTypes = {
+  cloudformationUrl: PropTypes.string.isRequired,
+  clusterName: PropTypes.string.isRequired,
+  email: PropTypes.string,
+  onHide: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
+}
+
+const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, show }) => (
   <StandardModal
     bsSize="large"
     className="flight-packageDetailModal"
@@ -17,13 +25,25 @@ const ClusterLaunchModal = ({ onHide, show }) => (
     title="Your cluster is launching"
   >
     <p>
-      Your cluster is being launched by AWS.  You can <a href="">view its
-        progress</a> on the AWS cloudformation console.
+      Your cluster, <em>{clusterName}</em>, is being launched by AWS.  You can
+      {' '}<a
+        href={cloudformationUrl}
+        target="_blank"
+        rel="noopener noreferrer" 
+      >
+        view the progress
+      </a>{' '} on the AWS cloudformation console.
     </p>
-    <p>
-      We will send you an email when it has finished launching.
-    </p>
+    {
+      email ? (
+        <p>
+          We will send you an email when it has finished launching.
+        </p>)
+        : null
+    }
   </StandardModal>
 );
+
+ClusterLaunchModal.propTypes = propTypes;
 
 export default ClusterLaunchModal;
