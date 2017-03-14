@@ -95,7 +95,7 @@
         "solo": {
           "AutoscalingPolicy": "enabled",
           "ComputeSpotPrice": "0",
-          "PreloadedSoftware": "bioinformatics",
+          "PreloadSoftware": "bioinformatics",
           "SchedulerType": "gridscheduler"
         }
       }
@@ -119,7 +119,7 @@
           "SchedulerType": "gridscheduler"
         },
         "cluster-master": {
-          "PreloadedSoftware": "chemistry",
+          "PreloadSoftware": "chemistry",
           "SchedulerType": "gridscheduler"
         }
       }
