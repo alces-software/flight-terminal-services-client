@@ -6,8 +6,14 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-Rails.application.routes.draw do
-  post 'clusters/launch'
+class ClusterLaunchConfig
+  include ActiveModel::Model
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  attr_accessor :name
+  attr_accessor :email
+  attr_accessor :access_key
+  attr_accessor :secret_key
+
+  # An instance of ClusterSpec.
+  attr_accessor :spec
 end
