@@ -11,8 +11,7 @@ set -o pipefail
 
 # Script to run a command within the Docker container.
 #
-# Usage: docker-run [port] command
-# If no port is given the default port is used.
+# Usage: docker-run [--port port] command
 
 CLIENT_DIR=$(cd "$(dirname $(dirname "${BASH_SOURCE[0]}"))" && pwd)
 PORT=
@@ -30,18 +29,22 @@ docker_run() {
     if [ "${PORT}x" != "x" ] ; then
         args+=(" -p $PORT:$PORT")
     fi
+    # docker-compose run --rm \
+    #     ${args[@]} \
+    #     client $ARGS
+
     docker run -it --rm \
-        -v ${CLIENT_DIR}:/home/lackey/lackey \
-        -v ${HOME}/.cache/yarn:/home/lackey/.cache/yarn \
+        -v ${CLIENT_DIR}:/home/launch/launch \
+        -v ${HOME}/.cache/yarn:/home/launch/.cache/yarn \
         -v /home/barmston/src/flight-common:/home/flight-common \
         ${args[@]} \
-        lackey-client $ARGS
+        launch-client $ARGS
 }
 
 usage() {
     echo "Usage: $(basename $0) [--port PORT] [-- ARGS]"
     echo
-    echo "Run ARGS on the lackey-client docker container."
+    echo "Run ARGS on the launch-client docker container."
 }
 
 check_dependencies() {
@@ -79,18 +82,6 @@ parse_arguments() {
                 ;;
         esac
     done
-}
-
-header() {
-    echo -e "\n>>> $@ <<<"
-}
-
-subheader() {
-    echo -e " ---> $@"
-}
-
-indent() {
-    sed 's/^/  /'
 }
 
 main "$@"

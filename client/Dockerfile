@@ -8,8 +8,6 @@
 FROM kkarczmarczyk/node-yarn:7.6
 MAINTAINER Alces Development "dev@alces-flight.com"
 
-ARG USER_ID
-
 # Packages to make working in the Docker container nicer go here.
 RUN apt-get update && \
     apt-get -y install \
@@ -18,15 +16,18 @@ RUN apt-get update && \
 	vim \
 	less
 
-RUN useradd -m -u $USER_ID lackey
-USER lackey
+# Go to a small amount of effort to ensure that the user id is the same as
+# that on the host machine.
+ARG USER_ID
+RUN useradd -m -u $USER_ID launch
+USER launch
 
-ENV HOME /home/lackey
+ENV HOME /home/launch
 RUN mkdir $HOME/bin
-WORKDIR /home/lackey/lackey
+WORKDIR /home/launch/launch
 
 RUN mkdir -p $HOME/.cache/yarn && \
-    chown -R lackey $HOME/.cache/yarn
+    chown -R launch $HOME/.cache/yarn
 
 RUN yarn global add create-react-app --prefix $HOME
 
