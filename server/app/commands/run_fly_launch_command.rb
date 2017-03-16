@@ -85,7 +85,7 @@ class RunFlyLaunchCommand
       lines = stdout.readpartial(512)
       stdout_read << lines
       stdout_read.split("\n").each do |line|
-        if line.start_with?('CREATE_IN_PROGRESS')
+        if line =~ /^CREATE_IN_PROGRESS\s*[-0-9a-zA-Z]*#{@launch_config.name}/
           @arn = line.gsub(/^[^(]*\(([^)]*)\)/, '\1')
           return stdout_read
         end
