@@ -31,7 +31,7 @@ class LaunchClusterCommand
 
   # How long we will wait for the stack's ARN to become available before
   # giving up.
-  WAIT_FOR_ARN_DURATION = 60.seconds
+  WAIT_FOR_ARN_DURATION = Integer(ENV['WAIT_FOR_ARN_DURATION']) rescue 120
 
   attr_reader :launch_thread
 

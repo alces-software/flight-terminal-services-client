@@ -24,7 +24,7 @@ class ClustersController < ApplicationController
       render(
         json: {
           arn: arn,
-          cloudformation_url: cloudformation_url(arn),
+          cloudformation_url: cloudformation_url(arn, cluster_launch_config),
           cluster_name: cluster_launch_config.name,
           email: cluster_launch_config.email,
         },
@@ -44,15 +44,18 @@ class ClustersController < ApplicationController
   end
 
   def cluster_launch_config_params
-    params.require(:cluster).permit(:email, :name, :access_key, :secret_key).tap do |h|
-      h.require(:name)
-      h.require(:access_key)
-      h.require(:secret_key)
+    permitted_params = [:email, :name, :access_key, :secret_key, :region, :key_pair]
+    required_params = [:name, :access_key, :secret_key]
+
+    params.require(:cluster).permit(*permitted_params).tap do |h|
+      required_params.each {|p| h.require(p) }
     end
   end
 
-  def cloudformation_url(arn)
-    region = RunFlyLaunchCommand::REGION
-    "https://#{region}.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=#{arn}"
+  def cloudformation_url(arn, cluster_launch_config)
+    if cluster_launch_config.region.present?
+      region = "#{cluster_launch_config.region}."
+    end
+    "https://#{region}console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=#{arn}"
   end
 end

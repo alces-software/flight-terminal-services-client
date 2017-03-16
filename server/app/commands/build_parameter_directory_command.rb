@@ -9,8 +9,6 @@
 require 'open3'
 require 'yaml'
 
-FLY_EXE = Rails.root.join('fly').to_s
-
 #
 # Create a fly parameter directory and merge in any overrides in
 # `cluster_spec`.
@@ -27,7 +25,7 @@ class BuildParameterDirectoryCommand
   end
 
   def create_parameter_directory
-    cmd = [FLY_EXE, '--create-parameter-directory', @parameter_dir]
+    cmd = [ENV['FLY_EXE_PATH'], '--create-parameter-directory', @parameter_dir]
     Rails.logger.debug("Creating fly parameter directory: #{cmd.inspect}")
     exit_status = Open3.popen3(*cmd) do |stdin, stdout, stderr, wait_thr|
       stdin.close

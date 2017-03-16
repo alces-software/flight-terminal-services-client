@@ -19,10 +19,6 @@ require 'open3'
 # been added.
 #
 class RunFlyLaunchCommand
-  FLY_EXE = Rails.root.join('fly').to_s
-  KEY_PAIR = 'aws_ireland'
-  REGION = 'eu-west-1'
-
   attr_reader :arn,
     :stdout,
     :stderr
@@ -48,12 +44,16 @@ class RunFlyLaunchCommand
 
   def build_command_and_environment
     extra_args = @launch_config.spec.args || []
-    extra_args << '--key-pair' << KEY_PAIR
+    if @launch_config.key_pair.present?
+      extra_args << '--key-pair' << @launch_config.key_pair
+    end
+    if @launch_config.region.present?
+      extra_args << '--region' << @launch_config.region
+    end
     cmd = [
-      FLY_EXE,
+      ENV['FLY_EXE_PATH'],
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
-      '--region', REGION,
       'cluster',
       'launch',
       @launch_config.name,
