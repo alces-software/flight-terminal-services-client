@@ -36,6 +36,13 @@ gem 'sqlite3'
 ##################################
 gem 'puma', '~> 3.0'
 
+##################################
+# Alces utility gems
+##################################
+source 'http://gems.alces-software.com' do
+  gem                  'alces-tools', '~> 0.12.0.a' #, local: 'master'
+end
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
