@@ -19,6 +19,7 @@ end
 ##################################
 # The bits of Ruby-on-Rails we use
 ##################################
+gem                'activemodel', rails_version
 gem                'activesupport', rails_version
 gem                 'actionmailer', rails_version
 gem                   'actionpack', rails_version
