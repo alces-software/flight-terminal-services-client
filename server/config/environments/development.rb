@@ -44,4 +44,8 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.alces.wait_for_arn_duration = Integer(ENV['WAIT_FOR_ARN_DURATION']) rescue 120
+  config.alces.default_key_pair = ENV['DEFAULT_KEY_PAIR']
+  config.alces.default_region = ENV['DEFAULT_REGION']
 end

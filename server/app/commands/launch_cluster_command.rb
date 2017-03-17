@@ -29,10 +29,6 @@ require 'tmpdir'
 class LaunchClusterCommand
   class LaunchFailed < RuntimeError; end
 
-  # How long we will wait for the stack's ARN to become available before
-  # giving up.
-  WAIT_FOR_ARN_DURATION = Integer(ENV['WAIT_FOR_ARN_DURATION']) rescue 120
-
   attr_reader :launch_thread
 
   delegate :arn, :stdout, :stderr, to: :@run_fly_cmd
@@ -77,11 +73,12 @@ class LaunchClusterCommand
   def wait_for_arn
     # Wait until the arn is available.  The arn is needed to point the user at
     # the cloudformation console page for the stack.
+    max_wait = Rails.configuration.alces.wait_for_arn_duration
     slept = 0
     while @run_fly_cmd.waiting_for_arn?
       Rails.logger.debug("Waiting for stack arn to become available. " +
-                         "Waited #{slept} of max #{WAIT_FOR_ARN_DURATION} seconds.")
-      if slept > WAIT_FOR_ARN_DURATION
+                         "Waited #{slept} of max #{max_wait} seconds.")
+      if slept > max_wait
         raise LaunchFailed,
           "arn not available after #{count} seconds\n#{@run_fly_cmd.stderr}"
       end
