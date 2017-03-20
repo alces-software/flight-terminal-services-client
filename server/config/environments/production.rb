@@ -71,4 +71,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.alces.wait_for_arn_duration = Integer(ENV['WAIT_FOR_ARN_DURATION']) rescue 120
+  config.alces.default_key_pair = ENV['DEFAULT_KEY_PAIR']
+  config.alces.default_region = ENV['DEFAULT_REGION']
 end

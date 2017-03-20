@@ -20,10 +20,10 @@ class ClusterLaunchConfig
   attr_accessor :spec
 
   def region
-    @region || ENV['DEFAULT_REGION']
+    @region || Rails.configuration.alces.default_region
   end
 
   def key_pair
-    @key_pair || ENV['DEFAULT_KEY_PAIR']
+    @key_pair || Rails.configuration.alces.default_key_pair
   end
 end

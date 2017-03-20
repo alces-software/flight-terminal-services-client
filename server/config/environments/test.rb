@@ -39,4 +39,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.alces.wait_for_arn_duration = Integer(ENV['WAIT_FOR_ARN_DURATION']) rescue 120
+  config.alces.default_key_pair = ENV['DEFAULT_KEY_PAIR']
+  config.alces.default_region = ENV['DEFAULT_REGION']
 end
