@@ -16,6 +16,6 @@ export const clusterSpecShape = PropTypes.shape({
   }),
   fly: PropTypes.shape({
     args: PropTypes.array,
-    parameterDirectory: PropTypes.object.isRequired,
+    parameterDirectoryOverrides: PropTypes.object.isRequired,
   }),
 });

@@ -11,7 +11,7 @@
       "args": [
         "--solo"
       ],
-      "parameterDirectory": {
+      "parameterDirectoryOverrides": {
         "solo": {
           "AutoscalingPolicy": "disabled",
           "ComputeSpotPrice": "0.3",
@@ -31,7 +31,7 @@
       "args": [
         "--solo"
       ],
-      "parameterDirectory": {
+      "parameterDirectoryOverrides": {
         "solo": {
           "AutoscalingPolicy": "enabled",
           "ComputeSpotPrice": "0.3",
@@ -51,7 +51,7 @@
       "args": [
         "--solo"
       ],
-      "parameterDirectory": {
+      "parameterDirectoryOverrides": {
         "solo": {
           "AutoscalingPolicy": "enabled",
           "ComputeSpotPrice": "0",
@@ -71,7 +71,7 @@
       "args": [
         "--solo"
       ],
-      "parameterDirectory": {
+      "parameterDirectoryOverrides": {
         "solo": {
           "AutoscalingPolicy": "enabled",
           "ComputeSpotPrice": "0",
@@ -91,7 +91,7 @@
       "args": [
         "--solo"
       ],
-      "parameterDirectory": {
+      "parameterDirectoryOverrides": {
         "solo": {
           "AutoscalingPolicy": "enabled",
           "ComputeSpotPrice": "0",
@@ -112,7 +112,7 @@
       "args": [
         "--with-queue"
       ],
-      "parameterDirectory": {
+      "parameterDirectoryOverrides": {
         "cluster-compute": {
           "AutoscalingPolicy": "enabled",
           "ComputeSpotPrice": "0.3",
