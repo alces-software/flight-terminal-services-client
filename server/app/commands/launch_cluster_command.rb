@@ -101,7 +101,12 @@ class LaunchClusterCommand
   end
 
   def email_user
-    if @run_fly_cmd.failed?
+    return if @launch_config.email.blank?
+
+    if @run_fly_cmd.failed? && arn?
+      # Launching the cluster failed and we've got far enough to have
+      # determined the arn for the cluster.  We've most likely alread sent a
+      # response to the user-agent, so let's send a follow up email.
       ClustersMailer.failed(@launch_config, @run_fly_cmd.stderr, arn).
         deliver_now
     else
