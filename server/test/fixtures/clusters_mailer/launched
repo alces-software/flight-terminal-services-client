@@ -1,0 +1,64 @@
+Hi,
+
+Your cluster "my-cluster" is now running and available for use.  You
+can find details about your cluster including how to access it below.
+
+Cluster details:
+
+Administrator username: alces
+IP address: 34.251.133.40
+Key pair: aws_ireland
+Access URL: http://ec2-34-251-133-40.eu-west-1.compute.amazonaws.com
+UUID: b0ed0450-08b7-11e7-ad42-50faeb5cc8d2
+Token: NDM4OTE5ZTAtZDY5Ni01
+
+
+Access via:
+
+	ssh alces@34.251.133.40
+
+
+The following resources have been created:
+
+ ✓ MasterIAMRole
+ ✓ DHCPOptions
+ ✓ ReadyHandle
+ ✓ FlightVPC
+ ✓ PlacementGroup
+ ✓ Gateway
+ ✓ ReadyCondition
+ ✓ ComputeIAMRole
+ ✓ MasterIAMProfile
+ ✓ MasterBucketPolicy
+ ✓ ComputeIAMProfile
+ ✓ ComputeBucketPolicy
+ ✓ PubRouteTable
+ ✓ PubNetAcl
+ ✓ PrvNetAcl
+ ✓ PubSubnet
+ ✓ PrvRouteTable
+ ✓ GatewayAssoc
+ ✓ PubNetInternetRoute
+ ✓ PrvNetAclAllowInboundAny
+ ✓ PrvNetAclAllowOutboundPub
+ ✓ PrvNetAclAllowInboundPub
+ ✓ PubNetAclAllowOutboundPrv
+ ✓ PubNetAclAllowOutboundAny
+ ✓ PrvNetAclRejectOutboundVPC
+ ✓ PubNetAclRejectInboundVPC
+ ✓ PubNetAclRejectOutboundVPC
+ ✓ PrvNetAclRejectInboundVPC
+ ✓ PubNetAclAllowInboundPrv
+ ✓ PubNetAclAllowInboundAny
+ ✓ PrvNetAclAllowOutboundAny
+ ✓ MasterSG
+ ✓ ComputeSG
+ ✓ PrvSubnet
+ ✓ PubRouteAssoc
+ ✓ PubNetAclAssoc
+ ✓ PrvRouteAssoc
+ ✓ PrvNetAclAssoc
+ ✓ FlightMaster
+ ✓ ComputeGroupConfig
+ ✓ PrvRoute
+ ✓ FlightComputeGroup

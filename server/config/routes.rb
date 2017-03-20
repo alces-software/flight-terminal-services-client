@@ -7,6 +7,13 @@
 #==============================================================================
 
 Rails.application.routes.draw do
+  get '/' => (lambda do |req|
+    [200, {}, [
+      'XXX redirect to react app in dev.',
+      'XXX server html file in prod',
+    ]]
+  end), as: :root
+
   post 'clusters/launch'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
