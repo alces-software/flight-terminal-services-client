@@ -1,0 +1,27 @@
+<%#
+  Copyright (C) 2017 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+
+Hi,
+
+Unfortunately, your cluster "<%= @cluster_name %>" failed to launch.  You can
+view the error message below.  If this problem continues, please contact
+< support@alces-flight.com >.
+
+You should visit your cluster's AWS cloudformation page < <%=
+@cloudformation_url %> > and terminate it.
+
+Error message:
+
+<%= @stderr %>
+
+<% note do %>
+  You're receiving this email because you have started a cluster with Alces
+  Launch, and that cluster is now ready for use.
+<% end %>
+
+<%= render 'shared/contact_us' %>

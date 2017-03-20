@@ -1,0 +1,31 @@
+<%#
+  Copyright (C) 2017 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+
+Hi,
+
+Your cluster "<%= @cluster_name %>" is now running and available for use.  You
+can find details about your cluster including how to access it below.
+
+Cluster details:
+
+<%= @cluster_details %>
+
+Access via:
+
+<%= @access_details %>
+
+The following resources have been created:
+
+<%= @resources %>
+
+<% note do %>
+  You're receiving this email because you have started a cluster with Alces
+  Launch, and that cluster is now ready for use.
+<% end %>
+
+<%= render 'shared/contact_us' %>

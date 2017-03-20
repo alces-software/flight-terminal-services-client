@@ -37,6 +37,13 @@ gem 'sqlite3'
 gem 'puma', '~> 3.0'
 
 ##################################
+# Utility
+##################################
+# gem                      'lograge', '~> 0.4.1'
+# alces version to depend on railties rather than rails
+gem                 'roadie-rails', '>=  1.0.5', source: 'http://rubygems.org'
+
+##################################
 # Alces utility gems
 ##################################
 source 'http://gems.alces-software.com' do
@@ -68,6 +75,7 @@ end
 group :development do
   gem 'listen', '~> 3.0.5'
   gem 'foreman'
+  gem 'letter_opener', '~>  1.4.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

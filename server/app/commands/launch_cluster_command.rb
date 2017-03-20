@@ -101,13 +101,12 @@ class LaunchClusterCommand
   end
 
   def email_user
-    processed_output = ProcessOutputCommand.new(@run_fly_cmd.stdout).perform
-
-    Rails.logger.info "Email #{@launch_config.email} with below"
-    Rails.logger.info @run_fly_cmd.stdout
-    Rails.logger.info '----'
-    Rails.logger.info @run_fly_cmd.stderr
-    Rails.logger.info '----'
-    Rails.logger.info processed_output
+    if @run_fly_cmd.failed?
+      ClustersMailer.failed(@launch_config, @run_fly_cmd.stderr, arn).
+        deliver_now
+    else
+      ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
+        deliver_now
+    end
   end
 end
