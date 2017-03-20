@@ -16,22 +16,32 @@ const propTypes = {
   value: PropTypes.string,
 };
 
-const ClusterEmail = ({ error, id, onChange, value }) => (
-  <div>
-    <Input
-      autofocus
-      error={error}
-      help="If you enter your email address we will send you an email when
-      your cluster is available."
-      id={`${id}-clusterEmail`}
-      name="email"
-      onChange={onChange}
-      optional
-      placeholder="Enter your email address"
-      value={value}
-    />
-  </div>
-);
+class ClusterEmail extends React.Component {
+  blur() {
+    this.input.blur();
+  }
+
+  render() {
+    const { error, id, onChange, value } = this.props;
+    return (
+      <div>
+        <Input
+          ref={(el) => { this.input = el; }}
+          autofocus
+          error={error}
+          help="If you enter your email address we will send you an email when
+          your cluster is available."
+          id={`${id}-clusterEmail`}
+          name="email"
+          onChange={onChange}
+          optional
+          placeholder="Enter your email address"
+          value={value}
+        />
+      </div>
+    );
+  }
+}
 
 ClusterEmail.propTypes = propTypes;
 

@@ -128,9 +128,8 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleSubmit = (event) => {
-    // XXX Need to remove focus from email input too.  Calling `blur()` on the
-    // input will do the trick.
     event.preventDefault();
+    this.launchForm.blurEmailField();
     this.setState({ submitting: true });
 
     return this.sendLaunchRequest()

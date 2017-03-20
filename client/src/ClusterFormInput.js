@@ -49,6 +49,10 @@ class ClusterFormInput extends React.Component {
     return this.props.error;
   }
 
+  blur() {
+    this.inputEl.blur();
+  }
+
   render() {
     const { id, placeholder } = this.props;
     return (
