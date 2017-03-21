@@ -5,9 +5,18 @@ import ClusterLaunchedModal from '../ClusterLaunchedModal';
 
 storiesOf('ClusterLaunchedModal', module)
   .add('with email', () => (
-    <ClusterLaunchedModal show clusterName="clusteryMcClusterFace" email="me@example.com" />
+    <ClusterLaunchedModal
+      show
+      onHide={() => {}}
+      clusterName="clusteryMcClusterFace"
+      email="me@example.com"
+    />
   ))
   .add('without email', () => (
-    <ClusterLaunchedModal show clusterName="mooselooseaboutthishoose" />
+    <ClusterLaunchedModal
+      show
+      onHide={() => {}}
+      clusterName="mooselooseaboutthishoose"
+    />
   ));
 
