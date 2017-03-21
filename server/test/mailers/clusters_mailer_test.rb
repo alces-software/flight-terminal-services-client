@@ -1,6 +1,20 @@
 require 'test_helper'
 
 class ClustersMailerTest < ActionMailer::TestCase
+  test "launching" do
+    launch_config = ClusterLaunchConfig.new(
+      email: 'me@example.com',
+      name: 'my-cluster',
+    )
+    arn = 'arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a'
+
+    mail = ClustersMailer.launching(launch_config, arn)
+    assert_equal "Launching cluster #{launch_config.name}", mail.subject
+    assert_equal [launch_config.email], mail.to
+    assert_equal ["launch@alces-flight.com"], mail.from
+
+    assert_equal read_fixture('launching').join, mail.body.to_s
+  end
   test "launched" do
     launch_config = ClusterLaunchConfig.new(
       email: 'me@example.com',
@@ -13,8 +27,7 @@ class ClustersMailerTest < ActionMailer::TestCase
     assert_equal [launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
-    # assert_equal read_fixture('launched').join, mail.body.to_s
-    assert_match read_fixture('launched').join, mail.body.to_s
+    assert_equal read_fixture('launched').join, mail.body.to_s
   end
 
   test "failed" do
@@ -30,7 +43,6 @@ class ClustersMailerTest < ActionMailer::TestCase
     assert_equal [launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
-    # assert_equal read_fixture('failed').join, mail.body.to_s
-    assert_match read_fixture('failed').join, mail.body.to_s
+    assert_equal read_fixture('failed').join, mail.body.to_s
   end
 end

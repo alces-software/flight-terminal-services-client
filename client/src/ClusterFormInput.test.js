@@ -71,11 +71,33 @@ describe('validation state', () => {
   });
 });
 
-xit('focuses the input if props.autofocus is set', () => {
-  // This test is excluded as enzyme doesn't currently support ':focus'.
+it('focuses the input if props.autofocus is set', () => {
   const wrapper = mount(
     <ClusterFormInput id="" name="" placeholder="" autofocus />
   );
+  const inputEl = wrapper.get(0).inputEl;
 
-  expect(wrapper).toMatchSelector(':focus');
+  expect(inputEl === document.activeElement).toBe(true);
+});
+
+it('does not focus the input if props.autofocus is not set', () => {
+  const wrapper = mount(
+    <ClusterFormInput id="" name="" placeholder="" autofocus={false} />
+  );
+  const inputEl = wrapper.get(0).inputEl;
+
+  expect(inputEl === document.activeElement).toBe(false);
+});
+
+it('#blur() blurs the input', () => {
+  const wrapper = mount(
+    <ClusterFormInput id="" name="" placeholder="" autofocus />
+  );
+  const inputEl = wrapper.get(0).inputEl;
+  const instance = wrapper.instance();
+  expect(inputEl === document.activeElement).toBe(true);
+
+  instance.blur();
+
+  expect(inputEl === document.activeElement).toBe(false);
 });
