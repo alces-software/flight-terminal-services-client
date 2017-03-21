@@ -11,6 +11,7 @@ import FlipCard from 'react-flipcard';
 import Card from './Card';
 import FooterIcons from './ClusterSpecCardFooterIcons';
 import ClusterLaunchFormContainer from './ClusterLaunchFormContainer';
+import CardOverlay from './ClusterSpecCardOverlay';
 import { clusterSpecShape } from './propTypes';
 import './styles/ClusterSpecCard.scss';
 
@@ -41,7 +42,7 @@ const ClusterSpecCard = ({
         titleSize="large"
       >
         <p className="ClusterSpecCard-body">{clusterSpec.ui.body}</p>
-        <button onClick={showBack} >launch</button>
+        <CardOverlay showLaunchForm={showBack} />
         <FooterIcons clusterSpec={clusterSpec} />
       </Card>
       <Card

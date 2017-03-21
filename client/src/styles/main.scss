@@ -14,5 +14,9 @@
 
 @import "./inbox";
 
+/* Mixins and extended classes used by UI components */
+@import "./cardOverlay";
+
 /* UI components */
 @import "./card";
+@import "./clusterSpecCardOverlay";
