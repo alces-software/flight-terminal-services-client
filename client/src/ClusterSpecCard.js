@@ -34,6 +34,7 @@ const ClusterSpecCard = ({
     <FlipCard disabled flipped={flipped} onKeyDown={onKeyDown} >
       <Card
         className="clusterSpecCard"
+        onClick={showBack}
         subtitle={clusterSpec.ui.subtitle}
         subtitleSize="medium"
         title={clusterSpec.ui.title}
