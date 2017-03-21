@@ -1,3 +1,7 @@
 SECTION {
     margin: 70px 0;
 }
+
+BODY.modal-open {
+    overflow: visible !important;
+}
