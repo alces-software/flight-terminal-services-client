@@ -9,7 +9,7 @@ import React from 'react';
 import invariant from 'invariant';
 
 import Card from './Card';
-import { clusterSpecCostShape } from './propTypes';
+import { clusterSpecCostShape } from '../utils/propTypes';
 
 const propTypes = {
   costs: clusterSpecCostShape,

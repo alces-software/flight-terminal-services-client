@@ -11,7 +11,7 @@ import { shallow } from 'enzyme';
 
 import { Icon as FlightIcon } from 'flight-common';
 import Icon from './Icon';
-import { withSilencedPropTypeWarnings } from './testUtils';
+import { withSilencedPropTypeWarnings } from '../testUtils';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');

@@ -7,8 +7,8 @@
  *===========================================================================*/
 import React from 'react';
 
-import { clusterSpecShape } from './propTypes';
-import ClusterSpecCard from './ClusterSpecCard';
+import { clusterSpecShape } from '../utils/propTypes';
+import ClusterSpecCard from '../components/ClusterSpecCard';
 
 export default class ClusterSpecCardContainer extends React.Component {
   static propTypes = {

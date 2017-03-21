@@ -9,7 +9,7 @@ import React, { PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
 import { Icon } from 'flight-common';
 
-import './styles/Box.scss';
+import '../styles/Box.scss';
 
 const propTypes = {
   children: PropTypes.node.isRequired,

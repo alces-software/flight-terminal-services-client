@@ -10,10 +10,10 @@ import FlipCard from 'react-flipcard';
 
 import Card from './Card';
 import FooterIcons from './ClusterSpecCardFooterIcons';
-import ClusterLaunchFormContainer from './ClusterLaunchFormContainer';
+import ClusterLaunchFormContainer from '../containers/ClusterLaunchFormContainer';
 import CardOverlay from './ClusterSpecCardOverlay';
-import { clusterSpecShape } from './propTypes';
-import './styles/ClusterSpecCard.scss';
+import { clusterSpecShape } from '../utils/propTypes';
+import '../styles/ClusterSpecCard.scss';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,

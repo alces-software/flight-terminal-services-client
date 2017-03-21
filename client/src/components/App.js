@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { Component } from 'react';
-import './styles/main.scss';
+import '../styles/main.scss';
 import { CookieBanner, Footer, Header } from 'flight-common';
 
 import ClusterSpecCards from './ClusterSpecCards';

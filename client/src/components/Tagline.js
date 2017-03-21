@@ -8,7 +8,7 @@
 import React from 'react';
 // import { Grid, Row, Col } from 'react-bootstrap';
 
-import './styles/Tagline.scss';
+import '../styles/Tagline.scss';
 import ScrollButton from './ScrollButton';
 
 const Tagline = () => (

@@ -9,12 +9,12 @@ import React from 'react';
 
 import Card from './Card';
 import ClusterSpecCostFooterIcon from './ClusterSpecCostFooterIcon';
-import { clusterSpecShape } from './propTypes';
+import { clusterSpecShape } from '../utils/propTypes';
 
-import autoScalingIcon from './icons/Compute_AmazonEC2_AutoScaling.png';
-import spotInstanceIcon from './icons/Compute_AmazonEC2_Spotinstance.png'
-import depotToIcon from './utils/depotToIcon';
-import schedulerToIcon from './utils/schedulerToIcon';
+import autoScalingIcon from '../icons/Compute_AmazonEC2_AutoScaling.png';
+import spotInstanceIcon from '../icons/Compute_AmazonEC2_Spotinstance.png'
+import depotToIcon from '../utils/depotToIcon';
+import schedulerToIcon from '../utils/schedulerToIcon';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,

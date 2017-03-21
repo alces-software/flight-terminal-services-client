@@ -9,9 +9,9 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import { Panel } from 'react-bootstrap';
 
-import ClusterSpecCard from './ClusterSpecCardContainer';
-import clusterSpecs from './clusterSpecs.json';
-import './styles/ClusterSpecCards.scss';
+import ClusterSpecCard from '../containers/ClusterSpecCardContainer';
+import clusterSpecs from '../data/clusterSpecs.json';
+import '../styles/ClusterSpecCards.scss';
 
 const processedClusterSpecs = clusterSpecs.map(clusterSpec => {
   const overridesMap = clusterSpec.fly.parameterDirectoryOverrides || {};

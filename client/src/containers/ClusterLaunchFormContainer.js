@@ -7,10 +7,10 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 
-import { clusterSpecShape } from './propTypes';
-import ClusterLaunchForm from './ClusterLaunchForm';
-import ClusterLaunchedModal from './ClusterLaunchedModal';
-import ClusterErrorModal from './ClusterErrorModal';
+import { clusterSpecShape } from '../utils/propTypes';
+import ClusterLaunchForm from '../components/ClusterLaunchForm';
+import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
+import ClusterErrorModal from '../components/ClusterErrorModal';
 
 class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {

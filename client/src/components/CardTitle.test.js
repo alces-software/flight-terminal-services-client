@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 
 import CardTitle from './CardTitle';
-import { withSilencedPropTypeWarnings } from './testUtils';
+import { withSilencedPropTypeWarnings } from '../testUtils';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');

@@ -8,7 +8,7 @@
 import React, { PropTypes } from 'react';
 import { Icon } from 'flight-common';
 
-import { clusterSpecShape } from './propTypes';
+import { clusterSpecShape } from '../utils/propTypes';
 import Credentials from './ClusterLaunchCredentials';
 import ClusterName from './ClusterLaunchClusterName';
 import Email from './ClusterLaunchEmail';

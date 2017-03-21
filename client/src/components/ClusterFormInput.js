@@ -8,7 +8,7 @@
 import React, { PropTypes } from 'react';
 import { Label, FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
 
-import './styles/ClusterFormInput.scss';
+import '../styles/ClusterFormInput.scss';
 
 class ClusterFormInput extends React.Component {
   static propTypes = {
