@@ -56,6 +56,7 @@ class ClusterLaunchForm extends React.Component {
     {
       render: () => (
         <Email
+          ref={(el) => { this.emailPage = el; }}
           id={this.props.clusterSpec.ui.title} 
           error={this.props.errors.email}
           value={this.props.values.email}
@@ -64,6 +65,10 @@ class ClusterLaunchForm extends React.Component {
       valid: () => !this.props.errors.email,
     },
   ];
+
+  blurEmailField() {
+    this.emailPage && this.emailPage.blur();
+  }
 
   render() {
     return (

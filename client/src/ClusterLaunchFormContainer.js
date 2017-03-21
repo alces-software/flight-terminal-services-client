@@ -10,6 +10,7 @@ import React from 'react';
 import { clusterSpecShape } from './propTypes';
 import ClusterLaunchForm from './ClusterLaunchForm';
 import ClusterLaunchedModal from './ClusterLaunchedModal';
+import ClusterErrorModal from './ClusterErrorModal';
 
 class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {
@@ -29,7 +30,8 @@ class ClusterLaunchFormContainer extends React.Component {
 
   state = {
     currentPageIndex: 0,
-    showModal: false,
+    showErrorModal: false,
+    showLaunchedModal: false,
     submitting: false,
     values: this.initialValues,
     errors: {
@@ -59,31 +61,79 @@ class ClusterLaunchFormContainer extends React.Component {
     });
   }
 
-  handleSubmit = (event) => {
-    // XXX Need to remove focus from email input too.  Calling `blur()` on the
-    // input will do the trick.
-    event.preventDefault();
-    this.setState({ submitting: true });
-    console.log('this.state.values:', this.state.values);  // eslint-disable-line no-console
-    const promise = new Promise((resolve) => {
-      setTimeout(() => {
-        const errors = this.validate(this.initialValues);
-        this.setState({
-          submitting: false,
-          showModal: true,
-          values: this.initialValues,
-          currentPageIndex: 0,
-          errors: errors,
-          modalProps: {
-            clusterName: this.state.values.clusterName,
-            cloudformationUrl: 'https://eu-west-1.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=arn:aws:cloudformation:eu-west-1:700366075446:stack%2Fflight-cluster-bens-bio-cluster-6%2F43147250-08d1-11e7-99ac-500c4240649a',
-            email: this.state.values.email,
-          },
+  sendLaunchRequest() {
+    return fetch('/clusters/launch', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        fly: this.props.clusterSpec.fly,
+        cluster: {
+          name: this.state.values.clusterName,
+          email: this.state.values.email,
+          access_key: this.state.values.awsAccessKeyId,
+          secret_key: this.state.values.awsSecrectAccessKey,
+        },
+      })
+    })
+  }
+
+  handleLaunchResponse = (response) => {
+    const errors = this.validate(this.initialValues);
+    const newState = {
+      submitting: false,
+      values: this.initialValues,
+      currentPageIndex: 0,
+      errors: errors,
+    };
+
+    if (response.ok) {
+      return response.json()
+        .then((json) => {
+          const modalProps = {
+            clusterName: json.cluster_name,
+            cloudformationUrl: json.cloudformation_url,
+            email: json.email,
+          };
+          this.setState({
+            ...newState,
+            modalProps: modalProps,
+            showLaunchedModal: true,
+          });
+        })
+        .catch(() => {
+          const modalProps = {
+            error: 'Unexpected error',
+          };
+          this.setState({
+            ...newState,
+            modalProps: modalProps,
+            showErrorModal: true,
+          });
         });
-        resolve();
-      }, 2000);
-    });
-    return promise;
+    } else {
+      return response.json().then((json) => {
+        const modalProps = {
+          error: json
+        };
+        this.setState({
+          ...newState,
+          modalProps: modalProps,
+          showErrorModal: true,
+        });
+      });
+    }
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.launchForm.blurEmailField();
+    this.setState({ submitting: true });
+
+    return this.sendLaunchRequest()
+      .then(this.handleLaunchResponse);
   }
 
   handleShowNextPage = () => {
@@ -95,7 +145,7 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   hideModal = () => {
-    this.setState({ showModal: false });
+    this.setState({ showLaunchedModal: false, showErrorModal: false });
   }
 
   validate(allValues) {
@@ -123,14 +173,20 @@ class ClusterLaunchFormContainer extends React.Component {
   render() {
     return (
       <div>
+        <ClusterErrorModal
+          {...this.state.modalProps}
+          show={this.state.showErrorModal}
+          onHide={this.hideModal}
+        />
         <ClusterLaunchedModal
           {...this.state.modalProps}
-          show={this.state.showModal}
+          show={this.state.showLaunchedModal}
           onHide={this.hideModal}
         />
         <ClusterLaunchForm
           {...this.state}
           {...this.props}
+          ref={(el) => { this.launchForm = el; }}
           onChange={this.handleFormChange}
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}

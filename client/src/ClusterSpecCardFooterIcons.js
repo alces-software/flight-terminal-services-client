@@ -20,7 +20,7 @@ const propTypes = {
 };
 
 const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
-  const depotIcon = depotToIcon(clusterSpec.ui.preloadedSoftware);
+  const depotIcon = depotToIcon(clusterSpec.ui.preloadSoftware);
   const schedulerIcon = schedulerToIcon(clusterSpec.ui.scheduler);
 
   return (

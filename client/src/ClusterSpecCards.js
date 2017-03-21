@@ -14,19 +14,19 @@ import clusterSpecs from './clusterSpecs.json';
 import './styles/ClusterSpecCards.scss';
 
 const processedClusterSpecs = clusterSpecs.map(clusterSpec => {
-  const parameterDirectory = clusterSpec.fly.parameterDirectory;
-  const pfs = Object.keys(parameterDirectory).map(key => parameterDirectory[key]);
+  const overridesMap = clusterSpec.fly.parameterDirectoryOverrides || {};
+  const overrides = Object.keys(overridesMap).map(key => overridesMap[key]);
 
-  const autoscaling = pfs.some(pf => pf.AutoscalingPolicy === 'enabled');
-  const preloadedSoftware = (pfs.find(pf => pf.PreloadedSoftware != null) || {} ).PreloadedSoftware;
-  const usesSpot = pfs.some(pf => pf.ComputeSpotPrice != null && pf.ComputeSpotPrice !== '0');
-  const scheduler = pfs.find(pf => pf.SchedulerType != null).SchedulerType;
+  const autoscaling = overrides.some(o => o.AutoscalingPolicy === 'enabled');
+  const preloadSoftware = (overrides.find(o => o.PreloadSoftware != null) || {} ).PreloadSoftware;
+  const usesSpot = overrides.some(o => o.ComputeSpotPrice != null && o.ComputeSpotPrice !== '0');
+  const scheduler = (overrides.find(o => o.SchedulerType != null) || {}).SchedulerType;
 
   return {
     ...clusterSpec,
     ui: {
       autoscaling,
-      preloadedSoftware,
+      preloadSoftware,
       scheduler,
       usesSpot,
       ...clusterSpec.ui,

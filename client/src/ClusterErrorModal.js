@@ -9,14 +9,14 @@ import React, { PropTypes } from 'react';
 import { StandardModal } from 'flight-common';
 
 const propTypes = {
-  cloudformationUrl: PropTypes.string,
-  clusterName: PropTypes.string,
-  email: PropTypes.string,
+  error: PropTypes.shape({
+    exception: PropTypes.string.isRequired,
+  }),
   onHide: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
 }
 
-const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, show }) => (
+const ClusterErrorModal = ({ error, onHide, show }) => (
   <StandardModal
     bsSize="large"
     className="flight-packageDetailModal"
@@ -25,25 +25,17 @@ const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, sho
     title="Your cluster is launching"
   >
     <p>
-      Your cluster, <em>{clusterName}</em>, is being launched by AWS.  You can
-      {' '}<a
-        href={cloudformationUrl}
-        target="_blank"
-        rel="noopener noreferrer" 
-      >
-        view the progress
-      </a>{' '} on the AWS cloudformation console.
+      It was not possible to launch your cluster.  The error message reported
+      was:
     </p>
-    {
-      email ? (
-        <p>
-          We will send you an email when your cluster has finished launching.
-        </p>)
-        : null
-    }
+    <pre>
+      <code>
+        {error && error.exception}
+      </code>
+    </pre>
   </StandardModal>
 );
 
-ClusterLaunchModal.propTypes = propTypes;
+ClusterErrorModal.propTypes = propTypes;
 
-export default ClusterLaunchModal;
+export default ClusterErrorModal;
