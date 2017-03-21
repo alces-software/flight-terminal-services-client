@@ -40,7 +40,10 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
           <Card.FooterIcon
             iconSrc={spotInstanceIcon}
             text="Spot instances"
-            tooltip="This cluster uses spot instances"
+            tooltip={<span>
+              This cluster uses spot instances with a reserve price of
+              {' '}{clusterSpec.ui.spotPrice}
+            </span>}
           /> :
           null
       }
