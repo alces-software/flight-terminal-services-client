@@ -19,6 +19,7 @@ class ClusterLaunchForm extends React.Component {
     clusterSpec: clusterSpecShape.isRequired,
     currentPageIndex: PropTypes.number.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
@@ -76,6 +77,7 @@ class ClusterLaunchForm extends React.Component {
         className="ClusterLaunchForm"
         currentPageIndex={this.props.currentPageIndex}
         handleSubmit={this.props.handleSubmit}
+        onCancel={this.props.onCancel}
         onShowNextPage={this.props.onShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}
         pages={this.pages}

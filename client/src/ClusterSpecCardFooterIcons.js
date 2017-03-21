@@ -8,6 +8,7 @@
 import React from 'react';
 
 import Card from './Card';
+import ClusterSpecCostFooterIcon from './ClusterSpecCostFooterIcon';
 import { clusterSpecShape } from './propTypes';
 
 import autoScalingIcon from './icons/Compute_AmazonEC2_AutoScaling.png';
@@ -39,7 +40,10 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
           <Card.FooterIcon
             iconSrc={spotInstanceIcon}
             text="Spot instances"
-            tooltip="This cluster uses spot instances"
+            tooltip={<span>
+              This cluster uses spot instances with a reserve price of
+              {' '}{clusterSpec.ui.spotPrice}
+            </span>}
           /> :
           null
       }
@@ -59,6 +63,11 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
             text={depotIcon.depotText}
             tooltip={<span>This cluster has {depotIcon.depotText} software preinstalled</span>}
           /> :
+          null
+      }
+      {
+        clusterSpec.costs ?
+          <ClusterSpecCostFooterIcon costs={clusterSpec.costs} /> :
           null
       }
     </Card.FooterIcons>

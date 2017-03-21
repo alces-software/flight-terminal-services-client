@@ -104,7 +104,7 @@ class LaunchClusterCommand
   def send_launching_email
     return if @launch_config.email.blank?
 
-    ClustersMailer.launched(@launch_config, arn).
+    ClustersMailer.launching(@launch_config, arn).
       deliver_now
   end
 

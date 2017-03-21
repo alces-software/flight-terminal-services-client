@@ -7,6 +7,18 @@
  *===========================================================================*/
 import { PropTypes } from 'react';
 
+const costShape = PropTypes.shape({
+  poundsPerHour: PropTypes.number,
+  text: PropTypes.string,
+  tooltip: PropTypes.string,
+});
+
+export const clusterSpecCostShape = PropTypes.shape({
+  average: costShape,
+  estimated: costShape,
+  max: costShape,
+});
+
 export const clusterSpecShape = PropTypes.shape({
   ui: PropTypes.shape({
     body: PropTypes.string.isRequired,
@@ -14,6 +26,7 @@ export const clusterSpecShape = PropTypes.shape({
     subtitle: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }),
+  costs: clusterSpecCostShape,
   fly: PropTypes.shape({
     args: PropTypes.array,
     parameterDirectoryOverrides: PropTypes.object.isRequired,

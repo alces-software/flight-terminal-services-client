@@ -22,11 +22,11 @@ const ClusterErrorModal = ({ error, onHide, show }) => (
     className="flight-packageDetailModal"
     onHide={onHide}
     show={show}
-    title="Your cluster is launching"
+    title="Your cluster failed to launch"
   >
     <p>
-      It was not possible to launch your cluster.  The error message reported
-      was:
+      Unfortunately, there was an error whilst trying to launch your cluster.
+      The error message reported was:
     </p>
     <pre>
       <code>

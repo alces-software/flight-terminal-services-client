@@ -4,8 +4,14 @@
       "title": "Tiny slurm cluster",
       "subtitle": "Two nodes. Spot instances. SGE scheduler.",
       "body": "A fixed size cluster of 2 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the Slurm scheduler.",
-      "logoUrl": "http://alces-flight.com/images/logo.png",
-      "cost": 10
+      "logoUrl": "http://alces-flight.com/images/logo.png"
+    },
+    "costs": {
+      "estimated": {
+        "pricePerHour": 1,
+        "text": "Est £1 / hour",
+        "tooltip": "The estimated cost for this cluster is £1 per hour."
+      }
     },
     "fly": {
       "args": [
@@ -27,6 +33,13 @@
       "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
       "logoUrl": "http://alces-flight.com/images/logo.png"
     },
+    "costs": {
+      "max": {
+        "pricePerHour": 3,
+        "text": "Max £3 / hour",
+        "tooltip": "The maximum cost for this cluster is £3 per hour."
+      }
+    },
     "fly": {
       "args": [
         "--solo"
@@ -46,6 +59,13 @@
       "subtitle": "Autoscaling upto 16 nodes. Dedicated instances. SGE scheduler.",
       "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
       "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
+    },
+    "costs": {
+      "average": {
+        "pricePerHour": 4,
+        "text": "Avg £4 / hour",
+        "tooltip": "The average cost for this cluster is £4 per hour."
+      }
     },
     "fly": {
       "args": [
@@ -107,6 +127,13 @@
       "subtitle": "Autoscaling upto 16 nodes. Spot instances. SGE scheduler.",
       "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler, and comes with common Chemistry software preinstalled.",
       "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
+    },
+    "costs": {
+      "max": {
+        "pricePerHour": 5,
+        "text": "Max £5 / hour",
+        "tooltip": "The maximum cost for this cluster is £5 per hour."
+      }
     },
     "fly": {
       "args": [

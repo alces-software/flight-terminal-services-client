@@ -5,7 +5,7 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import { clusterSpecShape } from './propTypes';
 import ClusterLaunchForm from './ClusterLaunchForm';
@@ -15,6 +15,7 @@ import ClusterErrorModal from './ClusterErrorModal';
 class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
+    onCancel: PropTypes.func.isRequired,
   };
 
   componentDidMount() {

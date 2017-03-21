@@ -9,7 +9,7 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import { Panel } from 'react-bootstrap';
 
-import ClusterSpecCard from './ClusterSpecCard';
+import ClusterSpecCard from './ClusterSpecCardContainer';
 import clusterSpecs from './clusterSpecs.json';
 import './styles/ClusterSpecCards.scss';
 
@@ -20,6 +20,7 @@ const processedClusterSpecs = clusterSpecs.map(clusterSpec => {
   const autoscaling = overrides.some(o => o.AutoscalingPolicy === 'enabled');
   const preloadSoftware = (overrides.find(o => o.PreloadSoftware != null) || {} ).PreloadSoftware;
   const usesSpot = overrides.some(o => o.ComputeSpotPrice != null && o.ComputeSpotPrice !== '0');
+  const spotPrice = overrides.find(o => o.ComputeSpotPrice != null || {}).ComputeSpotPrice;
   const scheduler = (overrides.find(o => o.SchedulerType != null) || {}).SchedulerType;
 
   return {
@@ -29,6 +30,7 @@ const processedClusterSpecs = clusterSpecs.map(clusterSpec => {
       preloadSoftware,
       scheduler,
       usesSpot,
+      spotPrice,
       ...clusterSpec.ui,
     }
   };

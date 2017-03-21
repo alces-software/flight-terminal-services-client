@@ -24,17 +24,22 @@ const clusterSpec = {
   },
 };
 
+const commonProps = {
+  handleSubmit: () => {},
+  onCancel: () => {},
+  onShowNextPage: () => {},
+  onShowPreviousPage: () => {},
+};
+
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
     <ClusterLaunchForm
+      {...commonProps}
       clusterSpec={clusterSpec}
       currentPageIndex={0}
-      handleSubmit={() => {}}
       errors={{}}
       values={{}}
-      onShowNextPage={() => {}}
-      onShowPreviousPage={() => {}}
     />,
     div
   );
@@ -43,13 +48,11 @@ it('renders without crashing', () => {
 describe('pages render without crashing', () => {
   const wrapper = shallow(
     <ClusterLaunchForm
+      {...commonProps}
       clusterSpec={clusterSpec}
       currentPageIndex={0}
-      handleSubmit={() => {}}
       errors={{}}
       values={{}}
-      onShowNextPage={() => {}}
-      onShowPreviousPage={() => {}}
     />
   );
 
@@ -65,13 +68,11 @@ describe('pages render without crashing', () => {
 describe('pages validity', () => {
   const mkWrapper = (errors) => shallow(
     <ClusterLaunchForm
+      {...commonProps}
       clusterSpec={clusterSpec}
       currentPageIndex={0}
-      handleSubmit={() => {}}
       errors={errors}
       values={{}}
-      onShowNextPage={() => {}}
-      onShowPreviousPage={() => {}}
     />
   );
 
@@ -135,13 +136,11 @@ describe('pages validity', () => {
 it('#blurEmailField() blurs the email field', () => {
   const wrapper = mount(
     <ClusterLaunchForm
+      {...commonProps}
       clusterSpec={clusterSpec}
       currentPageIndex={2}
-      handleSubmit={() => {}}
       errors={{}}
       values={{}}
-      onShowNextPage={() => {}}
-      onShowPreviousPage={() => {}}
     />
   );
   const instance = wrapper.instance();
@@ -156,13 +155,11 @@ it('#blurEmailField() blurs the email field', () => {
 it('#blurEmailField() does not error if the email page is not displayed', () => {
   const wrapper = mount(
     <ClusterLaunchForm
+      {...commonProps}
       clusterSpec={clusterSpec}
       currentPageIndex={0}
-      handleSubmit={() => {}}
       errors={{}}
       values={{}}
-      onShowNextPage={() => {}}
-      onShowPreviousPage={() => {}}
     />
   );
   const instance = wrapper.instance();

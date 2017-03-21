@@ -14,6 +14,7 @@ class MultiPageForm extends React.Component {
     className: PropTypes.string,
     currentPageIndex: PropTypes.number,
     handleSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
     onShowNextPage: PropTypes.func,
     onShowPreviousPage: PropTypes.func,
     pages: PropTypes.arrayOf(PropTypes.shape({
@@ -40,6 +41,21 @@ class MultiPageForm extends React.Component {
     if (this.props.onShowPreviousPage) {
       this.props.onShowPreviousPage();
     }
+  }
+
+  renderCancelButton() {
+    if (this.props.onCancel) {
+      return (
+        <Button
+          className="pull-right"
+          key="cancelButton"
+          onClick={this.props.onCancel}
+        >
+          Cancel
+        </Button>
+      );
+    }
+    return null;
   }
 
   renderSubmitOrNextButton() {
@@ -82,6 +98,7 @@ class MultiPageForm extends React.Component {
           Previous
         </Button>
         {this.renderSubmitOrNextButton()}
+        {this.renderCancelButton()}
       </ButtonToolbar>
     );
   }
