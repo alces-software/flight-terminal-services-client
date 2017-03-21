@@ -1,0 +1,21 @@
+<%#
+  Copyright (C) 2017 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+
+Hi,
+
+Your cluster "<%= @cluster_name %>" is being launched by AWS.  You can view
+the progress on the AWS cloudformation console < <%= @cloudformation_url %> >.
+
+We will send you an email once your cluster has finished launching.
+
+<% note do %>
+  You're receiving this email because you have started a cluster with Alces
+  Launch.
+<% end %>
+
+<%= render 'shared/contact_us' %>

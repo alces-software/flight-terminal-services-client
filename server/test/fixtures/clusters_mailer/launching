@@ -3,19 +3,10 @@
 
 Hi,
 
-Unfortunately, your cluster "my-cluster" failed to launch.  You can
-view the error message below.  If this problem continues, please contact
-< support@alces-flight.com >.
+Your cluster "my-cluster" is being launched by AWS.  You can view
+the progress on the AWS cloudformation console < https://eu-west-1.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a >.
 
-You should visit your cluster's AWS cloudformation page
-< https://eu-west-1.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a > and terminate it.
-
-Error message:
-
-Error: ResourceNotReady: failed waiting for successful resource state
-caused by: ValidationError: Stack with id flight-cluster-bens-test does not exist
-	status code: 400, request id: bb637ed5-0d64-11e7-8e21-eb14435f0a96
-
+We will send you an email once your cluster has finished launching.
 
 
 Please don't hesitate to contact us at < support@alces-flight.com > if you
@@ -25,7 +16,7 @@ have any questions!
 -------------------------------------------------------------------------------
 
   You're receiving this email because you have started a cluster with Alces
-  Launch, and that cluster has failed to launch.
+  Launch.
 
   Add <launch@alces-flight.com> to your address book to ensure
   messages from Alces Flight Launch aren't marked as spam.

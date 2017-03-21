@@ -12,8 +12,8 @@ Unfortunately, your cluster "<%= @cluster_name %>" failed to launch.  You can
 view the error message below.  If this problem continues, please contact
 < support@alces-flight.com >.
 
-You should visit your cluster's AWS cloudformation page < <%=
-@cloudformation_url %> > and terminate it.
+You should visit your cluster's AWS cloudformation page
+< <%= @cloudformation_url %> > and terminate it.
 
 Error message:
 
@@ -21,7 +21,7 @@ Error message:
 
 <% note do %>
   You're receiving this email because you have started a cluster with Alces
-  Launch, and that cluster is now ready for use.
+  Launch, and that cluster has failed to launch.
 <% end %>
 
 <%= render 'shared/contact_us' %>

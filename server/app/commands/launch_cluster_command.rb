@@ -47,6 +47,7 @@ class LaunchClusterCommand
 
     run_launch_thread
     wait_for_arn
+    send_launching_email
 
     if @run_fly_cmd.failed?
       raise LaunchFailed, @run_fly_cmd.stderr
@@ -65,7 +66,7 @@ class LaunchClusterCommand
         Rails.logger.info "Launch thread raised exception #{$!}"
         raise LaunchFailed, "Launch thread failed: #{$!}"
       else
-        email_user
+        send_completed_email
       end
     end
   end
@@ -100,7 +101,14 @@ class LaunchClusterCommand
     )
   end
 
-  def email_user
+  def send_launching_email
+    return if @launch_config.email.blank?
+
+    ClustersMailer.launched(@launch_config, arn).
+      deliver_now
+  end
+
+  def send_completed_email
     return if @launch_config.email.blank?
 
     if @run_fly_cmd.failed? && arn?
