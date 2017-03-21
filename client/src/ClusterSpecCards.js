@@ -9,7 +9,7 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import { Panel } from 'react-bootstrap';
 
-import ClusterSpecCard from './ClusterSpecCard';
+import ClusterSpecCard from './ClusterSpecCardContainer';
 import clusterSpecs from './clusterSpecs.json';
 import './styles/ClusterSpecCards.scss';
 

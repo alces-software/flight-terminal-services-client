@@ -7,8 +7,7 @@
  *===========================================================================*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import ClusterLaunchFormContainer from './ClusterLaunchFormContainer';
+import ClusterSpecCardContainer from './ClusterSpecCardContainer';
 
 const clusterSpec = {
   ui: {
@@ -24,10 +23,6 @@ const clusterSpec = {
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(
-    <ClusterLaunchFormContainer clusterSpec={clusterSpec} onCancel={() => {}} />,
-    div
-  );
+  ReactDOM.render(<ClusterSpecCardContainer clusterSpec={clusterSpec} />, div);
 });
-
 

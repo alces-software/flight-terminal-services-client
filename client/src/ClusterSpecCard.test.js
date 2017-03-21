@@ -9,18 +9,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ClusterSpecCard from './ClusterSpecCard';
 
+const clusterSpec = {
+  ui: {
+    title: 'Some title',
+    subtitle: 'Some title',
+    body: 'Some content',
+    logoUrl: 'http://example.com/logo.png',
+    autoscaling: false,
+    usesSpot: true,
+    scheduler: "Slurm",
+  },
+};
+
+const commonProps = {
+  onCancel: () => {},
+  showBack: () => {},
+  showFront: () => {},
+}
+
 it('renders without crashing', () => {
-  const clusterSpec = {
-    ui: {
-      title: 'Some title',
-      subtitle: 'Some title',
-      body: 'Some content',
-      logoUrl: 'http://example.com/logo.png',
-      autoscaling: false,
-      usesSpot: true,
-      scheduler: "Slurm",
-    },
-  };
   const div = document.createElement('div');
-  ReactDOM.render(<ClusterSpecCard clusterSpec={clusterSpec}  />, div);
+  ReactDOM.render(
+    <ClusterSpecCard clusterSpec={clusterSpec} {...commonProps} flipped />,
+    div);
 });
