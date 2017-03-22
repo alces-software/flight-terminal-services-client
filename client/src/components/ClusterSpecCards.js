@@ -5,63 +5,24 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React from 'react';
-import Scroll from 'react-scroll';
-import { Panel } from 'react-bootstrap';
+import React, { PropTypes } from 'react';
 
 import ClusterSpecCard from '../containers/ClusterSpecCardContainer';
-import clusterSpecs from '../data/clusterSpecs.json';
-import '../styles/ClusterSpecCards.scss';
+import { clusterSpecShape } from '../utils/propTypes';
 
-const processedClusterSpecs = clusterSpecs.map(clusterSpec => {
-  const overridesMap = clusterSpec.fly.parameterDirectoryOverrides || {};
-  const overrides = Object.keys(overridesMap).map(key => overridesMap[key]);
+const propTypes = {
+  clusterSpecs: PropTypes.arrayOf(clusterSpecShape).isRequired,
+};
 
-  const autoscaling = overrides.some(o => o.AutoscalingPolicy === 'enabled');
-  const preloadSoftware = (overrides.find(o => o.PreloadSoftware != null) || {} ).PreloadSoftware;
-  const usesSpot = overrides.some(o => o.ComputeSpotPrice != null && o.ComputeSpotPrice !== '0');
-  const spotPrice = overrides.find(o => o.ComputeSpotPrice != null || {}).ComputeSpotPrice;
-  const scheduler = (overrides.find(o => o.SchedulerType != null) || {}).SchedulerType;
-
-  return {
-    ...clusterSpec,
-    ui: {
-      autoscaling,
-      preloadSoftware,
-      scheduler,
-      usesSpot,
-      spotPrice,
-      ...clusterSpec.ui,
+const ClusterSpecCards = ({ clusterSpecs }) => (
+  <div className="card-deck">
+    {
+      clusterSpecs.map(clusterSpec => <ClusterSpecCard
+        key={clusterSpec.ui.title}
+        clusterSpec={clusterSpec}
+      />)
     }
-  };
-});
-
-const propTypes = { };
-
-const ClusterSpecCards = () => (
-  <section className="ClusterSpecCards">
-    <Scroll.Element name="#launch">
-      <Panel className="launch">
-        <h3>
-          Launch Alces Flight.
-        </h3>
-        <p>
-          Ready to get going? Choose a cluster specification and launch your
-          cluster now!
-        </p>
-      </Panel>
-      <div className="container">
-        <div className="card-deck">
-          {
-            processedClusterSpecs.map(clusterSpec => <ClusterSpecCard
-              key={clusterSpec.ui.title}
-              clusterSpec={clusterSpec}
-            />)
-          }
-        </div>
-      </div>
-    </Scroll.Element>
-  </section>
+  </div>
 );
 
 ClusterSpecCards.propTypes = propTypes;

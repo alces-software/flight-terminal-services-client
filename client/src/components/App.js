@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import '../styles/main.scss';
 import { CookieBanner, Footer, Header } from 'flight-common';
 
-import ClusterSpecCards from './ClusterSpecCards';
+import ClusterSpecCards from '../containers/ClusterSpecCardsContainer';
 import Blurb from './Blurb';
 import Tagline from './Tagline';
 

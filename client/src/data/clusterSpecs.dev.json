@@ -15,7 +15,9 @@
     },
     "fly": {
       "args": [
-        "--solo"
+        "--solo",
+        "--template-set",
+        "ben-20170322"
       ],
       "parameterDirectoryOverrides": {
         "solo": {
@@ -82,9 +84,9 @@
   },
   {
     "ui": { 
-      "title": "Huge SGE cluster",
-      "subtitle": "Autoscaling upto 512 nodes. Dedicated instances. SGE scheduler.",
-      "body": "An autoscaling cluster, scaling upto a maximum of 512 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
+      "title": "8 node GPU cluster",
+      "subtitle": "Autoscaling upto 8 GPU nodes. Dedicated instances. SGE scheduler.",
+      "body": "A GPU cluster, autoscaling upto a maximum of 8 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
       "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
     },
     "fly": {
@@ -94,6 +96,7 @@
       "parameterDirectoryOverrides": {
         "solo": {
           "AutoscalingPolicy": "enabled",
+          "ComputeInstanceType": "gpu-1GPU-8C-15GB.small-g2.2xlarge",
           "ComputeSpotPrice": "0",
           "SchedulerType": "gridscheduler"
         }
