@@ -89,10 +89,7 @@ for a single hour.  There are three flavours of costs that could be described.
 Currnently, for each cluster spec, Flight Launch will display details about
 one of them.
 
-The three cluster specs below show the supported cost flavours.  In each of
-the cluster specs below the `text` and `tooltip` attributes could be ommitted
-as they are set to the default value.  But they are available for
-customization if desired.
+The three cluster specs below show the supported cost flavours.
 
 ```
 [

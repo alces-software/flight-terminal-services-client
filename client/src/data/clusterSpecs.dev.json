@@ -9,8 +9,8 @@
     "costs": {
       "estimated": {
         "pricePerHour": 1,
-        "text": "Est £1 / hour",
-        "tooltip": "The estimated cost for this cluster is £1 per hour."
+        "text": "Est $1 / hour",
+        "tooltip": "The estimated cost for this cluster is $1 per hour."
       }
     },
     "fly": {
@@ -38,8 +38,8 @@
     "costs": {
       "max": {
         "pricePerHour": 3,
-        "text": "Max £3 / hour",
-        "tooltip": "The maximum cost for this cluster is £3 per hour."
+        "text": "Max $3 / hour",
+        "tooltip": "The maximum cost for this cluster is $3 per hour."
       }
     },
     "fly": {
@@ -65,8 +65,8 @@
     "costs": {
       "average": {
         "pricePerHour": 4,
-        "text": "Avg £4 / hour",
-        "tooltip": "The average cost for this cluster is £4 per hour."
+        "text": "Avg $4 / hour",
+        "tooltip": "The average cost for this cluster is $4 per hour."
       }
     },
     "fly": {
@@ -134,8 +134,8 @@
     "costs": {
       "max": {
         "pricePerHour": 5,
-        "text": "Max £5 / hour",
-        "tooltip": "The maximum cost for this cluster is £5 per hour."
+        "text": "Max $5 / hour",
+        "tooltip": "The maximum cost for this cluster is $5 per hour."
       }
     },
     "fly": {
