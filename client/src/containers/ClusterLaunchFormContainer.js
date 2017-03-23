@@ -12,6 +12,32 @@ import ClusterLaunchForm from '../components/ClusterLaunchForm';
 import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 import ClusterErrorModal from '../components/ClusterErrorModal';
 
+function validate(allValues) {
+  const errors = {};
+
+  if (allValues.awsAccessKeyId == null ||
+    allValues.awsAccessKeyId.length < 16
+  ) {
+    errors.awsAccessKeyId = 'error';
+  }
+
+  if (allValues.awsSecrectAccessKey == null ||
+    allValues.awsSecrectAccessKey.length < 16
+  ) {
+    errors.awsSecrectAccessKey = 'error';
+  }
+
+  if (allValues.clusterName == null || allValues.clusterName.length < 1) {
+    errors.clusterName = 'error';
+  }
+
+  if (allValues.email == null || allValues.email.length < 1) {
+    errors.email = 'error';
+  }
+
+  return errors;
+}
+
 class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
@@ -19,7 +45,7 @@ class ClusterLaunchFormContainer extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({ errors: this.validate(this.state.values) });
+    this.setState({ errors: validate(this.state.values) });
   }
 
   initialValues = {
@@ -48,7 +74,7 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleFormChange = ({ name, value }) => {
-    const errors = this.validate({
+    const errors = validate({
       ...this.state.values,
       [name]: value,
     });
@@ -82,7 +108,7 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleLaunchResponse = (response) => {
-    const errors = this.validate(this.initialValues);
+    const errors = validate(this.initialValues);
     const newState = {
       submitting: false,
       values: this.initialValues,
@@ -147,32 +173,6 @@ class ClusterLaunchFormContainer extends React.Component {
 
   hideModal = () => {
     this.setState({ showLaunchedModal: false, showErrorModal: false });
-  }
-
-  validate(allValues) {
-    const errors = {};
-
-    if (allValues.awsAccessKeyId == null ||
-      allValues.awsAccessKeyId.length < 16
-    ) {
-      errors.awsAccessKeyId = 'error';
-    }
-
-    if (allValues.awsSecrectAccessKey == null ||
-      allValues.awsSecrectAccessKey.length < 16
-    ) {
-      errors.awsSecrectAccessKey = 'error';
-    }
-
-    if (allValues.clusterName == null || allValues.clusterName.length < 1) {
-      errors.clusterName = 'error';
-    }
-
-    if (allValues.email == null || allValues.email.length < 1) {
-      errors.email = 'error';
-    }
-
-    return errors;
   }
 
   render() {
