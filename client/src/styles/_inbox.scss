@@ -5,3 +5,15 @@ SECTION {
 BODY.modal-open {
     overflow: visible !important;
 }
+
+.flight-Navbar .showWelcomeButton {
+    A {
+        height: 50px;
+    }
+    margin-right: -7px;
+    .flight-icon {
+        line-height: 50%;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+}
