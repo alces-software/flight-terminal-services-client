@@ -45,6 +45,7 @@ class LaunchClusterCommand
       perform
     @run_fly_cmd = RunFlyLaunchCommand.new(parameter_dir, @launch_config)
 
+    send_about_to_launch_email
     run_launch_thread
     wait_for_arn
     send_launching_email
@@ -99,6 +100,11 @@ class LaunchClusterCommand
       Dir.tmpdir,
       Dir::Tmpname.make_tmpname('flight-launch-', nil)
     )
+  end
+
+  def send_about_to_launch_email
+    ClustersMailer.about_to_launch(@launch_config).
+      deliver_now
   end
 
   def send_launching_email

@@ -1,0 +1,24 @@
+<%#
+  Copyright (C) 2017 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+
+Hi,
+
+Your cluster "<%= @cluster_name %>" will begin launching on AWS shortly.  Once
+it has started launching, you AWS account will incur charges until the cluster
+is shutdown.  Flight Launch will not shut the cluster down, it is your
+responsibility to do so when you have finished using it.
+
+We will send you another email once we have the AWS cloudformation link for
+your cluster.
+
+<% note do %>
+  You're receiving this email because you have started a cluster with Alces
+  Launch.
+<% end %>
+
+<%= render 'shared/contact_us' %>
