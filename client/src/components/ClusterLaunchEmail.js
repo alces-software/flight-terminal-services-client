@@ -29,12 +29,11 @@ class ClusterEmail extends React.Component {
           ref={(el) => { this.input = el; }}
           autofocus
           error={error}
-          help="If you enter your email address we will send you an email when
-          your cluster is available."
+          help="We need your email address to send you an email when your
+          cluster is available."
           id={`${id}-clusterEmail`}
           name="email"
           onChange={onChange}
-          optional
           placeholder="Enter your email address"
           value={value}
         />

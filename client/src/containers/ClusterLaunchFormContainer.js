@@ -168,6 +168,10 @@ class ClusterLaunchFormContainer extends React.Component {
       errors.clusterName = 'error';
     }
 
+    if (allValues.email == null || allValues.email.length < 1) {
+      errors.email = 'error';
+    }
+
     return errors;
   }
 
