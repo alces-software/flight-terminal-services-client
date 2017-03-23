@@ -1,6 +1,10 @@
 # Preview all emails at http://localhost:3000/rails/mailers/clusters_mailer
 class ClustersMailerPreview < ActionMailer::Preview
 
+  def about_to_launch
+    ClustersMailer.about_to_launch(launch_config)
+  end
+
   def launching
     ClustersMailer.launching(launch_config, arn)
   end
