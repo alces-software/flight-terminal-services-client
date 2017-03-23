@@ -9,6 +9,23 @@ import React, { PropTypes } from 'react';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import invariant from 'invariant';
 
+import withConfirmation from './withConfirmation';
+
+const ConfirmableButton = withConfirmation()(({
+  children,
+  confirmationPopover,
+  showingConfirmation,
+  submitting,
+  ...props,
+}) => {
+  return (
+    <Button {...props} >
+      {children}
+      {confirmationPopover}
+    </Button>
+  );
+});
+
 class MultiPageForm extends React.Component {
   static propTypes = {
     className: PropTypes.string,
@@ -43,6 +60,10 @@ class MultiPageForm extends React.Component {
     }
   }
 
+  requiresConfirmation() {
+    return this.props.onConfirm != null;
+  }
+
   renderCancelButton() {
     if (this.props.onCancel) {
       return (
@@ -70,14 +91,28 @@ class MultiPageForm extends React.Component {
     };
 
     if (this.props.currentPageIndex === this.props.pages.length - 1) {
+      let ButtonComponent;
+      let extraProps;
+      if (this.requiresConfirmation()) {
+        ButtonComponent = ConfirmableButton;
+        extraProps = {
+          confirmButtonText: this.props.confirmButtonText,
+          confirmText: this.props.confirmText,
+          onConfirm: this.props.onConfirm,
+        };
+      } else {
+        ButtonComponent = Button;
+        extraProps = {};
+      }
+
       return (
-        <Button key="submitForm" {...commonProps} >
+        <ButtonComponent key="submitForm" {...commonProps} {...extraProps} >
           {
             submitting
               ? this.props.submittingButtonContent
               : this.props.submitButtonContent
           }
-        </Button>
+        </ButtonComponent>
       );
     }
     return (
@@ -111,8 +146,15 @@ class MultiPageForm extends React.Component {
   }
 
   render() {
+    let onSubmit
+    if (this.requiresConfirmation()) {
+      onSubmit = (event) => { event.preventDefault(); };
+    } else {
+      onSubmit = this.props.handleSubmit;
+    }
+
     return (
-      <form className={this.props.className} onSubmit={this.props.handleSubmit} >
+      <form className={this.props.className} onSubmit={onSubmit} >
         {this.renderPage()}
         {this.renderButtons()}
       </form>
