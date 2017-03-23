@@ -16,7 +16,7 @@ const propTypes = {
   value: PropTypes.string,
 };
 
-class ClusterEmail extends React.Component {
+class ClusterLaunchEmail extends React.Component {
   blur() {
     this.input.blur();
   }
@@ -31,7 +31,7 @@ class ClusterEmail extends React.Component {
           error={error}
           help="We need your email address to send you an email when your
           cluster is available."
-          id={`${id}-clusterEmail`}
+          id={`${id}-clusterLaunchEmail`}
           name="email"
           onChange={onChange}
           placeholder="Enter your email address"
@@ -42,6 +42,6 @@ class ClusterEmail extends React.Component {
   }
 }
 
-ClusterEmail.propTypes = propTypes;
+ClusterLaunchEmail.propTypes = propTypes;
 
-export default ClusterEmail;
+export default ClusterLaunchEmail;
