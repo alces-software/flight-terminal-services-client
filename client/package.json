@@ -6,7 +6,9 @@
   "dependencies": {
     "bootstrap-sass": "^3.3.7",
     "flight-common": "file:///home/flight-common/",
+    "html-loader": "^0.4.5",
     "invariant": "^2.2.2",
+    "markdown-loader": "^2.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-flipcard": "^0.2.1",
