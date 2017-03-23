@@ -102,15 +102,11 @@ class LaunchClusterCommand
   end
 
   def send_launching_email
-    return if @launch_config.email.blank?
-
     ClustersMailer.launching(@launch_config, arn).
       deliver_now
   end
 
   def send_completed_email
-    return if @launch_config.email.blank?
-
     if @run_fly_cmd.failed? && arn?
       # Launching the cluster failed and we've got far enough to have
       # determined the arn for the cluster.  We've most likely alread sent a
