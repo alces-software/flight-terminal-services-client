@@ -87,6 +87,15 @@ class ClusterLaunchForm extends React.Component {
           <Icon name="spinner" spin />
         </span>}
         submitting={this.props.submitting}
+
+        onConfirm={this.props.handleSubmit}
+        confirmButtonText="Launch"
+        confirmText={<span>
+          Launching this cluster will incur charges against your AWS account
+          until the cluster is shutdown.  Flight Launch will not shut the
+          cluster down, it is your responsibility to do so when you have
+          finished using it.
+        </span>}
       />
     );
   }
