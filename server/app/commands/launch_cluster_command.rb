@@ -48,10 +48,13 @@ class LaunchClusterCommand
     send_about_to_launch_email
     run_launch_thread
     wait_for_arn
-    send_launching_email
 
     if @run_fly_cmd.failed?
+      # No need to send a failed email here.  One will be sent when
+      # @launch_thread terminates.
       raise LaunchFailed, @run_fly_cmd.stderr
+    else
+      send_launching_email
     end
   ensure
     FileUtils.rm_r(parameter_dir, secure: true)
@@ -64,10 +67,15 @@ class LaunchClusterCommand
       begin
         @run_fly_cmd.perform
       rescue
+        send_failed_email
         Rails.logger.info "Launch thread raised exception #{$!}"
         raise LaunchFailed, "Launch thread failed: #{$!}"
       else
-        send_completed_email
+        if @run_fly_cmd.failed?
+          send_failed_email
+        else
+          send_completed_email
+        end
       end
     end
   end
@@ -91,7 +99,11 @@ class LaunchClusterCommand
       sleep 1
       slept += 1
     end
-    Rails.logger.info "Stack arn available after #{slept} seconds: #{arn}"
+    if arn.present?
+      Rails.logger.info "Stack arn available after #{slept} seconds: #{arn}"
+    else
+      Rails.logger.info "Stack arn not available. fly command no longer waiting for arn."
+    end
   end
 
   # Get a tmpdir name, without creating the directory.
@@ -112,16 +124,13 @@ class LaunchClusterCommand
       deliver_now
   end
 
+  def send_failed_email
+    ClustersMailer.failed(@launch_config, @run_fly_cmd.stderr, arn).
+      deliver_now
+  end
+
   def send_completed_email
-    if @run_fly_cmd.failed? && arn?
-      # Launching the cluster failed and we've got far enough to have
-      # determined the arn for the cluster.  We've most likely alread sent a
-      # response to the user-agent, so let's send a follow up email.
-      ClustersMailer.failed(@launch_config, @run_fly_cmd.stderr, arn).
-        deliver_now
-    else
-      ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
-        deliver_now
-    end
+    ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
+      deliver_now
   end
 end

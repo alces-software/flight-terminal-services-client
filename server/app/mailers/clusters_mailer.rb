@@ -26,7 +26,7 @@ class ClustersMailer < ApplicationMailer
   #
   def launching(launch_config, arn)
     @cluster_name = launch_config.name
-    @cloudformation_url = cloudformation_url(arn, launch_config)
+    @cloudformation_url = cluster_cloudformation_url(arn, launch_config)
 
     mail to: launch_config.email,
       subject: "Launching cluster #{@cluster_name}"
@@ -60,7 +60,12 @@ class ClustersMailer < ApplicationMailer
   def failed(launch_config, stderr, arn)
     @cluster_name = launch_config.name
     @stderr = stderr
-    @cloudformation_url = cloudformation_url(arn, launch_config)
+    @arn_present = arn.present?
+    if @arn_present
+      @cloudformation_url = cluster_cloudformation_url(arn, launch_config)
+    else
+      @cloudformation_url = cloudformation_console_url(launch_config)
+    end
 
     mail to: launch_config.email,
       subject: "Failed to launch cluster #{@cluster_name}"
@@ -68,10 +73,17 @@ class ClustersMailer < ApplicationMailer
 
   private
 
-  def cloudformation_url(arn, launch_config)
+  def cluster_cloudformation_url(arn, launch_config)
     if launch_config.region.present?
       region = "#{launch_config.region}."
     end
     "https://#{region}console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=#{arn}"
+  end
+
+  def cloudformation_console_url(launch_config)
+    if launch_config.region.present?
+      region = "#{launch_config.region}."
+    end
+    "https://#{region}console.aws.amazon.com/cloudformation/home"
   end
 end
