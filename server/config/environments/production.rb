@@ -49,6 +49,22 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+  config.action_mailer.default_url_options = {
+    protocol: 'https',
+    host: 'launch.alces-flight.com'
+  }
+  config.roadie.url_options = config.action_mailer.default_url_options
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: ENV['SMTP_HOST'],
+    port: ENV['SMTP_PORT'] || '587',
+    enable_starttls_auto: true,
+    user_name: ENV['SMTP_USERNAME'],
+    password: ENV['SMTP_PASSWORD'],
+    domain: 'alces-flight.com',
+    authentication: :plain
+  }
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
@@ -70,7 +86,7 @@ Rails.application.configure do
   end
 
   # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
+  # config.active_record.dump_schema_after_migration = false
 
   config.alces.wait_for_arn_duration = Integer(ENV['WAIT_FOR_ARN_DURATION']) rescue 120
   config.alces.default_key_pair = ENV['DEFAULT_KEY_PAIR']

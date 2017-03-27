@@ -8,10 +8,11 @@
 
 Rails.application.routes.draw do
   get '/' => (lambda do |req|
-    [200, {}, [
-      'XXX redirect to react app in dev.',
-      'XXX server html file in prod',
-    ]]
+    # In production, the index.html is served by nginx.
+    # In development, the index.html is served by the webpack dev server.
+    # The only reason we need this route is so that `root_url` doesn't break
+    # for the mailer layout.
+    [204, {}, [ ]]
   end), as: :root
 
   post 'clusters/launch'
