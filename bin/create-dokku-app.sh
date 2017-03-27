@@ -47,7 +47,7 @@ configure_server() {
             "
 
     ssh launch.alces-flight.com \
-        "dokku domains:add flight-launch launch.alces-software.com"
+        "dokku domains:add flight-launch launch.alces-flight.com"
 }
 
 print_further_instructions() {
