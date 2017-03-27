@@ -32,7 +32,7 @@ const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, sho
         rel="noopener noreferrer" 
       >
         view the progress
-      </a>{' '} on the AWS cloudformation console.
+      </a>{' '} on the AWS CloudFormation console.
     </p>
     {
       email ? (
