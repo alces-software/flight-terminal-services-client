@@ -17,8 +17,18 @@ if (process.env.NODE_ENV === 'development') {
   devClusterSpecs = require('../data/clusterSpecs.dev.json');
 }
 
+function buildSchedulersMap(schedulers) {
+  const map = {};
+  schedulers.forEach(scheduler => {
+    map[scheduler.type] = scheduler;
+  });
+  return map;
+}
+
 function processClusterSpecs(clusterSpecs) {
-  return clusterSpecs.map(clusterSpec => {
+  const schedulerSpecs = buildSchedulersMap(clusterSpecs.schedulers);
+
+  return clusterSpecs.clusterSpecs.map(clusterSpec => {
     const overridesMap = clusterSpec.fly.parameterDirectoryOverrides || {};
     const overrides = Object.keys(overridesMap).map(key => overridesMap[key]);
 
@@ -26,16 +36,16 @@ function processClusterSpecs(clusterSpecs) {
     const preloadSoftware = (overrides.find(o => o.PreloadSoftware != null) || {} ).PreloadSoftware;
     const usesSpot = overrides.some(o => o.ComputeSpotPrice != null && o.ComputeSpotPrice !== '0');
     const spotPrice = overrides.find(o => o.ComputeSpotPrice != null || {}).ComputeSpotPrice;
-    const scheduler = (overrides.find(o => o.SchedulerType != null) || {}).SchedulerType;
+    const schedulerType = (overrides.find(o => o.SchedulerType != null) || {}).SchedulerType;
 
     return {
       ...clusterSpec,
       ui: {
         autoscaling,
         preloadSoftware,
-        scheduler,
-        usesSpot,
         spotPrice,
+        usesSpot,
+        scheduler: schedulerSpecs[schedulerType],
         ...clusterSpec.ui,
       }
     };

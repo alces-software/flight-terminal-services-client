@@ -16,8 +16,15 @@ GET parameter. E.g., typing the following in the browser location bar
 
 ## Format
 
-The cluster specs file must be valid JSON.  It must be an array of objects.
-Each cluster spec object has three parts to it.
+The cluster specs file must be valid JSON.  It must be an objects with two
+keys: `schedulers` and `clusterSpecs`.  The format for their values are
+described below.
+
+
+### Format for clusterSpecs 
+
+The value for the `clusterSpecs` key must be an array of objects.  Each
+cluster spec object has three parts to it.
 
 ```
 {
@@ -27,7 +34,7 @@ Each cluster spec object has three parts to it.
 }
 ```
 
-### UI section
+#### UI section
 
 The `ui` section specifies the title, subtitle and description of the cluster
 spec.  E.g.,
@@ -50,7 +57,7 @@ The UI section is presented to the user.  It should provide an accurate
 description of the cluster that should be launched.  Flight Launch makes no
 effort to ensure that it is a faithful description.
 
-### Fly section
+#### Fly section
 
 The `fly` section consists of the parameters given to the `fly` binary to
 launch the cluster. E.g.,
@@ -82,7 +89,7 @@ Valid values for the `args` array can be found by running `fly cluster launch --
 In practice, passing only the `"--solo" flag is likely to be all that is
 required or wanted.
 
-### Costs section
+#### Costs section
 
 The `costs` section describes estimates of the costs of running the cluster
 for a single hour.  There are three flavours of costs that could be described.
@@ -138,90 +145,125 @@ The three cluster specs below show the supported cost flavours.
 ]
 ```
 
+### Format for schedulers 
+
+The value for the `schedulers` key must be an array of objects.  A scheduler
+object has the following shape.
+
+```
+{
+  "type": "gridscheduler",
+  "text": "Grid engine",
+  "logoUrl": "http://gridscheduler.sourceforge.net/gridengine-logo.png",
+  "tooltip": "This cluster uses the Grid engine scheduler"
+}
+```
+
+ - The `type` value is used to find the scheduler used by a clusterSpec.
+ - The `text` value is shown as the text below the scheduler icon at the
+   bottom of the clusterSpecs' card.
+ - The `tooltip` value is shown as the tooltip for the for that icon.
+ - The `logoUrl` is used as the logo for that scheduler.
+
 
 ## Example
 
 An example of a cluster specs json file with three cluster specs is given below.
 
 ```
-[
-  {
-    "ui": { 
-      "title": "Small SGE cluster",
-      "subtitle": "Autoscaling upto 8 nodes. Spot instances. SGE scheduler.",
-      "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
-      "logoUrl": "http://alces-flight.com/images/logo.png"
+{
+  "schedulers": [
+    {
+      "type": "gridscheduler",
+      "text": "Grid engine",
+      "logoUrl": "http://gridscheduler.sourceforge.net/gridengine-logo.png",
+      "tooltip": "This cluster uses the Grid engine scheduler"
     },
-    "costs": {
-      "estimated": {
-        "pricePerHour": 3
-      }
-    },
-    "fly": {
-      "args": [
-        "--solo"
-      ],
-      "parameterDirectoryOverrides": {
-        "solo": {
-          "AutoscalingPolicy": "enabled",
-          "ComputeSpotPrice": "0.3",
-          "SchedulerType": "gridscheduler"
-        }
-      }
+    {
+      "type": "slurm",
+      "text": "Slurm",
+      "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Slurm_Workload_Manager.png/262px-Slurm_Workload_Manager.png",
+      "tooltip": "This cluster uses the Slurm scheduler"
     }
-  },
 
-  {
-    "ui": { 
-      "title": "8 node GPU cluster",
-      "subtitle": "8 on demand GPU spot instances. SGE scheduler.",
-      "body": "An SGE cluster with 8 GPU compute nodes. The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
-      "logoUrl": "http://alces-flight.com/images/logo.png"
-    },
-    "costs": {
-      "max": {
-        "pricePerHour": 3
-      }
-    },
-    "fly": {
-      "args": [
-        "--solo"
-      ],
-      "parameterDirectoryOverrides": {
-        "solo": {
-          "AutoscalingPolicy": "disabled",
-          "SchedulerType": "gridscheduler",
-          "ComputeInstanceType": "gpu-1GPU-8C-15GB.small-g2.2xlarge"
+  "clusterSpecs": [
+    {
+      "ui": { 
+        "title": "Small SGE cluster",
+        "subtitle": "Autoscaling upto 8 nodes. Spot instances. SGE scheduler.",
+        "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
+        "logoUrl": "http://alces-flight.com/images/logo.png"
+      },
+      "costs": {
+        "estimated": {
+          "pricePerHour": 3
+        }
+      },
+      "fly": {
+        "args": [
+          "--solo"
+        ],
+        "parameterDirectoryOverrides": {
+          "solo": {
+            "AutoscalingPolicy": "enabled",
+            "ComputeSpotPrice": "0.3",
+            "SchedulerType": "gridscheduler"
+          }
         }
       }
-    }
-  },
-
-  {
-    "ui": { 
-      "title": "Biochemistry cluster",
-      "subtitle": "Slurm scheduler; Biochemistry software preinstalled",
-      "body": "An autoscaling Slurm cluster with common Biochemistry software preinstalled.  The compute nodes use spot instances with a reserve price of 0.3.",
-      "logoUrl": "http://alces-flight.com/images/logo.png"
     },
-    "costs": {
-      "average": {
-        "pricePerHour": 3
-      }
-    },
-    "fly": {
-      "args": [
-        "--solo"
-      ],
-      "parameterDirectoryOverrides": {
-        "solo": {
-          "AutoscalingPolicy": "enabled",
-          "ComputeSpotPrice": "0.3",
-          "PreloadSoftware": "bioinformatics",
-          "SchedulerType": "slurm"
+  
+    {
+      "ui": { 
+        "title": "8 node GPU cluster",
+        "subtitle": "8 on demand GPU spot instances. SGE scheduler.",
+        "body": "An SGE cluster with 8 GPU compute nodes. The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
+        "logoUrl": "http://alces-flight.com/images/logo.png"
+      },
+      "costs": {
+        "max": {
+          "pricePerHour": 3
+        }
+      },
+      "fly": {
+        "args": [
+          "--solo"
+        ],
+        "parameterDirectoryOverrides": {
+          "solo": {
+            "AutoscalingPolicy": "disabled",
+            "SchedulerType": "gridscheduler",
+            "ComputeInstanceType": "gpu-1GPU-8C-15GB.small-g2.2xlarge"
+          }
         }
       }
-    }
-  },
-]
+    },
+  
+    {
+      "ui": { 
+        "title": "Biochemistry cluster",
+        "subtitle": "Slurm scheduler; Biochemistry software preinstalled",
+        "body": "An autoscaling Slurm cluster with common Biochemistry software preinstalled.  The compute nodes use spot instances with a reserve price of 0.3.",
+        "logoUrl": "http://alces-flight.com/images/logo.png"
+      },
+      "costs": {
+        "average": {
+          "pricePerHour": 3
+        }
+      },
+      "fly": {
+        "args": [
+          "--solo"
+        ],
+        "parameterDirectoryOverrides": {
+          "solo": {
+            "AutoscalingPolicy": "enabled",
+            "ComputeSpotPrice": "0.3",
+            "PreloadSoftware": "bioinformatics",
+            "SchedulerType": "slurm"
+          }
+        }
+      }
+    },
+  ]
 ```
