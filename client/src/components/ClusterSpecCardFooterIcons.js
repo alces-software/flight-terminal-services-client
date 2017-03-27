@@ -14,7 +14,6 @@ import { clusterSpecShape } from '../utils/propTypes';
 import autoScalingIcon from '../icons/Compute_AmazonEC2_AutoScaling.png';
 import spotInstanceIcon from '../icons/Compute_AmazonEC2_Spotinstance.png'
 import depotToIcon from '../utils/depotToIcon';
-import schedulerToIcon from '../utils/schedulerToIcon';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
@@ -22,7 +21,6 @@ const propTypes = {
 
 const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
   const depotIcon = depotToIcon(clusterSpec.ui.preloadSoftware);
-  const schedulerIcon = schedulerToIcon(clusterSpec.ui.scheduler);
 
   return (
     <Card.FooterIcons>
@@ -48,11 +46,14 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
           null
       }
       {
-        schedulerIcon ?
+        clusterSpec.ui.scheduler ?
           <Card.FooterIcon
-            iconSrc={schedulerIcon.icon}
-            text={schedulerIcon.text}
-            tooltip={<span>This cluster uses the {schedulerIcon.text} scheduler</span>}
+            iconSrc={clusterSpec.ui.scheduler.logoUrl}
+            text={clusterSpec.ui.scheduler.text}
+            tooltip={
+              clusterSpec.ui.scheduler.tooltip ||
+                <span>This cluster uses the {clusterSpec.ui.scheduler.text} scheduler</span>
+            }
           /> :
           null
       }
