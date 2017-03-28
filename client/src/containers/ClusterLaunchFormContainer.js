@@ -11,6 +11,7 @@ import { clusterSpecShape } from '../utils/propTypes';
 import ClusterLaunchForm from '../components/ClusterLaunchForm';
 import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 import ClusterErrorModal from '../components/ClusterErrorModal';
+import * as analytics from '../utils/analytics';
 
 function validate(allValues) {
   const errors = {};
@@ -119,6 +120,7 @@ class ClusterLaunchFormContainer extends React.Component {
     if (response.ok) {
       return response.json()
         .then((json) => {
+          analytics.clusterLaunchAccepted(this.props.clusterSpec);
           const modalProps = {
             clusterName: json.cluster_name,
             cloudformationUrl: json.cloudformation_url,
@@ -142,6 +144,7 @@ class ClusterLaunchFormContainer extends React.Component {
         });
     } else {
       return response.json().then((json) => {
+        analytics.clusterLaunchRejected(this.props.clusterSpec, json);
         const modalProps = {
           error: json
         };
@@ -159,6 +162,7 @@ class ClusterLaunchFormContainer extends React.Component {
     this.launchForm.blurEmailField();
     this.setState({ submitting: true });
 
+    analytics.clusterLaunchRequested(this.props.clusterSpec);
     return this.sendLaunchRequest()
       .then(this.handleLaunchResponse);
   }
