@@ -1,14 +1,14 @@
                                           A message from Alces Flight Launch.
-                                           < http://flight-launch.lvh.me:4003/ >
+                                           <http://flight-launch.lvh.me:4003/>
 
 Hi,
 
 Unfortunately, your cluster "my-cluster" failed to launch.  You can
 view the error message below.  If this problem continues, please contact
-< support@alces-flight.com >.
+<support@alces-flight.com>.
 
 You should visit your cluster's AWS CloudFormation page
-< https://eu-west-1.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a > and terminate it.
+<https://eu-west-1.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a> and terminate it.
 
 Error message:
 
@@ -18,7 +18,7 @@ caused by: ValidationError: Stack with id flight-cluster-bens-test does not exis
 
 
 
-Please don't hesitate to contact us at < support@alces-flight.com > if you
+Please don't hesitate to contact us at <support@alces-flight.com> if you
 have any questions!
 
 
@@ -36,7 +36,7 @@ have any questions!
 
 ===============================================================================
        Alces Flight Launch is a service provided by Alces Flight Ltd
-                    < http://www.alces-flight.com/ >
+                    <http://www.alces-flight.com/>
 
         Reg. No 10095215 • 4 Murdock Road • Bicester • Oxon • OX26 4PP
 ===============================================================================
