@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import '../styles/main.scss';
 import { CookieBanner, Footer, Header } from 'flight-common';
 import { Nav, NavItem } from 'react-bootstrap';
+import * as analytics from '../utils/analytics';
 
 import ClusterSpecCards from '../containers/ClusterSpecCardsContainer';
 import OnBoardingContainer from '../containers/OnBoardingContainer';
@@ -35,6 +36,10 @@ const RightNav = ({ showWelcomeMessage }) => (
 );
 
 class App extends Component {
+  componentDidMount() {
+    analytics.pageView();
+  }
+
   showWelcomeMessage = () => {
     if (this.onboardingContainer) {
       this.onboardingContainer.showWelcomeMessage();
