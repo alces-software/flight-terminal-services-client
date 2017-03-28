@@ -15,6 +15,10 @@ Rails.application.routes.draw do
     [204, {}, [ ]]
   end), as: :root
 
+  get '/status' => (lambda do |req|
+    [200, {}, ["OK"]]
+  end)
+
   post 'clusters/launch'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

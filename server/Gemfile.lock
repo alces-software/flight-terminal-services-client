@@ -35,6 +35,8 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     alces-tools (0.12.0)
     builder (3.2.3)
+    commander (4.4.3)
+      highline (~> 1.7.2)
     concurrent-ruby (1.0.5)
     css_parser (1.4.10)
       addressable
@@ -44,6 +46,7 @@ GEM
       thor (~> 0.19.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    highline (1.7.8)
     i18n (0.8.1)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -104,6 +107,7 @@ DEPENDENCIES
   activemodel (~> 5.0.2)
   activesupport (~> 5.0.2)
   alces-tools (~> 0.12.0.a)!
+  commander
   foreman
   letter_opener (~> 1.4.1)
   listen (~> 3.0.5)

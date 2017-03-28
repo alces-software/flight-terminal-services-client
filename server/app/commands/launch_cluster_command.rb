@@ -71,6 +71,7 @@ class LaunchClusterCommand
         Rails.logger.info "Launch thread raised exception #{$!}"
         raise LaunchFailed, "Launch thread failed: #{$!}"
       else
+        Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
         if @run_fly_cmd.failed?
           send_failed_email
         else

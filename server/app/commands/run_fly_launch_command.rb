@@ -52,11 +52,11 @@ class RunFlyLaunchCommand
     end
     cmd = [
       ENV['FLY_EXE_PATH'],
-      '--access-key', @launch_config.access_key,
-      '--secret-key', @launch_config.secret_key,
       'cluster',
       'launch',
       @launch_config.name,
+      '--access-key', @launch_config.access_key,
+      '--secret-key', @launch_config.secret_key,
       *extra_args,
       '--parameter-directory', @parameter_dir,
     ]
