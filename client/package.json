@@ -1,7 +1,9 @@
 {
-  "name": "lackey",
+  "name": "flight-launch",
   "version": "0.1.0",
   "private": true,
+  "author": "Alces Flight Limited",
+  "license": "All Rights Reserved",
   "proxy": "http://server:4003/",
   "dependencies": {
     "bootstrap-sass": "^3.3.7",
@@ -53,6 +55,7 @@
     "jest": "18.1.0",
     "jest-enzyme": "^2.1.2",
     "json-loader": "0.5.4",
+    "license-checker": "^8.0.4",
     "node-sass": "^4.5.0",
     "object-assign": "4.1.1",
     "postcss-loader": "1.2.2",
@@ -75,7 +78,8 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build:licensables": "license-checker --json --production --out src/data/licenses.json"
   },
   "jest": {
     "collectCoverageFrom": [

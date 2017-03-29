@@ -7,7 +7,7 @@
  *===========================================================================*/
 import React, { Component } from 'react';
 import '../styles/main.scss';
-import { CookieBanner, Footer, Header } from 'flight-common';
+import { CookieBanner, Footer, Header, NavItemLink } from 'flight-common';
 import { Nav, NavItem } from 'react-bootstrap';
 import * as analytics from '../utils/analytics';
 import Helmet from 'react-helmet';
@@ -16,6 +16,7 @@ import {
   Route,
 } from 'react-router-dom';
 
+import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
 import OnBoardingContainer from '../containers/OnBoardingContainer';
 import Icon from './Icon';
@@ -25,9 +26,9 @@ const productName = process.env.REACT_APP_PRODUCT_NAME;
 
 const LeftNav = ({ homePageLink, productName }) => (
   <Nav>
-    <NavItem>
+    <NavItemLink to={homePageLink} >
       {productName}
-    </NavItem>
+    </NavItemLink>
   </Nav>
 );
 
@@ -52,34 +53,40 @@ class App extends Component {
 
   render() {
     return (
-      <div className="sticky-footer-wrapper">
-        <Helmet
-          defaultTitle={productName}
-          titleTemplate={`${productName} - %s`}
-          meta={[
-            { name: 'client-version', content: appVersion },
-          ]}
-        />
-        <div className="flight sticky-footer-main-content">
-          <OnBoardingContainer
-            ref={(el) => { this.onboardingContainer = el; }}
+      <Router>
+        <div className="sticky-footer-wrapper">
+          <Helmet
+            defaultTitle={productName}
+            titleTemplate={`${productName} - %s`}
+            meta={[
+              { name: 'client-version', content: appVersion },
+            ]}
           />
-          <Header homePageLink="/" productName={productName} >
-            <LeftNav homePageLink="/" productName={productName} />
-            <RightNav showWelcomeMessage={this.showWelcomeMessage} />
-          </Header>
-          <div className="pageContainer">
-            <CookieBanner />
-            <Router>
-              <Route path="/" component={HomePage} />
-            </Router>
+          <div className="flight sticky-footer-main-content">
+            <OnBoardingContainer
+              ref={(el) => { this.onboardingContainer = el; }}
+            />
+            <Header homePageLink="/" productName={productName} >
+              <LeftNav homePageLink="/" productName={productName} />
+              <RightNav showWelcomeMessage={this.showWelcomeMessage} />
+            </Header>
+            <div className="pageContainer">
+              <CookieBanner />
+              <div>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/about" component={AboutPage} />
+              </div>
+            </div>
           </div>
+          <Footer
+            firstCopyrightYear="2017"
+            productName={productName}
+            links={[
+              { to: '/about', text: 'About' },
+            ]}
+          />
         </div>
-        <Footer
-          firstCopyrightYear="2017"
-          productName={productName}
-        />
-      </div>
+      </Router>
     );
   }
 }
