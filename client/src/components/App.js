@@ -10,12 +10,14 @@ import '../styles/main.scss';
 import { CookieBanner, Footer, Header } from 'flight-common';
 import { Nav, NavItem } from 'react-bootstrap';
 import * as analytics from '../utils/analytics';
+import Helmet from 'react-helmet';
 
 import ClusterSpecCards from '../containers/ClusterSpecCardsContainer';
 import OnBoardingContainer from '../containers/OnBoardingContainer';
 import Blurb from './Blurb';
 import Tagline from './Tagline';
 import Icon from './Icon';
+import appVersion from '../version';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
 
@@ -49,6 +51,13 @@ class App extends Component {
   render() {
     return (
       <div className="sticky-footer-wrapper">
+        <Helmet
+          defaultTitle={productName}
+          titleTemplate={`${productName} - %s`}
+          meta={[
+            { name: 'client-version', content: appVersion },
+          ]}
+        />
         <div className="flight sticky-footer-main-content">
           <OnBoardingContainer
             ref={(el) => { this.onboardingContainer = el; }}
