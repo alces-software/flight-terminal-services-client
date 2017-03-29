@@ -7,7 +7,14 @@
  *===========================================================================*/
 import React, { Component } from 'react';
 import '../styles/main.scss';
-import { CookieBanner, Footer, Header, NavItemLink, PrivacyPolicyPage } from 'flight-common';
+import {
+  CookieBanner,
+  Footer,
+  Header,
+  NavItemLink,
+  PrivacyPolicyPage,
+  TermsOfServicePage,
+} from 'flight-common';
 import { Nav, NavItem } from 'react-bootstrap';
 import * as analytics from '../utils/analytics';
 import Helmet from 'react-helmet';
@@ -76,6 +83,13 @@ class App extends Component {
                 <Route exact path="/" component={HomePage} />
                 <Route path="/about" component={AboutPage} />
                 <Route path="/privacy" component={PrivacyPolicyPage} />
+                <Route
+                  path="/terms"
+                  render={() => <TermsOfServicePage
+                    productName={productName}
+                    lastUpdated="20th October 2016"
+                  />}
+                />
               </div>
             </div>
           </div>
@@ -85,6 +99,7 @@ class App extends Component {
             links={[
               { to: '/about', text: 'About' },
               { to: '/privacy', text: 'Privacy Policy' },
+              { to: '/terms', text: 'Terms of Service' },
             ]}
           />
         </div>
