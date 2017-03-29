@@ -52,17 +52,30 @@ function processClusterSpecs(clusterSpecs) {
   });
 }
 
+function buildClusterSpecsUrl(relativePath) {
+  const prefix = process.env.REACT_APP_CLUSTER_SPECS_URL_PREFIX;
+  return `${prefix}${relativePath}`;
+}
+
 // Retrieve the specs URL from window.location, without breaking old browsers.
 //
 //  - Older browsers always use the default URL.
 //  - In a development build, setting the clusterSpecsUrl parameter to `dev`
 //  will use the specs given in `../data/clusterSpecs.dev.json`.
 function getClusterSpecsUrl() {
-  const defaultUrl = process.env.REACT_APP_DEFAULT_CLUSTER_SPECS_URL;
+  const defaultFile = process.env.REACT_APP_DEFAULT_CLUSTER_SPECS_FILE
+  const defaultUrl = buildClusterSpecsUrl(defaultFile);
+
+  // Get the clusterSpecs urlParam without breaking in older browsers.  Older
+  // browsers use the defaultUrl.
   if (URL == null) { return defaultUrl; }
   const urlParams = new URL(window.location).searchParams;
   if (urlParams == null || urlParams.get == null) { return defaultUrl; }
-  return urlParams.get('clusterSpecsUrl') || defaultUrl;
+  const file = urlParams.get('clusterSpecs');
+
+  if (file == null) { return defaultUrl ; }
+  if (file === 'dev') { return file ; }
+  return buildClusterSpecsUrl(file);
 }
 
 export default class ClusterSpecCardsContainer extends React.Component {
