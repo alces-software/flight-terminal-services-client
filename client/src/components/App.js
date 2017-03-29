@@ -11,6 +11,10 @@ import { CookieBanner, Footer, Header } from 'flight-common';
 import { Nav, NavItem } from 'react-bootstrap';
 import * as analytics from '../utils/analytics';
 import Helmet from 'react-helmet';
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import OnBoardingContainer from '../containers/OnBoardingContainer';
@@ -66,7 +70,9 @@ class App extends Component {
           </Header>
           <div className="pageContainer">
             <CookieBanner />
-            <HomePage />
+            <Router>
+              <Route path="/" component={HomePage} />
+            </Router>
           </div>
         </div>
         <Footer
