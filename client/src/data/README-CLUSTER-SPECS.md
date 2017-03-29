@@ -8,11 +8,18 @@ should be launched.
 The format for the cluster specs file and how to configure which cluster specs
 file to use are described below.
 
-## Customizing the cluster specs URL.
+## Customizing the cluster specs file.
 
-The URL used can be customized by loading the Flight Launch application with a
-GET parameter. E.g., typing the following in the browser location bar
-`https://launch.alces-flight.com?clusterSpecsUrl=https://path/to/specs/to/test`
+The cluster specs file used can be customized by loading the Flight Launch
+application with a GET (url) parameter. E.g., typing the following in the
+browser location bar
+`https://launch.alces-flight.com?clusterSpecs=myClusterSpecs.json` will
+attempt to load the `myClusterSpecs.json` in the
+`s3://alces-flight/FlightLaunch/ClusterSpecs/` bucket.
+
+If the `clusterSpecs` url parameter is not provided the default cluster specs
+will be used.  They can be found at
+`s3://alces-flight/FlightLaunch/ClusterSpecs/default.json`.
 
 ## Format
 
