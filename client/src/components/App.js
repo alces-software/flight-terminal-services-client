@@ -12,10 +12,8 @@ import { Nav, NavItem } from 'react-bootstrap';
 import * as analytics from '../utils/analytics';
 import Helmet from 'react-helmet';
 
-import ClusterSpecCards from '../containers/ClusterSpecCardsContainer';
+import HomePage from './pages/HomePage';
 import OnBoardingContainer from '../containers/OnBoardingContainer';
-import Blurb from './Blurb';
-import Tagline from './Tagline';
 import Icon from './Icon';
 import appVersion from '../version';
 
@@ -68,11 +66,7 @@ class App extends Component {
           </Header>
           <div className="pageContainer">
             <CookieBanner />
-            <div>
-              <Tagline />
-              <Blurb />
-              <ClusterSpecCards />
-            </div>
+            <HomePage />
           </div>
         </div>
         <Footer
