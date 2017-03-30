@@ -16,6 +16,10 @@ import {
   TermsOfServicePage,
   SecurityPage,
 } from 'flight-common';
+import termsCopy from 'flight-common/src/copy/terms.md';
+import securityCopy from 'flight-common/src/copy/securityPolicy.md';
+import preCookieTableCopy from 'flight-common/src/copy/privacyPolicyPreCookieTable.md';
+import postCookieTableCopy from 'flight-common/src/copy/privacyPolicyPostCookieTable.md';
 import { Nav, NavItem } from 'react-bootstrap';
 import * as analytics from '../utils/analytics';
 import Helmet from 'react-helmet';
@@ -83,15 +87,26 @@ class App extends Component {
               <div>
                 <Route exact path="/" component={HomePage} />
                 <Route path="/about" component={AboutPage} />
-                <Route path="/privacy" component={PrivacyPolicyPage} />
+                <Route
+                  path="/privacy"
+                  render={() => <PrivacyPolicyPage
+                    lastUpdated="20th October 2016"
+                    postCookieTableCopy={postCookieTableCopy}
+                    preCookieTableCopy={preCookieTableCopy}
+                  />}
+                />
                 <Route
                   path="/terms"
                   render={() => <TermsOfServicePage
+                    copy={termsCopy}
                     productName={productName}
                     lastUpdated="20th October 2016"
                   />}
                 />
-                <Route path="/security" component={SecurityPage} />
+                <Route
+                  path="/security"
+                  render={() => <SecurityPage copy={securityCopy} />}
+                />
               </div>
             </div>
           </div>
