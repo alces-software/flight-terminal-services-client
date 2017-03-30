@@ -6,10 +6,13 @@ FLY_VERSION=0.5.0-dev
 FLY_DOWNLOAD_URL=https://s3-eu-west-1.amazonaws.com/alces-flight/FlightAttendant/${FLY_VERSION}/linux-x86_64/fly
 FLY_EXE_PATH=/app/fly
 
+DOKKU_SERVER=${1:-launch.alces-flight.com}
+APP_NAME=flight-launch
+
 main() {
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
-    header "Creating app"
+    header "Creating ${APP_NAME} app on ${DOKKU_SERVER}"
     create_app
     subheader "Adding configuration"
     configure_server
@@ -25,13 +28,13 @@ abort_if_uncommitted_changes_present() {
 }
 
 create_app() {
-    ssh launch.alces-flight.com \
-        "dokku apps:create flight-launch"
+    ssh ${DOKKU_SERVER} \
+        "dokku apps:create ${APP_NAME}"
 }
 
 configure_server() {
-    ssh launch.alces-flight.com \
-        "dokku config:set --no-restart flight-launch \
+    ssh ${DOKKU_SERVER} \
+        "dokku config:set --no-restart ${APP_NAME} \
             BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-ruby.git \
             FLY_DOWNLOAD_URL=$FLY_DOWNLOAD_URL \
             FLY_EXE_PATH=$FLY_EXE_PATH \
@@ -46,8 +49,8 @@ configure_server() {
             SMTP_USERNAME= \
             "
 
-    ssh launch.alces-flight.com \
-        "dokku domains:add flight-launch launch.alces-flight.com"
+    ssh ${DOKKU_SERVER} \
+        "dokku domains:add ${APP_NAME} ${DOKKU_SERVER}"
 }
 
 print_further_instructions() {
