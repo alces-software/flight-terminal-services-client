@@ -6,4 +6,8 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-export default '201703.5';
+import version from './data/version.json';
+
+export const major = version.major;
+export const minor = version.minor;
+export default `${version.major}.${version.minor}`;
