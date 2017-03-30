@@ -47,7 +47,7 @@ bump_version() {
 }
 
 checkout_release_branch() {
-    git checkout -b relase/"${NEW_VERSION}"
+    git checkout -b release/"${NEW_VERSION}"
 }
 
 commit_version_bump() {
