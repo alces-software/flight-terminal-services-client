@@ -1,0 +1,41 @@
+<%#
+  Copyright (C) 2017 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+<% setup %>
+
+<p>Hi,</p>
+
+<p>
+Unfortunately, your cluster "<%= @cluster_name %>" failed to launch.  You can
+view the error message below.  If this problem continues, please contact
+<a href="mailto:support@alces-flight.com">support@alces-flight.com</a>.
+</p>
+
+<% if @arn_present %>
+    <p>
+    You should visit your cluster's <a href="<%= @cloudformation_url %>">AWS
+        CloudFormation page</a> and terminate it.
+    </p>
+<% else %>
+    <p>
+    You should visit the <a href="<%= @cloudformation_url %>">AWS
+        CloudFormation console</a> and make sure that the cluster is not
+    running.
+    </p>
+<% end %>
+
+<blockquote>
+    <h4 class="error-message-title">Error message</h4>
+    <pre><%= @stderr %></pre>
+</blockquote>
+
+<% note do %>
+    You're receiving this email because you have started a cluster with Flight
+    Launch, and that cluster has failed to launch.
+<% end %>
+
+<%= render 'shared/contact_us' %>
