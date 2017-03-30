@@ -7,23 +7,40 @@
  *===========================================================================*/
 import React, { Component } from 'react';
 import '../styles/main.scss';
-import { CookieBanner, Footer, Header } from 'flight-common';
+import {
+  CookieBanner,
+  Footer,
+  Header,
+  NavItemLink,
+  PrivacyPolicyPage,
+  TermsOfServicePage,
+  SecurityPage,
+} from 'flight-common';
+import termsCopy from 'flight-common/src/copy/terms.md';
+import securityCopy from 'flight-common/src/copy/securityPolicy.md';
+import preCookieTableCopy from 'flight-common/src/copy/privacyPolicyPreCookieTable.md';
+import postCookieTableCopy from 'flight-common/src/copy/privacyPolicyPostCookieTable.md';
 import { Nav, NavItem } from 'react-bootstrap';
 import * as analytics from '../utils/analytics';
+import Helmet from 'react-helmet';
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom';
 
-import ClusterSpecCards from '../containers/ClusterSpecCardsContainer';
+import AboutPage from './pages/AboutPage';
+import HomePage from './pages/HomePage';
 import OnBoardingContainer from '../containers/OnBoardingContainer';
-import Blurb from './Blurb';
-import Tagline from './Tagline';
 import Icon from './Icon';
+import appVersion from '../version';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
 
 const LeftNav = ({ homePageLink, productName }) => (
   <Nav>
-    <NavItem>
+    <NavItemLink to={homePageLink} >
       {productName}
-    </NavItem>
+    </NavItemLink>
   </Nav>
 );
 
@@ -48,29 +65,63 @@ class App extends Component {
 
   render() {
     return (
-      <div className="sticky-footer-wrapper">
-        <div className="flight sticky-footer-main-content">
-          <OnBoardingContainer
-            ref={(el) => { this.onboardingContainer = el; }}
+      <Router>
+        <div className="sticky-footer-wrapper">
+          <Helmet
+            defaultTitle={productName}
+            titleTemplate={`${productName} - %s`}
+            meta={[
+              { name: 'client-version', content: appVersion },
+            ]}
           />
-          <Header homePageLink="/" productName={productName} >
-            <LeftNav homePageLink="/" productName={productName} />
-            <RightNav showWelcomeMessage={this.showWelcomeMessage} />
-          </Header>
-          <div className="pageContainer">
-            <CookieBanner />
-            <div>
-              <Tagline />
-              <Blurb />
-              <ClusterSpecCards />
+          <div className="flight sticky-footer-main-content">
+            <OnBoardingContainer
+              ref={(el) => { this.onboardingContainer = el; }}
+            />
+            <Header homePageLink="/" productName={productName} >
+              <LeftNav homePageLink="/" productName={productName} />
+              <RightNav showWelcomeMessage={this.showWelcomeMessage} />
+            </Header>
+            <div className="pageContainer">
+              <CookieBanner />
+              <div>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/about" component={AboutPage} />
+                <Route
+                  path="/privacy"
+                  render={() => <PrivacyPolicyPage
+                    lastUpdated="20th October 2016"
+                    postCookieTableCopy={postCookieTableCopy}
+                    preCookieTableCopy={preCookieTableCopy}
+                  />}
+                />
+                <Route
+                  path="/terms"
+                  render={() => <TermsOfServicePage
+                    copy={termsCopy}
+                    productName={productName}
+                    lastUpdated="20th October 2016"
+                  />}
+                />
+                <Route
+                  path="/security"
+                  render={() => <SecurityPage copy={securityCopy} />}
+                />
+              </div>
             </div>
           </div>
+          <Footer
+            firstCopyrightYear="2017"
+            productName={productName}
+            links={[
+              { to: '/about', text: 'About' },
+              { to: '/privacy', text: 'Privacy Policy' },
+              { to: '/terms', text: 'Terms of Service' },
+              { to: '/security', text: 'Security' },
+            ]}
+          />
         </div>
-        <Footer
-          firstCopyrightYear="2017"
-          productName={productName}
-        />
-      </div>
+      </Router>
     );
   }
 }
