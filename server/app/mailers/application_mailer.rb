@@ -6,6 +6,7 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 require_dependency 'alces/mailer/resender'
+require_dependency 'alces/action_view/templates'
 
 class ApplicationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
