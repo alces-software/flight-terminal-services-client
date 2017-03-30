@@ -14,6 +14,7 @@ import {
   NavItemLink,
   PrivacyPolicyPage,
   TermsOfServicePage,
+  SecurityPage,
 } from 'flight-common';
 import { Nav, NavItem } from 'react-bootstrap';
 import * as analytics from '../utils/analytics';
@@ -90,6 +91,7 @@ class App extends Component {
                     lastUpdated="20th October 2016"
                   />}
                 />
+                <Route path="/security" component={SecurityPage} />
               </div>
             </div>
           </div>
@@ -100,6 +102,7 @@ class App extends Component {
               { to: '/about', text: 'About' },
               { to: '/privacy', text: 'Privacy Policy' },
               { to: '/terms', text: 'Terms of Service' },
+              { to: '/security', text: 'Security' },
             ]}
           />
         </div>
