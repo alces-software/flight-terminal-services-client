@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+REMOTE=${1:-dokku}
+
 main() {
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
@@ -10,7 +12,7 @@ main() {
     subheader "Committing client bundle"
     commit_client_bundle
     trap remove_client_bundle_commit EXIT
-    header "Deploying"
+    header "Deploying to ${REMOTE}"
     deploy_server
 }
 
@@ -24,6 +26,7 @@ abort_if_uncommitted_changes_present() {
 build_client() {
     (
     rm -rf client/build/
+    docker-compose run --rm client ./bin/use-latest-flight-common.sh
     docker-compose run --rm client yarn run build
     ) 2> >(indent 1>&2) | indent
 }
@@ -41,7 +44,7 @@ deploy_server() {
     (
     tmp_branch=deployment-$(date +%s)
     git branch ${tmp_branch} $(git subtree split --prefix server HEAD )
-    git push dokku -f ${tmp_branch}:master
+    git push ${REMOTE} -f ${tmp_branch}:master
     git branch -D ${tmp_branch}
     ) 2> >(indent 1>&2) | indent
 }
