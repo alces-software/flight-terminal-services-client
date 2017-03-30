@@ -26,6 +26,7 @@ abort_if_uncommitted_changes_present() {
 build_client() {
     (
     rm -rf client/build/
+    docker-compose run --rm client ./bin/use-latest-flight-common.sh
     docker-compose run --rm client yarn run build
     ) 2> >(indent 1>&2) | indent
 }
