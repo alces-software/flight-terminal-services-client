@@ -6,6 +6,7 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 require_dependency 'alces/mailer/resender'
+require_dependency 'alces/action_view/templates'
 
 class ApplicationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
@@ -16,5 +17,5 @@ class ApplicationMailer < ActionMailer::Base
 
   default from: 'Flight Launch <launch@alces-flight.com>',
     reply_to: 'Nobody <no-reply@alces-flight.com>',
-    bcc: 'flight@alces-software.com'
+    bcc: ENV['MAIL_BCC_ADDRESS']
 end
