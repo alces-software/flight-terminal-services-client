@@ -122,11 +122,15 @@ code {
 }
 
 blockquote {
-    padding: 1px 10px;
+    padding: 0;
     border-radius: 5px;
     box-shadow: 0 0 5px $c-primary-color;
     background-color: $c-primary-color--lightest;
     border: 1px solid $c-primary-color;
+
+    table tbody td {
+        padding: 1px 10px;
+    }
 }
 
 img {
