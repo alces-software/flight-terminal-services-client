@@ -8,12 +8,18 @@
 
 class ClustersController < ApplicationController
   def launch
-    cluster_spec = ClusterSpec.new(cluster_spec_params)
-    cluster_launch_config = ClusterLaunchConfig.new(
-      cluster_launch_config_params.merge(spec: cluster_spec)
-    )
-    launch_command = LaunchClusterCommand.new(cluster_launch_config)
+    cluster_launch_config = build_launch_config
 
+    if cluster_launch_config.invalid?
+      render status: :bad_request, json: {
+        status: 404,
+        error: 'Bad Request',
+        details: cluster_launch_config.errors.messages
+      }
+      return
+    end
+
+    launch_command = LaunchClusterCommand.new(cluster_launch_config)
     begin
       launch_command.perform
     rescue LaunchClusterCommand::LaunchFailed
@@ -35,6 +41,12 @@ class ClustersController < ApplicationController
 
   private
 
+  def build_launch_config
+    cluster_spec = ClusterSpec.new(cluster_spec_params)
+    config_params = cluster_launch_config_params.merge(spec: cluster_spec)
+    ClusterLaunchConfig.new(config_params)
+  end
+
   def cluster_spec_params
     params.require(:fly).permit(args: []).tap do |h|
       unless params[:fly][:parameterDirectoryOverrides].nil?
@@ -44,8 +56,8 @@ class ClustersController < ApplicationController
   end
 
   def cluster_launch_config_params
-    permitted_params = [:email, :name, :access_key, :secret_key, :region, :key_pair]
-    required_params = [:email, :name, :access_key, :secret_key]
+    permitted_params = [:email, :name, :access_key, :secret_key, :token, :region, :key_pair]
+    required_params = [:email, :name]
 
     params.require(:cluster).permit(*permitted_params).tap do |h|
       required_params.each {|p| h.require(p) }
