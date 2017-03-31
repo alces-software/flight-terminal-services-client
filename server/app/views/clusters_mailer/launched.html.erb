@@ -1,0 +1,95 @@
+<%#
+  Copyright (C) 2017 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+<% setup %>
+
+<p>Hi,</p>
+
+<p>
+Your cluster "<%= @cluster_name %>" is now running and available for use.  You
+can find details about your cluster including how to access it below.
+</p>
+
+<blockquote>
+    <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <h4 class="cluster-details-title">Cluster details</h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <dl>
+                        <% @cluster_details.split("\n").each do |cd| %>
+                            <% title = cd.split(':').first %>
+                            <% description = cd.split(':')[1..-1].join(':') %>
+                            <dt><%= title %></dt>
+                            <dd><%= description %></dd>
+                        <% end %>
+                    </dl>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+
+<blockquote>
+    <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <h4 class="cluster-access-title">Accessing your cluster</h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <p>
+                    To access your cluster you can either use the Access URL provided above, or
+                    use an ssh client <code><%= @access_details %></code>
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+
+<blockquote>
+    <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <h4 class="cluster-resources-title">Cluster resources</h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <p>The following resources have been created:</p>
+
+                    <ul class="cluster-resource-list">
+                        <% @resources.split("\n").each do |resource| %>
+                            <li><%= resource %></li>
+                        <% end %>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+
+<% note do %>
+    You're receiving this email because you have started a cluster with Flight
+    Launch, and that cluster is now ready for use.
+<% end %>
+
+<%= render 'shared/contact_us' %>
