@@ -25,11 +25,11 @@ class ClusterLaunchConfig
   attr_accessor :spec
 
   def token=(t)
-    @token = Token.new(token: t)
+    @token = Token.new(token_string: t)
   end
 
   def access_key
-    if token.present? && token.valid?
+    if token.present? && token.available?
       Rails.configuration.alces.access_key
     else
       @access_key
@@ -37,7 +37,7 @@ class ClusterLaunchConfig
   end
 
   def secret_key
-    if token.present? && token.valid?
+    if token.present? && token.available?
       Rails.configuration.alces.secret_key
     else
       @secret_key
@@ -57,8 +57,10 @@ class ClusterLaunchConfig
       errors.add(:base, 'Must provide either token or both access_key and secret_key')
     elsif token.present? && @access_key.present? && @secret_key.present? 
       errors.add(:base, 'Must provide either token or both access_key and secret_key')
-    elsif token.present?
-      errors.add(:token, 'token has already been used') unless token.available?
+    elsif token.present? && token.not_found?
+      errors.add(:token, 'token not found')
+    elsif token.present? && ! token.available?
+      errors.add(:token, 'token has already been used')
     else
       # We have been given an access_key and a secret_key, there is nothing we
       # can do here to check that they are valid.  AWS will do so soon enough.

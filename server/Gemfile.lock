@@ -34,6 +34,14 @@ GEM
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
     alces-tools (0.12.0)
+    aws-sdk (2.9.0)
+      aws-sdk-resources (= 2.9.0)
+    aws-sdk-core (2.9.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.9.0)
+      aws-sdk-core (= 2.9.0)
+    aws-sigv4 (1.0.0)
     builder (3.2.3)
     commander (4.4.3)
       highline (~> 1.7.2)
@@ -48,6 +56,7 @@ GEM
       activesupport (>= 4.1.0)
     highline (1.7.8)
     i18n (0.8.1)
+    jmespath (1.3.1)
     launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.4.1)
@@ -108,6 +117,7 @@ DEPENDENCIES
   activemodel (~> 5.0.2)
   activesupport (~> 5.0.2)
   alces-tools (~> 0.12.0.a)!
+  aws-sdk (~> 2)
   commander
   foreman
   letter_opener (~> 1.4.1)
