@@ -17,5 +17,5 @@ class ApplicationMailer < ActionMailer::Base
 
   default from: 'Flight Launch <launch@alces-flight.com>',
     reply_to: 'Nobody <no-reply@alces-flight.com>',
-    bcc: 'flight@alces-software.com'
+    bcc: ENV['MAIL_BCC_ADDRESS']
 end
