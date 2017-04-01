@@ -1,0 +1,168 @@
+<html>
+<head>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.36.0.min.js"></script>
+
+<script type="text/javascript">
+AWS.config.update({
+  region: "eu-west-1",
+  // The endpoint should point to the local or remote computer where DynamoDB (downloadable) is running.
+  endpoint: 'dynamodb.eu-west-1.amazonaws.com',
+  /*
+    accessKeyId and secretAccessKey defaults can be used while using the downloadable version of DynamoDB. 
+    For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+  */
+  accessKeyId: "<dummy value>",
+  secretAccessKey: "<dummy value>"
+});
+
+  /* 
+     Uncomment the following code to configure Amazon Cognito and make sure to 
+     remove the endpoint, accessKeyId and secretAccessKey specified in the code above. 
+     Make sure Cognito is available in the DynamoDB web service region (specified above).
+     Finally, modify the IdentityPoolId and the RoleArn with your own.
+  */
+/*
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+IdentityPoolId: "us-west-2:12345678-1ab2-123a-1234-a12345ab12",
+RoleArn: "arn:aws:iam::123456789012:role/dynamocognito"
+});
+*/
+
+var dynamodb = new AWS.DynamoDB();
+var docClient = new AWS.DynamoDB.DocumentClient();
+
+<%
+    def load_list(path)
+        abs_path = File.join(File.dirname(__FILE__), "#{path}.txt")
+        File.read(abs_path).split("\n").to_json
+    end
+
+    def load_combinations(path)
+        abs_path = File.join(File.dirname(__FILE__), "#{path}.txt")
+        contents = File.read(abs_path)
+        contents.split("\n").map{|line| line.split(' ')}
+    end
+%>
+
+var lists = {
+    adjective: <%= load_list('adjectives') %>,
+    adverb: <%= load_list('adverbs') %>,
+    verb: <%= load_list('verbs') %>,
+    animal: <%= load_list('animals') %>,
+    thing: <%= load_list('things') %>,
+};
+
+var combinations = <%= load_combinations('combinations') %>;
+
+function randomChoice(collection) {
+    const index = Math.floor(Math.random() * collection.length);
+    return collection[index];
+}
+
+function randomToken() {
+    var combination = randomChoice(combinations);
+    var parts = [];
+    for (var i=0; i<combination.length; i++) {
+        parts.push(randomChoice(lists[combination[i]]));
+    }
+    return parts.join("-");
+}
+
+function createToken() {
+    var token = randomToken();
+    var params = {
+        TableName: "FlightLaunchTokens",
+        Item: {
+            "Token": token,
+            "Status": "AVAILABLE",
+        },
+        ConditionExpression: "attribute_not_exists(#token)",
+        ExpressionAttributeNames: {
+          "#token": "Token",
+        },
+    };
+    docClient.put(params, function(err, data) {
+        if (err) {
+            document.getElementById('errorMessages').innerHTML += "Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2) + "\n";
+        } else {
+            writeTokens([ token ]);
+        }
+    });
+}
+
+function createTokens() {
+    document.getElementById('textarea').innerHTML = "";
+    document.getElementById('errorMessages').innerHTML = "";
+    var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 10;
+    document.getElementById('infoMessages').innerHTML = "Creating " + numTokens + " tokens...";
+    for (var i=0; i<numTokens; i++) {
+        createToken();
+    }
+}
+
+function writeTokens(tokens) {
+    var existingTokens = document.getElementById('textarea').innerHTML.split("\n");
+    var allTokens = existingTokens.concat(tokens).filter(function(t) { return t !== ""; });
+    document.getElementById('textarea').innerHTML = allTokens.sort().join("\n");
+}
+
+function scanData() {
+    document.getElementById('errorMessages').innerHTML = "";
+    document.getElementById('textarea').innerHTML = "";
+    document.getElementById('infoMessages').innerHTML = "Loading tokens...";
+
+    var params = {
+        TableName: "FlightLaunchTokens",
+        FilterExpression: "#status = :available",
+        ExpressionAttributeNames: {
+            "#status": "Status",
+        },
+        ExpressionAttributeValues: {
+            ":available": "AVAILABLE",
+        },
+    };
+
+    docClient.scan(params, onScan);
+
+    function onScan(err, data) {
+        if (err) {
+            document.getElementById('errorMessages').innerHTML = "Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            var tokens = [];
+            data.Items.forEach(function(token) { tokens.push(token.Token); });
+            writeTokens(tokens);
+
+            // Continue scanning if we have more tokens (per scan 1MB limitation)
+            if (data.LastEvaluatedKey) {
+                document.getElementById('infoMessages').innerHTML += "Loading more...";
+                params.ExclusiveStartKey = data.LastEvaluatedKey;
+                docClient.scan(params, onScan);            
+            }
+        }
+        document.getElementById('infoMessages').innerHTML += "Done";
+    }
+}
+
+
+</script>
+</head>
+
+<body>
+    <div>
+        Create
+        <input id="numTokens" type="number" value="10" />
+        new tokens
+        <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
+        <span style="width: 3em; display: inline-block"></span>
+        <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
+    </div>
+
+<div style="margin-bottom: 1em"></div>
+<div id="infoMessages"></div>
+<div style="margin-bottom: 1em"></div>
+<pre id="errorMessages" style="color: red"></pre>
+<div style="margin-bottom: 1em"></div>
+<textarea readonly id= "textarea" style="width:400px; height:800px"></textarea>
+
+</body>
+</html>
