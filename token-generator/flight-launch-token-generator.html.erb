@@ -32,7 +32,7 @@ var dynamodb = new AWS.DynamoDB();
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 //
-// == Generation of semi-meaningful tokens ================
+// == Generation of semi-meaningful tokens =================
 //
 // E.g., reassuringly-penitent-plastic-fork
 //
@@ -119,7 +119,34 @@ function generateMeaninglessPart(length) {
 }
 
 //
-// == General token generation functions ==================
+// == Clipboard interaction ================================
+//
+
+function selectText() {
+    var element = document.getElementById("textarea");
+    element.select();
+    element.setSelectionRange(0, element.value.length);
+    return element.value;
+}
+
+function copyToClipboard() {
+    var succeeded;
+    var selectedText = selectText();
+    try {
+        succeeded = document.execCommand('copy');
+    } catch (err) {
+        succeeded = false;
+    }
+    if (succeeded) {
+        document.getElementById('infoMessages').innerHTML = "Copied!";
+    } else {
+        document.getElementById('errorMessages').innerHTML += "\nUnable to copy. Press Ctrl-C.";
+    }
+}
+
+
+//
+// == General token generation functions ===================
 //
 
 // Return a random integer in the range [0,max).
@@ -149,6 +176,10 @@ function randomToken() {
         document.getElementById('errorMessages').innerHTML += "Unable to generate tokens. Unknown token type" + tokenType + "\n";
     }
 }
+
+//
+// == Dynamodb interaction =================================
+//
 
 function createToken() {
     var token = randomToken();
@@ -229,31 +260,32 @@ function scanData() {
 </script>
 </head>
 
-<body>
-    <div style="margin-bottom: 1em">
-        Generate
-        <label><input type="radio" name="tokenType" value="semi-meaningful" checked> semi-meaningful</label>
-        <label><input type="radio" name="tokenType" value="meaningless"> meaningless</label>
-        tokens.
-    </div>
-    <div style="margin-bottom: 1em">
-        Create
-        <input id="numTokens" type="number" value="10" />
-        new
-        tokens
-        <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
-        <span style="width: 3em; display: inline-block"></span>
-    </div>
-    <div>
-        <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
-    </div>
+    <body>
+        <div style="margin-bottom: 1em">
+            Generate
+            <label><input type="radio" name="tokenType" value="semi-meaningful" checked> semi-meaningful</label>
+            <label><input type="radio" name="tokenType" value="meaningless"> meaningless</label>
+            tokens.
+        </div>
+        <div style="margin-bottom: 1em">
+            Create
+            <input id="numTokens" type="number" value="10" />
+            new
+            tokens
+            <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
+            <span style="width: 3em; display: inline-block"></span>
+        </div>
+        <div>
+            <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
+        </div>
 
-<div style="margin-bottom: 1em"></div>
-<div id="infoMessages"></div>
-<div style="margin-bottom: 1em"></div>
-<pre id="errorMessages" style="color: red"></pre>
-<div style="margin-bottom: 1em"></div>
-<textarea readonly id= "textarea" style="width:400px; height:800px"></textarea>
+        <div style="margin-bottom: 1em"></div>
+        <div id="infoMessages"></div>
+        <div style="margin-bottom: 1em"></div>
+        <pre id="errorMessages" style="color: red"></pre>
+        <div style="margin-bottom: 1em"></div>
+        <textarea readonly id="textarea" style="width:400px; height:400px"></textarea>
+        <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
 
-</body>
+    </body>
 </html>
