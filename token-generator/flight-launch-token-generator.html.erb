@@ -31,6 +31,12 @@ RoleArn: "arn:aws:iam::123456789012:role/dynamocognito"
 var dynamodb = new AWS.DynamoDB();
 var docClient = new AWS.DynamoDB.DocumentClient();
 
+//
+// == Generation of semi-meaningful tokens ================
+//
+// E.g., reassuringly-penitent-plastic-fork
+//
+
 <%
     def load_list(path)
         abs_path = File.join(File.dirname(__FILE__), "#{path}.txt")
@@ -54,18 +60,94 @@ var lists = {
 
 var combinations = <%= load_combinations('combinations') %>;
 
-function randomChoice(collection) {
-    const index = Math.floor(Math.random() * collection.length);
-    return collection[index];
-}
-
-function randomToken() {
+function generateSemiMeaningfulToken() {
     var combination = randomChoice(combinations);
     var parts = [];
     for (var i=0; i<combination.length; i++) {
         parts.push(randomChoice(lists[combination[i]]));
     }
     return parts.join("-");
+}
+
+//
+// == Generation of meaningless tokens =====================
+//
+// E.g., butarofe-dogre-lomenykebru
+//
+var SYLLABLES_2CH = "ba be bi bo bu by da de di do du dy fe fi fo fu fy ga \
+      ge gi go gu gy ha he hi ho hu hy ja je ji jo ju jy ka ke ko ku ky la le \
+      li lo lu ly ma me mi mo mu my na ne ni no nu ny pa pe pi po pu py ra re \
+      ri ro ru ry sa se si so su sy ta te ti to tu ty va ve vi vo vu vy er ed \
+      in ex al en an ad or at ca ap el ci an et it ob of af au cy im op co up".split(/ +/)
+
+var SYLLABLES_3CH = "bra bre bri bro bru bry dra dre dri dro dru dry fra fre \
+      fri fro fru fry gra gre gri gro gru gry pra pre pri pro pru pry sta ste \
+      sti sto stu sty tra tre ing con ter com per ble der cal man est for mer \
+      col ful get low son tle day pen pre ten tor ver ber can ple fer gen den \
+      mag sub sur men min out tal but cit cle cov dif ern eve hap ket nal sup \
+      ted tem tin tro tro".split(/ +/)
+
+var SYLLABLES = SYLLABLES_2CH.concat(SYLLABLES_3CH);
+var VOWELS = "a e i o u y".split(/ +/);
+
+function generateMeaninglessTriple() {
+    return generateMeaninglessToken(rand(3)+4, rand(3)+3, rand(3)+4)
+}
+
+function generateMeaninglessToken() {
+    var lengths = Array.prototype.slice.call(arguments);
+    var parts = [];
+    lengths.forEach(function(l) {
+        parts.push(generateMeaninglessPart(l));
+    });
+    return parts.join('-');
+}
+
+function generateMeaninglessPart(length) {
+    var s = "";
+    while ((remainder = length - s.length) > 0) {
+        switch (remainder) {
+            case 1:
+                s = s.concat(randomChoice(VOWELS));
+            case 2:
+                s = s.concat(randomChoice(SYLLABLES_2CH));
+            default:
+                s = s.concat(randomChoice(SYLLABLES));
+        }
+    }
+    return s;
+}
+
+//
+// == General token generation functions ==================
+//
+
+// Return a random integer in the range [0,max).
+function rand(max) {
+    return Math.floor(Math.random() * max);
+}
+
+function randomChoice(collection) {
+    const index = rand(collection.length);
+    return collection[index];
+}
+
+function randomToken() {
+    var tokenType;
+    var tokenTypeRadios = document.getElementsByName('tokenType');
+    for (var i=0; i<tokenTypeRadios.length; i++) {
+        var radio = tokenTypeRadios[i];
+        if (radio.checked) {
+            tokenType = radio.value;
+        }
+    }
+    if (tokenType === 'meaningless') {
+        return generateMeaninglessTriple();
+    } else if (tokenType === 'semi-meaningful') {
+        return generateSemiMeaningfulToken();
+    } else {
+        document.getElementById('errorMessages').innerHTML += "Unable to generate tokens. Unknown token type" + tokenType + "\n";
+    }
 }
 
 function createToken() {
@@ -148,12 +230,21 @@ function scanData() {
 </head>
 
 <body>
-    <div>
+    <div style="margin-bottom: 1em">
+        Generate
+        <label><input type="radio" name="tokenType" value="semi-meaningful" checked> semi-meaningful</label>
+        <label><input type="radio" name="tokenType" value="meaningless"> meaningless</label>
+        tokens.
+    </div>
+    <div style="margin-bottom: 1em">
         Create
         <input id="numTokens" type="number" value="10" />
-        new tokens
+        new
+        tokens
         <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
         <span style="width: 3em; display: inline-block"></span>
+    </div>
+    <div>
         <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
     </div>
 
