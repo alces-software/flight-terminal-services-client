@@ -13,19 +13,25 @@ import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 import ClusterErrorModal from '../components/ClusterErrorModal';
 import * as analytics from '../utils/analytics';
 
-function validate(allValues) {
+function validate(allValues, { useLaunchToken }) {
   const errors = {};
 
-  if (allValues.awsAccessKeyId == null ||
+  if ((!useLaunchToken && allValues.awsAccessKeyId == null) ||
     allValues.awsAccessKeyId.length < 16
   ) {
     errors.awsAccessKeyId = 'error';
   }
 
-  if (allValues.awsSecrectAccessKey == null ||
+  if ((!useLaunchToken && allValues.awsSecrectAccessKey == null) ||
     allValues.awsSecrectAccessKey.length < 16
   ) {
     errors.awsSecrectAccessKey = 'error';
+  }
+
+  if ((useLaunchToken && allValues.launchToken == null) ||
+    allValues.launchToken.length < 5
+  ) {
+    errors.launchToken = 'error';
   }
 
   if (allValues.clusterName == null || allValues.clusterName.length < 1) {
@@ -46,7 +52,8 @@ class ClusterLaunchFormContainer extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({ errors: validate(this.state.values) });
+    const useLaunchToken = this.state.useLaunchToken;
+    this.setState({ errors: validate(this.state.values, { useLaunchToken }) });
   }
 
   initialValues = {
@@ -54,6 +61,7 @@ class ClusterLaunchFormContainer extends React.Component {
     awsSecrectAccessKey: '',
     clusterName: '',
     email: '',
+    launchToken: '',
   }
 
   state = {
@@ -62,11 +70,13 @@ class ClusterLaunchFormContainer extends React.Component {
     showLaunchedModal: false,
     submitting: false,
     values: this.initialValues,
+    useLaunchToken: false,
     errors: {
       awsAccessKeyId: null,
       awsSecrectAccessKey: null,
       clusterName: null,
       email: null,
+      launchToken: null,
     },
     modalProps: {
       clusterName: null,
@@ -75,10 +85,11 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleFormChange = ({ name, value }) => {
+    const useLaunchToken = this.state.useLaunchToken;
     const errors = validate({
       ...this.state.values,
       [name]: value,
-    });
+    }, { useLaunchToken });
 
     this.setState({
       values: {
@@ -90,6 +101,16 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   sendLaunchRequest() {
+    let credentials;
+    if (this.state.useLaunchToken) {
+      credentials = { token: this.state.values.launchToken };
+    } else {
+      credentials = {
+        access_key: this.state.values.awsAccessKeyId,
+        secret_key: this.state.values.awsSecrectAccessKey,
+      };
+    }
+
     return fetch('/clusters/launch', {
       method: 'POST',
       headers: {
@@ -101,15 +122,15 @@ class ClusterLaunchFormContainer extends React.Component {
         cluster: {
           name: this.state.values.clusterName,
           email: this.state.values.email,
-          access_key: this.state.values.awsAccessKeyId,
-          secret_key: this.state.values.awsSecrectAccessKey,
+          ...credentials,
         },
       })
     })
   }
 
   handleLaunchResponse = (response) => {
-    const errors = validate(this.initialValues);
+    const useLaunchToken = this.state.useLaunchToken;
+    const errors = validate(this.initialValues, { useLaunchToken });
     const newState = {
       submitting: false,
       values: this.initialValues,
@@ -175,6 +196,10 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
   }
 
+  handleUseLaunchToken = () => {
+    this.setState({ useLaunchToken: !this.state.useLaunchToken });
+  }
+
   hideModal = () => {
     this.setState({ showLaunchedModal: false, showErrorModal: false });
   }
@@ -199,6 +224,7 @@ class ClusterLaunchFormContainer extends React.Component {
           onChange={this.handleFormChange}
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
+          onUseLaunchToken={this.handleUseLaunchToken}
           handleSubmit={this.handleSubmit}
         />
       </div>
