@@ -3,33 +3,47 @@
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.36.0.min.js"></script>
 
 <script type="text/javascript">
-AWS.config.update({
-  region: "eu-west-1",
-  // The endpoint should point to the local or remote computer where DynamoDB (downloadable) is running.
-  endpoint: 'dynamodb.eu-west-1.amazonaws.com',
-  /*
-    accessKeyId and secretAccessKey defaults can be used while using the downloadable version of DynamoDB. 
-    For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
-  */
-  accessKeyId: "<dummy value>",
-  secretAccessKey: "<dummy value>"
-});
 
-  /* 
-     Uncomment the following code to configure Amazon Cognito and make sure to 
-     remove the endpoint, accessKeyId and secretAccessKey specified in the code above. 
-     Make sure Cognito is available in the DynamoDB web service region (specified above).
-     Finally, modify the IdentityPoolId and the RoleArn with your own.
-  */
-/*
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-IdentityPoolId: "us-west-2:12345678-1ab2-123a-1234-a12345ab12",
-RoleArn: "arn:aws:iam::123456789012:role/dynamocognito"
-});
-*/
+window.onerror = function(err) {
+    document.getElementById('errorMessages').innerHTML += "\n" + err;
+}
 
-var dynamodb = new AWS.DynamoDB();
-var docClient = new AWS.DynamoDB.DocumentClient();
+var docClient = undefined;
+function updateAWSConfig() {
+    var accessKeyId = document.getElementById('awsAccessKeyId').value;
+    var secretAccessKey = document.getElementById('awsSecrectAccessKey').value;
+
+    AWS.config.update({
+        region: "eu-west-1",
+        // The endpoint should point to the local or remote computer where DynamoDB (downloadable) is running.
+        endpoint: 'dynamodb.eu-west-1.amazonaws.com',
+        /*
+           accessKeyId and secretAccessKey defaults can be used while using the downloadable version of DynamoDB. 
+           For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+         */
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey,
+    });
+
+    /* 
+       Uncomment the following code to configure Amazon Cognito and make sure to 
+       remove the endpoint, accessKeyId and secretAccessKey specified in the code above. 
+       Make sure Cognito is available in the DynamoDB web service region (specified above).
+       Finally, modify the IdentityPoolId and the RoleArn with your own.
+     */
+    /*
+       AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+       IdentityPoolId: "us-west-2:12345678-1ab2-123a-1234-a12345ab12",
+       RoleArn: "arn:aws:iam::123456789012:role/dynamocognito"
+       });
+     */
+
+    var dynamodb = new AWS.DynamoDB();
+    docClient = new AWS.DynamoDB.DocumentClient();
+
+    document.getElementById("credentials").style.display = 'none';
+    document.getElementById("generator").style.display = 'block';
+}
 
 //
 // == Generation of semi-meaningful tokens =================
@@ -210,6 +224,7 @@ function createTokens() {
     document.getElementById('infoMessages').innerHTML = "Creating " + numTokens + " tokens...";
     for (var i=0; i<numTokens; i++) {
         createToken();
+        // writeTokens([ randomToken() ]);
     }
 }
 
@@ -259,33 +274,44 @@ function scanData() {
 
 </script>
 </head>
-
     <body>
-        <div style="margin-bottom: 1em">
-            Generate
-            <label><input type="radio" name="tokenType" value="semi-meaningful" checked> semi-meaningful</label>
-            <label><input type="radio" name="tokenType" value="meaningless"> meaningless</label>
-            tokens.
+        <div id="credentials" style="margin-bottom: 1em">
+            <div style="margin-bottom: 1em">
+                <input id="awsAccessKeyId" placeholder="Enter your AWS access key ID" style="width: 20em" />
+            </div>
+            <div style="margin-bottom: 1em">
+                <input id="awsSecrectAccessKey" placeholder="Enter your AWS secret access key" style="width: 20em" />
+            </div>
+            <div style="margin-bottom: 1em">
+                <input id="submitCredentials" type="button" value="Submit" onclick="updateAWSConfig()" />
+            </div>
         </div>
-        <div style="margin-bottom: 1em">
-            Create
-            <input id="numTokens" type="number" value="10" />
-            new
-            tokens
-            <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
-            <span style="width: 3em; display: inline-block"></span>
-        </div>
-        <div>
-            <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
-        </div>
+        <div id="generator" style="display: none;">
+            <div style="margin-bottom: 1em">
+                Generate
+                <label><input type="radio" name="tokenType" value="semi-meaningful" checked> semi-meaningful</label>
+                <label><input type="radio" name="tokenType" value="meaningless"> meaningless</label>
+                tokens.
+            </div>
+            <div style="margin-bottom: 1em">
+                Create
+                <input id="numTokens" type="number" value="10" />
+                new
+                tokens
+                <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
+                <span style="width: 3em; display: inline-block"></span>
+            </div>
+            <div>
+                <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
+            </div>
 
-        <div style="margin-bottom: 1em"></div>
-        <div id="infoMessages"></div>
-        <div style="margin-bottom: 1em"></div>
-        <pre id="errorMessages" style="color: red"></pre>
-        <div style="margin-bottom: 1em"></div>
-        <textarea readonly id="textarea" style="width:400px; height:400px"></textarea>
-        <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
-
+            <div style="margin-bottom: 1em"></div>
+            <div id="infoMessages"></div>
+            <div style="margin-bottom: 1em"></div>
+            <pre id="errorMessages" style="color: red"></pre>
+            <div style="margin-bottom: 1em"></div>
+            <textarea readonly id="textarea" style="width:400px; height:400px"></textarea>
+            <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
+        </div>
     </body>
 </html>
