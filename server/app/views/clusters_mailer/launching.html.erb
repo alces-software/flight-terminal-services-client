@@ -9,9 +9,11 @@
 <p>Hi,</p>
 
 <p>
-Your cluster "<%= @cluster_name %>" is being launched by AWS.  You can view
-the progress on the <a href="<%= @cloudformation_url %>"> AWS CloudFormation
-    console</a>.
+Your cluster "<%= @cluster_name %>" is being launched by AWS.
+<% if @show_cloudformation_link %>
+    You can view the progress on the <a href="<%= @cloudformation_url %>"> AWS
+        CloudFormation console</a>.
+<% end %>
 </p>
 
 <p>We will send you another email once your cluster is available for use.</p>

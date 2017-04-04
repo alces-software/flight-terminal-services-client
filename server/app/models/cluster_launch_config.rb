@@ -52,6 +52,10 @@ class ClusterLaunchConfig
     @key_pair || Rails.configuration.alces.default_key_pair
   end
 
+  def using_token?
+    token.present?
+  end
+
   def credentials_present
     if token.nil? && ( @access_key.blank? || @secret_key.blank? )
       errors.add(:base, 'Must provide either token or both access_key and secret_key')
