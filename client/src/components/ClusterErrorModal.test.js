@@ -25,5 +25,31 @@ it('displays the exception message', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('pre')).toHaveText(error.exception);
+  expect(wrapper.find('ExceptionMessage').dive().find('pre')).toHaveText(error.exception);
+});
+
+it('displays an error message when the token cannot be found', () => {
+  const error = {
+    details: {
+      token: ['token not found'],
+    },
+  };
+  const wrapper = shallow(
+    <ClusterErrorModal show onHide={() => {}} error={error} />
+  );
+
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("we haven't been able to find that token");
+});
+
+it('displays an error message when the token has already been used', () => {
+  const error = {
+    details: {
+      token: ['token has already been used'],
+    },
+  };
+  const wrapper = shallow(
+    <ClusterErrorModal show onHide={() => {}} error={error} />
+  );
+
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("token has already been used");
 });
