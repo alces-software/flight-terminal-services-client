@@ -13,6 +13,7 @@ module Alces
                                          :wait_for_arn_duration,
                                          :default_key_pair,
                                          :default_region,
+                                         :default_template_set,
                                          :access_key,
                                          :secret_key)
           def initialize(*a)
