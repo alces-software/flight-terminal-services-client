@@ -11,10 +11,6 @@ import { shallow } from 'enzyme';
 
 import ClusterLaunchedModal from './ClusterLaunchedModal';
 
-const error = {
-  exception: 'An exception',
-};
-
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render((
@@ -27,7 +23,7 @@ it('renders without crashing', () => {
     div);
 });
 
-it('mentions emails if given an email address', () => {
+it('mentions having sent an email', () => {
   const wrapper = shallow(
     <ClusterLaunchedModal
       show
@@ -41,15 +37,30 @@ it('mentions emails if given an email address', () => {
   expect(wrapper.children('p').last()).toIncludeText('We have sent an email');
 });
 
-it('does not mention emails if not given an email address', () => {
+
+it('includes a "view the progress" link if given a cloudformationUrl', () => {
   const wrapper = shallow(
     <ClusterLaunchedModal
       show
       onHide={() => {}}
       cloudformationUrl="http://example.com"
       clusterName="clusteryMcClusterFace"
+      email="me@example.com"
     />
   );
 
-  expect(wrapper.children('p').last()).not.toIncludeText('We have sent an email');
+  expect(wrapper.children('p').first()).toIncludeText('view the progress');
+});
+
+it('does not include a "view the progress" link if not given a cloudformationUrl', () => {
+  const wrapper = shallow(
+    <ClusterLaunchedModal
+      show
+      onHide={() => {}}
+      clusterName="clusteryMcClusterFace"
+      email="me@example.com"
+    />
+  );
+
+  expect(wrapper.children('p').first()).not.toIncludeText('view the progress');
 });

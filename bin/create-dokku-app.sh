@@ -6,10 +6,10 @@ FLY_VERSION=0.5.0-dev
 FLY_DOWNLOAD_URL=https://s3-eu-west-1.amazonaws.com/alces-flight/FlightAttendant/${FLY_VERSION}/linux-x86_64/fly
 FLY_EXE_PATH=/app/fly
 
-DOKKU_SERVER=${1:-launch.alces-flight.com}
 APP_NAME=flight-launch
 
 main() {
+    parse_arguments "$@"
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
     header "Creating ${APP_NAME} app on ${DOKKU_SERVER}"
@@ -44,9 +44,9 @@ configure_server() {
             ALCES_LOG_WRITER_DEST=stdout \
             RACK_ENV=production \
             RAILS_ENV=production \
-            SMTP_HOST= \
-            SMTP_PASSWORD= \
-            SMTP_USERNAME= \
+            SMTP_HOST=smtp.sparkpostmail.com \
+            SMTP_PASSWORD=${SMTP_PASSWORD} \
+            SMTP_USERNAME=SMTP_Injection \
             "
 
     ssh ${DOKKU_SERVER} \
@@ -55,7 +55,7 @@ configure_server() {
 
 print_further_instructions() {
     echo ""
-    echo "Add configuration for SMTP_{HOST,PASSWORD,USERNAME}"
+    echo "If not already done, add configuration for SMTP_PASSWORD"
     echo "Then run deploy.sh"
 }
 
@@ -69,6 +69,50 @@ subheader() {
 
 indent() {
     sed 's/^/       /'
+}
+
+usage() {
+    echo "Usage: $(basename $0) [options]"
+    echo
+    echo "Create and configure the ${APP_NAME} dokku app"
+    echo
+    echo -e "      --dokku-server SERVER\t\tThe server on which to create the app"
+    echo -e "      --smtp-password PASSWORD\t\tThe SMTP password to configure the app to use"
+    echo -e "      --help\t\tShow this help message"
+}
+
+DOKKU_SERVER=launch.alces-flight.com
+SMTP_PASSWORD=
+
+parse_arguments() {
+    while [[ $# > 0 ]] ; do
+        key="$1"
+
+        case $key in
+            --dokku-server)
+                DOKKU_SERVER=$2
+                shift
+                shift
+                ;;
+
+            --smtp-password)
+                SMTP_PASSWORD=$2
+                shift
+                shift
+                ;;
+
+            --help)
+                usage
+                exit 0
+                ;;
+
+            *)
+                echo "$(basename $0): unrecognized option ${key}"
+                usage
+                exit 1
+                ;;
+        esac
+    done
 }
 
 main "$@"

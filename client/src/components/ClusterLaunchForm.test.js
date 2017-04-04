@@ -29,6 +29,8 @@ const commonProps = {
   onCancel: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
+  onToggleUseLaunchToken: () => {},
+  useLaunchToken: true,
 };
 
 it('renders without crashing', () => {
@@ -46,29 +48,38 @@ it('renders without crashing', () => {
 });
 
 describe('pages render without crashing', () => {
-  const wrapper = shallow(
-    <ClusterLaunchForm
-      {...commonProps}
-      clusterSpec={clusterSpec}
-      currentPageIndex={0}
-      errors={{}}
-      values={{}}
-    />
-  );
+  const wrapperVariants = [
+    { useLaunchToken: true },
+    { useLaunchToken: false },
+  ];
 
-  const instance = wrapper.instance();
-  instance.pages.forEach((page, index) => {
-    test(`page ${index}`, () => {
-      const div = document.createElement('div');
-      ReactDOM.render(page.render(), div);
+  wrapperVariants.forEach((variantProps, variantIndex) => {
+    const wrapper = shallow(
+      <ClusterLaunchForm
+        {...commonProps}
+        {...variantProps}
+        clusterSpec={clusterSpec}
+        currentPageIndex={0}
+        errors={{}}
+        values={{}}
+      />
+    );
+
+    const instance = wrapper.instance();
+    instance.pages.forEach((page, index) => {
+      test(`page ${index} - variant ${variantIndex}`, () => {
+        const div = document.createElement('div');
+        ReactDOM.render(page.render(), div);
+      });
     });
   });
 });
 
 describe('pages validity', () => {
-  const mkWrapper = (errors) => shallow(
+  const mkWrapper = (errors, props) => shallow(
     <ClusterLaunchForm
       {...commonProps}
+      {...props}
       clusterSpec={clusterSpec}
       currentPageIndex={0}
       errors={errors}
@@ -76,9 +87,9 @@ describe('pages validity', () => {
     />
   );
 
-  const mkTest = ({ testName, errors, pageIndex, expectedValidity }) => {
+  const mkTest = ({ testName, errors, pageIndex, props={}, expectedValidity }) => {
     test(testName, () => {
-    const instance = mkWrapper(errors).instance();
+    const instance = mkWrapper(errors, props).instance();
     const page = instance.pages[pageIndex];
 
     expect(page.valid()).toBe(expectedValidity);
@@ -106,13 +117,22 @@ describe('pages validity', () => {
     },
     {
       testName: 'credentials page is invalid when it should be',
+      errors: { launchToken: 'blank' },
+      props: { useLaunchToken: true },
+      pageIndex: 0,
+      expectedValidity: false,
+    },
+    {
+      testName: 'credentials page is invalid when it should be',
       errors: { awsSecrectAccessKey: 'blank' },
+      props: { useLaunchToken: false },
       pageIndex: 0,
       expectedValidity: false,
     },
     {
       testName: 'credentials page is invalid when it should be',
       errors: { awsAccessKeyId: 'blank' },
+      props: { useLaunchToken: false },
       pageIndex: 0,
       expectedValidity: false,
     },

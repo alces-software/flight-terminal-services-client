@@ -1,0 +1,318 @@
+<html>
+<head>
+    <title>Flight Launch Token Generator</title>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.36.0.min.js"></script>
+
+<script type="text/javascript">
+
+window.onerror = function(err) {
+    document.getElementById('errorMessages').innerHTML += "\n" + err;
+}
+
+var docClient = undefined;
+function updateAWSConfig() {
+    var accessKeyId = document.getElementById('awsAccessKeyId').value;
+    var secretAccessKey = document.getElementById('awsSecrectAccessKey').value;
+
+    AWS.config.update({
+        region: "eu-west-1",
+        // The endpoint should point to the local or remote computer where DynamoDB (downloadable) is running.
+        endpoint: 'dynamodb.eu-west-1.amazonaws.com',
+        /*
+           accessKeyId and secretAccessKey defaults can be used while using the downloadable version of DynamoDB. 
+           For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
+         */
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey,
+    });
+
+    /* 
+       Uncomment the following code to configure Amazon Cognito and make sure to 
+       remove the endpoint, accessKeyId and secretAccessKey specified in the code above. 
+       Make sure Cognito is available in the DynamoDB web service region (specified above).
+       Finally, modify the IdentityPoolId and the RoleArn with your own.
+     */
+    /*
+       AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+       IdentityPoolId: "us-west-2:12345678-1ab2-123a-1234-a12345ab12",
+       RoleArn: "arn:aws:iam::123456789012:role/dynamocognito"
+       });
+     */
+
+    var dynamodb = new AWS.DynamoDB();
+    docClient = new AWS.DynamoDB.DocumentClient();
+
+    document.getElementById("credentials").style.display = 'none';
+    document.getElementById("generator").style.display = 'block';
+}
+
+//
+// == Generation of absurd tokens =================
+//
+// E.g., reassuringly-penitent-plastic-fork
+//
+
+<%
+    def load_list(path)
+        abs_path = File.join(File.dirname(__FILE__), "#{path}.txt")
+        File.read(abs_path).split("\n").to_json
+    end
+
+    def load_combinations(path)
+        abs_path = File.join(File.dirname(__FILE__), "#{path}.txt")
+        contents = File.read(abs_path)
+        contents.split("\n").map{|line| line.split(' ')}
+    end
+%>
+
+var lists = {
+    adjective: <%= load_list('adjectives') %>,
+    adverb: <%= load_list('adverbs') %>,
+    verb: <%= load_list('verbs') %>,
+    animal: <%= load_list('animals') %>,
+    thing: <%= load_list('things') %>,
+};
+
+var combinations = <%= load_combinations('combinations') %>;
+
+function generateSemiMeaningfulToken() {
+    var combination = randomChoice(combinations);
+    var parts = [];
+    for (var i=0; i<combination.length; i++) {
+        parts.push(randomChoice(lists[combination[i]]));
+    }
+    return parts.join("-");
+}
+
+//
+// == Generation of meaningless tokens =====================
+//
+// E.g., butarofe-dogre-lomenykebru
+//
+var SYLLABLES_2CH = "ba be bi bo bu by da de di do du dy fe fi fo fu fy ga \
+      ge gi go gu gy ha he hi ho hu hy ja je ji jo ju jy ka ke ko ku ky la le \
+      li lo lu ly ma me mi mo mu my na ne ni no nu ny pa pe pi po pu py ra re \
+      ri ro ru ry sa se si so su sy ta te ti to tu ty va ve vi vo vu vy er ed \
+      in ex al en an ad or at ca ap el ci an et it ob of af au cy im op co up".split(/ +/)
+
+var SYLLABLES_3CH = "bra bre bri bro bru bry dra dre dri dro dru dry fra fre \
+      fri fro fru fry gra gre gri gro gru gry pra pre pri pro pru pry sta ste \
+      sti sto stu sty tra tre ing con ter com per ble der cal man est for mer \
+      col ful get low son tle day pen pre ten tor ver ber can ple fer gen den \
+      mag sub sur men min out tal but cit cle cov dif ern eve hap ket nal sup \
+      ted tem tin tro tro".split(/ +/)
+
+var SYLLABLES = SYLLABLES_2CH.concat(SYLLABLES_3CH);
+var VOWELS = "a e i o u y".split(/ +/);
+
+function generateMeaninglessTriple() {
+    return generateMeaninglessToken(rand(3)+4, rand(3)+3, rand(3)+4)
+}
+
+function generateMeaninglessToken() {
+    var lengths = Array.prototype.slice.call(arguments);
+    var parts = [];
+    lengths.forEach(function(l) {
+        parts.push(generateMeaninglessPart(l));
+    });
+    return parts.join('-');
+}
+
+function generateMeaninglessPart(length) {
+    var s = "";
+    while ((remainder = length - s.length) > 0) {
+        switch (remainder) {
+            case 1:
+                s = s.concat(randomChoice(VOWELS));
+            case 2:
+                s = s.concat(randomChoice(SYLLABLES_2CH));
+            default:
+                s = s.concat(randomChoice(SYLLABLES));
+        }
+    }
+    return s;
+}
+
+//
+// == Clipboard interaction ================================
+//
+
+function selectText() {
+    var element = document.getElementById("textarea");
+    element.select();
+    element.setSelectionRange(0, element.value.length);
+    return element.value;
+}
+
+function copyToClipboard() {
+    var succeeded;
+    var selectedText = selectText();
+    try {
+        succeeded = document.execCommand('copy');
+    } catch (err) {
+        succeeded = false;
+    }
+    if (succeeded) {
+        document.getElementById('infoMessages').innerHTML = "Copied!";
+    } else {
+        document.getElementById('errorMessages').innerHTML += "\nUnable to copy. Press Ctrl-C.";
+    }
+}
+
+
+//
+// == General token generation functions ===================
+//
+
+// Return a random integer in the range [0,max).
+function rand(max) {
+    return Math.floor(Math.random() * max);
+}
+
+function randomChoice(collection) {
+    const index = rand(collection.length);
+    return collection[index];
+}
+
+function randomToken() {
+    var tokenType;
+    var tokenTypeRadios = document.getElementsByName('tokenType');
+    for (var i=0; i<tokenTypeRadios.length; i++) {
+        var radio = tokenTypeRadios[i];
+        if (radio.checked) {
+            tokenType = radio.value;
+        }
+    }
+    if (tokenType === 'meaningless') {
+        return generateMeaninglessTriple();
+    } else if (tokenType === 'absurd') {
+        return generateSemiMeaningfulToken();
+    } else {
+        document.getElementById('errorMessages').innerHTML += "Unable to generate tokens. Unknown token type" + tokenType + "\n";
+    }
+}
+
+//
+// == Dynamodb interaction =================================
+//
+
+function createToken() {
+    var token = randomToken();
+    var params = {
+        TableName: "FlightLaunchTokens",
+        Item: {
+            "Token": token,
+            "Status": "AVAILABLE",
+        },
+        ConditionExpression: "attribute_not_exists(#token)",
+        ExpressionAttributeNames: {
+          "#token": "Token",
+        },
+    };
+    docClient.put(params, function(err, data) {
+        if (err) {
+            document.getElementById('errorMessages').innerHTML += "Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2) + "\n";
+        } else {
+            writeTokens([ token ]);
+        }
+    });
+}
+
+function createTokens() {
+    document.getElementById('textarea').innerHTML = "";
+    document.getElementById('errorMessages').innerHTML = "";
+    var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 10;
+    document.getElementById('infoMessages').innerHTML = "Creating " + numTokens + " tokens...";
+    for (var i=0; i<numTokens; i++) {
+        createToken();
+        // writeTokens([ randomToken() ]);
+    }
+}
+
+function writeTokens(tokens) {
+    var existingTokens = document.getElementById('textarea').innerHTML.split("\n");
+    var allTokens = existingTokens.concat(tokens).filter(function(t) { return t !== ""; });
+    document.getElementById('textarea').innerHTML = allTokens.sort().join("\n");
+}
+
+function scanData() {
+    document.getElementById('errorMessages').innerHTML = "";
+    document.getElementById('textarea').innerHTML = "";
+    document.getElementById('infoMessages').innerHTML = "Loading tokens...";
+
+    var params = {
+        TableName: "FlightLaunchTokens",
+        FilterExpression: "#status = :available",
+        ExpressionAttributeNames: {
+            "#status": "Status",
+        },
+        ExpressionAttributeValues: {
+            ":available": "AVAILABLE",
+        },
+    };
+
+    docClient.scan(params, onScan);
+
+    function onScan(err, data) {
+        if (err) {
+            document.getElementById('errorMessages').innerHTML = "Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2);
+        } else {
+            var tokens = [];
+            data.Items.forEach(function(token) { tokens.push(token.Token); });
+            writeTokens(tokens);
+
+            // Continue scanning if we have more tokens (per scan 1MB limitation)
+            if (data.LastEvaluatedKey) {
+                document.getElementById('infoMessages').innerHTML += "Loading more...";
+                params.ExclusiveStartKey = data.LastEvaluatedKey;
+                docClient.scan(params, onScan);            
+            }
+        }
+        document.getElementById('infoMessages').innerHTML += "Done";
+    }
+}
+
+
+</script>
+</head>
+    <body>
+        <div id="credentials" style="margin-bottom: 1em">
+            <div style="margin-bottom: 1em">
+                <input id="awsAccessKeyId" placeholder="Enter your AWS access key ID" style="width: 20em" />
+            </div>
+            <div style="margin-bottom: 1em">
+                <input id="awsSecrectAccessKey" placeholder="Enter your AWS secret access key" style="width: 20em" />
+            </div>
+            <div style="margin-bottom: 1em">
+                <input id="submitCredentials" type="button" value="Submit" onclick="updateAWSConfig()" />
+            </div>
+        </div>
+        <div id="generator" style="display: none;">
+            <div style="margin-bottom: 1em">
+                Generate
+                <label><input type="radio" name="tokenType" value="absurd" checked> absurd</label>
+                <label><input type="radio" name="tokenType" value="meaningless"> meaningless</label>
+                tokens.
+            </div>
+            <div style="margin-bottom: 1em">
+                Create
+                <input id="numTokens" type="number" value="10" />
+                new
+                tokens
+                <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
+                <span style="width: 3em; display: inline-block"></span>
+            </div>
+            <div>
+                <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
+            </div>
+
+            <div style="margin-bottom: 1em"></div>
+            <div id="infoMessages"></div>
+            <div style="margin-bottom: 1em"></div>
+            <pre id="errorMessages" style="color: red"></pre>
+            <div style="margin-bottom: 1em"></div>
+            <textarea readonly id="textarea" style="width:400px; height:400px"></textarea>
+            <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
+        </div>
+    </body>
+</html>

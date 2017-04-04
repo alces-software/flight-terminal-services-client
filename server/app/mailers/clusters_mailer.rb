@@ -26,7 +26,12 @@ class ClustersMailer < ApplicationMailer
   #
   def launching(launch_config, arn)
     @cluster_name = launch_config.name
-    @cloudformation_url = cluster_cloudformation_url(arn, launch_config)
+    if launch_config.using_token?
+      @show_cloudformation_link = false
+    else
+      @show_cloudformation_link = true
+      @cloudformation_url = cluster_cloudformation_url(arn, launch_config)
+    end
 
     mail to: launch_config.email,
       subject: "Launching cluster #{@cluster_name}"
@@ -60,11 +65,16 @@ class ClustersMailer < ApplicationMailer
   def failed(launch_config, stderr, arn)
     @cluster_name = launch_config.name
     @stderr = stderr
-    @arn_present = arn.present?
-    if @arn_present
-      @cloudformation_url = cluster_cloudformation_url(arn, launch_config)
+    if launch_config.using_token?
+      @show_cloudformation_link = false
     else
-      @cloudformation_url = cloudformation_console_url(launch_config)
+      @show_cloudformation_link = true
+      @arn_present = arn.present?
+      if @arn_present
+        @cloudformation_url = cluster_cloudformation_url(arn, launch_config)
+      else
+        @cloudformation_url = cloudformation_console_url(launch_config)
+      end
     end
 
     mail to: launch_config.email,

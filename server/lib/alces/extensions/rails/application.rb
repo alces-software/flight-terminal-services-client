@@ -12,7 +12,9 @@ module Alces
         class Configuration < Struct.new(:flags,
                                          :wait_for_arn_duration,
                                          :default_key_pair,
-                                         :default_region)
+                                         :default_region,
+                                         :access_key,
+                                         :secret_key)
           def initialize(*a)
             super
             self.flags ||= {}
