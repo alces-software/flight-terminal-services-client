@@ -25,14 +25,20 @@ const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, sho
     title="Your cluster is launching"
   >
     <p>
-      Your cluster, <em>{clusterName}</em>, is being launched by AWS.  You can
-      {' '}<a
-        href={cloudformationUrl}
-        target="_blank"
-        rel="noopener noreferrer" 
-      >
-        view the progress
-      </a>{' '} on the AWS CloudFormation console.
+      Your cluster, <em>{clusterName}</em>, is being launched by AWS.
+      {
+        cloudformationUrl ? (
+          <span>
+            You can{' '}<a
+              href={cloudformationUrl}
+              target="_blank"
+              rel="noopener noreferrer" 
+            >
+              view the progress
+            </a>{' '} on the AWS CloudFormation console.
+          </span>)
+          : null
+      }
     </p>
     {
       email ? (
