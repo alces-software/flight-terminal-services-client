@@ -2,13 +2,14 @@
 
 set -euo pipefail
 
-REMOTE=${1:-dokku}
-
 main() {
+    parse_arguments "$@"
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
-    header "Building client"
-    build_client
+    if [ "$SKIP_CLIENT_BUILD" == "false" ] ; then
+        header "Building client"
+        build_client
+    fi
     subheader "Committing client bundle"
     commit_client_bundle
     trap remove_client_bundle_commit EXIT
@@ -67,6 +68,49 @@ subheader() {
 
 indent() {
     sed 's/^/       /'
+}
+
+usage() {
+    echo "Usage: $(basename $0) [options]"
+    echo
+    echo "Deploy HEAD to a dokku app"
+    echo
+    echo -e "      --dokku-remote REMOTE\t\tThe git remote to deploy to"
+    echo -e "      --skip-client-build\t\tDon't rebuild the client"
+    echo -e "      --help\t\tShow this help message"
+}
+
+REMOTE=dokku
+SKIP_CLIENT_BUILD=false
+
+parse_arguments() {
+    while [[ $# > 0 ]] ; do
+        key="$1"
+
+        case $key in
+            --dokku-remote)
+                REMOTE=$2
+                shift
+                shift
+                ;;
+
+            --skip-client-build)
+                SKIP_CLIENT_BUILD=true
+                shift
+                ;;
+
+            --help)
+                usage
+                exit 0
+                ;;
+
+            *)
+                echo "$(basename $0): unrecognized option ${key}"
+                usage
+                exit 1
+                ;;
+        esac
+    done
 }
 
 main "$@"
