@@ -5,5 +5,6 @@ flight-launch-token-generator.html: flight-launch-token-generator.html.erb *.txt
 
 upload: flight-launch-token-generator.html
 	aws s3 cp \
+		--acl public-read \
 		flight-launch-token-generator.html \
 		s3://alces-flight-launch-token-generator/index.html
