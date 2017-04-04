@@ -46,6 +46,7 @@ class LaunchClusterCommand
     @run_fly_cmd = RunFlyLaunchCommand.new(parameter_dir, @launch_config)
 
     send_about_to_launch_email
+    mark_token_as(:in_use)
     run_launch_thread
     wait_for_arn
 
@@ -67,14 +68,17 @@ class LaunchClusterCommand
       begin
         @run_fly_cmd.perform
       rescue
+        mark_token_as(:available)
         send_failed_email
         Rails.logger.info "Launch thread raised exception #{$!}"
         raise LaunchFailed, "Launch thread failed: #{$!}"
       else
         Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
         if @run_fly_cmd.failed?
+          mark_token_as(:available)
           send_failed_email
         else
+          mark_token_as(:used)
           send_completed_email
         end
       end
@@ -133,5 +137,12 @@ class LaunchClusterCommand
   def send_completed_email
     ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
       deliver_now
+  end
+
+  def mark_token_as(status)
+    token = @launch_config.token
+    if token.present?
+      token.mark_as(status, @launch_config.email)
+    end
   end
 end

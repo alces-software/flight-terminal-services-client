@@ -22,7 +22,9 @@ class ClusterLaunchForm extends React.Component {
     onCancel: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
+    onToggleUseLaunchToken: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
+    useLaunchToken: PropTypes.bool.isRequired,
   };
 
   pages = [
@@ -37,12 +39,19 @@ class ClusterLaunchForm extends React.Component {
           values={{
             awsAccessKeyId: this.props.values.awsAccessKeyId,
             awsSecrectAccessKey: this.props.values.awsSecrectAccessKey,
+            launchToken: this.props.values.launchToken,
           }}
           onChange={this.props.onChange}
+          onToggleUseLaunchToken={this.props.onToggleUseLaunchToken}
+          useLaunchToken={this.props.useLaunchToken}
         />),
-      valid: () => (
-        !this.props.errors.awsAccessKeyId && !this.props.errors.awsSecrectAccessKey
-      ),
+      valid: () => {
+        if (this.props.useLaunchToken) {
+          return !this.props.errors.launchToken;
+        } else {
+          return !this.props.errors.awsAccessKeyId && !this.props.errors.awsSecrectAccessKey;
+        }
+      },
     },
     {
       render: () => (
