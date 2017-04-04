@@ -196,7 +196,7 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
   }
 
-  handleUseLaunchToken = () => {
+  handleToggleUseLaunchToken = () => {
     this.setState({ useLaunchToken: !this.state.useLaunchToken });
   }
 
@@ -224,7 +224,7 @@ class ClusterLaunchFormContainer extends React.Component {
           onChange={this.handleFormChange}
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
-          onUseLaunchToken={this.handleUseLaunchToken}
+          onToggleUseLaunchToken={this.handleToggleUseLaunchToken}
           handleSubmit={this.handleSubmit}
         />
       </div>

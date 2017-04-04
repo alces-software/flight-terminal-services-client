@@ -11,7 +11,7 @@ import Input from './ClusterFormInput';
 
 const propTypes = {
   id: PropTypes.string.isRequired,
-  onUseLaunchToken: PropTypes.func.isRequired,
+  onToggleUseLaunchToken: PropTypes.func.isRequired,
   onChange: PropTypes.func,
   errors: PropTypes.shape({
     awsAccessKeyId: PropTypes.string,
@@ -27,7 +27,7 @@ const Credentials = ({
   errors,
   id,
   onChange,
-  onUseLaunchToken,
+  onToggleUseLaunchToken,
   values,
   useLaunchToken,
 }) => {
@@ -42,7 +42,7 @@ const Credentials = ({
         value={values.launchToken}
       />
       <p>
-        Let me <a onClick={onUseLaunchToken}>use my AWS credentials</a>.
+        Let me <a onClick={onToggleUseLaunchToken}>use my AWS credentials</a>.
       </p>
     </div>
     );
@@ -66,7 +66,7 @@ const Credentials = ({
           value={values.awsSecrectAccessKey}
         />
         <p>
-          I have a <a onClick={onUseLaunchToken}>Flight Launch token</a>.
+          I have a <a onClick={onToggleUseLaunchToken}>Flight Launch token</a>.
         </p>
       </div>
     );

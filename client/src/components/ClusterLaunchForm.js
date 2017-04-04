@@ -22,7 +22,7 @@ class ClusterLaunchForm extends React.Component {
     onCancel: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
-    onUseLaunchToken: PropTypes.func.isRequired,
+    onToggleUseLaunchToken: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
     useLaunchToken: PropTypes.bool.isRequired,
   };
@@ -42,7 +42,7 @@ class ClusterLaunchForm extends React.Component {
             launchToken: this.props.values.launchToken,
           }}
           onChange={this.props.onChange}
-          onUseLaunchToken={this.props.onUseLaunchToken}
+          onToggleUseLaunchToken={this.props.onToggleUseLaunchToken}
           useLaunchToken={this.props.useLaunchToken}
         />),
       valid: () => {
