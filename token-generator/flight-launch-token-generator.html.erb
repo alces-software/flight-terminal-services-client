@@ -47,7 +47,7 @@ function updateAWSConfig() {
 }
 
 //
-// == Generation of semi-meaningful tokens =================
+// == Generation of absurd tokens =================
 //
 // E.g., reassuringly-penitent-plastic-fork
 //
@@ -185,7 +185,7 @@ function randomToken() {
     }
     if (tokenType === 'meaningless') {
         return generateMeaninglessTriple();
-    } else if (tokenType === 'semi-meaningful') {
+    } else if (tokenType === 'absurd') {
         return generateSemiMeaningfulToken();
     } else {
         document.getElementById('errorMessages').innerHTML += "Unable to generate tokens. Unknown token type" + tokenType + "\n";
@@ -290,7 +290,7 @@ function scanData() {
         <div id="generator" style="display: none;">
             <div style="margin-bottom: 1em">
                 Generate
-                <label><input type="radio" name="tokenType" value="semi-meaningful" checked> semi-meaningful</label>
+                <label><input type="radio" name="tokenType" value="absurd" checked> absurd</label>
                 <label><input type="radio" name="tokenType" value="meaningless"> meaningless</label>
                 tokens.
             </div>
