@@ -70,7 +70,7 @@ class ClusterLaunchFormContainer extends React.Component {
     showLaunchedModal: false,
     submitting: false,
     values: this.initialValues,
-    useLaunchToken: false,
+    useLaunchToken: true,
     errors: {
       awsAccessKeyId: null,
       awsSecrectAccessKey: null,
