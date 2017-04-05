@@ -91,6 +91,7 @@ Rails.application.configure do
   config.alces.wait_for_arn_duration = Integer(ENV['WAIT_FOR_ARN_DURATION']) rescue 120
   config.alces.default_key_pair = ENV['DEFAULT_KEY_PAIR']
   config.alces.default_region = ENV['DEFAULT_REGION']
+  config.alces.default_template_set = ENV['DEFAULT_TEMPLATE_SET']
   config.alces.access_key = ENV['AWS_ACCESS_KEY_ID']
   config.alces.secret_key = ENV['AWS_SECRET_ACCESS_KEY']
 end
