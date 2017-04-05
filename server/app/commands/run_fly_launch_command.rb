@@ -43,7 +43,14 @@ class RunFlyLaunchCommand
   end
 
   def build_command_and_environment
-    extra_args = @launch_config.spec.args || []
+    extra_args = []
+    default_template_set = Rails.application.config.alces.default_template_set
+    if default_template_set.present?
+      extra_args << '--template-set' << default_template_set
+    end
+    if @launch_config.spec.args.present?
+      extra_args += @launch_config.spec.args
+    end
     if @launch_config.key_pair.present?
       extra_args << '--key-pair' << @launch_config.key_pair
     end

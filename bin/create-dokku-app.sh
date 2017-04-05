@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-FLY_VERSION=0.5.0-dev
+FLY_VERSION=0.5.0
 FLY_DOWNLOAD_URL=https://s3-eu-west-1.amazonaws.com/alces-flight/FlightAttendant/${FLY_VERSION}/linux-x86_64/fly
 FLY_EXE_PATH=/app/fly
 

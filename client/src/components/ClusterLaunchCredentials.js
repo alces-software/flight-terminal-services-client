@@ -40,6 +40,8 @@ const Credentials = ({
         onChange={onChange}
         placeholder="Enter your Flight Launch token"
         value={values.launchToken}
+        help="A Flight Launch token allows you to try out Alces Flight Compute
+        without incurring any charges."
       />
       <p>
         Let me <a onClick={onToggleUseLaunchToken}>use my AWS credentials</a>.

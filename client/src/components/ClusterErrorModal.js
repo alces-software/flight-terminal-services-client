@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import { StandardModal } from 'flight-common';
+import { ContactCustomerSupport, StandardModal } from 'flight-common';
 
 const DetailsMessage = ({ details }) => {
   if (details.token && details.token.some(e => e === 'token not found')) {
@@ -27,6 +27,8 @@ const DetailsMessage = ({ details }) => {
   }
 }
 
+// When we have the server returning proper error responses, rather than a 500
+// error we can remove this and use DetailsMessage.
 const ExceptionMessage = ({ exception }) => (
   <div>
     <p>
@@ -41,10 +43,28 @@ const ExceptionMessage = ({ exception }) => (
   </div>
 );
 
+const UnexpectedMessage = ({ message }) => (
+  <div>
+    <p>
+      Unfortunately, there was an unexpected error whilst trying to launch
+      your cluster.  <ContactCustomerSupport />
+    </p>
+    <p>
+      The error message reported was:
+    </p>
+    <pre>
+      <code>
+        {message}
+      </code>
+    </pre>
+  </div>
+);
+
 const propTypes = {
   error: PropTypes.shape({
     exception: PropTypes.string,
     details: PropTypes.object,
+    unexpected: PropTypes.string,
   }),
   onHide: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
@@ -56,6 +76,8 @@ const ClusterErrorModal = ({ error, onHide, show }) => {
     errorMessage = <ExceptionMessage exception={error.exception} />;
   } else if (error && error.details) {
     errorMessage = <DetailsMessage details={error.details} />;
+  } else if (error && error.unexpected) {
+    errorMessage = <UnexpectedMessage message={error.unexpected} />;
   }
 
   return (
