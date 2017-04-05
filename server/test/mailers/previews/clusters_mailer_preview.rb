@@ -5,14 +5,16 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.about_to_launch(launch_config)
   end
 
+  def about_to_launch_with_token
+    ClustersMailer.about_to_launch(token_launch_config)
+  end
+
   def launching
     ClustersMailer.launching(launch_config, arn)
   end
 
   def launching_with_token
-    lc = launch_config
-    lc.token = 'a token'
-    ClustersMailer.launching(lc, arn)
+    ClustersMailer.launching(token_launch_config, arn)
   end
 
   # Preview this email at http://localhost:3000/rails/mailers/clusters_mailer/launched
@@ -26,11 +28,9 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.failed(launch_config, output, arn)
   end
 
-  def failed_via_token
-    lc = launch_config
-    lc.token = 'a token'
+  def failed_with_token
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
-    ClustersMailer.failed(lc, output, arn)
+    ClustersMailer.failed(token_launch_config, output, arn)
   end
 
   private
@@ -40,6 +40,12 @@ class ClustersMailerPreview < ActionMailer::Preview
       email: 'me@example.com',
       name: 'my-cluster',
     )
+  end
+
+  def token_launch_config
+    launch_config.tap do |lc|
+      lc.token = 'carelessly-spoil-coffee'
+    end
   end
 
   def arn
