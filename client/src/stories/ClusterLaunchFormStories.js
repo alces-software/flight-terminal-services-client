@@ -148,10 +148,24 @@ storiesOf('ClusterLaunchForm', module)
     />
   ))
 
-  .add('completed email page', () => (
+  .add('completed email page (token)', () => (
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
+      currentPageIndex={2}
+      handleSubmit={(event) => {
+        event.preventDefault();
+        linkTo('ClusterLaunchForm', 'when submitting')();
+      }}
+      onShowPreviousPage={linkTo('ClusterLaunchForm', 'completed cluster name page')}
+    />
+  ))
+
+  .add('completed email page (AWS creds)', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      {...completedProps}
+      useLaunchToken={false}
       currentPageIndex={2}
       handleSubmit={(event) => {
         event.preventDefault();

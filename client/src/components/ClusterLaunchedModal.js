@@ -29,7 +29,7 @@ const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, sho
       {
         cloudformationUrl ? (
           <span>
-            You can{' '}<a
+            {' '}You can{' '}<a
               href={cloudformationUrl}
               target="_blank"
               rel="noopener noreferrer" 
