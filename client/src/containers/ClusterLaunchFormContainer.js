@@ -128,54 +128,51 @@ class ClusterLaunchFormContainer extends React.Component {
     })
   }
 
-  handleLaunchResponse = (response) => {
+  handleSuccessfulLaunch(json) {
+    analytics.clusterLaunchAccepted(this.props.clusterSpec);
     const useLaunchToken = this.state.useLaunchToken;
     const errors = validate(this.initialValues, { useLaunchToken });
-    const newState = {
+    this.setState({
       submitting: false,
       values: this.initialValues,
       currentPageIndex: 0,
       errors: errors,
-    };
+      modalProps: {
+        clusterName: json.cluster_name,
+        cloudformationUrl: json.cloudformation_url,
+        email: json.email,
+      },
+      showLaunchedModal: true,
+    });
+  }
 
-    if (response.ok) {
-      return response.json()
-        .then((json) => {
-          analytics.clusterLaunchAccepted(this.props.clusterSpec);
-          const modalProps = {
-            clusterName: json.cluster_name,
-            cloudformationUrl: json.cloudformation_url,
-            email: json.email,
-          };
-          this.setState({
-            ...newState,
-            modalProps: modalProps,
-            showLaunchedModal: true,
-          });
-        })
-        .catch(() => {
-          const modalProps = {
-            error: 'Unexpected error',
-          };
-          this.setState({
-            ...newState,
-            modalProps: modalProps,
-            showErrorModal: true,
-          });
-        });
+  handleFailedLaunch(json) {
+    analytics.clusterLaunchRejected(this.props.clusterSpec, json);
+    this.setState({
+      modalProps: {
+        error: json
+      },
+      showErrorModal: true,
+      submitting: false,
+    });
+  }
+
+  handleUnexpectedError = (exception) => {
+    let message;
+    if (exception.message) {
+      message = exception.message;
     } else {
-      return response.json().then((json) => {
-        analytics.clusterLaunchRejected(this.props.clusterSpec, json);
-        const modalProps = {
-          error: json
-        };
-        this.setState({
-          ...newState,
-          modalProps: modalProps,
-          showErrorModal: true,
-        });
-      });
+      message = exception.toString();
     }
+    this.setState({
+      submitting: false,
+      modalProps: {
+        error: {
+          unexpected: message,
+        },
+      },
+      showErrorModal: true,
+    });
   }
 
   handleSubmit = (event) => {
@@ -185,7 +182,17 @@ class ClusterLaunchFormContainer extends React.Component {
 
     analytics.clusterLaunchRequested(this.props.clusterSpec);
     return this.sendLaunchRequest()
-      .then(this.handleLaunchResponse);
+      .then((response) => {
+        return response.json()
+          .then((json) => {
+            if (response.ok) {
+              return this.handleSuccessfulLaunch(json);
+            } else {
+              return this.handleFailedLaunch(json);
+            }
+          });
+      })
+      .catch(this.handleUnexpectedError);
   }
 
   handleShowNextPage = () => {

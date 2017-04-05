@@ -26,6 +26,7 @@ const ClusterName = ({ error, id, onChange, value }) => (
       placeholder="Enter a name for your cluster"
       value={value}
       onChange={onChange}
+      help="Choose a unique name for your cluster."
     />
   </div>
 );
