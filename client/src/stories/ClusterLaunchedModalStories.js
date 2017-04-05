@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 
-import ClusterLaunchedModal from '../ClusterLaunchedModal';
+import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 
 storiesOf('ClusterLaunchedModal', module)
   .add('with email', () => (
