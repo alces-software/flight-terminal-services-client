@@ -75,7 +75,7 @@ class ClusterFormInput extends React.Component {
         }
         {
           this.props.help
-            ? <HelpBlock>{this.props.help}</HelpBlock>
+            ? <HelpBlock className="c-para">{this.props.help}</HelpBlock>
             : null
         }
       </FormGroup>
