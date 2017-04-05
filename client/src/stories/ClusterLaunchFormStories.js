@@ -17,11 +17,14 @@ const clusterSpec = {
 
 const commonProps = {
   clusterSpec: clusterSpec,
+  errors: {},
   handleSubmit: () => {},
+  onCancel: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
+  onToggleUseLaunchToken: () => {},
+  useLaunchToken: true,
   values: {},
-  errors: {},
 };
 
 storiesOf('ClusterLaunchForm', module)
