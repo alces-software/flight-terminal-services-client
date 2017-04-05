@@ -99,12 +99,20 @@ class ClusterLaunchForm extends React.Component {
 
         onConfirm={this.props.handleSubmit}
         confirmButtonText="Launch"
-        confirmText={<span>
-          Launching this cluster will incur charges against your AWS account
-          until the cluster is shutdown.  Flight Launch will not shut the
-          cluster down, it is your responsibility to do so when you have
-          finished using it.
-        </span>}
+        confirmText={
+          this.props.useLaunchToken ?
+            (<span>
+              Launching this cluster will consume your Flight Launch token.
+              You will not be charged for running this cluster, but <em>Alces
+                Flight</em> reserve the right to terminate it without notice.
+            </span>) :
+            (<span>
+              Launching this cluster will incur charges against your AWS account
+              until the cluster is shutdown.  Flight Launch will not shut the
+              cluster down, it is your responsibility to do so when you have
+              finished using it.
+            </span>)
+        }
       />
     );
   }
