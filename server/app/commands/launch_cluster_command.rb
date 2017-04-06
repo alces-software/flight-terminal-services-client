@@ -68,9 +68,10 @@ class LaunchClusterCommand
       begin
         @run_fly_cmd.perform
       rescue
+        Rails.logger.info "Launch thread raised exception #{$!}"
+        Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
         mark_token_as(:available)
         send_failed_email
-        Rails.logger.info "Launch thread raised exception #{$!}"
         raise LaunchFailed, "Launch thread failed: #{$!}"
       else
         Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
@@ -95,7 +96,7 @@ class LaunchClusterCommand
                          "Waited #{slept} of max #{max_wait} seconds.")
       if slept > max_wait
         raise LaunchFailed,
-          "arn not available after #{count} seconds\n#{@run_fly_cmd.stderr}"
+          "arn not available after #{slept} seconds\n#{@run_fly_cmd.stderr}"
       end
       unless @launch_thread.alive?
         raise LaunchFailed,
@@ -125,6 +126,11 @@ class LaunchClusterCommand
   end
 
   def send_launching_email
+    # When launched with a token we have nothing interesting to say here.
+    # We've already told the user that we will start launching the cluster,
+    # and we cannot provide them with a useful CloudFormation link.
+    return if @launch_config.using_token?
+
     ClustersMailer.launching(@launch_config, arn).
       deliver_now
   end
