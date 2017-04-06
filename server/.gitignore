@@ -27,7 +27,6 @@ bundle-bin
 
 # Developer specific configuration files.
 vendor/alces/config/local_config.yml
-config/database.yml
 
 # Ignore parts of Bundler's output.
 vendor/cache/*-x86_64-linux.gem
