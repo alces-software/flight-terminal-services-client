@@ -9,7 +9,7 @@
 <p>Hi,</p>
 
 <p>
-Your cluster "<%= @cluster_name %>" will begin launching on AWS shortly.
+Your cluster "<%= @cluster_name %>" will begin launching shortly.
 <% if @using_token %>
     You will not be charged for running this cluster, but <em>Alces Flight
         Ltd</em> reserve the right to terminate it without notice.
@@ -20,10 +20,16 @@ Your cluster "<%= @cluster_name %>" will begin launching on AWS shortly.
 <% end %>
 </p>
 
-<p>
-We will send you another email once we have the AWS CloudFormation link for
-your cluster.
-</p>
+<% if @using_token %>
+    <p>
+    We will send you another email once your cluster is available for use.
+    </p>
+<% else %>
+    <p>
+    We will send you another email once we have the AWS CloudFormation link for
+    your cluster.
+    </p>
+<% end %>
 
 <% note do %>
     <p class="notes">
