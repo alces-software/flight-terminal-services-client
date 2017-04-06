@@ -30,15 +30,15 @@ class FakeFly
     global_option '--secret-key KEY', ''
     global_option '--key-pair KEY_PAIR', ''
     global_option '--solo', ''
+    global_option '--template-set TEMPLATE_SET', ''
 
     command 'cluster launch' do |c|
       c.syntax = 'cluster launch'
       c.description = 'Launch a cluster'
       c.option '--solo', ''
+      c.option '--template-set TEMPLATE_SET', ''
 
       c.action do |args, options|
-::STDERR.puts "=== args: #{(args).inspect rescue $!.message}"
-::STDERR.puts "=== options: #{(options).inspect rescue $!.message}"
         case args.first
         when 'will-launch-successfully', 'bens'
           will_launch_output
