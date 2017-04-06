@@ -126,6 +126,11 @@ class LaunchClusterCommand
   end
 
   def send_launching_email
+    # When launched with a token we have nothing interesting to say here.
+    # We've already told the user that we will start launching the cluster,
+    # and we cannot provide them with a useful CloudFormation link.
+    return if @launch_config.using_token?
+
     ClustersMailer.launching(@launch_config, arn).
       deliver_now
   end

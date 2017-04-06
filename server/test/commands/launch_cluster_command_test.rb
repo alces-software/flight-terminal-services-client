@@ -106,7 +106,9 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
     )
     @launch_command = LaunchClusterCommand.new(cluster_launch_config)
 
-    assert_difference "ActionMailer::Base.deliveries.size", +2 do
+    initial_emails = cluster_launch_config.using_token? ? 1 : 2
+
+    assert_difference "ActionMailer::Base.deliveries.size", initial_emails do
       @launch_command.perform
     end
 
@@ -115,6 +117,17 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
     end
   end
 
+  test 'launching a good cluster with AWS creds sends 3 emails' do
+    launch_cluster(:good_with_aws_creds)
+    assert_equal 3, ActionMailer::Base.deliveries.length
+  end
+
+  test 'launching a good cluster with a launch token sends 2 emails' do
+    with_stubbed_token(true) do
+      launch_cluster(:good_with_token)
+      assert_equal 2, ActionMailer::Base.deliveries.length
+    end
+  end
 
   [:good_with_aws_creds, :good_with_token].each do |cluster_flavour|
     test "launching a good cluster sends an about to launch email (#{cluster_flavour})" do
