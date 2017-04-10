@@ -71,6 +71,18 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
           <ClusterSpecCostFooterIcon costs={clusterSpec.costs} /> :
           null
       }
+      {
+        clusterSpec.ui.runtime ?
+          <Card.FooterIcon
+            name={"clock-o"}
+            text={<span>{clusterSpec.ui.runtime} minutes</span>}
+            tooltip={<span>
+              This cluster will be automatically terminated after
+              {' '}{clusterSpec.ui.runtime} minutes.
+            </span>}
+          /> :
+          null
+      }
     </Card.FooterIcons>
   );
 };

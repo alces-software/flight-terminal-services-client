@@ -25,6 +25,13 @@ function buildSchedulersMap(schedulers) {
   return map;
 }
 
+function findRuntimeLimit(clusterSpec) {
+  const flyArgs = clusterSpec.fly.args;
+  const runtimeIndex = flyArgs.indexOf('--runtime');
+  if (runtimeIndex === -1) { return; }
+  return flyArgs[runtimeIndex + 1];
+}
+
 function processClusterSpecs(clusterSpecs) {
   const schedulerSpecs = buildSchedulersMap(clusterSpecs.schedulers);
 
@@ -37,12 +44,14 @@ function processClusterSpecs(clusterSpecs) {
     const usesSpot = overrides.some(o => o.ComputeSpotPrice != null && o.ComputeSpotPrice !== '0');
     const spotPrice = overrides.find(o => o.ComputeSpotPrice != null || {}).ComputeSpotPrice;
     const schedulerType = (overrides.find(o => o.SchedulerType != null) || {}).SchedulerType;
+    const runtime = findRuntimeLimit(clusterSpec);
 
     return {
       ...clusterSpec,
       ui: {
         autoscaling,
         preloadSoftware,
+        runtime,
         spotPrice,
         usesSpot,
         scheduler: schedulerSpecs[schedulerType],
