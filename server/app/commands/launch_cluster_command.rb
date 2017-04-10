@@ -27,7 +27,13 @@ require 'tmpdir'
 #     send an email to that affect.
 #
 class LaunchClusterCommand
-  class LaunchFailed < RuntimeError; end
+  class LaunchError < RuntimeError; end
+  class ArnNotAvailable < LaunchError; end
+  class InvalidKeyPair < LaunchError; end
+  class InvalidCredentials < LaunchError; end
+  class BadRegion < LaunchError; end
+  class ClusterNameTaken < LaunchError; end
+  class Unexpected < LaunchError; end
 
   attr_reader :launch_thread
 
@@ -53,7 +59,7 @@ class LaunchClusterCommand
     if @run_fly_cmd.failed?
       # No need to send a failed email here.  One will be sent when
       # @launch_thread terminates.
-      raise LaunchFailed, @run_fly_cmd.stderr
+      raise ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
     else
       send_launching_email
     end
@@ -72,7 +78,7 @@ class LaunchClusterCommand
         Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
         mark_token_as(:available)
         send_failed_email
-        raise LaunchFailed, "Launch thread failed: #{$!}"
+        raise Unexpected, $!
       else
         Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
         if @run_fly_cmd.failed?
@@ -95,12 +101,11 @@ class LaunchClusterCommand
       Rails.logger.debug("Waiting for stack arn to become available. " +
                          "Waited #{slept} of max #{max_wait} seconds.")
       if slept > max_wait
-        raise LaunchFailed,
+        raise ArnNotAvailable, 
           "arn not available after #{slept} seconds\n#{@run_fly_cmd.stderr}"
       end
       unless @launch_thread.alive?
-        raise LaunchFailed,
-          "Launch thread no longer running: #{@run_fly_cmd.stderr}"
+        raise ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
       end
       sleep 1
       slept += 1
