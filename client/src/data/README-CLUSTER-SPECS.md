@@ -76,7 +76,8 @@ launch the cluster. E.g.,
 
     "fly": {
       "args": [
-        "--solo"
+        "--solo",
+        "--runtime", "240"
       ],
       "parameterDirectoryOverrides": {
         "solo": {
@@ -93,8 +94,8 @@ Valid values for the `solo` parameter directory override can be found by
 running `fly --create-parameter-directory foo ; cat foo/solo.yml`.
 
 Valid values for the `args` array can be found by running `fly cluster launch --help`.
-In practice, passing only the `"--solo" flag is likely to be all that is
-required or wanted.
+In practice, passing the `"--solo" flag and the `"--runtime"` argument are
+likely to be all that is required or wanted.
 
 #### Costs section
 
@@ -208,7 +209,8 @@ An example of a cluster specs json file with three cluster specs is given below.
       },
       "fly": {
         "args": [
-          "--solo"
+          "--solo",
+          "--runtime", "240"
         ],
         "parameterDirectoryOverrides": {
           "solo": {
@@ -234,7 +236,8 @@ An example of a cluster specs json file with three cluster specs is given below.
       },
       "fly": {
         "args": [
-          "--solo"
+          "--solo",
+          "--runtime", "240"
         ],
         "parameterDirectoryOverrides": {
           "solo": {
@@ -260,7 +263,8 @@ An example of a cluster specs json file with three cluster specs is given below.
       },
       "fly": {
         "args": [
-          "--solo"
+          "--solo",
+          "--runtime", "240"
         ],
         "parameterDirectoryOverrides": {
           "solo": {
