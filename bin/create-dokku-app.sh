@@ -25,6 +25,8 @@ main() {
 
     subheader "Adding cronjob"
     add_cronjobs
+    subheader "Configuring nginx"
+    configure_nginx
     print_further_instructions
 }
 
@@ -68,6 +70,21 @@ add_cronjobs() {
     ssh ${DOKKU_SERVER} \
         'cat <<EOF | crontab -
 */15 * * * * dokku --rm run flight-launch rake alces:clusters:expired:terminate"
+EOF
+'
+}
+
+configure_nginx() {
+    ssh ${DOKKU_SERVER} \
+        'cat <<EOF | sudo tee /etc/nginx/conf.d/00-default-vhost.conf
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  server_name _;
+  return 410;
+  log_not_found off;
+}
 EOF
 '
 }
