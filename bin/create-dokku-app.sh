@@ -74,7 +74,9 @@ configure_app() {
 add_cronjobs() {
     ssh ${DOKKU_SERVER} \
         'cat <<EOF | crontab -
-*/15 * * * * dokku --rm run flight-launch rake alces:clusters:expired:terminate"
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+*/15 * * * * dokku --rm run flight-launch rake alces:clusters:expired:terminate
 EOF
 '
 }
