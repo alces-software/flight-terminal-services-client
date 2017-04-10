@@ -39,6 +39,12 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClusterLaunchConfig.new(
       email: 'me@example.com',
       name: 'my-cluster',
+      spec: ClusterSpec.new(
+        meta: {
+          'title' => 'Small SGE bioinformatics cluster',
+          'titleLowerCase' => 'small SGE bioinformatics cluster',
+        }
+      ),
     )
   end
 

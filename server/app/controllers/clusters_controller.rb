@@ -54,9 +54,12 @@ class ClustersController < ApplicationController
   end
 
   def cluster_spec_params
-    params.require(:fly).permit(args: []).tap do |h|
-      unless params[:fly][:parameterDirectoryOverrides].nil?
-        h[:parameter_directory_overrides] = params[:fly][:parameterDirectoryOverrides].permit!
+    params.require(:clusterSpec).permit(args: []).tap do |h|
+      unless params[:clusterSpec][:parameterDirectoryOverrides].nil?
+        h[:parameter_directory_overrides] = params[:clusterSpec][:parameterDirectoryOverrides].permit!
+      end
+      unless params[:clusterSpec][:meta].nil?
+        h[:meta] = params[:clusterSpec][:meta].permit!
       end
     end
   end
@@ -65,7 +68,7 @@ class ClustersController < ApplicationController
     permitted_params = [:email, :name, :access_key, :secret_key, :token, :region, :key_pair]
     required_params = [:email, :name]
 
-    params.require(:cluster).permit(*permitted_params).tap do |h|
+    params.require(:clusterLaunch).permit(*permitted_params).tap do |h|
       required_params.each {|p| h.require(p) }
     end
   end

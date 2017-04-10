@@ -9,6 +9,8 @@
 #
 # A specification of a cluster that is easily understood by Flight Attendant.
 #
+# See the comment in ClusterLaunchConfig.
+#
 class ClusterSpec
   include ActiveModel::Model
 
@@ -34,11 +36,19 @@ class ClusterSpec
   # `0.3` and `slurm` respectively.
   attr_accessor :parameter_directory_overrides
 
+  # A map of metadata about the cluster spec.  This is not used in the
+  # launching of the cluster spec.
+  attr_accessor :meta
+
   def args
     @args || []
   end
 
   def parameter_directory_overrides
     @parameter_directory_overrides || {}
+  end
+
+  def meta
+    @meta || {}
   end
 end

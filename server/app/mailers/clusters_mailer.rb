@@ -14,6 +14,8 @@ class ClustersMailer < ApplicationMailer
   #
   def about_to_launch(launch_config)
     @cluster_name = launch_config.name
+
+    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @using_token = launch_config.using_token?
 
     mail to: launch_config.email,
@@ -27,6 +29,7 @@ class ClustersMailer < ApplicationMailer
   #
   def launching(launch_config, arn)
     @cluster_name = launch_config.name
+    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     if launch_config.using_token?
       @show_cloudformation_link = false
     else
@@ -48,6 +51,7 @@ class ClustersMailer < ApplicationMailer
     @cluster_details = @parsed_output.details
     @access_details = @parsed_output.access
     @cluster_name = launch_config.name
+    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
 
     @resources = @parsed_output.resources.
       select {|r| r.final_status == 'CREATE_COMPLETE'}.
@@ -65,6 +69,7 @@ class ClustersMailer < ApplicationMailer
   #
   def failed(launch_config, stderr, arn)
     @cluster_name = launch_config.name
+    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @stderr = stderr
     if launch_config.using_token?
       @show_cloudformation_link = false

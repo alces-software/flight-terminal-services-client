@@ -3,7 +3,7 @@
 
 Hi,
 
-Your cluster "my-cluster" will begin launching shortly.  Once it has
+Your small SGE bioinformatics cluster "my-cluster" will begin launching shortly.  Once it has
 started launching, your AWS account will incur charges until the cluster is
 shutdown.  Flight Launch will not shut the cluster down, it is your
 responsibility to do so when you have finished using it.

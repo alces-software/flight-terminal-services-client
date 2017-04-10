@@ -10,13 +10,13 @@ require 'test_helper'
 
 class LaunchingClusterTest < ActionDispatch::IntegrationTest
   successful_cluster = {
-    "cluster": {
+    "clusterLaunch": {
       "name": "will-launch-successfully",
       "email": "me@example.com",
       "access_key": "<REDACTED>",
       "secret_key": "<REDACTED>"
     },
-    "fly": {
+    "clusterSpec": {
       "args": [ "--solo" ],
       "parameterDirectoryOverrides": {
         "solo": {

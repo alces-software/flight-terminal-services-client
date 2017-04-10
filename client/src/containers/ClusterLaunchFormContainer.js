@@ -118,8 +118,14 @@ class ClusterLaunchFormContainer extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        fly: this.props.clusterSpec.fly,
-        cluster: {
+        clusterSpec: {
+          ...this.props.clusterSpec.fly,
+          meta: {
+            title: this.props.clusterSpec.ui.title,
+            titleLowerCase: this.props.clusterSpec.ui.titleLowerCase,
+          },
+        },
+        clusterLaunch: {
           name: this.state.values.clusterName,
           email: this.state.values.email,
           ...credentials,
