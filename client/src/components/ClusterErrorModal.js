@@ -8,18 +8,37 @@
 import React, { PropTypes } from 'react';
 import { ContactCustomerSupport, StandardModal } from 'flight-common';
 
+
+function hasPropError(errorDetails, prop, error) {
+  return errorDetails[prop] && errorDetails[prop].some(e => e === error);
+}
+
 const DetailsMessage = ({ details }) => {
-  if (details.token && details.token.some(e => e === 'token not found')) {
+  if (hasPropError(details, 'token', 'token not found')) {
     return (
       <span>
         Unfortunately, we haven't been able to find that token. Please check
         that you have entered it correctly.
       </span>
     );
-  } else if (details.token && details.token.some(e => e === 'token has already been used')) {
+  } else if (hasPropError(details, 'token', 'token has already been used')) {
     return (
       <span>
         Unfortunately, that token has already been used.
+      </span>
+    );
+  } else if (hasPropError(details, 'credentials', 'invalid credentials')) {
+    return (
+      <span>
+        The AWS credentials you have provided are not valid.  Please check
+        that you have entered them correctly.
+      </span>
+    );
+  } else if (hasPropError(details, 'cluster_name', 'taken')) {
+    return (
+      <span>
+        The cluster name you have chosen is already in use.  Please change the
+        cluster name and try again.
       </span>
     );
   } else {
