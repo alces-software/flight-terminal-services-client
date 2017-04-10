@@ -117,6 +117,13 @@
         &.card-icons-group--5 {
             width: $card-icon-width * 5;
         }
+        &.card-icons-group--6 {
+            width: $card-icon-width * 6;
+            .card-icon {
+                width: 85px;
+                font-size: 90%;
+            }
+        }
     }
 
     .card-footer {

@@ -20,6 +20,9 @@ main() {
 }
 
 setup() {
+    header "Preparing to build docker containers"
+    prepare_server
+
     header "Building docker containers"
     export USER_ID=$(id -u)
     export GROUP_ID=$(id -g)
@@ -39,7 +42,16 @@ setup_client() {
     cp -an .env.example .env
 
     header "Installing packages"
-    bin/docker-run -- yarn 2> >(indent 1>&2) | indent
+    docker-compose run --rm client yarn 2> >(indent 1>&2) | indent
+
+    popd
+}
+
+prepare_server() {
+    pushd "${SOURCE_DIR}"/server
+
+    subheader "Creating server/config/foreman/local.dev.env file (if it doesn't exist)"
+    cp -an config/foreman/dev.env config/foreman/local.dev.env
 
     popd
 }
