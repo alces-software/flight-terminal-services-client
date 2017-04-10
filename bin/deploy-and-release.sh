@@ -22,7 +22,13 @@ main() {
     run_deploy_script
 
     echo ""
-    echo "${NEW_VERSION} has been deployed."
+    echo "${NEW_VERSION} has been deployed to staging app."
+    echo "Test that all is good and then we'll promote staging to production"
+    wait_for_confirmation
+    promote_staging_to_production
+
+    echo ""
+    echo "Staging has been promoted to production."
     echo "Test that all is good and then we'll continue with tag creation and pushing"
     wait_for_confirmation
 
@@ -61,6 +67,18 @@ commit_version_bump() {
 
 run_deploy_script() {
     "${REPO_ROOT}"/bin/deploy.sh
+}
+
+promote_staging_to_production() {
+    local dokku_server
+    local staging_app
+    local production_app
+    dokku_server=$( git remote get-url dokku-staging | cut -d@ -f2 | cut -d: -f1 )
+    staging_app=$( git remote get-url dokku-staging | cut -d: -f2 )
+    production_app=$( git remote get-url dokku | cut -d: -f2 )
+
+    ssh ${dokku_server} \
+        "sudo docker tag dokku/${staging_app} dokku/${production_app} ; dokku deploy ${production_app}"
 }
 
 run_merge_script() {

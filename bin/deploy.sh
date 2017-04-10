@@ -80,7 +80,7 @@ usage() {
     echo -e "      --help\t\tShow this help message"
 }
 
-REMOTE=dokku
+REMOTE=dokku-staging
 SKIP_CLIENT_BUILD=false
 
 parse_arguments() {
