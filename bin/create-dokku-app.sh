@@ -81,17 +81,23 @@ EOF
 
 configure_nginx() {
     ssh ${DOKKU_SERVER} \
-        'cat <<EOF | sudo tee /etc/nginx/conf.d/00-default-vhost.conf
+        "cat <<EOF | sudo tee /etc/nginx/conf.d/00-default-vhost.conf
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
+  listen 443 ssl default_server;
+  listen [::]:443 ssl default_server;
+
+  ssl_certificate     /home/dokku/${APPS[0]}/tls/server.crt;
+  ssl_certificate_key /home/dokku/${APPS[0]}/tls/server.key;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
 
   server_name _;
   return 410;
   log_not_found off;
 }
 EOF
-'
+"
 }
 
 print_further_instructions() {
