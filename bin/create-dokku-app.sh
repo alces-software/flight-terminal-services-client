@@ -8,11 +8,11 @@ FLY_EXE_PATH=/app/fly
 
 APPS=(flight-launch flight-launch-staging)
 declare -A DOMAINS
-DOMAINS[flight-launch]="test.launch.alces-flight.com"
-DOMAINS[flight-launch-staging]="test.staging.launch.alces-flight.com"
 
 main() {
     parse_arguments "$@"
+    determine_domains
+
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
 
@@ -28,6 +28,11 @@ main() {
     subheader "Configuring nginx"
     configure_nginx
     print_further_instructions
+}
+
+determine_domains() {
+    DOMAINS[flight-launch]="${DOMAIN_ROOT}"
+    DOMAINS[flight-launch-staging]="staging.${DOMAIN_ROOT}"
 }
 
 abort_if_uncommitted_changes_present() {
@@ -128,29 +133,25 @@ usage() {
     echo
     echo "Create and configure the ${APPS[0]} dokku app"
     echo
-    echo -e "      --dokku-server SERVER\t\tThe server on which to create the app"
-    echo -e "      --smtp-password PASSWORD\t\tThe SMTP password to configure the app to use"
     echo -e "      --aws-access-key-id ACCESS_KEY\t\tThe AWS access key to configure the app to use"
     echo -e "      --aws-secret-access-key SECRET_KEY\t\tThe AWS secret key to configure the app to use"
+    echo -e "      --dokku-server SERVER\t\tThe server on which to create the app"
+    echo -e "      --domain DOMAIN\t\tThe vhost domain to use for the app"
+    echo -e "      --smtp-password PASSWORD\t\tThe SMTP password to configure the app to use"
     echo -e "      --help\t\tShow this help message"
 }
 
-DOKKU_SERVER=launch.alces-flight.com
-SMTP_PASSWORD=
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
+DOKKU_SERVER=launch.alces-flight.com
+DOMAIN_ROOT=launch.alces-flight.com
+SMTP_PASSWORD=
 
 parse_arguments() {
     while [[ $# > 0 ]] ; do
         key="$1"
 
         case $key in
-            --dokku-server)
-                DOKKU_SERVER=$2
-                shift
-                shift
-                ;;
-
             --aws-access-key-id)
                 AWS_ACCESS_KEY_ID=$2
                 shift
@@ -159,6 +160,18 @@ parse_arguments() {
 
             --aws-secret-access-key)
                 AWS_SECRET_ACCESS_KEY=$2
+                shift
+                shift
+                ;;
+
+            --dokku-server)
+                DOKKU_SERVER=$2
+                shift
+                shift
+                ;;
+
+            --domain)
+                DOMAIN_ROOT=$2
                 shift
                 shift
                 ;;
