@@ -29,7 +29,24 @@ function findRuntimeLimit(clusterSpec) {
   const flyArgs = clusterSpec.fly.args;
   const runtimeIndex = flyArgs.indexOf('--runtime');
   if (runtimeIndex === -1) { return; }
-  return flyArgs[runtimeIndex + 1];
+
+  const runtimeInMinutes = Number.parseInt(flyArgs[runtimeIndex + 1], 10);
+  if (Number.isNaN(runtimeInMinutes)) { return; }
+
+  let value;
+  let unit;
+  if (runtimeInMinutes < 60) {
+    value = runtimeInMinutes;
+    unit = 'minute';
+  } else if (runtimeInMinutes < 60*24) {
+    value = Math.round(runtimeInMinutes/60)
+    unit = 'hour'
+  } else {
+    value = Math.round(runtimeInMinutes/(60*24))
+    unit = 'day'
+  }
+
+  return `${value} ${unit}${value !== 1 ? 's' : ''}`;
 }
 
 function processClusterSpecs(clusterSpecs) {
