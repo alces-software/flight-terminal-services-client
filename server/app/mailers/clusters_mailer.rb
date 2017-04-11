@@ -17,6 +17,10 @@ class ClustersMailer < ApplicationMailer
 
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @using_token = launch_config.using_token?
+    if @using_token
+      @runtime_limit = launch_config.spec.runtime_limit?
+      @runtime = launch_config.spec.runtime
+    end
 
     mail to: launch_config.email,
       subject: "About to launch cluster #{@cluster_name}"
