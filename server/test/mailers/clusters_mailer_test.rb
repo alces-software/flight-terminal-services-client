@@ -83,7 +83,7 @@ class ClustersMailerTest < ActionMailer::TestCase
 
   def token_runtime_launch_config
     token_launch_config.tap do |lc|
-      lc.spec.args = ['--runtime', 240, '--solo']
+      lc.spec.args = ['--runtime', '240', '--solo']
     end
   end
 end
