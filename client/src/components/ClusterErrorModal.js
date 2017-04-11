@@ -46,38 +46,33 @@ const DetailsMessage = ({ details }) => {
   }
 }
 
-// When we have the server returning proper error responses, rather than a 500
-// error we can remove this and use DetailsMessage.
-const ExceptionMessage = ({ exception }) => (
-  <div>
-    <p>
-      Unfortunately, there was an error whilst trying to launch your cluster.
-      The error message reported was:
-    </p>
-    <pre>
-      <code>
-        {exception}
-      </code>
-    </pre>
-  </div>
-);
+const UnexpectedMessage = ({ message }) => {
+  let details = null;
+  if (message) {
+    details = (
+      <div>
+        <p>
+          The error message reported was:
+        </p>
+        <pre>
+          <code>
+            {message}
+          </code>
+        </pre>
+      </div>
+    );
+  }
 
-const UnexpectedMessage = ({ message }) => (
-  <div>
-    <p>
-      Unfortunately, there was an unexpected error whilst trying to launch
-      your cluster.  <ContactCustomerSupport />
-    </p>
-    <p>
-      The error message reported was:
-    </p>
-    <pre>
-      <code>
-        {message}
-      </code>
-    </pre>
-  </div>
-);
+  return (
+    <div>
+      <p>
+        Unfortunately, there was an unexpected error whilst trying to launch
+        your cluster.  <ContactCustomerSupport />
+      </p>
+      {details}
+    </div>
+  );
+};
 
 const propTypes = {
   error: PropTypes.shape({
@@ -91,12 +86,17 @@ const propTypes = {
 
 const ClusterErrorModal = ({ error, onHide, show }) => {
   let errorMessage;
-  if (error && error.exception) {
-    errorMessage = <ExceptionMessage exception={error.exception} />;
-  } else if (error && error.details) {
+  if (error && error.details) {
     errorMessage = <DetailsMessage details={error.details} />;
   } else if (error && error.unexpected) {
     errorMessage = <UnexpectedMessage message={error.unexpected} />;
+  } else if (error && error.exception) {
+    // This branch will only be taken when the Rails server is running in
+    // development.  But it is nicer to see the error message right there in
+    // the browser window.
+    errorMessage = <UnexpectedMessage message={error.exception} />;
+  } else {
+    errorMessage = <UnexpectedMessage />;
   }
 
   return (
