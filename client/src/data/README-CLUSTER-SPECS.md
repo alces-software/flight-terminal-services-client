@@ -43,13 +43,14 @@ cluster spec object has three parts to it.
 
 #### UI section
 
-The `ui` section specifies the title, subtitle and description of the cluster
-spec.  E.g.,
+The `ui` section specifies the title, a lowercase variant of the title,
+subtitle and description of the cluster spec.  E.g.,
 
 ```
 {
     "ui": {
-        "title": "Tiny slurm cluster",
+        "title": "Tiny SGE cluster",
+        "titleLowerCase": "tiny SGE cluster",
         "subtitle": "Two nodes. Spot instances. SGE scheduler.",
         "body": "A fixed size cluster of 2 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the Slurm scheduler.",
         "logoUrl": "http://alces-flight.com/images/logo.png"
@@ -59,6 +60,11 @@ spec.  E.g.,
     "fly": {...},
 }
 ```
+
+The lowercase variant of the title should be written so that it can be
+included in the middle of a sentence such as "Your tiny SGE cluster is now
+available for use."  Commonly this would involve removing the capitalisation
+of the first letter in title.
 
 The UI section is presented to the user.  It should provide an accurate
 description of the cluster that should be launched.  Flight Launch makes no

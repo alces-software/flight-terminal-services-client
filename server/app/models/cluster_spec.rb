@@ -9,6 +9,8 @@
 #
 # A specification of a cluster that is easily understood by Flight Attendant.
 #
+# See the comment in ClusterLaunchConfig.
+#
 class ClusterSpec
   include ActiveModel::Model
 
@@ -34,11 +36,42 @@ class ClusterSpec
   # `0.3` and `slurm` respectively.
   attr_accessor :parameter_directory_overrides
 
+  # A map of metadata about the cluster spec.  This is not used in the
+  # launching of the cluster spec.
+  attr_accessor :meta
+
   def args
     @args || []
   end
 
   def parameter_directory_overrides
     @parameter_directory_overrides || {}
+  end
+
+  def meta
+    @meta || {}
+  end
+
+  def runtime
+    i = args.index('--runtime')
+    return nil if i.nil?
+    runtime_in_minutes = args[i + 1]
+
+    if runtime_in_minutes < 60
+      value = runtime_in_minutes
+      unit = 'minute'
+    elsif runtime_in_minutes < 60*24
+      value = (runtime_in_minutes/60.0).round
+      unit = 'hour'
+    else
+      value = (runtime_in_minutes/(60.0*24)).round
+      unit = 'day'
+    end
+
+    "#{value} #{unit.pluralize(value)}"
+  end
+
+  def runtime_limit?
+    runtime.present?
   end
 end

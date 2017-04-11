@@ -4,12 +4,10 @@
 Hi,
 
 Your small SGE bioinformatics cluster "my-cluster" will begin launching shortly.
-Once it has started launching, your AWS account will incur charges until the
-cluster is shutdown.  Flight Launch will not shut the cluster down, it is your
-responsibility to do so when you have finished using it.
+You will not be charged for running this cluster, but Alces Flight Ltd reserve
+the right to terminate it after 4 hours.
 
-We will send you another email once we have the AWS CloudFormation link for
-your cluster.
+We will send you another email once your cluster is available for use.
 
 
 Please don't hesitate to contact us at <support@alces-flight.com> if you
