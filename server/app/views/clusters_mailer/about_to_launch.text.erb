@@ -8,12 +8,12 @@
 
 Hi,
 
-Your cluster "<%= @cluster_name %>" will begin launching shortly.  <% if @using_token %>You will
-not be charged for running this cluster, but Alces Flight Ltd reserve the
-right to terminate it without notice.<% else %>Once it has
-started launching, your AWS account will incur charges until the cluster is
-shutdown.  Flight Launch will not shut the cluster down, it is your
-responsibility to do so when you have finished using it.<% end %>
+Your <%= @cluster_spec_name %> "<%= @cluster_name %>" will begin launching shortly.
+<%- if @using_token && @runtime_limit -%>You will not be charged for running this cluster, but Alces Flight Ltd reserve
+the right to terminate it after <%= @runtime %>.<%- elsif @using_token -%>You will not be charged for running this cluster, but Alces Flight Ltd reserve
+the right to terminate it without notice.<%- else -%>Once it has started launching, your AWS account will incur charges until the
+cluster is shutdown.  Flight Launch will not shut the cluster down, it is your
+responsibility to do so when you have finished using it.<%- end -%>
 
 <% if @using_token %>
 We will send you another email once your cluster is available for use.

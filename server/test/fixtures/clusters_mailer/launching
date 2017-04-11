@@ -3,7 +3,7 @@
 
 Hi,
 
-Your cluster "my-cluster" is being launched.  You can view the progress
+Your small SGE bioinformatics cluster "my-cluster" is being launched.  You can view the progress
 on the AWS CloudFormation console <https://eu-west-1.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a>.
 
 We will send you another email once your cluster is available for use.

@@ -9,6 +9,10 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.about_to_launch(token_launch_config)
   end
 
+  def about_to_launch_with_token_and_runtime
+    ClustersMailer.about_to_launch(token_runtime_launch_config)
+  end
+
   def launching
     ClustersMailer.launching(launch_config, arn)
   end
@@ -39,12 +43,24 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClusterLaunchConfig.new(
       email: 'me@example.com',
       name: 'my-cluster',
+      spec: ClusterSpec.new(
+        meta: {
+          'title' => 'Small SGE bioinformatics cluster',
+          'titleLowerCase' => 'small SGE bioinformatics cluster',
+        }
+      ),
     )
   end
 
   def token_launch_config
     launch_config.tap do |lc|
       lc.token = 'carelessly-spoil-coffee'
+    end
+  end
+
+  def token_runtime_launch_config
+    token_launch_config.tap do |lc|
+      lc.spec.args = ['--runtime', '240', '--solo']
     end
   end
 

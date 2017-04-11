@@ -6,6 +6,18 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
+#
+# Launching a cluster spec requires values which can be placed into two
+# categories:
+#
+#  1. those values which change from one launching of a cluster to the next,
+#     such as the cluster name and the launch token;
+#  2. those values which do not change from one launch to the next, such the
+#     parameter directory overrides and some CLI arguments.
+#
+# This class is used for the first set of values.  ClusterSpec is used for the
+# second class of values.
+#
 class ClusterLaunchConfig
   include ActiveModel::Model
 

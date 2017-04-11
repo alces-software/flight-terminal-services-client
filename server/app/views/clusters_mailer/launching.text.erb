@@ -8,7 +8,7 @@
 
 Hi,
 
-Your cluster "<%= @cluster_name %>" is being launched.  <% if @show_cloudformation_link %>You can view the progress
+Your <%= @cluster_spec_name %> "<%= @cluster_name %>" is being launched.  <% if @show_cloudformation_link %>You can view the progress
 on the AWS CloudFormation console <<%= @cloudformation_url %>>.<% end %>
 
 We will send you another email once your cluster is available for use.

@@ -11,9 +11,9 @@ class ClustersController < ApplicationController
     cluster_launch_config = build_launch_config
 
     if cluster_launch_config.invalid?
-      render status: :bad_request, json: {
-        status: 404,
-        error: 'Bad Request',
+      render status: :unprocessable_entity, json: {
+        status: 422,
+        error: 'Unprocessable Entity',
         details: cluster_launch_config.errors.messages
       }
       return
@@ -22,9 +22,9 @@ class ClustersController < ApplicationController
     launch_command = LaunchClusterCommand.new(cluster_launch_config)
     begin
       launch_command.perform
-    rescue LaunchClusterCommand::LaunchFailed
+    rescue LaunchClusterCommand::LaunchError
       Rails.logger.info("Launching cluster failed: #{$!.message}")
-      raise
+      render_exception($!)
     else
       if cluster_launch_config.using_token?
         arn = nil
@@ -54,9 +54,12 @@ class ClustersController < ApplicationController
   end
 
   def cluster_spec_params
-    params.require(:fly).permit(args: []).tap do |h|
-      unless params[:fly][:parameterDirectoryOverrides].nil?
-        h[:parameter_directory_overrides] = params[:fly][:parameterDirectoryOverrides].permit!
+    params.require(:clusterSpec).permit(args: []).tap do |h|
+      unless params[:clusterSpec][:parameterDirectoryOverrides].nil?
+        h[:parameter_directory_overrides] = params[:clusterSpec][:parameterDirectoryOverrides].permit!
+      end
+      unless params[:clusterSpec][:meta].nil?
+        h[:meta] = params[:clusterSpec][:meta].permit!
       end
     end
   end
@@ -65,7 +68,7 @@ class ClustersController < ApplicationController
     permitted_params = [:email, :name, :access_key, :secret_key, :token, :region, :key_pair]
     required_params = [:email, :name]
 
-    params.require(:cluster).permit(*permitted_params).tap do |h|
+    params.require(:clusterLaunch).permit(*permitted_params).tap do |h|
       required_params.each {|p| h.require(p) }
     end
   end
@@ -75,5 +78,40 @@ class ClustersController < ApplicationController
       region = "#{cluster_launch_config.region}."
     end
     "https://#{region}console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=#{arn}"
+  end
+
+  def render_exception(exc)
+    case exc
+    when LaunchClusterCommand::ArnNotAvailable
+      render status: :gateway_timeout, json: {
+        status: 504,
+        error: 'Gateway Timeout'
+      }
+      return
+    when LaunchClusterCommand::InvalidKeyPair
+      details = {
+        key_pair: ['invalid key pair name']
+      }
+    when LaunchClusterCommand::InvalidCredentials
+      details = {
+        credentials: ['invalid credentials']
+      }
+    when LaunchClusterCommand::BadRegion
+      details = {
+        region: ['bad region']
+      }
+    when LaunchClusterCommand::ClusterNameTaken
+      details = {
+        cluster_name: ['taken']
+      }
+    else
+      raise exc
+    end
+
+    render status: :unprocessable_entity, json: {
+      status: 422,
+      error: 'Unprocessable Entity',
+      details: details
+    }
   end
 end
