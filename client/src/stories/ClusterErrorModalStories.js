@@ -15,6 +15,13 @@ storiesOf('ClusterErrorModal', module)
     />
   ))
 
+  .add('unexpected error (unable to extract error message)', () => (
+    <ClusterErrorModal
+      show
+      onHide={() => {}}
+    />
+  ))
+
   .add('token not found', () => (
     <ClusterErrorModal
       show
@@ -44,10 +51,9 @@ storiesOf('ClusterErrorModal', module)
       show
       onHide={() => {}}
       error={{
-        exception: `#<LaunchClusterCommand::LaunchFailed: Error: AlreadyExistsException: Stack [flight-cluster-quickly-tacky-candle] already exists
-        status code: 400, request id: c51f20b9-19f6-11e7-abe4-1bf3dd35cd98
->
-        `
+        details: {
+          cluster_name: ['taken']
+        }
       }}
     />
   ))
@@ -57,8 +63,21 @@ storiesOf('ClusterErrorModal', module)
       show
       onHide={() => {}}
       error={{
-        exception: `#<LaunchClusterCommand::LaunchFailed: Error: Unable to connect to AWS: invalid credentials
->`
+        details: {
+          credentials: ['invalid credentials']
+        }
+      }}
+    />
+  ))
+
+  .add('bad region', () => (
+    <ClusterErrorModal
+      show
+      onHide={() => {}}
+      error={{
+        details: {
+          region: ['bad region']
+        }
       }}
     />
   ))
@@ -68,9 +87,9 @@ storiesOf('ClusterErrorModal', module)
       show
       onHide={() => {}}
       error={{
-        exception: `LaunchClusterCommand::LaunchFailed (Error: Invalid key pair name 'aws_ireland'.
-          
-):`
+        details: {
+          key_pair: ['invalid key pair name']
+        }
       }}
     />
   ));
