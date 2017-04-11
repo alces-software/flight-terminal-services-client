@@ -55,7 +55,7 @@ class ClusterSpec
   def runtime
     i = args.index('--runtime')
     return nil if i.nil?
-    runtime_in_minutes = args[i + 1]
+    runtime_in_minutes = args[i + 1].to_i
 
     if runtime_in_minutes < 60
       value = runtime_in_minutes
