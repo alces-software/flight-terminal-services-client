@@ -45,7 +45,6 @@ const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, sho
         href={`mailto:${email}`}>{email}</a> and we will send another when
       your cluster has finished launching.
     </p>
-    }
   </StandardModal>
 );
 
