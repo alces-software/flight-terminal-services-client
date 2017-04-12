@@ -27,6 +27,13 @@ const DetailsMessage = ({ details }) => {
         Unfortunately, that token has already been used.
       </span>
     );
+  } else if (hasPropError(details, 'token', 'token cannot launch cluster spec')) {
+    return (
+      <span>
+        That token cannot be used with the cluster you have tried to launch.
+        You could either launch a different cluster, or use a different token.
+      </span>
+    );
   } else if (hasPropError(details, 'credentials', 'invalid credentials')) {
     return (
       <span>

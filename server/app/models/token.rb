@@ -39,6 +39,13 @@ class Token
     status == 'AVAILABLE'
   end
 
+  def can_launch_spec?(spec)
+    return false unless token.item.present?
+    permitted_keys = token.item['ClusterSpecKeys']
+    return true if permitted_keys.nil? || permitted_keys.empty?
+    permitted_keys.include?(spec.key)
+  end
+
   def status
     if token.item.present?
       token.item['Status']

@@ -40,6 +40,10 @@ class ClusterSpec
   # launching of the cluster spec.
   attr_accessor :meta
 
+  # The cluster spec key.  Is used to check that the token can launch the
+  # cluster spec.
+  attr_accessor :key
+
   def args
     @args || []
   end

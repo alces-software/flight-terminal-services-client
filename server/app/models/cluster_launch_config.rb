@@ -77,6 +77,8 @@ class ClusterLaunchConfig
       errors.add(:token, 'token not found')
     elsif token.present? && ! token.available?
       errors.add(:token, 'token has already been used')
+    elsif token.present? && ! token.can_launch_spec?(spec)
+      errors.add(:token, 'token cannot launch cluster spec')
     else
       # We have been given an access_key and a secret_key, there is nothing we
       # can do here to check that they are valid.  AWS will do so soon enough.
