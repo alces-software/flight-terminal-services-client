@@ -17,10 +17,16 @@ const propTypes = {
     awsAccessKeyId: PropTypes.string,
     awsSecrectAccessKey: PropTypes.string,
   }),
+  showAwsCredentialsLink: PropTypes.bool.isRequired,
+  useLaunchToken: PropTypes.bool.isRequired,
   values: PropTypes.shape({
     awsAccessKeyId: PropTypes.string,
     awsSecrectAccessKey: PropTypes.string,
   }),
+};
+
+const defaultProps = {
+  showAwsCredentialsLink: false,
 };
 
 const Credentials = ({
@@ -28,6 +34,7 @@ const Credentials = ({
   id,
   onChange,
   onToggleUseLaunchToken,
+  showAwsCredentialsLink,
   values,
   useLaunchToken,
 }) => {
@@ -43,9 +50,13 @@ const Credentials = ({
         help="A Flight Launch token allows you to try out Alces Flight Compute
         without incurring any charges."
       />
-      <p>
-        Let me <a onClick={onToggleUseLaunchToken}>use my AWS credentials</a>.
-      </p>
+      {
+        showAwsCredentialsLink ?
+          <p>
+            Let me <a onClick={onToggleUseLaunchToken}>use my AWS credentials</a>.
+          </p> :
+          null
+      }
     </div>
     );
   } else {
@@ -76,5 +87,6 @@ const Credentials = ({
 };
 
 Credentials.propTypes = propTypes;
+Credentials.defaultProps = defaultProps;
 
 export default Credentials;

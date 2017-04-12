@@ -192,5 +192,13 @@ storiesOf('ClusterLaunchForm', module)
       submitting
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'completed email page')}
     />
-  ));
+  ))
 
+  .add('launch token page with credentials link', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      currentPageIndex={0}
+      onShowNextPage={linkTo('ClusterLaunchForm', 'empty cluster name page')}
+      showAwsCredentialsLink={true}
+    />
+  ));
