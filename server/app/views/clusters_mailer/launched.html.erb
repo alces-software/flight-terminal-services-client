@@ -27,11 +27,9 @@ can find details about your cluster including how to access it below.
             <tr>
                 <td width="<%= td_width(1) %>">
                     <dl>
-                        <% @cluster_details.split("\n").each do |cd| %>
-                            <% title = cd.split(':').first %>
-                            <% description = cd.split(':')[1..-1].join(':') %>
-                            <dt><%= title %></dt>
-                            <dd><%= description %></dd>
+                        <% cluster_details.each do |cd| %>
+                            <dt><%= cd.title %></dt>
+                            <dd><%= cd.value %></dd>
                         <% end %>
                     </dl>
                 </td>
@@ -54,7 +52,11 @@ can find details about your cluster including how to access it below.
                 <td width="<%= td_width(1) %>">
                     <p>
                     To access your cluster you can either use the Access URL provided above, or
-                    use an ssh client <code><%= @access_details %></code>
+                    use an ssh client.  When prompted for a password enter
+                    <code><%= password %></code>.
+                    </p>
+                    <p style="text-align: center">
+                    <code><%= @access_details %></code>
                     </p>
                 </td>
             </tr>

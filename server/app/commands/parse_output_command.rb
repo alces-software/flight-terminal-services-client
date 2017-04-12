@@ -17,6 +17,12 @@ class ParseOutputCommand
     end
   end
 
+  class ClusterDetail < Struct.new(:title, :value)
+    def to_s
+      "#{title}: #{value}"
+    end
+  end
+
   def initialize(output)
     @output = output
   end
@@ -50,7 +56,10 @@ class ParseOutputCommand
       end
 
       if found_cluster_details
-        cluster_details_lines << line
+        next if line.blank?
+        title = line.split(':').first
+        value = line.split(':')[1..-1].join(':').strip
+        cluster_details_lines << ClusterDetail.new(title, value)
       end
 
       if found_access_via
@@ -59,7 +68,7 @@ class ParseOutputCommand
     end
 
     @processed_output = Result.new(
-      cluster_details_lines.reject{|l| l.blank?}.join,
+      cluster_details_lines,
       access_via_lines.reject{|l| l.blank?}.join,
       resources.values,
     )
