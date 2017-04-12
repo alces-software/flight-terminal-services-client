@@ -39,6 +39,7 @@
           "solo": {
             "AutoscalingPolicy": "disabled",
             "ComputeSpotPrice": "0.3",
+            "FlightFeatures": "password-auth set-admin-password",
             "SchedulerType": "slurm"
           }
         }
@@ -68,6 +69,7 @@
           "solo": {
             "AutoscalingPolicy": "enabled",
             "ComputeSpotPrice": "0.3",
+            "FlightFeatures": "password-auth set-admin-password",
             "SchedulerType": "gridscheduler"
           }
         }
@@ -97,6 +99,7 @@
           "solo": {
             "AutoscalingPolicy": "enabled",
             "ComputeSpotPrice": "0",
+            "FlightFeatures": "password-auth set-admin-password",
             "SchedulerType": "gridscheduler"
           }
         }
@@ -120,6 +123,7 @@
             "AutoscalingPolicy": "enabled",
             "ComputeInstanceType": "gpu-1GPU-8C-15GB.small-g2.2xlarge",
             "ComputeSpotPrice": "0",
+            "FlightFeatures": "password-auth set-admin-password",
             "SchedulerType": "gridscheduler"
           }
         }
@@ -142,6 +146,7 @@
           "solo": {
             "AutoscalingPolicy": "enabled",
             "ComputeSpotPrice": "0",
+            "FlightFeatures": "password-auth set-admin-password",
             "PreloadSoftware": "bioinformatics",
             "SchedulerType": "gridscheduler"
           }
@@ -172,6 +177,7 @@
           "solo": {
             "AutoscalingPolicy": "enabled",
             "ComputeSpotPrice": "0.3",
+            "FlightFeatures": "password-auth set-admin-password",
             "PreloadSoftware": "chemistry",
             "SchedulerType": "gridscheduler"
           }
