@@ -165,16 +165,13 @@
       },
       "fly": {
         "args": [
-          "--with-queue",
+          "--solo",
           "--runtime", "30"
         ],
         "parameterDirectoryOverrides": {
-          "cluster-compute": {
+          "solo": {
             "AutoscalingPolicy": "enabled",
             "ComputeSpotPrice": "0.3",
-            "SchedulerType": "gridscheduler"
-          },
-          "cluster-master": {
             "PreloadSoftware": "chemistry",
             "SchedulerType": "gridscheduler"
           }
