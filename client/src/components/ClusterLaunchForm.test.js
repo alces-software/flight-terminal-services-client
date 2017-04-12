@@ -54,8 +54,9 @@ it('renders without crashing', () => {
 
 describe('pages render without crashing', () => {
   const wrapperVariants = [
-    { useLaunchToken: true },
-    { useLaunchToken: false },
+    { useLaunchToken: true, showAwsCredentialsLink: true },
+    { useLaunchToken: true, showAwsCredentialsLink: false },
+    { useLaunchToken: false, showAwsCredentialsLink: true },
   ];
 
   wrapperVariants.forEach((variantProps, variantIndex) => {
