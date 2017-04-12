@@ -23,6 +23,7 @@ class ClusterLaunchForm extends React.Component {
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     onToggleUseLaunchToken: PropTypes.func.isRequired,
+    showAwsCredentialsLink: PropTypes.bool,
     submitting: PropTypes.bool,
     useLaunchToken: PropTypes.bool.isRequired,
   };
@@ -43,6 +44,7 @@ class ClusterLaunchForm extends React.Component {
           }}
           onChange={this.props.onChange}
           onToggleUseLaunchToken={this.props.onToggleUseLaunchToken}
+          showAwsCredentialsLink={this.props.showAwsCredentialsLink}
           useLaunchToken={this.props.useLaunchToken}
         />),
       valid: () => {

@@ -11,21 +11,41 @@ import { shallow } from 'enzyme';
 
 import ClusterErrorModal from './ClusterErrorModal';
 
-const error = {
-  exception: 'An exception',
-};
-
 it('renders without crashing', () => {
+  const error = {
+    exception: 'An exception',
+  };
+
   const div = document.createElement('div');
   ReactDOM.render(<ClusterErrorModal show onHide={() => {}} error={error} />, div);
 });
 
-it('displays the exception message', () => {
+it('displays a useful unexpected error message for 500 errors during developemnt', () => {
+  const error = {
+    status: 500,
+    message: 'Internal server error',
+    exception: 'NoMethodError',
+  };
+
   const wrapper = shallow(
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('ExceptionMessage').dive().find('pre')).toHaveText(error.exception);
+  expect(wrapper.find('UnexpectedMessage').dive().find('pre')).toHaveText(error.exception);
+});
+
+it('displays an unexpected error message for 500 errors', () => {
+  const error = {
+    status: 500,
+    message: 'Internal server error',
+  };
+
+  const wrapper = shallow(
+    <ClusterErrorModal show onHide={() => {}} error={error} />
+  );
+
+  expect(wrapper.find('UnexpectedMessage').dive()).toIncludeText('there was an unexpected error');
+  expect(wrapper.find('UnexpectedMessage').dive().find('pre')).toBeEmpty();
 });
 
 it('displays an error message when the token cannot be found', () => {
@@ -52,4 +72,30 @@ it('displays an error message when the token has already been used', () => {
   );
 
   expect(wrapper.find('DetailsMessage').dive()).toIncludeText("token has already been used");
+});
+
+it('displays an error message when the cluster name is currently taken', () => {
+  const error = {
+    details: {
+      cluster_name: ['taken'],
+    },
+  };
+  const wrapper = shallow(
+    <ClusterErrorModal show onHide={() => {}} error={error} />
+  );
+
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("The cluster name you have chosen is already in use.");
+});
+
+it('displays an error message when the AWS credentials are invalid', () => {
+  const error = {
+    details: {
+      credentials: ['invalid credentials'],
+    },
+  };
+  const wrapper = shallow(
+    <ClusterErrorModal show onHide={() => {}} error={error} />
+  );
+
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("AWS credentials you have provided are not valid");
 });
