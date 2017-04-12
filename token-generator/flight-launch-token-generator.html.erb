@@ -5,6 +5,85 @@
 
 <script type="text/javascript">
 
+(function () {
+    var httpRequest;
+    const clusterSpecsUrl = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/test.json';
+    makeRequest(clusterSpecsUrl);
+
+    function makeRequest(url) {
+        httpRequest = new XMLHttpRequest();
+
+        if (!httpRequest) {
+            document.getElementById('errorMessages').innerHTML += "\nUnable to load cluster specs";
+            return false;
+        }
+        httpRequest.onreadystatechange = generateClusterSelectionList;
+        httpRequest.open('GET', url);
+        httpRequest.send();
+    }
+
+    function generateClusterSelectionList() {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                clusterSpecs = JSON.parse(httpRequest.responseText).clusterSpecs;
+                for (var i=0; i < clusterSpecs.length; i++) {
+                    spec = clusterSpecs[i];
+
+                    var div = document.createElement("div");
+                    var input = document.createElement("input");
+                    input.type = 'checkbox';
+                    input.value = spec.key;
+                    input.disabled = true;
+                    var label = document.createElement("label");
+                    label.append(input, spec.ui.title);
+                    div.append(label);
+                    document.getElementById('clustersList').append(div);
+
+                }
+
+            } else {
+                document.getElementById('errorMessages').innerHTML += "\nThere wass a problem loading the cluster specs";
+            }
+        }
+    }
+})();
+
+function getRadioValue(radioName) {
+    var radios = document.getElementsByName(radioName);
+    for (var i=0; i<radios.length; i++) {
+        var radio = radios[i];
+        if (radio.checked) {
+            return radio.value;
+        }
+    }
+}
+
+function permittedClusterKeys() {
+    var keys = [];
+    var inputs = document.getElementById("clustersList").getElementsByTagName('input');
+    for (var i=0; i < inputs.length; i++) {
+        var input = inputs[i];
+        if (input.checked) {
+            var key = input.value;
+            keys.push(key);
+        }
+    }
+    return keys;
+}
+
+function areTokensRestricted() {
+    return getRadioValue('tokenRestriction') === 'restricted';
+}
+
+function toggleClusterRestriction() {
+    var disable = !areTokensRestricted();
+
+    var inputs = document.getElementById("clustersList").getElementsByTagName('input');
+    for (var i=0; i < inputs.length; i++) {
+        inputs[i].disabled = disable;
+    }
+}
+
 window.onerror = function(err) {
     document.getElementById('errorMessages').innerHTML += "\n" + err;
 }
@@ -175,14 +254,7 @@ function randomChoice(collection) {
 }
 
 function randomToken() {
-    var tokenType;
-    var tokenTypeRadios = document.getElementsByName('tokenType');
-    for (var i=0; i<tokenTypeRadios.length; i++) {
-        var radio = tokenTypeRadios[i];
-        if (radio.checked) {
-            tokenType = radio.value;
-        }
-    }
+    var tokenType = getRadioValue('tokenType');
     if (tokenType === 'meaningless') {
         return generateMeaninglessTriple();
     } else if (tokenType === 'absurd') {
@@ -209,6 +281,10 @@ function createToken() {
           "#token": "Token",
         },
     };
+    if (areTokensRestricted()) {
+        params.Item.ClusterSpecKeys = permittedClusterKeys();
+    }
+
     docClient.put(params, function(err, data) {
         if (err) {
             document.getElementById('errorMessages').innerHTML += "Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2) + "\n";
@@ -221,7 +297,7 @@ function createToken() {
 function createTokens() {
     document.getElementById('textarea').innerHTML = "";
     document.getElementById('errorMessages').innerHTML = "";
-    var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 10;
+    var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 1;
     document.getElementById('infoMessages').innerHTML = "Creating " + numTokens + " tokens...";
     for (var i=0; i<numTokens; i++) {
         createToken();
@@ -293,6 +369,20 @@ function scanData() {
                 <label><input type="radio" name="tokenType" value="absurd" checked> absurd</label>
                 <label><input type="radio" name="tokenType" value="meaningless"> meaningless</label>
                 tokens.
+            </div>
+            <div style="margin-bottom: 1em">
+                Tokens can launch 
+                <label>
+                    <input type="radio" name="tokenRestriction" value="unrestricted" onChange="toggleClusterRestriction()" checked >
+                    any
+                </label>
+                <label>
+                    <input type="radio" name="tokenRestriction" value="restricted" onChange="toggleClusterRestriction()" >
+                    only some
+                </label>
+                cluster(s)
+                <div style="margin-left: 1em" id="clustersList">
+                </div>
             </div>
             <div style="margin-bottom: 1em">
                 Create
