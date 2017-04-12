@@ -10,16 +10,13 @@ Cluster details:
 
 Administrator username: alces
 IP address: 34.251.133.40
-Key pair: aws_ireland
 Access URL: http://ec2-34-251-133-40.eu-west-1.compute.amazonaws.com
-UUID: b0ed0450-08b7-11e7-ad42-50faeb5cc8d2
-Token: NDM4OTE5ZTAtZDY5Ni01
-
 
 Access via:
 
 	ssh alces@34.251.133.40
 
+When prompted for a password enter NDM4OTE5ZTAtZDY5Ni01
 
 The following resources have been created:
 

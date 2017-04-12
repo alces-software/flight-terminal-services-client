@@ -13,11 +13,12 @@ can find details about your cluster including how to access it below.
 
 Cluster details:
 
-<%= @cluster_details %>
+<%= cluster_details.map(&:to_s).join("\n") %>
 
 Access via:
 
 <%= @access_details %>
+When prompted for a password enter <%= password %>
 
 The following resources have been created:
 
