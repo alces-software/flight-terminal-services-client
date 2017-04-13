@@ -5,6 +5,8 @@
 
 <script type="text/javascript">
 
+var ClusterSpecKeyToNameMap = {};
+
 (function () {
     var httpRequest;
     const clusterSpecsUrl = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/test.json';
@@ -39,8 +41,9 @@
                     div.append(label);
                     document.getElementById('clustersList').append(div);
 
-                }
+                    ClusterSpecKeyToNameMap[spec.key] = spec.ui.title;
 
+                }
             } else {
                 document.getElementById('errorMessages').innerHTML += "\nThere wass a problem loading the cluster specs";
             }
@@ -216,16 +219,38 @@ function generateMeaninglessPart(length) {
 // == Clipboard interaction ================================
 //
 
-function selectText() {
-    var element = document.getElementById("textarea");
+function selectTextarea(element) {
     element.select();
     element.setSelectionRange(0, element.value.length);
     return element.value;
 }
 
+function selectTable(el) {
+    var body = document.body, range, sel;
+    if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        sel = window.getSelection();
+        sel.removeAllRanges();
+        try {
+            range.selectNodeContents(el);
+            sel.addRange(range);
+        } catch (e) {
+            range.selectNode(el);
+            sel.addRange(range);
+        }
+    } else if (body.createTextRange) {
+        range = body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+    }
+}
+
 function copyToClipboard() {
     var succeeded;
-    var selectedText = selectText();
+
+    var element = document.getElementById("tokenTable");
+    selectTable(element);
+
     try {
         succeeded = document.execCommand('copy');
     } catch (err) {
@@ -289,13 +314,18 @@ function createToken() {
         if (err) {
             document.getElementById('errorMessages').innerHTML += "Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2) + "\n";
         } else {
-            writeTokens([ token ]);
+            var getParams = {
+                Key: { Token: token },
+                TableName: "FlightLaunchTokens",
+            };
+            docClient.get(getParams, function(err, data) {
+                writeTokens([ data.Item ]);
+            });
         }
     });
 }
 
 function createTokens() {
-    document.getElementById('textarea').innerHTML = "";
     document.getElementById('errorMessages').innerHTML = "";
     var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 1;
     document.getElementById('infoMessages').innerHTML = "Creating " + numTokens + " tokens...";
@@ -304,21 +334,47 @@ function createTokens() {
     } else {
         for (var i=0; i<numTokens; i++) {
             createToken();
-            // writeTokens([ randomToken() ]);
         }
     }
 }
 
 function writeTokens(tokens) {
-    var existingTokens = document.getElementById('textarea').innerHTML.split("\n");
-    var allTokens = existingTokens.concat(tokens).filter(function(t) { return t !== ""; });
-    document.getElementById('textarea').innerHTML = allTokens.sort().join("\n");
+    var table = document.getElementById('tokenTableBody');
+    tokens
+        .sort(function(a, b) { return a.Token < b.Token ? -1 : 1 })
+        .forEach(function(token) {
+            var tokenCell = document.createElement("td");
+            tokenCell.append(token.Token);
+
+            var permittedClustersCell = document.createElement("td");
+            if (token.ClusterSpecKeys == null || token.ClusterSpecKeys.length < 0) {
+                var em = document.createElement('em');
+                em.append('Unrestricted');
+                permittedClustersCell.append(em);
+            } else {
+                var clusterNames = [];
+                for (var i=0; i < token.ClusterSpecKeys.length; i++) {
+                    var key = token.ClusterSpecKeys[i];
+                    clusterNames.push(ClusterSpecKeyToNameMap[key]);
+                }
+                permittedClustersCell.append(clusterNames.join(", "));
+            }
+
+            var tr = document.createElement("tr");
+            tr.append(tokenCell);
+            tr.append(permittedClustersCell);
+            table.append(tr);
+    });
+}
+
+function clearTable() {
+    document.getElementById('tokenTableBody').innerHTML = "";
 }
 
 function scanData() {
     document.getElementById('errorMessages').innerHTML = "";
-    document.getElementById('textarea').innerHTML = "";
     document.getElementById('infoMessages').innerHTML = "Loading tokens...";
+    clearTable();
 
     var params = {
         TableName: "FlightLaunchTokens",
@@ -337,9 +393,7 @@ function scanData() {
         if (err) {
             document.getElementById('errorMessages').innerHTML = "Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2);
         } else {
-            var tokens = [];
-            data.Items.forEach(function(token) { tokens.push(token.Token); });
-            writeTokens(tokens);
+            writeTokens(data.Items);
 
             // Continue scanning if we have more tokens (per scan 1MB limitation)
             if (data.LastEvaluatedKey) {
@@ -405,8 +459,18 @@ function scanData() {
             <div style="margin-bottom: 1em"></div>
             <pre id="errorMessages" style="color: red"></pre>
             <div style="margin-bottom: 1em"></div>
-            <textarea readonly id="textarea" style="width:400px; height:400px"></textarea>
+            <table id="tokenTable">
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Permitted clusters</th>
+                    </tr>
+                </thead>
+                <tbody id="tokenTableBody">
+                </tbody>
+            </table>
             <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
+            <input id="copyToClipboard" type="button" value="Clear table" onclick="clearTable();" />
         </div>
     </body>
 </html>
