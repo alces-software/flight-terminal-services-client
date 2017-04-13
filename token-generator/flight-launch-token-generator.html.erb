@@ -77,15 +77,19 @@ var combinations = <%= load_combinations('combinations') %>;
                 <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
                 <span style="width: 3em; display: inline-block"></span>
             </div>
-            <div>
-                <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
-            </div>
 
             <div style="margin-bottom: 1em"></div>
             <div id="infoMessages"></div>
             <div style="margin-bottom: 1em"></div>
             <pre id="errorMessages" style="color: red"></pre>
             <div style="margin-bottom: 1em"></div>
+
+            <h4>Tokens</h4>
+            <div style="margin-bottom: 1em">
+                <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
+                <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
+                <input type="button" value="Clear table" onclick="clearTable();" />
+            </div>
             <table id="tokenTable">
                 <thead>
                     <tr>
@@ -96,8 +100,6 @@ var combinations = <%= load_combinations('combinations') %>;
                 <tbody id="tokenTableBody">
                 </tbody>
             </table>
-            <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
-            <input id="copyToClipboard" type="button" value="Clear table" onclick="clearTable();" />
         </div>
     </body>
 </html>

@@ -24,7 +24,7 @@ var ClusterSpecKeyToNameMap = {};
     httpRequest = new XMLHttpRequest();
 
     if (!httpRequest) {
-      document.getElementById('errorMessages').innerHTML += "\nUnable to load cluster specs";
+      writeError("Unable to load cluster specs");
       return false;
     }
     httpRequest.onreadystatechange = generateClusterSelectionList;
@@ -53,7 +53,7 @@ var ClusterSpecKeyToNameMap = {};
 
         }
       } else {
-        document.getElementById('errorMessages').innerHTML += "\nThere wass a problem loading the cluster specs";
+        writeError("There was a problem loading the cluster specs");
       }
     }
   }
@@ -84,9 +84,23 @@ function randomChoice(collection) {
   return collection[index];
 }
 
-window.onerror = function(err) {
-  document.getElementById('errorMessages').innerHTML += "\n" + err;
+function writeInfo(msg, append) {
+  if (append) {
+    document.getElementById('infoMessages').innerHTML += msg;
+  } else {
+    document.getElementById('infoMessages').innerHTML = msg;
+  }
 }
+
+function writeError(err) {
+  document.getElementById('errorMessages').innerHTML += err + "\n";
+}
+
+function clearErrorMessages() {
+  document.getElementById('errorMessages').innerHTML = "";
+}
+
+window.onerror = writeError;
 
 //
 // == Token generation configuration =======================
@@ -105,17 +119,22 @@ function areTokensRestricted() {
   return getRadioValue('tokenRestriction') === 'restricted';
 }
 
+// Return list of cluster restriction checkboxes
+function clusterSelectionCheckboxes() {
+  return document.getElementById("clustersList").getElementsByTagName('input');
+}
+
 // Return list of cluster spec keys that the tokens should be able to launch.
 //
 // This list is used when creating new tokens.  It does not query an already
 // created token for the clusters it can launch.
 function permittedClusterKeys() {
   var keys = [];
-  var inputs = document.getElementById("clustersList").getElementsByTagName('input');
-  for (var i=0; i < inputs.length; i++) {
-    var input = inputs[i];
-    if (input.checked) {
-      var key = input.value;
+  var checkboxes = clusterSelectionCheckboxes();
+  for (var i=0; i < checkboxes.length; i++) {
+    var checkbox = checkboxes[i];
+    if (checkbox.checked) {
+      var key = checkbox.value;
       keys.push(key);
     }
   }
@@ -127,9 +146,9 @@ function permittedClusterKeys() {
 function toggleClusterRestriction() {
   var disable = !areTokensRestricted();
 
-  var inputs = document.getElementById("clustersList").getElementsByTagName('input');
-  for (var i=0; i < inputs.length; i++) {
-    inputs[i].disabled = disable;
+  var checkboxes = clusterSelectionCheckboxes();
+  for (var i=0; i < checkboxes.length; i++) {
+    checkboxes[i].disabled = disable;
   }
 }
 
@@ -145,7 +164,7 @@ function randomToken() {
   } else if (tokenType === 'absurd') {
     return generateSemiMeaningfulToken();
   } else {
-    document.getElementById('errorMessages').innerHTML += "Unable to generate tokens. Unknown token type" + tokenType + "\n";
+    writeError("Unable to generate tokens. Unknown token type " + tokenType);
   }
 }
 
@@ -258,9 +277,9 @@ function copyToClipboard() {
     succeeded = false;
   }
   if (succeeded) {
-    document.getElementById('infoMessages').innerHTML = "Copied!";
+    writeInfo("Copied!");
   } else {
-    document.getElementById('errorMessages').innerHTML += "\nUnable to copy. Press Ctrl-C.";
+    writeError("Unable to copy. Press Ctrl-C.");
   }
 }
 
@@ -307,6 +326,7 @@ function updateAWSConfig() {
 
 function createToken() {
   var token = randomToken();
+  if (token == null) { return; }
   var params = {
     TableName: "FlightLaunchTokens",
     Item: {
@@ -324,7 +344,7 @@ function createToken() {
 
   docClient.put(params, function(err, data) {
     if (err) {
-      document.getElementById('errorMessages').innerHTML += "Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2) + "\n";
+      writeError("Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2));
     } else {
       var getParams = {
         Key: { Token: token },
@@ -332,7 +352,7 @@ function createToken() {
       };
       docClient.get(getParams, function(err, data) {
         if (err) {
-          document.getElementById('errorMessages').innerHTML += "Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2) + "\n";
+          writeError("Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2));
         } else {
           writeTokens([ data.Item ]);
         }
@@ -342,11 +362,11 @@ function createToken() {
 }
 
 function createTokens() {
-  document.getElementById('errorMessages').innerHTML = "";
+  clearErrorMessages();
   var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 1;
-  document.getElementById('infoMessages').innerHTML = "Creating " + numTokens + " tokens...";
+  writeInfo("Creating " + numTokens + " tokens...");
   if (areTokensRestricted() && permittedClusterKeys().length < 1) {
-    document.getElementById('errorMessages').innerHTML += "When creating restricted tokens at least one cluster must be selected\n";
+    writeError("When creating restricted tokens at least one cluster must be selected");
   } else {
     for (var i=0; i<numTokens; i++) {
       createToken();
@@ -355,8 +375,8 @@ function createTokens() {
 }
 
 function scanData() {
-  document.getElementById('errorMessages').innerHTML = "";
-  document.getElementById('infoMessages').innerHTML = "Loading tokens...";
+  clearErrorMessages();
+  writeInfo("Loading tokens...");
   clearTable();
 
   var params = {
@@ -374,18 +394,18 @@ function scanData() {
 
   function onScan(err, data) {
     if (err) {
-      document.getElementById('errorMessages').innerHTML = "Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2);
+      writeError("Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2));
     } else {
       writeTokens(data.Items);
 
       // Continue scanning if we have more tokens (per scan 1MB limitation)
       if (data.LastEvaluatedKey) {
-        document.getElementById('infoMessages').innerHTML += "Loading more...";
+        writeInfo("Loading more...", true);
         params.ExclusiveStartKey = data.LastEvaluatedKey;
         docClient.scan(params, onScan);            
       }
     }
-    document.getElementById('infoMessages').innerHTML += "Done";
+    writeInfo("Done", true);
   }
 }
 
