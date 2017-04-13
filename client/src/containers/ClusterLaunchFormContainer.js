@@ -144,6 +144,7 @@ class ClusterLaunchFormContainer extends React.Component {
             title: this.props.clusterSpec.ui.title,
             titleLowerCase: this.props.clusterSpec.ui.titleLowerCase,
           },
+          key: this.props.clusterSpec.key,
         },
         clusterLaunch: {
           name: this.state.values.clusterName,

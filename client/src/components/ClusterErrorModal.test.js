@@ -74,6 +74,19 @@ it('displays an error message when the token has already been used', () => {
   expect(wrapper.find('DetailsMessage').dive()).toIncludeText("token has already been used");
 });
 
+it('displays an error message when the token cannot launch the spec', () => {
+  const error = {
+    details: {
+      token: ['token cannot launch cluster spec'],
+    },
+  };
+  const wrapper = shallow(
+    <ClusterErrorModal show onHide={() => {}} error={error} />
+  );
+
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("cannot be used with the cluster");
+});
+
 it('displays an error message when the cluster name is currently taken', () => {
   const error = {
     details: {

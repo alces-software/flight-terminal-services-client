@@ -54,7 +54,7 @@ class ClustersController < ApplicationController
   end
 
   def cluster_spec_params
-    params.require(:clusterSpec).permit(args: []).tap do |h|
+    params.require(:clusterSpec).permit(:key, args: []).tap do |h|
       unless params[:clusterSpec][:parameterDirectoryOverrides].nil?
         h[:parameter_directory_overrides] = params[:clusterSpec][:parameterDirectoryOverrides].permit!
       end

@@ -29,6 +29,7 @@
           "tooltip": "The estimated cost for this cluster is $1 per hour."
         }
       },
+      "key": "421aa06a-7a25-4e1e-96de-8c145c470cfd",
       "fly": {
         "args": [
           "--solo",
@@ -60,6 +61,7 @@
           "tooltip": "The maximum cost for this cluster is $3 per hour."
         }
       },
+      "key": "7e036437-97b8-4b13-9d83-d6da3f25cf9d",
       "fly": {
         "args": [
           "--solo",
@@ -90,6 +92,7 @@
           "tooltip": "The average cost for this cluster is $4 per hour."
         }
       },
+      "key": "c9db280c-e566-4688-92a9-9b266ae6f03d",
       "fly": {
         "args": [
           "--solo",
@@ -113,6 +116,7 @@
         "body": "A GPU cluster, autoscaling upto a maximum of 8 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
         "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
       },
+      "key": "3e55ae11-6276-4980-850d-14f7f0c2db8d",
       "fly": {
         "args": [
           "--solo",
@@ -137,6 +141,7 @@
         "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler, and comes with common Bioinformatics software preinstalled.",
         "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
       },
+      "key": "a1295cc3-7c6a-46be-91d9-3476fb10dee6",
       "fly": {
         "args": [
           "--solo",
@@ -168,6 +173,7 @@
           "tooltip": "The maximum cost for this cluster is $5 per hour."
         }
       },
+      "key": "dc8e362a-1389-4b69-bd18-da04019096d8",
       "fly": {
         "args": [
           "--solo",
