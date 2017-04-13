@@ -299,9 +299,13 @@ function createTokens() {
     document.getElementById('errorMessages').innerHTML = "";
     var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 1;
     document.getElementById('infoMessages').innerHTML = "Creating " + numTokens + " tokens...";
-    for (var i=0; i<numTokens; i++) {
-        createToken();
-        // writeTokens([ randomToken() ]);
+    if (areTokensRestricted() && permittedClusterKeys().length < 1) {
+        document.getElementById('errorMessages').innerHTML += "When creating restricted tokens at least one cluster must be selected\n";
+    } else {
+        for (var i=0; i<numTokens; i++) {
+            createToken();
+            // writeTokens([ randomToken() ]);
+        }
     }
 }
 
