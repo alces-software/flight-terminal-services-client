@@ -44,7 +44,7 @@ using it. Want to know how to shutdown an HPC cluster? Here’s how.
 
 ###### Using your preconfigured HPC cluster
 
-Once you are notified that HPC cluster is active you can use either the
+Once you are notified that your HPC cluster is active you can use either the
 pre-determined time via Flight Launch token, or the time you allocate to the
 cluster through your own AWS account, as you see fit. Work with the
 applications that come pre-installed or try your hand at installing and
@@ -52,7 +52,7 @@ running any of the Alces Gridware Open Source applications available from this
 list: <a href="https://gridware.alces-flight.com/" target="_blank"
 rel="noopener noreferrer">https://gridware.alces-flight.com/</a>
 
-While we’ll send you plenty of emails letting you know your HPC cluster status
+While we’ll send you plenty of emails letting you know your HPC cluster's status
 remember: Save your work and, if you are using your own account, remember
 to shutdown the HPC cluster once your job is complete.
 
