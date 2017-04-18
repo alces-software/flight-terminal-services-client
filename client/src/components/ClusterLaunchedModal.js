@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import { StandardModal } from 'flight-common';
+import { CustomerSupportLink, StandardModal } from 'flight-common';
 
 const propTypes = {
   cloudformationUrl: PropTypes.string,
@@ -22,28 +22,32 @@ const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, sho
     className="flight-packageDetailModal"
     onHide={onHide}
     show={show}
-    title="Your cluster is launching"
+    title="Your HPC cluster is getting ready for take-off"
   >
     <p>
-      Your cluster, <em>{clusterName}</em>, is being launched by AWS.
+      Your HPC cluster, <em>{clusterName}</em>, is in the process of being
+      launched via Amazon Web Services.
       {
         cloudformationUrl ? (
           <span>
-            {' '}You can{' '}<a
+            {' '}You can view the progress of your HPC cluster{' '}<a
               href={cloudformationUrl}
               target="_blank"
               rel="noopener noreferrer" 
             >
-              view the progress
-            </a>{' '} on the AWS CloudFormation console.
+              here
+            </a>.
           </span>)
           : null
       }
     </p>
     <p>
-      We have sent an email with these details to <a
-        href={`mailto:${email}`}>{email}</a> and we will send another when
-      your cluster has finished launching.
+      All notices on the status of your HPC cluster will be sent to <a
+        href={`mailto:${email}`}>{email}</a>.  Should you find yourself
+      needing help, please contact <CustomerSupportLink />.
+    </p>  
+    <p>
+      Thank you for choosing the Alces Flight Launch Service.
     </p>
   </StandardModal>
 );
