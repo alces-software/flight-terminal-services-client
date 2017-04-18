@@ -50,7 +50,7 @@ const ClusterSpecCostFooterIcon = ({ costs }) => {
   if (tnt == null) { return null; }
 
   return (
-    <Card.FooterIcon name="money" {...tnt} />
+    <Card.FooterIcon name="tachometer" {...tnt} />
   );
 };
 
