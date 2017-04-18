@@ -6,10 +6,16 @@
   All rights reserved, see LICENSE.txt.
 %>
 
-Hi,
+Your Alces Flight Launch Service is ready for use!
 
-Your <%= @cluster_spec_name %> "<%= @cluster_name %>" is now running and available for use.  You
-can find details about your cluster including how to access it below.
+Your <%= @cluster_spec_name %> "<%= @cluster_name %>" has reached cruising
+altitude and is available for use. 
+
+<% if @using_token %>Remember, the flight time for this cluster is <%= @runtime %>. Please remember to save
+your work.<% else %>Remember, this cluster will remain in flight until you shut it down.  If you
+want to learn more on how to shut down a cluster, click here.<% end %>
+
+You can find details about your cluster including how to access it below.
 
 Cluster details:
 
@@ -25,8 +31,9 @@ The following resources have been created:
 <%= @resources %>
 
 <% note do %>
-  You're receiving this email because you have started a cluster with Flight
-  Launch, and that cluster is now ready for use.
+  You are receiving this email because you have started a HPC cluster with the
+  Alces Flight Launch Service. Your HPC cluster is now ready for use.
 <% end %>
 
 <%= render 'shared/contact_us' %>
+Thank you for choosing the Alces Flight Launch Service.

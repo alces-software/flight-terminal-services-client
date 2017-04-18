@@ -5,7 +5,7 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import { clusterSpecShape } from '../utils/propTypes';
 import ClusterSpecCard from '../components/ClusterSpecCard';
@@ -13,6 +13,7 @@ import ClusterSpecCard from '../components/ClusterSpecCard';
 export default class ClusterSpecCardContainer extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
+    clusterSpecsFile: PropTypes.string.isRequired,
   };
 
   state = {
@@ -37,6 +38,7 @@ export default class ClusterSpecCardContainer extends React.Component {
     return (
       <ClusterSpecCard
         clusterSpec={this.props.clusterSpec}
+        clusterSpecsFile={this.props.clusterSpecsFile}
         flipped={this.state.isFlipped}
         onKeyDown={this.onKeyDown}
         showBack={this.showBack}

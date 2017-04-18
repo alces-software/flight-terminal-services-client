@@ -58,7 +58,7 @@ it('displays an error message when the token cannot be found', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("we haven't been able to find that token");
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("we haven't been able to find the token entered");
 });
 
 it('displays an error message when the token has already been used', () => {
@@ -71,7 +71,7 @@ it('displays an error message when the token has already been used', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("token has already been used");
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("token you have entered has already been used");
 });
 
 it('displays an error message when the token cannot launch the spec', () => {
@@ -97,7 +97,7 @@ it('displays an error message when the cluster name is currently taken', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("The cluster name you have chosen is already in use.");
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("The HPC cluster name you have chosen is already in use.");
 });
 
 it('displays an error message when the AWS credentials are invalid', () => {

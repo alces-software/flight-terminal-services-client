@@ -9,9 +9,11 @@ import React from 'react';
 
 import { loadState, saveState } from '../utils/persistence';
 import WelcomeMessageModal from '../components/WelcomeMessageModal';
+import awsCredentialsAllowed from '../utils/awsCredentialsAllowed';
 
 export default class OnBoardingContainer extends React.Component {
   state = {
+    awsCredentialsAllowed: false,
     showWelcomeMessage: false,
   };
 
@@ -27,15 +29,22 @@ export default class OnBoardingContainer extends React.Component {
   componentDidMount() {
     const state = loadState();
     if (state == null || state.onboarding == null) {
-      this.setState({ showWelcomeMessage: true });
+      this.setState({
+        awsCredentialsAllowed: awsCredentialsAllowed(),
+        showWelcomeMessage: true,
+      });
     } else {
-      this.setState({ showWelcomeMessage: !state.onboarding.welcomeMessageRead });
+      this.setState({
+        awsCredentialsAllowed: awsCredentialsAllowed(),
+        showWelcomeMessage: !state.onboarding.welcomeMessageRead,
+      });
     }
   }
 
   render() {
     return (
       <WelcomeMessageModal
+        awsCredentialsAllowed={this.state.awsCredentialsAllowed}
         show={this.state.showWelcomeMessage}
         onHide={this.setWelcomeMessageRead}
       />

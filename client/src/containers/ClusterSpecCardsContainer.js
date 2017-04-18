@@ -91,23 +91,25 @@ function buildClusterSpecsUrl(relativePath) {
 function getClusterSpecsUrl() {
   const defaultFile = process.env.REACT_APP_DEFAULT_CLUSTER_SPECS_FILE
   const defaultUrl = buildClusterSpecsUrl(defaultFile);
+  const defaultReturn = { file: defaultFile, url: defaultUrl };
 
   // Get the clusterSpecs urlParam without breaking in older browsers.  Older
   // browsers use the defaultUrl.
-  if (URL == null) { return defaultUrl; }
+  if (URL == null) { return defaultReturn; }
   const urlParams = new URL(window.location).searchParams;
-  if (urlParams == null || urlParams.get == null) { return defaultUrl; }
+  if (urlParams == null || urlParams.get == null) { return defaultReturn; }
   const file = urlParams.get('clusterSpecs');
 
-  if (file == null) { return defaultUrl ; }
-  if (file === 'dev') { return file ; }
-  return buildClusterSpecsUrl(file);
+  if (file == null) { return defaultReturn ; }
+  if (file === 'dev') { return { file: 'dev', url: 'dev' }; }
+  return { file: file, url: buildClusterSpecsUrl(file) };
 }
 
 export default class ClusterSpecCardsContainer extends React.Component {
 
   state = {
     clusterSpecs: null,
+    clusterSpecsFile: null,
     error: null,
     loading: true,
   };
@@ -115,7 +117,7 @@ export default class ClusterSpecCardsContainer extends React.Component {
   componentDidMount() {
     const specsUrl = getClusterSpecsUrl();
 
-    if (process.env.NODE_ENV === 'development' && specsUrl === 'dev') {
+    if (process.env.NODE_ENV === 'development' && specsUrl.file === 'dev') {
       this.setDevSpecs();
     } else {
       this.loadSpecs(specsUrl);
@@ -128,12 +130,13 @@ export default class ClusterSpecCardsContainer extends React.Component {
         loading: false,
         error: false,
         clusterSpecs: processClusterSpecs(devClusterSpecs),
+        clusterSpecsFile: 'dev',
       });
     }, 500);
   }
 
   loadSpecs(specsUrl) {
-    fetch(specsUrl)
+    fetch(specsUrl.url)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -146,6 +149,7 @@ export default class ClusterSpecCardsContainer extends React.Component {
           loading: false,
           error: false,
           clusterSpecs: processClusterSpecs(specs),
+          clusterSpecsFile: specsUrl.file,
         });
       })
       .catch((error) => {
@@ -153,12 +157,13 @@ export default class ClusterSpecCardsContainer extends React.Component {
           loading: false,
           error: error,
           clusterSpecs: null,
+          clusterSpecsFile: null,
         });
       });
   }
 
   renderSectionContent() {
-    const { loading, error, clusterSpecs } = this.state;
+    const { loading, error, clusterSpecs, clusterSpecsFile } = this.state;
 
     if (loading) {
       return <DelaySpinner />;
@@ -167,7 +172,10 @@ export default class ClusterSpecCardsContainer extends React.Component {
     } else if (clusterSpecs && clusterSpecs.length < 1) {
       return <NoClustersAvailable />;
     } else {
-      return <ClusterSpecCards clusterSpecs={clusterSpecs} />
+      return <ClusterSpecCards
+        clusterSpecs={clusterSpecs}
+        clusterSpecsFile={clusterSpecsFile}
+      />
     }
   }
 

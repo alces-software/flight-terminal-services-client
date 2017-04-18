@@ -11,6 +11,7 @@ module Alces
       module Application
         class Configuration < Struct.new(:flags,
                                          :wait_for_arn_duration,
+                                         :cluster_specs_url_prefix,
                                          :default_key_pair,
                                          :default_region,
                                          :default_template_set,
