@@ -10,10 +10,13 @@ Launch token program or through your own AWS credentials.
 ##### Using a Flight Launch token to access the service
 
 Through one of the Alces Flight Crew or via one of our trusted partner
-networks you should have a received a Flight Launch token consisting of
-three unrelated words (ex. “flower – star – moose”). Don’t have one yet?
-Contact us through this request form and we’ll start the process of securing
-you a Flight Launch token.
+networks you should have a received a Flight Launch token consisting of three
+unrelated words (ex. “flower – star – moose”). Don’t have one yet?  <a
+href="mailto:support@alces-flight.com?subject=Flight Launch Token
+ Request&body=Please send me a Flight Launch Token by return
+ email.%0D%0A%0D%0AKind regards." target="_blank" rel="noopener noreferrer">
+Let us know</a>  and we’ll start the process of securing you a Flight Launch
+token.
 
 Simply search through the available preconfigured clusters and, once you’ve
 decided the HPC cluster you wish to trial, enter the token, the name you’d
@@ -46,7 +49,8 @@ pre-determined time via Flight Launch token, or the time you allocate to the
 cluster through your own AWS account, as you see fit. Work with the
 applications that come pre-installed or try your hand at installing and
 running any of the Alces Gridware Open Source applications available from this
-list: https://gridware.alces-flight.com/
+list: <a href="https://gridware.alces-flight.com/" target="_blank"
+rel="noopener noreferrer">https://gridware.alces-flight.com/</a>
 
 While we’ll send you plenty of emails letting you know your HPC cluster status
 remember: Save your work and, if you are using your own account, remember
@@ -54,9 +58,11 @@ to shutdown the HPC cluster once your job is complete.
 
 ##### Getting ready to launch and more information
 
-Want to spend some time reading up on the Alces Flight Launch service prior
-to starting your project? We have a documentation site dedicated to the
-cause as well as a Community Support Portal available for you to join in and
-read through.
+Want to spend some time reading up on the Alces Flight Launch service prior to
+starting your project? We have a <a href="http://docs.alces-flight.com"
+target="_blank" rel="noopener noreferrer">documentation site</a> dedicated to
+the cause as well as a <a href="http://community.alces-flight.com"
+target="_blank" rel="noopener noreferrer">Community Support Portal</a>
+available for you to join in and read through.
 
 Enjoy your flight!
