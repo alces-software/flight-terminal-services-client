@@ -56,6 +56,7 @@ export default function withConfirmation(config) {
         const {
           confirmButtonText,
           confirmText,
+          placement,
 
           /* eslint-disable no-unused-vars */
           onConfirm,
@@ -71,6 +72,7 @@ export default function withConfirmation(config) {
             id="confirmation"
             onConfirmation={this.handleConfirmation}
             onHide={this.handleHideConfirmation}
+            placement={placement}
             show={this.state.showingConfirmation}
             target={() => this.button}
           >
@@ -96,6 +98,7 @@ export default function withConfirmation(config) {
       confirmText: FlightConfirmation.propTypes.children,
       onConfirm: PropTypes.func.isRequired,
       onConfirmationShown: PropTypes.func,
+      placement: FlightConfirmation.propTypes.placement,
     };
 
     Wrapper.displayName = wrapDisplayName(
