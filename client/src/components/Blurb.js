@@ -68,18 +68,25 @@ const Blurb = () => (
         </Col>
         <Col md={4}>
           <div className="special-box-inner">
-            <h3 className="box-title">What is Alces Flight Compute?</h3>
-            <p>Alces Flight Compute provides a fully-featured, scalable High
-              Performance Computing (HPC) environment for research and
-              scientific computing.</p>
-            <p>Compatible with both on-demand and spot instances, Flight rapidly
-              delivers a whole HPC cluster, ready to go and complete with job
-              scheduler and applications.</p>
-            <p>Clusters are deployed in a Virtual Private Cluster (VPC)
-              environment for security, with SSH and graphical-desktop
-              connectivity for users. Data management tools for POSIX and S3
-              object storage are also included to help users transfer files and
-              manage storage resources.</p>
+            <h3 className="box-title">What is the Alces Flight Launch Service?</h3>
+
+            <p>Developed by the team at Alces Flight, the Alces Flight Launch
+              Service has been developed to quickly launch a preconfigured
+              High Performance Computing (HPC) cluster.  With the Alces Flight
+              Launch Service you gain temporary access to instant, single-user
+              scientific computing at no cost to you.</p>
+
+            <p>The Alces Flight Launch Service rapidly delivers a whole HPC
+              cluster, ready to go and complete with job schedule and
+              applications.  Simply select the HPC cluster you want to
+              evaluate, enter your Flight Launch token, HPC cluster name, and
+              an email address for notifications and you are ready to go!</p>
+
+            <p>Clusters are deployed in a Virtual Private (VPC) environment
+              for security, with SSH and graphical-desktop connectivity for
+              users.  Data management tools for POSIX and S3 object storage
+              are also included to help users transfer files and manage
+              storage resources.</p>
           </div>
         </Col>
       </Row>
