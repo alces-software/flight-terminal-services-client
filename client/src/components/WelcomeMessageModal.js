@@ -8,7 +8,7 @@
 import React, { PropTypes } from 'react';
 import { StandardModal } from 'flight-common';
 
-import welcomeMessageCopy from '../copy/welcomeMessage.md';
+import welcomeMessageTokenOnlyCopy from '../copy/welcomeMessageTokenOnly.md';
 
 const WelcomeMessageModal = ({ show, onHide }) => (
   <StandardModal
@@ -18,7 +18,7 @@ const WelcomeMessageModal = ({ show, onHide }) => (
     bsSize="large"
   >
     { /* eslint-disable react/no-danger */ }
-    <div dangerouslySetInnerHTML={{ __html: welcomeMessageCopy }} />
+    <div dangerouslySetInnerHTML={{ __html: welcomeMessageTokenOnlyCopy }} />
     { /* eslint-enable react/no-danger */ }
   </StandardModal>
 );
