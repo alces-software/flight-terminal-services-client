@@ -12,7 +12,7 @@ import welcomeMessageTokenOnlyCopy from '../copy/welcomeMessageTokenOnly.md';
 
 const WelcomeMessageModal = ({ show, onHide }) => (
   <StandardModal
-    title="Welcome to Flight Launch!"
+    title="Welcome to the Alces Flight Launch Service!"
     onHide={onHide}
     show={show}
     bsSize="large"

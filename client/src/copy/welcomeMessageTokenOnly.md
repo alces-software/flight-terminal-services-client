@@ -1,36 +1,45 @@
-Flight Launch is a service provided by <a href="http://alces-flight.com"
-target="_blank" rel="noopener noreferrer">Alces Flight</a> to quickly launch a
-preconfigured Flight Compute cluster.  There are two alternatives for
-launching a cluster with Flight Launch.  You can either provide a Flight
-Launch token or provide your own AWS credentials.
+On behalf of the Alces Flight Crew we’d like to welcome you on board the Alces
+Flight Launch Service. This service has been developed to quickly launch a
+preconfigured High Performance Computing (HPC) cluster. With the Alces Flight
+Launch Service you gain temporary access to instant, single-user scientific
+computing at no cost to you.
 
-##### Using a Flight Launch token
+The service begins the moment you enter your Flight Launch token into the HPC
+cluster you wish to evaluate and ends at the pre-determined time period listed
+on the HPC cluster information card.
 
-Using a Flight Launch token allows you to evaluate Alces Flight compute risk
-free.  With a Flight Launch token, you can launch a cluster without incurring
-any costs; however, *Alces Flight Ltd* reserve the right to terminate the
-cluster without warning, so make sure that any work performed on the cluster
-can be safely lost.
+##### How to use a Flight Launch token
 
-##### Using your own AWS credentials
+Through one of the Alces Flight Crew or via one of our trusted partner
+networks you should have a received a Flight Launch token consisting of three
+unrelated words (e.g. “flower – star – moose”). Don’t have one yet?  Contact
+us through this request form and we’ll start the process of securing you a
+Flight Launch token.
 
-Using your own AWS credentials allows you to use Alces Flight compute without
-risk of losing your work.  This option is suitable for long running
-evaluations or for performing your research.
+Once you’ve secured a token simply search through the available preconfigured
+clusters. When you’ve decided the HPC cluster you wish to trial enter the
+token, the name you’d like to give your cluster, and the email address you
+want to receive HPC cluster updates to.
 
-To use Flight Launch with your own AWS credentials, you will need to have
-configured an AWS account, and have your AWS access key ID and AWS secret
-access key to hand.
+Then, simply press launch! You are now moments away from HPC cluster access.
 
-Clusters launched through Flight Launch will incur costs against your AWS
-account until they are shutdown.  We will keep you fully informed of what
-clusters you request us to launch on your behalf, but you have responsibility
-for ensuring that you shutdown the cluster when you have finished using it.
+##### Using your preconfigured HPC cluster
 
-##### More information
+Once you are notified that HPC cluster is active you can use the
+pre-determined time as you see fit. Work with the applications that come
+pre-installed or try your hand at installing and running any of the Alces
+Gridware Open Source applications available from this list:
+https://gridware.alces- flight.com/
 
-More information on using Flight Compute can be found on our <a
-href="http://docs.alces-flight.com" target="_blank" rel="noopener
-noreferrer">documentation site</a>.  You may also wish to visit our <a
-href="http://community.alces-flight.com" target="_blank" rel="noopener
-noreferrer">Community Support Portal</a>.
+While we’ll send you plenty of emails letting you know your HPC cluster status
+remember: It is a trial service and time limited. Please remember to save any
+work you perform while using your Flight Launch token!
+
+##### Getting ready to launch and more information
+
+Want to spend some time reading up on the Alces Flight Launch service prior to
+starting your evaluation? We have a documentation site dedicated to the cause
+as well as a Community Support Portal available for you to join in and read
+through.
+
+Enjoy your flight!
