@@ -6,6 +6,8 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
+require 'open-uri'
+
 #
 # A specification of a cluster that is easily understood by Flight Attendant.
 #
@@ -13,6 +15,43 @@
 #
 class ClusterSpec
   include ActiveModel::Model
+
+  class Error < RuntimeError ; end
+  class UnableToRetrieveClusterSpecs < Error; end
+  class ClusterSpecsNotValid < Error; end
+  class ClusterSpecNotFound < Error; end
+
+  class << self
+    def load(params)
+      file = params['file']
+      name = params['name']
+      prefix = Rails.application.config.alces.cluster_specs_url_prefix
+      url = "#{prefix}#{file}"
+
+      begin
+        cluster_specs = JSON.parse(open(url).read)['clusterSpecs']
+      rescue OpenURI::HTTPError
+        raise UnableToRetrieveClusterSpecs, $!.message
+      rescue JSON::ParserError
+        raise ClusterSpecsNotValid
+      end
+
+      spec = cluster_specs.detect do |s|
+        s['ui']['title'] == name
+      end
+
+      if spec.nil?
+        raise ClusterSpecNotFound
+      end
+
+      new(
+        args: spec['fly']['args'],
+        parameter_directory_overrides: spec['fly']['parameterDirectoryOverrides'],
+        key: spec['key'],
+        meta: spec['fly']['ui'],
+      )
+    end
+  end
 
   # A list of command line arguments for Flight Attendant's cluster launch
   # command.
