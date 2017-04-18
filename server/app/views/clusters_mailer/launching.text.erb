@@ -6,16 +6,20 @@
   All rights reserved, see LICENSE.txt.
 %>
 
-Hi,
+Your Alces Flight Launch Service is in Taxi for Take-Off.
 
-Your <%= @cluster_spec_name %> "<%= @cluster_name %>" is being launched.  <% if @show_cloudformation_link %>You can view the progress
-on the AWS CloudFormation console <<%= @cloudformation_url %>>.<% end %>
+Your <%= @cluster_spec_name %> "<%= @cluster_name %>" is being cleared for
+take-off.<% if @show_cloudformation_link %> You can view the progress of your HPC cluster on the AWS
+CloudFormation console <<%= @cloudformation_url %>>.<% end %>
 
-We will send you another email once your cluster is available for use.
+We will send you another email once your HPC cluster is in flight and
+available for use.
 
 <% note do %>
-  You're receiving this email because you have started a cluster with Flight
-  Launch.
+  You're receiving this email because you have started a cluster with the
+  Alces Flight Launch Service.
 <% end %>
-
 <%= render 'shared/contact_us' %>
+See you in the air soon.
+
+The Alces Flight Crew

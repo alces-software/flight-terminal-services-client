@@ -6,20 +6,24 @@
   All rights reserved, see LICENSE.txt.
 %>
 
-<p>Hi,</p>
+<p>Welcome on board the Alces Flight Launch Service.</p>
 
 <p>
 Your <%= @cluster_spec_name %> "<%= @cluster_name %>" will begin launching shortly.
 <% if @using_token && @runtime_limit %>
-    You will not be charged for running this cluster, but <em>Alces Flight
-        Ltd</em> reserve the right to terminate it after <%= @runtime %>.
+    Once you are in flight, the evaluation for this HPC cluster will be <%=
+    @runtime %>.  Please remember to save your work as you go as once the
+    trial completes the HPC cluster will shutdown automatically.
 <% elsif @using_token %>
     You will not be charged for running this cluster, but <em>Alces Flight
-        Ltd</em> reserve the right to terminate it without notice.
+        Ltd</em> reserve the right to terminate it without notice.  Please
+    remember to save your work as you go.
 <% else %>
-    Once it has started launching, your AWS account will incur charges until
-    the cluster is shutdown.  Flight Launch will not shut the cluster down, it
-    is your responsibility to do so when you have finished using it.
+    Once you are in flight your AWS account will incur charges.  The Alces
+    Flight Launch Service is unable to automatically shutdown clusters, so
+    please remember to close down your HPC cluster once your work is complete
+    to avoid unwanted charges. (Unsure how to close down a cluster?  Click
+    here for more details.)
 <% end %>
 </p>
 
@@ -29,8 +33,8 @@ Your <%= @cluster_spec_name %> "<%= @cluster_name %>" will begin launching short
     </p>
 <% else %>
     <p>
-    We will send you another email once we have the AWS CloudFormation link for
-    your cluster.
+    You will receive another email shortly letting you know that the HPC
+    cluster is available for use.
     </p>
 <% end %>
 
@@ -42,3 +46,7 @@ Your <%= @cluster_spec_name %> "<%= @cluster_name %>" will begin launching short
 <% end %>
 
 <%= render 'shared/contact_us' %>
+
+<p>See you in the air soon.</p>
+
+<p>The Alces Flight Crew</p>

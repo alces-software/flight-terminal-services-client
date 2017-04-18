@@ -7,13 +7,7 @@
 %>
 <% setup %>
 
-<p>Hi,</p>
-
-<p>
-Unfortunately, your <%= @cluster_spec_name %> "<%= @cluster_name %>" failed to launch.  You can
-view the error message below.  If this problem continues, please contact
-<a href="mailto:support@alces-flight.com">support@alces-flight.com</a>.
-</p>
+<p>Your HPC cluster "<%= @cluster_name %>" has failed to launch.</p>
 
 <% if @show_cloudformation_link %>
 <% if @arn_present %>
@@ -29,6 +23,8 @@ view the error message below.  If this problem continues, please contact
     </p>
 <% end %>
 <% end %>
+
+<p>The error message received is below:</p>
 
 <blockquote>
     <table cellpadding="0" cellspacing="0" border="0">
@@ -49,9 +45,17 @@ view the error message below.  If this problem continues, please contact
     </table>
 </blockquote>
 
-<% note do %>
-    You're receiving this email because you have started a cluster with Flight
-    Launch, and that cluster has failed to launch.
-<% end %>
+<p>
+Please check your settings and try again.  If the problem continues, please
+contact us at support@alces-flight.com.
+</p>
 
-<%= render 'shared/contact_us' %>
+<p>The Alces Flight Crew</p>
+
+<% note do %>
+    <p class="notes">
+    You have received this email because you have attempted to start a HPC
+    cluster with the Alces Flight Launch Service, and the cluster has reported
+    an error.
+    </p>
+<% end %>
