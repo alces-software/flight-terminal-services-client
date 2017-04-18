@@ -11,7 +11,7 @@ import invariant from 'invariant';
 
 import withConfirmation from './withConfirmation';
 
-const ConfirmableButton = withConfirmation()(({
+const ConfirmableButton = withConfirmation({ placement: 'right', })(({
   children,
   confirmationPopover,
   showingConfirmation,

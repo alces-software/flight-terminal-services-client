@@ -6,11 +6,7 @@
   All rights reserved, see LICENSE.txt.
 %>
 
-Hi,
-
-Unfortunately, your <%= @cluster_spec_name %> "<%= @cluster_name %>" failed to launch.  You can
-view the error message below.  If this problem continues, please contact
-<support@alces-flight.com>.
+Your HPC cluster "<%= @cluster_name %>" has failed to launch.
 
 <% if @show_cloudformation_link %>
 <% if @arn_present %>
@@ -21,14 +17,16 @@ You should visit the AWS CloudFormation console
 <<%= @cloudformation_url %>> and make sure that the cluster is not running.
 <% end %>
 <% end %>
-
-Error message:
+The error message received is below:
 
 <%= @stderr %>
+Please check your settings and try again.  If the problem continues, please
+contact us at support@alces-flight.com.
+
+The Alces Flight Crew
 
 <% note do %>
-  You're receiving this email because you have started a cluster with Flight
-  Launch, and that cluster has failed to launch.
+  You have received this email because you have attempted to start a HPC
+  cluster with the Alces Flight Launch Service, and the cluster has reported
+  an error.
 <% end %>
-
-<%= render 'shared/contact_us' %>

@@ -23,7 +23,7 @@ class ClustersMailer < ApplicationMailer
     end
 
     mail to: launch_config.email,
-      subject: "About to launch cluster #{@cluster_name}"
+      subject: "Your Alces Flight Launch HPC cluster \"#{@cluster_name}\" is now boarding"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -42,7 +42,7 @@ class ClustersMailer < ApplicationMailer
     end
 
     mail to: launch_config.email,
-      subject: "Launching cluster #{@cluster_name}"
+      subject: "Your Alces Flight Launch HPC cluster #{@cluster_name} is in taxi for take-off"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -56,6 +56,11 @@ class ClustersMailer < ApplicationMailer
     @access_details = @parsed_output.access
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
+    @using_token = launch_config.using_token?
+    if @using_token
+      @runtime_limit = launch_config.spec.runtime_limit?
+      @runtime = launch_config.spec.runtime
+    end
 
     @resources = @parsed_output.resources.
       select {|r| r.final_status == 'CREATE_COMPLETE'}.
@@ -63,7 +68,7 @@ class ClustersMailer < ApplicationMailer
       join("\n")
 
     mail to: launch_config.email,
-      subject: "Launched cluster #{@cluster_name}"
+      subject: "Your Alces Flight Launch HPC cluster #{@cluster_name} is in flight and ready for use"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -88,7 +93,7 @@ class ClustersMailer < ApplicationMailer
     end
 
     mail to: launch_config.email,
-      subject: "Failed to launch cluster #{@cluster_name}"
+      subject: "Your Alces Flight Launch HPC cluster #{@cluster_name} has failed to launch"
   end
 
   private

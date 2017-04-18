@@ -103,17 +103,26 @@ class ClusterLaunchForm extends React.Component {
         confirmButtonText="Launch"
         confirmText={
           this.props.useLaunchToken ?
-            (<span>
-              Launching this cluster will consume your Flight Launch token.
-              You will not be charged for running this cluster, but <em>Alces
-                Flight</em> reserve the right to terminate it without notice.
-            </span>) :
-            (<span>
-              Launching this cluster will incur charges against your AWS account
-              until the cluster is shutdown.  Flight Launch will not shut the
-              cluster down, it is your responsibility to do so when you have
-              finished using it.
-            </span>)
+            (<div>
+              <p>
+                You are about to launch a HPC cluster for trial use through the
+                Alces Flight Launch Service.  By clicking the Launch button you
+                understand this is a trial service and that Alces Flight Ltd.
+                takes no responsibility for the work performed during the trial.
+                Users are highly encouraged to save their work as once the trial
+                ends they will no longer have access to their work.
+              </p>
+              <p>I understand and wish to continue.</p>
+            </div>) :
+            (<div>
+              <p>You are about to launch a HPC cluster using your AWS account.
+                By clicking the Launch button you understand that your AWS
+                account will incur charges.  You further understand that you
+                have the responsibility to shut down the HPC cluster, and that
+                you will continue to incur charges until the HPC cluster is
+                shut down.</p>
+              <p>I understand and wish to continue.</p>
+            </div>)
         }
       />
     );

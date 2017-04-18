@@ -12,6 +12,7 @@ import ClusterLaunchForm from '../components/ClusterLaunchForm';
 import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 import ClusterErrorModal from '../components/ClusterErrorModal';
 import * as analytics from '../utils/analytics';
+import awsCredentialsAllowed from '../utils/awsCredentialsAllowed';
 
 function validate(allValues, { useLaunchToken }) {
   const errors = {};
@@ -45,23 +46,6 @@ function validate(allValues, { useLaunchToken }) {
   return errors;
 }
 
-function showAwsCredentialsLink() {
-  // Get the clusterSpecs urlParam without breaking in older browsers.  Older
-  // browsers cannot show the AWS credentials link.
-  if (URL == null) { return false; }
-  const urlParams = new URL(window.location).searchParams;
-  if (urlParams == null || urlParams.get == null) { return false; }
-  const allowAWSCredentials = urlParams.get('allowAWSCredentials');
-  if (
-    allowAWSCredentials === '' ||
-    allowAWSCredentials === 'true' ||
-    allowAWSCredentials === 'yes'
-  ) {
-    return true;
-  }
-  return false;
-}
-
 class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
@@ -73,7 +57,7 @@ class ClusterLaunchFormContainer extends React.Component {
     const useLaunchToken = this.state.useLaunchToken;
     this.setState({
       errors: validate(this.state.values, { useLaunchToken }),
-      showAwsCredentialsLink: showAwsCredentialsLink(),
+      showAwsCredentialsLink: awsCredentialsAllowed(),
     });
   }
 

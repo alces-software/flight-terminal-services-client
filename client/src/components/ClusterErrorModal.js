@@ -17,14 +17,15 @@ const DetailsMessage = ({ details }) => {
   if (hasPropError(details, 'token', 'token not found')) {
     return (
       <span>
-        Unfortunately, we haven't been able to find that token. Please check
-        that you have entered it correctly.
+        Unfortunately, we haven't been able to find the token entered.  Please
+        check your token details and try again.
       </span>
     );
   } else if (hasPropError(details, 'token', 'token has already been used')) {
     return (
       <span>
-        Unfortunately, that token has already been used.
+        The token you have entered has already been used.  Please check your
+        token details and try again.
       </span>
     );
   } else if (hasPropError(details, 'token', 'token cannot launch cluster spec')) {
@@ -38,14 +39,14 @@ const DetailsMessage = ({ details }) => {
     return (
       <span>
         The AWS credentials you have provided are not valid.  Please check
-        that you have entered them correctly.
+        your credentials and try again.
       </span>
     );
   } else if (hasPropError(details, 'cluster_name', 'taken')) {
     return (
       <span>
-        The cluster name you have chosen is already in use.  Please change the
-        cluster name and try again.
+        The HPC cluster name you have chosen is already in use.  Please change
+        your HPC cluster name and try again.
       </span>
     );
   } else {
@@ -73,8 +74,9 @@ const UnexpectedMessage = ({ message }) => {
   return (
     <div>
       <p>
-        Unfortunately, there was an unexpected error whilst trying to launch
-        your cluster.  <ContactCustomerSupport />
+        Unfortunately, there was an unexpected error in launching your HPC
+        cluster.  Please check your settings and try again.{' '}
+        <ContactCustomerSupport />
       </p>
       {details}
     </div>
@@ -112,7 +114,7 @@ const ClusterErrorModal = ({ error, onHide, show }) => {
       className="flight-packageDetailModal"
       onHide={onHide}
       show={show}
-      title="Your cluster failed to launch"
+      title="Your HPC cluster failed to launch"
     >
       {errorMessage}
     </StandardModal>

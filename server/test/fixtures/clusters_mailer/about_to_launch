@@ -1,20 +1,24 @@
                                           A message from Alces Flight Launch.
                                            <http://flight-launch.lvh.me:4003/>
 
-Hi,
+Welcome on board the Alces Flight Launch Service.
 
 Your small SGE bioinformatics cluster "my-cluster" will begin launching shortly.
-Once it has started launching, your AWS account will incur charges until the
-cluster is shutdown.  Flight Launch will not shut the cluster down, it is your
-responsibility to do so when you have finished using it.
+Once you are in flight your AWS account will incur charges.  The Alces Flight
+Launch Service is unable to automatically shutdown clusters, so please
+remember to close down your HPC cluster once your work is complete to avoid
+unwanted charges. (Unsure how to close down a cluster?  Click here for more
+details.)
 
-We will send you another email once we have the AWS CloudFormation link for
-your cluster.
+You will receive another email shortly letting you know that the HPC cluster
+is available for use.
 
+Please don't hesitate to contact us at <support@alces-flight.com> if you have
+any questions.
 
-Please don't hesitate to contact us at <support@alces-flight.com> if you
-have any questions!
+See you in the air soon.
 
+The Alces Flight Crew
 
 -------------------------------------------------------------------------------
 
