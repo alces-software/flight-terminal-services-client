@@ -27,14 +27,30 @@ const clusterSpec = {
 };
 
 const commonProps = {
+  clusterSpecsFile: "dev",
   onCancel: () => {},
   showBack: () => {},
   showFront: () => {},
 }
 
-it('renders without crashing', () => {
+it('renders without crashing (flipped)', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <ClusterSpecCard clusterSpec={clusterSpec} {...commonProps} flipped />,
+    <ClusterSpecCard
+      clusterSpec={clusterSpec}
+      {...commonProps}
+      flipped
+    />,
+    div);
+});
+
+it('renders without crashing (not flipped)', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(
+    <ClusterSpecCard
+      clusterSpec={clusterSpec}
+      {...commonProps}
+      flipped={false}
+    />,
     div);
 });

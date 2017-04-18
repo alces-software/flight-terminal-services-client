@@ -17,6 +17,7 @@ import '../styles/ClusterSpecCard.scss';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
+  clusterSpecsFile: PropTypes.string.isRequired,
   flipped: PropTypes.bool.isRequired,
   onKeyDown: PropTypes.func,
   showBack: PropTypes.func.isRequired,
@@ -25,6 +26,7 @@ const propTypes = {
 
 const ClusterSpecCard = ({
   clusterSpec,
+  clusterSpecsFile,
   flipped,
   onKeyDown,
   showBack,
@@ -57,6 +59,7 @@ const ClusterSpecCard = ({
       >
         <ClusterLaunchFormContainer
           clusterSpec={clusterSpec}
+          clusterSpecsFile={clusterSpecsFile}
           onCancel={showFront}
         />
       </Card>

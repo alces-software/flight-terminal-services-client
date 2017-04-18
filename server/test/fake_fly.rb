@@ -31,12 +31,14 @@ class FakeFly
     global_option '--key-pair KEY_PAIR', ''
     global_option '--solo', ''
     global_option '--template-set TEMPLATE_SET', ''
+    global_option '--runtime RUNTIME', ''
 
     command 'cluster launch' do |c|
       c.syntax = 'cluster launch'
       c.description = 'Launch a cluster'
       c.option '--solo', ''
       c.option '--template-set TEMPLATE_SET', ''
+      c.option '--runtime RUNTIME', ''
 
       c.action do |args, options|
         case args.first

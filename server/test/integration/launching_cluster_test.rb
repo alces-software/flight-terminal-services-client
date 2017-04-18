@@ -17,15 +17,8 @@ class LaunchingClusterTest < ActionDispatch::IntegrationTest
       "secret_key": "<REDACTED>"
     },
     "clusterSpec": {
-      "args": [ "--solo" ],
-      "parameterDirectoryOverrides": {
-        "solo": {
-          "AutoscalingPolicy": "enabled",
-          "ComputeSpotPrice": "0.3",
-          "SchedulerType": "slurm",
-          "PreloadSoftware": "chemistry"
-        }
-      }
+      "file": "test.json",
+      "name": "Small SGE cluster",
     }
   }
 

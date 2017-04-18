@@ -30,7 +30,11 @@ const clusterSpec = {
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <ClusterLaunchFormContainer clusterSpec={clusterSpec} onCancel={() => {}} />,
+    <ClusterLaunchFormContainer
+      clusterSpecsFile="dev"
+      clusterSpec={clusterSpec}
+      onCancel={() => {}}
+    />,
     div
   );
 });
