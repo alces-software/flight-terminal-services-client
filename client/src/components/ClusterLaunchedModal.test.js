@@ -34,7 +34,7 @@ it('mentions having sent an email', () => {
     />
   );
 
-  expect(wrapper.children('p').last()).toIncludeText('We have sent an email');
+  expect(wrapper.children('p').at(1)).toIncludeText('will be sent to me@example.com');
 });
 
 
