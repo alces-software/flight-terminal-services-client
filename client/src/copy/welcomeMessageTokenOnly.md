@@ -25,13 +25,13 @@ Then, simply press launch! You are now moments away from HPC cluster access.
 
 ##### Using your preconfigured HPC cluster
 
-Once you are notified that HPC cluster is active you can use the
+Once you are notified that your HPC cluster is active you can use the
 pre-determined time as you see fit. Work with the applications that come
 pre-installed or try your hand at installing and running any of the Alces
 Gridware Open Source applications available from this list:
 https://gridware.alces- flight.com/
 
-While we’ll send you plenty of emails letting you know your HPC cluster status
+While we’ll send you plenty of emails letting you know your HPC cluster's status
 remember: It is a trial service and time limited. Please remember to save any
 work you perform while using your Flight Launch token!
 
