@@ -45,7 +45,7 @@ const Credentials = ({
         id={`${id}-launch-token`}
         name="launchToken"
         onChange={onChange}
-        placeholder="Enter your Flight Launch token"
+        label="Enter your Flight Launch token"
         value={values.launchToken}
         help="A Flight Launch token allows you to try out Alces Flight Compute
         without incurring any charges."
@@ -67,7 +67,7 @@ const Credentials = ({
           id={`${id}-access-key`}
           name="awsAccessKeyId"
           onChange={onChange}
-          placeholder="Enter your AWS Access Key ID"
+          label="Enter your AWS Access Key ID"
           value={values.awsAccessKeyId}
         />
         <Input
@@ -75,7 +75,7 @@ const Credentials = ({
           id={`${id}-secret-key`}
           name="awsSecrectAccessKey"
           onChange={onChange}
-          placeholder="Enter your AWS Secret Access Key"
+          label="Enter your AWS Secret Access Key"
           value={values.awsSecrectAccessKey}
         />
         <p>

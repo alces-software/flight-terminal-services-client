@@ -10,6 +10,7 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 import invariant from 'invariant';
 
 import withConfirmation from './withConfirmation';
+import '../styles/MultiPageForm.scss';
 
 const ConfirmableButton = withConfirmation({ placement: 'right', })(({
   children,
@@ -155,7 +156,9 @@ class MultiPageForm extends React.Component {
 
     return (
       <form className={this.props.className} onSubmit={onSubmit} >
-        {this.renderPage()}
+        <div className="MultiPageForm-contents">
+          {this.renderPage()}
+        </div>
         {this.renderButtons()}
       </form>
     );
