@@ -14,8 +14,8 @@ module ClustersMailerHelper
 
   def password
     token = @cluster_details.detect do |cd|
-      cd.title == 'Token'
+      cd.title == 'Initial password'
     end
-    token.value
+    token.value if token.present?
   end
 end
