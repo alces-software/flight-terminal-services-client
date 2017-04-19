@@ -135,7 +135,8 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
         launch_cluster(cluster_flavour)
         about_to_launch = ActionMailer::Base.deliveries.first
 
-        assert_equal "About to launch cluster will-launch-successfully", about_to_launch.subject
+        assert_equal "Your Alces Flight Launch HPC cluster will-launch-successfully is now boarding",
+          about_to_launch.subject
         assert_equal "me@example.com", about_to_launch.to.first
       end
     end
@@ -145,7 +146,8 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
     launch_cluster(:good_with_aws_creds)
     launching = ActionMailer::Base.deliveries[1]
 
-    assert_equal "Launching cluster will-launch-successfully", launching.subject
+    assert_equal "Your Alces Flight Launch HPC cluster will-launch-successfully is in taxi for take-off",
+      launching.subject
     assert_equal "me@example.com", launching.to.first
   end
 
@@ -155,7 +157,8 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
         launch_cluster(cluster_flavour)
         launched_email = ActionMailer::Base.deliveries.last
 
-        assert_equal "Launched cluster will-launch-successfully", launched_email.subject
+        assert_equal "Your Alces Flight Launch HPC cluster will-launch-successfully is in flight and ready for use",
+          launched_email.subject
         assert_equal "me@example.com", launched_email.to.first
       end
     end
