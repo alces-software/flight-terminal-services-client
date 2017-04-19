@@ -7,7 +7,7 @@
   "proxy": "http://server:4003/",
   "dependencies": {
     "bootstrap-sass": "^3.3.7",
-    "flight-common": "file:///home/flight-common/",
+    "flight-common": "git+https://github.com/alces-software/flight-common.git#react-15-react-router-4",
     "html-loader": "^0.4.5",
     "invariant": "^2.2.2",
     "markdown-loader": "^2.0.0",
