@@ -3,7 +3,7 @@ require 'test_helper'
 class ClustersMailerTest < ActionMailer::TestCase
   test "about to launch" do
     mail = ClustersMailer.about_to_launch(launch_config)
-    assert_equal 'Your Alces Flight Launch HPC cluster "my-cluster" is now boarding', mail.subject
+    assert_equal 'Your Alces Flight Launch HPC cluster my-cluster is now boarding', mail.subject
     assert_equal [launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
@@ -12,7 +12,7 @@ class ClustersMailerTest < ActionMailer::TestCase
 
   test "about to launch with token" do
     mail = ClustersMailer.about_to_launch(token_launch_config)
-    assert_equal 'Your Alces Flight Launch HPC cluster "my-cluster" is now boarding', mail.subject
+    assert_equal 'Your Alces Flight Launch HPC cluster my-cluster is now boarding', mail.subject
     assert_equal [token_launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
@@ -21,7 +21,7 @@ class ClustersMailerTest < ActionMailer::TestCase
 
   test "about to launch with token and runtime" do
     mail = ClustersMailer.about_to_launch(token_runtime_launch_config)
-    assert_equal 'Your Alces Flight Launch HPC cluster "my-cluster" is now boarding', mail.subject
+    assert_equal 'Your Alces Flight Launch HPC cluster my-cluster is now boarding', mail.subject
     assert_equal [token_runtime_launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
