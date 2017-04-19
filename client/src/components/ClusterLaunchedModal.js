@@ -22,15 +22,15 @@ const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, sho
     className="flight-packageDetailModal"
     onHide={onHide}
     show={show}
-    title="Your HPC cluster is getting ready for take-off"
+    title="Your Alces Flight Compute HPC cluster is getting ready for take-off"
   >
     <p>
-      Your HPC cluster, <em>{clusterName}</em>, is in the process of being
+      Your Alces Flight Compute HPC cluster, <em>{clusterName}</em>, is in the process of being
       launched via Amazon Web Services.
       {
         cloudformationUrl ? (
           <span>
-            {' '}You can view the progress of your HPC cluster{' '}<a
+            {' '}You can view the launch progress of your cluster{' '}<a
               href={cloudformationUrl}
               target="_blank"
               rel="noopener noreferrer" 
@@ -42,12 +42,12 @@ const ClusterLaunchModal = ({ cloudformationUrl, clusterName, email, onHide, sho
       }
     </p>
     <p>
-      All notices on the status of your HPC cluster will be sent to <a
+      All notices on the status of your cluster will be sent to <a
         href={`mailto:${email}`}>{email}</a>.  Should you find yourself
-      needing help, please contact <CustomerSupportLink />.
+      needing help, please visit our <a href="https://community.alces-flight.com">Community Support Portal</a>.
     </p>  
     <p>
-      Thank you for choosing the Alces Flight Launch Service.
+      Thank you for choosing the Alces Flight Launch service.
     </p>
   </StandardModal>
 );

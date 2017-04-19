@@ -6,10 +6,10 @@
   All rights reserved, see LICENSE.txt.
 %>
 
-Your Alces Flight Launch Service is ready for use!
+Your Alces Flight Compute HPC cluster is ready for use!
 
 Your <%= @cluster_spec_name %> "<%= @cluster_name %>" has reached cruising
-altitude and is available for use. 
+altitude and is available for use.
 
 <% if @using_token %>Remember, the flight time for this cluster is <%= @runtime %>. Please remember to save
 your work.<% else %>Remember, this cluster will remain in flight until you shut it down.  If you
@@ -21,19 +21,21 @@ Cluster details:
 
 <%= cluster_details.map(&:to_s).join("\n") %>
 
-Access via:
+You can access your cluster using the URL provided above or via SSH.
+When prompted for a password enter: <%= password %>
 
 <%= @access_details %>
-When prompted for a password enter <%= password %>
 
-The following resources have been created:
+<%- if ! @using_token -%>The following resources have been created:
 
 <%= @resources %>
 
+<%- end -%>
 <% note do %>
-  You are receiving this email because you have started a HPC cluster with the
-  Alces Flight Launch Service. Your HPC cluster is now ready for use.
+  You are receiving this email because you have started an Alces
+  Flight Compute HPC cluster with the Alces Flight Launch
+  service. Your cluster is now ready for use.
 <% end %>
 
 <%= render 'shared/contact_us' %>
-Thank you for choosing the Alces Flight Launch Service.
+Thank you for choosing the Alces Flight Launch service.
