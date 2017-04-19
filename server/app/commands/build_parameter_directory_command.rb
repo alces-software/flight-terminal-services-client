@@ -8,17 +8,14 @@
 require 'open3'
 require 'yaml'
 
-require 'alces/tools/hashing'
-
 #
 # Create a fly parameter directory and merge in any overrides in
 # `cluster_spec`.
 #
 class BuildParameterDirectoryCommand
-  PEPPER = "Gwzj5Xy51gBAQxk/NG+U1/x3RDvQqkycLHKSaygYG/1Y78AFfCt9y8uVSFYx/b8kE4irgX20wVg="
-
   MANDATORY_OVERRIDES = {
-    'FlightProfileBucket' => :hash_email,
+    'FlightProfileBucket' => :email_hash,
+    'ClusterName' => :cluster_name,
   }.freeze
 
   def initialize(parameter_dir, cluster_spec, launch_config)
@@ -78,12 +75,11 @@ class BuildParameterDirectoryCommand
     end
   end
 
-  def hash_email
-    hash = Alces::Tools::Hashing.create_hash(
-      @launch_config.email,
-      urlsafe: true,
-      salt: 'alces-flight-launch-',
-      pepper: PEPPER)[0..40]
-    hash.tr('_', '-').downcase
+  def email_hash
+    "alces-flight-launch-#{HashEmailCommand.new(@launch_config.email).perform}"
+  end
+
+  def cluster_name
+    @launch_config.name
   end
 end
