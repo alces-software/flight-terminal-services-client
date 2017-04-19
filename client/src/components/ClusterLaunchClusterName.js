@@ -23,7 +23,7 @@ const ClusterName = ({ error, id, onChange, value }) => (
       error={error}
       id={`${id}-clusterName`}
       name="clusterName"
-      placeholder="Enter a name for your cluster"
+      label="Enter a name for your cluster"
       value={value}
       onChange={onChange}
       help="Choose a unique name for your cluster."
