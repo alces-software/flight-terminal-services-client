@@ -61,7 +61,7 @@ class RunFlyLaunchCommand
       ENV['FLY_EXE_PATH'],
       'cluster',
       'launch',
-      @launch_config.name,
+      stack_name,
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
       *extra_args,
@@ -73,6 +73,11 @@ class RunFlyLaunchCommand
     }
 
     [cmd, env]
+  end
+
+  def stack_name
+    hash = HashEmailCommand.new(@launch_config.email).perform
+    "#{@launch_config.name}-#{hash}"
   end
 
   def launch_with_popen3(cmd, env)
