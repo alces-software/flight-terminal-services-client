@@ -62,6 +62,8 @@ class ClusterLaunchForm extends React.Component {
           error={this.props.errors.clusterName}
           value={this.props.values.clusterName}
           onChange={this.props.onChange}
+          placeholder={this.props.values.launchToken}
+          useLaunchToken={this.props.useLaunchToken}
         />),
       valid: () => !this.props.errors.clusterName,
     },
