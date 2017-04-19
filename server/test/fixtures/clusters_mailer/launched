@@ -16,12 +16,13 @@ Cluster details:
 Administrator username: alces
 IP address: 34.251.133.40
 Access URL: http://ec2-34-251-133-40.eu-west-1.compute.amazonaws.com
+Initial password: rykut-fivom-zioni
 
 Access via:
 
 	ssh alces@34.251.133.40
 
-When prompted for a password enter NDM4OTE5ZTAtZDY5Ni01
+When prompted for a password enter rykut-fivom-zioni
 
 The following resources have been created:
 

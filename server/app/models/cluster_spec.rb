@@ -48,7 +48,7 @@ class ClusterSpec
         args: spec['fly']['args'],
         parameter_directory_overrides: spec['fly']['parameterDirectoryOverrides'],
         key: spec['key'],
-        meta: spec['fly']['ui'],
+        meta: spec['ui'],
       )
     end
   end

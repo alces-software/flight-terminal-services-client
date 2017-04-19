@@ -21,10 +21,14 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.launching(token_launch_config, arn)
   end
 
-  # Preview this email at http://localhost:3000/rails/mailers/clusters_mailer/launched
   def launched
     output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
     ClustersMailer.launched(launch_config, output)
+  end
+
+  def launched_with_token
+    output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
+    ClustersMailer.launched(token_runtime_launch_config, output)
   end
 
   def failed

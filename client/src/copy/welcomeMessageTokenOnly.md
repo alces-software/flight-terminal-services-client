@@ -10,8 +10,8 @@ on the HPC cluster information card.
 
 ##### How to use a Flight Launch token
 
-Through one of the Alces Flight Crew or via one of our trusted partner
-networks you should have a received a Flight Launch token consisting of three
+Through one of the Alces Flight Crew or via our trusted partner
+network you should have a received a Flight Launch token consisting of three
 unrelated words (e.g. “flower – star – moose”). Don’t have one yet?  <a
 href="mailto:support@alces-flight.com?subject=Flight Launch Token
  Request&body=Please send me a Flight Launch Token by return
