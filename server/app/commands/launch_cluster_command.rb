@@ -47,7 +47,7 @@ class LaunchClusterCommand
     Rails.logger.info("Launching cluster #{@launch_config.name} " +
                       "with spec #{@launch_config.spec.inspect}")
 
-    BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec).
+    BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
       perform
     @run_fly_cmd = RunFlyLaunchCommand.new(parameter_dir, @launch_config)
 
