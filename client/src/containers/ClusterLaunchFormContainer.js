@@ -35,8 +35,13 @@ function validate(allValues, { useLaunchToken }) {
     errors.launchToken = 'error';
   }
 
-  if (allValues.clusterName == null || allValues.clusterName.length < 1) {
-    errors.clusterName = 'error';
+  // If a launch token is provided, we'll default to using that as the cluster
+  // name. So we only need to check that there is a value for clusterName when
+  // that's not the case.
+  if (!useLaunchToken || errors.launchToken != null) {
+    if (allValues.clusterName == null || allValues.clusterName.length < 1) {
+      errors.clusterName = 'error';
+    }
   }
 
   if (allValues.email == null || allValues.email.length < 1) {
@@ -128,7 +133,7 @@ class ClusterLaunchFormContainer extends React.Component {
           file: this.props.clusterSpecsFile,
         },
         clusterLaunch: {
-          name: this.state.values.clusterName,
+          name: this.state.values.clusterName || this.state.values.launchToken,
           email: this.state.values.email,
           ...credentials,
         },
