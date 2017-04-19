@@ -9,8 +9,8 @@ Launch token program or through your own AWS credentials.
 
 ##### Using a Flight Launch token to access the service
 
-Through one of the Alces Flight Crew or via one of our trusted partner
-networks you should have a received a Flight Launch token consisting of three
+Through one of the Alces Flight Crew or via our trusted partner
+network you should have a received a Flight Launch token consisting of three
 unrelated words (ex. “flower – star – moose”). Don’t have one yet?  <a
 href="mailto:support@alces-flight.com?subject=Flight Launch Token
  Request&body=Please send me a Flight Launch Token by return
@@ -28,7 +28,7 @@ Once you press launch you are moments away from HPC cluster access!
 ##### Using your own AWS credentials
 
 Using your own AWS credentials allows you to use Alces Flight compute
-without risk of losing your work. This option is suitable for long running
+for as long as you need it. This option is suitable for long running
 evaluations or for performing your research.
 
 To use Flight Launch with your own AWS credentials, you will need to have
