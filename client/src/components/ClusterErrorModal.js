@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import { ContactCustomerSupport, StandardModal } from 'flight-common';
+import { StandardModal } from 'flight-common';
 
 
 function hasPropError(errorDetails, prop, error) {
@@ -45,8 +45,8 @@ const DetailsMessage = ({ details }) => {
   } else if (hasPropError(details, 'cluster_name', 'taken')) {
     return (
       <span>
-        The HPC cluster name you have chosen is already in use.  Please change
-        your HPC cluster name and try again.
+        The cluster name you have chosen is already in use.  Please change
+        your cluster name and try again.
       </span>
     );
   } else {
@@ -74,9 +74,10 @@ const UnexpectedMessage = ({ message }) => {
   return (
     <div>
       <p>
-        Unfortunately, there was an unexpected error in launching your HPC
+        Unfortunately, there was an unexpected error while launching your
         cluster.  Please check your settings and try again.{' '}
-        <ContactCustomerSupport />
+        Please visit our <a href="https://community.alces-flight.com">Community Support
+        Portal</a> for further help.
       </p>
       {details}
     </div>

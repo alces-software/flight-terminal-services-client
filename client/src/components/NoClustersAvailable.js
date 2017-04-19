@@ -6,12 +6,13 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React from 'react';
-import { ContactCustomerSupport, MissingNotice } from 'flight-common';
+import { MissingNotice } from 'flight-common';
 
 const NoClustersAvailable = () => (
   <MissingNotice title="No clusters are currently available">
     Unfortunately, no clusters are currently available for launch.{' '}
-    <ContactCustomerSupport />
+    Please visit our <a href="https://community.alces-flight.com">Community Support
+    Portal</a> for further help.
   </MissingNotice>
 );
 

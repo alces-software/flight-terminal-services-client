@@ -12,7 +12,7 @@ Launch token program or through your own AWS credentials.
 Through one of the Alces Flight Crew or via our trusted partner
 network you should have a received a Flight Launch token consisting of three
 unrelated words (ex. “flower – star – moose”). Don’t have one yet?  <a
-href="mailto:support@alces-flight.com?subject=Flight Launch Token
+href="mailto:flight@alces-flight.com?subject=Flight Launch Token
  Request&body=Please send me a Flight Launch Token by return
  email.%0D%0A%0D%0AKind regards." target="_blank" rel="noopener noreferrer">
 Let us know</a>  and we’ll start the process of securing you a Flight Launch
@@ -37,7 +37,7 @@ secret access key to hand. Don’t know where those items are located?
 Here’s where you can access them.
 
 Remember: Clusters launched through Flight Launch will incur costs against
-your AWS account until you shutdown the HPC cluster. While we will keep
+your AWS account until you shut down the HPC cluster. While we will keep
 you fully informed of what clusters you request us to launch on your behalf,
 you have responsibility for shutting down the cluster when you have finished
 using it. Want to know how to shutdown an HPC cluster? Here’s how.
@@ -54,7 +54,7 @@ rel="noopener noreferrer">https://gridware.alces-flight.com/</a>
 
 While we’ll send you plenty of emails letting you know your HPC cluster's status
 remember: Save your work and, if you are using your own account, remember
-to shutdown the HPC cluster once your job is complete.
+to shut down the HPC cluster once your job is complete.
 
 ##### Getting ready to launch and more information
 

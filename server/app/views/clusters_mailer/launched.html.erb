@@ -7,11 +7,11 @@
 %>
 <% setup %>
 
-<p>Your Alces Flight Launch Service is ready for use!</p>
+<p>Your Alces Flight Compute HPC cluster is ready for use!</p>
 
 <p>
 Your <%= @cluster_spec_name %> "<%= @cluster_name %>" has reached cruising
-altitude and is available for use. 
+altitude and is available for use.
 </p>
 
 <% if @using_token %>
@@ -68,8 +68,8 @@ below.
             <tr>
                 <td width="<%= td_width(1) %>">
                     <p>
-                    To access your cluster you can either use the Access URL provided above, or
-                    use an ssh client.  When prompted for a password enter
+                    You can access your cluster using the URL provided above or
+                    via SSH.  When prompted for a password enter
                     <code><%= password %></code>.
                     </p>
                     <p style="text-align: center">
@@ -81,6 +81,7 @@ below.
     </table>
 </blockquote>
 
+<% if ! @using_token %>
 <blockquote>
     <table cellpadding="0" cellspacing="0" border="0">
         <thead>
@@ -105,13 +106,15 @@ below.
         </tbody>
     </table>
 </blockquote>
+<% end %>
 
 <% note do %>
     <p class="notes">
-    You are receiving this email because you have started a HPC cluster with
-    the Alces Flight Launch Service. Your HPC cluster is now ready for use.
+    You are receiving this email because you have started an Alces
+    Flight Compute HPC cluster with the Alces Flight Launch
+    service. Your cluster is now ready for use.
     </p>
 <% end %>
 
 <%= render 'shared/contact_us' %>
-<p>Thank you for choosing the Alces Flight Launch Service.</p>
+<p>Thank you for choosing the Alces Flight Launch service.</p>

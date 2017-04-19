@@ -49,7 +49,7 @@ it('includes a "view the progress" link if given a cloudformationUrl', () => {
     />
   );
 
-  expect(wrapper.children('p').first()).toIncludeText('view the progress');
+  expect(wrapper.children('p').first()).toIncludeText('view the launch progress');
 });
 
 it('does not include a "view the progress" link if not given a cloudformationUrl', () => {

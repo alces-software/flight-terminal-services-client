@@ -68,18 +68,18 @@ const Blurb = () => (
         </Col>
         <Col md={4}>
           <div className="special-box-inner">
-            <h3 className="box-title">What is the Alces Flight Launch Service?</h3>
+            <h3 className="box-title">What is the Alces Flight Launch service?</h3>
 
             <p>Developed by the team at Alces Flight, the Alces Flight Launch
-              Service has been designed to quickly launch a preconfigured
+              service has been designed to quickly launch a preconfigured
               High Performance Computing (HPC) cluster.  With the Alces Flight
-              Launch Service you gain temporary access to instant, single-user
+              Launch service you gain temporary access to instant, single-user
               scientific computing at no cost to you.</p>
 
-            <p>The Alces Flight Launch Service rapidly delivers a whole HPC
+            <p>The Alces Flight Launch service rapidly delivers a whole HPC
               cluster, ready to go, complete with job scheduler and
               applications.  Simply select the HPC cluster you want to
-              evaluate, enter your Flight Launch token, HPC cluster name, and
+              evaluate, enter your Flight Launch token, cluster name, and
               an email address for notifications and you are ready to go!</p>
 
             <p>Clusters are deployed in a Virtual Private Cluster (VPC) environment

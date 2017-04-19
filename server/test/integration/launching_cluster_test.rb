@@ -18,7 +18,7 @@ class LaunchingClusterTest < ActionDispatch::IntegrationTest
     },
     "clusterSpec": {
       "file": "test.json",
-      "name": "Small SGE cluster",
+      "name": "Standard compute (SGE)",
     }
   }
 
@@ -31,10 +31,10 @@ class LaunchingClusterTest < ActionDispatch::IntegrationTest
     will_launch_email = ActionMailer::Base.deliveries[deliveries_size - 2]
     launching_email = ActionMailer::Base.deliveries[deliveries_size - 1]
 
-    assert_equal "About to launch cluster will-launch-successfully", will_launch_email.subject
+    assert_equal "Your Alces Flight Compute HPC cluster is now boarding", will_launch_email.subject
     assert_equal "me@example.com", will_launch_email.to.first
 
-    assert_equal "Launching cluster will-launch-successfully", launching_email.subject
+    assert_equal "Your Alces Flight Compute HPC cluster is in taxi for take-off", launching_email.subject
     assert_equal "me@example.com", launching_email.to.first
 
     assert_response :success

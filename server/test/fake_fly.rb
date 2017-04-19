@@ -30,6 +30,7 @@ class FakeFly
     global_option '--secret-key KEY', ''
     global_option '--key-pair KEY_PAIR', ''
     global_option '--solo', ''
+    global_option '--solo-legacy', ''
     global_option '--template-set TEMPLATE_SET', ''
     global_option '--runtime RUNTIME', ''
 
@@ -37,6 +38,7 @@ class FakeFly
       c.syntax = 'cluster launch'
       c.description = 'Launch a cluster'
       c.option '--solo', ''
+      c.option '--solo-legacy', ''
       c.option '--template-set TEMPLATE_SET', ''
       c.option '--runtime RUNTIME', ''
 
