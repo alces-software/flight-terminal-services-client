@@ -23,7 +23,7 @@ class ClustersMailer < ApplicationMailer
     end
 
     mail to: launch_config.email,
-      subject: "Your Alces Flight Launch HPC cluster \"#{@cluster_name}\" is now boarding"
+      subject: "Your Alces Flight Launch HPC cluster #{@cluster_name} is now boarding"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
