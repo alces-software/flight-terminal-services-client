@@ -12,7 +12,7 @@ import invariant from 'invariant';
 import withConfirmation from './withConfirmation';
 import '../styles/MultiPageForm.scss';
 
-const ConfirmableButton = withConfirmation({ placement: 'right', })(({
+const ConfirmableButton = withConfirmation()(({
   children,
   confirmationPopover,
   showingConfirmation,
