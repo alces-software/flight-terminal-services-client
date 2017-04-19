@@ -18,7 +18,7 @@ const ClusterSpecCardOverlay = ({ showLaunchForm }) => (
       onClick={showLaunchForm}
     >
       <TooltipTrigger tooltip="Launch cluster" >
-        <Icon name="cog" size="2x" />
+        <Icon name="plane" size="2x" />
       </TooltipTrigger>
     </Button>
   </div>
