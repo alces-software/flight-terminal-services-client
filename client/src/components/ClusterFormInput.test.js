@@ -13,12 +13,12 @@ import ClusterFormInput from './ClusterFormInput';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<ClusterFormInput id="" name="" placeholder="" />, div);
+  ReactDOM.render(<ClusterFormInput id="" name="" label="" />, div);
 });
 
 it('has the input text match its prop.value', () => {
   const wrapper = mount(
-    <ClusterFormInput id="" name="" placeholder="" value="my value" />
+    <ClusterFormInput id="" name="" label="" value="my value" />
   );
 
   expect(wrapper.find('input').get(0).value).toEqual('my value');
@@ -27,7 +27,7 @@ it('has the input text match its prop.value', () => {
 it('calls the onChange prop when the value changes', () => {
   const onChange = jest.fn();
   const wrapper = mount(
-    <ClusterFormInput id="" placeholder="" name="my name" value="my value" onChange={onChange} />
+    <ClusterFormInput id="" label="" name="my name" value="my value" onChange={onChange} />
   );
 
   wrapper.find('input').first().simulate('change', {target: {value: 'some text'}});
@@ -51,7 +51,7 @@ describe('validation state', () => {
     const expectedValidationState = validationStates[key];
     it(`sets ${expectedValidationState} state correctly for touched inputs`, () => {
       const wrapper = mount(
-        <ClusterFormInput id="" name="" placeholder="" error={validate(key)} value={key} />
+        <ClusterFormInput id="" name="" label="" error={validate(key)} value={key} />
       );
       wrapper.setState({ touched: true });
 
@@ -63,7 +63,7 @@ describe('validation state', () => {
     const expectedValidationState = validationStates[key];
     it(`does not set ${expectedValidationState} state for untouched inputs`, () => {
       const wrapper = mount(
-        <ClusterFormInput id="" name="" placeholder="" error={validate(key)} value={key} />
+        <ClusterFormInput id="" name="" label="" error={validate(key)} value={key} />
       );
 
       expect(wrapper.find(`.has-${expectedValidationState}`)).toBeEmpty();
@@ -73,7 +73,7 @@ describe('validation state', () => {
 
 it('focuses the input if props.autofocus is set', () => {
   const wrapper = mount(
-    <ClusterFormInput id="" name="" placeholder="" autofocus />
+    <ClusterFormInput id="" name="" label="" autofocus />
   );
   const inputEl = wrapper.get(0).inputEl;
 
@@ -82,7 +82,7 @@ it('focuses the input if props.autofocus is set', () => {
 
 it('does not focus the input if props.autofocus is not set', () => {
   const wrapper = mount(
-    <ClusterFormInput id="" name="" placeholder="" autofocus={false} />
+    <ClusterFormInput id="" name="" label="" autofocus={false} />
   );
   const inputEl = wrapper.get(0).inputEl;
 
@@ -91,7 +91,7 @@ it('does not focus the input if props.autofocus is not set', () => {
 
 it('#blur() blurs the input', () => {
   const wrapper = mount(
-    <ClusterFormInput id="" name="" placeholder="" autofocus />
+    <ClusterFormInput id="" name="" label="" autofocus />
   );
   const inputEl = wrapper.get(0).inputEl;
   const instance = wrapper.instance();

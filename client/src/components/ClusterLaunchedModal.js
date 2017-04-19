@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import { CustomerSupportLink, StandardModal } from 'flight-common';
+import { StandardModal } from 'flight-common';
 
 const propTypes = {
   cloudformationUrl: PropTypes.string,
