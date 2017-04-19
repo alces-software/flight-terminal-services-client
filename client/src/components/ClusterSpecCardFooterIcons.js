@@ -29,7 +29,7 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
           <Card.FooterIcon
             iconSrc={autoScalingIcon}
             text="Autoscaling"
-            tooltip="This cluster uses autoscaling"
+            tooltip="This cluster uses autoscaling."
           /> :
           null
       }
