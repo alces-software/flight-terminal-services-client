@@ -34,7 +34,7 @@ class ClusterLaunchEmail extends React.Component {
           id={`${id}-clusterLaunchEmail`}
           name="email"
           onChange={onChange}
-          placeholder="Enter your email address"
+          label="Enter your email address"
           value={value}
         />
       </div>

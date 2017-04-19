@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import { Label, FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
+import { ControlLabel, Label, FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
 
 import '../styles/ClusterFormInput.scss';
 
@@ -61,6 +61,7 @@ class ClusterFormInput extends React.Component {
         controlId={`cluster-launch-${id}`}
         validationState={this.getValidationState()}
       >
+        <ControlLabel>{this.props.label}</ControlLabel>
         <FormControl
           type="text"
           placeholder={placeholder}
