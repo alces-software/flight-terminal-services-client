@@ -15,10 +15,11 @@ class ClusterFormInput extends React.Component {
     error: PropTypes.string,
     help: PropTypes.node,
     id: PropTypes.string.isRequired,
+    label: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
     optional: PropTypes.bool,
-    placeholder: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     value: PropTypes.string,
   };
 

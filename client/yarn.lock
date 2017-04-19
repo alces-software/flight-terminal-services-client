@@ -2737,6 +2737,23 @@ flatten@^1.0.2:
     react-redux "^4.4.6"
     react-timeago "^3.1.3"
 
+"flight-common@git+https://github.com/alces-software/flight-common.git#react-15-react-router-4":
+  version "0.0.0"
+  resolved "git+https://github.com/alces-software/flight-common.git#e8db4ef129ecb5afac671a77ddb9490da90eac52"
+  dependencies:
+    bootstrap-sass "^3.3.7"
+    classnames "^2.2.5"
+    clipboard "^1.5.15"
+    font-awesome "^4.7.0"
+    lodash "^4.17.2"
+    moment "^2.16.0"
+    react-addons-css-transition-group "^15.3.2"
+    react-bootstrap "^0.30.6"
+    react-cookie-banner "0.0.17"
+    react-fontawesome "^1.4.0"
+    react-redux "^4.4.6"
+    react-timeago "^3.1.3"
+
 font-awesome@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
@@ -4535,15 +4552,15 @@ node-sass@^4.5.0:
     sass-graph "^2.1.1"
     stdout-stream "^1.4.0"
 
-"nopt@2 || 3", nopt@~3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
+"nopt@2 || 3", nopt@^2.2.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/nopt/-/nopt-2.2.1.tgz#2aa09b7d1768487b3b89a9c5aa52335bff0baea7"
   dependencies:
     abbrev "1"
 
-nopt@^2.2.0:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/nopt/-/nopt-2.2.1.tgz#2aa09b7d1768487b3b89a9c5aa52335bff0baea7"
+nopt@~3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
   dependencies:
     abbrev "1"
 

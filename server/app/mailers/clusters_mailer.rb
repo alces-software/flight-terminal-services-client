@@ -1,3 +1,4 @@
+# coding: utf-8
 #==============================================================================
 # Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
 #
@@ -23,7 +24,7 @@ class ClustersMailer < ApplicationMailer
     end
 
     mail to: launch_config.email,
-      subject: "Your Alces Flight Launch HPC cluster #{@cluster_name} is now boarding"
+      subject: "Your Alces Flight Compute HPC cluster is now boarding"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -42,7 +43,7 @@ class ClustersMailer < ApplicationMailer
     end
 
     mail to: launch_config.email,
-      subject: "Your Alces Flight Launch HPC cluster #{@cluster_name} is in taxi for take-off"
+      subject: "Your Alces Flight Compute HPC cluster is in taxi for take-off"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -68,7 +69,7 @@ class ClustersMailer < ApplicationMailer
       join("\n")
 
     mail to: launch_config.email,
-      subject: "Your Alces Flight Launch HPC cluster #{@cluster_name} is in flight and ready for use"
+      subject: "Your Alces Flight Compute HPC cluster is in flight and ready for use"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -93,7 +94,7 @@ class ClustersMailer < ApplicationMailer
     end
 
     mail to: launch_config.email,
-      subject: "Your Alces Flight Launch HPC cluster #{@cluster_name} has failed to launch"
+      subject: "Your Alces Flight Compute HPC cluster has failed to launch"
   end
 
   private

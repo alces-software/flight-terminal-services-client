@@ -6,12 +6,12 @@
   All rights reserved, see LICENSE.txt.
 %>
 
-Welcome on board the Alces Flight Launch Service.
+Welcome on board the Alces Flight Launch service.
 
 Your <%= @cluster_spec_name %> "<%= @cluster_name %>" will begin launching shortly.
-<%- if @using_token && @runtime_limit -%>Once you are in flight, the evaluation period for this HPC cluster will be <%= @runtime %>.
-Please remember to save your work as you go as once the trial completes the
-HPC cluster will shutdown automatically.<%- elsif @using_token -%>You will not be charged for running this cluster, but Alces Flight Ltd reserve
+<%- if @using_token && @runtime_limit -%>Once you are in flight, the evaluation period for your Alces Flight Compute
+HPC cluster will be <%= @runtime %>.  Please remember to save your work as you go
+as, once the trial completes, the cluster will shutdown automatically.<%- elsif @using_token -%>You will not be charged for running this cluster, but Alces Flight Ltd reserve
 the right to terminate it without notice.  Please remember to save your work
 as you go.<%- else -%>Once you are in flight your AWS account will incur charges.  The Alces Flight
 Launch Service is unable to automatically shutdown clusters, so please
@@ -20,18 +20,18 @@ unwanted charges. (Unsure how to close down a cluster?  Click here for more
 details.)<%- end -%>
 
 <% if @using_token %>
-You will receive another email shortly letting you know that the HPC cluster
-is available for use.
+You will receive another email shortly letting you know that your Alces Flight
+Compute HPC cluster is available for use.
 <% else %>
-You will receive another email shortly letting you know that the HPC cluster
-is available for use.
+You will receive another email shortly letting you know that your Alces Flight
+Compute HPC cluster is available for use.
 <% end %>
 
 <% note do %>
-  You're receiving this email because you have started a cluster with Flight
-  Launch.
+  You are receiving this email because you have started an Alces Flight
+  Compute HPC cluster with the Alces Flight Launch service.
 <% end %>
 <%= render 'shared/contact_us' %>
-See you in the air soon.
+See you in the air soon!
 
-The Alces Flight Crew
+The Alces Flight Crew.

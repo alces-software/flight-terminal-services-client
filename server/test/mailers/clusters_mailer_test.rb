@@ -3,7 +3,7 @@ require 'test_helper'
 class ClustersMailerTest < ActionMailer::TestCase
   test "about to launch" do
     mail = ClustersMailer.about_to_launch(launch_config)
-    assert_equal 'Your Alces Flight Launch HPC cluster my-cluster is now boarding', mail.subject
+    assert_equal 'Your Alces Flight Compute HPC cluster is now boarding', mail.subject
     assert_equal [launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
@@ -12,7 +12,7 @@ class ClustersMailerTest < ActionMailer::TestCase
 
   test "about to launch with token" do
     mail = ClustersMailer.about_to_launch(token_launch_config)
-    assert_equal 'Your Alces Flight Launch HPC cluster my-cluster is now boarding', mail.subject
+    assert_equal 'Your Alces Flight Compute HPC cluster is now boarding', mail.subject
     assert_equal [token_launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
@@ -21,7 +21,7 @@ class ClustersMailerTest < ActionMailer::TestCase
 
   test "about to launch with token and runtime" do
     mail = ClustersMailer.about_to_launch(token_runtime_launch_config)
-    assert_equal 'Your Alces Flight Launch HPC cluster my-cluster is now boarding', mail.subject
+    assert_equal 'Your Alces Flight Compute HPC cluster is now boarding', mail.subject
     assert_equal [token_runtime_launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
@@ -32,7 +32,7 @@ class ClustersMailerTest < ActionMailer::TestCase
     arn = 'arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a'
 
     mail = ClustersMailer.launching(launch_config, arn)
-    assert_equal "Your Alces Flight Launch HPC cluster #{launch_config.name} is in taxi for take-off", mail.subject
+    assert_equal "Your Alces Flight Compute HPC cluster is in taxi for take-off", mail.subject
     assert_equal [launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
@@ -43,7 +43,7 @@ class ClustersMailerTest < ActionMailer::TestCase
     output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
 
     mail = ClustersMailer.launched(launch_config, output)
-    assert_equal "Your Alces Flight Launch HPC cluster #{launch_config.name} is in flight and ready for use", mail.subject
+    assert_equal "Your Alces Flight Compute HPC cluster is in flight and ready for use", mail.subject
     assert_equal [launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
@@ -54,7 +54,7 @@ class ClustersMailerTest < ActionMailer::TestCase
     output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
 
     mail = ClustersMailer.launched(token_runtime_launch_config, output)
-    assert_equal "Your Alces Flight Launch HPC cluster #{token_runtime_launch_config.name} is in flight and ready for use", mail.subject
+    assert_equal "Your Alces Flight Compute HPC cluster is in flight and ready for use", mail.subject
     assert_equal [token_runtime_launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 
@@ -66,7 +66,7 @@ class ClustersMailerTest < ActionMailer::TestCase
     arn = 'arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a'
 
     mail = ClustersMailer.failed(token_launch_config, output, arn)
-    assert_equal "Your Alces Flight Launch HPC cluster #{token_launch_config.name} has failed to launch", mail.subject
+    assert_equal "Your Alces Flight Compute HPC cluster has failed to launch", mail.subject
     assert_equal [token_launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from
 

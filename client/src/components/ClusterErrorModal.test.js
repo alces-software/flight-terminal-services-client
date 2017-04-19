@@ -97,7 +97,7 @@ it('displays an error message when the cluster name is currently taken', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("The HPC cluster name you have chosen is already in use.");
+  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("The cluster name you have chosen is already in use");
 });
 
 it('displays an error message when the AWS credentials are invalid', () => {

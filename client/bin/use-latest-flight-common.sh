@@ -10,5 +10,4 @@ set -euo pipefail
 
 rm -rf ~/.cache/yarn/npm-flight-common-0.0.0/
 rm -rf ~/launch/node_modules/flight-common/
-# XXX Perhaps this should be adding via github?
-yarn add file:///home/flight-common/
+yarn add git+https://github.com/alces-software/flight-common.git#react-15-react-router-4

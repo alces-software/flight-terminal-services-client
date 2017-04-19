@@ -7,7 +7,7 @@
 %>
 <% setup %>
 
-<p>Your HPC cluster "<%= @cluster_name %>" has failed to launch.</p>
+<p>Your Alces Flight Compute HPC cluster "<%= @cluster_name %>" has failed to launch.</p>
 
 <% if @show_cloudformation_link %>
 <% if @arn_present %>
@@ -46,16 +46,16 @@
 </blockquote>
 
 <p>
-Please check your settings and try again.  If the problem continues, please
+Please check your settings and try again.  If the problem continues please
 visit our <a href="http://community.alces-flight.com">Community Support Portal</a>.
 </p>
 
-<p>The Alces Flight Crew</p>
+<p>The Alces Flight Crew.</p>
 
 <% note do %>
     <p class="notes">
-    You have received this email because you have attempted to start a HPC
-    cluster with the Alces Flight Launch Service, and the cluster has reported
-    an error.
+      You have received this email because you have attempted to start
+      an Alces Flight Compute HPC cluster with the Alces Flight Launch
+      service and the cluster failed to launch.
     </p>
 <% end %>
