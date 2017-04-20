@@ -27,17 +27,17 @@ class ClustersController < ApplicationController
       Rails.logger.info("Launching cluster failed: #{$!.message}")
       render_exception($!)
     else
-      if cluster_launch_config.using_token?
-        arn = nil
-        cf_url = nil
-      else
-        arn = launch_command.arn
-        cf_url = cloudformation_url(arn, cluster_launch_config)
-      end
+      # if cluster_launch_config.using_token?
+      #   arn = nil
+      #   cf_url = nil
+      # else
+      #   arn = launch_command.arn
+      #   cf_url = cloudformation_url(arn, cluster_launch_config)
+      # end
       render(
         json: {
-          arn: arn,
-          cloudformation_url: cf_url,
+          # arn: arn,
+          # cloudformation_url: cf_url,
           cluster_name: cluster_launch_config.name,
           email: cluster_launch_config.email,
         },

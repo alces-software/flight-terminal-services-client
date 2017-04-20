@@ -8,6 +8,8 @@
 
 require 'tmpdir'
 
+$last_launch_at = Time.now unless defined?($last_launch_at)
+
 #
 # Orchestrate the launching a cluster via Flight Attendant.
 #
@@ -53,18 +55,40 @@ class LaunchClusterCommand
 
     send_about_to_launch_email
     mark_token_as(:in_use)
-    run_launch_thread
-    wait_for_arn
+    run_simultaneous_launches_HACK_thread
+  end
 
-    if @run_fly_cmd.failed?
-      # No need to send a failed email here.  One will be sent when
-      # @launch_thread terminates.
-      raise ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
-    else
-      send_launching_email
+  def run_simultaneous_launches_HACK_thread
+    Thread.new do
+      begin
+        loop do
+          now = Time.now
+          time_since_last_launch = now - $last_launch_at
+          Rails.logger.info "Time since last launch #{time_since_last_launch}. Last launch at #{$last_launch_at}"
+          if time_since_last_launch < 60
+            sleep_time = 60 - (now - $last_launch_at)
+            Rails.logger.info "Sleeping for #{sleep_time}"
+            sleep sleep_time
+          else
+            $last_launch_at = now
+            break
+          end
+        end
+
+        run_launch_thread
+        wait_for_arn
+
+        if @run_fly_cmd.failed?
+          # No need to send a failed email here.  One will be sent when
+          # @launch_thread terminates.
+          raise ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
+        else
+          send_launching_email
+        end
+      ensure
+        FileUtils.rm_r(parameter_dir, secure: true)
+      end
     end
-  ensure
-    FileUtils.rm_r(parameter_dir, secure: true)
   end
 
   def run_launch_thread
@@ -141,14 +165,35 @@ class LaunchClusterCommand
   end
 
   def send_failed_email
-    ClustersMailer.failed(@launch_config, @run_fly_cmd.stderr, arn).
+    Rails.logger.info("err: #{err.inspect}")
+    if err.is_a?(LaunchClusterCommand::ClusterNameTaken)
+      err_msg = "The cluster name you have chosen is already in use.  Please choose a different cluster name and try again."
+    else
+      err_msg = @run_fly_cmd.stderr
+    end
+
+    ClustersMailer.failed(@launch_config, err_msg, arn).
       deliver_now
+  rescue
+    Rails.logger.info("$!: #{$!.inspect}")
   end
 
   def send_completed_email
     ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
       deliver_now
   end
+
+  # def fix_simultaneous_launches_HACK
+  #   # When using flight launch in a workshop, it is common to receive a large
+  #   # number of launch requests within a few minutes of each other.  This can
+  #   # break things.  Introducing a random sleep will hopefully break the
+  #   # requests up enough to alleviate the issue.
+  #   max_sleep = ENV['SIMULTANEOUS_LAUNCHES_HACK_SLEEP'].to_i
+  #   max_sleep = 10 unless max_sleep > 0
+  #   mins = rand(max_sleep) 
+  #   Rails.logger.info "Sleeping for #{mins} minutes (SIMULTANEOUS_LAUNCHES_HACK)"
+  #   sleep mins * 60
+  # end
 
   def mark_token_as(status)
     token = @launch_config.token
