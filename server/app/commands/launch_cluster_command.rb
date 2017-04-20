@@ -53,6 +53,7 @@ class LaunchClusterCommand
 
     send_about_to_launch_email
     mark_token_as(:in_use)
+    fix_simultaneous_launches_HACK
     run_launch_thread
     wait_for_arn
 
@@ -148,6 +149,18 @@ class LaunchClusterCommand
   def send_completed_email
     ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
       deliver_now
+  end
+
+  def fix_simultaneous_launches_HACK
+    # When using flight launch in a workshop, it is common to receive a large
+    # number of launch requests within a few minutes of each other.  This can
+    # break things.  Introducing a random sleep will hopefully break the
+    # requests up enough to alleviate the issue.
+    max_sleep = ENV['SIMULTANEOUS_LAUNCHES_HACK_SLEEP'].to_i
+    max_sleep = 10 unless max_sleep > 0
+    mins = rand(max_sleep) 
+    Rails.logger.info "Sleeping for #{mins} minutes (SIMULTANEOUS_LAUNCHES_HACK)"
+    sleep mins * 60
   end
 
   def mark_token_as(status)
