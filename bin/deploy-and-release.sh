@@ -78,7 +78,7 @@ promote_staging_to_production() {
     production_app=$( git remote get-url dokku | cut -d: -f2 )
 
     ssh ${dokku_server} \
-        "sudo docker tag dokku/${staging_app} dokku/${production_app} ; dokku deploy ${production_app}"
+        "sudo docker tag dokku/${staging_app} dokku/${production_app} ; dokku tags:deploy ${production_app} latest"
 }
 
 run_merge_script() {
