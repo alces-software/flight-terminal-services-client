@@ -65,8 +65,10 @@ class LaunchClusterCommand
           now = Time.now
           time_since_last_launch = now - $last_launch_at
           Rails.logger.info "Time since last launch #{time_since_last_launch}. Last launch at #{$last_launch_at}"
-          if time_since_last_launch < 60
-            sleep_time = 60 - (now - $last_launch_at)
+          min_wait = ENV['CLUSTER_LAUNCH_MIN_WAIT'].to_i
+          min_wait = 60 unless min_wait > 0
+          if time_since_last_launch < min_wait
+            sleep_time = min_wait - (now - $last_launch_at)
             Rails.logger.info "Sleeping for #{sleep_time}"
             sleep sleep_time
           else
