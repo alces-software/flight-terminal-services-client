@@ -55,20 +55,32 @@ class Token
   end
 
   def mark_as(s, used_by)
-    attrs = {
-      "Token" => token_string,
-      "Status" => s.to_s.upcase,
+    params = {
+      expression_attribute_names: {
+        "#status": "Status",
+      },
+      expression_attribute_values: {
+        ":status": s.to_s.upcase,
+      },
+      key: {
+        "Token": token_string,
+      },
+      return_values: "ALL_NEW",
+      table_name: "FlightLaunchTokens", 
+      update_expression: "SET #status = :status",
     }
     if s == :used
-      attrs.merge!({
-        "UsedBy" => used_by,
-        "UsedAt" => DateTime.now.to_s
-      })
+      params[:expression_attribute_names].merge!(
+        "#used_by": "UsedBy",
+        "#used_at": "UsedAt",
+      )
+      params[:expression_attribute_values].merge!(
+        ":used_by": used_by,
+        ":used_at": DateTime.now.to_s,
+      )
+      params[:update_expression] = "SET #status = :status, #used_by = :used_by, #used_at = :used_at"
     end
-    client.put_item({
-      item: attrs,
-      table_name: "FlightLaunchTokens", 
-    })
+    client.update_item(params)
   end
 
   private
