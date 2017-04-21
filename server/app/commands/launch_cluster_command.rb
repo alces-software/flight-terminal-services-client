@@ -177,6 +177,7 @@ class LaunchClusterCommand
   end
 
   def send_failed_email
+    err = ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
     Rails.logger.info("err: #{err.inspect}")
     if err.is_a?(LaunchClusterCommand::ClusterNameTaken)
       err_msg = "The cluster name you have chosen is already in use.  Please choose a different cluster name and try again."
