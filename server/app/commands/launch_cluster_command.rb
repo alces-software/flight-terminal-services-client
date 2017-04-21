@@ -9,6 +9,7 @@
 require 'tmpdir'
 
 $last_launch_at = Time.now unless defined?($last_launch_at)
+$mutex = Mutex.new unless defined?($mutex)
 
 #
 # Orchestrate the launching a cluster via Flight Attendant.
@@ -62,18 +63,27 @@ class LaunchClusterCommand
     Thread.new do
       begin
         loop do
-          now = Time.now
-          time_since_last_launch = now - $last_launch_at
-          Rails.logger.info "Time since last launch #{time_since_last_launch}. Last launch at #{$last_launch_at}"
-          min_wait = ENV['CLUSTER_LAUNCH_MIN_WAIT'].to_i
-          min_wait = 60 unless min_wait > 0
-          if time_since_last_launch < min_wait
-            sleep_time = min_wait - (now - $last_launch_at)
-            Rails.logger.info "Sleeping for #{sleep_time}"
-            sleep sleep_time
-          else
-            $last_launch_at = now
-            break
+          begin
+            $mutex.lock
+            now = Time.now
+            time_since_last_launch = now - $last_launch_at
+            Rails.logger.info "Time since last launch #{time_since_last_launch}. Last launch at #{$last_launch_at}"
+            min_wait = ENV['CLUSTER_LAUNCH_MIN_WAIT'].to_i
+            min_wait = 60 unless min_wait > 0
+            if time_since_last_launch < min_wait
+              sleep_time = min_wait - (now - $last_launch_at)
+              Rails.logger.info "Sleeping for #{sleep_time}"
+              $mutex.unlock
+              sleep sleep_time
+            else
+              $last_launch_at = now
+              $mutex.unlock
+              break
+            end
+          ensure
+            # Double check the $mutex is unlocked in case an exception
+            # has been raised.
+            $mutex.unlock rescue nil
           end
         end
 
