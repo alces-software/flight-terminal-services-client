@@ -175,15 +175,6 @@ storiesOf('ClusterLaunchForm', module)
     />
   ))
 
-  .add('invalid credentials page', () => (
-    <ClusterLaunchForm
-      {...commonProps}
-      currentPageIndex={0}
-      values={{ awsAccessKeyId: 'too short'}}
-      errors={{ awsAccessKeyId: 'error', awsSecrectAccessKey: 'error'}}
-    />
-  ))
-
   .add('when submitting', () => (
     <ClusterLaunchForm
       {...commonProps}
@@ -200,5 +191,24 @@ storiesOf('ClusterLaunchForm', module)
       currentPageIndex={0}
       onShowNextPage={linkTo('ClusterLaunchForm', 'empty cluster name page')}
       showAwsCredentialsLink={true}
+    />
+  ))
+
+  .add('invalid name page', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      {...completedProps}
+      currentPageIndex={1}
+      values={{ clusterName: 'contains spaces' }}
+      errors={{ clusterName: 'format' }}
+    />
+  ))
+
+  .add('invalid credentials page', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      currentPageIndex={0}
+      values={{ awsAccessKeyId: 'too short'}}
+      errors={{ awsAccessKeyId: 'error', awsSecrectAccessKey: 'error'}}
     />
   ));

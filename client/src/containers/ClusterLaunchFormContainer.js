@@ -14,6 +14,8 @@ import ClusterErrorModal from '../components/ClusterErrorModal';
 import * as analytics from '../utils/analytics';
 import awsCredentialsAllowed from '../utils/awsCredentialsAllowed';
 
+const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
+
 function validate(allValues, { useLaunchToken }) {
   const errors = {};
 
@@ -40,8 +42,11 @@ function validate(allValues, { useLaunchToken }) {
   // that's not the case.
   if (!useLaunchToken || errors.launchToken != null) {
     if (allValues.clusterName == null || allValues.clusterName.length < 1) {
-      errors.clusterName = 'error';
+      errors.clusterName = 'blank';
     }
+  }
+  if (allValues.clusterName && allValues.clusterName.length > 1 && !clusterNameRe.test(allValues.clusterName)) {
+    errors.clusterName = 'format';
   }
 
   if (allValues.email == null || allValues.email.length < 1) {
