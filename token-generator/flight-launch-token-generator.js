@@ -17,8 +17,33 @@ var ClusterSpecKeyToNameMap = {};
 // specs selection checkboxes.
 (function () {
   var httpRequest;
-  const clusterSpecsUrl = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/test.json';
+  const clusterSpecsUrl = getClusterSpecsUrl();
   makeRequest(clusterSpecsUrl);
+
+  function buildClusterSpecsUrl(relativePath) {
+    const clusterSpecsUrlPrefix = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/';
+    return `${clusterSpecsUrlPrefix}${relativePath}`;
+  }
+
+  // Retrieve the specs URL from window.location, without breaking old browsers.
+  //
+  // Older browsers always use the default URL.
+  function getClusterSpecsUrl() {
+    const defaultFile = 'default.json';
+    const defaultUrl = buildClusterSpecsUrl(defaultFile);
+    const defaultReturn = defaultUrl;
+
+    // Get the clusterSpecs urlParam without breaking in older browsers.  Older
+    // browsers use the defaultUrl.
+    if (URL == null) { return defaultReturn; }
+    const urlParams = new URL(window.location).searchParams;
+    if (urlParams == null || urlParams.get == null) { return defaultReturn; }
+    const file = urlParams.get('clusterSpecs');
+
+    if (file == null) { return defaultReturn ; }
+    return buildClusterSpecsUrl(file);
+  }
+
 
   function makeRequest(url) {
     httpRequest = new XMLHttpRequest();
