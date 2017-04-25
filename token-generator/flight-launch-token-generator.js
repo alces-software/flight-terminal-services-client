@@ -332,6 +332,7 @@ function createToken() {
     Item: {
       "Token": token,
       "Status": "AVAILABLE",
+      "CreatedAt": new Date().toISOString(),
     },
     ConditionExpression: "attribute_not_exists(#token)",
     ExpressionAttributeNames: {
