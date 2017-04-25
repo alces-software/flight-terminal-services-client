@@ -6,6 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
+import validatorUtils from 'validator';
 
 import { clusterSpecShape } from '../utils/propTypes';
 import ClusterLaunchForm from '../components/ClusterLaunchForm';
@@ -13,6 +14,8 @@ import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 import ClusterErrorModal from '../components/ClusterErrorModal';
 import * as analytics from '../utils/analytics';
 import awsCredentialsAllowed from '../utils/awsCredentialsAllowed';
+
+const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
 
 function validate(allValues, { useLaunchToken }) {
   const errors = {};
@@ -40,12 +43,17 @@ function validate(allValues, { useLaunchToken }) {
   // that's not the case.
   if (!useLaunchToken || errors.launchToken != null) {
     if (allValues.clusterName == null || allValues.clusterName.length < 1) {
-      errors.clusterName = 'error';
+      errors.clusterName = 'blank';
     }
+  }
+  if (allValues.clusterName && allValues.clusterName.length > 1 && !clusterNameRe.test(allValues.clusterName)) {
+    errors.clusterName = 'format';
   }
 
   if (allValues.email == null || allValues.email.length < 1) {
-    errors.email = 'error';
+    errors.email = 'blank';
+  } else if (!validatorUtils.isEmail(allValues.email)) {
+    errors.email = 'invalid';
   }
 
   return errors;

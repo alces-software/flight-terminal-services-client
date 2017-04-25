@@ -6,6 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
+import Tip from './Tip';
 
 import Input from './ClusterFormInput';
 
@@ -23,12 +24,25 @@ class ClusterLaunchEmail extends React.Component {
 
   render() {
     const { error, id, onChange, value } = this.props;
+
+    let tip;
+    switch (error) {
+      case 'blank':
+        tip = <Tip type="error" text="An email address is required." />;
+        break;
+      case 'invalid':
+        tip = <Tip type="error" text="This doesn't look like a valid email address." />;
+        break;
+      default:
+        tip = undefined;
+    }
+
     return (
       <div>
         <Input
           ref={(el) => { this.input = el; }}
           autofocus
-          error={error}
+          error={error && 'error'}
           help="We need your email address to send you an email when your
           cluster is available."
           id={`${id}-clusterLaunchEmail`}
@@ -36,6 +50,7 @@ class ClusterLaunchEmail extends React.Component {
           onChange={onChange}
           label="Enter your email address"
           value={value}
+          tip={tip}
         />
       </div>
     );

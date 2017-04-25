@@ -48,6 +48,8 @@ GEM
     concurrent-ruby (1.0.5)
     css_parser (1.4.10)
       addressable
+    email_validator (1.6.0)
+      activemodel
     erubis (2.7.0)
     ffi (1.9.18)
     foreman (0.83.0)
@@ -119,6 +121,7 @@ DEPENDENCIES
   alces-tools (~> 0.12.0.a)!
   aws-sdk (~> 2)
   commander
+  email_validator
   foreman
   letter_opener (~> 1.4.1)
   listen (~> 3.0.5)
