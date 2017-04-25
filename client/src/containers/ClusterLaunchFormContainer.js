@@ -6,6 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
+import validatorUtils from 'validator';
 
 import { clusterSpecShape } from '../utils/propTypes';
 import ClusterLaunchForm from '../components/ClusterLaunchForm';
@@ -50,7 +51,9 @@ function validate(allValues, { useLaunchToken }) {
   }
 
   if (allValues.email == null || allValues.email.length < 1) {
-    errors.email = 'error';
+    errors.email = 'blank';
+  } else if (!validatorUtils.isEmail(allValues.email)) {
+    errors.email = 'invalid';
   }
 
   return errors;

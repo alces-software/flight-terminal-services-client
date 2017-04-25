@@ -2721,22 +2721,6 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-common@file:///home/flight-common/":
-  version "0.0.0"
-  dependencies:
-    bootstrap-sass "^3.3.7"
-    classnames "^2.2.5"
-    clipboard "^1.5.15"
-    font-awesome "^4.7.0"
-    lodash "^4.17.2"
-    moment "^2.16.0"
-    react-addons-css-transition-group "^15.3.2"
-    react-bootstrap "^0.30.6"
-    react-cookie-banner "0.0.17"
-    react-fontawesome "^1.4.0"
-    react-redux "^4.4.6"
-    react-timeago "^3.1.3"
-
 "flight-common@git+https://github.com/alces-software/flight-common.git#react-15-react-router-4":
   version "0.0.0"
   resolved "git+https://github.com/alces-software/flight-common.git#e8db4ef129ecb5afac671a77ddb9490da90eac52"
@@ -6593,6 +6577,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+validator@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-7.0.0.tgz#c74deb8063512fac35547938e6f0b1504a282fd2"
 
 value-equal@^0.2.0:
   version "0.2.0"
