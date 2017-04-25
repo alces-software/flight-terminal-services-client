@@ -17,8 +17,33 @@ var ClusterSpecKeyToNameMap = {};
 // specs selection checkboxes.
 (function () {
   var httpRequest;
-  const clusterSpecsUrl = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/test.json';
+  const clusterSpecsUrl = getClusterSpecsUrl();
   makeRequest(clusterSpecsUrl);
+
+  function buildClusterSpecsUrl(relativePath) {
+    const clusterSpecsUrlPrefix = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/';
+    return `${clusterSpecsUrlPrefix}${relativePath}`;
+  }
+
+  // Retrieve the specs URL from window.location, without breaking old browsers.
+  //
+  // Older browsers always use the default URL.
+  function getClusterSpecsUrl() {
+    const defaultFile = 'default.json';
+    const defaultUrl = buildClusterSpecsUrl(defaultFile);
+    const defaultReturn = defaultUrl;
+
+    // Get the clusterSpecs urlParam without breaking in older browsers.  Older
+    // browsers use the defaultUrl.
+    if (URL == null) { return defaultReturn; }
+    const urlParams = new URL(window.location).searchParams;
+    if (urlParams == null || urlParams.get == null) { return defaultReturn; }
+    const file = urlParams.get('clusterSpecs');
+
+    if (file == null) { return defaultReturn ; }
+    return buildClusterSpecsUrl(file);
+  }
+
 
   function makeRequest(url) {
     httpRequest = new XMLHttpRequest();
@@ -105,6 +130,10 @@ window.onerror = writeError;
 //
 // == Token generation configuration =======================
 //
+
+function getTokenTag() {
+  return document.getElementById('tokenTag').value;
+}
 
 // Return the type of token to be generated. Either 'meaningless' or 'absurd'.
 function getTokenType() {
@@ -327,11 +356,14 @@ function updateAWSConfig() {
 function createToken() {
   var token = randomToken();
   if (token == null) { return; }
+  var tag = getTokenTag();
   var params = {
     TableName: "FlightLaunchTokens",
     Item: {
       "Token": token,
       "Status": "AVAILABLE",
+      "CreatedAt": new Date().toISOString(),
+      "Tag": tag,
     },
     ConditionExpression: "attribute_not_exists(#token)",
     ExpressionAttributeNames: {
@@ -440,9 +472,13 @@ function writeTokens(tokens) {
         permittedClustersCell.append(clusterNames.join(", "));
       }
 
+      var tagCell = document.createElement("td");
+      tagCell.append(token.Tag || '');
+
       var tr = document.createElement("tr");
       tr.append(tokenCell);
       tr.append(permittedClustersCell);
+      tr.append(tagCell);
       table.append(tr);
     });
 }

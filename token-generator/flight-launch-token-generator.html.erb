@@ -73,7 +73,9 @@ var combinations = <%= load_combinations('combinations') %>;
                 Create
                 <input id="numTokens" type="number" value="1" />
                 new
-                tokens
+                token(s)
+                for event
+                <input id="tokenTag" value="" />
                 <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
                 <span style="width: 3em; display: inline-block"></span>
             </div>
@@ -95,6 +97,7 @@ var combinations = <%= load_combinations('combinations') %>;
                     <tr>
                         <th>Token</th>
                         <th>Permitted clusters</th>
+                        <th>Event</th>
                     </tr>
                 </thead>
                 <tbody id="tokenTableBody">

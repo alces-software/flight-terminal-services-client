@@ -58,29 +58,35 @@ class Token
     params = {
       expression_attribute_names: {
         "#status": "Status",
+        "#updated_at": "UpdatedAt",
+        "#used_by": "UsedBy",
       },
       expression_attribute_values: {
         ":status": s.to_s.upcase,
+        ":updated_at": DateTime.now.to_s,
       },
       key: {
         "Token": token_string,
       },
       return_values: "ALL_NEW",
       table_name: "FlightLaunchTokens", 
-      update_expression: "SET #status = :status",
+      update_expression: "SET #status = :status, #updated_at = :updated_at",
     }
-    if s == :used
-      params[:expression_attribute_names].merge!(
-        "#used_by": "UsedBy",
-        "#used_at": "UsedAt",
-      )
+
+    if s == :available
+      params[:update_expression] << " REMOVE #used_by"
+    else
+      params[:update_expression] << ", #used_by = :used_by"
       params[:expression_attribute_values].merge!(
         ":used_by": used_by,
-        ":used_at": DateTime.now.to_s,
       )
-      params[:update_expression] = "SET #status = :status, #used_by = :used_by, #used_at = :used_at"
     end
+
+    Alces.app.logger.info("Updating token #{token_string}: #{params[:expression_attribute_values]}")
     client.update_item(params)
+  rescue
+    Alces.app.logger.warn("Error whilst updating token: #{$!}")
+    raise
   end
 
   private
