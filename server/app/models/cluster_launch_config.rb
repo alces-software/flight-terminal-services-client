@@ -29,7 +29,10 @@ class ClusterLaunchConfig
   attr_accessor :secret_key
   attr_accessor :token
 
-  validates :email, presence: true
+  validates :email,
+    presence: true,
+    email: true
+
   validates :name,
     presence: true,
     length: { minimum: 2 },
@@ -37,6 +40,7 @@ class ClusterLaunchConfig
       with: /\A[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]\z/,
       message: 'invalid format'
     }
+
   validate :credentials_present
 
   # An instance of ClusterSpec.
