@@ -106,6 +106,10 @@ window.onerror = writeError;
 // == Token generation configuration =======================
 //
 
+function getTokenTag() {
+  return document.getElementById('tokenTag').value;
+}
+
 // Return the type of token to be generated. Either 'meaningless' or 'absurd'.
 function getTokenType() {
   return getRadioValue('tokenType');
@@ -327,12 +331,14 @@ function updateAWSConfig() {
 function createToken() {
   var token = randomToken();
   if (token == null) { return; }
+  var tag = getTokenTag();
   var params = {
     TableName: "FlightLaunchTokens",
     Item: {
       "Token": token,
       "Status": "AVAILABLE",
       "CreatedAt": new Date().toISOString(),
+      "Tag": tag,
     },
     ConditionExpression: "attribute_not_exists(#token)",
     ExpressionAttributeNames: {
@@ -441,9 +447,13 @@ function writeTokens(tokens) {
         permittedClustersCell.append(clusterNames.join(", "));
       }
 
+      var tagCell = document.createElement("td");
+      tagCell.append(token.Tag || '');
+
       var tr = document.createElement("tr");
       tr.append(tokenCell);
       tr.append(permittedClustersCell);
+      tr.append(tagCell);
       table.append(tr);
     });
 }
