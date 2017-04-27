@@ -17,11 +17,8 @@ class ClustersMailer < ApplicationMailer
     @cluster_name = launch_config.name
 
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @using_token = launch_config.using_token?
-    if @using_token
-      @runtime_limit = launch_config.spec.runtime_limit?
-      @runtime = launch_config.spec.runtime
-    end
+    @runtime_limit = launch_config.spec.runtime_limit?
+    @runtime = launch_config.spec.runtime
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster is now boarding"
@@ -32,15 +29,9 @@ class ClustersMailer < ApplicationMailer
   #
   #   en.clusters_mailer.launching.subject
   #
-  def launching(launch_config, arn)
+  def launching(launch_config)
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    if launch_config.using_token?
-      @show_cloudformation_link = false
-    else
-      @show_cloudformation_link = true
-      @cloudformation_url = cluster_cloudformation_url(arn, launch_config)
-    end
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster is in taxi for take-off"
@@ -57,11 +48,8 @@ class ClustersMailer < ApplicationMailer
     @access_details = @parsed_output.access
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @using_token = launch_config.using_token?
-    if @using_token
-      @runtime_limit = launch_config.spec.runtime_limit?
-      @runtime = launch_config.spec.runtime
-    end
+    @runtime_limit = launch_config.spec.runtime_limit?
+    @runtime = launch_config.spec.runtime
 
     @resources = @parsed_output.resources.
       select {|r| r.final_status == 'CREATE_COMPLETE'}.
@@ -77,39 +65,12 @@ class ClustersMailer < ApplicationMailer
   #
   #   en.clusters_mailer.failed.subject
   #
-  def failed(launch_config, stderr, arn)
+  def failed(launch_config, stderr)
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @stderr = stderr
-    if launch_config.using_token?
-      @show_cloudformation_link = false
-    else
-      @show_cloudformation_link = true
-      @arn_present = arn.present?
-      if @arn_present
-        @cloudformation_url = cluster_cloudformation_url(arn, launch_config)
-      else
-        @cloudformation_url = cloudformation_console_url(launch_config)
-      end
-    end
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster has failed to launch"
-  end
-
-  private
-
-  def cluster_cloudformation_url(arn, launch_config)
-    if launch_config.region.present?
-      region = "#{launch_config.region}."
-    end
-    "https://#{region}console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=#{arn}"
-  end
-
-  def cloudformation_console_url(launch_config)
-    if launch_config.region.present?
-      region = "#{launch_config.region}."
-    end
-    "https://#{region}console.aws.amazon.com/cloudformation/home"
   end
 end
