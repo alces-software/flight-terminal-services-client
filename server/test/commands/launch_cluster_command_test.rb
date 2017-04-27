@@ -105,14 +105,16 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
       cluster_launch_config_params[cluster_flavour].merge(spec: cluster_spec)
     )
     @launch_command = LaunchClusterCommand.new(cluster_launch_config)
+    $last_launch_at = 1.minute.ago
 
-    initial_emails = cluster_launch_config.using_token? ? 1 : 2
-
-    assert_difference "ActionMailer::Base.deliveries.size", initial_emails do
+    assert_difference "ActionMailer::Base.deliveries.size", +1 do
       @launch_command.perform
     end
 
-    assert_difference "ActionMailer::Base.deliveries.size", +1 do
+    follow_up_emails = cluster_launch_config.using_token? ? 1 : 2
+
+    assert_difference "ActionMailer::Base.deliveries.size", follow_up_emails do
+      @launch_command.simultaneous_launches_HACK_thread.join
       @launch_command.launch_thread.join
     end
   end

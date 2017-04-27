@@ -44,7 +44,7 @@ class FakeFly
 
       c.action do |args, options|
         case args.first
-        when 'will-launch-successfully', 'bens'
+        when /will-launch-successfully/, 'bens'
           will_launch_output
         else
         end
