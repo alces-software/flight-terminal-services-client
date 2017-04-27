@@ -38,7 +38,7 @@ class LaunchClusterCommand
   class ClusterNameTaken < LaunchError; end
   class Unexpected < LaunchError; end
 
-  attr_reader :launch_thread
+  attr_reader :launch_thread, :simultaneous_launches_HACK_thread
 
   delegate :arn, :stdout, :stderr, to: :@run_fly_cmd
 
@@ -60,7 +60,7 @@ class LaunchClusterCommand
   end
 
   def run_simultaneous_launches_HACK_thread
-    Thread.new do
+    @simultaneous_launches_HACK_thread = Thread.new do
       begin
         loop do
           begin
