@@ -13,35 +13,20 @@ import ClusterLaunchForm from '../components/ClusterLaunchForm';
 import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 import ClusterErrorModal from '../components/ClusterErrorModal';
 import * as analytics from '../utils/analytics';
-import awsCredentialsAllowed from '../utils/awsCredentialsAllowed';
 
 const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
 
-function validate(allValues, { useLaunchToken }) {
+function validate(allValues) {
   const errors = {};
 
-  if ((!useLaunchToken && allValues.awsAccessKeyId == null) ||
-    allValues.awsAccessKeyId.length < 16
-  ) {
-    errors.awsAccessKeyId = 'error';
-  }
-
-  if ((!useLaunchToken && allValues.awsSecrectAccessKey == null) ||
-    allValues.awsSecrectAccessKey.length < 16
-  ) {
-    errors.awsSecrectAccessKey = 'error';
-  }
-
-  if ((useLaunchToken && allValues.launchToken == null) ||
-    allValues.launchToken.length < 5
-  ) {
+  if (allValues.launchToken == null || allValues.launchToken.length < 5) {
     errors.launchToken = 'error';
   }
 
   // If a launch token is provided, we'll default to using that as the cluster
   // name. So we only need to check that there is a value for clusterName when
   // that's not the case.
-  if (!useLaunchToken || errors.launchToken != null) {
+  if (errors.launchToken != null) {
     if (allValues.clusterName == null || allValues.clusterName.length < 1) {
       errors.clusterName = 'blank';
     }
@@ -67,16 +52,12 @@ class ClusterLaunchFormContainer extends React.Component {
   };
 
   componentDidMount() {
-    const useLaunchToken = this.state.useLaunchToken;
     this.setState({
-      errors: validate(this.state.values, { useLaunchToken }),
-      showAwsCredentialsLink: awsCredentialsAllowed(),
+      errors: validate(this.state.values),
     });
   }
 
   initialValues = {
-    awsAccessKeyId: '',
-    awsSecrectAccessKey: '',
     clusterName: '',
     email: '',
     launchToken: '',
@@ -88,26 +69,22 @@ class ClusterLaunchFormContainer extends React.Component {
     showLaunchedModal: false,
     submitting: false,
     values: this.initialValues,
-    useLaunchToken: true,
     errors: {
-      awsAccessKeyId: null,
-      awsSecrectAccessKey: null,
       clusterName: null,
       email: null,
       launchToken: null,
     },
     modalProps: {
       clusterName: null,
-      cloudformationUrl: null,
+      email: null,
     }
   }
 
   handleFormChange = ({ name, value }) => {
-    const useLaunchToken = this.state.useLaunchToken;
     const errors = validate({
       ...this.state.values,
       [name]: value,
-    }, { useLaunchToken });
+    });
 
     this.setState({
       values: {
@@ -119,16 +96,6 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   sendLaunchRequest() {
-    let credentials;
-    if (this.state.useLaunchToken) {
-      credentials = { token: this.state.values.launchToken };
-    } else {
-      credentials = {
-        access_key: this.state.values.awsAccessKeyId,
-        secret_key: this.state.values.awsSecrectAccessKey,
-      };
-    }
-
     return fetch('/clusters/launch', {
       method: 'POST',
       headers: {
@@ -143,7 +110,7 @@ class ClusterLaunchFormContainer extends React.Component {
         clusterLaunch: {
           name: this.state.values.clusterName || this.state.values.launchToken,
           email: this.state.values.email,
-          ...credentials,
+          token: this.state.values.launchToken,
         },
       })
     })
@@ -151,8 +118,7 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleSuccessfulLaunch(json) {
     analytics.clusterLaunchAccepted(this.props.clusterSpec);
-    const useLaunchToken = this.state.useLaunchToken;
-    const errors = validate(this.initialValues, { useLaunchToken });
+    const errors = validate(this.initialValues);
     this.setState({
       submitting: false,
       values: this.initialValues,
@@ -160,7 +126,6 @@ class ClusterLaunchFormContainer extends React.Component {
       errors: errors,
       modalProps: {
         clusterName: json.cluster_name,
-        cloudformationUrl: json.cloudformation_url,
         email: json.email,
       },
       showLaunchedModal: true,
@@ -224,10 +189,6 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
   }
 
-  handleToggleUseLaunchToken = () => {
-    this.setState({ useLaunchToken: !this.state.useLaunchToken });
-  }
-
   hideModal = () => {
     this.setState({ showLaunchedModal: false, showErrorModal: false });
   }
@@ -252,7 +213,6 @@ class ClusterLaunchFormContainer extends React.Component {
           onChange={this.handleFormChange}
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
-          onToggleUseLaunchToken={this.handleToggleUseLaunchToken}
           handleSubmit={this.handleSubmit}
         />
       </div>

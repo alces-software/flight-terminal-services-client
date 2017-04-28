@@ -15,15 +15,10 @@ const propTypes = {
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
-  useLaunchToken: PropTypes.bool.isRequired,
   value: PropTypes.string,
 };
 
-const ClusterName = ({ error, id, onChange, placeholder, useLaunchToken, value }) => {
-  const help = useLaunchToken ?
-    'Choose a unique name for your cluster. Or leave blank to use the default. The name can only contain letters, numbers and hyphens (-).  It cannot start or end with a hyphen.' :
-    'Choose a unique name for your cluster. The name can only contain letters, numbers and hyphens (-).  It cannot start or end with a hyphen.';
-
+const ClusterName = ({ error, id, onChange, placeholder, value }) => {
   let tip;
   switch (error) {
     case 'blank':
@@ -47,7 +42,9 @@ const ClusterName = ({ error, id, onChange, placeholder, useLaunchToken, value }
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        help={help}
+        help="Choose a unique name for your cluster. Or leave blank to use the
+        default. The name can only contain letters, numbers and hyphens (-).
+        It cannot start or end with a hyphen."
         tip={tip}
       />
     </div>

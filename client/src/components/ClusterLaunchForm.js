@@ -22,10 +22,7 @@ class ClusterLaunchForm extends React.Component {
     onCancel: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
-    onToggleUseLaunchToken: PropTypes.func.isRequired,
-    showAwsCredentialsLink: PropTypes.bool,
     submitting: PropTypes.bool,
-    useLaunchToken: PropTypes.bool.isRequired,
   };
 
   pages = [
@@ -33,27 +30,11 @@ class ClusterLaunchForm extends React.Component {
       render: () => (
         <Credentials
           id={this.props.clusterSpec.ui.title}
-          errors={{
-            awsAccessKeyId: this.props.errors.awsAccessKeyId,
-            awsSecrectAccessKey: this.props.errors.awsSecrectAccessKey,
-          }}
-          values={{
-            awsAccessKeyId: this.props.values.awsAccessKeyId,
-            awsSecrectAccessKey: this.props.values.awsSecrectAccessKey,
-            launchToken: this.props.values.launchToken,
-          }}
+          error={this.props.errors.launchToken}
+          value={this.props.values.launchToken}
           onChange={this.props.onChange}
-          onToggleUseLaunchToken={this.props.onToggleUseLaunchToken}
-          showAwsCredentialsLink={this.props.showAwsCredentialsLink}
-          useLaunchToken={this.props.useLaunchToken}
         />),
-      valid: () => {
-        if (this.props.useLaunchToken) {
-          return !this.props.errors.launchToken;
-        } else {
-          return !this.props.errors.awsAccessKeyId && !this.props.errors.awsSecrectAccessKey;
-        }
-      },
+      valid: () => !this.props.errors.launchToken,
     },
     {
       render: () => (
@@ -63,7 +44,6 @@ class ClusterLaunchForm extends React.Component {
           value={this.props.values.clusterName}
           onChange={this.props.onChange}
           placeholder={this.props.values.launchToken}
-          useLaunchToken={this.props.useLaunchToken}
         />),
       valid: () => !this.props.errors.clusterName,
     },
@@ -103,29 +83,17 @@ class ClusterLaunchForm extends React.Component {
 
         onConfirm={this.props.handleSubmit}
         confirmButtonText="Launch"
-        confirmText={
-          this.props.useLaunchToken ?
-            (<div>
-              <p>
-             You are about to launch an Alces Flight Compute HPC cluster for trial use through the
-             Alces Flight Launch service.  By clicking the launch button you
-             understand this is a trial service and that Alces Flight Ltd
-             takes no responsibility for the work performed during the trial.
-             Users are highly encouraged to save their work as once the trial
-             ends they will no longer have access to their work.
-              </p>
-              <p>I understand and wish to continue.</p>
-            </div>) :
-            (<div>
-              <p>You are about to launch an Alces Flight Compute HPC cluster using your AWS account.
-                By clicking the Launch button you understand that your AWS
-                account will incur charges.  You further understand that you
-                have the responsibility to shut down the cluster, and that
-                you will continue to incur charges until the cluster is
-                shut down.</p>
-              <p>I understand and wish to continue.</p>
-            </div>)
-        }
+        confirmText={<div>
+          <p>
+            You are about to launch an Alces Flight Compute HPC cluster for trial use through the
+            Alces Flight Launch service.  By clicking the launch button you
+            understand this is a trial service and that Alces Flight Ltd
+            takes no responsibility for the work performed during the trial.
+            Users are highly encouraged to save their work as once the trial
+            ends they will no longer have access to their work.
+          </p>
+          <p>I understand and wish to continue.</p>
+        </div>}
       />
     );
   }

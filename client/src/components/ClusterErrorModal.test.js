@@ -99,16 +99,3 @@ it('displays an error message when the cluster name is currently taken', () => {
 
   expect(wrapper.find('DetailsMessage').dive()).toIncludeText("The cluster name you have chosen is already in use");
 });
-
-it('displays an error message when the AWS credentials are invalid', () => {
-  const error = {
-    details: {
-      credentials: ['invalid credentials'],
-    },
-  };
-  const wrapper = shallow(
-    <ClusterErrorModal show onHide={() => {}} error={error} />
-  );
-
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("AWS credentials you have provided are not valid");
-});
