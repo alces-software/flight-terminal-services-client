@@ -5,20 +5,12 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.about_to_launch(launch_config)
   end
 
-  def about_to_launch_with_token
-    ClustersMailer.about_to_launch(token_launch_config)
-  end
-
-  def about_to_launch_with_token_and_runtime
-    ClustersMailer.about_to_launch(token_runtime_launch_config)
+  def about_to_launch_with_runtime
+    ClustersMailer.about_to_launch(runtime_launch_config)
   end
 
   def launching
-    ClustersMailer.launching(launch_config, arn)
-  end
-
-  def launching_with_token
-    ClustersMailer.launching(token_launch_config, arn)
+    ClustersMailer.launching(launch_config)
   end
 
   def launched
@@ -26,19 +18,14 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.launched(launch_config, output)
   end
 
-  def launched_with_token
+  def launched_with_runtime
     output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
-    ClustersMailer.launched(token_runtime_launch_config, output)
+    ClustersMailer.launched(runtime_launch_config, output)
   end
 
   def failed
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
     ClustersMailer.failed(launch_config, output, arn)
-  end
-
-  def failed_with_token
-    output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
-    ClustersMailer.failed(token_launch_config, output, arn)
   end
 
   private
@@ -47,6 +34,7 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClusterLaunchConfig.new(
       email: 'me@example.com',
       name: 'my-cluster',
+      token: 'carelessly-spoil-coffee',
       spec: ClusterSpec.new(
         meta: {
           'title' => 'Small SGE bioinformatics cluster',
@@ -56,24 +44,10 @@ class ClustersMailerPreview < ActionMailer::Preview
     )
   end
 
-  def token_launch_config
+  def runtime_launch_config
     launch_config.tap do |lc|
-      lc.token = 'carelessly-spoil-coffee'
-    end
-  end
-
-  def token_runtime_launch_config
-    token_launch_config.tap do |lc|
       lc.spec.args = ['--runtime', '240', '--solo']
     end
-  end
-
-  def arn
-    [
-      'arn:aws:cloudformation:us-east-1:700366075446:stack',
-      'flight-cluster-bens-test-2',
-      'a4c95470-099e-11e7-8ce5-500c217b4a9a'
-    ].join('/')
   end
 
 end

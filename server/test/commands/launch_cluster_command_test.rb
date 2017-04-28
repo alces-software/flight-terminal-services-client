@@ -11,13 +11,7 @@ require 'test_helper'
 class LaunchClusterCommandTest < ActiveSupport::TestCase
   def cluster_launch_config_params
     {
-      good_with_aws_creds: {
-        "name": "will-launch-successfully",
-        "email": "me@example.com",
-        "access_key": "<REDACTED>",
-        "secret_key": "<REDACTED>"
-      },
-      good_with_token: {
+      good: {
         "name": "will-launch-successfully",
         "email": "me@example.com",
         "token": "my-token",
@@ -27,18 +21,7 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
 
   def cluster_spec_params
     {
-      good_with_aws_creds: {
-        "args": [ "--solo" ],
-        "parameter_directory_overrides": {
-          "solo": {
-            "AutoscalingPolicy": "enabled",
-            "ComputeSpotPrice": "0.3",
-            "SchedulerType": "slurm",
-            "PreloadSoftware": "chemistry"
-          }
-        }
-      },
-      good_with_token: {
+      good: {
         "args": [ "--solo" ],
         "parameter_directory_overrides": {
           "solo": {
@@ -108,68 +91,43 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
     $last_launch_at = 1.minute.ago
 
     assert_difference "ActionMailer::Base.deliveries.size", +1 do
+      # This should send an "about to launch" email
       @launch_command.perform
     end
 
-    follow_up_emails = cluster_launch_config.using_token? ? 1 : 2
-
-    assert_difference "ActionMailer::Base.deliveries.size", follow_up_emails do
+    assert_difference "ActionMailer::Base.deliveries.size", +1 do
+      # This should send either a "launched" or a "failed" email
       @launch_command.simultaneous_launches_HACK_thread.join
       @launch_command.launch_thread.join
     end
   end
 
-  test 'launching a good cluster with AWS creds sends 3 emails' do
-    launch_cluster(:good_with_aws_creds)
-    assert_equal 3, ActionMailer::Base.deliveries.length
-  end
-
-  test 'launching a good cluster with a launch token sends 2 emails' do
+  test 'launching a good cluster sends 2 emails' do
     with_stubbed_token(true) do
-      launch_cluster(:good_with_token)
+      launch_cluster(:good)
       assert_equal 2, ActionMailer::Base.deliveries.length
     end
   end
 
-  [:good_with_aws_creds, :good_with_token].each do |cluster_flavour|
-    test "launching a good cluster sends an about to launch email (#{cluster_flavour})" do
-      with_stubbed_token(cluster_flavour == :good_with_token) do
-        launch_cluster(cluster_flavour)
-        about_to_launch = ActionMailer::Base.deliveries.first
+  test "launching a good cluster sends an about to launch email" do
+    with_stubbed_token(true) do
+      launch_cluster(:good)
+      about_to_launch = ActionMailer::Base.deliveries.first
 
-        assert_equal "Your Alces Flight Compute HPC cluster is now boarding",
-          about_to_launch.subject
-        assert_equal "me@example.com", about_to_launch.to.first
-      end
+      assert_equal "Your Alces Flight Compute HPC cluster is now boarding",
+        about_to_launch.subject
+      assert_equal "me@example.com", about_to_launch.to.first
     end
   end
 
-  test 'launching a good cluster with AWS creds sends a launching email' do
-    launch_cluster(:good_with_aws_creds)
-    launching = ActionMailer::Base.deliveries[1]
+  test "launching a good cluster sends a launched email" do
+    with_stubbed_token(true) do
+      launch_cluster(:good)
+      launched_email = ActionMailer::Base.deliveries.last
 
-    assert_equal "Your Alces Flight Compute HPC cluster is in taxi for take-off",
-      launching.subject
-    assert_equal "me@example.com", launching.to.first
-  end
-
-  [:good_with_aws_creds, :good_with_token].each do |cluster_flavour|
-    test "launching a good cluster sends a launched email (#{cluster_flavour})" do
-      with_stubbed_token(cluster_flavour == :good_with_token) do
-        launch_cluster(cluster_flavour)
-        launched_email = ActionMailer::Base.deliveries.last
-
-        assert_equal "Your Alces Flight Compute HPC cluster is in flight and ready for use",
-          launched_email.subject
-        assert_equal "me@example.com", launched_email.to.first
-      end
+      assert_equal "Your Alces Flight Compute HPC cluster is in flight and ready for use",
+        launched_email.subject
+      assert_equal "me@example.com", launched_email.to.first
     end
-  end
-
-  test 'launching a good email captures the correct arn' do
-    launch_cluster(:good_with_aws_creds)
-    arn = 'arn:aws:cloudformation:eu-west-1:700366075446:stack/flight-cluster-will-launch-successfully-1fc24629-ad7b-4764-aefa-284556e895f6/9ca9b010-132a-11e7-b9ff-503ac9e74c8d'
-
-    assert_equal arn, @launch_command.arn
   end
 end

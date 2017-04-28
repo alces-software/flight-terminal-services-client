@@ -11,9 +11,8 @@ Your Alces Flight Compute HPC cluster is ready for use!
 Your <%= @cluster_spec_name %> "<%= @cluster_name %>" has reached cruising
 altitude and is available for use.
 
-<% if @using_token %>Remember, the flight time for this cluster is <%= @runtime %>. Please remember to save
-your work.<% else %>Remember, this cluster will remain in flight until you shut it down.  If you
-want to learn more on how to shut down a cluster, click here.<% end %>
+Remember, the flight time for this cluster is <%= @runtime %>. Please remember to save
+your work.
 
 You can find details about your cluster including how to access it below.
 
@@ -26,11 +25,6 @@ When prompted for a password enter: <%= password %>
 
 <%= @access_details %>
 
-<%- if ! @using_token -%>The following resources have been created:
-
-<%= @resources %>
-
-<%- end -%>
 <% note do %>
   You are receiving this email because you have started an Alces
   Flight Compute HPC cluster with the Alces Flight Launch

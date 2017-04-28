@@ -4,8 +4,7 @@
 Your Alces Flight Compute HPC cluster is in taxi for take-off.
 
 Your small SGE bioinformatics cluster "my-cluster" is being cleared for
-take-off. You can view the launch progress of your cluster on the AWS
-CloudFormation console <https://eu-west-1.console.aws.amazon.com/cloudformation/home#/stack/detail?stackId=arn:aws:cloudformation:us-east-1:700366075446:stack/flight-cluster-bens-test-2/a4c95470-099e-11e7-8ce5-500c217b4a9a>.
+take-off.
 
 We will send you another email once your cluster is in flight and available for
 use.

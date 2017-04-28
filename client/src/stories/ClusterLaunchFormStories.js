@@ -23,15 +23,11 @@ const commonProps = {
   onCancel: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
-  onToggleUseLaunchToken: () => {},
-  useLaunchToken: true,
   values: {},
 };
 
 const completedProps = {
   values: {
-    awsAccessKeyId: 'awsAccessKeyId',
-    awsSecrectAccessKey: 'awsSecrectAccessKey',
     clusterName: 'clusterName',
     email: 'email',
     launchToken: 'launchToken',
@@ -89,15 +85,6 @@ storiesOf('ClusterLaunchForm', module)
     />
   ))
 
-  .add('empty AWS credentials page', () => (
-    <ClusterLaunchForm
-      {...commonProps}
-      useLaunchToken={false}
-      currentPageIndex={0}
-      onShowNextPage={linkTo('ClusterLaunchForm', 'empty cluster name page')}
-    />
-  ))
-
   .add('empty cluster name page', () => (
     <ClusterLaunchForm
       {...commonProps}
@@ -128,16 +115,6 @@ storiesOf('ClusterLaunchForm', module)
     />
   ))
 
-  .add('completed AWS credentials page', () => (
-    <ClusterLaunchForm
-      {...commonProps}
-      {...completedProps}
-      useLaunchToken={false}
-      currentPageIndex={0}
-      onShowNextPage={linkTo('ClusterLaunchForm', 'completed cluster name page')}
-    />
-  ))
-
   .add('completed cluster name page', () => (
     <ClusterLaunchForm
       {...commonProps}
@@ -161,20 +138,6 @@ storiesOf('ClusterLaunchForm', module)
     />
   ))
 
-  .add('completed email page (AWS creds)', () => (
-    <ClusterLaunchForm
-      {...commonProps}
-      {...completedProps}
-      useLaunchToken={false}
-      currentPageIndex={2}
-      handleSubmit={(event) => {
-        event.preventDefault();
-        linkTo('ClusterLaunchForm', 'when submitting')();
-      }}
-      onShowPreviousPage={linkTo('ClusterLaunchForm', 'completed cluster name page')}
-    />
-  ))
-
   .add('when submitting', () => (
     <ClusterLaunchForm
       {...commonProps}
@@ -185,15 +148,6 @@ storiesOf('ClusterLaunchForm', module)
     />
   ))
 
-  .add('launch token page with credentials link', () => (
-    <ClusterLaunchForm
-      {...commonProps}
-      currentPageIndex={0}
-      onShowNextPage={linkTo('ClusterLaunchForm', 'empty cluster name page')}
-      showAwsCredentialsLink={true}
-    />
-  ))
-
   .add('invalid name page', () => (
     <ClusterLaunchForm
       {...commonProps}
@@ -201,14 +155,5 @@ storiesOf('ClusterLaunchForm', module)
       currentPageIndex={1}
       values={{ clusterName: 'contains spaces' }}
       errors={{ clusterName: 'format' }}
-    />
-  ))
-
-  .add('invalid credentials page', () => (
-    <ClusterLaunchForm
-      {...commonProps}
-      currentPageIndex={0}
-      values={{ awsAccessKeyId: 'too short'}}
-      errors={{ awsAccessKeyId: 'error', awsSecrectAccessKey: 'error'}}
     />
   ));
