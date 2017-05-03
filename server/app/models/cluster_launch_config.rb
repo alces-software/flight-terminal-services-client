@@ -20,12 +20,23 @@
 #
 class ClusterLaunchConfig
   include ActiveModel::Model
+  include ActiveModel::Serializers::JSON
 
   attr_accessor :email
   attr_accessor :key_pair
   attr_accessor :name
   attr_accessor :region
   attr_accessor :token
+
+  def attributes
+    {
+      'email' => nil,
+      'key_pair' => nil,
+      'name' => nil,
+      'region' => nil,
+      'token_string' => nil,
+    }
+  end
 
   validates :email,
     presence: true,
@@ -45,17 +56,29 @@ class ClusterLaunchConfig
   attr_accessor :spec
 
   def token=(t)
-    @token = Token.new(token_string: t)
+    if t.is_a?(String)
+      @token = Token.new(token_string: t)
+    else
+      @token = t
+    end
+  end
+
+  def token_string
+    @token.token_string
+  end
+
+  def token_string=(t)
+    self.token = t
   end
 
   def access_key
-    if token.present? && token.available?
+    if token.present? && !token.not_found?
       Rails.configuration.alces.access_key
     end
   end
 
   def secret_key
-    if token.present? && token.available?
+    if token.present? && !token.not_found?
       Rails.configuration.alces.secret_key
     end
   end

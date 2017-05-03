@@ -20,21 +20,20 @@ class ClustersController < ApplicationController
       return
     end
 
-    launch_command = LaunchClusterCommand.new(cluster_launch_config)
-    begin
-      launch_command.perform
-    rescue LaunchClusterCommand::LaunchError
-      Rails.logger.info("Launching cluster failed: #{$!.message}")
-      render_exception($!)
-    else
-      render(
-        json: {
-          cluster_name: cluster_launch_config.name,
-          email: cluster_launch_config.email,
-        },
-        status: :accepted
-      )
-    end
+    # XXX What errors can be raised here?  Queue connection errors.  Any
+    # others.
+    ClusterLaunchJob.perform_later(
+      cluster_launch_config.as_json,
+      cluster_launch_config.spec.as_json
+    )
+
+    render(
+      json: {
+        cluster_name: cluster_launch_config.name,
+        email: cluster_launch_config.email,
+      },
+      status: :accepted
+    )
   end
 
   private
