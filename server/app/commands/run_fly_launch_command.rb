@@ -44,6 +44,9 @@ class RunFlyLaunchCommand
     if @launch_config.region.present?
       extra_args << '--region' << @launch_config.region
     end
+    if Rails.env.development? && ENV['CLUSTER_RUNTIME']
+      extra_args << '--runtime' << ENV['CLUSTER_RUNTIME']
+    end
     cmd = [
       ENV['FLY_EXE_PATH'],
       'cluster',
