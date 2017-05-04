@@ -30,6 +30,7 @@ gem                     'railties', rails_version
 # AWS access
 ##################################
 gem 'aws-sdk', '~> 2'
+gem 'shoryuken', '~> 3.0.6'
 
 ##################################
 # Application server
