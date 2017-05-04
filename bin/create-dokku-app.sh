@@ -55,7 +55,7 @@ configure_app() {
             AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
             BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-ruby.git \
             DEFAULT_KEY_PAIR=aws_ireland \
-            DEFAULT_REGION=eu-west-1 \
+            AWS_REGION=eu-west-1 \
             FLY_DOWNLOAD_URL=$FLY_DOWNLOAD_URL \
             FLY_EXE_PATH=$FLY_EXE_PATH \
             RACK_ENV=production \
