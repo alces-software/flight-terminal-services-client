@@ -50,6 +50,7 @@ create_app() {
 configure_app() {
     ssh ${DOKKU_SERVER} \
         "dokku config:set --no-restart ${app} \
+            ACTIVE_JOB_QUEUE_NAME_PREFIX=flight_launch_production \
             ALCES_LOG_WRITER_DEST=stdout \
             AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
             AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
@@ -65,6 +66,8 @@ configure_app() {
             SMTP_USERNAME=SMTP_Injection \
             TZ=UTC \
             WAIT_FOR_ARN_DURATION=120 \
+            WORKER_CONCURRENCY=1 \
+            WORKER_DELAY=60 \
             "
 
     ssh ${DOKKU_SERVER} \
