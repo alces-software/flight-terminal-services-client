@@ -20,39 +20,66 @@
 #
 class ClusterLaunchConfig
   include ActiveModel::Model
+  include ActiveModel::Serializers::JSON
 
-  attr_accessor :access_key
   attr_accessor :email
   attr_accessor :key_pair
   attr_accessor :name
   attr_accessor :region
-  attr_accessor :secret_key
   attr_accessor :token
 
-  validates :email, presence: true
-  validates :name, presence: true
-  validate :credentials_present
+  def attributes
+    {
+      'email' => nil,
+      'key_pair' => nil,
+      'name' => nil,
+      'region' => nil,
+      'token_string' => nil,
+    }
+  end
+
+  validates :email,
+    presence: true,
+    email: true
+
+  validates :name,
+    presence: true,
+    length: { minimum: 2 },
+    format: {
+      with: /\A[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]\z/,
+      message: 'invalid format'
+    }
+
+  validate :validate_token
 
   # An instance of ClusterSpec.
   attr_accessor :spec
 
   def token=(t)
-    @token = Token.new(token_string: t)
+    if t.is_a?(String)
+      @token = Token.new(token_string: t)
+    else
+      @token = t
+    end
+  end
+
+  def token_string
+    @token.token_string
+  end
+
+  def token_string=(t)
+    self.token = t
   end
 
   def access_key
-    if token.present? && token.available?
+    if token.present? && !token.not_found?
       Rails.configuration.alces.access_key
-    else
-      @access_key
     end
   end
 
   def secret_key
-    if token.present? && token.available?
+    if token.present? && !token.not_found?
       Rails.configuration.alces.secret_key
-    else
-      @secret_key
     end
   end
 
@@ -68,20 +95,15 @@ class ClusterLaunchConfig
     token.present?
   end
 
-  def credentials_present
-    if token.nil? && ( @access_key.blank? || @secret_key.blank? )
-      errors.add(:base, 'Must provide either token or both access_key and secret_key')
-    elsif token.present? && @access_key.present? && @secret_key.present? 
-      errors.add(:base, 'Must provide either token or both access_key and secret_key')
-    elsif token.present? && token.not_found?
+  def validate_token
+    if token.nil?
+      errors.add(:base, 'Must provide token')
+    elsif token.not_found?
       errors.add(:token, 'token not found')
-    elsif token.present? && ! token.available?
+    elsif ! token.available?
       errors.add(:token, 'token has already been used')
-    elsif token.present? && ! token.can_launch_spec?(spec)
+    elsif ! token.can_launch_spec?(spec)
       errors.add(:token, 'token cannot launch cluster spec')
-    else
-      # We have been given an access_key and a secret_key, there is nothing we
-      # can do here to check that they are valid.  AWS will do so soon enough.
     end
   end
 end

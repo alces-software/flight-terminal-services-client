@@ -35,13 +35,6 @@ const DetailsMessage = ({ details }) => {
         You could either launch a different cluster, or use a different token.
       </span>
     );
-  } else if (hasPropError(details, 'credentials', 'invalid credentials')) {
-    return (
-      <span>
-        The AWS credentials you have provided are not valid.  Please check
-        your credentials and try again.
-      </span>
-    );
   } else if (hasPropError(details, 'cluster_name', 'taken')) {
     return (
       <span>

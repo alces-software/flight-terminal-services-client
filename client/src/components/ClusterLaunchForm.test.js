@@ -34,8 +34,6 @@ const commonProps = {
   onCancel: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
-  onToggleUseLaunchToken: () => {},
-  useLaunchToken: true,
 };
 
 it('renders without crashing', () => {
@@ -53,30 +51,21 @@ it('renders without crashing', () => {
 });
 
 describe('pages render without crashing', () => {
-  const wrapperVariants = [
-    { useLaunchToken: true, showAwsCredentialsLink: true },
-    { useLaunchToken: true, showAwsCredentialsLink: false },
-    { useLaunchToken: false, showAwsCredentialsLink: true },
-  ];
+  const wrapper = shallow(
+    <ClusterLaunchForm
+      {...commonProps}
+      clusterSpec={clusterSpec}
+      currentPageIndex={0}
+      errors={{}}
+      values={{}}
+    />
+  );
 
-  wrapperVariants.forEach((variantProps, variantIndex) => {
-    const wrapper = shallow(
-      <ClusterLaunchForm
-        {...commonProps}
-        {...variantProps}
-        clusterSpec={clusterSpec}
-        currentPageIndex={0}
-        errors={{}}
-        values={{}}
-      />
-    );
-
-    const instance = wrapper.instance();
-    instance.pages.forEach((page, index) => {
-      test(`page ${index} - variant ${variantIndex}`, () => {
-        const div = document.createElement('div');
-        ReactDOM.render(page.render(), div);
-      });
+  const instance = wrapper.instance();
+  instance.pages.forEach((page, index) => {
+    test(`page ${index}`, () => {
+      const div = document.createElement('div');
+      ReactDOM.render(page.render(), div);
     });
   });
 });
@@ -124,21 +113,6 @@ describe('pages validity', () => {
     {
       testName: 'credentials page is invalid when it should be',
       errors: { launchToken: 'blank' },
-      props: { useLaunchToken: true },
-      pageIndex: 0,
-      expectedValidity: false,
-    },
-    {
-      testName: 'credentials page is invalid when it should be',
-      errors: { awsSecrectAccessKey: 'blank' },
-      props: { useLaunchToken: false },
-      pageIndex: 0,
-      expectedValidity: false,
-    },
-    {
-      testName: 'credentials page is invalid when it should be',
-      errors: { awsAccessKeyId: 'blank' },
-      props: { useLaunchToken: false },
       pageIndex: 0,
       expectedValidity: false,
     },

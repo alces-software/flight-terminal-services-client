@@ -9,18 +9,9 @@
 Your Alces Flight Compute HPC cluster "<%= @cluster_name %>" has failed to
 launch.
 
-<% if @show_cloudformation_link %>
-<% if @arn_present %>
-You should visit your cluster's AWS CloudFormation page
-<<%= @cloudformation_url %>> and terminate it.
-<% else %>
-You should visit the AWS CloudFormation console
-<<%= @cloudformation_url %>> and make sure that the cluster is not running.
-<% end %>
-<% end %>
 The error message received is below:
 
-<%= @stderr %>
+<%= error_message(@error) %>
 Please check your settings and try again.  If the problem continues please
 visit our Community Support Portal <http://community.alces-flight.com>.
 

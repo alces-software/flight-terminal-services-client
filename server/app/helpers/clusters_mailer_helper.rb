@@ -18,4 +18,16 @@ module ClustersMailerHelper
     end
     token.value if token.present?
   end
+
+  def error_message(error)
+    case error
+    when ParseLaunchErrorCommand::ClusterNameTaken
+      "The cluster name you have chosen is already in use.  Please choose a " +
+      "different cluster name and try again."
+    when ParseLaunchErrorCommand::LaunchError
+      error.stderr
+    else
+      error
+    end
+  end
 end

@@ -58,18 +58,6 @@ storiesOf('ClusterErrorModal', module)
     />
   ))
 
-  .add('invalid AWS credentials', () => (
-    <ClusterErrorModal
-      show
-      onHide={() => {}}
-      error={{
-        details: {
-          credentials: ['invalid credentials']
-        }
-      }}
-    />
-  ))
-
   .add('bad region', () => (
     <ClusterErrorModal
       show
