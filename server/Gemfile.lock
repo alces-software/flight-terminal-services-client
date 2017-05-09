@@ -26,6 +26,10 @@ GEM
       globalid (>= 0.3.6)
     activemodel (5.0.2)
       activesupport (= 5.0.2)
+    activerecord (5.0.2)
+      activemodel (= 5.0.2)
+      activesupport (= 5.0.2)
+      arel (~> 7.0)
     activesupport (5.0.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
@@ -34,6 +38,7 @@ GEM
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
     alces-tools (0.12.0)
+    arel (7.1.4)
     aws-sdk (2.9.0)
       aws-sdk-resources (= 2.9.0)
     aws-sdk-core (2.9.0)
@@ -78,6 +83,7 @@ GEM
     minitest (5.10.1)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
+    pg (0.20.0)
     public_suffix (2.0.5)
     puma (3.8.2)
     rack (2.0.1)
@@ -121,6 +127,7 @@ DEPENDENCIES
   actionmailer (~> 5.0.2)
   actionpack (~> 5.0.2)
   activemodel (~> 5.0.2)
+  activerecord (~> 5.0.2)
   activesupport (~> 5.0.2)
   alces-tools (~> 0.12.0.a)!
   aws-sdk (~> 2)
@@ -129,6 +136,7 @@ DEPENDENCIES
   foreman
   letter_opener (~> 1.4.1)
   listen (~> 3.0.5)
+  pg
   puma (~> 3.0)
   railties (~> 5.0.2)
   roadie-rails (>= 1.0.5)!
