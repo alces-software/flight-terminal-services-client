@@ -24,8 +24,6 @@ require 'tmpdir'
 #     send an email to that affect.
 #
 class LaunchClusterCommand
-  class UnexpectedError < RuntimeError; end
-
   delegate :stdout, :stderr, to: :@run_fly_cmd
 
   def initialize(launch_config)
@@ -64,12 +62,8 @@ class LaunchClusterCommand
     rescue
       Rails.logger.info "Launch thread raised exception #{$!}"
       Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
-      mark_token_as(:queued)
+      mark_token_as(:available)
       send_failed_email
-      # Raise an exception, so that we will attempt to process this job again.
-      # The error could be a temporary issue such as a network connection
-      # failuer.
-      raise UnexpectedError, $!
     else
       Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
       if @run_fly_cmd.failed?
