@@ -6,7 +6,7 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-class Token
+class LegacyToken
   include ActiveModel::Model
 
   attr_accessor :token_string
