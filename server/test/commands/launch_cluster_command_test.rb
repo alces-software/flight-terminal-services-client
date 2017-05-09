@@ -54,7 +54,7 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
     # A double for the DynamoDB get_item call.
     dynamodb_item = Object.new
     def dynamodb_item.item
-      {'Status' => 'AVAILABLE', 'Token' => 'my-token'}
+      {'Status' => 'QUEUED', 'Token' => 'my-token'}
     end
 
     # The token that we're going mock and stub.
@@ -88,17 +88,11 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
       cluster_launch_config_params[cluster_flavour].merge(spec: cluster_spec)
     )
     @launch_command = LaunchClusterCommand.new(cluster_launch_config)
-    $last_launch_at = 1.minute.ago
 
-    assert_difference "ActionMailer::Base.deliveries.size", +1 do
-      # This should send an "about to launch" email
+    assert_difference "ActionMailer::Base.deliveries.size", +2 do
+      # This should send an "about to launch" email and either a "launched" or
+      # "failed" email.
       @launch_command.perform
-    end
-
-    assert_difference "ActionMailer::Base.deliveries.size", +1 do
-      # This should send either a "launched" or a "failed" email
-      @launch_command.simultaneous_launches_HACK_thread.join
-      @launch_command.launch_thread.join
     end
   end
 
