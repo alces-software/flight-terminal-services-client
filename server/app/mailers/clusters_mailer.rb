@@ -27,19 +27,6 @@ class ClustersMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.clusters_mailer.launching.subject
-  #
-  def launching(launch_config)
-    @cluster_name = launch_config.name
-    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-
-    mail to: launch_config.email,
-      subject: "Your Alces Flight Compute HPC cluster is in taxi for take-off"
-  end
-
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
   #   en.clusters_mailer.launched.subject
   #
   def launched(launch_config, output)

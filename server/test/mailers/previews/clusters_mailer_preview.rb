@@ -9,10 +9,6 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.about_to_launch(runtime_launch_config)
   end
 
-  def launching
-    ClustersMailer.launching(launch_config)
-  end
-
   def launched
     output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
     ClustersMailer.launched(launch_config, output)
