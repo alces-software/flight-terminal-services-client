@@ -39,6 +39,10 @@ class Token
     status == 'AVAILABLE'
   end
 
+  def queued?
+    status == 'QUEUED'
+  end
+
   def can_launch_spec?(spec)
     return false unless token.item.present?
     permitted_keys = token.item['ClusterSpecKeys']

@@ -27,6 +27,8 @@ class ClustersController < ApplicationController
       cluster_launch_config.spec.as_json
     )
 
+    cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
+
     render(
       json: {
         cluster_name: cluster_launch_config.name,

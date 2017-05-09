@@ -42,15 +42,26 @@ class LaunchClusterCommand
     Rails.logger.info("Launching cluster #{@launch_config.name} " +
                       "with spec #{@launch_config.spec.inspect}")
 
-    BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
-      perform
-    @run_fly_cmd = RunFlyLaunchCommand.new(parameter_dir, @launch_config)
+    # Check that the launch config's token is still queued.  This prevents
+    # launching a duplicate cluster should the active job be processed twice,
+    # which is possible with SQS.
+    unless @launch_config.token.queued?
+      Rails.logger.info("Launch config for #{@launch_config.name} invalid. " +
+                        "Not launching. #{@launch_config.errors.details}")
+      return
+    end
 
-    send_about_to_launch_email
     mark_token_as(:in_use)
-    run_launch_command
-  ensure
-    FileUtils.rm_r(parameter_dir, secure: true)
+    begin
+      BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
+        perform
+      @run_fly_cmd = RunFlyLaunchCommand.new(parameter_dir, @launch_config)
+
+      send_about_to_launch_email
+      run_launch_command
+    ensure
+      FileUtils.rm_r(parameter_dir, secure: true)
+    end
   end
 
   def run_launch_command
