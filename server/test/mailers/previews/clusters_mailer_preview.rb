@@ -9,10 +9,6 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.about_to_launch(runtime_launch_config)
   end
 
-  def launching
-    ClustersMailer.launching(launch_config)
-  end
-
   def launched
     output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
     ClustersMailer.launched(launch_config, output)
@@ -25,7 +21,8 @@ class ClustersMailerPreview < ActionMailer::Preview
 
   def failed
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
-    ClustersMailer.failed(launch_config, output, arn)
+    error = ParseLaunchErrorCommand.new(output).perform
+    ClustersMailer.failed(launch_config, error)
   end
 
   private

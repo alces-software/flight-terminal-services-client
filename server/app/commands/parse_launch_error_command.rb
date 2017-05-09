@@ -7,8 +7,7 @@
 #==============================================================================
 
 #
-# Parse the standard error of running `fly cluster launch` and return an
-# exception.
+# Parse the standard error output from running `fly cluster launch`.
 #
 class ParseLaunchErrorCommand
   INVALID_KEY_PAIR = /^Error: Invalid key pair name '([^']*)'/
@@ -17,24 +16,33 @@ class ParseLaunchErrorCommand
   BAD_REGION = /^Error: Bad region: (.*)/
   CLUSTER_NAME_TAKEN = /^Error: AlreadyExistsException:/
 
-  def initialize(std_err)
-    @std_err = std_err
+  class LaunchError < Struct.new(:stderr, :detail); end
+  class InvalidKeyPair < LaunchError; end
+  class InvalidCredentials < LaunchError; end
+  class BadRegion < LaunchError; end
+  class ClusterNameTaken < LaunchError; end
+  class UnexpectedError < LaunchError; end
+
+  def initialize(stderr)
+    @stderr = stderr
   end
 
   def perform
-    Rails.logger.info("Parsing fly standard error #{@std_err.inspect}")
+    Rails.logger.info("Parsing fly standard error #{@stderr.inspect}")
 
-    case @std_err
+    case @stderr
     when INVALID_KEY_PAIR
-      LaunchClusterCommand::InvalidKeyPair.new($1)
+      InvalidKeyPair.new(@stderr, $1)
     when INVALID_ACCESS_KEY, INVALID_SECRET_KEY
-      LaunchClusterCommand::InvalidCredentials.new($1)
+      InvalidCredentials.new(@stderr, nil)
     when BAD_REGION
-      LaunchClusterCommand::BadRegion.new($1)
+      BadRegion.new(@stderr, $1)
     when CLUSTER_NAME_TAKEN
-      LaunchClusterCommand::ClusterNameTaken.new
+      ClusterNameTaken.new(@stderr, nil)
     else
-      LaunchClusterCommand::Unexpected.new(@std_err)
+      UnexpectedError.new(@stderr)
+    end.tap do |err|
+      Rails.logger.debug("Parsed as #{err.class.name} #{err.detail}")
     end
   end
 end

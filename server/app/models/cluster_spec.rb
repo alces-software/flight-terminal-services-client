@@ -15,6 +15,7 @@ require 'open-uri'
 #
 class ClusterSpec
   include ActiveModel::Model
+  include ActiveModel::Serializers::JSON
 
   class Error < RuntimeError ; end
   class UnableToRetrieveClusterSpecs < Error; end
@@ -48,7 +49,10 @@ class ClusterSpec
         args: spec['fly']['args'],
         parameter_directory_overrides: spec['fly']['parameterDirectoryOverrides'],
         key: spec['key'],
-        meta: spec['ui'],
+        meta: {
+          title: spec['ui']['title'],
+          titleLowerCase: spec['ui']['titleLowerCase'],
+        }
       )
     end
   end
@@ -82,6 +86,15 @@ class ClusterSpec
   # The cluster spec key.  Is used to check that the token can launch the
   # cluster spec.
   attr_accessor :key
+
+  def attributes
+    {
+      'args' => nil,
+      'key' => nil,
+      'meta' => nil,
+      'parameter_directory_overrides' => nil,
+    }
+  end
 
   def args
     @args || []

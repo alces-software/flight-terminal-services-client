@@ -12,6 +12,14 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  # config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new(
+  #   min_threads: 1,
+  #   max_threads: 1,
+  #   idletime: 600.seconds
+  # )
+  config.active_job.queue_adapter = :shoryuken
+  config.active_job.queue_name_prefix = ENV['ACTIVE_JOB_QUEUE_NAME_PREFIX']
+
   # Enable/disable caching. By default caching is disabled.
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
@@ -53,7 +61,7 @@ Rails.application.configure do
   config.alces.wait_for_arn_duration = Integer(ENV['WAIT_FOR_ARN_DURATION']) rescue 120
   config.alces.cluster_specs_url_prefix = ENV['CLUSTER_SPECS_URL_PREFIX']
   config.alces.default_key_pair = ENV['DEFAULT_KEY_PAIR']
-  config.alces.default_region = ENV['DEFAULT_REGION']
+  config.alces.default_region = ENV['AWS_REGION']
   config.alces.default_template_set = ENV['DEFAULT_TEMPLATE_SET']
   config.alces.access_key = ENV['AWS_ACCESS_KEY_ID']
   config.alces.secret_key = ENV['AWS_SECRET_ACCESS_KEY']

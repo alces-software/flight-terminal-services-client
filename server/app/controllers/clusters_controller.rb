@@ -20,21 +20,22 @@ class ClustersController < ApplicationController
       return
     end
 
-    launch_command = LaunchClusterCommand.new(cluster_launch_config)
-    begin
-      launch_command.perform
-    rescue LaunchClusterCommand::LaunchError
-      Rails.logger.info("Launching cluster failed: #{$!.message}")
-      render_exception($!)
-    else
-      render(
-        json: {
-          cluster_name: cluster_launch_config.name,
-          email: cluster_launch_config.email,
-        },
-        status: :accepted
-      )
-    end
+    # XXX What errors can be raised here?  Queue connection errors.  Any
+    # others.
+    ClusterLaunchJob.perform_later(
+      cluster_launch_config.as_json,
+      cluster_launch_config.spec.as_json
+    )
+
+    cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
+
+    render(
+      json: {
+        cluster_name: cluster_launch_config.name,
+        email: cluster_launch_config.email,
+      },
+      status: :accepted
+    )
   end
 
   private
@@ -62,36 +63,6 @@ class ClustersController < ApplicationController
     params.require(:clusterLaunch).permit(*permitted_params).tap do |h|
       required_params.each {|p| h.require(p) }
     end
-  end
-
-  def render_exception(exc)
-    case exc
-    when LaunchClusterCommand::InvalidKeyPair
-      details = {
-        key_pair: ['invalid key pair name']
-      }
-    when LaunchClusterCommand::InvalidCredentials
-      # XXX Is this one possible?
-      details = {
-        credentials: ['invalid credentials']
-      }
-    when LaunchClusterCommand::BadRegion
-      details = {
-        region: ['bad region']
-      }
-    when LaunchClusterCommand::ClusterNameTaken
-      details = {
-        cluster_name: ['taken']
-      }
-    else
-      raise exc
-    end
-
-    render status: :unprocessable_entity, json: {
-      status: 422,
-      error: 'Unprocessable Entity',
-      details: details
-    }
   end
 
   def render_build_exception(exc)

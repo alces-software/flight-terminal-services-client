@@ -19,15 +19,6 @@ class ClustersMailerTest < ActionMailer::TestCase
     assert_equal read_fixture('about_to_launch_with_token_and_runtime').join, mail.text_part.body.to_s
   end
 
-  test "launching" do
-    mail = ClustersMailer.launching(launch_config)
-    assert_equal "Your Alces Flight Compute HPC cluster is in taxi for take-off", mail.subject
-    assert_equal [launch_config.email], mail.to
-    assert_equal ["launch@alces-flight.com"], mail.from
-
-    assert_equal read_fixture('launching').join, mail.text_part.body.to_s
-  end
-
   test "launched" do
     output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
 
@@ -41,8 +32,9 @@ class ClustersMailerTest < ActionMailer::TestCase
 
   test "failed" do
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
+    error = ParseLaunchErrorCommand.new(output).perform
 
-    mail = ClustersMailer.failed(launch_config, output)
+    mail = ClustersMailer.failed(launch_config, error)
     assert_equal "Your Alces Flight Compute HPC cluster has failed to launch", mail.subject
     assert_equal [launch_config.email], mail.to
     assert_equal ["launch@alces-flight.com"], mail.from

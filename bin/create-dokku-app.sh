@@ -50,12 +50,14 @@ create_app() {
 configure_app() {
     ssh ${DOKKU_SERVER} \
         "dokku config:set --no-restart ${app} \
+            ACTIVE_JOB_QUEUE_NAME_PREFIX=flight_launch_production \
             ALCES_LOG_WRITER_DEST=stdout \
             AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
             AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
             BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-ruby.git \
             DEFAULT_KEY_PAIR=aws_ireland \
-            DEFAULT_REGION=eu-west-1 \
+            DOKKU_DOCKER_STOP_TIMEOUT=1200 \
+            AWS_REGION=eu-west-1 \
             FLY_DOWNLOAD_URL=$FLY_DOWNLOAD_URL \
             FLY_EXE_PATH=$FLY_EXE_PATH \
             RACK_ENV=production \
@@ -65,6 +67,8 @@ configure_app() {
             SMTP_USERNAME=SMTP_Injection \
             TZ=UTC \
             WAIT_FOR_ARN_DURATION=120 \
+            WORKER_CONCURRENCY=1 \
+            WORKER_DELAY=60 \
             "
 
     ssh ${DOKKU_SERVER} \
