@@ -24,13 +24,7 @@ require 'tmpdir'
 #     send an email to that affect.
 #
 class LaunchClusterCommand
-  class LaunchError < RuntimeError; end
-  class ArnNotAvailable < LaunchError; end
-  class InvalidKeyPair < LaunchError; end
-  class InvalidCredentials < LaunchError; end
-  class BadRegion < LaunchError; end
-  class ClusterNameTaken < LaunchError; end
-  class Unexpected < LaunchError; end
+  class UnexpectedError < RuntimeError; end
 
   delegate :stdout, :stderr, to: :@run_fly_cmd
 
@@ -46,8 +40,8 @@ class LaunchClusterCommand
     # launching a duplicate cluster should the active job be processed twice,
     # which is possible with SQS.
     unless @launch_config.token.queued?
-      Rails.logger.info("Launch config for #{@launch_config.name} invalid. " +
-                        "Not launching. #{@launch_config.errors.details}")
+      Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +
+                        "Current status is #{@launch_config.token.status}")
       return
     end
 
@@ -65,22 +59,23 @@ class LaunchClusterCommand
   end
 
   def run_launch_command
-    # Launch the cluster in the background.  It will take a while and we want
-    # to report back to the user as soon as we can.
     begin
       @run_fly_cmd.perform
     rescue
       Rails.logger.info "Launch thread raised exception #{$!}"
       Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
-      mark_token_as(:available)
+      mark_token_as(:queued)
       send_failed_email
-      raise Unexpected, $!
+      # Raise an exception, so that we will attempt to process this job again.
+      # The error could be a temporary issue such as a network connection
+      # failuer.
+      raise UnexpectedError, $!
     else
       Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
       if @run_fly_cmd.failed?
+        Rails.logger.info("Launch error: #{@run_fly_cmd.stderr}") 
         mark_token_as(:available)
         send_failed_email
-        raise ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
       else
         mark_token_as(:used)
         send_completed_email
@@ -103,14 +98,7 @@ class LaunchClusterCommand
 
   def send_failed_email
     err = ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
-    Rails.logger.info("err: #{err.inspect}")
-    if err.is_a?(LaunchClusterCommand::ClusterNameTaken)
-      err_msg = "The cluster name you have chosen is already in use.  Please choose a different cluster name and try again."
-    else
-      err_msg = @run_fly_cmd.stderr
-    end
-
-    ClustersMailer.failed(@launch_config, err_msg).
+    ClustersMailer.failed(@launch_config, err).
       deliver_now
   rescue
     Rails.logger.info("$!: #{$!.inspect}")

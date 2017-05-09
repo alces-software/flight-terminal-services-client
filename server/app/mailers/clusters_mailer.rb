@@ -65,10 +65,10 @@ class ClustersMailer < ApplicationMailer
   #
   #   en.clusters_mailer.failed.subject
   #
-  def failed(launch_config, stderr)
+  def failed(launch_config, error)
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @stderr = stderr
+    @error = error
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster has failed to launch"

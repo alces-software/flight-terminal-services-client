@@ -16,9 +16,6 @@ class ClusterLaunchJob < ApplicationJob
       launch_config.spec = spec
       launch_command = LaunchClusterCommand.new(launch_config)
       launch_command.perform
-    rescue LaunchClusterCommand::LaunchError
-      Rails.logger.info("Launching cluster failed: #{$!.message}")
-      raise
     rescue
       Rails.logger.info("Launching cluster failed: #{$!.message}")
       raise

@@ -65,36 +65,6 @@ class ClustersController < ApplicationController
     end
   end
 
-  def render_exception(exc)
-    case exc
-    when LaunchClusterCommand::InvalidKeyPair
-      details = {
-        key_pair: ['invalid key pair name']
-      }
-    when LaunchClusterCommand::InvalidCredentials
-      # XXX Is this one possible?
-      details = {
-        credentials: ['invalid credentials']
-      }
-    when LaunchClusterCommand::BadRegion
-      details = {
-        region: ['bad region']
-      }
-    when LaunchClusterCommand::ClusterNameTaken
-      details = {
-        cluster_name: ['taken']
-      }
-    else
-      raise exc
-    end
-
-    render status: :unprocessable_entity, json: {
-      status: 422,
-      error: 'Unprocessable Entity',
-      details: details
-    }
-  end
-
   def render_build_exception(exc)
     case exc
     when ClusterSpec::ClusterSpecNotFound
