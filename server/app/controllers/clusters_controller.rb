@@ -50,9 +50,10 @@ class ClustersController < ApplicationController
   end
 
   def cluster_spec_params
-    params.require(:clusterSpec).permit(:file, :name).tap do |h|
+    params.require(:clusterSpec).permit(:file, :name, :tenantIdentifier).tap do |h|
       h.require(:file)
       h.require(:name)
+      h[:tenant_identifier] = h.delete(:tenantIdentifier) if h.key?(:tenantIdentifier)
     end
   end
 

@@ -26,8 +26,13 @@ class ClusterSpec
     def load(params)
       file = params['file']
       name = params['name']
+      if params['tenant_identifier'].nil?
+        tenant_path = ''
+      else
+        tenant_path = "#{params['tenant_identifier']}/"
+      end
       prefix = Rails.application.config.alces.cluster_specs_url_prefix
-      url = "#{prefix}#{file}"
+      url = "#{prefix}#{tenant_path}#{file}"
 
       begin
         cluster_specs = JSON.parse(open(url).read)['clusterSpecs']

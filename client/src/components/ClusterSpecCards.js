@@ -13,15 +13,17 @@ import { clusterSpecShape } from '../utils/propTypes';
 const propTypes = {
   clusterSpecs: PropTypes.arrayOf(clusterSpecShape).isRequired,
   clusterSpecsFile: PropTypes.string.isRequired,
+  tenantIdentifier: PropTypes.string,
 };
 
-const ClusterSpecCards = ({ clusterSpecs, clusterSpecsFile }) => (
+const ClusterSpecCards = ({ clusterSpecs, clusterSpecsFile, tenantIdentifier }) => (
   <div className="card-deck">
     {
       clusterSpecs.map(clusterSpec => <ClusterSpecCard
         key={clusterSpec.ui.title}
         clusterSpec={clusterSpec}
         clusterSpecsFile={clusterSpecsFile}
+        tenantIdentifier={tenantIdentifier}
       />)
     }
   </div>

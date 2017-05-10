@@ -26,6 +26,7 @@ import Helmet from 'react-helmet';
 import {
   BrowserRouter as Router,
   Route,
+  Switch,
 } from 'react-router-dom';
 
 import AboutPage from './pages/AboutPage';
@@ -85,28 +86,30 @@ class App extends Component {
             <div className="pageContainer">
               <CookieBanner />
               <div>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/about" component={AboutPage} />
-                <Route
-                  path="/privacy"
-                  render={() => <PrivacyPolicyPage
-                    lastUpdated="20th October 2016"
-                    postCookieTableCopy={postCookieTableCopy}
-                    preCookieTableCopy={preCookieTableCopy}
-                  />}
-                />
-                <Route
-                  path="/terms"
-                  render={() => <TermsOfServicePage
-                    copy={termsCopy}
-                    productName={productName}
-                    lastUpdated="20th October 2016"
-                  />}
-                />
-                <Route
-                  path="/security"
-                  render={() => <SecurityPage copy={securityCopy} />}
-                />
+                <Switch>
+                  <Route path="/about" component={AboutPage} />
+                  <Route
+                    path="/privacy"
+                    render={() => <PrivacyPolicyPage
+                      lastUpdated="20th October 2016"
+                      postCookieTableCopy={postCookieTableCopy}
+                      preCookieTableCopy={preCookieTableCopy}
+                    />}
+                  />
+                  <Route
+                    path="/terms"
+                    render={() => <TermsOfServicePage
+                      copy={termsCopy}
+                      productName={productName}
+                      lastUpdated="20th October 2016"
+                    />}
+                  />
+                  <Route
+                    path="/security"
+                    render={() => <SecurityPage copy={securityCopy} />}
+                  />
+                  <Route path="/:tenantIdentifier?" component={HomePage} />
+                </Switch>
               </div>
             </div>
           </div>

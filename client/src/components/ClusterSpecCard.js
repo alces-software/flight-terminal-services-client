@@ -22,6 +22,7 @@ const propTypes = {
   onKeyDown: PropTypes.func,
   showBack: PropTypes.func.isRequired,
   showFront: PropTypes.func.isRequired,
+  tenantIdentifier: PropTypes.string,
 };
 
 const ClusterSpecCard = ({
@@ -31,6 +32,7 @@ const ClusterSpecCard = ({
   onKeyDown,
   showBack,
   showFront,
+  tenantIdentifier,
 }) => (
   <div className="ClusterSpecCard">
     <FlipCard disabled flipped={flipped} onKeyDown={onKeyDown} >
@@ -61,6 +63,7 @@ const ClusterSpecCard = ({
           clusterSpec={clusterSpec}
           clusterSpecsFile={clusterSpecsFile}
           onCancel={showFront}
+          tenantIdentifier={tenantIdentifier}
         />
       </Card>
     </FlipCard>

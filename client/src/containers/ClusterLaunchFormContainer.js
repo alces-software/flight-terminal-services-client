@@ -49,6 +49,7 @@ class ClusterLaunchFormContainer extends React.Component {
     clusterSpec: clusterSpecShape.isRequired,
     clusterSpecsFile: PropTypes.string.isRequired,
     onCancel: PropTypes.func.isRequired,
+    tenantIdentifier: PropTypes.string,
   };
 
   componentDidMount() {
@@ -106,6 +107,7 @@ class ClusterLaunchFormContainer extends React.Component {
         clusterSpec: {
           name: this.props.clusterSpec.ui.title,
           file: this.props.clusterSpecsFile,
+          tenantIdentifier: this.props.tenantIdentifier,
         },
         clusterLaunch: {
           name: this.state.values.clusterName || this.state.values.launchToken,
