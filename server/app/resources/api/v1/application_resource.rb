@@ -5,5 +5,7 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
-class ApplicationController < ActionController::API
+
+class Api::V1::ApplicationResource < JSONAPI::Resource
+  abstract
 end
