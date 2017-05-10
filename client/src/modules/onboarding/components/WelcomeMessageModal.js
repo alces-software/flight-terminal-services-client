@@ -8,7 +8,7 @@
 import React, { PropTypes } from 'react';
 import { StandardModal } from 'flight-common';
 
-import copy from '../copy/welcomeMessageTokenOnly.md';
+import copy from '../copy/welcomeMessage.md';
 
 const propTypes = {
   onHide: PropTypes.func.isRequired,

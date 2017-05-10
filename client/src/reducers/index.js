@@ -5,9 +5,10 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-
 import { combineReducers } from 'redux';
 
+import onboarding from '../modules/onboarding/reducer';
+
 export default combineReducers({
-  placeholder: (state = {}, action) => state
+  onboarding,
 });

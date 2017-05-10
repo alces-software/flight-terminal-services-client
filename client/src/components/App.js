@@ -11,7 +11,6 @@ import {
   CookieBanner,
   Footer,
   Header,
-  NavItemLink,
   PrivacyPolicyPage,
   TermsOfServicePage,
   SecurityPage,
@@ -20,8 +19,6 @@ import termsCopy from 'flight-common/src/copy/terms.md';
 import securityCopy from 'flight-common/src/copy/securityPolicy.md';
 import preCookieTableCopy from 'flight-common/src/copy/privacyPolicyPreCookieTable.md';
 import postCookieTableCopy from 'flight-common/src/copy/privacyPolicyPostCookieTable.md';
-import { Nav, NavItem } from 'react-bootstrap';
-import * as analytics from '../utils/analytics';
 import Helmet from 'react-helmet';
 import {
   BrowserRouter as Router,
@@ -29,39 +26,19 @@ import {
   Switch,
 } from 'react-router-dom';
 
+import * as analytics from '../utils/analytics';
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
-import OnBoardingContainer from '../containers/OnBoardingContainer';
-import Icon from './Icon';
+import OnBoardingContainer from '../modules/onboarding/components/OnBoardingContainer';
+import LeftNav from './nav/LeftNav';
+import RightNav from './nav/RightNav';
 import appVersion from '../version';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
 
-const LeftNav = ({ homePageLink, productName }) => (
-  <Nav>
-    <NavItemLink to={homePageLink} >
-      {productName}
-    </NavItemLink>
-  </Nav>
-);
-
-const RightNav = ({ showWelcomeMessage }) => (
-  <Nav pullRight>
-    <NavItem onClick={showWelcomeMessage} className="showWelcomeButton">
-      <Icon name="info-circle" size="2x" fixedWidth />
-    </NavItem>
-  </Nav>
-);
-
 class App extends Component {
   componentDidMount() {
     analytics.pageView();
-  }
-
-  showWelcomeMessage = () => {
-    if (this.onboardingContainer) {
-      this.onboardingContainer.showWelcomeMessage();
-    }
   }
 
   render() {
@@ -76,12 +53,10 @@ class App extends Component {
             ]}
           />
           <div className="flight sticky-footer-main-content">
-            <OnBoardingContainer
-              ref={(el) => { this.onboardingContainer = el; }}
-            />
+            <OnBoardingContainer />
             <Header homePageLink="/" productName={productName} >
               <LeftNav homePageLink="/" productName={productName} />
-              <RightNav showWelcomeMessage={this.showWelcomeMessage} />
+              <RightNav />
             </Header>
             <div className="pageContainer">
               <CookieBanner />

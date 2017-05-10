@@ -6,14 +6,4 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-import { applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-
-import logger from './logger';
-
-const enhanceWithMiddleware = applyMiddleware(
-  logger,
-  thunk,
-);
-
-export default enhanceWithMiddleware;
+export const WELCOME_MESSAGE_READ = '@launch/onboarding/WELCOME_MESSAGE_READ';
