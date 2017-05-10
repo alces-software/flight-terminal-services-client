@@ -71,19 +71,25 @@ class ClustersController < ApplicationController
       render status: :unprocessable_entity, json: {
         status: 422,
         error: 'Unprocessable Entity',
-        details: "Cluster spec not found"
+        details: {
+          cluster_spec: ["spec not found"],
+        }
       }
     when ClusterSpec::ClusterSpecsNotValid
       render status: :internal_server_error, json: {
         status: 500,
         error: 'Internal Server Error',
-        details: "Cluster specs not valid"
+        details: {
+          cluster_spec: ["spec not valid"],
+        }
       }
     when ClusterSpec::UnableToRetrieveClusterSpecs
       render status: :bad_gateway, json: {
         status: 502,
         error: 'Bad Gateway',
-        details: "Unable to retrieve cluster specs - #{$!.message}"
+        details: {
+          cluster_spec: ["unable to retrieve cluster specs - #{$!.message}"],
+        }
       }
     end
   end
