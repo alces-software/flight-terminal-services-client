@@ -6,6 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React from 'react';
+import 'url-search-params-polyfill';
 
 import ClusterSpecsSection from '../components/ClusterSpecsSection';
 import NoClustersAvailable from '../components/NoClustersAvailable';
@@ -83,11 +84,10 @@ function buildClusterSpecsUrl(relativePath) {
   return `${prefix}${relativePath}`;
 }
 
-// Retrieve the specs URL from window.location, without breaking old browsers.
+// Retrieve the specs file name from window.location.
 //
-//  - Older browsers always use the default URL.
-//  - In a development build, setting the clusterSpecsUrl parameter to `dev`
-//  will use the specs given in `../data/clusterSpecs.dev.json`.
+//  - In a development build, setting the clusterSpecs parameter to `dev` will
+//    use the specs given in `../data/clusterSpecs.dev.json`.
 function getClusterSpecsUrl() {
   const defaultFile = process.env.REACT_APP_DEFAULT_CLUSTER_SPECS_FILE
   const defaultUrl = buildClusterSpecsUrl(defaultFile);
@@ -96,8 +96,7 @@ function getClusterSpecsUrl() {
   // Get the clusterSpecs urlParam without breaking in older browsers.  Older
   // browsers use the defaultUrl.
   if (URL == null) { return defaultReturn; }
-  const urlParams = new URL(window.location).searchParams;
-  if (urlParams == null || urlParams.get == null) { return defaultReturn; }
+  const urlParams = new URLSearchParams(window.location.search);
   const file = urlParams.get('clusterSpecs');
 
   if (file == null) { return defaultReturn ; }
