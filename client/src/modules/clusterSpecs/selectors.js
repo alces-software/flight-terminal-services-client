@@ -5,12 +5,14 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { combineReducers } from 'redux';
 
-import clusterSpecs from '../modules/clusterSpecs';
-import onboarding from '../modules/onboarding';
+import { NAME } from './constants';
 
-export default combineReducers({
-  [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
-  [onboarding.constants.NAME]: onboarding.reducer,
-});
+export function getAll(state) {
+  const clusterSpecsState = state[NAME];
+  return {
+    ...clusterSpecsState,
+    clusterSpecs: clusterSpecsState.specs,
+    clusterSpecsFile: clusterSpecsState.file,
+  }
+}

@@ -5,12 +5,7 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { combineReducers } from 'redux';
 
-import clusterSpecs from '../modules/clusterSpecs';
-import onboarding from '../modules/onboarding';
-
-export default combineReducers({
-  [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
-  [onboarding.constants.NAME]: onboarding.reducer,
-});
+export const LOADING = '@launch/clusterSpecs/LOADING';
+export const LOADED = '@launch/clusterSpecs/LOADED';
+export const FAILED = '@launch/clusterSpecs/FAILED';

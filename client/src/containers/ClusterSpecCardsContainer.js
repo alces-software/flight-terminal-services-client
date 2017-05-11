@@ -7,77 +7,14 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 import 'url-search-params-polyfill';
+import { connect } from 'react-redux';
 
 import ClusterSpecsSection from '../components/ClusterSpecsSection';
 import NoClustersAvailable from '../components/NoClustersAvailable';
 import ClusterSpecCards from '../components/ClusterSpecCards';
 import { DelaySpinner } from '../components/delayedUntil';
-
-let devClusterSpecs;
-if (process.env.NODE_ENV === 'development') {
-  devClusterSpecs = require('../data/clusterSpecs.dev.json');
-}
-
-function buildSchedulersMap(schedulers) {
-  const map = {};
-  schedulers.forEach(scheduler => {
-    map[scheduler.type] = scheduler;
-  });
-  return map;
-}
-
-function findRuntimeLimit(clusterSpec) {
-  const flyArgs = clusterSpec.fly.args;
-  const runtimeIndex = flyArgs.indexOf('--runtime');
-  if (runtimeIndex === -1) { return; }
-
-  const runtimeInMinutes = Number.parseInt(flyArgs[runtimeIndex + 1], 10);
-  if (Number.isNaN(runtimeInMinutes)) { return; }
-
-  let value;
-  let unit;
-  if (runtimeInMinutes < 60) {
-    value = runtimeInMinutes;
-    unit = 'minute';
-  } else if (runtimeInMinutes < 60*24) {
-    value = Math.round(runtimeInMinutes/60)
-    unit = 'hour'
-  } else {
-    value = Math.round(runtimeInMinutes/(60*24))
-    unit = 'day'
-  }
-
-  return `${value} ${unit}${value !== 1 ? 's' : ''}`;
-}
-
-function processClusterSpecs(clusterSpecs) {
-  const schedulerSpecs = buildSchedulersMap(clusterSpecs.schedulers);
-
-  return clusterSpecs.clusterSpecs.map(clusterSpec => {
-    const overridesMap = clusterSpec.fly.parameterDirectoryOverrides || {};
-    const overrides = Object.keys(overridesMap).map(key => overridesMap[key]);
-
-    const autoscaling = overrides.some(o => o.AutoscalingPolicy === 'enabled');
-    const preloadSoftware = (overrides.find(o => o.PreloadSoftware != null) || {} ).PreloadSoftware;
-    const usesSpot = overrides.some(o => o.ComputeSpotPrice != null && o.ComputeSpotPrice !== '0');
-    const spotPrice = overrides.find(o => o.ComputeSpotPrice != null || {}).ComputeSpotPrice;
-    const schedulerType = (overrides.find(o => o.SchedulerType != null) || {}).SchedulerType;
-    const runtime = findRuntimeLimit(clusterSpec);
-
-    return {
-      ...clusterSpec,
-      ui: {
-        autoscaling,
-        preloadSoftware,
-        runtime,
-        spotPrice,
-        usesSpot,
-        scheduler: schedulerSpecs[schedulerType],
-        ...clusterSpec.ui,
-      }
-    };
-  });
-}
+import clusterSpecs from '../modules/clusterSpecs';
+import { clusterSpecShape } from '../utils/propTypes';
 
 function buildClusterSpecsUrl(relativePath, tenantIdentifier) {
   let tenantPath;
@@ -110,9 +47,14 @@ function getClusterSpecsUrl(location, tenantIdentifier) {
   return { file: file, url: buildClusterSpecsUrl(file, tenantIdentifier) };
 }
 
-export default class ClusterSpecCardsContainer extends React.Component {
+class ClusterSpecCardsContainer extends React.Component {
 
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    clusterSpecs: PropTypes.arrayOf(clusterSpecShape),
+    clusterSpecsFile: PropTypes.string,
+    error: PropTypes.any,
+    loading: PropTypes.bool.isRequired,
     location: PropTypes.shape({
       search: PropTypes.string,
     }).isRequired,
@@ -123,64 +65,15 @@ export default class ClusterSpecCardsContainer extends React.Component {
     }).isRequired,
   };
 
-  state = {
-    clusterSpecs: null,
-    clusterSpecsFile: null,
-    error: null,
-    loading: true,
-  };
-
   componentDidMount() {
     const tenantIdentifier = this.props.match.params.tenantIdentifier;
     const specsUrl = getClusterSpecsUrl(this.props.location, tenantIdentifier);
 
-    if (process.env.NODE_ENV === 'development' && specsUrl.file === 'dev') {
-      this.setDevSpecs();
-    } else {
-      this.loadSpecs(specsUrl);
-    }
-  }
-
-  setDevSpecs() {
-    setTimeout(() => {
-      this.setState({
-        loading: false,
-        error: false,
-        clusterSpecs: processClusterSpecs(devClusterSpecs),
-        clusterSpecsFile: 'dev',
-      });
-    }, 500);
-  }
-
-  loadSpecs(specsUrl) {
-    fetch(specsUrl.url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return Promise.reject({ error: 'Unable to load cluster definitions' });
-        }
-      })
-      .then((specs) => {
-        this.setState({
-          loading: false,
-          error: false,
-          clusterSpecs: processClusterSpecs(specs),
-          clusterSpecsFile: specsUrl.file,
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          loading: false,
-          error: error,
-          clusterSpecs: null,
-          clusterSpecsFile: null,
-        });
-      });
+    this.props.dispatch(clusterSpecs.actions.initialize(specsUrl, tenantIdentifier));
   }
 
   renderSectionContent() {
-    const { loading, error, clusterSpecs, clusterSpecsFile } = this.state;
+    const { loading, error, clusterSpecs, clusterSpecsFile } = this.props;
 
     if (loading) {
       return <DelaySpinner />;
@@ -205,3 +98,7 @@ export default class ClusterSpecCardsContainer extends React.Component {
     );
   }
 }
+
+const mapStateToProps = clusterSpecs.selectors.getAll;
+
+export default connect(mapStateToProps)(ClusterSpecCardsContainer);
