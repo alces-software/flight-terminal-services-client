@@ -9,13 +9,13 @@
 import { WELCOME_MESSAGE_READ } from './actionTypes';
 
 const initialState = {
-  welcomeMessageRead: false,
+  isWelcomeMessageRead: false,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case WELCOME_MESSAGE_READ:
-      return { ...state, welcomeMessageRead: action.payload };
+      return { ...state, isWelcomeMessageRead: action.payload };
 
     default:
       return state;

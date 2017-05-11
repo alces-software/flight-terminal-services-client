@@ -12,9 +12,9 @@ import * as actions from '../actions';
 import { NAME } from '../constants';
 import WelcomeMessageModal from './WelcomeMessageModal';
 
-const OnBoardingContainer = ({setWelcomeMessageRead, welcomeMessageRead}) => (
+const OnBoardingContainer = ({setWelcomeMessageRead, isWelcomeMessageRead}) => (
   <WelcomeMessageModal
-    show={!welcomeMessageRead}
+    show={!isWelcomeMessageRead}
     onHide={setWelcomeMessageRead}
   />
 );
