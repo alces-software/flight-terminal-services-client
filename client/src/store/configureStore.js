@@ -6,10 +6,12 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createStore, compose } from 'redux';
+import throttle from 'lodash/throttle';
 
 import rootReducer from '../reducers';
 import enhanceWithMiddleware from '../middleware';
-import { loadState } from '../utils/persistence';
+import { loadState, saveState } from '../utils/persistence';
+import onboarding from '../modules/onboarding';
 
 const storeEnhancers = [
   enhanceWithMiddleware,
@@ -30,6 +32,13 @@ export default function configureStore() {
       store.replaceReducer(nextRootReducer);
     });
   }
+
+  store.subscribe(throttle(() => {
+    const state = store.getState();
+    saveState({
+      [onboarding.constants.NAME]: onboarding.selectors.localSavedState(state),
+    });
+  }, 1000));
 
   return store;
 }

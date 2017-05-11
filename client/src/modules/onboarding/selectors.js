@@ -5,18 +5,11 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { WELCOME_MESSAGE_READ } from './actionTypes';
 
-export function setWelcomeMessageRead() {
-  return {
-    type: WELCOME_MESSAGE_READ,
-    payload: true,
-  };
-}
+import { NAME } from './constants';
 
-export function showWelcomeMessage() {
+export function localSavedState(state) {
   return {
-    type: WELCOME_MESSAGE_READ,
-    payload: false,
+    isWelcomeMessageRead: state[NAME].isWelcomeMessageRead,
   };
 }
