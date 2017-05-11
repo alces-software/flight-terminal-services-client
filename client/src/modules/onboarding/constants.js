@@ -5,10 +5,5 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { combineReducers } from 'redux';
 
-import onboarding from '../modules/onboarding';
-
-export default combineReducers({
-  [onboarding.constants.NAME]: onboarding.reducer,
-});
+export const NAME = 'onboarding';

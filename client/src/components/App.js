@@ -29,12 +29,13 @@ import {
 import * as analytics from '../utils/analytics';
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
-import OnBoardingContainer from '../modules/onboarding/components/OnBoardingContainer';
+import onboarding from '../modules/onboarding';
 import LeftNav from './nav/LeftNav';
 import RightNav from './nav/RightNav';
 import appVersion from '../version';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
+const OnBoardingContainer = onboarding.components.OnBoardingContainer;
 
 class App extends Component {
   componentDidMount() {

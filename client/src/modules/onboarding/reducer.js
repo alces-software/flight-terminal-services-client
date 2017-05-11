@@ -6,9 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-import {
-  WELCOME_MESSAGE_READ,
-} from './actionTypes';
+import { WELCOME_MESSAGE_READ } from './actionTypes';
 
 const initialState = {
   welcomeMessageRead: false,

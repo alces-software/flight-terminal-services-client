@@ -6,9 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { saveState } from '../../utils/persistence';
-import {
-  WELCOME_MESSAGE_READ,
-} from './actionTypes';
+import { WELCOME_MESSAGE_READ } from './actionTypes';
 
 // XXX Move this elsewhere.
 function persistingState(action) {
