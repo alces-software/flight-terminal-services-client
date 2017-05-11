@@ -10,7 +10,7 @@ import { LOADING, LOADED, FAILED } from './actionTypes';
 
 let devClusterSpecs;
 if (process.env.NODE_ENV === 'development') {
-  devClusterSpecs = require('../../data/clusterSpecs.dev.json');
+  devClusterSpecs = require('./data/clusterSpecs.dev.json');
 }
 
 function setDevSpecs() {
