@@ -51,8 +51,16 @@ class ClusterSpecCardsContainer extends React.Component {
   componentDidMount() {
     const tenantIdentifier = this.props.match.params.tenantIdentifier;
     const specsFile = getClusterSpecsFile(this.props.location);
-
     this.props.dispatch(loadClusterSpecs(specsFile, tenantIdentifier));
+  }
+
+  componentWillUpdate(nextProps) {
+    const nextTenantIdentifier = nextProps.match.params.tenantIdentifier;
+    const prevTenantIdentifier = this.props.match.params.tenantIdentifier;
+    if (nextTenantIdentifier !== prevTenantIdentifier) {
+      const specsFile = getClusterSpecsFile(this.props.location);
+      this.props.dispatch(loadClusterSpecs(specsFile, nextTenantIdentifier));
+    }
   }
 
   renderSectionContent() {
