@@ -8,11 +8,12 @@
 import React, { PropTypes } from 'react';
 import FlipCard from 'react-flipcard';
 
-import Card from './Card';
+import Card from '../../../components/Card';
+import ClusterLaunchFormContainer from '../../../containers/ClusterLaunchFormContainer';
+
+import { clusterSpecShape } from '../propTypes';
 import FooterIcons from './ClusterSpecCardFooterIcons';
-import ClusterLaunchFormContainer from '../containers/ClusterLaunchFormContainer';
 import CardOverlay from './ClusterSpecCardOverlay';
-import { clusterSpecShape } from '../utils/propTypes';
 import '../styles/ClusterSpecCard.scss';
 
 const propTypes = {

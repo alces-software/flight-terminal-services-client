@@ -7,8 +7,9 @@
  *===========================================================================*/
 import React from 'react';
 
-import Card from './Card';
-import { clusterSpecCostShape } from '../utils/propTypes';
+import Card from '../../../components/Card';
+
+import { clusterSpecCostShape } from '../propTypes';
 
 const propTypes = {
   costs: clusterSpecCostShape,

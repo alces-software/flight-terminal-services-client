@@ -7,8 +7,8 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 
-import ClusterSpecCard from '../containers/ClusterSpecCardContainer';
-import { clusterSpecShape } from '../utils/propTypes';
+import ClusterSpecCard from './ClusterSpecCardContainer';
+import { clusterSpecShape } from '../propTypes';
 
 const propTypes = {
   clusterSpecs: PropTypes.arrayOf(clusterSpecShape).isRequired,

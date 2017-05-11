@@ -82,7 +82,7 @@ function loadSpecs(specsUrl) {
   };
 }
 
-function loadClusterSpecs(specsUrl) {
+export function loadClusterSpecs(specsUrl) {
     if (process.env.NODE_ENV === 'test') {
       return setDevSpecs();
     } else if (process.env.NODE_ENV === 'development' && specsFile === 'dev') {
@@ -90,12 +90,4 @@ function loadClusterSpecs(specsUrl) {
     } else {
       return loadSpecs(specsUrl);
     }
-}
-
-// Run the initialization process for the client app.
-//
-// When this process has completed, we will have downloaded the initial state
-// and be displaying an appropriate page.
-export function initialize(specsUrl, tenantIdentifier) {
-  return loadClusterSpecs(specsUrl);
 }

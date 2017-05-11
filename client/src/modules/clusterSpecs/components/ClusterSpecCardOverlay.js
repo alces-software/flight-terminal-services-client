@@ -9,7 +9,7 @@ import React, { PropTypes } from 'react';
 import { Icon } from 'flight-common';
 import { Button } from 'react-bootstrap';
 
-import TooltipTrigger from './TooltipTrigger';
+import TooltipTrigger from '../../../components/TooltipTrigger';
 
 const ClusterSpecCardOverlay = ({ showLaunchForm }) => (
   <div className="flight-ClusterSpecCardOverlay">

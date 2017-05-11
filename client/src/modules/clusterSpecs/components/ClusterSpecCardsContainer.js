@@ -9,12 +9,14 @@ import React, { PropTypes } from 'react';
 import 'url-search-params-polyfill';
 import { connect } from 'react-redux';
 
-import ClusterSpecsSection from '../components/ClusterSpecsSection';
-import NoClustersAvailable from '../components/NoClustersAvailable';
-import ClusterSpecCards from '../components/ClusterSpecCards';
-import { DelaySpinner } from '../components/delayedUntil';
-import clusterSpecs from '../modules/clusterSpecs';
-import { clusterSpecShape } from '../utils/propTypes';
+import { DelaySpinner } from '../../../components/delayedUntil';
+
+import ClusterSpecsSection from './ClusterSpecsSection';
+import NoClustersAvailable from './NoClustersAvailable';
+import ClusterSpecCards from './ClusterSpecCards';
+import { clusterSpecShape } from '../propTypes';
+import { loadClusterSpecs } from '../actions';
+import { getAll } from '../selectors';
 
 function buildClusterSpecsUrl(relativePath, tenantIdentifier) {
   let tenantPath;
@@ -69,7 +71,7 @@ class ClusterSpecCardsContainer extends React.Component {
     const tenantIdentifier = this.props.match.params.tenantIdentifier;
     const specsUrl = getClusterSpecsUrl(this.props.location, tenantIdentifier);
 
-    this.props.dispatch(clusterSpecs.actions.initialize(specsUrl, tenantIdentifier));
+    this.props.dispatch(loadClusterSpecs(specsUrl));
   }
 
   renderSectionContent() {
@@ -99,6 +101,4 @@ class ClusterSpecCardsContainer extends React.Component {
   }
 }
 
-const mapStateToProps = clusterSpecs.selectors.getAll;
-
-export default connect(mapStateToProps)(ClusterSpecCardsContainer);
+export default connect(getAll)(ClusterSpecCardsContainer);

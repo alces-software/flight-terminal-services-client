@@ -7,7 +7,8 @@
  *===========================================================================*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ClusterSpecCardContainer from './ClusterSpecCardContainer';
+
+import ClusterSpecCard from './ClusterSpecCard';
 
 const clusterSpec = {
   ui: {
@@ -26,12 +27,31 @@ const clusterSpec = {
   },
 };
 
-it('renders without crashing', () => {
+const commonProps = {
+  clusterSpecsFile: "dev",
+  onCancel: () => {},
+  showBack: () => {},
+  showFront: () => {},
+}
+
+it('renders without crashing (flipped)', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <ClusterSpecCardContainer
-      clusterSpecsFile="dev"
+    <ClusterSpecCard
       clusterSpec={clusterSpec}
+      {...commonProps}
+      flipped
+    />,
+    div);
+});
+
+it('renders without crashing (not flipped)', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(
+    <ClusterSpecCard
+      clusterSpec={clusterSpec}
+      {...commonProps}
+      flipped={false}
     />,
     div);
 });
