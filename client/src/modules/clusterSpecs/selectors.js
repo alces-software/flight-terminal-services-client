@@ -8,11 +8,23 @@
 
 import { NAME } from './constants';
 
-export function getAll(state) {
-  const clusterSpecsState = state[NAME];
+export function clusterSpecs(state) {
+  return state[NAME].specs;
+}
+
+export function tenantIdentifier(state) {
+  return state[NAME].tenantIdentifier;
+}
+
+export function clusterSpecsFile(state) {
+  return state[NAME].file;
+}
+
+export function specsAndLoading(state) {
+  const s = state[NAME];
   return {
-    ...clusterSpecsState,
-    clusterSpecs: clusterSpecsState.specs,
-    clusterSpecsFile: clusterSpecsState.file,
-  }
+    clusterSpecs: clusterSpecs(state),
+    error: s.error,
+    loading: s.loading,
+  };
 }

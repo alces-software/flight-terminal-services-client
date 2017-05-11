@@ -5,13 +5,16 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
 import FlipCard from 'react-flipcard';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import Card from '../../../components/Card';
 import ClusterLaunchFormContainer from '../../../containers/ClusterLaunchFormContainer';
 
 import { clusterSpecShape } from '../propTypes';
+import { clusterSpecsFile, tenantIdentifier } from '../selectors';
 import FooterIcons from './ClusterSpecCardFooterIcons';
 import CardOverlay from './ClusterSpecCardOverlay';
 import '../styles/ClusterSpecCard.scss';
@@ -73,4 +76,9 @@ const ClusterSpecCard = ({
 
 ClusterSpecCard.propTypes = propTypes;
 
-export default ClusterSpecCard;
+const mapStateToProps = createStructuredSelector({
+  clusterSpecsFile,
+  tenantIdentifier,
+});
+
+export default connect(mapStateToProps)(ClusterSpecCard);

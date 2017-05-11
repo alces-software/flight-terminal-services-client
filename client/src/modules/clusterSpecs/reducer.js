@@ -10,11 +10,12 @@ import { LOADING, LOADED, FAILED } from './actionTypes';
 import { processClusterSpecs } from './processClusterSpecs';
 
 const initialState = {
-  specs: undefined,
-  file: undefined,
-  url: undefined,
   error: undefined,
+  file: undefined,
   loading: true,
+  specs: undefined,
+  tenantIdentifier: undefined,
+  url: undefined,
 };
 
 export default function reducer(state = initialState, { payload, type }) {
@@ -23,10 +24,11 @@ export default function reducer(state = initialState, { payload, type }) {
     case LOADING:
       return {
         ...state,
-        file: payload.file,
-        url: payload.url,
         error: false,
+        file: payload.file,
         loading: true,
+        tenantIdentifier: payload.tenantIdentifier,
+        url: payload.url,
       };
 
     case LOADED:

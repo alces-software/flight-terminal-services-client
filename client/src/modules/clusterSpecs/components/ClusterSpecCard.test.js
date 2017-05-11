@@ -7,6 +7,8 @@
  *===========================================================================*/
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
 import ClusterSpecCard from './ClusterSpecCard';
 
@@ -27,8 +29,14 @@ const clusterSpec = {
   },
 };
 
+const initialState = {
+  clusterSpecs: {
+    file: 'test',
+  },
+};
+const store = configureMockStore()(initialState);
+
 const commonProps = {
-  clusterSpecsFile: "dev",
   onCancel: () => {},
   showBack: () => {},
   showFront: () => {},
@@ -37,21 +45,25 @@ const commonProps = {
 it('renders without crashing (flipped)', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <ClusterSpecCard
-      clusterSpec={clusterSpec}
-      {...commonProps}
-      flipped
-    />,
+    <Provider store={store}>
+      <ClusterSpecCard
+        clusterSpec={clusterSpec}
+        {...commonProps}
+        flipped
+      />
+    </Provider>,
     div);
 });
 
 it('renders without crashing (not flipped)', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <ClusterSpecCard
-      clusterSpec={clusterSpec}
-      {...commonProps}
-      flipped={false}
-    />,
+    <Provider store={store}>
+      <ClusterSpecCard
+        clusterSpec={clusterSpec}
+        {...commonProps}
+        flipped={false}
+      />
+    </Provider>,
     div);
 });

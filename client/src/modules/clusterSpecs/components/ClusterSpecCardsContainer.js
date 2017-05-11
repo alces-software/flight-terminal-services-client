@@ -16,37 +16,19 @@ import NoClustersAvailable from './NoClustersAvailable';
 import ClusterSpecCards from './ClusterSpecCards';
 import { clusterSpecShape } from '../propTypes';
 import { loadClusterSpecs } from '../actions';
-import { getAll } from '../selectors';
-
-function buildClusterSpecsUrl(relativePath, tenantIdentifier) {
-  let tenantPath;
-  if (tenantIdentifier == null) {
-    tenantPath = "";
-  } else {
-    tenantPath = `${tenantIdentifier}/`;
-  }
-  const prefix = process.env.REACT_APP_CLUSTER_SPECS_URL_PREFIX;
-  return `${prefix}${tenantPath}${relativePath}`;
-}
+import { specsAndLoading } from '../selectors';
 
 // Retrieve the specs file name from window.location.
 //
 //  - In a development build, setting the clusterSpecs parameter to `dev` will
 //    use the specs given in `../data/clusterSpecs.dev.json`.
-function getClusterSpecsUrl(location, tenantIdentifier) {
+function getClusterSpecsFile(location) {
   const defaultFile = process.env.REACT_APP_DEFAULT_CLUSTER_SPECS_FILE
-  const defaultUrl = buildClusterSpecsUrl(defaultFile, tenantIdentifier);
-  const defaultReturn = { file: defaultFile, url: defaultUrl };
-
-  // Get the clusterSpecs urlParam without breaking in older browsers.  Older
-  // browsers use the defaultUrl.
-  if (URL == null) { return defaultReturn; }
   const urlParams = new URLSearchParams(location.search);
   const file = urlParams.get('clusterSpecs');
 
-  if (file == null) { return defaultReturn ; }
-  if (file === 'dev') { return { file: 'dev', url: 'dev' }; }
-  return { file: file, url: buildClusterSpecsUrl(file, tenantIdentifier) };
+  if (file == null) { return defaultFile; }
+  return file;
 }
 
 class ClusterSpecCardsContainer extends React.Component {
@@ -54,7 +36,6 @@ class ClusterSpecCardsContainer extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     clusterSpecs: PropTypes.arrayOf(clusterSpecShape),
-    clusterSpecsFile: PropTypes.string,
     error: PropTypes.any,
     loading: PropTypes.bool.isRequired,
     location: PropTypes.shape({
@@ -69,13 +50,13 @@ class ClusterSpecCardsContainer extends React.Component {
 
   componentDidMount() {
     const tenantIdentifier = this.props.match.params.tenantIdentifier;
-    const specsUrl = getClusterSpecsUrl(this.props.location, tenantIdentifier);
+    const specsFile = getClusterSpecsFile(this.props.location);
 
-    this.props.dispatch(loadClusterSpecs(specsUrl));
+    this.props.dispatch(loadClusterSpecs(specsFile, tenantIdentifier));
   }
 
   renderSectionContent() {
-    const { loading, error, clusterSpecs, clusterSpecsFile } = this.props;
+    const { loading, error, clusterSpecs } = this.props;
 
     if (loading) {
       return <DelaySpinner />;
@@ -84,11 +65,7 @@ class ClusterSpecCardsContainer extends React.Component {
     } else if (clusterSpecs && clusterSpecs.length < 1) {
       return <NoClustersAvailable />;
     } else {
-      return <ClusterSpecCards
-        clusterSpecs={clusterSpecs}
-        clusterSpecsFile={clusterSpecsFile}
-        tenantIdentifier={this.props.match.params.tenantIdentifier}
-      />
+      return <ClusterSpecCards clusterSpecs={clusterSpecs} />;
     }
   }
 
@@ -101,4 +78,4 @@ class ClusterSpecCardsContainer extends React.Component {
   }
 }
 
-export default connect(getAll)(ClusterSpecCardsContainer);
+export default connect(specsAndLoading)(ClusterSpecCardsContainer);
