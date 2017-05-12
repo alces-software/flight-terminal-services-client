@@ -12,8 +12,8 @@ import thunk from 'redux-thunk';
 import logger from './logger';
 
 const enhanceWithMiddleware = applyMiddleware(
-  logger,
   thunk,
+  logger,
 );
 
 export default enhanceWithMiddleware;

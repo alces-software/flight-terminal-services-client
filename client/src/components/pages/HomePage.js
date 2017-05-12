@@ -7,9 +7,11 @@
  *===========================================================================*/
 import React from 'react';
 
-import ClusterSpecCards from '../../containers/ClusterSpecCardsContainer';
 import Blurb from '../Blurb';
 import Tagline from '../Tagline';
+import clusterSpecs from '../../modules/clusterSpecs';
+
+const ClusterSpecCards = clusterSpecs.components.ClusterSpecCardsContainer;
 
 const HomePage = ({ location, match }) => (
   <div>

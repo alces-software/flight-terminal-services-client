@@ -5,12 +5,10 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { combineReducers } from 'redux';
 
-import clusterSpecs from '../modules/clusterSpecs';
-import onboarding from '../modules/onboarding';
+// Add publicly exported components here and to the export below.
+// Any components which are intended to only be used internally to the
+// onboarding module should not be included here.
+import ClusterSpecCardsContainer from './ClusterSpecCardsContainer';
 
-export default combineReducers({
-  [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
-  [onboarding.constants.NAME]: onboarding.reducer,
-});
+export { ClusterSpecCardsContainer };

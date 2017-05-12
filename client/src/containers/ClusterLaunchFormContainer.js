@@ -8,7 +8,7 @@
 import React, { PropTypes } from 'react';
 import validatorUtils from 'validator';
 
-import { clusterSpecShape } from '../utils/propTypes';
+import { clusterSpecShape } from '../modules/clusterSpecs/propTypes';
 import ClusterLaunchForm from '../components/ClusterLaunchForm';
 import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 import ClusterErrorModal from '../components/ClusterErrorModal';

@@ -5,7 +5,8 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import '../styles/main.scss';
 import {
   CookieBanner,
@@ -20,11 +21,8 @@ import securityCopy from 'flight-common/src/copy/securityPolicy.md';
 import preCookieTableCopy from 'flight-common/src/copy/privacyPolicyPreCookieTable.md';
 import postCookieTableCopy from 'flight-common/src/copy/privacyPolicyPostCookieTable.md';
 import Helmet from 'react-helmet';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
 import * as analytics from '../utils/analytics';
 import AboutPage from './pages/AboutPage';
@@ -33,16 +31,24 @@ import onboarding from '../modules/onboarding';
 import LeftNav from './nav/LeftNav';
 import RightNav from './nav/RightNav';
 import appVersion from '../version';
+import clusterSpecs from '../modules/clusterSpecs';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
 const OnBoardingContainer = onboarding.components.OnBoardingContainer;
 
 class App extends Component {
+  static propTypes = {
+    tenantIdentifier: PropTypes.string,
+  };
+
   componentDidMount() {
     analytics.pageView();
   }
 
   render() {
+    const tenantIdentifier = this.props.tenantIdentifier;
+    const homePageLink=`/${tenantIdentifier == null ? '' : tenantIdentifier}`;
+
     return (
       <Router>
         <div className="sticky-footer-wrapper">
@@ -55,8 +61,8 @@ class App extends Component {
           />
           <div className="flight sticky-footer-main-content">
             <OnBoardingContainer />
-            <Header homePageLink="/" productName={productName} >
-              <LeftNav homePageLink="/" productName={productName} />
+            <Header homePageLink={homePageLink} productName={productName} >
+              <LeftNav homePageLink={homePageLink} productName={productName} />
               <RightNav />
             </Header>
             <div className="pageContainer">
@@ -105,4 +111,6 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(createStructuredSelector({
+  tenantIdentifier: clusterSpecs.selectors.tenantIdentifier,
+}))(App);

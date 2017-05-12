@@ -7,13 +7,13 @@
  *===========================================================================*/
 import React from 'react';
 
-import Card from './Card';
-import ClusterSpecCostFooterIcon from './ClusterSpecCostFooterIcon';
-import { clusterSpecShape } from '../utils/propTypes';
+import Card from '../../../components/Card';
+import autoScalingIcon from '../../../icons/Compute_AmazonEC2_AutoScaling.png';
+import depotToIcon from '../../../utils/depotToIcon';
+import spotInstanceIcon from '../../../icons/Compute_AmazonEC2_Spotinstance.png'
 
-import autoScalingIcon from '../icons/Compute_AmazonEC2_AutoScaling.png';
-import spotInstanceIcon from '../icons/Compute_AmazonEC2_Spotinstance.png'
-import depotToIcon from '../utils/depotToIcon';
+import { clusterSpecShape } from '../propTypes';
+import ClusterSpecCostFooterIcon from './ClusterSpecCostFooterIcon';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
