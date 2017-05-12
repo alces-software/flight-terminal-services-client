@@ -5,7 +5,7 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React from 'react';
+import React, { PropTypes } from 'react';
 import 'url-search-params-polyfill';
 
 import ClusterSpecsSection from '../components/ClusterSpecsSection';
@@ -79,32 +79,49 @@ function processClusterSpecs(clusterSpecs) {
   });
 }
 
-function buildClusterSpecsUrl(relativePath) {
+function buildClusterSpecsUrl(relativePath, tenantIdentifier) {
+  let tenantPath;
+  if (tenantIdentifier == null) {
+    tenantPath = "";
+  } else {
+    tenantPath = `${tenantIdentifier}/`;
+  }
   const prefix = process.env.REACT_APP_CLUSTER_SPECS_URL_PREFIX;
-  return `${prefix}${relativePath}`;
+  return `${prefix}${tenantPath}${relativePath}`;
 }
 
 // Retrieve the specs file name from window.location.
 //
 //  - In a development build, setting the clusterSpecs parameter to `dev` will
 //    use the specs given in `../data/clusterSpecs.dev.json`.
-function getClusterSpecsUrl() {
+function getClusterSpecsUrl(location, tenantIdentifier) {
   const defaultFile = process.env.REACT_APP_DEFAULT_CLUSTER_SPECS_FILE
-  const defaultUrl = buildClusterSpecsUrl(defaultFile);
+  const defaultUrl = buildClusterSpecsUrl(defaultFile, tenantIdentifier);
   const defaultReturn = { file: defaultFile, url: defaultUrl };
 
   // Get the clusterSpecs urlParam without breaking in older browsers.  Older
   // browsers use the defaultUrl.
   if (URL == null) { return defaultReturn; }
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(location.search);
   const file = urlParams.get('clusterSpecs');
 
   if (file == null) { return defaultReturn ; }
   if (file === 'dev') { return { file: 'dev', url: 'dev' }; }
-  return { file: file, url: buildClusterSpecsUrl(file) };
+  return { file: file, url: buildClusterSpecsUrl(file, tenantIdentifier) };
 }
 
 export default class ClusterSpecCardsContainer extends React.Component {
+
+  static propTypes = {
+    location: PropTypes.shape({
+      search: PropTypes.string,
+    }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        tenantIdentifier: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
+  };
 
   state = {
     clusterSpecs: null,
@@ -114,7 +131,8 @@ export default class ClusterSpecCardsContainer extends React.Component {
   };
 
   componentDidMount() {
-    const specsUrl = getClusterSpecsUrl();
+    const tenantIdentifier = this.props.match.params.tenantIdentifier;
+    const specsUrl = getClusterSpecsUrl(this.props.location, tenantIdentifier);
 
     if (process.env.NODE_ENV === 'development' && specsUrl.file === 'dev') {
       this.setDevSpecs();
@@ -174,6 +192,7 @@ export default class ClusterSpecCardsContainer extends React.Component {
       return <ClusterSpecCards
         clusterSpecs={clusterSpecs}
         clusterSpecsFile={clusterSpecsFile}
+        tenantIdentifier={this.props.match.params.tenantIdentifier}
       />
     }
   }

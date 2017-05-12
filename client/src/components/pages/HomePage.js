@@ -11,11 +11,11 @@ import ClusterSpecCards from '../../containers/ClusterSpecCardsContainer';
 import Blurb from '../Blurb';
 import Tagline from '../Tagline';
 
-const HomePage = () => (
+const HomePage = ({ location, match }) => (
   <div>
     <Tagline />
     <Blurb />
-    <ClusterSpecCards />
+    <ClusterSpecCards location={location} match={match} />
   </div>
 );
 

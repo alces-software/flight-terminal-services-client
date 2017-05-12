@@ -14,6 +14,7 @@ export default class ClusterSpecCardContainer extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
     clusterSpecsFile: PropTypes.string.isRequired,
+    tenantIdentifier: PropTypes.string,
   };
 
   state = {
@@ -43,6 +44,7 @@ export default class ClusterSpecCardContainer extends React.Component {
         onKeyDown={this.onKeyDown}
         showBack={this.showBack}
         showFront={this.showFront}
+        tenantIdentifier={this.props.tenantIdentifier}
       />
     );
   }
