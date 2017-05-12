@@ -31,7 +31,7 @@ function getClusterSpecsFile(location) {
   return file;
 }
 
-class ClusterSpecCardsContainer extends React.Component {
+class ClusterSpecsSectionContainer extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -86,4 +86,4 @@ class ClusterSpecCardsContainer extends React.Component {
   }
 }
 
-export default connect(specsAndLoading)(ClusterSpecCardsContainer);
+export default connect(specsAndLoading)(ClusterSpecsSectionContainer);

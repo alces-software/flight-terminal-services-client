@@ -11,13 +11,13 @@ import Blurb from '../Blurb';
 import Tagline from '../Tagline';
 import clusterSpecs from '../../modules/clusterSpecs';
 
-const ClusterSpecCards = clusterSpecs.components.ClusterSpecCardsContainer;
+const { ClusterSpecsSectionContainer } = clusterSpecs.components;
 
 const HomePage = ({ location, match }) => (
   <div>
     <Tagline />
     <Blurb />
-    <ClusterSpecCards location={location} match={match} />
+    <ClusterSpecsSectionContainer location={location} match={match} />
   </div>
 );
 
