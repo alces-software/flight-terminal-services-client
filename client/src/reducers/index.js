@@ -9,8 +9,10 @@ import { combineReducers } from 'redux';
 
 import clusterSpecs from '../modules/clusterSpecs';
 import onboarding from '../modules/onboarding';
+import tenants from '../modules/tenants';
 
 export default combineReducers({
   [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
   [onboarding.constants.NAME]: onboarding.reducer,
+  [tenants.constants.NAME]: tenants.reducer,
 });

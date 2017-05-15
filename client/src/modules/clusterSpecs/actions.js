@@ -44,18 +44,17 @@ function setDevSpecs() {
   }
 }
 
-function loadingClusterSpecs(specsUrl, specsFile, tenantIdentifier) {
+function loading(specsUrl, specsFile) {
   return {
     type: LOADING,
     payload: {
       file: specsFile,
-      tenantIdentifier: tenantIdentifier,
       url: specsUrl,
     }
   }
 }
 
-function loadedClusterSpecs(specs) {
+function loaded(specs) {
   return {
     type: LOADED,
     payload: {
@@ -64,7 +63,7 @@ function loadedClusterSpecs(specs) {
   }
 }
 
-function failedToLoadClusterSpecs(error) {
+function failedToLoad(error) {
   return {
     type: FAILED,
     error: true,
@@ -81,15 +80,15 @@ function loadSpecs(specsUrl) {
         if (response.ok) {
           return response.json();
         } else {
-          return Promise.reject({ error: 'Unable to load cluster definitions' });
+          return Promise.reject('Unable to load');
         }
       })
       .then((specs) => {
-        return dispatch(loadedClusterSpecs(specs));
+        return dispatch(loaded(specs));
       })
       .catch((error) => {
         console.log('error:', error);  // eslint-disable-line no-console
-        return dispatch(failedToLoadClusterSpecs(error));
+        return dispatch(failedToLoad(error));
       });
   };
 }
@@ -102,7 +101,7 @@ export function loadClusterSpecs(specsFile, tenantIdentifier) {
     } else {
       return (dispatch) => {
         const specsUrl = buildClusterSpecsUrl(specsFile, tenantIdentifier);
-        dispatch(loadingClusterSpecs(specsUrl, specsFile, tenantIdentifier));
+        dispatch(loading(specsUrl, specsFile, tenantIdentifier));
         dispatch(loadSpecs(specsUrl));
       }
     }

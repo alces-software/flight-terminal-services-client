@@ -33,6 +33,7 @@ const initialState = {
   clusterSpecs: {
     file: 'test',
   },
+  tenants: {},
 };
 const store = configureMockStore()(initialState);
 

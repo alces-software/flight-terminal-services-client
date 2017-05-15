@@ -37,6 +37,9 @@ const initialState = {
     file: 'dev',
     specs: [clusterSpec], 
   },
+  tenants: {
+    loading: false,
+  },
 };
 const store = configureMockStore([ thunk ])(initialState);
 

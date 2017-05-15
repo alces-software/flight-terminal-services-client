@@ -12,9 +12,10 @@ import { createStructuredSelector } from 'reselect';
 
 import Card from '../../../components/Card';
 import ClusterLaunchFormContainer from '../../../containers/ClusterLaunchFormContainer';
+import tenants from '../../../modules/tenants';
 
 import { clusterSpecShape } from '../propTypes';
-import { clusterSpecsFile, tenantIdentifier } from '../selectors';
+import { clusterSpecsFile } from '../selectors';
 import FooterIcons from './ClusterSpecCardFooterIcons';
 import CardOverlay from './ClusterSpecCardOverlay';
 import '../styles/ClusterSpecCard.scss';
@@ -78,7 +79,7 @@ ClusterSpecCard.propTypes = propTypes;
 
 const mapStateToProps = createStructuredSelector({
   clusterSpecsFile,
-  tenantIdentifier,
+  tenantIdentifier: tenants.selectors.identifier,
 });
 
 export default connect(mapStateToProps)(ClusterSpecCard);

@@ -8,12 +8,12 @@
 
 import { NAME } from './constants';
 
-export function clusterSpecs(state) {
-  return state[NAME].specs;
+export function identifier(state) {
+  return state[NAME].identifier;
 }
 
-export function clusterSpecsFile(state) {
-  return state[NAME].file;
+export function tenant(state) {
+  return state[NAME].tenant;
 }
 
 export function retrieval(state) {
