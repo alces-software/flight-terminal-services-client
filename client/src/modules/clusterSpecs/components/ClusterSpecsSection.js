@@ -10,18 +10,23 @@ import Scroll from 'react-scroll';
 import { Panel } from 'react-bootstrap';
 
 import '../styles/ClusterSpecsSection.scss';
+import branding from '../../../modules/branding';
+
+const { Logo: BrandingLogo, Header: BrandingHeader } = branding.components;
 
 const propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const ClusterSpecsSection = ({ children }) => (
+const ClusterSpecsSection = ({ branding, children }) => (
   <section className="ClusterSpecsSection">
     <Scroll.Element name="#launch">
       <Panel className="launch">
         <h3>
-          Launch Alces Flight.
+          Launch Alces Flight
+          <BrandingHeader />
         </h3>
+        <BrandingLogo />
         <p>
           Ready to get going? Choose a cluster specification and launch your
           cluster now!
