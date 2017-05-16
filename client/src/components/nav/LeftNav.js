@@ -6,8 +6,12 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import { Nav } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import { NavItemLink } from 'flight-common';
+
+import branding from '../../modules/branding';
+
+const { WithBranding } = branding.components;
 
 const propTypes = {
   homePageLink: PropTypes.string.isRequired,
@@ -19,6 +23,19 @@ const LeftNav = ({ homePageLink, productName }) => (
     <NavItemLink to={homePageLink} >
       {productName}
     </NavItemLink>
+    <WithBranding>
+      {(branding) => (
+        <Navbar.Text className="LeftNav--branding">
+          {
+            branding.homePageUrl == null ?
+              branding.navEntry :
+              <Navbar.Link href={branding.homePageUrl} >
+                {branding.navEntry}
+              </Navbar.Link>
+          }
+        </Navbar.Text>
+      )}
+    </WithBranding>
   </Nav>
 );
 

@@ -7,14 +7,12 @@
  *===========================================================================*/
 
 import { LOADING, LOADED, FAILED } from './actionTypes';
-import { processClusterSpecs } from './processClusterSpecs';
 
 const initialState = {
   error: undefined,
-  file: undefined,
   loading: true,
-  specs: undefined,
-  url: undefined,
+  identifier: undefined,
+  tenant: undefined,
 };
 
 export default function reducer(state = initialState, { payload, type }) {
@@ -24,15 +22,14 @@ export default function reducer(state = initialState, { payload, type }) {
       return {
         ...state,
         error: false,
-        file: payload.file,
         loading: true,
-        url: payload.url,
+        identifier: payload.identifier,
       };
 
     case LOADED:
       return {
         ...state,
-        specs: processClusterSpecs(payload.specs),
+        tenant: payload.tenant,
         error: false,
         loading: false,
       };
@@ -40,7 +37,7 @@ export default function reducer(state = initialState, { payload, type }) {
     case FAILED:
       return {
         ...state,
-        specs: undefined,
+        tenant: undefined,
         error: payload.error,
         loading: false,
       };

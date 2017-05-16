@@ -6,20 +6,9 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-import { NAME } from './constants';
+// Import and export the public facing API for the onboarding module.
 
-export function clusterSpecs(state) {
-  return state[NAME].specs;
-}
+import * as components from './components';
+import * as selectors from './selectors';
 
-export function clusterSpecsFile(state) {
-  return state[NAME].file;
-}
-
-export function retrieval(state) {
-  const s = state[NAME];
-  return {
-    error: s.error,
-    loading: s.loading,
-  };
-}
+export default { components, selectors };

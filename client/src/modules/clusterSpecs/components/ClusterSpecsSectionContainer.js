@@ -8,15 +8,19 @@
 import React, { PropTypes } from 'react';
 import 'url-search-params-polyfill';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { DelaySpinner } from '../../../components/delayedUntil';
+import tenants from '../../../modules/tenants';
 
 import ClusterSpecsSection from './ClusterSpecsSection';
 import NoClustersAvailable from './NoClustersAvailable';
 import ClusterSpecCards from './ClusterSpecCards';
 import { clusterSpecShape } from '../propTypes';
 import { loadClusterSpecs } from '../actions';
-import { specsAndLoading } from '../selectors';
+import * as clusterSpecsSelectors from '../selectors';
+
+const { TenantLoadError } = tenants.components;
 
 // Retrieve the specs file name from window.location.
 //
@@ -31,13 +35,15 @@ function getClusterSpecsFile(location) {
   return file;
 }
 
-class ClusterSpecCardsContainer extends React.Component {
+class ClusterSpecsSectionContainer extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     clusterSpecs: PropTypes.arrayOf(clusterSpecShape),
-    error: PropTypes.any,
-    loading: PropTypes.bool.isRequired,
+    clusterSpecsRetrieval: PropTypes.shape({
+      error: PropTypes.any,
+      loading: PropTypes.bool.isRequired,
+    }),
     location: PropTypes.shape({
       search: PropTypes.string,
     }).isRequired,
@@ -46,12 +52,19 @@ class ClusterSpecCardsContainer extends React.Component {
         tenantIdentifier: PropTypes.string,
       }).isRequired,
     }).isRequired,
+    tenantRetrieval: PropTypes.shape({
+      error: PropTypes.any,
+      loading: PropTypes.bool.isRequired,
+    }),
   };
 
   componentDidMount() {
     const tenantIdentifier = this.props.match.params.tenantIdentifier;
-    const specsFile = getClusterSpecsFile(this.props.location);
-    this.props.dispatch(loadClusterSpecs(specsFile, tenantIdentifier));
+    this.props.dispatch(tenants.actions.loadTenant(tenantIdentifier))
+      .then(() => {
+        const specsFile = getClusterSpecsFile(this.props.location);
+        this.props.dispatch(loadClusterSpecs(specsFile, tenantIdentifier));
+      });
   }
 
   componentWillUpdate(nextProps) {
@@ -64,11 +77,13 @@ class ClusterSpecCardsContainer extends React.Component {
   }
 
   renderSectionContent() {
-    const { loading, error, clusterSpecs } = this.props;
+    const { clusterSpecs, clusterSpecsRetrieval, tenantRetrieval } = this.props;
 
-    if (loading) {
+    if (tenantRetrieval.loading || clusterSpecsRetrieval.loading) {
       return <DelaySpinner />;
-    } else if (error) {
+    } else if (tenantRetrieval.error) {
+      return <TenantLoadError />;
+    } else if (clusterSpecsRetrieval.error) {
       return <NoClustersAvailable />;
     } else if (clusterSpecs && clusterSpecs.length < 1) {
       return <NoClustersAvailable />;
@@ -86,4 +101,8 @@ class ClusterSpecCardsContainer extends React.Component {
   }
 }
 
-export default connect(specsAndLoading)(ClusterSpecCardsContainer);
+export default connect(createStructuredSelector({
+  clusterSpecs: clusterSpecsSelectors.clusterSpecs,
+  clusterSpecsRetrieval: clusterSpecsSelectors.retrieval,
+  tenantRetrieval: tenants.selectors.retrieval,
+}))(ClusterSpecsSectionContainer);

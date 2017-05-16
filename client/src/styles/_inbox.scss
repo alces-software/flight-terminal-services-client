@@ -19,6 +19,16 @@ BODY.modal-open {
     }
 }
 
+.flight-Navbar .navbar-text {
+    line-height: 20px;
+    font-family: $base-fontFamily;
+    color: white;
+}
+
+.LeftNav--branding {
+    margin-left: 0;
+}
+
 .react-cookie-banner {
     z-index: 1030;
 }

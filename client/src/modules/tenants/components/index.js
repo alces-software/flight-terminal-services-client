@@ -6,20 +6,9 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-import { NAME } from './constants';
+// Add publicly exported components here and to the export below.
+// Any components which are intended to only be used internally to the
+// onboarding module should not be included here.
+import TenantLoadError from './TenantLoadError';
 
-export function clusterSpecs(state) {
-  return state[NAME].specs;
-}
-
-export function clusterSpecsFile(state) {
-  return state[NAME].file;
-}
-
-export function retrieval(state) {
-  const s = state[NAME];
-  return {
-    error: s.error,
-    loading: s.loading,
-  };
-}
+export { TenantLoadError };

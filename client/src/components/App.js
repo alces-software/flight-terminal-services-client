@@ -31,7 +31,7 @@ import onboarding from '../modules/onboarding';
 import LeftNav from './nav/LeftNav';
 import RightNav from './nav/RightNav';
 import appVersion from '../version';
-import clusterSpecs from '../modules/clusterSpecs';
+import tenants from '../modules/tenants';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
 const OnBoardingContainer = onboarding.components.OnBoardingContainer;
@@ -112,5 +112,5 @@ class App extends Component {
 }
 
 export default connect(createStructuredSelector({
-  tenantIdentifier: clusterSpecs.selectors.tenantIdentifier,
+  tenantIdentifier: tenants.selectors.identifier,
 }))(App);

@@ -5,21 +5,14 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import React from 'react';
 
-import { NAME } from './constants';
+import WithBranding from './WithBranding';
 
-export function clusterSpecs(state) {
-  return state[NAME].specs;
-}
+const Header = () => (
+  <WithBranding>
+    {(branding) => (<span> {branding.header}</span>)}
+  </WithBranding>
+);
 
-export function clusterSpecsFile(state) {
-  return state[NAME].file;
-}
-
-export function retrieval(state) {
-  const s = state[NAME];
-  return {
-    error: s.error,
-    loading: s.loading,
-  };
-}
+export default Header;

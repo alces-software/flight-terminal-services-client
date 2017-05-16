@@ -6,15 +6,18 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React from 'react';
-// import { Grid, Row, Col } from 'react-bootstrap';
 
 import '../styles/Tagline.scss';
 import ScrollButton from './ScrollButton';
+import branding from '../modules/branding';
+
+const { Logo: BrandingLogo, Header: BrandingHeader } = branding.components;
 
 const Tagline = () => (
   <div className="tagline">
     <h2>
-      Launch Alces Flight on AWS now.
+      Launch Alces Flight
+      <BrandingHeader />
     </h2>
     <ScrollButton
       bsStyle="link"
@@ -29,6 +32,7 @@ const Tagline = () => (
     >
       Launch
     </ScrollButton>
+    <BrandingLogo height={120} />
   </div>
 );
 

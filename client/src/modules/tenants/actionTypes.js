@@ -6,20 +6,6 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-import { NAME } from './constants';
-
-export function clusterSpecs(state) {
-  return state[NAME].specs;
-}
-
-export function clusterSpecsFile(state) {
-  return state[NAME].file;
-}
-
-export function retrieval(state) {
-  const s = state[NAME];
-  return {
-    error: s.error,
-    loading: s.loading,
-  };
-}
+export const LOADING = '@launch/tenants/LOADING';
+export const LOADED = '@launch/tenants/LOADED';
+export const FAILED = '@launch/tenants/FAILED';

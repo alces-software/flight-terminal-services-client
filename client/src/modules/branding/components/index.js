@@ -9,6 +9,8 @@
 // Add publicly exported components here and to the export below.
 // Any components which are intended to only be used internally to the
 // onboarding module should not be included here.
-import ClusterSpecsSectionContainer from './ClusterSpecsSectionContainer';
+import Logo from './Logo';
+import Header from './Header';
+import WithBranding from './WithBranding';
 
-export { ClusterSpecsSectionContainer };
+export { Logo, Header, WithBranding };
