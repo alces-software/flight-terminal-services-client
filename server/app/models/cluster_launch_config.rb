@@ -57,7 +57,7 @@ class ClusterLaunchConfig
 
   def token=(t)
     if t.is_a?(String)
-      @token = Token.new(token_string: t)
+      @token = LegacyToken.new(token_string: t)
     else
       @token = t
     end

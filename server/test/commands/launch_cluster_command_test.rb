@@ -58,7 +58,7 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
     end
 
     # The token that we're going mock and stub.
-    token = Token.new(token_string: "my-token")
+    token = LegacyToken.new(token_string: "my-token")
 
     # Stub the `token` methdo to return the DynamoDB item double.
     token.define_singleton_method(:token) do
@@ -75,7 +75,7 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
     end
 
     # Finally stub Token::new to return the token double.
-    Token.stub(:new, token) do
+    LegacyToken.stub(:new, token) do
       block.call
       assert_mock mark_as_mock
     end

@@ -29,3 +29,8 @@ services:
       - ./server:/app
     ports:
       - "4003:4003"
+    links:
+      - db
+
+  db:
+    image: postgres:9.5

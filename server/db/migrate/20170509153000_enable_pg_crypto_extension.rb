@@ -5,5 +5,8 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
-class ApplicationController < ActionController::API
+class EnablePgCryptoExtension < ActiveRecord::Migration[5.0]
+  def change
+    enable_extension "pgcrypto"
+  end
 end
