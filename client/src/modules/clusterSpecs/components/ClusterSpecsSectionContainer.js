@@ -20,8 +20,6 @@ import { clusterSpecShape } from '../propTypes';
 import { loadClusterSpecs } from '../actions';
 import * as clusterSpecsSelectors from '../selectors';
 
-const { TenantLoadError } = tenants.components;
-
 // Retrieve the specs file name from window.location.
 //
 //  - In a development build, setting the clusterSpecs parameter to `dev` will
@@ -82,7 +80,7 @@ class ClusterSpecsSectionContainer extends React.Component {
     if (tenantRetrieval.loading || clusterSpecsRetrieval.loading) {
       return <DelaySpinner />;
     } else if (tenantRetrieval.error) {
-      return <TenantLoadError />;
+      return <tenants.LoadError />;
     } else if (clusterSpecsRetrieval.error) {
       return <NoClustersAvailable />;
     } else if (clusterSpecs && clusterSpecs.length < 1) {

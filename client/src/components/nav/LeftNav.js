@@ -11,7 +11,7 @@ import { NavItemLink } from 'flight-common';
 
 import branding from '../../modules/branding';
 
-const { WithBranding } = branding.components;
+const { WithBranding } = branding;
 
 const propTypes = {
   homePageLink: PropTypes.string.isRequired,

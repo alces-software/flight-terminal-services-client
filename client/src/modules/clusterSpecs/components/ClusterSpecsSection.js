@@ -12,8 +12,6 @@ import { Panel } from 'react-bootstrap';
 import '../styles/ClusterSpecsSection.scss';
 import branding from '../../../modules/branding';
 
-const { Logo: BrandingLogo, Header: BrandingHeader } = branding.components;
-
 const propTypes = {
   children: PropTypes.node.isRequired,
 };
@@ -24,9 +22,9 @@ const ClusterSpecsSection = ({ children }) => (
       <Panel className="launch">
         <h3>
           Launch Alces Flight
-          <BrandingHeader />
+          <branding.Header />
         </h3>
-        <BrandingLogo />
+        <branding.Logo />
         <p>
           Ready to get going? Choose a cluster specification and launch your
           cluster now!

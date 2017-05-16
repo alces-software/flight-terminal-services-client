@@ -11,13 +11,11 @@ import '../styles/Tagline.scss';
 import ScrollButton from './ScrollButton';
 import branding from '../modules/branding';
 
-const { Logo: BrandingLogo, Header: BrandingHeader } = branding.components;
-
 const Tagline = () => (
   <div className="tagline">
     <h2>
       Launch Alces Flight
-      <BrandingHeader />
+      <branding.Header />
     </h2>
     <ScrollButton
       bsStyle="link"
@@ -32,7 +30,7 @@ const Tagline = () => (
     >
       Launch
     </ScrollButton>
-    <BrandingLogo height={120} />
+    <branding.Logo height={120} />
   </div>
 );
 

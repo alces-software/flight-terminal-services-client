@@ -34,7 +34,6 @@ import appVersion from '../version';
 import tenants from '../modules/tenants';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
-const OnBoardingContainer = onboarding.components.OnBoardingContainer;
 
 class App extends Component {
   static propTypes = {
@@ -60,7 +59,7 @@ class App extends Component {
             ]}
           />
           <div className="flight sticky-footer-main-content">
-            <OnBoardingContainer />
+            <onboarding.Container />
             <Header homePageLink={homePageLink} productName={productName} >
               <LeftNav homePageLink={homePageLink} productName={productName} />
               <RightNav />
