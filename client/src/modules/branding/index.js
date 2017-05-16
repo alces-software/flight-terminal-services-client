@@ -11,4 +11,4 @@
 import * as components from './components';
 import * as selectors from './selectors';
 
-export default { components, selectors };
+export default { ...components, selectors };
