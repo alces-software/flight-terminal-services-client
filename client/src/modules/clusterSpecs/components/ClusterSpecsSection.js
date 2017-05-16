@@ -18,7 +18,7 @@ const propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const ClusterSpecsSection = ({ branding, children }) => (
+const ClusterSpecsSection = ({ children }) => (
   <section className="ClusterSpecsSection">
     <Scroll.Element name="#launch">
       <Panel className="launch">
