@@ -30,4 +30,23 @@ module ClustersMailerHelper
       error
     end
   end
+
+  def branding_header
+    return nil if @tenant.nil?
+    eh = @tenant.email_header
+    return nil if eh.blank?
+    " #{eh}"
+  end
+
+  def launching_branding_header
+    branding_header
+  end
+
+  def launched_branding_header
+    branding_header
+  end
+
+  def failed_branding_header
+    branding_header
+  end
 end

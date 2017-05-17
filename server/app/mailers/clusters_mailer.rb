@@ -15,6 +15,7 @@ class ClustersMailer < ApplicationMailer
   #
   def about_to_launch(launch_config)
     @cluster_name = launch_config.name
+    @tenant = launch_config.tenant
 
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @runtime_limit = launch_config.spec.runtime_limit?
@@ -37,6 +38,7 @@ class ClustersMailer < ApplicationMailer
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @runtime_limit = launch_config.spec.runtime_limit?
     @runtime = launch_config.spec.runtime
+    @tenant = launch_config.tenant
 
     @resources = @parsed_output.resources.
       select {|r| r.final_status == 'CREATE_COMPLETE'}.
@@ -56,6 +58,7 @@ class ClustersMailer < ApplicationMailer
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @error = error
+    @tenant = launch_config.tenant
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster has failed to launch"

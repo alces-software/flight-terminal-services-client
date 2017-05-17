@@ -46,6 +46,10 @@ class Tenant < ApplicationRecord
     "in conjunction with #{name}"
   end
 
+  def email_header
+    "for #{name}"
+  end
+
   def nav_entry
     ne = super
     return ne unless ne.nil?

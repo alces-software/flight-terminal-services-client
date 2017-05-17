@@ -7,8 +7,8 @@
 %>
 <% setup %>
 
-<p>Your Alces Flight Compute HPC cluster <code><%= @cluster_name %></code> has
-failed to launch.</p>
+<p>Your Alces Flight Compute HPC cluster <code><%= @cluster_name %></code><%=
+failed_branding_header %> has failed to launch.</p>
 
 <% if @show_cloudformation_link %>
 <% if @arn_present %>
