@@ -42,7 +42,8 @@ class ClustersController < ApplicationController
   private
 
   def build_launch_config
-    cluster_spec = ClusterSpec.load(cluster_spec_params)
+    tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
+    cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
     config_params = cluster_launch_config_params.merge(spec: cluster_spec)
     ClusterLaunchConfig.new(config_params)
   rescue ClusterSpec::Error
@@ -51,10 +52,9 @@ class ClustersController < ApplicationController
   end
 
   def cluster_spec_params
-    params.require(:clusterSpec).permit(:file, :name, :tenantIdentifier).tap do |h|
+    params.require(:clusterSpec).permit(:file, :name).tap do |h|
       h.require(:file)
       h.require(:name)
-      h[:tenant_identifier] = h.delete(:tenantIdentifier) if h.key?(:tenantIdentifier)
     end
   end
 
