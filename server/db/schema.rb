@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509160015) do
+ActiveRecord::Schema.define(version: 20170517101142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170509160015) do
     t.integer  "remaining_credits",               null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.string   "email_header",      limit: 255
     t.index ["identifier"], name: "index_tenants_on_identifier", unique: true, using: :btree
   end
 

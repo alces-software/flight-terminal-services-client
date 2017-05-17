@@ -47,6 +47,8 @@ class Tenant < ApplicationRecord
   end
 
   def email_header
+    eh = super
+    return eh unless eh.nil?
     "for #{name}"
   end
 
