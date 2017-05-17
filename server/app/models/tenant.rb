@@ -39,4 +39,22 @@ class Tenant < ApplicationRecord
       greater_than_or_equal_to: 0,
       only_integer: true
     }
+
+  def header
+    h = super
+    return h unless h.nil?
+    "in conjunction with #{name}"
+  end
+
+  def email_header
+    eh = super
+    return eh unless eh.nil?
+    "for #{name}"
+  end
+
+  def nav_entry
+    ne = super
+    return ne unless ne.nil?
+    "in conjunction with #{name}"
+  end
 end

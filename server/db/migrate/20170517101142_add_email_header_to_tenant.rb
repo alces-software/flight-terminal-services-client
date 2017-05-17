@@ -6,15 +6,10 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-class Api::V1::TenantResource < Api::V1::ApplicationResource
-  attribute :admin_email
-  attribute :description
-  attribute :header
-  attribute :home_page_url
-  attribute :identifier
-  attribute :logo_url
-  attribute :name
-  attribute :nav_entry
-
-  filter :identifier
+class AddEmailHeaderToTenant < ActiveRecord::Migration[5.0]
+  def change
+    change_table :tenants do |t|
+      t.string :email_header, limit: 255
+    end
+  end
 end

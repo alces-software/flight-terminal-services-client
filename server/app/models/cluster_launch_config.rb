@@ -55,6 +55,10 @@ class ClusterLaunchConfig
   # An instance of ClusterSpec.
   attr_accessor :spec
 
+  def tenant
+    spec.tenant
+  end
+
   def token=(t)
     if t.is_a?(String)
       @token = LegacyToken.new(token_string: t)
