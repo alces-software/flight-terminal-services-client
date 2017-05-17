@@ -44,7 +44,10 @@ class ClustersController < ApplicationController
   def build_launch_config
     tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
     cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
-    config_params = cluster_launch_config_params.merge(spec: cluster_spec)
+    config_params = cluster_launch_config_params.merge(
+      spec: cluster_spec,
+      tenant: tenant,
+    )
     ClusterLaunchConfig.new(config_params)
   rescue ClusterSpec::Error
     render_build_exception($!)

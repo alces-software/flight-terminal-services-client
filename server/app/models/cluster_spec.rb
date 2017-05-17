@@ -52,7 +52,6 @@ class ClusterSpec
           title: spec['ui']['title'],
           titleLowerCase: spec['ui']['titleLowerCase'],
         },
-        tenant: tenant,
       )
     end
   end
@@ -86,9 +85,6 @@ class ClusterSpec
   # The cluster spec key.  Is used to check that the token can launch the
   # cluster spec.
   attr_accessor :key
-
-  # The tenant that this cluster spec belongs to, if any.
-  attr_accessor :tenant
 
   def attributes
     {

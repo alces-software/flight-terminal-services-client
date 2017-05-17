@@ -12,9 +12,9 @@ class ClusterLaunchJob < ApplicationJob
   def perform(launch_config_params, cluster_spec_params, tenant)
     begin
       spec = ClusterSpec.new(cluster_spec_params)
-      spec.tenant = tenant
       launch_config = ClusterLaunchConfig.new(launch_config_params)
       launch_config.spec = spec
+      launch_config.tenant = tenant
       launch_command = LaunchClusterCommand.new(launch_config)
       launch_command.perform
     rescue
