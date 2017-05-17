@@ -38,10 +38,7 @@ function failedToLoad(error) {
 
 export function loadTenant(tenantIdentifier) {
   return (dispatch) => {
-    if (tenantIdentifier == null) {
-      dispatch(loaded(null));
-      return Promise.resolve(null);
-    }
+    if (tenantIdentifier == null) { tenantIdentifier = 'default'; }
 
     dispatch(loading(tenantIdentifier));
     const tenantUrl = `api/v1/tenants?filter[identifier]=${tenantIdentifier}`;
