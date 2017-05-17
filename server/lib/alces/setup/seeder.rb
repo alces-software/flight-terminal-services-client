@@ -31,6 +31,9 @@ module Alces
           identifier: "challenge",
           name: "Alces Flight Launch Challenge",
           description: "Tenant for the Alces Flight Launch challenge",
+          email_header: "for the Alces Flight Launch Challenge",
+          header: "! Go on! We challenge you!",
+          nav_entry: "challenge",
           remaining_credits: 0
         )
       end
