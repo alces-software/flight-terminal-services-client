@@ -7,21 +7,18 @@
  *===========================================================================*/
 
 import { LOADING, LOADED, FAILED } from './actionTypes';
+import tenants from '../../modules/tenants';
 
 let devClusterSpecs;
 if (process.env.NODE_ENV === 'development') {
   devClusterSpecs = require('./data/clusterSpecs.dev.json');
 }
 
-function buildClusterSpecsUrl(relativePath, tenantIdentifier) {
-  let tenantPath;
-  if (tenantIdentifier == null) {
-    tenantPath = "";
-  } else {
-    tenantPath = `${tenantIdentifier}/`;
+function buildClusterSpecsConfig(fileOverride, { defaultFile, defaultUrl, prefix }) {
+  return {
+    url: fileOverride ? `${prefix}${fileOverride}` : defaultUrl,
+    file: fileOverride ? fileOverride : defaultFile,
   }
-  const prefix = process.env.REACT_APP_CLUSTER_SPECS_URL_PREFIX;
-  return `${prefix}${tenantPath}${relativePath}`;
 }
 
 function setDevSpecs() {
@@ -44,13 +41,10 @@ function setDevSpecs() {
   }
 }
 
-function loading(specsUrl, specsFile) {
+function loading(specsConfig) {
   return {
     type: LOADING,
-    payload: {
-      file: specsFile,
-      url: specsUrl,
-    }
+    payload: specsConfig,
   }
 }
 
@@ -73,9 +67,9 @@ function failedToLoad(error) {
   };
 }
 
-function loadSpecs(specsUrl) {
+function loadSpecs(specsConfig) {
   return (dispatch) => {
-    fetch(specsUrl)
+    fetch(specsConfig.url)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -93,16 +87,19 @@ function loadSpecs(specsUrl) {
   };
 }
 
-export function loadClusterSpecs(specsFile, tenantIdentifier) {
+export function loadClusterSpecs(specsFileOverride) {
     if (process.env.NODE_ENV === 'test') {
       return setDevSpecs();
-    } else if (process.env.NODE_ENV === 'development' && specsFile === 'dev') {
+    } else if (process.env.NODE_ENV === 'development' && specsFileOverride === 'dev') {
       return setDevSpecs();
     } else {
-      return (dispatch) => {
-        const specsUrl = buildClusterSpecsUrl(specsFile, tenantIdentifier);
-        dispatch(loading(specsUrl, specsFile, tenantIdentifier));
-        dispatch(loadSpecs(specsUrl));
+      return (dispatch, getState) => {
+        const specsConfig = buildClusterSpecsConfig(
+          specsFileOverride,
+          tenants.selectors.clusterSpecsUrlConfig(getState())
+        );
+        dispatch(loading(specsConfig));
+        dispatch(loadSpecs(specsConfig));
       }
     }
 }

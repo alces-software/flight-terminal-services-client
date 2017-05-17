@@ -25,12 +25,8 @@ import * as clusterSpecsSelectors from '../selectors';
 //  - In a development build, setting the clusterSpecs parameter to `dev` will
 //    use the specs given in `../data/clusterSpecs.dev.json`.
 function getClusterSpecsFile(location) {
-  const defaultFile = process.env.REACT_APP_DEFAULT_CLUSTER_SPECS_FILE
   const urlParams = new URLSearchParams(location.search);
-  const file = urlParams.get('clusterSpecs');
-
-  if (file == null) { return defaultFile; }
-  return file;
+  return urlParams.get('clusterSpecs');
 }
 
 class ClusterSpecsSectionContainer extends React.Component {
@@ -61,7 +57,7 @@ class ClusterSpecsSectionContainer extends React.Component {
     this.props.dispatch(tenants.actions.loadTenant(tenantIdentifier))
       .then(() => {
         const specsFile = getClusterSpecsFile(this.props.location);
-        this.props.dispatch(loadClusterSpecs(specsFile, tenantIdentifier));
+        this.props.dispatch(loadClusterSpecs(specsFile));
       });
   }
 
@@ -70,7 +66,7 @@ class ClusterSpecsSectionContainer extends React.Component {
     const prevTenantIdentifier = this.props.match.params.tenantIdentifier;
     if (nextTenantIdentifier !== prevTenantIdentifier) {
       const specsFile = getClusterSpecsFile(this.props.location);
-      this.props.dispatch(loadClusterSpecs(specsFile, nextTenantIdentifier));
+      this.props.dispatch(loadClusterSpecs(specsFile));
     }
   }
 

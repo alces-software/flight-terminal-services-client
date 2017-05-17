@@ -5,6 +5,7 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { createSelector } from 'reselect';
 
 import { NAME } from './constants';
 
@@ -24,16 +25,11 @@ export function retrieval(state) {
   };
 }
 
-export function branding(state) {
-  const t = state[NAME].tenant;
-  if (t == null) { return undefined; }
-  const attrs = t.attributes;
+export const clusterSpecsUrlConfig = createSelector(
+  tenant,
 
-  return {
-    name: attrs.name,
-    description: attrs.description,
-    logo_url: attrs.logo_url,
-    admin_email: attrs.admin_email,
-    home_page_url: attrs.home_page_url,
-  };
-}
+  (tenant) => {
+    if (tenant == null) { return undefined; }
+    return tenant.attributes.clusterSpecsUrlConfig;
+  },
+);
