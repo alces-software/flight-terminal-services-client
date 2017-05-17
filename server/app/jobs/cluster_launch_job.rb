@@ -9,9 +9,10 @@
 class ClusterLaunchJob < ApplicationJob
   queue_as :default
 
-  def perform(launch_config_params, cluster_spec_params)
+  def perform(launch_config_params, cluster_spec_params, tenant)
     begin
       spec = ClusterSpec.new(cluster_spec_params)
+      spec.tenant = tenant
       launch_config = ClusterLaunchConfig.new(launch_config_params)
       launch_config.spec = spec
       launch_command = LaunchClusterCommand.new(launch_config)

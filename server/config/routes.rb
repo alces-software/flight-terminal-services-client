@@ -7,13 +7,11 @@
 #==============================================================================
 
 Rails.application.routes.draw do
-  get '/' => (lambda do |req|
-    # In production, the index.html is served by nginx.
-    # In development, the index.html is served by the webpack dev server.
-    # The only reason we need this route is so that `root_url` doesn't break
-    # for the mailer layout.
-    [204, {}, [ ]]
-  end), as: :root
+  # In production, the index.html is served by nginx.
+  # In development, the index.html is served by the webpack dev server.
+  # We add this route is so that `root_url` doesn't break for the mailer
+  # layout.
+  get '/', to: static("index.html"), as: :root
 
   get '/status' => (lambda do |req|
     [200, {}, ["OK"]]
@@ -30,4 +28,8 @@ Rails.application.routes.draw do
       jsonapi_resources :tenants, only: [:index, :show]
     end
   end
+
+  # For all other GET requests render the index page to load the client
+  # application.
+  get '*path', to: static("index.html")
 end

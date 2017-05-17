@@ -24,7 +24,8 @@ class ClustersController < ApplicationController
     # others.
     ClusterLaunchJob.perform_later(
       cluster_launch_config.as_json,
-      cluster_launch_config.spec.as_json
+      cluster_launch_config.spec.as_json,
+      cluster_launch_config.tenant,
     )
 
     cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)

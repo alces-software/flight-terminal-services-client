@@ -18,6 +18,9 @@ class Tenant < ApplicationRecord
   validates :description,
     presence: true, length: {maximum: 10240}
 
+  validates :email_header,
+    length: {maximum: 255}
+
   validates :header,
     length: {maximum: 255}
 
