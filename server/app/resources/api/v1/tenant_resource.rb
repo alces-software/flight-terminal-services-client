@@ -17,16 +17,4 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
   attribute :nav_entry
 
   filter :identifier
-
-  def header
-    return @model.header unless @model.header.nil?
-
-    "in conjunction with #{name}"
-  end
-
-  def nav_entry
-    return @model.nav_entry unless @model.nav_entry.nil?
-
-    "in conjunction with #{name}"
-  end
 end
