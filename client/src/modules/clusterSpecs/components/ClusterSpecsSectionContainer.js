@@ -9,6 +9,7 @@ import React, { PropTypes } from 'react';
 import 'url-search-params-polyfill';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { compose } from 'recompose';
 
 import { DelaySpinner } from '../../../components/delayedUntil';
 import tenants from '../../../modules/tenants';
@@ -95,8 +96,12 @@ class ClusterSpecsSectionContainer extends React.Component {
   }
 }
 
-export default connect(createStructuredSelector({
-  clusterSpecs: clusterSpecsSelectors.clusterSpecs,
-  clusterSpecsRetrieval: clusterSpecsSelectors.retrieval,
-  tenantRetrieval: tenants.selectors.retrieval,
-}))(ClusterSpecsSectionContainer);
+const enhance = compose(
+  connect(createStructuredSelector({
+    clusterSpecs: clusterSpecsSelectors.clusterSpecs,
+    clusterSpecsRetrieval: clusterSpecsSelectors.retrieval,
+    tenantRetrieval: tenants.selectors.retrieval,
+  })),
+);
+
+export default enhance(ClusterSpecsSectionContainer);
