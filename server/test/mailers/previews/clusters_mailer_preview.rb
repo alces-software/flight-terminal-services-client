@@ -47,6 +47,7 @@ class ClustersMailerPreview < ActionMailer::Preview
       email: 'me@example.com',
       name: 'my-cluster',
       token: 'carelessly-spoil-coffee',
+      tenant: Tenant.find_by!(identifier: 'default'),
       spec: ClusterSpec.new(
         meta: {
           'title' => 'Small SGE bioinformatics cluster',
@@ -64,7 +65,7 @@ class ClustersMailerPreview < ActionMailer::Preview
 
   def launch_config_with_tenant_and_runtime
     runtime_launch_config.tap do |lc|
-      lc.spec.tenant = Tenant.find_by(identifier: 'bigvuni')
+      lc.tenant = Tenant.find_by!(identifier: 'bigvuni')
     end
   end
 end

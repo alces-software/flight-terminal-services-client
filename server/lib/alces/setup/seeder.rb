@@ -21,6 +21,16 @@ module Alces
       def seed_tenants
         Alces.app.logger("Creating tenants")
         Tenant.create!(
+          identifier: "default",
+          name: "",
+          description: "",
+          email_header: "",
+          header: "",
+          nav_entry: "",
+          logo_url: "",
+          remaining_credits: 0
+        )
+        Tenant.create!(
           identifier: "bigvuni",
           name: "University of Big V",
           description: "The University of Big V",

@@ -104,10 +104,12 @@ class ClusterLaunchFormContainer extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        tenant: {
+          identifier: this.props.tenantIdentifier,
+        },
         clusterSpec: {
           name: this.props.clusterSpec.ui.title,
           file: this.props.clusterSpecsFile,
-          tenantIdentifier: this.props.tenantIdentifier,
         },
         clusterLaunch: {
           name: this.state.values.clusterName || this.state.values.launchToken,

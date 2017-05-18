@@ -23,18 +23,10 @@ class ClusterSpec
   class ClusterSpecNotFound < Error; end
 
   class << self
-    def load(params)
+    def load(params, tenant)
       file = params['file']
       name = params['name']
-      if params['tenant_identifier'].nil?
-        tenant_path = ''
-        tenant = nil
-      else
-        tenant_path = "#{params['tenant_identifier']}/"
-        tenant = Tenant.find_by(identifier: params['tenant_identifier'])
-      end
-      prefix = Rails.application.config.alces.cluster_specs_url_prefix
-      url = "#{prefix}#{tenant_path}#{file}"
+      url = "#{tenant.cluster_specs_url_prefix}#{file}"
 
       begin
         cluster_specs = JSON.parse(open(url).read)['clusterSpecs']
@@ -60,7 +52,6 @@ class ClusterSpec
           title: spec['ui']['title'],
           titleLowerCase: spec['ui']['titleLowerCase'],
         },
-        tenant: tenant,
       )
     end
   end
@@ -94,9 +85,6 @@ class ClusterSpec
   # The cluster spec key.  Is used to check that the token can launch the
   # cluster spec.
   attr_accessor :key
-
-  # The tenant that this cluster spec belongs to, if any.
-  attr_accessor :tenant
 
   def attributes
     {

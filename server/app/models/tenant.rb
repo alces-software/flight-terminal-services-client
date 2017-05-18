@@ -12,11 +12,11 @@ class Tenant < ApplicationRecord
   validates :identifier,
     presence: true, length: {maximum: 32}
 
-  validates :name,
-    presence: true, length: {maximum: 255}
+  validates :name, length: {maximum: 255}
+  validates :name, presence: true, unless: ->(a){ a.identifier == 'default' }
 
-  validates :description,
-    presence: true, length: {maximum: 10240}
+  validates :description, length: {maximum: 10240}
+  validates :description, presence: true, unless: ->(a){ a.identifier == 'default' }
 
   validates :email_header,
     length: {maximum: 255}
@@ -59,5 +59,18 @@ class Tenant < ApplicationRecord
     ne = super
     return ne unless ne.nil?
     "in conjunction with #{name}"
+  end
+
+  def cluster_specs_url_prefix
+    prefix = Rails.application.config.alces.cluster_specs_url_prefix
+    "#{prefix}#{identifier}/"
+  end
+
+  def default_cluster_specs_file
+    "default.json"
+  end
+
+  def cluster_specs_url
+    "#{cluster_specs_url_prefix}#{default_cluster_specs_file}"
   end
 end
