@@ -13,7 +13,7 @@ function hasPropError(errorDetails, prop, error) {
   return errorDetails[prop] && errorDetails[prop].some(e => e === error);
 }
 
-const DetailsMessage = ({ details }) => {
+function messageFromDetails(details) {
   if (hasPropError(details, 'token', 'token not found')) {
     return (
       <span>
@@ -47,7 +47,7 @@ const DetailsMessage = ({ details }) => {
   }
 }
 
-const UnexpectedMessage = ({ message }) => {
+function unexpectedMessage(message) {
   let details = null;
   if (message) {
     details = (
@@ -90,16 +90,17 @@ const propTypes = {
 const ClusterErrorModal = ({ error, onHide, show }) => {
   let errorMessage;
   if (error && error.details) {
-    errorMessage = <DetailsMessage details={error.details} />;
+    errorMessage = messageFromDetails(error.details);
   } else if (error && error.unexpected) {
-    errorMessage = <UnexpectedMessage message={error.unexpected} />;
+    errorMessage = unexpectedMessage(error.unexpected);
   } else if (error && error.exception) {
     // This branch will only be taken when the Rails server is running in
     // development.  But it is nicer to see the error message right there in
     // the browser window.
-    errorMessage = <UnexpectedMessage message={error.exception} />;
-  } else {
-    errorMessage = <UnexpectedMessage />;
+    errorMessage = unexpectedMessage(error.exception);
+  }
+  if (errorMessage == null) {
+    errorMessage = unexpectedMessage();
   }
 
   return (

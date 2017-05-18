@@ -24,7 +24,8 @@ class ClustersController < ApplicationController
     # others.
     ClusterLaunchJob.perform_later(
       cluster_launch_config.as_json,
-      cluster_launch_config.spec.as_json
+      cluster_launch_config.spec.as_json,
+      cluster_launch_config.tenant,
     )
 
     cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
@@ -41,8 +42,12 @@ class ClustersController < ApplicationController
   private
 
   def build_launch_config
-    cluster_spec = ClusterSpec.load(cluster_spec_params)
-    config_params = cluster_launch_config_params.merge(spec: cluster_spec)
+    tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
+    cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
+    config_params = cluster_launch_config_params.merge(
+      spec: cluster_spec,
+      tenant: tenant,
+    )
     ClusterLaunchConfig.new(config_params)
   rescue ClusterSpec::Error
     render_build_exception($!)
@@ -71,19 +76,25 @@ class ClustersController < ApplicationController
       render status: :unprocessable_entity, json: {
         status: 422,
         error: 'Unprocessable Entity',
-        details: "Cluster spec not found"
+        details: {
+          cluster_spec: ["spec not found"],
+        }
       }
     when ClusterSpec::ClusterSpecsNotValid
       render status: :internal_server_error, json: {
         status: 500,
         error: 'Internal Server Error',
-        details: "Cluster specs not valid"
+        details: {
+          cluster_spec: ["spec not valid"],
+        }
       }
     when ClusterSpec::UnableToRetrieveClusterSpecs
       render status: :bad_gateway, json: {
         status: 502,
         error: 'Bad Gateway',
-        details: "Unable to retrieve cluster specs - #{$!.message}"
+        details: {
+          cluster_spec: ["unable to retrieve cluster specs - #{$!.message}"],
+        }
       }
     end
   end

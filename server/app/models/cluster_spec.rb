@@ -23,11 +23,10 @@ class ClusterSpec
   class ClusterSpecNotFound < Error; end
 
   class << self
-    def load(params)
+    def load(params, tenant)
       file = params['file']
       name = params['name']
-      prefix = Rails.application.config.alces.cluster_specs_url_prefix
-      url = "#{prefix}#{file}"
+      url = "#{tenant.cluster_specs_url_prefix}#{file}"
 
       begin
         cluster_specs = JSON.parse(open(url).read)['clusterSpecs']
@@ -52,7 +51,7 @@ class ClusterSpec
         meta: {
           title: spec['ui']['title'],
           titleLowerCase: spec['ui']['titleLowerCase'],
-        }
+        },
       )
     end
   end

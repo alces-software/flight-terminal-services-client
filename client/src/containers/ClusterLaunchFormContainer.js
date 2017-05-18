@@ -8,7 +8,7 @@
 import React, { PropTypes } from 'react';
 import validatorUtils from 'validator';
 
-import { clusterSpecShape } from '../utils/propTypes';
+import { clusterSpecShape } from '../modules/clusterSpecs/propTypes';
 import ClusterLaunchForm from '../components/ClusterLaunchForm';
 import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
 import ClusterErrorModal from '../components/ClusterErrorModal';
@@ -49,6 +49,7 @@ class ClusterLaunchFormContainer extends React.Component {
     clusterSpec: clusterSpecShape.isRequired,
     clusterSpecsFile: PropTypes.string.isRequired,
     onCancel: PropTypes.func.isRequired,
+    tenantIdentifier: PropTypes.string,
   };
 
   componentDidMount() {
@@ -103,6 +104,9 @@ class ClusterLaunchFormContainer extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        tenant: {
+          identifier: this.props.tenantIdentifier,
+        },
         clusterSpec: {
           name: this.props.clusterSpec.ui.title,
           file: this.props.clusterSpecsFile,

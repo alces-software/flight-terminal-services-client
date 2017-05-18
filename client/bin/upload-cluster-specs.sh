@@ -11,7 +11,7 @@ main() {
         --content-type application/json \
         --bucket alces-flight \
         --key "FlightLaunch/ClusterSpecs/${DEST}" \
-        --body "${REPO_ROOT}/client/src/data/clusterSpecs.dev.json"
+        --body "${SRC}"
 }
 
 usage() {
@@ -26,7 +26,7 @@ usage() {
 }
 
 DEST=test.json
-DEFAULT_SRC="${REPO_ROOT}/client/src/data/clusterSpecs.dev.json"
+DEFAULT_SRC="${REPO_ROOT}/client/src/modules/clusterSpecs/data/clusterSpecs.dev.json"
 SRC=$DEFAULT_SRC
 
 parse_arguments() {

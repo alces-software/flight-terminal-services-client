@@ -31,7 +31,7 @@ it('displays a useful unexpected error message for 500 errors during developemnt
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('UnexpectedMessage').dive().find('pre')).toHaveText(error.exception);
+  expect(wrapper.find('pre')).toHaveText(error.exception);
 });
 
 it('displays an unexpected error message for 500 errors', () => {
@@ -44,8 +44,8 @@ it('displays an unexpected error message for 500 errors', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('UnexpectedMessage').dive()).toIncludeText('there was an unexpected error');
-  expect(wrapper.find('UnexpectedMessage').dive().find('pre')).toBeEmpty();
+  expect(wrapper.find('p')).toIncludeText('there was an unexpected error');
+  expect(wrapper.find('pre')).toBeEmpty();
 });
 
 it('displays an error message when the token cannot be found', () => {
@@ -58,7 +58,7 @@ it('displays an error message when the token cannot be found', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("we haven't been able to find the token entered");
+  expect(wrapper.find('span')).toIncludeText("we haven't been able to find the token entered");
 });
 
 it('displays an error message when the token has already been used', () => {
@@ -71,7 +71,7 @@ it('displays an error message when the token has already been used', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("token you have entered has already been used");
+  expect(wrapper.find('span')).toIncludeText("token you have entered has already been used");
 });
 
 it('displays an error message when the token cannot launch the spec', () => {
@@ -84,7 +84,7 @@ it('displays an error message when the token cannot launch the spec', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("cannot be used with the cluster");
+  expect(wrapper.find('span')).toIncludeText("cannot be used with the cluster");
 });
 
 it('displays an error message when the cluster name is currently taken', () => {
@@ -97,5 +97,5 @@ it('displays an error message when the cluster name is currently taken', () => {
     <ClusterErrorModal show onHide={() => {}} error={error} />
   );
 
-  expect(wrapper.find('DetailsMessage').dive()).toIncludeText("The cluster name you have chosen is already in use");
+  expect(wrapper.find('span')).toIncludeText("The cluster name you have chosen is already in use");
 });

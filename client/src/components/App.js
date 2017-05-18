@@ -5,13 +5,13 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import '../styles/main.scss';
 import {
   CookieBanner,
   Footer,
   Header,
-  NavItemLink,
   PrivacyPolicyPage,
   TermsOfServicePage,
   SecurityPage,
@@ -20,50 +20,34 @@ import termsCopy from 'flight-common/src/copy/terms.md';
 import securityCopy from 'flight-common/src/copy/securityPolicy.md';
 import preCookieTableCopy from 'flight-common/src/copy/privacyPolicyPreCookieTable.md';
 import postCookieTableCopy from 'flight-common/src/copy/privacyPolicyPostCookieTable.md';
-import { Nav, NavItem } from 'react-bootstrap';
-import * as analytics from '../utils/analytics';
 import Helmet from 'react-helmet';
-import {
-  BrowserRouter as Router,
-  Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
+import * as analytics from '../utils/analytics';
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
-import OnBoardingContainer from '../containers/OnBoardingContainer';
-import Icon from './Icon';
+import onboarding from '../modules/onboarding';
+import LeftNav from './nav/LeftNav';
+import RightNav from './nav/RightNav';
 import appVersion from '../version';
+import tenants from '../modules/tenants';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
 
-const LeftNav = ({ homePageLink, productName }) => (
-  <Nav>
-    <NavItemLink to={homePageLink} >
-      {productName}
-    </NavItemLink>
-  </Nav>
-);
-
-const RightNav = ({ showWelcomeMessage }) => (
-  <Nav pullRight>
-    <NavItem onClick={showWelcomeMessage} className="showWelcomeButton">
-      <Icon name="info-circle" size="2x" fixedWidth />
-    </NavItem>
-  </Nav>
-);
-
 class App extends Component {
+  static propTypes = {
+    tenantIdentifier: PropTypes.string,
+  };
+
   componentDidMount() {
     analytics.pageView();
   }
 
-  showWelcomeMessage = () => {
-    if (this.onboardingContainer) {
-      this.onboardingContainer.showWelcomeMessage();
-    }
-  }
-
   render() {
+    const tenantIdentifier = this.props.tenantIdentifier;
+    const homePageLink=`/${tenantIdentifier == null ? '' : tenantIdentifier}`;
+
     return (
       <Router>
         <div className="sticky-footer-wrapper">
@@ -75,38 +59,38 @@ class App extends Component {
             ]}
           />
           <div className="flight sticky-footer-main-content">
-            <OnBoardingContainer
-              ref={(el) => { this.onboardingContainer = el; }}
-            />
-            <Header homePageLink="/" productName={productName} >
-              <LeftNav homePageLink="/" productName={productName} />
-              <RightNav showWelcomeMessage={this.showWelcomeMessage} />
+            <onboarding.Container />
+            <Header homePageLink={homePageLink} productName={productName} >
+              <LeftNav homePageLink={homePageLink} productName={productName} />
+              <RightNav />
             </Header>
             <div className="pageContainer">
               <CookieBanner />
               <div>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/about" component={AboutPage} />
-                <Route
-                  path="/privacy"
-                  render={() => <PrivacyPolicyPage
-                    lastUpdated="20th October 2016"
-                    postCookieTableCopy={postCookieTableCopy}
-                    preCookieTableCopy={preCookieTableCopy}
-                  />}
-                />
-                <Route
-                  path="/terms"
-                  render={() => <TermsOfServicePage
-                    copy={termsCopy}
-                    productName={productName}
-                    lastUpdated="20th October 2016"
-                  />}
-                />
-                <Route
-                  path="/security"
-                  render={() => <SecurityPage copy={securityCopy} />}
-                />
+                <Switch>
+                  <Route path="/about" component={AboutPage} />
+                  <Route
+                    path="/privacy"
+                    render={() => <PrivacyPolicyPage
+                      lastUpdated="20th October 2016"
+                      postCookieTableCopy={postCookieTableCopy}
+                      preCookieTableCopy={preCookieTableCopy}
+                    />}
+                  />
+                  <Route
+                    path="/terms"
+                    render={() => <TermsOfServicePage
+                      copy={termsCopy}
+                      productName={productName}
+                      lastUpdated="20th October 2016"
+                    />}
+                  />
+                  <Route
+                    path="/security"
+                    render={() => <SecurityPage copy={securityCopy} />}
+                  />
+                  <Route path="/:tenantIdentifier?" component={HomePage} />
+                </Switch>
               </div>
             </div>
           </div>
@@ -126,4 +110,6 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(createStructuredSelector({
+  tenantIdentifier: tenants.selectors.identifier,
+}))(App);
