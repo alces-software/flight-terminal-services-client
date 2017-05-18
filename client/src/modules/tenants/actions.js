@@ -41,7 +41,7 @@ export function loadTenant(tenantIdentifier) {
     if (tenantIdentifier == null) { tenantIdentifier = 'default'; }
 
     dispatch(loading(tenantIdentifier));
-    const tenantUrl = `api/v1/tenants?filter[identifier]=${tenantIdentifier}`;
+    const tenantUrl = `/api/v1/tenants?filter[identifier]=${tenantIdentifier}`;
     return fetch(tenantUrl)
       .then((response) => {
         if (response.ok) {
@@ -60,7 +60,9 @@ export function loadTenant(tenantIdentifier) {
         return dispatch(loaded(tenants[0]));
       })
       .catch((error) => {
-        console.log('error:', error);  // eslint-disable-line no-console
+        if (process.env.NODE_ENV !== 'test') {
+          console.log('error:', error);  // eslint-disable-line no-console
+        }
         return dispatch(failedToLoad(error));
       });
   };
