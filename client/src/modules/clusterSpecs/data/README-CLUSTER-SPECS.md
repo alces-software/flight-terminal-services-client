@@ -10,16 +10,23 @@ file to use are described below.
 
 ## Customizing the cluster specs file.
 
-The cluster specs file used can be customized by loading the Flight Launch
-application with a GET (url) parameter. E.g., typing the following in the
-browser location bar
-`https://launch.alces-flight.com?clusterSpecs=myClusterSpecs.json` will
-attempt to load the `myClusterSpecs.json` in the
-`s3://alces-flight/FlightLaunch/ClusterSpecs/` bucket.
+The cluster specs file is determined by the tenant that Flight Launch is using
+and can be further customized by loading the Flight Launch application with a
+GET (url) parameter.  This is probably made most clear with some examples:
 
-If the `clusterSpecs` url parameter is not provided the default cluster specs
-will be used.  They can be found at
-`s3://alces-flight/FlightLaunch/ClusterSpecs/default.json`.
+ 1. Visiting `https://launch.alces-flight.com` uses the default tenant and so
+    loads the clusters specs from
+    `s3://alces-flight/FlightLaunch/ClusterSpecs/default/default.json`.
+
+ 2. Visiting `https://launch.alces-flight.com/bigvuni` uses the bigvuni tenant
+    and so loads the cluster specs from 
+    `s3://alces-flight/FlightLaunch/ClusterSpecs/bigvuni/default.json`.
+
+ 3. Visiting `https://launch.alces-flight.com/bigvuni?clusterSpecs=test.json`
+    uses the bigvuni tenant and the "test.json" cluster specs.  So loads the
+    cluster specs from
+    `s3://alces-flight/FlightLaunch/ClusterSpecs/bigvuni/test.json`.
+
 
 ## Format
 

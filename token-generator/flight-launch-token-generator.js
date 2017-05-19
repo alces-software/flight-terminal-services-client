@@ -20,9 +20,9 @@ var ClusterSpecKeyToNameMap = {};
   const clusterSpecsUrl = getClusterSpecsUrl();
   makeRequest(clusterSpecsUrl);
 
-  function buildClusterSpecsUrl(relativePath) {
+  function buildClusterSpecsUrl(tenant, file) {
     const clusterSpecsUrlPrefix = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/';
-    return `${clusterSpecsUrlPrefix}${relativePath}`;
+    return `${clusterSpecsUrlPrefix}${tenant}/${file}`;
   }
 
   // Retrieve the specs URL from window.location, without breaking old browsers.
@@ -30,18 +30,18 @@ var ClusterSpecKeyToNameMap = {};
   // Older browsers always use the default URL.
   function getClusterSpecsUrl() {
     const defaultFile = 'default.json';
-    const defaultUrl = buildClusterSpecsUrl(defaultFile);
-    const defaultReturn = defaultUrl;
+    const defaultTenant = 'default';
+    const defaultUrl = buildClusterSpecsUrl(defaultTenant, defaultFile);
 
     // Get the clusterSpecs urlParam without breaking in older browsers.  Older
     // browsers use the defaultUrl.
-    if (URL == null) { return defaultReturn; }
+    if (URL == null) { return defaultUrl; }
     const urlParams = new URL(window.location).searchParams;
-    if (urlParams == null || urlParams.get == null) { return defaultReturn; }
+    if (urlParams == null || urlParams.get == null) { return defaultUrl; }
     const file = urlParams.get('clusterSpecs');
+    const tenant = urlParams.get('tenant');
 
-    if (file == null) { return defaultReturn ; }
-    return buildClusterSpecsUrl(file);
+    return buildClusterSpecsUrl(tenant || defaultTenant, file || defaultFile);
   }
 
 
