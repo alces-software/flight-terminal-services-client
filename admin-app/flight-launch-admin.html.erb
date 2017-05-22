@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <title>Flight Launch Admin</title>
+        <script type="text/javascript">
+<%
+    def load_javascript(path)
+        abs_path = File.join(File.dirname(__FILE__), "#{path}.js")
+        File.read(abs_path)
+    end
+%>
+
+<%= load_javascript('flight-launch-admin') %>
+
+        </script>
+    </head>
+    <body>
+        <div id="generator">
+
+            <div style="margin-bottom: 1em">
+                Create a new tenant
+                <input id="createToken" type="button" value="Start creating" onclick="startCreating();" />
+            </div>
+
+            <div style="margin-bottom: 1em">
+                &mdash; Or &mdash;
+            </div>
+
+            <div style="margin-bottom: 1em">
+                Select tenant to edit
+            </div>
+            <div style="margin-bottom: 1em">
+                <div style="margin-left: 1em" id="tenantsList"></div>
+            </div>
+            <div style="margin-bottom: 1em">
+                <input id="createToken" type="button" value="Start editing" onclick="startEditing();" />
+            </div>
+
+            <div style="clear: both"></div>
+
+            <div style="margin-bottom: 1em"></div>
+            <div id="infoMessages"></div>
+            <div style="margin-bottom: 1em"></div>
+            <pre id="errorMessages" style="color: red"></pre>
+            <div style="margin-bottom: 1em"></div>
+
+            <div id="editForm" style="border-top: 1px solid black; display: none">
+                <h4>Edit tenant</h4>
+                <form onSubmit="event.preventDefault(); updateTenant()">
+                    <div style="margin-bottom: 1em">
+                        <label>
+                            Name:
+                            <input id="tenantName" size="64">
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 1em">
+                        <label>
+                            Nav bar entry:
+                            <input id="tenantNaventry" size="128">
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 1em">
+                        <label>
+                            Header:
+                            <input id="tenantHeader" size="128">
+                        </label>
+                    </div>
+                    <input type="submit" value="Update">
+                </form>
+            </div>
+
+            <div id="createForm" style="border-top: 1px solid black; display: none">
+                <h4>Create tenant</h4>
+                <form onSubmit="event.preventDefault(); createTenant()">
+                    <div style="margin-bottom: 1em">
+                        <label>
+                            Identifier:
+                            <input id="newTenantIdentifier" size="64">
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 1em">
+                        <label>
+                            Name:
+                            <input id="newTenantName" size="64">
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 1em">
+                        <label>
+                            Nav bar entry:
+                            <input id="newTenantNaventry" size="128">
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 1em">
+                        <label>
+                            Header:
+                            <input id="newTenantHeader" size="128">
+                        </label>
+                    </div>
+                    <input type="submit" value="Create">
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

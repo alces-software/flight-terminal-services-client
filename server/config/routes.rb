@@ -43,6 +43,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/admin/', to: static("admin.html")
+
   # For all other GET requests render the index page to load the client
   # application.
   get '*path', to: static("index.html")
