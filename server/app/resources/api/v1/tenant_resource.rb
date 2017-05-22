@@ -10,6 +10,7 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
   attribute :admin_email
   attribute :cluster_specs_url_config
   attribute :description
+  attribute :email_header
   attribute :header
   attribute :home_page_url
   attribute :identifier
