@@ -6,6 +6,8 @@ main() {
     parse_arguments "$@"
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
+    header "Building admin app"
+    build_admin_app
     if [ "$SKIP_CLIENT_BUILD" == "false" ] ; then
         header "Building client"
         build_client
@@ -22,6 +24,14 @@ abort_if_uncommitted_changes_present() {
         echo "$0: Uncommitted changes present aborting. Either stash or commit."
         exit 2
     fi
+}
+
+build_admin_app() {
+    (
+    cd admin-app/
+    make
+    make install
+    ) 2> >(indent 1>&2) | indent
 }
 
 build_client() {
