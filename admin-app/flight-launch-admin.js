@@ -155,6 +155,7 @@ function startEditing() {
   document.getElementById('tenantName').value = tenant.attributes.name;
   document.getElementById('tenantNaventry').value = tenant.attributes.navEntry;
   document.getElementById('tenantHeader').value = tenant.attributes.header;
+  document.getElementById('tenantEmailHeader').value = tenant.attributes.emailHeader;
 
   document.getElementById('editForm').style.display = 'block';
 }
