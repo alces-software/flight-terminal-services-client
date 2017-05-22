@@ -10,25 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517101142) do
+ActiveRecord::Schema.define(version: 20170522104632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string   "identifier",        limit: 32,    null: false
-    t.string   "name",              limit: 255,   null: false
-    t.string   "header",            limit: 255
-    t.string   "nav_entry",         limit: 255
-    t.string   "description",       limit: 10240, null: false
-    t.string   "logo_url",          limit: 1024
-    t.string   "admin_email",       limit: 255
-    t.string   "home_page_url",     limit: 1024
-    t.integer  "remaining_credits",               null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.string   "email_header",      limit: 255
+    t.string   "identifier",    limit: 32,    null: false
+    t.string   "name",          limit: 255,   null: false
+    t.string   "header",        limit: 255
+    t.string   "nav_entry",     limit: 255
+    t.string   "description",   limit: 10240, null: false
+    t.string   "logo_url",      limit: 1024
+    t.string   "admin_email",   limit: 255
+    t.string   "home_page_url", limit: 1024
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "email_header",  limit: 255
     t.index ["identifier"], name: "index_tenants_on_identifier", unique: true, using: :btree
   end
 

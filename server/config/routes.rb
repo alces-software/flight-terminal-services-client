@@ -20,14 +20,30 @@ Rails.application.routes.draw do
   post 'clusters/launch'
 
   #
-  # Routes for all client communication other than loading the application
-  # appear here.
+  # Routes for all non-admin client communication other than loading the
+  # application appear here.
+  #
+  # XXX Move the API for launching clusters in here.
   #
   namespace :api do
     namespace :v1 do
       jsonapi_resources :tenants, only: [:index, :show]
     end
   end
+
+  #
+  # Routes for all admin client communication other than loading the
+  # application appear here.
+  #
+  scope '/admin' do
+    namespace :api do
+      namespace :v1 do
+        jsonapi_resources :tenants
+      end
+    end
+  end
+
+  get '/admin/', to: static("admin.html")
 
   # For all other GET requests render the index page to load the client
   # application.

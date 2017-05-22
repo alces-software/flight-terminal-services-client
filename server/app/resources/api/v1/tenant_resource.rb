@@ -19,6 +19,16 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
 
   filter :identifier
 
+  class <<self
+    def creatable_fields(context)
+      super - [:cluster_specs_url_config]
+    end
+
+    def updatable_fields(context)
+      super - [:cluster_specs_url_config, :identifier]
+    end
+  end
+
   def cluster_specs_url_config
     {
       default_file: @model.default_cluster_specs_file,
