@@ -36,13 +36,6 @@ class Tenant < ApplicationRecord
   validates :home_page_url,
     length: {maximum: 1024}
 
-  validates :remaining_credits,
-    presence: true,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      only_integer: true
-    }
-
   def header
     h = super
     return h unless h.nil?
