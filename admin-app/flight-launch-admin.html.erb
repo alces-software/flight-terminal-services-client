@@ -48,21 +48,33 @@
                 <form onSubmit="event.preventDefault(); updateTenant()">
                     <div style="margin-bottom: 1em">
                         <label>
-                            Name:
-                            <input id="tenantName" size="64">
+                            <div>Name:</div>
+                            <div><input id="tenantName" size="64"></div>
                         </label>
+                        <div style="color: #737373">
+                            Used in the generation of default values for
+                            Nav bar entry and header.
+                        </div>
                     </div>
                     <div style="margin-bottom: 1em">
                         <label>
-                            Nav bar entry:
-                            <input id="tenantNaventry" size="128">
+                            <div>Nav bar entry:</div>
+                            <div><input id="tenantNaventry" size="128"></div>
                         </label>
+                        <div style="color: #737373">
+                            The entry in the nav bar.  Defaults to "in
+                            conjunction with &lt;NAME>".
+                        </div>
                     </div>
                     <div style="margin-bottom: 1em">
                         <label>
-                            Header:
-                            <input id="tenantHeader" size="128">
+                            <div>Header:</div>
+                            <div><input id="tenantHeader" size="128"></div>
                         </label>
+                        <div style="color: #737373">
+                            The entry in the header bars.  Defaults to "in
+                            conjunction with &lt;NAME>".
+                        </div>
                     </div>
                     <input type="submit" value="Update">
                 </form>
@@ -73,27 +85,43 @@
                 <form onSubmit="event.preventDefault(); createTenant()">
                     <div style="margin-bottom: 1em">
                         <label>
-                            Identifier:
-                            <input id="newTenantIdentifier" size="64">
+                            <div>Identifier:</div>
+                            <div><input id="newTenantIdentifier" size="64"></div>
                         </label>
+                        <div style="color: #737373">
+                            The name used in the URL for the tenant, e.g.,
+                            https://launch.alces-flight.com/&lt;IDENTIFIER>
+                        </div>
                     </div>
                     <div style="margin-bottom: 1em">
                         <label>
-                            Name:
-                            <input id="newTenantName" size="64">
+                            <div>Name:</div>
+                            <div><input id="newTenantName" size="64"></div>
                         </label>
+                        <div style="color: #737373">
+                            Used in the generation of default values for
+                            Nav bar entry and header.
+                        </div>
                     </div>
                     <div style="margin-bottom: 1em">
                         <label>
-                            Nav bar entry:
-                            <input id="newTenantNaventry" size="128">
+                            <div>Nav bar entry (optional):</div>
+                            <div><input id="newTenantNaventry" size="128"></div>
                         </label>
+                        <div style="color: #737373">
+                            The entry in the nav bar.  Defaults to "in
+                            conjunction with &lt;NAME>".
+                        </div>
                     </div>
                     <div style="margin-bottom: 1em">
                         <label>
-                            Header:
-                            <input id="newTenantHeader" size="128">
+                            <div>Header (optional):</div>
+                            <div><input id="newTenantHeader" size="128"></div>
                         </label>
+                        <div style="color: #737373">
+                            The entry in the header bars.  Defaults to "in
+                            conjunction with &lt;NAME>".
+                        </div>
                     </div>
                     <input type="submit" value="Create">
                 </form>
