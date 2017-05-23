@@ -19,11 +19,13 @@ class Token < ApplicationRecord
 
   validates :name,
     presence: true,
-    length: {maximum: 255},
+    length: { maximum: 255 },
     uniqueness: true
 
   validates :assigned_to,
-    presence: true, length: {maximum: 255}, email: true
+    length: { maximum: 255 },
+    email: true,
+    allow_nil: true
 
   validates :credits,
     presence: true,
