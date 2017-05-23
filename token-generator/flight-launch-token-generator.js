@@ -7,7 +7,7 @@
  *===========================================================================*/
 
 //
-// == Cluster spec loading =================================
+// == Tenant and cluster spec loading =================================
 //
 
 // Map from cluster spec key to cluster spec name.
@@ -97,7 +97,6 @@ var activeTenant = undefined;
       document.getElementById('clustersList').append(div);
 
       ClusterSpecKeyToNameMap[spec.key] = spec.ui.title;
-
     }
   }
 })();
@@ -331,84 +330,61 @@ function copyToClipboard() {
 }
 
 //
-// == Dynamodb interaction =================================
+// == Token creation and retrieval =================================
 //
-
-var docClient = undefined;
-function updateAWSConfig() {
-  var accessKeyId = document.getElementById('awsAccessKeyId').value;
-  var secretAccessKey = document.getElementById('awsSecrectAccessKey').value;
-
-  AWS.config.update({
-    region: "eu-west-1",
-    // The endpoint should point to the local or remote computer where DynamoDB (downloadable) is running.
-    endpoint: 'dynamodb.eu-west-1.amazonaws.com',
-    /*
-           accessKeyId and secretAccessKey defaults can be used while using the downloadable version of DynamoDB. 
-           For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
-           */
-    accessKeyId: accessKeyId,
-    secretAccessKey: secretAccessKey,
-  });
-
-  /* 
-       Uncomment the following code to configure Amazon Cognito and make sure to 
-       remove the endpoint, accessKeyId and secretAccessKey specified in the code above. 
-       Make sure Cognito is available in the DynamoDB web service region (specified above).
-       Finally, modify the IdentityPoolId and the RoleArn with your own.
-       */
-  /*
-       AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-       IdentityPoolId: "us-west-2:12345678-1ab2-123a-1234-a12345ab12",
-       RoleArn: "arn:aws:iam::123456789012:role/dynamocognito"
-       });
-       */
-
-  var dynamodb = new AWS.DynamoDB();
-  docClient = new AWS.DynamoDB.DocumentClient();
-
-  document.getElementById("credentials").style.display = 'none';
-  document.getElementById("generator").style.display = 'block';
-}
 
 function createToken() {
   var token = randomToken();
   if (token == null) { return; }
   var tag = getTokenTag();
-  var params = {
-    TableName: "FlightLaunchTokens",
-    Item: {
-      "Token": token,
-      "Status": "AVAILABLE",
-      "CreatedAt": new Date().toISOString(),
-      "Tag": tag,
-    },
-    ConditionExpression: "attribute_not_exists(#token)",
-    ExpressionAttributeNames: {
-      "#token": "Token",
-    },
+  var url = "/admin/api/v1/tokens";
+
+  var attributes = {
+    name: token,
   };
   if (areTokensRestricted()) {
-    params.Item.ClusterSpecKeys = permittedClusterKeys();
+    attributes.permittedSpecKeys = permittedClusterKeys();
+  }
+  if (tag !== "") {
+    attributes.tag = tag;
   }
 
-  docClient.put(params, function(err, data) {
-    if (err) {
-      writeError("Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2));
-    } else {
-      var getParams = {
-        Key: { Token: token },
-        TableName: "FlightLaunchTokens",
-      };
-      docClient.get(getParams, function(err, data) {
-        if (err) {
-          writeError("Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2));
-        } else {
-          writeTokens([ data.Item ]);
-        }
-      });
-    }
-  });
+  fetch(url, {
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/vnd.api+json',
+      'Accept': 'application/vnd.api+json',
+    },
+    body: JSON.stringify({
+      data: {
+        type: 'tokens',
+        attributes: attributes,
+        relationships: {
+          tenant: {
+            data: {
+              type: 'tenants',
+              id: activeTenant.id,
+            },
+          },
+        },
+      },
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject('Error creating token ' + token);
+      }
+    })
+    .then((jsonApiDoc) => {
+      var token = jsonApiDoc.data;
+      writeTokens([token]);
+    })
+    .catch((err) => {
+      writeError("Unable to create token: \n" + JSON.stringify(err, undefined, 2));
+    });
 }
 
 function createTokens() {
@@ -424,41 +400,33 @@ function createTokens() {
   }
 }
 
-function scanData() {
+function fetchAvailableTokens() {
   clearErrorMessages();
   writeInfo("Loading tokens...");
   clearTable();
 
-  var params = {
-    TableName: "FlightLaunchTokens",
-    FilterExpression: "#status = :available",
-    ExpressionAttributeNames: {
-      "#status": "Status",
-    },
-    ExpressionAttributeValues: {
-      ":available": "AVAILABLE",
-    },
-  };
+  var url = activeTenant.relationships.tokens.links.related;
 
-  docClient.scan(params, onScan);
-
-  function onScan(err, data) {
-    if (err) {
-      writeError("Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2));
-    } else {
-      writeTokens(data.Items);
-
-      // Continue scanning if we have more tokens (per scan 1MB limitation)
-      if (data.LastEvaluatedKey) {
-        writeInfo("Loading more...", true);
-        params.ExclusiveStartKey = data.LastEvaluatedKey;
-        docClient.scan(params, onScan);            
+  fetch(url)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject('Unable to load available tokens');
       }
-    }
-    writeInfo("Done", true);
-  }
+    })
+    .then((jsonApiDoc) => {
+      var tokens = jsonApiDoc.data;
+      writeTokens(tokens);
+    })
+    .then((res) => {
+      writeInfo("Done", true);
+      return res;
+    })
+    .catch((err) => {
+      writeError(err);
+    });
 }
-
 
 //
 // == Presentation of tokens ===============================
@@ -471,27 +439,30 @@ function clearTable() {
 function writeTokens(tokens) {
   var table = document.getElementById('tokenTableBody');
   tokens
-    .sort(function(a, b) { return a.Token < b.Token ? -1 : 1 })
+    .sort(function(a, b) { return a.attributes.name < b.attributes.name ? -1 : 1 })
     .forEach(function(token) {
+      var tokenAttrs = token.attributes;
       var tokenCell = document.createElement("td");
-      tokenCell.append(token.Token);
+      tokenCell.append(tokenAttrs.name);
 
+      var permittedSpecKeys = tokenAttrs.permittedSpecKeys;
       var permittedClustersCell = document.createElement("td");
-      if (token.ClusterSpecKeys == null || token.ClusterSpecKeys.length < 0) {
+      if (permittedSpecKeys == null || permittedSpecKeys.length < 1) {
         var em = document.createElement('em');
-        em.append('Unrestricted');
+        em.append('Any cluster for tenant "' + activeTenant.attributes.identifier + '"');
         permittedClustersCell.append(em);
       } else {
         var clusterNames = [];
-        for (var i=0; i < token.ClusterSpecKeys.length; i++) {
-          var key = token.ClusterSpecKeys[i];
-          clusterNames.push(ClusterSpecKeyToNameMap[key]);
+        for (var i=0; i < permittedSpecKeys.length; i++) {
+          var key = permittedSpecKeys[i];
+          var name = ClusterSpecKeyToNameMap[key];
+          clusterNames.push(name);
         }
         permittedClustersCell.append(clusterNames.join(", "));
       }
 
       var tagCell = document.createElement("td");
-      tagCell.append(token.Tag || '');
+      tagCell.append(tokenAttrs.tag || '');
 
       var tr = document.createElement("tr");
       tr.append(tokenCell);
@@ -500,4 +471,3 @@ function writeTokens(tokens) {
       table.append(tr);
     });
 }
-

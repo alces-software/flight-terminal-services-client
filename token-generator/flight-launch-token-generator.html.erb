@@ -1,7 +1,6 @@
 <html>
     <head>
         <title>Flight Launch Token Generator</title>
-        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.36.0.min.js"></script>
         <script type="text/javascript">
 <%
     def load_list(path)
@@ -36,18 +35,7 @@ var combinations = <%= load_combinations('combinations') %>;
 </script>
     </head>
     <body>
-        <div id="credentials" style="margin-bottom: 1em">
-            <div style="margin-bottom: 1em">
-                <input id="awsAccessKeyId" placeholder="Enter your AWS access key ID" style="width: 20em" />
-            </div>
-            <div style="margin-bottom: 1em">
-                <input id="awsSecrectAccessKey" placeholder="Enter your AWS secret access key" style="width: 20em" />
-            </div>
-            <div style="margin-bottom: 1em">
-                <input id="submitCredentials" type="button" value="Submit" onclick="updateAWSConfig()" />
-            </div>
-        </div>
-        <div id="generator" style="display: none;">
+        <div id="generator">
             <h1>
                 Flight Launch token generator for tenant
                 <em><span id="headerTenantIdentifier"></span></em> -
@@ -91,7 +79,7 @@ var combinations = <%= load_combinations('combinations') %>;
 
             <h4>Tokens</h4>
             <div style="margin-bottom: 1em">
-                <input id="scanData" type="button" value="Get available tokens" onclick="scanData();" />
+                <input id="scanData" type="button" value="Get available tokens" onclick="fetchAvailableTokens();" />
                 <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
                 <input type="button" value="Clear table" onclick="clearTable();" />
             </div>
