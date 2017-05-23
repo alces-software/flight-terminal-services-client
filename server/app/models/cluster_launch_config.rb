@@ -92,10 +92,6 @@ class ClusterLaunchConfig
     @key_pair || Rails.configuration.alces.default_key_pair
   end
 
-  def using_token?
-    token.present?
-  end
-
   def validate_token
     if token.nil?
       errors.add(:base, 'Must provide token')
