@@ -6,6 +6,8 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 class Token < ApplicationRecord
+  include DefaultsConcern
+
   STATUSES = [
     'AVAILABLE',
     'QUEUED',
@@ -13,7 +15,7 @@ class Token < ApplicationRecord
     'USED',
   ].freeze
 
-  belongs_to :tenant
+  belongs_to :tenant, required: true
 
   validates :name,
     presence: true,
@@ -29,10 +31,12 @@ class Token < ApplicationRecord
       greater_than_or_equal_to: 1,
       only_integer: true
     }
+  default :credits, 1
 
   validates :status,
     presence: true,
     inclusion: { within: STATUSES }
+  default :status, 'AVAILABLE'
 
   def available?
     status == 'AVAILABLE'

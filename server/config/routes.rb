@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       jsonapi_resources :tenants, only: [:index, :show]
+      jsonapi_resources :tokens, only: [:show]
     end
   end
 
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
     namespace :api do
       namespace :v1 do
         jsonapi_resources :tenants
+        jsonapi_resources :tokens
       end
     end
   end

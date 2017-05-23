@@ -21,6 +21,8 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
   attribute :nav_entry
   attribute :nav_entry_uses_default
 
+  has_many :tokens
+
   filter :identifier
 
   class <<self
