@@ -13,6 +13,7 @@ class Api::V1::TokenResource < Api::V1::ApplicationResource
   has_one :tenant
 
   filter :name
+  filter :assigned_to
 
   class <<self
     def updatable_fields(context)
