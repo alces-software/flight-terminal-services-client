@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   end
 
   get '/admin/', to: static("admin.html")
+  get '/admin/token-generator', to: static("token-generator.html")
 
   # For all other GET requests render the index page to load the client
   # application.

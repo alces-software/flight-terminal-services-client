@@ -13,73 +13,91 @@
 // Map from cluster spec key to cluster spec name.
 var ClusterSpecKeyToNameMap = {};
 
+// The tenant that we're creating tokens for.
+var activeTenant = undefined;
+
 // Load cluster specs and populate ClusterSpecKeyToNameMap and the cluster
 // specs selection checkboxes.
 (function () {
-  var httpRequest;
-  const clusterSpecsUrl = getClusterSpecsUrl();
-  makeRequest(clusterSpecsUrl);
 
-  function buildClusterSpecsUrl(tenant, file) {
-    const clusterSpecsUrlPrefix = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/';
-    return `${clusterSpecsUrlPrefix}${tenant}/${file}`;
-  }
+  const urlParams = new URLSearchParams(window.location.search);
+  fetchTenant()
+    .then(fetchClusterSpecs)
+    .catch((error) => {
+      writeError(error);
+    });
 
-  // Retrieve the specs URL from window.location, without breaking old browsers.
-  //
-  // Older browsers always use the default URL.
-  function getClusterSpecsUrl() {
-    const defaultFile = 'default.json';
-    const defaultTenant = 'default';
-    const defaultUrl = buildClusterSpecsUrl(defaultTenant, defaultFile);
+  function fetchTenant() {
+    var tenantIdentifier = urlParams.get('tenant') || 'default';
+    var tenantUrl = "/api/v1/tenants?filter[identifier]=" + tenantIdentifier;
 
-    // Get the clusterSpecs urlParam without breaking in older browsers.  Older
-    // browsers use the defaultUrl.
-    if (URL == null) { return defaultUrl; }
-    const urlParams = new URL(window.location).searchParams;
-    if (urlParams == null || urlParams.get == null) { return defaultUrl; }
-    const file = urlParams.get('clusterSpecs');
-    const tenant = urlParams.get('tenant');
-
-    return buildClusterSpecsUrl(tenant || defaultTenant, file || defaultFile);
-  }
-
-
-  function makeRequest(url) {
-    httpRequest = new XMLHttpRequest();
-
-    if (!httpRequest) {
-      writeError("Unable to load cluster specs");
-      return false;
-    }
-    httpRequest.onreadystatechange = generateClusterSelectionList;
-    httpRequest.open('GET', url);
-    httpRequest.send();
-  }
-
-  function generateClusterSelectionList() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        clusterSpecs = JSON.parse(httpRequest.responseText).clusterSpecs;
-        for (var i=0; i < clusterSpecs.length; i++) {
-          spec = clusterSpecs[i];
-
-          var div = document.createElement("div");
-          var input = document.createElement("input");
-          input.type = 'checkbox';
-          input.value = spec.key;
-          input.disabled = true;
-          var label = document.createElement("label");
-          label.append(input, spec.ui.title);
-          div.append(label);
-          document.getElementById('clustersList').append(div);
-
-          ClusterSpecKeyToNameMap[spec.key] = spec.ui.title;
-
+    return fetch(tenantUrl)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return Promise.reject('Unable to load tenant');
         }
-      } else {
-        writeError("There was a problem loading the cluster specs");
-      }
+      })
+      .then((tenantsJsonApiDoc) => {
+        const tenants = tenantsJsonApiDoc.data;
+        if (tenants.length < 1) {
+          return Promise.reject('Tenant not found');
+        } else if (tenants.length > 1) {
+          return Promise.reject('Multiple matches');
+        }
+        activeTenant = tenants[0];
+        return tenants[0];
+      })
+      .then((tenant) => {
+        document.getElementById('headerTenantName').innerHTML = tenant.attributes.name;
+        document.getElementById('headerTenantIdentifier').innerHTML = tenant.attributes.identifier;
+        return tenant;
+      });
+  }
+
+  function buildClusterSpecsConfig(fileOverride, defaults) {
+    return {
+      url: fileOverride ? `${defaults.prefix}${fileOverride}` : defaults.defaultUrl,
+      file: fileOverride ? fileOverride : defaults.defaultFile,
+    }
+  }
+
+  function fetchClusterSpecs(tenant) {
+    var specsFile = urlParams.get('clusterSpecs');
+    var specsDefaults = tenant.attributes.clusterSpecsUrlConfig;
+    var specsConfig = buildClusterSpecsConfig(specsFile, specsDefaults);
+
+    fetch(specsConfig.url)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return Promise.reject('Unable to load specs');
+        }
+      })
+      .then((specs) => {
+        generateClusterSelectionList(specs.clusterSpecs);
+      });
+  }
+
+
+  function generateClusterSelectionList(clusterSpecs) {
+    for (var i=0; i < clusterSpecs.length; i++) {
+      spec = clusterSpecs[i];
+
+      var div = document.createElement("div");
+      var input = document.createElement("input");
+      input.type = 'checkbox';
+      input.value = spec.key;
+      input.disabled = true;
+      var label = document.createElement("label");
+      label.append(input, spec.ui.title);
+      div.append(label);
+      document.getElementById('clustersList').append(div);
+
+      ClusterSpecKeyToNameMap[spec.key] = spec.ui.title;
+
     }
   }
 })();

@@ -33,8 +33,6 @@ var lists = {
 };
 var combinations = <%= load_combinations('combinations') %>;
 
-<%= load_javascript('flight-launch-token-generator') %>
-
 </script>
     </head>
     <body>
@@ -50,6 +48,11 @@ var combinations = <%= load_combinations('combinations') %>;
             </div>
         </div>
         <div id="generator" style="display: none;">
+            <h1>
+                Flight Launch token generator for tenant
+                <em><span id="headerTenantIdentifier"></span></em> -
+                <em><span id="headerTenantName"></span></em>
+            </h1>
             <div style="margin-bottom: 1em">
                 Generate
                 <label><input type="radio" name="tokenType" value="absurd" checked> absurd</label>
@@ -104,5 +107,9 @@ var combinations = <%= load_combinations('combinations') %>;
                 </tbody>
             </table>
         </div>
+
+        <script>
+            <%= load_javascript('flight-launch-token-generator') %>
+        </script>
     </body>
 </html>

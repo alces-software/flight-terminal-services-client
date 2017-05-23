@@ -8,3 +8,6 @@ upload: flight-launch-token-generator.html
 		--acl public-read \
 		flight-launch-token-generator.html \
 		s3://alces-flight-launch-token-generator/index.html
+
+install:
+	cp flight-launch-token-generator.html ../server/public/token-generator.html
