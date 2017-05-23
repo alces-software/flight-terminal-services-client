@@ -89,6 +89,8 @@ function startCreating() {
   document.getElementById('newTenantName').value = '';
   document.getElementById('newTenantNaventry').value = '';
   document.getElementById('newTenantHeader').value = '';
+  document.getElementById('newTenantEmailHeader').value = '';
+  document.getElementById('newTenantLogoUrl').value = '';
 
   document.getElementById('createForm').style.display = 'block';
 }
@@ -113,6 +115,7 @@ function createTenant() {
           header: document.getElementById('newTenantHeader').value,
           navEntry: document.getElementById('newTenantNaventry').value,
           emailHeader: document.getElementById('newTenantEmailHeader').value,
+          logoUrl: document.getElementById('newTenantLogoUrl').value,
         },
       },
     }),
@@ -156,6 +159,7 @@ function startEditing() {
   document.getElementById('tenantNaventry').value = tenant.attributes.navEntry;
   document.getElementById('tenantHeader').value = tenant.attributes.header;
   document.getElementById('tenantEmailHeader').value = tenant.attributes.emailHeader;
+  document.getElementById('tenantLogoUrl').value = tenant.attributes.logoUrl;
 
   document.getElementById('editForm').style.display = 'block';
 }
@@ -188,6 +192,7 @@ function updateTenant() {
           header: document.getElementById('tenantHeader').value,
           navEntry: document.getElementById('tenantNaventry').value,
           emailHeader: document.getElementById('tenantEmailHeader').value,
+          logoUrl: document.getElementById('tenantLogoUrl').value,
         },
       },
     }),
