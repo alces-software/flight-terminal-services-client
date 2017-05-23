@@ -40,6 +40,9 @@ class Token < ApplicationRecord
     inclusion: { within: STATUSES }
   default :status, 'AVAILABLE'
 
+  validates :tag,
+    length: { maximum: 1024 }
+
   def available?
     status == 'AVAILABLE'
   end

@@ -5,21 +5,8 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
-
-class Api::V1::TokenResource < Api::V1::ApplicationResource
-  attribute :assigned_to
-  attribute :name
-  attribute :permitted_spec_keys
-  attribute :tag
-
-  has_one :tenant
-
-  filter :name
-  filter :assigned_to
-
-  class <<self
-    def updatable_fields(context)
-      [:tag]
-    end
+class AddTagToToken < ActiveRecord::Migration[5.0]
+  def change
+    add_column :tokens, :tag, :string, limit: 1024
   end
 end
