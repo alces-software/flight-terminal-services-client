@@ -107,6 +107,9 @@ class ClusterLaunchFormContainer extends React.Component {
         tenant: {
           identifier: this.props.tenantIdentifier,
         },
+        token: {
+          name: this.state.values.launchToken,
+        },
         clusterSpec: {
           name: this.props.clusterSpec.ui.title,
           file: this.props.clusterSpecsFile,
@@ -114,7 +117,6 @@ class ClusterLaunchFormContainer extends React.Component {
         clusterLaunch: {
           name: this.state.values.clusterName || this.state.values.launchToken,
           email: this.state.values.email,
-          token: this.state.values.launchToken,
         },
       })
     })
