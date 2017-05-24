@@ -12,6 +12,11 @@
 <%= load_javascript('flight-launch-admin') %>
 
         </script>
+<style>
+h4 {
+    margin-bottom: 5px;
+}
+</style>
     </head>
     <body>
         <div id="generator">
@@ -44,11 +49,12 @@
             <div style="margin-bottom: 1em"></div>
 
             <div id="editForm" style="border-top: 1px solid black; display: none">
-                <h4>Edit tenant</h4>
+                <h2>Edit tenant</h2>
                 <form onSubmit="event.preventDefault(); updateTenant()">
+
                     <div style="margin-bottom: 1em">
                         <label>
-                            <div>Name:</div>
+                            <h4>Name:</h4>
                             <div><input id="tenantName" size="64"></div>
                         </label>
                         <div style="color: #737373">
@@ -56,31 +62,46 @@
                             Nav bar entry and header.
                         </div>
                     </div>
+
                     <div style="margin-bottom: 1em">
-                        <label>
-                            <div>Nav bar entry:</div>
-                            <div><input id="tenantNaventry" size="128"></div>
+                        <label for="tenantNaventry">
+                            <h4>Nav bar entry (optional):</h4>
                         </label>
+                        <label>
+                            Use default value (in conjunction with &ltNAME>)
+                            <input id="tenantNaventryUseDefault" type="checkbox" onChange="toggleDisabled('tenantNaventry')">
+                        </label>
+                        <div style="margin-top: 5px"><input id="tenantNaventry" size="128"></div>
                         <div style="color: #737373">
                             The entry in the nav bar.  Defaults to "in
                             conjunction with &lt;NAME>".
                         </div>
                     </div>
+
                     <div style="margin-bottom: 1em">
-                        <label>
-                            <div>Header:</div>
-                            <div><input id="tenantHeader" size="128"></div>
+                        <label for="tenantHeader">
+                            <h4>Header (optional):</h4>
                         </label>
+                        <label>
+                            Use default value (in conjunction with &ltNAME>)
+                            <input id="tenantHeaderUseDefault" type="checkbox" onChange="toggleDisabled('tenantHeader')">
+                        </label>
+                        <div style="margin-top: 5px"><input id="tenantHeader" size="128"></div>
                         <div style="color: #737373">
                             The entry in the header bars.  Defaults to "in
                             conjunction with &lt;NAME>".
                         </div>
                     </div>
+
                     <div style="margin-bottom: 1em">
-                        <label>
-                            <div>Email header (optional):</div>
-                            <div><input id="tenantEmailHeader" size="128"></div>
+                        <label for="tenantEmailHeader">
+                            <h4>Email header (optional):</h4>
                         </label>
+                        <label>
+                            Use default value (for &ltNAME>)
+                            <input id="tenantEmailHeaderUseDefault" type="checkbox" onChange="toggleDisabled('tenantEmailHeader')">
+                        </label>
+                        <div style="margin-top: 5px"><input id="tenantEmailHeader" size="128"></div>
                         <div style="color: #737373">
                             Used in the first line of emails sent for the
                             tenant.  Defaults to "for &lt;NAME>".  E.g.,
@@ -88,9 +109,10 @@
                             for The University of Big V."
                         </div>
                     </div>
+
                     <div style="margin-bottom: 1em">
                         <label>
-                            <div>Logo URL (optional):</div>
+                            <h4>Logo URL (optional):</h4>
                             <div><input id="tenantLogoUrl" size="128"></div>
                         </label>
                         <div style="color: #737373">
@@ -102,11 +124,12 @@
             </div>
 
             <div id="createForm" style="border-top: 1px solid black; display: none">
-                <h4>Create tenant</h4>
+                <h2>Create tenant</h2>
                 <form onSubmit="event.preventDefault(); createTenant()">
+
                     <div style="margin-bottom: 1em">
                         <label>
-                            <div>Identifier:</div>
+                            <h4>Identifier:</h4>
                             <div><input id="newTenantIdentifier" size="64"></div>
                         </label>
                         <div style="color: #737373">
@@ -114,9 +137,10 @@
                             https://launch.alces-flight.com/&lt;IDENTIFIER>
                         </div>
                     </div>
+
                     <div style="margin-bottom: 1em">
                         <label>
-                            <div>Name:</div>
+                            <h4>Name:</h4>
                             <div><input id="newTenantName" size="64"></div>
                         </label>
                         <div style="color: #737373">
@@ -124,31 +148,46 @@
                             Nav bar entry and header.
                         </div>
                     </div>
+
                     <div style="margin-bottom: 1em">
-                        <label>
-                            <div>Nav bar entry (optional):</div>
-                            <div><input id="newTenantNaventry" size="128"></div>
+                        <label for="newTenantNaventry">
+                            <h4>Nav bar entry (optional):</h4>
                         </label>
+                        <label>
+                            Use default value (in conjunction with &ltNAME>)
+                            <input id="newTenantNaventryUseDefault" type="checkbox" onChange="toggleDisabled('newTenantNaventry')">
+                        </label>
+                        <div style="margin-top: 5px"><input id="newTenantNaventry" size="128"></div>
                         <div style="color: #737373">
                             The entry in the nav bar.  Defaults to "in
                             conjunction with &lt;NAME>".
                         </div>
                     </div>
+
                     <div style="margin-bottom: 1em">
-                        <label>
-                            <div>Header (optional):</div>
-                            <div><input id="newTenantHeader" size="128"></div>
+                        <label for="newTenantHeader">
+                            <h4>Header (optional):</h4>
                         </label>
+                        <label>
+                            Use default value (in conjunction with &ltNAME>)
+                            <input id="newTenantHeaderUseDefault" type="checkbox" onChange="toggleDisabled('newTenantHeader')">
+                        </label>
+                        <div style="margin-top: 5px"><input id="newTenantHeader" size="128"></div>
                         <div style="color: #737373">
                             The entry in the header bars.  Defaults to "in
                             conjunction with &lt;NAME>".
                         </div>
                     </div>
+
                     <div style="margin-bottom: 1em">
                         <label>
-                            <div>Email header (optional):</div>
-                            <div><input id="newTenantEmailHeader" size="128"></div>
+                            <h4>Email header (optional):</h4>
                         </label>
+                        <label>
+                            Use default value (for &ltNAME>)
+                            <input id="newTenantEmailHeaderUseDefault" type="checkbox" onChange="toggleDisabled('newTenantEmailHeader')">
+                        </label>
+                        <div style="margin-top: 5px"><input id="newTenantEmailHeader" size="128"></div>
                         <div style="color: #737373">
                             Used in the first line of emails sent for the
                             tenant.  Defaults to "for &lt;NAME>".  E.g.,
@@ -158,7 +197,7 @@
                     </div>
                     <div style="margin-bottom: 1em">
                         <label>
-                            <div>Logo URL (optional):</div>
+                            <h4>Logo URL (optional):</h4>
                             <div><input id="newTenantLogoUrl" size="128"></div>
                         </label>
                         <div style="color: #737373">

@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   # Routes for all admin client communication other than loading the
   # application appear here.
   #
-  scope '/admin' do
+  scope '/admin', admin: true do
     namespace :api do
       namespace :v1 do
         jsonapi_resources :tenants

@@ -8,4 +8,10 @@
 
 class Api::V1::ApplicationResourceController < ::ApplicationController
   include JSONAPI::ActsAsResourceController
+
+  def context
+    {
+      admin: params[:admin]
+    }
+  end
 end
