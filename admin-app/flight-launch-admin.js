@@ -87,10 +87,10 @@ function startCreating() {
 
   document.getElementById('newTenantIdentifier').value = '';
   document.getElementById('newTenantName').value = '';
-  document.getElementById('newTenantNaventry').value = '';
-  document.getElementById('newTenantHeader').value = '';
-  document.getElementById('newTenantEmailHeader').value = '';
   document.getElementById('newTenantLogoUrl').value = '';
+  populateOptionalField('newTenantNaventry', null, 'navEntry');
+  populateOptionalField('newTenantHeader', null, 'header');
+  populateOptionalField('newTenantEmailHeader', null, 'emailHeader');
 
   document.getElementById('createForm').style.display = 'block';
 }
@@ -112,10 +112,10 @@ function createTenant() {
           identifier: document.getElementById('newTenantIdentifier').value,
           description: document.getElementById('newTenantName').value,
           name: document.getElementById('newTenantName').value,
-          header: document.getElementById('newTenantHeader').value,
-          navEntry: document.getElementById('newTenantNaventry').value,
-          emailHeader: document.getElementById('newTenantEmailHeader').value,
           logoUrl: document.getElementById('newTenantLogoUrl').value,
+          header: getOptionalAttributeValue('newTenantHeader'),
+          navEntry: getOptionalAttributeValue('newTenantNaventry'),
+          emailHeader: getOptionalAttributeValue('newTenantEmailHeader'),
         },
       },
     }),
@@ -155,13 +155,41 @@ function startEditing() {
     return;
   }
 
-  document.getElementById('tenantName').value = tenant.attributes.name;
-  document.getElementById('tenantNaventry').value = tenant.attributes.navEntry;
-  document.getElementById('tenantHeader').value = tenant.attributes.header;
-  document.getElementById('tenantEmailHeader').value = tenant.attributes.emailHeader;
-  document.getElementById('tenantLogoUrl').value = tenant.attributes.logoUrl;
+  var attrs = tenant.attributes;
+
+  document.getElementById('tenantName').value = attrs.name;
+  document.getElementById('tenantLogoUrl').value = attrs.logoUrl;
+  populateOptionalField('tenantNaventry', attrs, 'navEntry');
+  populateOptionalField('tenantHeader', attrs, 'header');
+  populateOptionalField('tenantEmailHeader', attrs, 'emailHeader');
 
   document.getElementById('editForm').style.display = 'block';
+}
+
+function populateOptionalField(id, attributes, key) {
+  var input = document.getElementById(id);
+  var checkbox = document.getElementById(id + "UseDefault");
+  var usesDefault = attributes == null ? true : attributes[key + "UsesDefault"];
+  var attrValue = attributes == null ? null : attributes[key];
+  if (usesDefault) {
+    input.value = attrValue
+    input.disabled = true;
+    checkbox.checked = true;
+  } else {
+    input.value = attrValue;
+    input.disabled = false;
+    checkbox.checked = false;
+  }
+}
+
+function getOptionalAttributeValue(id) {
+  var input = document.getElementById(id);
+  var checkbox = document.getElementById(id + "UseDefault");
+  if (checkbox.checked) {
+    return null;
+  } else {
+    return input.value;
+  }
 }
 
 function updateTenant() {
@@ -176,6 +204,11 @@ function updateTenant() {
 
   var url = new URL(tenant.links.self);
   url.pathname = "/admin" + url.pathname;
+  var attributes = {
+    name: document.getElementById('tenantName').value,
+  };
+
+
   fetch(url.toString(), {
     credentials: 'include',
     method: 'PATCH',
@@ -189,10 +222,10 @@ function updateTenant() {
         type: tenant.type,
         attributes: {
           name: document.getElementById('tenantName').value,
-          header: document.getElementById('tenantHeader').value,
-          navEntry: document.getElementById('tenantNaventry').value,
-          emailHeader: document.getElementById('tenantEmailHeader').value,
           logoUrl: document.getElementById('tenantLogoUrl').value,
+          header: getOptionalAttributeValue('tenantHeader'),
+          navEntry: getOptionalAttributeValue('tenantNaventry'),
+          emailHeader: getOptionalAttributeValue('tenantEmailHeader'),
         },
       },
     }),
@@ -217,4 +250,9 @@ function updateTenant() {
     document.getElementById('editForm').style.display = 'none';
     TenantsMap[tenant.id] = tenant;
   }
+}
+
+function toggleDisabled(id) {
+  var el = document.getElementById(id);
+  el.disabled = !el.disabled;
 }

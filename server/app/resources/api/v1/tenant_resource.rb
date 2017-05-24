@@ -11,12 +11,15 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
   attribute :cluster_specs_url_config
   attribute :description
   attribute :email_header
+  attribute :email_header_uses_default
   attribute :header
+  attribute :header_uses_default
   attribute :home_page_url
   attribute :identifier
   attribute :logo_url
   attribute :name
   attribute :nav_entry
+  attribute :nav_entry_uses_default
 
   filter :identifier
 
@@ -38,5 +41,17 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
     }
     .deep_stringify_keys
     .deep_transform_keys{|k| k.camelize(:lower)}
+  end
+
+  def email_header_uses_default
+    @model.read_attribute(:email_header).nil?
+  end
+
+  def header_uses_default
+    @model.read_attribute(:header).nil?
+  end
+
+  def nav_entry_uses_default
+    @model.read_attribute(:nav_entry).nil?
   end
 end
