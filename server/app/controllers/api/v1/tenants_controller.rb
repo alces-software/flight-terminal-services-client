@@ -5,5 +5,5 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
-class Api::V1::TenantsController < JSONAPI::ResourceController
+class Api::V1::TenantsController < Api::V1::ApplicationResourceController
 end

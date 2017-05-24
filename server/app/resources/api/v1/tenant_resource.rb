@@ -33,6 +33,18 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
     end
   end
 
+  def fetchable_fields
+    if context[:admin]
+      super
+    else
+      super - [
+        :email_header_uses_default,
+        :header_uses_default,
+        :nav_entry_uses_default
+      ]
+    end
+  end
+
   def cluster_specs_url_config
     {
       default_file: @model.default_cluster_specs_file,
