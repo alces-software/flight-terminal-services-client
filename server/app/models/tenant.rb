@@ -13,10 +13,10 @@ class Tenant < ApplicationRecord
     presence: true, length: {maximum: 32}
 
   validates :name, length: {maximum: 255}
-  validates :name, presence: true, unless: ->(a){ a.identifier == 'default' }
+  validates :name, presence: true, unless: ->(a){ a.default_tenant? }
 
   validates :description, length: {maximum: 10240}
-  validates :description, presence: true, unless: ->(a){ a.identifier == 'default' }
+  validates :description, presence: true, unless: ->(a){ a.default_tenant? }
 
   validates :email_header,
     length: {maximum: 255}
@@ -35,6 +35,20 @@ class Tenant < ApplicationRecord
 
   validates :home_page_url,
     length: {maximum: 1024}
+
+  validates :remaining_credits,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      only_integer: true
+    }
+
+  def credit_limit?
+    !remaining_credits.nil?
+  end
+
+  def default_tenant?
+    identifier == 'default'
+  end
 
   def header
     h = super

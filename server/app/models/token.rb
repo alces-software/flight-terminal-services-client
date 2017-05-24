@@ -17,6 +17,8 @@ class Token < ApplicationRecord
 
   belongs_to :tenant, required: true
 
+  before_validation :reduce_tenants_remaining_credits
+
   validates :name,
     presence: true,
     length: { maximum: 255 },
@@ -32,8 +34,9 @@ class Token < ApplicationRecord
     numericality: {
       greater_than_or_equal_to: 1,
       only_integer: true
-    }
-  default :credits, 1
+    },
+    if: ->(t){ t.tenant.credit_limit? }
+  validate :tenant_has_sufficient_credits
 
   validates :status,
     presence: true,
@@ -64,5 +67,21 @@ class Token < ApplicationRecord
   def mark_as(s, used_by)
     self.status = s.to_s.upcase
     save!
+  end
+
+  private
+
+  def reduce_tenants_remaining_credits
+    if credits_changed?
+      credit_change = credits - credits_was.to_i
+      tenant.remaining_credits -= credit_change
+      tenant.save
+    end
+  end
+
+  def tenant_has_sufficient_credits
+    if tenant.credit_limit? && tenant.remaining_credits < 0
+      errors.add(:credits, 'tenant_has_insufficient_credits')
+    end
   end
 end

@@ -12,6 +12,7 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
   attribute :description
   attribute :email_header
   attribute :email_header_uses_default
+  attribute :has_credit_limit
   attribute :header
   attribute :header_uses_default
   attribute :home_page_url
@@ -20,6 +21,7 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
   attribute :name
   attribute :nav_entry
   attribute :nav_entry_uses_default
+  attribute :remaining_credits
 
   has_many :tokens
 
@@ -55,6 +57,10 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
     }
     .deep_stringify_keys
     .deep_transform_keys{|k| k.camelize(:lower)}
+  end
+
+  def has_credit_limit
+    @model.credit_limit?
   end
 
   def email_header_uses_default
