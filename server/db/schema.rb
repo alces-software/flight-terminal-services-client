@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170523111156) do
+ActiveRecord::Schema.define(version: 20170523160452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,11 +35,12 @@ ActiveRecord::Schema.define(version: 20170523111156) do
     t.string   "name",                limit: 255
     t.string   "assigned_to",         limit: 255
     t.integer  "credits"
-    t.uuid     "tenant_id",                       null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.string   "status",              limit: 64,  null: false
-    t.uuid     "permitted_spec_keys",                          array: true
+    t.uuid     "tenant_id",                        null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "status",              limit: 64,   null: false
+    t.uuid     "permitted_spec_keys",                           array: true
+    t.string   "tag",                 limit: 1024
     t.index ["name"], name: "index_tokens_on_name", unique: true, using: :btree
     t.index ["tenant_id"], name: "index_tokens_on_tenant_id", using: :btree
   end
