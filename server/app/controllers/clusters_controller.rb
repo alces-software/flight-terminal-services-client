@@ -7,6 +7,8 @@
 #==============================================================================
 
 class ClustersController < ApplicationController
+  class TokenNotFound < RuntimeError ; end
+
   def launch
     cluster_launch_config = build_launch_config
     return if cluster_launch_config.nil?
@@ -26,6 +28,7 @@ class ClustersController < ApplicationController
       cluster_launch_config.as_json,
       cluster_launch_config.spec.as_json,
       cluster_launch_config.tenant,
+      cluster_launch_config.token,
     )
 
     cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
@@ -43,13 +46,16 @@ class ClustersController < ApplicationController
 
   def build_launch_config
     tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
+    token = tenant.tokens.find_by(params.require(:token).permit(:name))
+    raise TokenNotFound if token.nil?
     cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
     config_params = cluster_launch_config_params.merge(
       spec: cluster_spec,
       tenant: tenant,
+      token: token,
     )
     ClusterLaunchConfig.new(config_params)
-  rescue ClusterSpec::Error
+  rescue ClusterSpec::Error, TokenNotFound
     render_build_exception($!)
     return nil
   end
@@ -62,7 +68,7 @@ class ClustersController < ApplicationController
   end
 
   def cluster_launch_config_params
-    permitted_params = [:email, :name, :token, :region, :key_pair]
+    permitted_params = [:email, :name, :region, :key_pair]
     required_params = [:email, :name]
 
     params.require(:clusterLaunch).permit(*permitted_params).tap do |h|
@@ -94,6 +100,14 @@ class ClustersController < ApplicationController
         error: 'Bad Gateway',
         details: {
           cluster_spec: ["unable to retrieve cluster specs - #{$!.message}"],
+        }
+      }
+    when TokenNotFound
+      render status: :unprocessable_entity, json: {
+        status: 422,
+        error: 'Unprocessable Entity',
+        details: {
+          token: ["token not found"],
         }
       }
     end

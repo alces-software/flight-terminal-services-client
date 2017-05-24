@@ -26,6 +26,8 @@ class ClusterLaunchConfig
   attr_accessor :key_pair
   attr_accessor :name
   attr_accessor :region
+  attr_accessor :spec # An instance of ClusterSpec.
+  attr_accessor :tenant
   attr_accessor :token
 
   def attributes
@@ -34,7 +36,6 @@ class ClusterLaunchConfig
       'key_pair' => nil,
       'name' => nil,
       'region' => nil,
-      'token_string' => nil,
     }
   end
 
@@ -52,34 +53,14 @@ class ClusterLaunchConfig
 
   validate :validate_token
 
-  # An instance of ClusterSpec.
-  attr_accessor :spec
-  attr_accessor :tenant
-
-  def token=(t)
-    if t.is_a?(String)
-      @token = LegacyToken.new(token_string: t)
-    else
-      @token = t
-    end
-  end
-
-  def token_string
-    @token.token_string
-  end
-
-  def token_string=(t)
-    self.token = t
-  end
-
   def access_key
-    if token.present? && !token.not_found?
+    if token.present? && token.persisted?
       Rails.configuration.alces.access_key
     end
   end
 
   def secret_key
-    if token.present? && !token.not_found?
+    if token.present? && token.persisted?
       Rails.configuration.alces.secret_key
     end
   end
@@ -92,15 +73,9 @@ class ClusterLaunchConfig
     @key_pair || Rails.configuration.alces.default_key_pair
   end
 
-  def using_token?
-    token.present?
-  end
-
   def validate_token
     if token.nil?
       errors.add(:base, 'Must provide token')
-    elsif token.not_found?
-      errors.add(:token, 'token not found')
     elsif ! token.available?
       errors.add(:token, 'token has already been used')
     elsif ! token.can_launch_spec?(spec)
