@@ -79,13 +79,12 @@ class Token < ApplicationRecord
   def reduce_tenants_remaining_credits
     if credits_changed?
       credit_change = credits - credits_was.to_i
-      tenant.remaining_credits -= credit_change
-      tenant.save
+      tenant.reduce_credits(credit_change)
     end
   end
 
   def tenant_has_sufficient_credits
-    if tenant.credit_limit? && tenant.remaining_credits < 0
+    if tenant.credit_limit? && tenant.reload.remaining_credits < 0
       errors.add(:credits, 'tenant_has_insufficient_credits')
     end
   end

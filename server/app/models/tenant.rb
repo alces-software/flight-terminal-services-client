@@ -46,6 +46,46 @@ class Tenant < ApplicationRecord
     !remaining_credits.nil?
   end
 
+  def reduce_credits(by)
+    # We take some care here to ensure that running this method multiple times
+    # for a single tenant inside multiple simultaneous transactions reduces
+    # the remaining credits by the correct amount.
+    #
+    # The usual ActiveRecord way of doing this
+    #
+    #     tenant = Tenant.find(...)
+    #     tenant.remaining_credits -= by
+    #     tenant.save
+    #
+    # does not correctly support multiple simultaneous transactions.  If two
+    # transactions have the reading of the tenant interleaved, they will both
+    # read the same value, say 100, remaining credits.  If they both reduce
+    # the remaining credits by, say 10, ActiveRecord would produce the
+    # following SQL
+    #
+    #     update tenants set remaining_credits = 90 where ...
+    #
+    # There is no means for Postgresql to determine that the reduction by 10
+    # credits should have been cumulative.  So the final result is to reduce
+    # the remaining_credits to 90 instead of 80.
+    #
+    # The funky syntax we use below results in the following SQL
+    #
+    #     update tenants set remaining_credits = remaining_credits - 10 where ...
+    #
+    # This provides Postgresql with the information that it needs in order to
+    # ensure that the cumulative effects of decrementing the remaining_credits
+    # is correct.
+    #
+    # After this method has been run the in-memory tenant object will have an
+    # out-of-date remaining_credits value.  This will need to be reloaded
+    # before being used.  It's left for the client to determine the best
+    # timing for that.
+    Tenant.
+      where(id: id).
+      update_all(['remaining_credits = remaining_credits - ?', by])
+  end
+
   def default_tenant?
     identifier == 'default'
   end

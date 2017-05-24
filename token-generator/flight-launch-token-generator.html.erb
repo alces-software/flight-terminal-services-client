@@ -41,6 +41,9 @@ var combinations = <%= load_combinations('combinations') %>;
                 <em><span id="headerTenantIdentifier"></span></em> -
                 <em><span id="headerTenantName"></span></em>
             </h1>
+            <div id="remainingCreditsInfo" style="margin-bottom: 1em">
+                <strong>Remaining credits: </strong><span id="remainingCredits"></span>
+            </div>
             <div style="margin-bottom: 1em">
                 Generate
                 <label><input type="radio" name="tokenType" value="absurd" checked> absurd</label>
@@ -62,11 +65,16 @@ var combinations = <%= load_combinations('combinations') %>;
             </div>
             <div style="margin-bottom: 1em">
                 Create
-                <input id="numTokens" type="number" value="1" />
+                <input id="numTokens" type="number" min="1" value="1" style="width: 4em" />
                 new
                 token(s)
                 for event
                 <input id="tokenTag" value="" />
+                <span id="creditAllocation">
+                    allocating
+                    <input id="allocatedCredits" type="number" min="1" value="1" style="width: 4em" />
+                    credit(s) to each
+                </span>
                 <input id="createToken" type="button" value="Go!" onclick="createTokens();" />
                 <span style="width: 3em; display: inline-block"></span>
             </div>
@@ -89,6 +97,7 @@ var combinations = <%= load_combinations('combinations') %>;
                         <th>Token</th>
                         <th>Permitted clusters</th>
                         <th>Event</th>
+                        <th>Credits</th>
                     </tr>
                 </thead>
                 <tbody id="tokenTableBody">

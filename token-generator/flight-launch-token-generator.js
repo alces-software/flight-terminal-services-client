@@ -16,90 +16,92 @@ var ClusterSpecKeyToNameMap = {};
 // The tenant that we're creating tokens for.
 var activeTenant = undefined;
 
-// Load cluster specs and populate ClusterSpecKeyToNameMap and the cluster
-// specs selection checkboxes.
-(function () {
+const urlParams = new URLSearchParams(window.location.search);
+fetchTenant()
+  .then(fetchClusterSpecs)
+  .catch((error) => {
+    writeError(error);
+  });
 
-  const urlParams = new URLSearchParams(window.location.search);
-  fetchTenant()
-    .then(fetchClusterSpecs)
-    .catch((error) => {
-      writeError(error);
+function fetchTenant() {
+  var tenantIdentifier = urlParams.get('tenant') || 'default';
+  var tenantUrl = "/api/v1/tenants?filter[identifier]=" + tenantIdentifier;
+
+  return fetch(tenantUrl)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject('Unable to load tenant');
+      }
+    })
+    .then((tenantsJsonApiDoc) => {
+      const tenants = tenantsJsonApiDoc.data;
+      if (tenants.length < 1) {
+        return Promise.reject('Tenant not found');
+      } else if (tenants.length > 1) {
+        return Promise.reject('Multiple matches');
+      }
+      activeTenant = tenants[0];
+      return tenants[0];
+    })
+    .then((tenant) => {
+      var attrs = tenant.attributes;
+      document.getElementById('headerTenantName').innerHTML = attrs.name;
+      document.getElementById('headerTenantIdentifier').innerHTML = attrs.identifier;
+      if (attrs.hasCreditLimit) {
+        document.getElementById('remainingCredits').innerHTML = attrs.remainingCredits;
+      } else {
+        document.getElementById('creditAllocation').style.display = 'none';
+        document.getElementById('remainingCreditsInfo').style.display = 'none';
+      }
+      return tenant;
     });
+}
 
-  function fetchTenant() {
-    var tenantIdentifier = urlParams.get('tenant') || 'default';
-    var tenantUrl = "/api/v1/tenants?filter[identifier]=" + tenantIdentifier;
-
-    return fetch(tenantUrl)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return Promise.reject('Unable to load tenant');
-        }
-      })
-      .then((tenantsJsonApiDoc) => {
-        const tenants = tenantsJsonApiDoc.data;
-        if (tenants.length < 1) {
-          return Promise.reject('Tenant not found');
-        } else if (tenants.length > 1) {
-          return Promise.reject('Multiple matches');
-        }
-        activeTenant = tenants[0];
-        return tenants[0];
-      })
-      .then((tenant) => {
-        document.getElementById('headerTenantName').innerHTML = tenant.attributes.name;
-        document.getElementById('headerTenantIdentifier').innerHTML = tenant.attributes.identifier;
-        return tenant;
-      });
+function buildClusterSpecsConfig(fileOverride, defaults) {
+  return {
+    url: fileOverride ? `${defaults.prefix}${fileOverride}` : defaults.defaultUrl,
+    file: fileOverride ? fileOverride : defaults.defaultFile,
   }
+}
 
-  function buildClusterSpecsConfig(fileOverride, defaults) {
-    return {
-      url: fileOverride ? `${defaults.prefix}${fileOverride}` : defaults.defaultUrl,
-      file: fileOverride ? fileOverride : defaults.defaultFile,
-    }
+function fetchClusterSpecs(tenant) {
+  var specsFile = urlParams.get('clusterSpecs');
+  var specsDefaults = tenant.attributes.clusterSpecsUrlConfig;
+  var specsConfig = buildClusterSpecsConfig(specsFile, specsDefaults);
+
+  fetch(specsConfig.url)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject('Unable to load specs');
+      }
+    })
+    .then((specs) => {
+      generateClusterSelectionList(specs.clusterSpecs);
+    });
+}
+
+
+function generateClusterSelectionList(clusterSpecs) {
+  for (var i=0; i < clusterSpecs.length; i++) {
+    spec = clusterSpecs[i];
+
+    var div = document.createElement("div");
+    var input = document.createElement("input");
+    input.type = 'checkbox';
+    input.value = spec.key;
+    input.disabled = true;
+    var label = document.createElement("label");
+    label.append(input, spec.ui.title);
+    div.append(label);
+    document.getElementById('clustersList').append(div);
+
+    ClusterSpecKeyToNameMap[spec.key] = spec.ui.title;
   }
-
-  function fetchClusterSpecs(tenant) {
-    var specsFile = urlParams.get('clusterSpecs');
-    var specsDefaults = tenant.attributes.clusterSpecsUrlConfig;
-    var specsConfig = buildClusterSpecsConfig(specsFile, specsDefaults);
-
-    fetch(specsConfig.url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return Promise.reject('Unable to load specs');
-        }
-      })
-      .then((specs) => {
-        generateClusterSelectionList(specs.clusterSpecs);
-      });
-  }
-
-
-  function generateClusterSelectionList(clusterSpecs) {
-    for (var i=0; i < clusterSpecs.length; i++) {
-      spec = clusterSpecs[i];
-
-      var div = document.createElement("div");
-      var input = document.createElement("input");
-      input.type = 'checkbox';
-      input.value = spec.key;
-      input.disabled = true;
-      var label = document.createElement("label");
-      label.append(input, spec.ui.title);
-      div.append(label);
-      document.getElementById('clustersList').append(div);
-
-      ClusterSpecKeyToNameMap[spec.key] = spec.ui.title;
-    }
-  }
-})();
+}
 
 //
 // == Utils ================================================
@@ -120,7 +122,7 @@ function rand(max) {
   return Math.floor(Math.random() * max);
 }
 
-// Return a random element from collection.
+// Return a random element from collection.size
 function randomChoice(collection) {
   const index = rand(collection.length);
   return collection[index];
@@ -282,7 +284,7 @@ function generateMeaninglessPart(length) {
 }
 
 //
-// == Clipboard interaction ================================
+// == Clipboard interaction ================================size
 //
 
 function selectTextarea(element) {
@@ -333,7 +335,8 @@ function copyToClipboard() {
 // == Token creation and retrieval =================================
 //
 
-function createToken() {
+function createToken(params) {
+  var credits = params.credits;
   var token = randomToken();
   if (token == null) { return; }
   var tag = getTokenTag();
@@ -341,6 +344,7 @@ function createToken() {
 
   var attributes = {
     name: token,
+    credits: credits,
   };
   if (areTokensRestricted()) {
     attributes.permittedSpecKeys = permittedClusterKeys();
@@ -349,7 +353,7 @@ function createToken() {
     attributes.tag = tag;
   }
 
-  fetch(url, {
+  return fetch(url, {
     credentials: 'include',
     method: 'POST',
     headers: {
@@ -375,7 +379,7 @@ function createToken() {
       if (response.ok) {
         return response.json();
       } else {
-        return Promise.reject('Error creating token ' + token);
+        return response.json().then(j => Promise.reject(extractErrorDetails(j.errors)));
       }
     })
     .then((jsonApiDoc) => {
@@ -383,21 +387,61 @@ function createToken() {
       writeTokens([token]);
     })
     .catch((err) => {
-      writeError("Unable to create token: \n" + JSON.stringify(err, undefined, 2));
+      writeError("Unable to create token " + token + ": \n" + JSON.stringify(err, undefined, 2));
     });
+}
+
+function extractErrorDetails(errors) {
+  var details = [];
+  errors.forEach((err) => {
+    details.push(err.detail);
+  });
+  return details;
 }
 
 function createTokens() {
   clearErrorMessages();
   var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 1;
   writeInfo("Creating " + numTokens + " tokens...");
+
+  var credits = null;
+  if (activeTenant.attributes.hasCreditLimit) {
+    credits = parseInt(document.getElementById('allocatedCredits').value, 10) || 1;
+  }
+
   if (areTokensRestricted() && permittedClusterKeys().length < 1) {
     writeError("When creating restricted tokens at least one cluster must be selected");
   } else {
+    var promiseFactories = [];
     for (var i=0; i<numTokens; i++) {
-      createToken();
+      promiseFactories.push(() => createToken({ credits: credits }));
     }
+    runParallel(promiseFactories)
+      .then(() => {
+        fetchTenant();
+      })
+      .catch((error) => {
+        writeError(error);
+      });
   }
+}
+
+// Run an array of functions returning promises in parallel.  Returns the
+// result from the last promise.
+function runParallel(promiseFactories) {
+  var promises = [];
+  promiseFactories.forEach(pf => promises.push(pf()));
+  return Promise.all(promises);
+}
+
+// Run an array of functions returning promises serially.  Returns the result
+// from the last promise.
+function runSerial(promiseFactories) {
+  var result = Promise.resolve();
+  promiseFactories.forEach(pf => {
+    result = result.then(() => pf());
+  });
+  return result;
 }
 
 function fetchAvailableTokens() {
@@ -464,10 +508,18 @@ function writeTokens(tokens) {
       var tagCell = document.createElement("td");
       tagCell.append(tokenAttrs.tag || '');
 
+      var creditCell = document.createElement("td");
+      if (activeTenant.attributes.hasCreditLimit) {
+        creditCell.append(tokenAttrs.credits);
+      } else {
+        creditCell.append('N/A');
+      }
+
       var tr = document.createElement("tr");
       tr.append(tokenCell);
       tr.append(permittedClustersCell);
       tr.append(tagCell);
+      tr.append(creditCell);
       table.append(tr);
     });
 }
