@@ -17,7 +17,8 @@ class Token < ApplicationRecord
 
   belongs_to :tenant, required: true
 
-  before_validation :reduce_tenants_remaining_credits
+  before_validation :reduce_tenants_remaining_credits,
+    if: ->(t){t.tenant.credit_limit?}
 
   validates :name,
     presence: true,
@@ -36,7 +37,11 @@ class Token < ApplicationRecord
       only_integer: true
     },
     if: ->(t){ t.tenant.credit_limit? }
-  validate :tenant_has_sufficient_credits
+  validate :tenant_has_sufficient_credits, 
+    if: ->(t){ t.tenant.credit_limit? }
+  validates :credits,
+    absence: true,
+    unless: ->(t){ t.tenant.credit_limit? }
 
   validates :status,
     presence: true,
