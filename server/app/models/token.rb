@@ -35,13 +35,9 @@ class Token < ApplicationRecord
     numericality: {
       greater_than_or_equal_to: 1,
       only_integer: true
-    },
-    if: ->(t){ t.tenant.credit_limit? }
+    }
   validate :tenant_has_sufficient_credits, 
     if: ->(t){ t.tenant.credit_limit? }
-  validates :credits,
-    absence: true,
-    unless: ->(t){ t.tenant.credit_limit? }
 
   validates :status,
     presence: true,

@@ -52,7 +52,6 @@ function fetchTenant() {
       if (attrs.hasCreditLimit) {
         document.getElementById('remainingCredits').innerHTML = attrs.remainingCredits;
       } else {
-        document.getElementById('creditAllocation').style.display = 'none';
         document.getElementById('remainingCreditsInfo').style.display = 'none';
       }
       return tenant;
@@ -387,7 +386,7 @@ function createToken(params) {
       writeTokens([token]);
     })
     .catch((err) => {
-      writeError("Unable to create token " + token + ": \n" + JSON.stringify(err, undefined, 2));
+      writeError("Unable to create token " + token + ": " + JSON.stringify(err, undefined, 2));
     });
 }
 
@@ -404,9 +403,9 @@ function createTokens() {
   var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 1;
   writeInfo("Creating " + numTokens + " tokens...");
 
-  var credits = null;
-  if (activeTenant.attributes.hasCreditLimit) {
-    credits = parseInt(document.getElementById('allocatedCredits').value, 10) || 1;
+  var credits = parseInt(document.getElementById('allocatedCredits').value, 10);
+  if (credits == null || isNaN(credits)) {
+    writeError("The number of credits to allocate must be set.");
   }
 
   if (areTokensRestricted() && permittedClusterKeys().length < 1) {
@@ -509,11 +508,7 @@ function writeTokens(tokens) {
       tagCell.append(tokenAttrs.tag || '');
 
       var creditCell = document.createElement("td");
-      if (activeTenant.attributes.hasCreditLimit) {
-        creditCell.append(tokenAttrs.credits);
-      } else {
-        creditCell.append('N/A');
-      }
+      creditCell.append(tokenAttrs.credits);
 
       var tr = document.createElement("tr");
       tr.append(tokenCell);
