@@ -8,11 +8,12 @@
 import React, { PropTypes } from 'react';
 import { Icon } from 'flight-common';
 
-import { clusterSpecShape } from '../modules/clusterSpecs/propTypes';
+import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
+import MultiPageForm from '../../../components/MultiPageForm';
+
 import Credentials from './ClusterLaunchCredentials';
 import ClusterName from './ClusterLaunchClusterName';
 import Email from './ClusterLaunchEmail';
-import MultiPageForm from './MultiPageForm';
 
 class ClusterLaunchForm extends React.Component {
   static propTypes = {

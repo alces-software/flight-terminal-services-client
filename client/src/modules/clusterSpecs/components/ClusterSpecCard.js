@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import Card from '../../../components/Card';
-import ClusterLaunchFormContainer from '../../../containers/ClusterLaunchFormContainer';
+import clusterLaunch from '../../clusterLaunch/';
 import tenants from '../../../modules/tenants';
 
 import { clusterSpecShape } from '../propTypes';
@@ -64,7 +64,7 @@ const ClusterSpecCard = ({
         titleLogoUrl={clusterSpec.ui.logoUrl}
         titleSize="large"
       >
-        <ClusterLaunchFormContainer
+        <clusterLaunch.Form
           clusterSpec={clusterSpec}
           clusterSpecsFile={clusterSpecsFile}
           onCancel={showFront}
