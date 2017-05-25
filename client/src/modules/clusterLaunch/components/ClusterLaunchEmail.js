@@ -6,7 +6,8 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
-import Tip from './Tip';
+
+import Tip from '../../../components/Tip';
 
 import Input from './ClusterFormInput';
 

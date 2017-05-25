@@ -8,11 +8,12 @@
 import React, { PropTypes } from 'react';
 import validatorUtils from 'validator';
 
-import { clusterSpecShape } from '../modules/clusterSpecs/propTypes';
-import ClusterLaunchForm from '../components/ClusterLaunchForm';
-import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
-import ClusterErrorModal from '../components/ClusterErrorModal';
-import * as analytics from '../utils/analytics';
+import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
+import * as analytics from '../../../utils/analytics';
+
+import ClusterErrorModal from './ClusterErrorModal';
+import ClusterLaunchForm from './ClusterLaunchForm';
+import ClusterLaunchedModal from './ClusterLaunchedModal';
 
 const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
 

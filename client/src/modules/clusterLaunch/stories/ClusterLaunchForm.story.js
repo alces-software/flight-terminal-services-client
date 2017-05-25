@@ -2,7 +2,7 @@ import React from 'react';
 import { linkTo, storiesOf } from '@kadira/storybook';
 
 import ClusterLaunchForm from '../components/ClusterLaunchForm';
-import '../styles/ClusterSpecCard.scss';
+import '../../clusterSpecs/styles/ClusterSpecCard.scss';
 
 const clusterSpec = {
   ui: {
