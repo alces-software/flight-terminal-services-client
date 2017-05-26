@@ -15,10 +15,9 @@ const propTypes = {
   show: PropTypes.bool.isRequired,
 }
 
-const ClusterLaunchModal = ({ clusterName, email, onHide, show }) => (
+const ClusterLaunchedModal = ({ clusterName, email, onHide, show }) => (
   <StandardModal
     bsSize="large"
-    className="flight-packageDetailModal"
     onHide={onHide}
     show={show}
     title="Your Alces Flight Compute HPC cluster is getting ready for take-off"
@@ -38,6 +37,6 @@ const ClusterLaunchModal = ({ clusterName, email, onHide, show }) => (
   </StandardModal>
 );
 
-ClusterLaunchModal.propTypes = propTypes;
+ClusterLaunchedModal.propTypes = propTypes;
 
-export default ClusterLaunchModal;
+export default ClusterLaunchedModal;
