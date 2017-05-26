@@ -12,7 +12,9 @@ const clusterSpec = {
     logoUrl: 'http://example.com/logo.png',
     autoscaling: false,
     usesSpot: true,
-    scheduler: "Slurm",
+  },
+  costs: {
+    costPerHour: 10,
   },
 };
 
@@ -21,6 +23,7 @@ const commonProps = {
   errors: {},
   handleSubmit: () => {},
   onCancel: () => {},
+  onCredentialsEntered: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
   values: {},
@@ -39,9 +42,9 @@ storiesOf('ClusterLaunchForm', module)
   .addDecorator(story => (
     <div className="card-deck">
       <div className="ClusterSpecCard">
-        <div className="ReactFlipCard ReactFlipCard--horizontal ReactFlipCard--flipped" tabindex="0">
+        <div className="ReactFlipCard ReactFlipCard--horizontal ReactFlipCard--flipped" tabIndex="0">
           <div className="ReactFlipCard__Flipper">
-            <div className="ReactFlipCard__Back" tabindex="-1" aria-hidden="false">
+            <div className="ReactFlipCard__Back" tabIndex="-1" aria-hidden="false">
               <div className="card-wrapper">
                 <div className="card clusterSpecCard card--logo-right">
                   <div className="card-block">
@@ -81,14 +84,33 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       currentPageIndex={0}
+      onShowNextPage={linkTo('ClusterLaunchForm', 'loading launch options page')}
+    />
+  ))
+
+  .add('loading launch options page', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      currentPageIndex={1}
+      onShowNextPage={linkTo('ClusterLaunchForm', 'loaded launch options page')}
+      onShowPreviousPage={linkTo('ClusterLaunchForm', 'empty launch token page')}
+    />
+  ))
+
+  .add('loaded launch options page', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      currentPageIndex={1}
       onShowNextPage={linkTo('ClusterLaunchForm', 'empty cluster name page')}
+      onShowPreviousPage={linkTo('ClusterLaunchForm', 'empty launch token page')}
+      token={{ attributes: { credits: 45 }}}
     />
   ))
 
   .add('empty cluster name page', () => (
     <ClusterLaunchForm
       {...commonProps}
-      currentPageIndex={1}
+      currentPageIndex={2}
       onShowNextPage={linkTo('ClusterLaunchForm', 'empty email page')}
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'empty launch token page')}
     />
@@ -97,7 +119,7 @@ storiesOf('ClusterLaunchForm', module)
   .add('empty email page', () => (
     <ClusterLaunchForm
       {...commonProps}
-      currentPageIndex={2}
+      currentPageIndex={3}
       handleSubmit={(event) => {
         event.preventDefault();
         linkTo('ClusterLaunchForm', 'when submitting')();
@@ -119,17 +141,17 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
-      currentPageIndex={1}
+      currentPageIndex={2}
       onShowNextPage={linkTo('ClusterLaunchForm', 'completed email page')}
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'completed launch token page')}
     />
   ))
 
-  .add('completed email page (token)', () => (
+  .add('completed email page', () => (
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
-      currentPageIndex={2}
+      currentPageIndex={3}
       handleSubmit={(event) => {
         event.preventDefault();
         linkTo('ClusterLaunchForm', 'when submitting')();
@@ -142,7 +164,7 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
-      currentPageIndex={2}
+      currentPageIndex={3}
       submitting
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'completed email page')}
     />
@@ -152,7 +174,7 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
-      currentPageIndex={1}
+      currentPageIndex={2}
       values={{ clusterName: 'contains spaces' }}
       errors={{ clusterName: 'format' }}
     />

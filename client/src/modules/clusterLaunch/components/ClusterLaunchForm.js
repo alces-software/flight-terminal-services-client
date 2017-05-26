@@ -10,10 +10,13 @@ import { Icon } from 'flight-common';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import MultiPageForm from '../../../components/MultiPageForm';
+import { DelaySpinner } from '../../../components/delayedUntil';
+
 
 import Credentials from './ClusterLaunchCredentials';
 import ClusterName from './ClusterLaunchClusterName';
 import Email from './ClusterLaunchEmail';
+import LaunchOptions from './LaunchOptions';
 
 class ClusterLaunchForm extends React.Component {
   static propTypes = {
@@ -21,9 +24,15 @@ class ClusterLaunchForm extends React.Component {
     currentPageIndex: PropTypes.number.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
+    onCredentialsEntered: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
+    token: PropTypes.shape({
+      attributes: PropTypes.shape({
+        credits: PropTypes.number.isRequired,
+      }).isRequired
+    }),
   };
 
   pages = [
@@ -36,6 +45,18 @@ class ClusterLaunchForm extends React.Component {
           onChange={this.props.onChange}
         />),
       valid: () => !this.props.errors.launchToken,
+    },
+    {
+      render: () => (
+        this.props.token == null ?
+        <div>
+          Loading token <DelaySpinner />
+        </div> :
+        <LaunchOptions
+          clusterSpec={this.props.clusterSpec}
+          token={this.props.token}
+        />),
+      valid: () => this.props.token,
     },
     {
       render: () => (
@@ -65,6 +86,14 @@ class ClusterLaunchForm extends React.Component {
     this.emailPage && this.emailPage.blur();
   }
 
+  handleShowNextPage = () => {
+    const indexOfCredentialsPage = 0;
+    if (this.props.currentPageIndex === indexOfCredentialsPage) {
+      this.props.onCredentialsEntered();
+    }
+    this.props.onShowNextPage();
+  }
+
   render() {
     return (
       <MultiPageForm
@@ -72,7 +101,7 @@ class ClusterLaunchForm extends React.Component {
         currentPageIndex={this.props.currentPageIndex}
         handleSubmit={this.props.handleSubmit}
         onCancel={this.props.onCancel}
-        onShowNextPage={this.props.onShowNextPage}
+        onShowNextPage={this.handleShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}
         pages={this.pages}
         submitButtonContent={<span>Launch{' '}<Icon name="plane" /></span>}
