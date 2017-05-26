@@ -67,7 +67,10 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
       }
       {
         clusterSpec.costs ?
-          <ClusterSpecCostFooterIcon costs={clusterSpec.costs} /> :
+          <ClusterSpecCostFooterIcon
+            costs={clusterSpec.costs}
+            specTitle={clusterSpec.ui.title}
+          /> :
           null
       }
       {
