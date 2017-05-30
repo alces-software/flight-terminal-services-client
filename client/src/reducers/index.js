@@ -10,13 +10,11 @@ import { combineReducers } from 'redux';
 import clusterSpecs from '../modules/clusterSpecs';
 import onboarding from '../modules/onboarding';
 import tenants from '../modules/tenants';
-// import tokens from '../modules/tokens';
+import tokens from '../modules/tokens';
 
 export default combineReducers({
   [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
   [onboarding.constants.NAME]: onboarding.reducer,
   [tenants.constants.NAME]: tenants.reducer,
-  // XXX Do we need this here?  It would make a lot of sense to have it if we
-  // reduxified the cluster launch module.
-  // [tokens.constants.NAME]: tokens.reducer,
+  [tokens.constants.NAME]: tokens.reducer,
 });

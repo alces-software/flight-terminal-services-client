@@ -7,17 +7,19 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 import { Icon } from 'flight-common';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import MultiPageForm from '../../../components/MultiPageForm';
-
+import tokens from '../../../modules/tokens';
 
 import TokenInput from './TokenInput';
 import ClusterName from './ClusterLaunchClusterName';
 import Email from './ClusterLaunchEmail';
 import LaunchOptions from './LaunchOptions';
 
-class ClusterLaunchForm extends React.Component {
+export class ClusterLaunchForm extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
     currentPageIndex: PropTypes.number.isRequired,
@@ -27,11 +29,8 @@ class ClusterLaunchForm extends React.Component {
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
-    token: PropTypes.shape({
-      attributes: PropTypes.shape({
-        credits: PropTypes.number.isRequired,
-      }).isRequired
-    }),
+    tokenName: PropTypes.string,
+    tokenHasLoaded: PropTypes.bool,
   };
 
   pages = [
@@ -49,9 +48,9 @@ class ClusterLaunchForm extends React.Component {
       render: () => (
         <LaunchOptions
           clusterSpec={this.props.clusterSpec}
-          token={this.props.token}
+          tokenName={this.props.tokenName}
         />),
-      valid: () => this.props.token,
+      valid: () => this.props.tokenHasLoaded,
     },
     {
       render: () => (
@@ -124,4 +123,6 @@ class ClusterLaunchForm extends React.Component {
   }
 }
 
-export default ClusterLaunchForm;
+export default connect(createStructuredSelector({
+  tokenHasLoaded: tokens.selectors.hasLoaded,
+}))(ClusterLaunchForm);

@@ -84,7 +84,6 @@ class ClusterLaunchFormContainer extends React.Component {
       error: null,
       title: null,
     },
-    loadingToken: false,
   }
 
   handleFormChange = ({ name, value }) => {
@@ -206,16 +205,11 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   fetchToken = () => {
-    this.setState({ loadingToken: true });
     this.props.dispatch(tokens.actions.loadToken(this.state.values.launchToken))
       .then((response) => {
         if (response.error) {
           return Promise.reject(response);
         }
-        this.setState({
-          loadingToken: false,
-          token: response.payload,
-        });
       })
       .catch((error) => {
         this.setState({
@@ -224,7 +218,6 @@ class ClusterLaunchFormContainer extends React.Component {
             title: 'Verifying your launch token has failed',
           },
           showErrorModal: true,
-          loadingToken: false,
         })
       });
   }
@@ -245,6 +238,7 @@ class ClusterLaunchFormContainer extends React.Component {
         <ClusterLaunchForm
           {...this.state}
           {...this.props}
+          tokenName={this.state.values.launchToken}
           ref={(el) => { this.launchForm = el; }}
           onChange={this.handleFormChange}
           onTokenEntered={this.fetchToken}

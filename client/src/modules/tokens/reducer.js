@@ -5,30 +5,42 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import loadingStates from '../../modules/loadingStates';
+import composeReducers from '../../reducers/composeReducers';
 
-import { LOADED } from './actionTypes';
+import { LOADING, LOADED, LOAD_FAILED } from './actionTypes';
 
 const initialState = {
   tokens: {},
 };
 
-function addEntity(state, tenant) {
-  return {
+const addEntity = tenant => state => (
+  {
     ...state,
     tokens: {
       ...state.tokens,
       [tenant.id]: tenant
     }
   }
-}
+);
 
-export default function reducer(state = initialState, { payload, type }) {
+function reducer(state = initialState, { meta, payload, type }) {
   switch (type) {
 
     case LOADED:
-      return addEntity(state, payload);
+      return addEntity(payload)(state);
 
     default:
       return state;
   }
 }
+
+
+export default composeReducers(
+  loadingStates.reducer({
+    loading: LOADING,
+    resolved: LOADED,
+    rejected: LOAD_FAILED,
+  }),
+  reducer,
+);

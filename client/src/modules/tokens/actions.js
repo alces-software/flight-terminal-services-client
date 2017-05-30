@@ -12,9 +12,14 @@ import tenants from '../../modules/tenants';
 
 import { LOADING, LOADED, LOAD_FAILED } from './actionTypes';
 
-function loading(identifier) {
+function loading(name) {
   return {
     type: LOADING,
+    meta: {
+      loadingState: {
+        key: name,
+      }
+    }
   }
 }
 
@@ -22,10 +27,15 @@ function loaded(token) {
   return {
     type: LOADED,
     payload: token,
+    meta: {
+      loadingState: {
+        key: token.attributes.name,
+      }
+    }
   }
 }
 
-function failedToLoad(error) {
+function failedToLoad(error, name) {
   let payload;
   if (isPlainObject(error)) {
     payload = error;
@@ -40,6 +50,11 @@ function failedToLoad(error) {
     type: LOAD_FAILED,
     error: true,
     payload,
+    meta: {
+      loadingState: {
+        key: name,
+      },
+    },
   };
 }
 
@@ -80,13 +95,13 @@ export function loadToken(name) {
   return (dispatch, getState) => {
     invariant(name, 'Token name must be given');
 
-    dispatch(loading());
+    dispatch(loading(name));
 
     const tenant = tenants.selectors.tenant(getState());
     const baseTokensUrl = tenant.relationships.tokens.links.related;
 
     return fetchOneByLookupKey(baseTokensUrl, 'name', name)
       .then(entity => dispatch(loaded(entity)))
-      .catch(error => dispatch(failedToLoad(error)));
+      .catch(error => dispatch(failedToLoad(error, name)));
   };
 }

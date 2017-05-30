@@ -12,7 +12,9 @@ import configureMockStore from 'redux-mock-store';
 
 import ClusterLaunchFormContainer from './ClusterLaunchFormContainer';
 
-const initialState = { };
+const initialState = {
+  tokens: { meta: { loadingState: {}} },
+};
 const store = configureMockStore()(initialState);
 
 const clusterSpec = {

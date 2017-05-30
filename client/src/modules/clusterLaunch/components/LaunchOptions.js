@@ -7,8 +7,11 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 import { branch, compose, renderComponent } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { DelaySpinner } from '../../../components/delayedUntil';
+import tokens from '../../../modules/tokens';
 
 const propTypes = {
   clusterSpec: PropTypes.shape({
@@ -72,12 +75,23 @@ const LaunchOptions = ({ clusterSpec, token }) => {
 
 LaunchOptions.propTypes = propTypes;
 
+const mapStateToProps = createStructuredSelector({
+  token: tokens.selectors.tokenFromName,
+  isLoading: tokens.selectors.isLoading,
+})
+
 const enhance = compose(
+  connect(mapStateToProps),
+
   branch(
     ({ token }) => token == null,
-    renderComponent(() => (
+    renderComponent(({ isLoading }) => (
       <div>
-        Loading token <DelaySpinner />
+        {
+          isLoading ?
+            <span>Loading token <DelaySpinner /></span> :
+            <span>Failed to load token</span>
+        }
       </div>
     )),
   ),
