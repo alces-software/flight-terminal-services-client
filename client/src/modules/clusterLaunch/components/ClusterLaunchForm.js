@@ -10,7 +10,6 @@ import { Icon } from 'flight-common';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import MultiPageForm from '../../../components/MultiPageForm';
-import { DelaySpinner } from '../../../components/delayedUntil';
 
 
 import Credentials from './ClusterLaunchCredentials';
@@ -48,10 +47,6 @@ class ClusterLaunchForm extends React.Component {
     },
     {
       render: () => (
-        this.props.token == null ?
-        <div>
-          Loading token <DelaySpinner />
-        </div> :
         <LaunchOptions
           clusterSpec={this.props.clusterSpec}
           token={this.props.token}

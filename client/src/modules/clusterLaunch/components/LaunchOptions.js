@@ -6,6 +6,9 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React, { PropTypes } from 'react';
+import { branch, compose, renderComponent } from 'recompose';
+
+import { DelaySpinner } from '../../../components/delayedUntil';
 
 const propTypes = {
   clusterSpec: PropTypes.shape({
@@ -69,4 +72,15 @@ const LaunchOptions = ({ clusterSpec, token }) => {
 
 LaunchOptions.propTypes = propTypes;
 
-export default LaunchOptions;
+const enhance = compose(
+  branch(
+    ({ token }) => token == null,
+    renderComponent(() => (
+      <div>
+        Loading token <DelaySpinner />
+      </div>
+    )),
+  ),
+);
+
+export default enhance(LaunchOptions);
