@@ -12,7 +12,7 @@ import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import MultiPageForm from '../../../components/MultiPageForm';
 
 
-import Credentials from './ClusterLaunchCredentials';
+import TokenInput from './TokenInput';
 import ClusterName from './ClusterLaunchClusterName';
 import Email from './ClusterLaunchEmail';
 import LaunchOptions from './LaunchOptions';
@@ -23,7 +23,7 @@ class ClusterLaunchForm extends React.Component {
     currentPageIndex: PropTypes.number.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onCredentialsEntered: PropTypes.func.isRequired,
+    onTokenEntered: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
@@ -37,7 +37,7 @@ class ClusterLaunchForm extends React.Component {
   pages = [
     {
       render: () => (
-        <Credentials
+        <TokenInput
           id={this.props.clusterSpec.ui.title}
           error={this.props.errors.launchToken}
           value={this.props.values.launchToken}
@@ -82,9 +82,9 @@ class ClusterLaunchForm extends React.Component {
   }
 
   handleShowNextPage = () => {
-    const indexOfCredentialsPage = 0;
-    if (this.props.currentPageIndex === indexOfCredentialsPage) {
-      this.props.onCredentialsEntered();
+    const indexOfTokenPage = 0;
+    if (this.props.currentPageIndex === indexOfTokenPage) {
+      this.props.onTokenEntered();
     }
     this.props.onShowNextPage();
   }

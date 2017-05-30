@@ -34,7 +34,7 @@ const commonProps = {
   onCancel: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
-  onCredentialsEntered: () => {},
+  onTokenEntered: () => {},
 };
 
 it('renders without crashing', () => {

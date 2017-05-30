@@ -7,9 +7,8 @@
  *===========================================================================*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { shallow, mount } from 'enzyme';
 
-import Credentials from './ClusterLaunchCredentials';
+import TokenInput from './TokenInput';
 
 const commonProps = {
   id: "",
@@ -20,5 +19,5 @@ const commonProps = {
 
 test('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<Credentials {...commonProps} />, div);
+  ReactDOM.render(<TokenInput {...commonProps} />, div);
 });

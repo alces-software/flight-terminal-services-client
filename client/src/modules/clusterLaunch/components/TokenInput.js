@@ -16,7 +16,7 @@ const propTypes = {
   value: PropTypes.string,
 };
 
-const Credentials = ({ error, id, onChange, value }) => (
+const TokenInput = ({ error, id, onChange, value }) => (
   <Input
     error={error}
     id={`${id}-launch-token`}
@@ -30,6 +30,6 @@ const Credentials = ({ error, id, onChange, value }) => (
 );
 
 
-Credentials.propTypes = propTypes;
+TokenInput.propTypes = propTypes;
 
-export default Credentials;
+export default TokenInput;

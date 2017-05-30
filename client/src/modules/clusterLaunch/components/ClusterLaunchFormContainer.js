@@ -247,7 +247,7 @@ class ClusterLaunchFormContainer extends React.Component {
           {...this.props}
           ref={(el) => { this.launchForm = el; }}
           onChange={this.handleFormChange}
-          onCredentialsEntered={this.fetchToken}
+          onTokenEntered={this.fetchToken}
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
           handleSubmit={this.handleSubmit}
