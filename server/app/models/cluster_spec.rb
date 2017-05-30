@@ -26,8 +26,13 @@ class ClusterSpec
     def load(params, tenant)
       file = params['file']
       name = params['name']
-      url = "#{tenant.cluster_specs_url_prefix}#{file}"
+      if Rails.env.development? && file == 'dev'
+        url = Rails.root.join('tmp', 'dev', 'clusterSpecs.dev.json').to_path
+      else
+        url = "#{tenant.cluster_specs_url_prefix}#{file}"
+      end
 
+      Alces.app.logger.info("Retrieving cluster specs from #{url.inspect}")
       begin
         cluster_specs = JSON.parse(open(url).read)['clusterSpecs']
       rescue OpenURI::HTTPError

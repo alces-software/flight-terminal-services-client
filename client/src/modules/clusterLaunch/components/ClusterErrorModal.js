@@ -106,7 +106,6 @@ const ClusterErrorModal = ({ error, onHide, show }) => {
   return (
     <StandardModal
       bsSize="large"
-      className="flight-packageDetailModal"
       onHide={onHide}
       show={show}
       title="Your HPC cluster failed to launch"
