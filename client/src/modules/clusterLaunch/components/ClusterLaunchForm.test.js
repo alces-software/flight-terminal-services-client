@@ -34,6 +34,7 @@ const commonProps = {
   onCancel: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
+  onCredentialsEntered: () => {},
 };
 
 it('renders without crashing', () => {
@@ -101,13 +102,13 @@ describe('pages validity', () => {
     {
       testName: 'cluster name page is valid when it should be',
       errors: {},
-      pageIndex: 1,
+      pageIndex: 2,
       expectedValidity: true,
     },
     {
       testName: 'email page is valid when it should be',
       errors: {},
-      pageIndex: 2,
+      pageIndex: 3,
       expectedValidity: true,
     },
     {
@@ -119,13 +120,13 @@ describe('pages validity', () => {
     {
       testName: 'cluster name page is invalid when it should be',
       errors: { clusterName: 'blank' },
-      pageIndex: 1,
+      pageIndex: 2,
       expectedValidity: false,
     },
     {
       testName: 'email page is invalid when it should be',
       errors: { email: 'not_valid' },
-      pageIndex: 2,
+      pageIndex: 3,
       expectedValidity: false,
     },
   ];
@@ -138,7 +139,7 @@ it('#blurEmailField() blurs the email field', () => {
     <ClusterLaunchForm
       {...commonProps}
       clusterSpec={clusterSpec}
-      currentPageIndex={2}
+      currentPageIndex={3}
       errors={{}}
       values={{}}
     />
