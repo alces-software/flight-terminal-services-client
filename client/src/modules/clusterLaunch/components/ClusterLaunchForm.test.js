@@ -8,9 +8,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow, mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
-import ClusterLaunchForm from './ClusterLaunchForm';
+import ClusterLaunchForm, {
+  ClusterLaunchForm as UnconnectedClusterLaunchForm
+} from './ClusterLaunchForm';
 import ClusterFormInput from './ClusterFormInput';
+
+const initialState = {
+  tokens: { meta: { loadingState: {}} },
+};
+const store = configureMockStore()(initialState);
 
 const clusterSpec = {
   ui: {
@@ -34,11 +43,21 @@ const commonProps = {
   onCancel: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
+  onTokenEntered: () => {},
 };
+
+const ReactDOMRender = (component, domEl) => (
+  ReactDOM.render(
+    <Provider store={store}>
+      {component}
+    </Provider>,
+    domEl
+  )
+);
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(
+  ReactDOMRender(
     <ClusterLaunchForm
       {...commonProps}
       clusterSpec={clusterSpec}
@@ -52,7 +71,7 @@ it('renders without crashing', () => {
 
 describe('pages render without crashing', () => {
   const wrapper = shallow(
-    <ClusterLaunchForm
+    <UnconnectedClusterLaunchForm
       {...commonProps}
       clusterSpec={clusterSpec}
       currentPageIndex={0}
@@ -65,14 +84,14 @@ describe('pages render without crashing', () => {
   instance.pages.forEach((page, index) => {
     test(`page ${index}`, () => {
       const div = document.createElement('div');
-      ReactDOM.render(page.render(), div);
+      ReactDOMRender(page.render(), div);
     });
   });
 });
 
 describe('pages validity', () => {
   const mkWrapper = (errors, props) => shallow(
-    <ClusterLaunchForm
+    <UnconnectedClusterLaunchForm
       {...commonProps}
       {...props}
       clusterSpec={clusterSpec}
@@ -101,13 +120,13 @@ describe('pages validity', () => {
     {
       testName: 'cluster name page is valid when it should be',
       errors: {},
-      pageIndex: 1,
+      pageIndex: 2,
       expectedValidity: true,
     },
     {
       testName: 'email page is valid when it should be',
       errors: {},
-      pageIndex: 2,
+      pageIndex: 3,
       expectedValidity: true,
     },
     {
@@ -119,13 +138,13 @@ describe('pages validity', () => {
     {
       testName: 'cluster name page is invalid when it should be',
       errors: { clusterName: 'blank' },
-      pageIndex: 1,
+      pageIndex: 2,
       expectedValidity: false,
     },
     {
       testName: 'email page is invalid when it should be',
       errors: { email: 'not_valid' },
-      pageIndex: 2,
+      pageIndex: 3,
       expectedValidity: false,
     },
   ];
@@ -135,15 +154,16 @@ describe('pages validity', () => {
 
 it('#blurEmailField() blurs the email field', () => {
   const wrapper = mount(
-    <ClusterLaunchForm
+    <UnconnectedClusterLaunchForm
       {...commonProps}
       clusterSpec={clusterSpec}
-      currentPageIndex={2}
+      currentPageIndex={3}
       errors={{}}
       values={{}}
     />
   );
   const instance = wrapper.instance();
+
   const inputEl = wrapper.find(ClusterFormInput).get(0).inputEl;
   expect(inputEl === document.activeElement).toBe(true);
 
@@ -154,7 +174,7 @@ it('#blurEmailField() blurs the email field', () => {
 
 it('#blurEmailField() does not error if the email page is not displayed', () => {
   const wrapper = mount(
-    <ClusterLaunchForm
+    <UnconnectedClusterLaunchForm
       {...commonProps}
       clusterSpec={clusterSpec}
       currentPageIndex={0}

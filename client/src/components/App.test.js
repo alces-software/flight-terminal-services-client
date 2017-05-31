@@ -40,6 +40,7 @@ const initialState = {
   tenants: {
     loading: false,
   },
+  tokens: { meta: { loadingState: {}} },
 };
 const store = configureMockStore([ thunk ])(initialState);
 

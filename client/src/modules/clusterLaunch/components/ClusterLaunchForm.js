@@ -7,35 +7,50 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 import { Icon } from 'flight-common';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import MultiPageForm from '../../../components/MultiPageForm';
+import tokens from '../../../modules/tokens';
 
-import Credentials from './ClusterLaunchCredentials';
+import TokenInput from './TokenInput';
 import ClusterName from './ClusterLaunchClusterName';
 import Email from './ClusterLaunchEmail';
+import LaunchOptions from './LaunchOptions';
 
-class ClusterLaunchForm extends React.Component {
+export class ClusterLaunchForm extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
     currentPageIndex: PropTypes.number.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
+    onTokenEntered: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
+    tokenName: PropTypes.string,
+    tokenHasLoaded: PropTypes.bool,
   };
 
   pages = [
     {
       render: () => (
-        <Credentials
+        <TokenInput
           id={this.props.clusterSpec.ui.title}
           error={this.props.errors.launchToken}
           value={this.props.values.launchToken}
           onChange={this.props.onChange}
         />),
       valid: () => !this.props.errors.launchToken,
+    },
+    {
+      render: () => (
+        <LaunchOptions
+          clusterSpec={this.props.clusterSpec}
+          tokenName={this.props.tokenName}
+        />),
+      valid: () => this.props.tokenHasLoaded,
     },
     {
       render: () => (
@@ -65,6 +80,14 @@ class ClusterLaunchForm extends React.Component {
     this.emailPage && this.emailPage.blur();
   }
 
+  handleShowNextPage = () => {
+    const indexOfTokenPage = 0;
+    if (this.props.currentPageIndex === indexOfTokenPage) {
+      this.props.onTokenEntered();
+    }
+    this.props.onShowNextPage();
+  }
+
   render() {
     return (
       <MultiPageForm
@@ -72,7 +95,7 @@ class ClusterLaunchForm extends React.Component {
         currentPageIndex={this.props.currentPageIndex}
         handleSubmit={this.props.handleSubmit}
         onCancel={this.props.onCancel}
-        onShowNextPage={this.props.onShowNextPage}
+        onShowNextPage={this.handleShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}
         pages={this.pages}
         submitButtonContent={<span>Launch{' '}<Icon name="plane" /></span>}
@@ -100,4 +123,6 @@ class ClusterLaunchForm extends React.Component {
   }
 }
 
-export default ClusterLaunchForm;
+export default connect(createStructuredSelector({
+  tokenHasLoaded: tokens.selectors.hasLoaded,
+}))(ClusterLaunchForm);

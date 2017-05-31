@@ -34,6 +34,7 @@ const initialState = {
     file: 'test',
   },
   tenants: {},
+  tokens: { meta: { loadingState: {}} },
 };
 const store = configureMockStore()(initialState);
 

@@ -7,8 +7,15 @@
  *===========================================================================*/
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
 import ClusterLaunchFormContainer from './ClusterLaunchFormContainer';
+
+const initialState = {
+  tokens: { meta: { loadingState: {}} },
+};
+const store = configureMockStore()(initialState);
 
 const clusterSpec = {
   ui: {
@@ -30,11 +37,13 @@ const clusterSpec = {
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <ClusterLaunchFormContainer
-      clusterSpecsFile="dev"
-      clusterSpec={clusterSpec}
-      onCancel={() => {}}
-    />,
+    <Provider store={store}>
+      <ClusterLaunchFormContainer
+        clusterSpecsFile="dev"
+        clusterSpec={clusterSpec}
+        onCancel={() => {}}
+      />
+    </Provider>,
     div
   );
 });

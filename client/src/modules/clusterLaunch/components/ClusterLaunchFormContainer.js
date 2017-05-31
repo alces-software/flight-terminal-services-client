@@ -7,9 +7,11 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 import validatorUtils from 'validator';
+import { connect } from 'react-redux';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import * as analytics from '../../../utils/analytics';
+import tokens from '../../../modules/tokens';
 
 import ClusterErrorModal from './ClusterErrorModal';
 import ClusterLaunchForm from './ClusterLaunchForm';
@@ -79,7 +81,9 @@ class ClusterLaunchFormContainer extends React.Component {
     modalProps: {
       clusterName: null,
       email: null,
-    }
+      error: null,
+      title: null,
+    },
   }
 
   handleFormChange = ({ name, value }) => {
@@ -200,6 +204,24 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ showLaunchedModal: false, showErrorModal: false });
   }
 
+  fetchToken = () => {
+    this.props.dispatch(tokens.actions.loadToken(this.state.values.launchToken))
+      .then((response) => {
+        if (response.error) {
+          return Promise.reject(response);
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          modalProps: {
+            error,
+            title: 'Verifying your launch token has failed',
+          },
+          showErrorModal: true,
+        })
+      });
+  }
+
   render() {
     return (
       <div>
@@ -216,8 +238,10 @@ class ClusterLaunchFormContainer extends React.Component {
         <ClusterLaunchForm
           {...this.state}
           {...this.props}
+          tokenName={this.state.values.launchToken}
           ref={(el) => { this.launchForm = el; }}
           onChange={this.handleFormChange}
+          onTokenEntered={this.fetchToken}
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
           handleSubmit={this.handleSubmit}
@@ -227,4 +251,4 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 }
 
-export default ClusterLaunchFormContainer;
+export default connect()(ClusterLaunchFormContainer);

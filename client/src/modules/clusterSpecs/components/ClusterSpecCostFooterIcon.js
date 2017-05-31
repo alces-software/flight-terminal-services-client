@@ -6,6 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React from 'react';
+import invariant from 'invariant';
 
 import Card from '../../../components/Card';
 
@@ -15,38 +16,19 @@ const propTypes = {
   costs: clusterSpecCostShape,
 };
 
-const textAndTooltip = (costs, flavour) => {
-  const cost = costs[flavour];
-
-  if (cost == null) { return null; }
-  if (cost.text == null || cost.tooltip == null) { return null; }
+const textAndTooltip = (costs) => {
+  const costPerHour = costs.costPerHour;
 
   return {
-    text: cost.text,
-    tooltip: cost.tooltip,
+    text: `${costPerHour} cu/hour`,
+    tooltip: `The compute power rating for this cluster is ${costPerHour} cu (compute units) per hour.`
   };
 };
 
-const selectFlavour = (costs) => {
-  const possibleFlavours = [
-    'average',
-    'estimated',
-    'max',
-  ];
+const ClusterSpecCostFooterIcon = ({ costs, specTitle }) => {
+  invariant(costs, 'Cluster spec %s does not have a cost rating', specTitle);
 
-  for (let i=0; i < possibleFlavours.length; i++) {
-    const f = possibleFlavours[i];
-    if (costs[f] != null) {
-      return f;
-    }
-  }
-};
-
-const ClusterSpecCostFooterIcon = ({ costs }) => {
-  if (Object.keys(costs).length < 1) { return null; }
-
-  const flavour = selectFlavour(costs);
-  const tnt = textAndTooltip(costs, flavour);
+  const tnt = textAndTooltip(costs);
 
   if (tnt == null) { return null; }
 
