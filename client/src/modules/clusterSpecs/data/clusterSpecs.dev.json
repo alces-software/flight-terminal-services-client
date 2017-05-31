@@ -29,7 +29,6 @@
       "fly": {
         "args": [
           "--solo",
-          "--runtime", "30",
           "--template-set", "ben-20170322"
         ],
         "parameterDirectoryOverrides": {
@@ -56,8 +55,7 @@
       "key": "7e036437-97b8-4b13-9d83-d6da3f25cf9d",
       "fly": {
         "args": [
-          "--solo",
-          "--runtime", "30"
+          "--solo"
         ],
         "parameterDirectoryOverrides": {
           "solo": {
@@ -83,8 +81,7 @@
       "key": "c9db280c-e566-4688-92a9-9b266ae6f03d",
       "fly": {
         "args": [
-          "--solo",
-          "--runtime", "30"
+          "--solo"
         ],
         "parameterDirectoryOverrides": {
           "solo": {
@@ -110,8 +107,7 @@
       "key": "3e55ae11-6276-4980-850d-14f7f0c2db8d",
       "fly": {
         "args": [
-          "--solo",
-          "--runtime", "30"
+          "--solo"
         ],
         "parameterDirectoryOverrides": {
           "solo": {
@@ -138,8 +134,7 @@
       "key": "a1295cc3-7c6a-46be-91d9-3476fb10dee6",
       "fly": {
         "args": [
-          "--solo",
-          "--runtime", "30"
+          "--solo"
         ],
         "parameterDirectoryOverrides": {
           "solo": {
@@ -166,8 +161,7 @@
       "key": "dc8e362a-1389-4b69-bd18-da04019096d8",
       "fly": {
         "args": [
-          "--solo",
-          "--runtime", "30"
+          "--solo"
         ],
         "parameterDirectoryOverrides": {
           "solo": {

@@ -36,9 +36,7 @@ class BuildFlyParamsCommand
     if @launch_config.region.present?
       extra_args << '--region' << @launch_config.region
     end
-    if Rails.env.development? && ENV['CLUSTER_RUNTIME']
-      extra_args << '--runtime' << ENV['CLUSTER_RUNTIME']
-    end
+
     cmd = [
       ENV['FLY_EXE_PATH'],
       'cluster',
@@ -48,6 +46,7 @@ class BuildFlyParamsCommand
       '--secret-key', @launch_config.secret_key,
       *extra_args,
       '--parameter-directory', @parameter_dir,
+      '--runtime', runtime,
     ]
 
     cmd
@@ -62,5 +61,18 @@ class BuildFlyParamsCommand
   def stack_name
     hash = HashEmailCommand.new(@launch_config.email).perform
     "#{@launch_config.name}-#{hash}"
+  end
+
+  def runtime
+    if Rails.env.development? && ENV['CLUSTER_RUNTIME']
+      return ENV['CLUSTER_RUNTIME']
+    end
+
+    token_credits = @launch_config.token.credits
+    spec_cost_per_hour = @launch_config.spec.costs['costPerHour']
+    fractional_hours = token_credits / spec_cost_per_hour
+    runtime_in_minutes = (fractional_hours * 60).ceil
+
+    runtime_in_minutes.to_s
   end
 end
