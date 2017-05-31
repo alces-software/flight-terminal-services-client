@@ -51,6 +51,7 @@ class ClusterSpec
 
       new(
         args: spec['fly']['args'],
+        costs: spec['costs'],
         parameter_directory_overrides: spec['fly']['parameterDirectoryOverrides'],
         key: spec['key'],
         meta: {
@@ -64,6 +65,8 @@ class ClusterSpec
   # A list of command line arguments for Flight Attendant's cluster launch
   # command.
   attr_accessor :args
+
+  attr_accessor :costs
 
   # A map specifying what values in which files should be overridden when
   # launching a cluster with Flight Attendant.
@@ -94,6 +97,7 @@ class ClusterSpec
   def attributes
     {
       'args' => nil,
+      'costs' => nil,
       'key' => nil,
       'meta' => nil,
       'parameter_directory_overrides' => nil,
