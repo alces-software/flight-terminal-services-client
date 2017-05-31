@@ -174,7 +174,7 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.launchForm.blurEmailField();
+    this.blurEmailField();
     this.setState({ submitting: true });
 
     analytics.clusterLaunchRequested(this.props.clusterSpec);
@@ -222,6 +222,10 @@ class ClusterLaunchFormContainer extends React.Component {
       });
   }
 
+  blurEmailField() {
+    this.emailInput && this.emailInput.blur();
+  }
+
   render() {
     return (
       <div>
@@ -239,7 +243,7 @@ class ClusterLaunchFormContainer extends React.Component {
           {...this.state}
           {...this.props}
           tokenName={this.state.values.launchToken}
-          ref={(el) => { this.launchForm = el; }}
+          emailRef={(el) => { this.emailInput = el; }}
           onChange={this.handleFormChange}
           onTokenEntered={this.fetchToken}
           onShowNextPage={this.handleShowNextPage}

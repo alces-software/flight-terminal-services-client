@@ -23,6 +23,7 @@ export class ClusterLaunchForm extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
     currentPageIndex: PropTypes.number.isRequired,
+    emailRef: PropTypes.func,
     handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     onTokenEntered: PropTypes.func.isRequired,
@@ -66,7 +67,7 @@ export class ClusterLaunchForm extends React.Component {
     {
       render: () => (
         <Email
-          ref={(el) => { this.emailPage = el; }}
+          ref={this.props.emailRef}
           id={this.props.clusterSpec.ui.title} 
           error={this.props.errors.email}
           value={this.props.values.email}
@@ -75,10 +76,6 @@ export class ClusterLaunchForm extends React.Component {
       valid: () => !this.props.errors.email,
     },
   ];
-
-  blurEmailField() {
-    this.emailPage && this.emailPage.blur();
-  }
 
   handleShowNextPage = () => {
     const indexOfTokenPage = 0;

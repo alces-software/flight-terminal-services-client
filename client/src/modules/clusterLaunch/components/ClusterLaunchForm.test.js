@@ -152,7 +152,8 @@ describe('pages validity', () => {
   tests.forEach(mkTest);
 });
 
-it('#blurEmailField() blurs the email field', () => {
+it('provides an emailRef which can be used to blur the email field', () => {
+  let emailRef;
   const wrapper = mount(
     <UnconnectedClusterLaunchForm
       {...commonProps}
@@ -160,29 +161,13 @@ it('#blurEmailField() blurs the email field', () => {
       currentPageIndex={3}
       errors={{}}
       values={{}}
+      emailRef={(el) => { emailRef = el; }}
     />
   );
-  const instance = wrapper.instance();
-
   const inputEl = wrapper.find(ClusterFormInput).get(0).inputEl;
   expect(inputEl === document.activeElement).toBe(true);
 
-  instance.blurEmailField();
+  emailRef.blur();
 
   expect(inputEl === document.activeElement).toBe(false);
-});
-
-it('#blurEmailField() does not error if the email page is not displayed', () => {
-  const wrapper = mount(
-    <UnconnectedClusterLaunchForm
-      {...commonProps}
-      clusterSpec={clusterSpec}
-      currentPageIndex={0}
-      errors={{}}
-      values={{}}
-    />
-  );
-  const instance = wrapper.instance();
-
-  expect(() => instance.blurEmailField()).not.toThrow();
 });
