@@ -32,8 +32,6 @@ const clusterSpec = {
     subtitle: 'Some title',
     body: 'Some content',
     logoUrl: 'http://example.com/logo.png',
-    autoscaling: false,
-    usesSpot: true,
   },
   launchOptions: {
     defaultOptionIndex: 1,

@@ -20,16 +20,12 @@ const flyShape = PropTypes.shape({
 
 export const clusterSpecShape = PropTypes.shape({
   ui: PropTypes.shape({
-    autoscaling: PropTypes.bool.isRequired,
     body: PropTypes.string.isRequired,
     logoUrl: PropTypes.string.isRequired,
     preloadSoftware: PropTypes.string,
-    runtime: PropTypes.string,
     scheduler: schedulerShape,
-    spotPrice: PropTypes.string,
     subtitle: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    usesSpot: PropTypes.bool.isRequired,
   }),
   launchOptions: PropTypes.shape({
     defaultOptionIndex: PropTypes.number.isRequired,

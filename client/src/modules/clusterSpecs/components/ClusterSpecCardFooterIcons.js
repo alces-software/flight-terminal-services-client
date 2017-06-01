@@ -8,9 +8,7 @@
 import React from 'react';
 
 import Card from '../../../components/Card';
-import autoScalingIcon from '../../../icons/Compute_AmazonEC2_AutoScaling.png';
 import depotToIcon from '../../../utils/depotToIcon';
-import spotInstanceIcon from '../../../icons/Compute_AmazonEC2_Spotinstance.png'
 
 import { clusterSpecShape } from '../propTypes';
 
@@ -23,26 +21,6 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
 
   return (
     <Card.FooterIcons>
-      {
-        clusterSpec.ui.autoscaling ?
-          <Card.FooterIcon
-            iconSrc={autoScalingIcon}
-            text="Autoscaling"
-            tooltip="This cluster uses autoscaling."
-          /> :
-          null
-      }
-      {
-        clusterSpec.ui.usesSpot ?
-          <Card.FooterIcon
-            iconSrc={spotInstanceIcon}
-            text="Spot instances"
-            tooltip={<span>
-              This cluster uses spot instances.
-            </span>}
-          /> :
-          null
-      }
       {
         clusterSpec.ui.scheduler ?
           <Card.FooterIcon
@@ -61,6 +39,15 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
             iconSrc={depotIcon.icon}
             text={depotIcon.depotText}
             tooltip={<span>This cluster has {depotIcon.depotText} software preinstalled</span>}
+          /> :
+          null
+      }
+      {
+        clusterSpec.launchOptions.options.length > 1 ?
+          <Card.FooterIcon
+            name="lock"
+            text="Job durability"
+            tooltip={<span>This cluster has job durability options</span>}
           /> :
           null
       }
