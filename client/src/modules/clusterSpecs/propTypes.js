@@ -33,12 +33,12 @@ export const clusterSpecShape = PropTypes.shape({
   }),
   launchOptions: PropTypes.shape({
     defaultOptionIndex: PropTypes.number.isRequired,
-    options: PropTypes.shape({
+    options: PropTypes.arrayOf(PropTypes.shape({
       costPerHour: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
       fly: flyShape,
-    }).isRequired,
+    }).isRequired).isRequired,
   }),
   fly: flyShape,
 });

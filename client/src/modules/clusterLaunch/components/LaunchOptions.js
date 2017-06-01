@@ -37,7 +37,22 @@ const propTypes = {
   }).isRequired,
 };
 
+const SingleLaunchOption = ({ clusterSpec, token }) => {
+  const selectedLaunchOption = clusterSpec.launchOptions.options[0];
+
+  return (
+    <ClusterRuntimeExplanation
+      clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+      tokenCredits={token.attributes.credits}
+    />
+  );
+};
+
 const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange }) => {
+  if (clusterSpec.launchOptions.options.length < 2) {
+    return <SingleLaunchOption clusterSpec={clusterSpec} token={token} />;
+  }
+
   const standardOption = clusterSpec.launchOptions.options[0];
   const highOption = clusterSpec.launchOptions.options[1];
   const standardExplanation = <LaunchOptionExplanation option={standardOption} />;

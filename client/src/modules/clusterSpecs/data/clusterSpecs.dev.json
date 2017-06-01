@@ -128,26 +128,7 @@
         "options": [{
           "costPerHour": 5,
           "name": "Standard",
-          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0.5"
-              }
-            }
-          }
-        },
-        {
-          "costPerHour": 6,
-          "name": "High",
-          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0"
-              }
-            }
-          }
+          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly."
         }]
       },
       "key": "c9db280c-e566-4688-92a9-9b266ae6f03d",
@@ -176,7 +157,7 @@
       "launchOptions": {
         "defaultOptionIndex": 1,
         "options": [{
-          "costPerHour": 7,
+          "costPerHour": 6,
           "name": "Standard",
           "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
           "fly": {
@@ -188,7 +169,7 @@
           }
         },
         {
-          "costPerHour": 8,
+          "costPerHour": 7,
           "name": "High",
           "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
           "fly": {
@@ -227,7 +208,7 @@
       "launchOptions": {
         "defaultOptionIndex": 0,
         "options": [{
-          "costPerHour": 9,
+          "costPerHour": 8,
           "name": "Standard",
           "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
           "fly": {
@@ -239,7 +220,7 @@
           }
         },
         {
-          "costPerHour": 10,
+          "costPerHour": 9,
           "name": "High",
           "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
           "fly": {
@@ -278,7 +259,7 @@
       "launchOptions": {
         "defaultOptionIndex": 1,
         "options": [{
-          "costPerHour": 11,
+          "costPerHour": 10,
           "name": "Standard",
           "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
           "fly": {
@@ -290,7 +271,7 @@
           }
         },
         {
-          "costPerHour": 12,
+          "costPerHour": 11,
           "name": "High",
           "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
           "fly": {
