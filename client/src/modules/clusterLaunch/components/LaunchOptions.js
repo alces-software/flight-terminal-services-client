@@ -13,13 +13,21 @@ import { createStructuredSelector } from 'reselect';
 import { DelaySpinner } from '../../../components/delayedUntil';
 import tokens from '../../../modules/tokens';
 
+import ClusterRuntimeExplanation from './ClusterRuntimeExplanation';
+import CostOptionSwitch from './CostOptionSwitch';
+import LaunchOptionExplanation from './LaunchOptionExplanation';
+
+const costOptionShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  costPerHour: PropTypes.number.isRequired,
+});
+
 const propTypes = {
   clusterSpec: PropTypes.shape({
-    costs: PropTypes.shape({
-      costPerHour: PropTypes.number.isRequired,
-    }).isRequired,
+    costs: PropTypes.arrayOf(costOptionShape.isRequired).isRequired,
   }).isRequired,
-
+  onChange: PropTypes.func.isRequired,
+  selectedCostOptionIndex: PropTypes.number.isRequired,
   token: PropTypes.shape({
     attributes: PropTypes.shape({
       credits: PropTypes.number.isRequired,
@@ -27,53 +35,35 @@ const propTypes = {
   }).isRequired,
 };
 
-function runtime(clusterSpecCost, tokenCredits) {
-  const fractionalHours = tokenCredits / clusterSpecCost;
-  const days = Math.trunc(fractionalHours / 24);
-  const hours = Math.trunc(fractionalHours) - days * 24;
-  const minutes = (fractionalHours - hours) * 60;
-
-  let fuzzyMinutes;
-  if (minutes < 15) {
-    fuzzyMinutes = '';
-  } else if (minutes < 30) {
-    fuzzyMinutes = ' and a quarter';
-  } else if (minutes < 45) {
-    fuzzyMinutes = ' and a half';
-  } else {
-    fuzzyMinutes = ' and three quarter';
-  }
-
-  if (days > 0) {
-    return `${days} days and ${hours} hours`;
-  } else if (hours < 1) {
-    return `${minutes} minutes`;
-  }
-  return `${hours}${fuzzyMinutes} hours`;
-}
-
-const LaunchOptions = ({ clusterSpec, token }) => {
-  const tokenCredits = token.attributes.credits;
-  const clusterSpecCost = clusterSpec.costs.costPerHour;
-  const runTime = runtime(clusterSpecCost, tokenCredits);
+const LaunchOptions = ({ clusterSpec, token, selectedCostOptionIndex, onChange }) => {
+  const standardOption = clusterSpec.costs.steps[0];
+  const highOption = clusterSpec.costs.steps[1];
+  const standardExplanation = <LaunchOptionExplanation option={standardOption} />;
+  const highExplanation = <LaunchOptionExplanation option={highOption} />;
+  const selectedCostOption = selectedCostOptionIndex === 0 ? standardOption : highOption
 
   return (
     <div>
       <p>
-        The token you entered will provide a <strong>runtime of
-          {' '}{runTime}</strong> for this cluster.  Once that time has
-        elapsed, the cluster will be <strong>shut down automatically</strong>.
+        This cluster has two compute durability options {' '}{standardExplanation}{' '}
+        and {' '}{highExplanation}. Please select the option you desire, and
+        then click "Next".
       </p>
-      <p>
-        If you wish to use another token, click "Previous" below, or click
-        "Next" to continue.
-      </p>
+      <CostOptionSwitch
+        label="Compute durability"
+        selectedCostOptionIndex={selectedCostOptionIndex}
+        onChange={onChange}
+        onText={highOption.name}
+        offText={standardOption.name}
+        id={`CostOptionSwitch-${clusterSpec.key}`}
+      />
+      <ClusterRuntimeExplanation
+        clusterSpecCostPerHour={selectedCostOption.costPerHour}
+        tokenCredits={token.attributes.credits}
+      />
     </div>
   );
 };
-
-
-LaunchOptions.propTypes = propTypes;
 
 const mapStateToProps = createStructuredSelector({
   token: tokens.selectors.tokenFromName,
@@ -96,5 +86,7 @@ const enhance = compose(
     )),
   ),
 );
+
+LaunchOptions.propTypes = propTypes;
 
 export default enhance(LaunchOptions);
