@@ -13,7 +13,6 @@ import depotToIcon from '../../../utils/depotToIcon';
 import spotInstanceIcon from '../../../icons/Compute_AmazonEC2_Spotinstance.png'
 
 import { clusterSpecShape } from '../propTypes';
-import ClusterSpecCostFooterIcon from './ClusterSpecCostFooterIcon';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
@@ -62,14 +61,6 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
             iconSrc={depotIcon.icon}
             text={depotIcon.depotText}
             tooltip={<span>This cluster has {depotIcon.depotText} software preinstalled</span>}
-          /> :
-          null
-      }
-      {
-        clusterSpec.costs ?
-          <ClusterSpecCostFooterIcon
-            costs={clusterSpec.costs}
-            specTitle={clusterSpec.ui.title}
           /> :
           null
       }
