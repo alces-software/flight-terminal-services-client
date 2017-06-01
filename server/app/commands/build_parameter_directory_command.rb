@@ -27,6 +27,7 @@ class BuildParameterDirectoryCommand
   def perform
     create_parameter_directory
     merge_cluster_spec_overrides
+    merge_cost_option_overrides
     merge_mandatory_overrides
   end
 
@@ -46,21 +47,40 @@ class BuildParameterDirectoryCommand
   end
 
   def merge_cluster_spec_overrides
-    @cluster_spec.parameter_directory_overrides.each do |file_key, overrides|
-      Rails.logger.debug "Merging overrides for #{file_key} parameters"
+    overrides = @cluster_spec.parameter_directory_overrides
+    merge_overrides(overrides, "spec", backup: true)
+  end
+
+  def merge_cost_option_overrides
+    cost_option = @launch_config.cost_option
+    overrides = cost_option.parameter_directory_overrides
+    merge_overrides(overrides, "cost option #{cost_option.name}")
+  end
+
+  def merge_overrides(parameter_directory_overrides, source, backup: false)
+    parameter_directory_overrides.each do |file_key, overrides|
+      Alces.app.logger.debug "Merging overrides from #{source} for #{file_key} parameters" do
+        overrides
+      end
       params = YAML.load_file(File.join(@parameter_dir, "#{file_key}.yml"))
       new_params = params.merge(overrides)
-      File.write(File.join(@parameter_dir, "#{file_key}.yml.bak"), params.to_yaml)
+      if backup
+        File.write(File.join(@parameter_dir, "#{file_key}.yml.bak"), params.to_yaml)
+      end
       File.write(File.join(@parameter_dir, "#{file_key}.yml"), new_params.to_yaml)
     end
   end
 
   def merge_mandatory_overrides
-    Dir.glob(File.join(@parameter_dir, "*.yml")).each do |parameter_file|
-      params = YAML.load_file(parameter_file)
-      new_params = params.merge(generate_mandatory_overrides)
-      File.write(parameter_file, new_params.to_yaml)
+    mandatory_overrides = generate_mandatory_overrides
+    parameter_files = Dir.glob(File.join(@parameter_dir, "*.yml")).map do |f|
+      File.basename(f).sub(/\.yml$/, '')
     end
+    overrides = parameter_files.inject({}) do |acc, parameter_file|
+      acc[parameter_file] = mandatory_overrides
+      acc
+    end
+    merge_overrides(overrides, "mandatory overrides")
   end
 
   def generate_mandatory_overrides

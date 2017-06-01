@@ -29,6 +29,7 @@ class ClusterLaunchConfig
   attr_accessor :spec # An instance of ClusterSpec.
   attr_accessor :tenant
   attr_accessor :token
+  attr_accessor :cost_option
 
   def attributes
     {
