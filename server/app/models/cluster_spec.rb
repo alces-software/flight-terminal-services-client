@@ -118,27 +118,4 @@ class ClusterSpec
   def selected_launch_option(index)
     launch_options['options'][index].dup
   end
-
-  def runtime
-    i = args.index('--runtime')
-    return nil if i.nil?
-    runtime_in_minutes = args[i + 1].to_i
-
-    if runtime_in_minutes < 60
-      value = runtime_in_minutes
-      unit = 'minute'
-    elsif runtime_in_minutes < 60*24
-      value = (runtime_in_minutes/60.0).round
-      unit = 'hour'
-    else
-      value = (runtime_in_minutes/(60.0*24)).round
-      unit = 'day'
-    end
-
-    "#{value} #{unit.pluralize(value)}"
-  end
-
-  def runtime_limit?
-    runtime.present?
-  end
 end

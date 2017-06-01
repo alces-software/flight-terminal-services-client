@@ -74,16 +74,10 @@ class BuildFlyParamsCommand
   end
 
   def runtime
-    if Rails.env.development? && ENV['CLUSTER_RUNTIME']
-      return ENV['CLUSTER_RUNTIME']
-    end
-
-    token_credits = @launch_config.token.credits.to_f
-    spec_cost_per_hour = @launch_config.launch_option.cost_per_hour.to_f
-    fractional_hours = token_credits / spec_cost_per_hour
-    runtime_in_minutes = (fractional_hours * 60).ceil
-
-    runtime_in_minutes.to_s
+    DetermineRuntimeCommand.new(
+      @launch_config.launch_option,
+      @launch_config.token
+    ).perform.to_s
   end
 
   def log_params(params)
