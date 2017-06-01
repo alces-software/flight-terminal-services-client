@@ -35,9 +35,9 @@ const clusterSpec = {
     autoscaling: false,
     usesSpot: true,
   },
-  costs: {
-    defaultStepIndex: 1,
-    steps: [{
+  launchOptions: {
+    defaultOptionIndex: 1,
+    options: [{
       costPerHour: 1,
       name: "Standard",
       description: "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",

@@ -51,7 +51,7 @@ class ClusterSpec
 
       new(
         args: spec['fly']['args'],
-        costs: spec['costs'],
+        launch_options: spec['launchOptions'],
         parameter_directory_overrides: spec['fly']['parameterDirectoryOverrides'],
         key: spec['key'],
         meta: {
@@ -66,7 +66,7 @@ class ClusterSpec
   # command.
   attr_accessor :args
 
-  attr_accessor :costs
+  attr_accessor :launch_options
 
   # A map specifying what values in which files should be overridden when
   # launching a cluster with Flight Attendant.
@@ -97,7 +97,6 @@ class ClusterSpec
   def attributes
     {
       'args' => nil,
-      'costs' => nil,
       'key' => nil,
       'meta' => nil,
       'parameter_directory_overrides' => nil,
@@ -114,6 +113,10 @@ class ClusterSpec
 
   def meta
     @meta || {}
+  end
+
+  def selected_launch_option(index)
+    launch_options['options'][index].dup
   end
 
   def runtime

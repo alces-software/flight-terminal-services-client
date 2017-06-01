@@ -15,22 +15,22 @@ const propTypes = {
   offText: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onText: PropTypes.string.isRequired,
-  selectedCostOptionIndex: PropTypes.number.isRequired,
+  selectedLaunchOptionIndex: PropTypes.number.isRequired,
 };
 
-const CostOptionSwitch = ({
+const LaunchOptionSwitch = ({
   id,
   label,
   offText,
   onChange,
   onText,
-  selectedCostOptionIndex,
+  selectedLaunchOptionIndex,
 }) => {
   const input = {
-    checked: selectedCostOptionIndex === 1,
+    checked: selectedLaunchOptionIndex === 1,
     onChange: (e) => {
       onChange({
-        name: 'selectedCostOptionIndex',
+        name: 'selectedLaunchOptionIndex',
         value: e.target.checked ? 1 : 0,
       });
     }
@@ -50,6 +50,6 @@ const CostOptionSwitch = ({
   );
 };
 
-CostOptionSwitch.propTypes = propTypes;
+LaunchOptionSwitch.propTypes = propTypes;
 
-export default CostOptionSwitch;
+export default LaunchOptionSwitch;

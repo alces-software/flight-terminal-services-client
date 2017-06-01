@@ -33,7 +33,7 @@ class BuildFlyParamsCommand
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
       *@launch_config.spec.args,
-      *@launch_config.cost_option.args,
+      *@launch_config.launch_option.args,
       *key_pair_and_region,
       '--parameter-directory', @parameter_dir,
       '--runtime', runtime,
@@ -79,7 +79,7 @@ class BuildFlyParamsCommand
     end
 
     token_credits = @launch_config.token.credits.to_f
-    spec_cost_per_hour = @launch_config.cost_option.cost_per_hour.to_f
+    spec_cost_per_hour = @launch_config.launch_option.cost_per_hour.to_f
     fractional_hours = token_credits / spec_cost_per_hour
     runtime_in_minutes = (fractional_hours * 60).ceil
 

@@ -6,12 +6,7 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-#
-# A specification of a cluster that is easily understood by Flight Attendant.
-#
-# See the comment in ClusterLaunchConfig.
-#
-class CostOption
+class LaunchOption
   include ActiveModel::Model
   include ActiveModel::Serializers::JSON
 

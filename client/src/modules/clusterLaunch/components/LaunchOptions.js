@@ -14,20 +14,22 @@ import { DelaySpinner } from '../../../components/delayedUntil';
 import tokens from '../../../modules/tokens';
 
 import ClusterRuntimeExplanation from './ClusterRuntimeExplanation';
-import CostOptionSwitch from './CostOptionSwitch';
+import LaunchOptionSwitch from './LaunchOptionSwitch';
 import LaunchOptionExplanation from './LaunchOptionExplanation';
 
-const costOptionShape = PropTypes.shape({
+const launchOptionShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   costPerHour: PropTypes.number.isRequired,
 });
 
 const propTypes = {
   clusterSpec: PropTypes.shape({
-    costs: PropTypes.arrayOf(costOptionShape.isRequired).isRequired,
+    launchOptions: PropTypes.shape({
+      options: PropTypes.arrayOf(launchOptionShape.isRequired).isRequired,
+    }).isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
-  selectedCostOptionIndex: PropTypes.number.isRequired,
+  selectedLaunchOptionIndex: PropTypes.number.isRequired,
   token: PropTypes.shape({
     attributes: PropTypes.shape({
       credits: PropTypes.number.isRequired,
@@ -35,12 +37,12 @@ const propTypes = {
   }).isRequired,
 };
 
-const LaunchOptions = ({ clusterSpec, token, selectedCostOptionIndex, onChange }) => {
-  const standardOption = clusterSpec.costs.steps[0];
-  const highOption = clusterSpec.costs.steps[1];
+const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange }) => {
+  const standardOption = clusterSpec.launchOptions.options[0];
+  const highOption = clusterSpec.launchOptions.options[1];
   const standardExplanation = <LaunchOptionExplanation option={standardOption} />;
   const highExplanation = <LaunchOptionExplanation option={highOption} />;
-  const selectedCostOption = selectedCostOptionIndex === 0 ? standardOption : highOption
+  const selectedLaunchOption = selectedLaunchOptionIndex === 0 ? standardOption : highOption
 
   return (
     <div>
@@ -49,16 +51,16 @@ const LaunchOptions = ({ clusterSpec, token, selectedCostOptionIndex, onChange }
         and {' '}{highExplanation}. Please select the option you desire, and
         then click "Next".
       </p>
-      <CostOptionSwitch
+      <LaunchOptionSwitch
         label="Compute durability"
-        selectedCostOptionIndex={selectedCostOptionIndex}
+        selectedLaunchOptionIndex={selectedLaunchOptionIndex}
         onChange={onChange}
         onText={highOption.name}
         offText={standardOption.name}
-        id={`CostOptionSwitch-${clusterSpec.key}`}
+        id={`LaunchOptionSwitch-${clusterSpec.key}`}
       />
       <ClusterRuntimeExplanation
-        clusterSpecCostPerHour={selectedCostOption.costPerHour}
+        clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
         tokenCredits={token.attributes.credits}
       />
     </div>

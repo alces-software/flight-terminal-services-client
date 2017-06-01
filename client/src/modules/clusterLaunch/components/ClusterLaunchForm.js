@@ -50,7 +50,7 @@ export class ClusterLaunchForm extends React.Component {
         <LaunchOptions
           clusterSpec={this.props.clusterSpec}
           tokenName={this.props.tokenName}
-          selectedCostOptionIndex={this.props.values.selectedCostOptionIndex}
+          selectedLaunchOptionIndex={this.props.values.selectedLaunchOptionIndex}
           onChange={this.props.onChange}
         />),
       valid: () => this.props.tokenHasLoaded,

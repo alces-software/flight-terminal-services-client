@@ -29,7 +29,7 @@ class ClustersController < ApplicationController
       cluster_launch_config.spec.as_json,
       cluster_launch_config.tenant,
       cluster_launch_config.token,
-      cluster_launch_config.cost_option.as_json,
+      cluster_launch_config.launch_option.as_json,
     )
 
     cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
@@ -50,12 +50,12 @@ class ClustersController < ApplicationController
     token = tenant.tokens.find_by(params.require(:token).permit(:name))
     raise TokenNotFound if token.nil?
     cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
-    cost_option = CostOption.new(cost_option_params(cluster_spec))
+    launch_option = LaunchOption.new(launch_option_params(cluster_spec))
     config_params = cluster_launch_config_params.merge(
       spec: cluster_spec,
       tenant: tenant,
       token: token,
-      cost_option: cost_option,
+      launch_option: launch_option,
     )
     ClusterLaunchConfig.new(config_params)
   rescue ClusterSpec::Error, TokenNotFound
@@ -79,9 +79,9 @@ class ClustersController < ApplicationController
     end
   end
 
-  def cost_option_params(cluster_spec)
-    selected_index = params.require(:clusterLaunch).require(:selectedCostOptionIndex)
-    params = cluster_spec.costs['steps'][selected_index].dup
+  def launch_option_params(cluster_spec)
+    selected_index = params.require(:clusterLaunch).require(:selectedLaunchOptionIndex)
+    params = cluster_spec.selected_launch_option(selected_index)
     params.tap do |h|
       h['cost_per_hour'] = h.delete('costPerHour') if h.key?('costPerHour')
     end

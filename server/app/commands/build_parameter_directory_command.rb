@@ -27,7 +27,7 @@ class BuildParameterDirectoryCommand
   def perform
     create_parameter_directory
     merge_cluster_spec_overrides
-    merge_cost_option_overrides
+    merge_launch_option_overrides
     merge_mandatory_overrides
   end
 
@@ -51,10 +51,10 @@ class BuildParameterDirectoryCommand
     merge_overrides(overrides, "spec", backup: true)
   end
 
-  def merge_cost_option_overrides
-    cost_option = @launch_config.cost_option
-    overrides = cost_option.parameter_directory_overrides
-    merge_overrides(overrides, "cost option #{cost_option.name}")
+  def merge_launch_option_overrides
+    launch_option = @launch_config.launch_option
+    overrides = launch_option.parameter_directory_overrides
+    merge_overrides(overrides, "launch option #{launch_option.name}")
   end
 
   def merge_overrides(parameter_directory_overrides, source, backup: false)

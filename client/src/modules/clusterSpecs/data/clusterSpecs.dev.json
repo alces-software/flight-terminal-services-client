@@ -22,9 +22,9 @@
         "body": "A fixed size cluster of 2 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the Slurm scheduler.",
         "logoUrl": "http://alces-flight.com/images/logo.png"
       },
-      "costs": {
-        "defaultStepIndex": 0,
-        "steps": [{
+      "launchOptions": {
+        "defaultOptionIndex": 0,
+        "options": [{
           "costPerHour": 1,
           "name": "Standard",
           "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
@@ -73,10 +73,10 @@
         "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
         "logoUrl": "http://alces-flight.com/images/logo.png"
       },
-      "costs": {
-        "defaultStepIndex": 0,
-        "steps": [{
-          "costPerHour": 2,
+      "launchOptions": {
+        "defaultOptionIndex": 1,
+        "options": [{
+          "costPerHour": 3,
           "name": "Standard",
           "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
           "fly": {
@@ -88,7 +88,7 @@
           }
         },
         {
-          "costPerHour": 3,
+          "costPerHour": 4,
           "name": "High",
           "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
           "fly": {
@@ -123,8 +123,32 @@
         "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
         "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
       },
-      "costs": {
-        "costPerHour": 3
+      "launchOptions": {
+        "defaultOptionIndex": 0,
+        "options": [{
+          "costPerHour": 5,
+          "name": "Standard",
+          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
+          "fly": {
+            "parameterDirectoryOverrides": {
+              "solo": {
+                "ComputeSpotPrice": "0.5"
+              }
+            }
+          }
+        },
+        {
+          "costPerHour": 6,
+          "name": "High",
+          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
+          "fly": {
+            "parameterDirectoryOverrides": {
+              "solo": {
+                "ComputeSpotPrice": "0"
+              }
+            }
+          }
+        }]
       },
       "key": "c9db280c-e566-4688-92a9-9b266ae6f03d",
       "fly": {
@@ -149,8 +173,32 @@
         "body": "A GPU cluster, autoscaling upto a maximum of 8 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
         "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
       },
-      "costs": {
-        "costPerHour": 4
+      "launchOptions": {
+        "defaultOptionIndex": 1,
+        "options": [{
+          "costPerHour": 7,
+          "name": "Standard",
+          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
+          "fly": {
+            "parameterDirectoryOverrides": {
+              "solo": {
+                "ComputeSpotPrice": "0.5"
+              }
+            }
+          }
+        },
+        {
+          "costPerHour": 8,
+          "name": "High",
+          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
+          "fly": {
+            "parameterDirectoryOverrides": {
+              "solo": {
+                "ComputeSpotPrice": "0"
+              }
+            }
+          }
+        }]
       },
       "key": "3e55ae11-6276-4980-850d-14f7f0c2db8d",
       "fly": {
@@ -176,8 +224,32 @@
         "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler, and comes with common Bioinformatics software preinstalled.",
         "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
       },
-      "costs": {
-        "costPerHour": 5
+      "launchOptions": {
+        "defaultOptionIndex": 0,
+        "options": [{
+          "costPerHour": 9,
+          "name": "Standard",
+          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
+          "fly": {
+            "parameterDirectoryOverrides": {
+              "solo": {
+                "ComputeSpotPrice": "0.5"
+              }
+            }
+          }
+        },
+        {
+          "costPerHour": 10,
+          "name": "High",
+          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
+          "fly": {
+            "parameterDirectoryOverrides": {
+              "solo": {
+                "ComputeSpotPrice": "0"
+              }
+            }
+          }
+        }]
       },
       "key": "a1295cc3-7c6a-46be-91d9-3476fb10dee6",
       "fly": {
@@ -203,8 +275,32 @@
         "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler, and comes with common Chemistry software preinstalled.",
         "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
       },
-      "costs": {
-        "costPerHour": 6
+      "launchOptions": {
+        "defaultOptionIndex": 1,
+        "options": [{
+          "costPerHour": 11,
+          "name": "Standard",
+          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
+          "fly": {
+            "parameterDirectoryOverrides": {
+              "solo": {
+                "ComputeSpotPrice": "0.5"
+              }
+            }
+          }
+        },
+        {
+          "costPerHour": 12,
+          "name": "High",
+          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
+          "fly": {
+            "parameterDirectoryOverrides": {
+              "solo": {
+                "ComputeSpotPrice": "0"
+              }
+            }
+          }
+        }]
       },
       "key": "dc8e362a-1389-4b69-bd18-da04019096d8",
       "fly": {
