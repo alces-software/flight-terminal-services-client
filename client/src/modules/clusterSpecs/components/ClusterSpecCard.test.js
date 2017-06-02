@@ -25,6 +25,14 @@ const clusterSpec = {
       tooltip: "This cluster uses the Slurm scheduler"
     }
   },
+  launchOptions: {
+    defaultOptionIndex: 0,
+    options: [{
+      costPerHour: 1,
+      name: 'Standard',
+      description: 'The standard',
+    }],
+  },
 };
 
 const initialState = {
