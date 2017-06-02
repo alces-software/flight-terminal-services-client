@@ -58,6 +58,10 @@ class ClusterLaunchFormContainer extends React.Component {
   componentDidMount() {
     this.setState({
       errors: validate(this.state.values),
+      values: {
+        ...this.state.values,
+        selectedLaunchOptionIndex: this.props.clusterSpec.launchOptions.defaultOptionIndex,
+      }
     });
   }
 
@@ -122,6 +126,7 @@ class ClusterLaunchFormContainer extends React.Component {
         clusterLaunch: {
           name: this.state.values.clusterName || this.state.values.launchToken,
           email: this.state.values.email,
+          selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
         },
       })
     })

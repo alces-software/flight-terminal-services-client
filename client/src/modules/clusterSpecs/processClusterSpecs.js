@@ -21,19 +21,13 @@ export function processClusterSpecs(clusterSpecs) {
     const overridesMap = clusterSpec.fly.parameterDirectoryOverrides || {};
     const overrides = Object.keys(overridesMap).map(key => overridesMap[key]);
 
-    const autoscaling = overrides.some(o => o.AutoscalingPolicy === 'enabled');
     const preloadSoftware = (overrides.find(o => o.PreloadSoftware != null) || {} ).PreloadSoftware;
-    const usesSpot = overrides.some(o => o.ComputeSpotPrice != null && o.ComputeSpotPrice !== '0');
-    const spotPrice = overrides.find(o => o.ComputeSpotPrice != null || {}).ComputeSpotPrice;
     const schedulerType = (overrides.find(o => o.SchedulerType != null) || {}).SchedulerType;
 
     return {
       ...clusterSpec,
       ui: {
-        autoscaling,
         preloadSoftware,
-        spotPrice,
-        usesSpot,
         scheduler: schedulerSpecs[schedulerType],
         ...clusterSpec.ui,
       }

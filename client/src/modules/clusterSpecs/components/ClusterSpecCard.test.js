@@ -18,14 +18,20 @@ const clusterSpec = {
     subtitle: 'Some title',
     body: 'Some content',
     logoUrl: 'http://example.com/logo.png',
-    autoscaling: false,
-    usesSpot: true,
     scheduler: {
       type: "slurm",
       text: "Slurm",
       logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Slurm_Workload_Manager.png/262px-Slurm_Workload_Manager.png",
       tooltip: "This cluster uses the Slurm scheduler"
     }
+  },
+  launchOptions: {
+    defaultOptionIndex: 0,
+    options: [{
+      costPerHour: 1,
+      name: 'Standard',
+      description: 'The standard',
+    }],
   },
 };
 

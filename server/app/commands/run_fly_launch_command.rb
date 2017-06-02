@@ -14,15 +14,12 @@ require 'open3'
 class RunFlyLaunchCommand
   attr_reader :stdout, :stderr
 
-  def initialize(parameter_dir, launch_config)
-    @parameter_dir = parameter_dir
-    @launch_config = launch_config
+  def initialize(fly_params)
+    @fly_params = fly_params
   end
 
   def perform
-    cmd_and_env = build_command_and_environment
-    log_cmd(cmd_and_env)
-    launch_with_popen3(cmd_and_env)
+    launch_with_popen3
   end
 
   def failed?
@@ -34,21 +31,14 @@ class RunFlyLaunchCommand
   end
 
   # XXX Can we now use Alces::Tools::Execution ?
-  def launch_with_popen3(cmd_and_env)
-    cmd = cmd_and_env.cmd
-    env = cmd_and_env.env
+  def launch_with_popen3
+    cmd = @fly_params.cmd
+    env = @fly_params.env
     @exit_status = Open3.popen3(env, *cmd) do |stdin, stdout, stderr, wait_thr|
       stdin.close
       @stdout = stdout.read
       @stderr = stderr.read
       wait_thr.value
     end
-  end
-
-  def log_cmd(cmd_and_env)
-    sanitized_cmd = cmd_and_env.cmd.map do |i|
-      (i == @launch_config.access_key || i == @launch_config.secret_key) ? '[REDACTED]' : i
-    end
-    Rails.logger.debug "Running command #{sanitized_cmd.inspect} in env #{cmd_and_env.env.inspect}"
   end
 end

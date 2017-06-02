@@ -11,15 +11,9 @@
 <p>
 Your <%= @cluster_spec_name %> <code><%= @cluster_name %></code> will begin
 launching shortly.
-<% if @runtime_limit %>
-    Once you are in flight, the evaluation period for your Alces Flight Compute HPC cluster will be
-    <%= @runtime %>.  Please remember to save your work as you go as, once the
-    trial completes, the cluster will be shut down automatically.
-<% else %>
-    You will not be charged for running this cluster, but <em>Alces Flight
-        Ltd</em> reserve the right to terminate it without notice.  Please
-    remember to save your work as you go.
-<% end %>
+Once you are in flight, the evaluation period for your Alces Flight Compute HPC cluster will be
+<%= @runtime %>.  Please remember to save your work as you go as, once the
+trial completes, the cluster will be shut down automatically.
 </p>
 
 <p>

@@ -18,8 +18,7 @@ class ClustersMailer < ApplicationMailer
     @tenant = launch_config.tenant
 
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @runtime_limit = launch_config.spec.runtime_limit?
-    @runtime = launch_config.spec.runtime
+    @runtime = determine_runtime(launch_config)
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster is now boarding"
@@ -36,8 +35,7 @@ class ClustersMailer < ApplicationMailer
     @access_details = @parsed_output.access
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @runtime_limit = launch_config.spec.runtime_limit?
-    @runtime = launch_config.spec.runtime
+    @runtime = determine_runtime(launch_config)
     @tenant = launch_config.tenant
 
     @resources = @parsed_output.resources.
@@ -62,5 +60,15 @@ class ClustersMailer < ApplicationMailer
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster has failed to launch"
+  end
+
+  private
+
+  def determine_runtime(launch_config)
+    DetermineRuntimeCommand.new(
+      launch_config.launch_option,
+      launch_config.token,
+      humanized: true
+    ).perform
   end
 end

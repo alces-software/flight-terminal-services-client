@@ -13,13 +13,23 @@ import { createStructuredSelector } from 'reselect';
 import { DelaySpinner } from '../../../components/delayedUntil';
 import tokens from '../../../modules/tokens';
 
+import ClusterRuntimeExplanation from './ClusterRuntimeExplanation';
+import LaunchOptionSwitch from './LaunchOptionSwitch';
+import LaunchOptionExplanation from './LaunchOptionExplanation';
+
+const launchOptionShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  costPerHour: PropTypes.number.isRequired,
+});
+
 const propTypes = {
   clusterSpec: PropTypes.shape({
-    costs: PropTypes.shape({
-      costPerHour: PropTypes.number.isRequired,
+    launchOptions: PropTypes.shape({
+      options: PropTypes.arrayOf(launchOptionShape.isRequired).isRequired,
     }).isRequired,
   }).isRequired,
-
+  onChange: PropTypes.func.isRequired,
+  selectedLaunchOptionIndex: PropTypes.number.isRequired,
   token: PropTypes.shape({
     attributes: PropTypes.shape({
       credits: PropTypes.number.isRequired,
@@ -27,53 +37,50 @@ const propTypes = {
   }).isRequired,
 };
 
-function runtime(clusterSpecCost, tokenCredits) {
-  const fractionalHours = tokenCredits / clusterSpecCost;
-  const days = Math.trunc(fractionalHours / 24);
-  const hours = Math.trunc(fractionalHours) - days * 24;
-  const minutes = (fractionalHours - hours) * 60;
+const SingleLaunchOption = ({ clusterSpec, token }) => {
+  const selectedLaunchOption = clusterSpec.launchOptions.options[0];
 
-  let fuzzyMinutes;
-  if (minutes < 15) {
-    fuzzyMinutes = '';
-  } else if (minutes < 30) {
-    fuzzyMinutes = ' and a quarter';
-  } else if (minutes < 45) {
-    fuzzyMinutes = ' and a half';
-  } else {
-    fuzzyMinutes = ' and three quarter';
+  return (
+    <ClusterRuntimeExplanation
+      clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+      tokenCredits={token.attributes.credits}
+    />
+  );
+};
+
+const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange }) => {
+  if (clusterSpec.launchOptions.options.length < 2) {
+    return <SingleLaunchOption clusterSpec={clusterSpec} token={token} />;
   }
 
-  if (days > 0) {
-    return `${days} days and ${hours} hours`;
-  } else if (hours < 1) {
-    return `${minutes} minutes`;
-  }
-  return `${hours}${fuzzyMinutes} hours`;
-}
-
-const LaunchOptions = ({ clusterSpec, token }) => {
-  const tokenCredits = token.attributes.credits;
-  const clusterSpecCost = clusterSpec.costs.costPerHour;
-  const runTime = runtime(clusterSpecCost, tokenCredits);
+  const standardOption = clusterSpec.launchOptions.options[0];
+  const highOption = clusterSpec.launchOptions.options[1];
+  const standardExplanation = <LaunchOptionExplanation option={standardOption} />;
+  const highExplanation = <LaunchOptionExplanation option={highOption} />;
+  const selectedLaunchOption = selectedLaunchOptionIndex === 0 ? standardOption : highOption
 
   return (
     <div>
       <p>
-        The token you entered will provide a <strong>runtime of
-          {' '}{runTime}</strong> for this cluster.  Once that time has
-        elapsed, the cluster will be <strong>shut down automatically</strong>.
+        This cluster has two compute durability options {' '}{standardExplanation}{' '}
+        and {' '}{highExplanation}. Please select the option you desire, and
+        then click "Next".
       </p>
-      <p>
-        If you wish to use another token, click "Previous" below, or click
-        "Next" to continue.
-      </p>
+      <LaunchOptionSwitch
+        label="Compute durability"
+        selectedLaunchOptionIndex={selectedLaunchOptionIndex}
+        onChange={onChange}
+        onText={highOption.name}
+        offText={standardOption.name}
+        id={`LaunchOptionSwitch-${clusterSpec.key}`}
+      />
+      <ClusterRuntimeExplanation
+        clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+        tokenCredits={token.attributes.credits}
+      />
     </div>
   );
 };
-
-
-LaunchOptions.propTypes = propTypes;
 
 const mapStateToProps = createStructuredSelector({
   token: tokens.selectors.tokenFromName,
@@ -96,5 +103,7 @@ const enhance = compose(
     )),
   ),
 );
+
+LaunchOptions.propTypes = propTypes;
 
 export default enhance(LaunchOptions);

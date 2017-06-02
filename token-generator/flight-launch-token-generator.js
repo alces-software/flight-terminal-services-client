@@ -448,9 +448,11 @@ function fetchAvailableTokens() {
   writeInfo("Loading tokens...");
   clearTable();
 
-  var url = activeTenant.relationships.tokens.links.related;
+  var url = new URL(activeTenant.relationships.tokens.links.related);
+  url.pathname = "/admin" + url.pathname;
+  url.searchParams.set('filter[status]', 'AVAILABLE');
 
-  fetch(url)
+  fetch(url.toString())
     .then((response) => {
       if (response.ok) {
         return response.json();

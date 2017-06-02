@@ -9,13 +9,15 @@
 class ClusterLaunchJob < ApplicationJob
   queue_as :default
 
-  def perform(launch_config_params, cluster_spec_params, tenant, token)
+  def perform(launch_config_params, cluster_spec_params, tenant, token, launch_option_params)
     begin
       spec = ClusterSpec.new(cluster_spec_params)
+      launch_option = LaunchOption.new(launch_option_params)
       launch_config = ClusterLaunchConfig.new(launch_config_params)
       launch_config.spec = spec
       launch_config.tenant = tenant
       launch_config.token = token
+      launch_config.launch_option = launch_option
       if Rails.env.development? && ENV['SKIP_LAUNCH'] == 'true'
         msg = "Not launching cluster. Change SKIP_LAUNCH environment " +
           "variable to launch clusters"

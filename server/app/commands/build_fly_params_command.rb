@@ -18,38 +18,48 @@ class BuildFlyParamsCommand
   end
 
   def perform
-    Result.new(build_command, build_environment)
+    Result.new(build_command, build_environment).tap do |r|
+      log_params(r)
+    end
   end
 
   def build_command
-    extra_args = []
-    default_template_set = Rails.application.config.alces.default_template_set
-    if default_template_set.present?
-      extra_args << '--template-set' << default_template_set
-    end
-    if @launch_config.spec.args.present?
-      extra_args += @launch_config.spec.args
-    end
-    if @launch_config.key_pair.present?
-      extra_args << '--key-pair' << @launch_config.key_pair
-    end
-    if @launch_config.region.present?
-      extra_args << '--region' << @launch_config.region
-    end
-
     cmd = [
       ENV['FLY_EXE_PATH'],
       'cluster',
       'launch',
       stack_name,
+      *default_template_set,
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
-      *extra_args,
+      *@launch_config.spec.args,
+      *@launch_config.launch_option.args,
+      *key_pair_and_region,
       '--parameter-directory', @parameter_dir,
       '--runtime', runtime,
     ]
 
     cmd
+  end
+
+  def default_template_set
+    [].tap do |args|
+      default_template_set = Rails.application.config.alces.default_template_set
+      if default_template_set.present?
+        args << '--template-set' << default_template_set
+      end
+    end
+  end
+
+  def key_pair_and_region
+    [].tap do |args|
+      if @launch_config.key_pair.present?
+        args << '--key-pair' << @launch_config.key_pair
+      end
+      if @launch_config.region.present?
+        args << '--region' << @launch_config.region
+      end
+    end
   end
 
   def build_environment
@@ -64,15 +74,16 @@ class BuildFlyParamsCommand
   end
 
   def runtime
-    if Rails.env.development? && ENV['CLUSTER_RUNTIME']
-      return ENV['CLUSTER_RUNTIME']
+    DetermineRuntimeCommand.new(
+      @launch_config.launch_option,
+      @launch_config.token
+    ).perform.to_s
+  end
+
+  def log_params(params)
+    sanitized_cmd = params.cmd.map do |i|
+      (i == @launch_config.access_key || i == @launch_config.secret_key) ? '[REDACTED]' : i
     end
-
-    token_credits = @launch_config.token.credits
-    spec_cost_per_hour = @launch_config.spec.costs['costPerHour']
-    fractional_hours = token_credits / spec_cost_per_hour
-    runtime_in_minutes = (fractional_hours * 60).ceil
-
-    runtime_in_minutes.to_s
+    Rails.logger.debug "Running command #{sanitized_cmd.inspect} in env #{params.env.inspect}"
   end
 end

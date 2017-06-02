@@ -1,8 +1,30 @@
 import React from 'react';
 import { linkTo, storiesOf } from '@kadira/storybook';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
-import ClusterLaunchForm from '../components/ClusterLaunchForm';
+import { ClusterLaunchForm } from '../components/ClusterLaunchForm';
 import '../../clusterSpecs/styles/ClusterSpecCard.scss';
+
+const initialState = {
+  tokens: {
+    meta: {
+      loadingState: {
+        'example-loading-token': 'LOADING',
+        'example-loaded-token': 'RESOLVED',
+      },
+    },
+    tokens: {
+      anId: {
+        attributes: {
+          name: 'example-loaded-token',
+          credits: 10,
+        }
+      }
+    }
+  },
+};
+const store = configureMockStore()(initialState);
 
 const clusterSpec = {
   ui: {
@@ -10,11 +32,32 @@ const clusterSpec = {
     subtitle: 'Some title',
     body: 'Some content',
     logoUrl: 'http://example.com/logo.png',
-    autoscaling: false,
-    usesSpot: true,
   },
-  costs: {
-    costPerHour: 10,
+  launchOptions: {
+    defaultOptionIndex: 1,
+    options: [{
+      costPerHour: 1,
+      name: "Standard",
+      description: "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
+      fly: {
+        parameterDirectoryOverrides: {
+          solo: {
+            ComputeSpotPrice: "0.5"
+          }
+        }
+      }
+    },{
+      costPerHour: 2,
+      name: "High",
+      description: "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
+      fly: {
+        parameterDirectoryOverrides: {
+          solo: {
+            ComputeSpotPrice: "0"
+          }
+        }
+      }
+    }]
   },
 };
 
@@ -23,7 +66,7 @@ const commonProps = {
   errors: {},
   handleSubmit: () => {},
   onCancel: () => {},
-  onCredentialsEntered: () => {},
+  onTokenEntered: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
   values: {},
@@ -68,7 +111,9 @@ storiesOf('ClusterLaunchForm', module)
                       </div>
                       <div>
                       </div>
-                      {story()}
+                      <Provider store={store}>
+                        {story()}
+                      </Provider>
                     </div>
                   </div>
                 </div>
@@ -91,6 +136,7 @@ storiesOf('ClusterLaunchForm', module)
   .add('loading launch options page', () => (
     <ClusterLaunchForm
       {...commonProps}
+      tokenName="example-loading-token"
       currentPageIndex={1}
       onShowNextPage={linkTo('ClusterLaunchForm', 'loaded launch options page')}
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'empty launch token page')}
@@ -100,6 +146,7 @@ storiesOf('ClusterLaunchForm', module)
   .add('loaded launch options page', () => (
     <ClusterLaunchForm
       {...commonProps}
+      tokenName="example-loaded-token"
       currentPageIndex={1}
       onShowNextPage={linkTo('ClusterLaunchForm', 'empty cluster name page')}
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'empty launch token page')}
