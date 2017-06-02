@@ -452,7 +452,7 @@ function fetchAvailableTokens() {
   url.pathname = "/admin" + url.pathname;
   url.searchParams.set('filter[status]', 'AVAILABLE');
 
-  fetch(url.toString())
+  fetch(url.toString(), {credentials: 'include'})
     .then((response) => {
       if (response.ok) {
         return response.json();
