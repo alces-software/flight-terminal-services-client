@@ -14,6 +14,9 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
       good: {
         "name": "will-launch-successfully",
         "email": "me@example.com",
+        token: token,
+        tenant: tenant,
+        launch_option: launch_option,
       }
     }
   end
@@ -40,7 +43,20 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
       credits: 1,
       name: 'my-token',
       status: 'QUEUED',
-      tenant: Tenant.first,
+      tenant: tenant,
+    )
+  end
+
+  def tenant
+    Tenant.find_by!(identifier: 'default')
+  end
+
+  def launch_option
+    LaunchOption.new(
+      name: 'Standard',
+      description: 'The standard',
+      cost_per_hour: 5,
+      fly: {},
     )
   end
 
@@ -55,7 +71,6 @@ class LaunchClusterCommandTest < ActiveSupport::TestCase
       cluster_launch_config_params[cluster_flavour]
     )
     cluster_launch_config.spec = cluster_spec
-    cluster_launch_config.token = token
 
     @launch_command = LaunchClusterCommand.new(cluster_launch_config)
 
