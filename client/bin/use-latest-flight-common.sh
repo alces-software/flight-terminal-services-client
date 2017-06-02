@@ -11,7 +11,7 @@ set -euo pipefail
 rm -rf ~/.cache/yarn/npm-flight-common-0.0.0/
 rm -rf ~/launch/node_modules/flight-common/
 
-if [ "$1" == "--local" ] ; then
+if [ "${1:-}" == "--local" ] ; then
     echo "Adding local flight-common"
     yarn add file:///home/flight-common
 else
