@@ -39,11 +39,13 @@ Rails.application.routes.draw do
     namespace :api do
       namespace :v1 do
         jsonapi_resources :tenants
+        jsonapi_resources :tokens
       end
     end
   end
 
   get '/admin/', to: static("admin.html")
+  get '/admin/token-generator', to: static("token-generator.html")
 
   # For all other GET requests render the index page to load the client
   # application.

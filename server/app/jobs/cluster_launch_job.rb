@@ -9,16 +9,25 @@
 class ClusterLaunchJob < ApplicationJob
   queue_as :default
 
-  def perform(launch_config_params, cluster_spec_params, tenant)
+  def perform(launch_config_params, cluster_spec_params, tenant, token, launch_option_params)
     begin
       spec = ClusterSpec.new(cluster_spec_params)
+      launch_option = LaunchOption.new(launch_option_params)
       launch_config = ClusterLaunchConfig.new(launch_config_params)
       launch_config.spec = spec
       launch_config.tenant = tenant
-      launch_command = LaunchClusterCommand.new(launch_config)
-      launch_command.perform
+      launch_config.token = token
+      launch_config.launch_option = launch_option
+      if Rails.env.development? && ENV['SKIP_LAUNCH'] == 'true'
+        msg = "Not launching cluster. Change SKIP_LAUNCH environment " +
+          "variable to launch clusters"
+        Alces.app.logger.info(msg);
+      else
+        launch_command = LaunchClusterCommand.new(launch_config)
+        launch_command.perform
+      end
     rescue
-      Rails.logger.info("Launching cluster failed: #{$!.message}")
+      Alces.app.logger.info("Launching cluster failed: #{$!.message}")
       raise
     end
   end

@@ -7,82 +7,100 @@
  *===========================================================================*/
 
 //
-// == Cluster spec loading =================================
+// == Tenant and cluster spec loading =================================
 //
 
 // Map from cluster spec key to cluster spec name.
 var ClusterSpecKeyToNameMap = {};
 
-// Load cluster specs and populate ClusterSpecKeyToNameMap and the cluster
-// specs selection checkboxes.
-(function () {
-  var httpRequest;
-  const clusterSpecsUrl = getClusterSpecsUrl();
-  makeRequest(clusterSpecsUrl);
+// The tenant that we're creating tokens for.
+var activeTenant = undefined;
 
-  function buildClusterSpecsUrl(tenant, file) {
-    const clusterSpecsUrlPrefix = 'https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/ClusterSpecs/';
-    return `${clusterSpecsUrlPrefix}${tenant}/${file}`;
-  }
+const urlParams = new URLSearchParams(window.location.search);
+fetchTenant()
+  .then(fetchClusterSpecs)
+  .catch((error) => {
+    writeError(error);
+  });
 
-  // Retrieve the specs URL from window.location, without breaking old browsers.
-  //
-  // Older browsers always use the default URL.
-  function getClusterSpecsUrl() {
-    const defaultFile = 'default.json';
-    const defaultTenant = 'default';
-    const defaultUrl = buildClusterSpecsUrl(defaultTenant, defaultFile);
+function fetchTenant() {
+  var tenantIdentifier = urlParams.get('tenant') || 'default';
+  var tenantUrl = "/api/v1/tenants?filter[identifier]=" + tenantIdentifier;
 
-    // Get the clusterSpecs urlParam without breaking in older browsers.  Older
-    // browsers use the defaultUrl.
-    if (URL == null) { return defaultUrl; }
-    const urlParams = new URL(window.location).searchParams;
-    if (urlParams == null || urlParams.get == null) { return defaultUrl; }
-    const file = urlParams.get('clusterSpecs');
-    const tenant = urlParams.get('tenant');
-
-    return buildClusterSpecsUrl(tenant || defaultTenant, file || defaultFile);
-  }
-
-
-  function makeRequest(url) {
-    httpRequest = new XMLHttpRequest();
-
-    if (!httpRequest) {
-      writeError("Unable to load cluster specs");
-      return false;
-    }
-    httpRequest.onreadystatechange = generateClusterSelectionList;
-    httpRequest.open('GET', url);
-    httpRequest.send();
-  }
-
-  function generateClusterSelectionList() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        clusterSpecs = JSON.parse(httpRequest.responseText).clusterSpecs;
-        for (var i=0; i < clusterSpecs.length; i++) {
-          spec = clusterSpecs[i];
-
-          var div = document.createElement("div");
-          var input = document.createElement("input");
-          input.type = 'checkbox';
-          input.value = spec.key;
-          input.disabled = true;
-          var label = document.createElement("label");
-          label.append(input, spec.ui.title);
-          div.append(label);
-          document.getElementById('clustersList').append(div);
-
-          ClusterSpecKeyToNameMap[spec.key] = spec.ui.title;
-
-        }
+  return fetch(tenantUrl)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
       } else {
-        writeError("There was a problem loading the cluster specs");
+        return Promise.reject('Unable to load tenant');
       }
-    }
+    })
+    .then((tenantsJsonApiDoc) => {
+      const tenants = tenantsJsonApiDoc.data;
+      if (tenants.length < 1) {
+        return Promise.reject('Tenant not found');
+      } else if (tenants.length > 1) {
+        return Promise.reject('Multiple matches');
+      }
+      activeTenant = tenants[0];
+      return tenants[0];
+    })
+    .then((tenant) => {
+      var attrs = tenant.attributes;
+      document.getElementById('headerTenantName').innerHTML = attrs.name;
+      document.getElementById('headerTenantIdentifier').innerHTML = attrs.identifier;
+      if (attrs.hasCreditLimit) {
+        document.getElementById('remainingCredits').innerHTML = attrs.remainingCredits;
+      } else {
+        document.getElementById('remainingCreditsInfo').style.display = 'none';
+      }
+      return tenant;
+    });
+}
+
+function buildClusterSpecsConfig(fileOverride, defaults) {
+  return {
+    url: fileOverride ? `${defaults.prefix}${fileOverride}` : defaults.defaultUrl,
+    file: fileOverride ? fileOverride : defaults.defaultFile,
   }
-})();
+}
+
+function fetchClusterSpecs(tenant) {
+  var specsFile = urlParams.get('clusterSpecs');
+  var specsDefaults = tenant.attributes.clusterSpecsUrlConfig;
+  var specsConfig = buildClusterSpecsConfig(specsFile, specsDefaults);
+
+  fetch(specsConfig.url)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject('Unable to load specs');
+      }
+    })
+    .then((specs) => {
+      generateClusterSelectionList(specs.clusterSpecs);
+    });
+}
+
+
+function generateClusterSelectionList(clusterSpecs) {
+  for (var i=0; i < clusterSpecs.length; i++) {
+    spec = clusterSpecs[i];
+
+    var div = document.createElement("div");
+    var input = document.createElement("input");
+    input.type = 'checkbox';
+    input.value = spec.key;
+    input.disabled = true;
+    var label = document.createElement("label");
+    label.append(input, spec.ui.title);
+    div.append(label);
+    document.getElementById('clustersList').append(div);
+
+    ClusterSpecKeyToNameMap[spec.key] = spec.ui.title;
+  }
+}
 
 //
 // == Utils ================================================
@@ -103,7 +121,7 @@ function rand(max) {
   return Math.floor(Math.random() * max);
 }
 
-// Return a random element from collection.
+// Return a random element from collection.size
 function randomChoice(collection) {
   const index = rand(collection.length);
   return collection[index];
@@ -265,7 +283,7 @@ function generateMeaninglessPart(length) {
 }
 
 //
-// == Clipboard interaction ================================
+// == Clipboard interaction ================================size
 //
 
 function selectTextarea(element) {
@@ -313,134 +331,147 @@ function copyToClipboard() {
 }
 
 //
-// == Dynamodb interaction =================================
+// == Token creation and retrieval =================================
 //
 
-var docClient = undefined;
-function updateAWSConfig() {
-  var accessKeyId = document.getElementById('awsAccessKeyId').value;
-  var secretAccessKey = document.getElementById('awsSecrectAccessKey').value;
-
-  AWS.config.update({
-    region: "eu-west-1",
-    // The endpoint should point to the local or remote computer where DynamoDB (downloadable) is running.
-    endpoint: 'dynamodb.eu-west-1.amazonaws.com',
-    /*
-           accessKeyId and secretAccessKey defaults can be used while using the downloadable version of DynamoDB. 
-           For security reasons, do not store AWS Credentials in your files. Use Amazon Cognito instead.
-           */
-    accessKeyId: accessKeyId,
-    secretAccessKey: secretAccessKey,
-  });
-
-  /* 
-       Uncomment the following code to configure Amazon Cognito and make sure to 
-       remove the endpoint, accessKeyId and secretAccessKey specified in the code above. 
-       Make sure Cognito is available in the DynamoDB web service region (specified above).
-       Finally, modify the IdentityPoolId and the RoleArn with your own.
-       */
-  /*
-       AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-       IdentityPoolId: "us-west-2:12345678-1ab2-123a-1234-a12345ab12",
-       RoleArn: "arn:aws:iam::123456789012:role/dynamocognito"
-       });
-       */
-
-  var dynamodb = new AWS.DynamoDB();
-  docClient = new AWS.DynamoDB.DocumentClient();
-
-  document.getElementById("credentials").style.display = 'none';
-  document.getElementById("generator").style.display = 'block';
-}
-
-function createToken() {
+function createToken(params) {
+  var credits = params.credits;
   var token = randomToken();
   if (token == null) { return; }
   var tag = getTokenTag();
-  var params = {
-    TableName: "FlightLaunchTokens",
-    Item: {
-      "Token": token,
-      "Status": "AVAILABLE",
-      "CreatedAt": new Date().toISOString(),
-      "Tag": tag,
-    },
-    ConditionExpression: "attribute_not_exists(#token)",
-    ExpressionAttributeNames: {
-      "#token": "Token",
-    },
+  var url = "/admin/api/v1/tokens";
+
+  var attributes = {
+    name: token,
+    credits: credits,
   };
   if (areTokensRestricted()) {
-    params.Item.ClusterSpecKeys = permittedClusterKeys();
+    attributes.permittedSpecKeys = permittedClusterKeys();
+  }
+  if (tag !== "") {
+    attributes.tag = tag;
   }
 
-  docClient.put(params, function(err, data) {
-    if (err) {
-      writeError("Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2));
-    } else {
-      var getParams = {
-        Key: { Token: token },
-        TableName: "FlightLaunchTokens",
-      };
-      docClient.get(getParams, function(err, data) {
-        if (err) {
-          writeError("Unable to add item: " + "\n" + JSON.stringify(err, undefined, 2));
-        } else {
-          writeTokens([ data.Item ]);
-        }
-      });
-    }
+  return fetch(url, {
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/vnd.api+json',
+      'Accept': 'application/vnd.api+json',
+    },
+    body: JSON.stringify({
+      data: {
+        type: 'tokens',
+        attributes: attributes,
+        relationships: {
+          tenant: {
+            data: {
+              type: 'tenants',
+              id: activeTenant.id,
+            },
+          },
+        },
+      },
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then(j => Promise.reject(extractErrorDetails(j.errors)));
+      }
+    })
+    .then((jsonApiDoc) => {
+      var token = jsonApiDoc.data;
+      writeTokens([token]);
+    })
+    .catch((err) => {
+      writeError("Unable to create token " + token + ": " + JSON.stringify(err, undefined, 2));
+    });
+}
+
+function extractErrorDetails(errors) {
+  var details = [];
+  errors.forEach((err) => {
+    details.push(err.detail);
   });
+  return details;
 }
 
 function createTokens() {
   clearErrorMessages();
   var numTokens = parseInt(document.getElementById('numTokens').value, 10) || 1;
   writeInfo("Creating " + numTokens + " tokens...");
+
+  var credits = parseInt(document.getElementById('allocatedCredits').value, 10);
+  if (credits == null || isNaN(credits)) {
+    writeError("The number of credits to allocate must be set.");
+  }
+
   if (areTokensRestricted() && permittedClusterKeys().length < 1) {
     writeError("When creating restricted tokens at least one cluster must be selected");
   } else {
+    var promiseFactories = [];
     for (var i=0; i<numTokens; i++) {
-      createToken();
+      promiseFactories.push(() => createToken({ credits: credits }));
     }
+    runParallel(promiseFactories)
+      .then(() => {
+        fetchTenant();
+      })
+      .catch((error) => {
+        writeError(error);
+      });
   }
 }
 
-function scanData() {
+// Run an array of functions returning promises in parallel.  Returns the
+// result from the last promise.
+function runParallel(promiseFactories) {
+  var promises = [];
+  promiseFactories.forEach(pf => promises.push(pf()));
+  return Promise.all(promises);
+}
+
+// Run an array of functions returning promises serially.  Returns the result
+// from the last promise.
+function runSerial(promiseFactories) {
+  var result = Promise.resolve();
+  promiseFactories.forEach(pf => {
+    result = result.then(() => pf());
+  });
+  return result;
+}
+
+function fetchAvailableTokens() {
   clearErrorMessages();
   writeInfo("Loading tokens...");
   clearTable();
 
-  var params = {
-    TableName: "FlightLaunchTokens",
-    FilterExpression: "#status = :available",
-    ExpressionAttributeNames: {
-      "#status": "Status",
-    },
-    ExpressionAttributeValues: {
-      ":available": "AVAILABLE",
-    },
-  };
+  var url = new URL(activeTenant.relationships.tokens.links.related);
+  url.pathname = "/admin" + url.pathname;
+  url.searchParams.set('filter[status]', 'AVAILABLE');
 
-  docClient.scan(params, onScan);
-
-  function onScan(err, data) {
-    if (err) {
-      writeError("Unable to scan the table: " + "\n" + JSON.stringify(err, undefined, 2));
-    } else {
-      writeTokens(data.Items);
-
-      // Continue scanning if we have more tokens (per scan 1MB limitation)
-      if (data.LastEvaluatedKey) {
-        writeInfo("Loading more...", true);
-        params.ExclusiveStartKey = data.LastEvaluatedKey;
-        docClient.scan(params, onScan);            
+  fetch(url.toString(), {credentials: 'include'})
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject('Unable to load available tokens');
       }
-    }
-    writeInfo("Done", true);
-  }
+    })
+    .then((jsonApiDoc) => {
+      var tokens = jsonApiDoc.data;
+      writeTokens(tokens);
+    })
+    .then((res) => {
+      writeInfo("Done", true);
+      return res;
+    })
+    .catch((err) => {
+      writeError(err);
+    });
 }
-
 
 //
 // == Presentation of tokens ===============================
@@ -453,33 +484,39 @@ function clearTable() {
 function writeTokens(tokens) {
   var table = document.getElementById('tokenTableBody');
   tokens
-    .sort(function(a, b) { return a.Token < b.Token ? -1 : 1 })
+    .sort(function(a, b) { return a.attributes.name < b.attributes.name ? -1 : 1 })
     .forEach(function(token) {
+      var tokenAttrs = token.attributes;
       var tokenCell = document.createElement("td");
-      tokenCell.append(token.Token);
+      tokenCell.append(tokenAttrs.name);
 
+      var permittedSpecKeys = tokenAttrs.permittedSpecKeys;
       var permittedClustersCell = document.createElement("td");
-      if (token.ClusterSpecKeys == null || token.ClusterSpecKeys.length < 0) {
+      if (permittedSpecKeys == null || permittedSpecKeys.length < 1) {
         var em = document.createElement('em');
-        em.append('Unrestricted');
+        em.append('Any cluster for tenant "' + activeTenant.attributes.identifier + '"');
         permittedClustersCell.append(em);
       } else {
         var clusterNames = [];
-        for (var i=0; i < token.ClusterSpecKeys.length; i++) {
-          var key = token.ClusterSpecKeys[i];
-          clusterNames.push(ClusterSpecKeyToNameMap[key]);
+        for (var i=0; i < permittedSpecKeys.length; i++) {
+          var key = permittedSpecKeys[i];
+          var name = ClusterSpecKeyToNameMap[key];
+          clusterNames.push(name);
         }
         permittedClustersCell.append(clusterNames.join(", "));
       }
 
       var tagCell = document.createElement("td");
-      tagCell.append(token.Tag || '');
+      tagCell.append(tokenAttrs.tag || '');
+
+      var creditCell = document.createElement("td");
+      creditCell.append(tokenAttrs.credits);
 
       var tr = document.createElement("tr");
       tr.append(tokenCell);
       tr.append(permittedClustersCell);
       tr.append(tagCell);
+      tr.append(creditCell);
       table.append(tr);
     });
 }
-

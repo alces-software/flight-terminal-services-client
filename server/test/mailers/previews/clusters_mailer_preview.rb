@@ -5,12 +5,8 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.about_to_launch(launch_config)
   end
 
-  def about_to_launch_with_runtime
-    ClustersMailer.about_to_launch(runtime_launch_config)
-  end
-
-  def about_to_launch_with_tenant
-    ClustersMailer.about_to_launch(launch_config_with_tenant_and_runtime)
+  def about_to_launch_with_tenant_branding
+    ClustersMailer.about_to_launch(launch_config_with_tenant_branding)
   end
 
   def launched
@@ -18,14 +14,9 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.launched(launch_config, output)
   end
 
-  def launched_with_runtime
+  def launched_with_tenant_branding
     output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
-    ClustersMailer.launched(runtime_launch_config, output)
-  end
-
-  def launched_with_tenant
-    output = File.read(Rails.root.join('test/mailers/previews/output.sample'))
-    ClustersMailer.launched(launch_config_with_tenant_and_runtime, output)
+    ClustersMailer.launched(launch_config_with_tenant_branding, output)
   end
 
   def failed
@@ -34,10 +25,10 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClustersMailer.failed(launch_config, error)
   end
 
-  def failed_with_tenant
+  def failed_with_tenant_branding
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
     error = ParseLaunchErrorCommand.new(output).perform
-    ClustersMailer.failed(launch_config_with_tenant_and_runtime, error)
+    ClustersMailer.failed(launch_config_with_tenant_branding, error)
   end
 
   private
@@ -46,25 +37,37 @@ class ClustersMailerPreview < ActionMailer::Preview
     ClusterLaunchConfig.new(
       email: 'me@example.com',
       name: 'my-cluster',
-      token: 'carelessly-spoil-coffee',
+      token: token,
       tenant: Tenant.find_by!(identifier: 'default'),
+      launch_option: launch_option,
       spec: ClusterSpec.new(
         meta: {
           'title' => 'Small SGE bioinformatics cluster',
           'titleLowerCase' => 'small SGE bioinformatics cluster',
         },
+        args: ['--solo'],
       ),
     )
   end
 
-  def runtime_launch_config
-    launch_config.tap do |lc|
-      lc.spec.args = ['--runtime', '240', '--solo']
-    end
+  def token
+    Token.new(
+      name: 'carelessly-spoil-coffee',
+      credits: 20,
+    )
   end
 
-  def launch_config_with_tenant_and_runtime
-    runtime_launch_config.tap do |lc|
+  def launch_option
+    LaunchOption.new(
+      name: 'Standard',
+      description: 'The standard',
+      cost_per_hour: 5,
+      fly: {},
+    )
+  end
+
+  def launch_config_with_tenant_branding
+    launch_config.tap do |lc|
       lc.tenant = Tenant.find_by!(identifier: 'bigvuni')
     end
   end

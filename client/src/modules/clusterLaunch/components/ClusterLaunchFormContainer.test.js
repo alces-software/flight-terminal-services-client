@@ -7,8 +7,15 @@
  *===========================================================================*/
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
 import ClusterLaunchFormContainer from './ClusterLaunchFormContainer';
+
+const initialState = {
+  tokens: { meta: { loadingState: {}} },
+};
+const store = configureMockStore()(initialState);
 
 const clusterSpec = {
   ui: {
@@ -16,8 +23,6 @@ const clusterSpec = {
     subtitle: 'Some title',
     body: 'Some content',
     logoUrl: 'http://example.com/logo.png',
-    autoscaling: false,
-    usesSpot: true,
     scheduler: {
       type: "slurm",
       text: "Slurm",
@@ -25,18 +30,26 @@ const clusterSpec = {
       tooltip: "This cluster uses the Slurm scheduler",
     },
   },
+  launchOptions: {
+    defaultOptionIndex: 0,
+    options: [{
+      costPerHour: 1,
+      name: 'Standard',
+      description: 'The standard',
+    }],
+  },
 };
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <ClusterLaunchFormContainer
-      clusterSpecsFile="dev"
-      clusterSpec={clusterSpec}
-      onCancel={() => {}}
-    />,
+    <Provider store={store}>
+      <ClusterLaunchFormContainer
+        clusterSpecsFile="dev"
+        clusterSpec={clusterSpec}
+        onCancel={() => {}}
+      />
+    </Provider>,
     div
   );
 });
-
-

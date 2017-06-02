@@ -7,8 +7,9 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 
+import Tip from '../../../components/Tip';
+
 import Input from './ClusterFormInput';
-import Tip from './Tip';
 
 const propTypes = {
   error: PropTypes.string,

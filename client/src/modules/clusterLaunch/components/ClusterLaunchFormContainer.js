@@ -7,12 +7,15 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 import validatorUtils from 'validator';
+import { connect } from 'react-redux';
 
-import { clusterSpecShape } from '../modules/clusterSpecs/propTypes';
-import ClusterLaunchForm from '../components/ClusterLaunchForm';
-import ClusterLaunchedModal from '../components/ClusterLaunchedModal';
-import ClusterErrorModal from '../components/ClusterErrorModal';
-import * as analytics from '../utils/analytics';
+import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
+import * as analytics from '../../../utils/analytics';
+import tokens from '../../../modules/tokens';
+
+import ClusterErrorModal from './ClusterErrorModal';
+import ClusterLaunchForm from './ClusterLaunchForm';
+import ClusterLaunchedModal from './ClusterLaunchedModal';
 
 const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
 
@@ -55,6 +58,10 @@ class ClusterLaunchFormContainer extends React.Component {
   componentDidMount() {
     this.setState({
       errors: validate(this.state.values),
+      values: {
+        ...this.state.values,
+        selectedLaunchOptionIndex: this.props.clusterSpec.launchOptions.defaultOptionIndex,
+      }
     });
   }
 
@@ -78,7 +85,9 @@ class ClusterLaunchFormContainer extends React.Component {
     modalProps: {
       clusterName: null,
       email: null,
-    }
+      error: null,
+      title: null,
+    },
   }
 
   handleFormChange = ({ name, value }) => {
@@ -107,6 +116,9 @@ class ClusterLaunchFormContainer extends React.Component {
         tenant: {
           identifier: this.props.tenantIdentifier,
         },
+        token: {
+          name: this.state.values.launchToken,
+        },
         clusterSpec: {
           name: this.props.clusterSpec.ui.title,
           file: this.props.clusterSpecsFile,
@@ -114,7 +126,7 @@ class ClusterLaunchFormContainer extends React.Component {
         clusterLaunch: {
           name: this.state.values.clusterName || this.state.values.launchToken,
           email: this.state.values.email,
-          token: this.state.values.launchToken,
+          selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
         },
       })
     })
@@ -167,7 +179,7 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.launchForm.blurEmailField();
+    this.blurEmailField();
     this.setState({ submitting: true });
 
     analytics.clusterLaunchRequested(this.props.clusterSpec);
@@ -197,6 +209,28 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ showLaunchedModal: false, showErrorModal: false });
   }
 
+  fetchToken = () => {
+    this.props.dispatch(tokens.actions.loadToken(this.state.values.launchToken))
+      .then((response) => {
+        if (response.error) {
+          return Promise.reject(response);
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          modalProps: {
+            error,
+            title: 'Verifying your launch token has failed',
+          },
+          showErrorModal: true,
+        })
+      });
+  }
+
+  blurEmailField() {
+    this.emailInput && this.emailInput.blur();
+  }
+
   render() {
     return (
       <div>
@@ -213,8 +247,10 @@ class ClusterLaunchFormContainer extends React.Component {
         <ClusterLaunchForm
           {...this.state}
           {...this.props}
-          ref={(el) => { this.launchForm = el; }}
+          tokenName={this.state.values.launchToken}
+          emailRef={(el) => { this.emailInput = el; }}
           onChange={this.handleFormChange}
+          onTokenEntered={this.fetchToken}
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
           handleSubmit={this.handleSubmit}
@@ -224,4 +260,4 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 }
 
-export default ClusterLaunchFormContainer;
+export default connect()(ClusterLaunchFormContainer);

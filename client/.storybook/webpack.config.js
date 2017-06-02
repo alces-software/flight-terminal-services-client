@@ -6,6 +6,7 @@
 // When you add this file, we won't add the default configurations which is similar
 // to "React Create App". This only has babel loader to load JavaScript.
 
+require('dotenv').config({silent: true});
 var path = require('path');
 var webpackConfigPath = path.resolve(__dirname, '../config/webpack.config.dev.js');
 
@@ -40,4 +41,5 @@ module.exports = {
     ],
   },
   postcss: config.postcss,
+  resolve: config.resolve,
 };
