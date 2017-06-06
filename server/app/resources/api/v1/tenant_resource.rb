@@ -35,6 +35,20 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
     def updatable_fields(context)
       super - [:cluster_specs_url_config, :identifier]
     end
+
+    def records(options)
+      context = options[:context]
+      if context[:admin] || (context[:alces_admin] && context[:tenant_constraint].present?)
+        # Admins and alces admins (when they specify a particular tenant) are
+        # limited to just that tenant.
+        super.where(identifier: context[:tenant_constraint])
+      else
+        # Non-admin users and alces admins (when they have not specified a
+        # particular tenant) have access to all tenants.  For non-admin users,
+        # this will be read-only access.
+        super
+      end
+    end
   end
 
   def fetchable_fields

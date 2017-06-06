@@ -10,7 +10,7 @@ var TenantsMap = {};
 var editingTenantId;
 
 (function () {
-  fetch('/admin/api/v1/tenants', {credentials: 'include'})
+  fetch('/alces/admin/api/v1/tenants?sort=identifier', {credentials: 'include'})
     .then(response => {
       return response;
     })
@@ -98,7 +98,7 @@ function startCreating() {
 
 function createTenant() {
   clearMessages();
-  var url = "/admin/api/v1/tenants";
+  var url = "/alces/admin/api/v1/tenants";
   fetch(url, {
     credentials: 'include',
     method: 'POST',
@@ -239,7 +239,7 @@ function updateTenant() {
   }
 
   var url = new URL(tenant.links.self);
-  url.pathname = "/admin" + url.pathname;
+  url.pathname = "/alces/admin" + url.pathname;
   var attributes = {
     name: document.getElementById('tenantName').value,
   };

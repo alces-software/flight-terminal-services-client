@@ -11,7 +11,9 @@ class Api::V1::ApplicationResourceController < ::ApplicationController
 
   def context
     {
-      admin: params[:admin]
+      admin: params[:admin] && !params[:alces_admin],
+      alces_admin: !!params[:alces_admin],
+      tenant_constraint: params[:tenant],
     }
   end
 end
