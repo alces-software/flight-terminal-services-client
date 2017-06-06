@@ -119,6 +119,30 @@ h4 {
                             The URL containing the tenant's logo.
                         </div>
                     </div>
+
+                    <div style="margin-bottom: 1em">
+                        <label for="tenantRemainingCredits">
+                            <h4>Remaining credits (optional):</h4>
+                        </label>
+                        <label>
+                            Limit token creation for this tenant?
+                            <input id="tenantHasCreditLimit" type="checkbox" onChange="toggleDisabled('tenantRemainingCredits')">
+                        </label>
+                        <div style="margin-top: 5px">
+                            <input id="tenantRemainingCredits" size="32">
+                        </div>
+                        <div style="color: #737373">
+                            The number of credits the tenant has remaining.
+                            If this is not enabled, an unlimited number of
+                            tokens can be created for the tenant.
+                        </div>
+                        <div style="color: #737373">
+                            To remove all credits for this tenant, set the
+                            remaining credits to 0.
+                            </p>
+                        </div>
+                    </div>
+
                     <input type="submit" value="Update">
                 </form>
             </div>
@@ -204,6 +228,30 @@ h4 {
                             The URL containing the tenant's logo.
                         </div>
                     </div>
+
+                    <div style="margin-bottom: 1em">
+                        <label for="newTenantRemainingCredits">
+                            <h4>Remaining credits (optional):</h4>
+                        </label>
+                        <label>
+                            Limit token creation for this tenant?
+                            <input id="newTenantHasCreditLimit" type="checkbox" onChange="toggleDisabled('newTenantRemainingCredits')">
+                        </label>
+                        <div style="margin-top: 5px">
+                            <input id="newTenantRemainingCredits" size="32">
+                        </div>
+                        <div style="color: #737373">
+                            The number of credits the tenant has remaining.
+                            If this is not enabled, an unlimited number of
+                            tokens can be created for the tenant.
+                        </div>
+                        <div style="color: #737373">
+                            To create a tenant without allocating any credits,
+                            set the remaining credits to 0.
+                            </p>
+                        </div>
+                    </div>
+
                     <input type="submit" value="Create">
                 </form>
             </div>
