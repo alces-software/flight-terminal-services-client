@@ -20,7 +20,7 @@ class MigrateOldTokens < ActiveRecord::Migration[5.0]
   end
 
   def down
-    # Nothing to do here.
+    Token.where(migrated: true).destroy_all
   end
 
   private
@@ -130,7 +130,7 @@ class MigrateOldTokens < ActiveRecord::Migration[5.0]
     Token.create!({
       assigned_to: tok['UsedBy'],
       created_at: tok['CreatedAt'],
-      credits: credits(tenant),
+      credits: credits(tenant, tok),
       name: tok['Token'],
       permitted_spec_keys: tok['ClusterSpecKeys'],
       status: tok['Status'],
@@ -158,8 +158,17 @@ class MigrateOldTokens < ActiveRecord::Migration[5.0]
     tenant_ids.map do |tid| Tenant.find_by(identifier: tid) end
   end
 
-  def credits(tenant)
-    if tenant.identifier == 'challenge'
+  def credits(tenant, tok)
+    performance_spec_keys = [
+      "0b337883-9420-4a8c-a5ff-ece297b8f4c5",
+      "b1319003-20f6-45b8-be4f-2ef0bae92abc",
+    ]
+    spec_keys = tok['ClusterSpecKeys'] || []
+    is_performance_token = spec_keys.any?{|k| performance_spec_keys.include?(k)}
+
+    if is_performance_token
+      120
+    elsif tenant.identifier == 'challenge'
       4
     else
       8
