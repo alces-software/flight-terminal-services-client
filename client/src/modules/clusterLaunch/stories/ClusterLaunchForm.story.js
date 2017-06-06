@@ -1,8 +1,30 @@
 import React from 'react';
 import { linkTo, storiesOf } from '@kadira/storybook';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
-import ClusterLaunchForm from '../components/ClusterLaunchForm';
-import '../styles/ClusterSpecCard.scss';
+import { ClusterLaunchForm } from '../components/ClusterLaunchForm';
+import '../../clusterSpecs/styles/ClusterSpecCard.scss';
+
+const initialState = {
+  tokens: {
+    meta: {
+      loadingState: {
+        'example-loading-token': 'LOADING',
+        'example-loaded-token': 'RESOLVED',
+      },
+    },
+    tokens: {
+      anId: {
+        attributes: {
+          name: 'example-loaded-token',
+          credits: 10,
+        }
+      }
+    }
+  },
+};
+const store = configureMockStore()(initialState);
 
 const clusterSpec = {
   ui: {
@@ -10,9 +32,32 @@ const clusterSpec = {
     subtitle: 'Some title',
     body: 'Some content',
     logoUrl: 'http://example.com/logo.png',
-    autoscaling: false,
-    usesSpot: true,
-    scheduler: "Slurm",
+  },
+  launchOptions: {
+    defaultOptionIndex: 1,
+    options: [{
+      costPerHour: 1,
+      name: "Standard",
+      description: "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
+      fly: {
+        parameterDirectoryOverrides: {
+          solo: {
+            ComputeSpotPrice: "0.5"
+          }
+        }
+      }
+    },{
+      costPerHour: 2,
+      name: "High",
+      description: "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
+      fly: {
+        parameterDirectoryOverrides: {
+          solo: {
+            ComputeSpotPrice: "0"
+          }
+        }
+      }
+    }]
   },
 };
 
@@ -21,6 +66,7 @@ const commonProps = {
   errors: {},
   handleSubmit: () => {},
   onCancel: () => {},
+  onTokenEntered: () => {},
   onShowNextPage: () => {},
   onShowPreviousPage: () => {},
   values: {},
@@ -39,9 +85,9 @@ storiesOf('ClusterLaunchForm', module)
   .addDecorator(story => (
     <div className="card-deck">
       <div className="ClusterSpecCard">
-        <div className="ReactFlipCard ReactFlipCard--horizontal ReactFlipCard--flipped" tabindex="0">
+        <div className="ReactFlipCard ReactFlipCard--horizontal ReactFlipCard--flipped" tabIndex="0">
           <div className="ReactFlipCard__Flipper">
-            <div className="ReactFlipCard__Back" tabindex="-1" aria-hidden="false">
+            <div className="ReactFlipCard__Back" tabIndex="-1" aria-hidden="false">
               <div className="card-wrapper">
                 <div className="card clusterSpecCard card--logo-right">
                   <div className="card-block">
@@ -65,7 +111,9 @@ storiesOf('ClusterLaunchForm', module)
                       </div>
                       <div>
                       </div>
-                      {story()}
+                      <Provider store={store}>
+                        {story()}
+                      </Provider>
                     </div>
                   </div>
                 </div>
@@ -81,14 +129,35 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       currentPageIndex={0}
+      onShowNextPage={linkTo('ClusterLaunchForm', 'loading launch options page')}
+    />
+  ))
+
+  .add('loading launch options page', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      tokenName="example-loading-token"
+      currentPageIndex={1}
+      onShowNextPage={linkTo('ClusterLaunchForm', 'loaded launch options page')}
+      onShowPreviousPage={linkTo('ClusterLaunchForm', 'empty launch token page')}
+    />
+  ))
+
+  .add('loaded launch options page', () => (
+    <ClusterLaunchForm
+      {...commonProps}
+      tokenName="example-loaded-token"
+      currentPageIndex={1}
       onShowNextPage={linkTo('ClusterLaunchForm', 'empty cluster name page')}
+      onShowPreviousPage={linkTo('ClusterLaunchForm', 'empty launch token page')}
+      token={{ attributes: { credits: 45 }}}
     />
   ))
 
   .add('empty cluster name page', () => (
     <ClusterLaunchForm
       {...commonProps}
-      currentPageIndex={1}
+      currentPageIndex={2}
       onShowNextPage={linkTo('ClusterLaunchForm', 'empty email page')}
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'empty launch token page')}
     />
@@ -97,7 +166,7 @@ storiesOf('ClusterLaunchForm', module)
   .add('empty email page', () => (
     <ClusterLaunchForm
       {...commonProps}
-      currentPageIndex={2}
+      currentPageIndex={3}
       handleSubmit={(event) => {
         event.preventDefault();
         linkTo('ClusterLaunchForm', 'when submitting')();
@@ -119,17 +188,17 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
-      currentPageIndex={1}
+      currentPageIndex={2}
       onShowNextPage={linkTo('ClusterLaunchForm', 'completed email page')}
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'completed launch token page')}
     />
   ))
 
-  .add('completed email page (token)', () => (
+  .add('completed email page', () => (
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
-      currentPageIndex={2}
+      currentPageIndex={3}
       handleSubmit={(event) => {
         event.preventDefault();
         linkTo('ClusterLaunchForm', 'when submitting')();
@@ -142,7 +211,7 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
-      currentPageIndex={2}
+      currentPageIndex={3}
       submitting
       onShowPreviousPage={linkTo('ClusterLaunchForm', 'completed email page')}
     />
@@ -152,7 +221,7 @@ storiesOf('ClusterLaunchForm', module)
     <ClusterLaunchForm
       {...commonProps}
       {...completedProps}
-      currentPageIndex={1}
+      currentPageIndex={2}
       values={{ clusterName: 'contains spaces' }}
       errors={{ clusterName: 'format' }}
     />

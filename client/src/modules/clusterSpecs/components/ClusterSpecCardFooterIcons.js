@@ -8,12 +8,9 @@
 import React from 'react';
 
 import Card from '../../../components/Card';
-import autoScalingIcon from '../../../icons/Compute_AmazonEC2_AutoScaling.png';
 import depotToIcon from '../../../utils/depotToIcon';
-import spotInstanceIcon from '../../../icons/Compute_AmazonEC2_Spotinstance.png'
 
 import { clusterSpecShape } from '../propTypes';
-import ClusterSpecCostFooterIcon from './ClusterSpecCostFooterIcon';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
@@ -24,26 +21,6 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
 
   return (
     <Card.FooterIcons>
-      {
-        clusterSpec.ui.autoscaling ?
-          <Card.FooterIcon
-            iconSrc={autoScalingIcon}
-            text="Autoscaling"
-            tooltip="This cluster uses autoscaling."
-          /> :
-          null
-      }
-      {
-        clusterSpec.ui.usesSpot ?
-          <Card.FooterIcon
-            iconSrc={spotInstanceIcon}
-            text="Spot instances"
-            tooltip={<span>
-              This cluster uses spot instances.
-            </span>}
-          /> :
-          null
-      }
       {
         clusterSpec.ui.scheduler ?
           <Card.FooterIcon
@@ -66,19 +43,11 @@ const ClusterSpecCardFooterIcons = ({ clusterSpec }) => {
           null
       }
       {
-        clusterSpec.costs ?
-          <ClusterSpecCostFooterIcon costs={clusterSpec.costs} /> :
-          null
-      }
-      {
-        clusterSpec.ui.runtime ?
+        clusterSpec.launchOptions.options.length > 1 ?
           <Card.FooterIcon
-            name={"clock-o"}
-            text={<span>{clusterSpec.ui.runtime}</span>}
-            tooltip={<span>
-              This cluster will be automatically terminated after
-              {' '}{clusterSpec.ui.runtime}.
-            </span>}
+            name="lock"
+            text="Job durability"
+            tooltip={<span>This cluster has job durability options</span>}
           /> :
           null
       }

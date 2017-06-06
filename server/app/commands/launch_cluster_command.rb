@@ -47,7 +47,9 @@ class LaunchClusterCommand
     begin
       BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
         perform
-      @run_fly_cmd = RunFlyLaunchCommand.new(parameter_dir, @launch_config)
+      fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
+        perform
+      @run_fly_cmd = RunFlyLaunchCommand.new(fly_params)
 
       send_about_to_launch_email
       run_launch_command

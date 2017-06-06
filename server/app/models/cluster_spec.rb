@@ -26,8 +26,13 @@ class ClusterSpec
     def load(params, tenant)
       file = params['file']
       name = params['name']
-      url = "#{tenant.cluster_specs_url_prefix}#{file}"
+      if Rails.env.development? && file == 'dev'
+        url = Rails.root.join('tmp', 'dev', 'clusterSpecs.dev.json').to_path
+      else
+        url = "#{tenant.cluster_specs_url_prefix}#{file}"
+      end
 
+      Alces.app.logger.info("Retrieving cluster specs from #{url.inspect}")
       begin
         cluster_specs = JSON.parse(open(url).read)['clusterSpecs']
       rescue OpenURI::HTTPError
@@ -46,6 +51,7 @@ class ClusterSpec
 
       new(
         args: spec['fly']['args'],
+        launch_options: spec['launchOptions'],
         parameter_directory_overrides: spec['fly']['parameterDirectoryOverrides'],
         key: spec['key'],
         meta: {
@@ -59,6 +65,8 @@ class ClusterSpec
   # A list of command line arguments for Flight Attendant's cluster launch
   # command.
   attr_accessor :args
+
+  attr_accessor :launch_options
 
   # A map specifying what values in which files should be overridden when
   # launching a cluster with Flight Attendant.
@@ -107,26 +115,7 @@ class ClusterSpec
     @meta || {}
   end
 
-  def runtime
-    i = args.index('--runtime')
-    return nil if i.nil?
-    runtime_in_minutes = args[i + 1].to_i
-
-    if runtime_in_minutes < 60
-      value = runtime_in_minutes
-      unit = 'minute'
-    elsif runtime_in_minutes < 60*24
-      value = (runtime_in_minutes/60.0).round
-      unit = 'hour'
-    else
-      value = (runtime_in_minutes/(60.0*24)).round
-      unit = 'day'
-    end
-
-    "#{value} #{unit.pluralize(value)}"
-  end
-
-  def runtime_limit?
-    runtime.present?
+  def selected_launch_option(index)
+    launch_options['options'][index].dup
   end
 end

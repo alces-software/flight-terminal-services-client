@@ -7,7 +7,9 @@
  *===========================================================================*/
 import React, { PropTypes } from 'react';
 import { StandardModal } from 'flight-common';
+import { isFSA } from 'flux-standard-action';
 
+import tokens from '../../../modules/tokens';
 
 function hasPropError(errorDetails, prop, error) {
   return errorDetails[prop] && errorDetails[prop].some(e => e === error);
@@ -45,6 +47,16 @@ function messageFromDetails(details) {
   } else {
     return null;
   }
+}
+
+function messageFromReduxAction({ type, payload }) {
+  if (type === tokens.actionTypes.LOAD_FAILED) {
+    if (payload.errors && payload.errors.some(e => e.status === 404)) {
+      return messageFromDetails({ token: ['token not found'] });
+    }
+  }
+
+  return null;
 }
 
 function unexpectedMessage(message) {
@@ -85,12 +97,15 @@ const propTypes = {
   }),
   onHide: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
+  title: PropTypes.node,
 }
 
-const ClusterErrorModal = ({ error, onHide, show }) => {
+const ClusterErrorModal = ({ error, onHide, show, title }) => {
   let errorMessage;
   if (error && error.details) {
     errorMessage = messageFromDetails(error.details);
+  } else if (error && isFSA(error)) {
+    errorMessage = messageFromReduxAction(error);
   } else if (error && error.unexpected) {
     errorMessage = unexpectedMessage(error.unexpected);
   } else if (error && error.exception) {
@@ -106,10 +121,9 @@ const ClusterErrorModal = ({ error, onHide, show }) => {
   return (
     <StandardModal
       bsSize="large"
-      className="flight-packageDetailModal"
       onHide={onHide}
       show={show}
-      title="Your HPC cluster failed to launch"
+      title={title || 'Your HPC cluster failed to launch'}
     >
       {errorMessage}
     </StandardModal>

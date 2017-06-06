@@ -6,8 +6,9 @@ main() {
     parse_arguments "$@"
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
-    header "Building admin app"
+    header "Building admin and token generator apps"
     build_admin_app
+    build_token_generator_app
     if [ "$SKIP_CLIENT_BUILD" == "false" ] ; then
         header "Building client"
         build_client
@@ -29,6 +30,14 @@ abort_if_uncommitted_changes_present() {
 build_admin_app() {
     (
     cd admin-app/
+    make
+    make install
+    ) 2> >(indent 1>&2) | indent
+}
+
+build_token_generator_app() {
+    (
+    cd token-generator
     make
     make install
     ) 2> >(indent 1>&2) | indent
