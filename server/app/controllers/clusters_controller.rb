@@ -22,17 +22,22 @@ class ClustersController < ApplicationController
       return
     end
 
-    # XXX What errors can be raised here?  Queue connection errors.  Any
-    # others.
-    ClusterLaunchJob.perform_later(
-      cluster_launch_config.as_json,
-      cluster_launch_config.spec.as_json,
-      cluster_launch_config.tenant,
-      cluster_launch_config.token,
-      cluster_launch_config.launch_option.as_json,
-    )
-
+    # We need to mark the token as queued prior to scheduling
+    # ClusterLaunchJob, or else we could fall foul of a race condition in
+    # which the token is still AVAILABLE when we try to process the job.
     cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
+
+    begin
+      ClusterLaunchJob.perform_later(
+        cluster_launch_config.as_json,
+        cluster_launch_config.spec.as_json,
+        cluster_launch_config.tenant,
+        cluster_launch_config.token,
+        cluster_launch_config.launch_option.as_json,
+      )
+    rescue
+      cluster_launch_config.token.mark_as(:available, cluster_launch_config.email)
+    end
 
     render(
       json: {
