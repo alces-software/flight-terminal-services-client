@@ -41,8 +41,13 @@ var combinations = <%= load_combinations('combinations') %>;
                 <em><span id="headerTenantIdentifier"></span></em> -
                 <em><span id="headerTenantName"></span></em>
             </h1>
-            <div id="remainingCreditsInfo" style="margin-bottom: 1em">
-                <strong>Remaining credits: </strong><span id="remainingCredits"></span>
+            <div style="margin-bottom: 1em">
+                <div id="hasCreditLimitInfo">
+                    <strong>Remaining credits: </strong><span id="remainingCredits"></span>
+                </div>
+                <div id="hasNoCreditLimitInfo">
+                    This tenant does not have a credit limit.
+                </div>
             </div>
             <div style="margin-bottom: 1em">
                 Generate

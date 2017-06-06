@@ -51,8 +51,9 @@ function fetchTenant() {
       document.getElementById('headerTenantIdentifier').innerHTML = attrs.identifier;
       if (attrs.hasCreditLimit) {
         document.getElementById('remainingCredits').innerHTML = attrs.remainingCredits;
+        document.getElementById('hasNoCreditLimitInfo').style.display = 'none';
       } else {
-        document.getElementById('remainingCreditsInfo').style.display = 'none';
+        document.getElementById('hasCreditLimitInfo').style.display = 'none';
       }
       return tenant;
     });
