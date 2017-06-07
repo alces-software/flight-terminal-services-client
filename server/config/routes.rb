@@ -38,8 +38,17 @@ Rails.application.routes.draw do
   scope '/admin', admin: true do
     namespace :api do
       namespace :v1 do
-        jsonapi_resources :tenants
-        jsonapi_resources :tokens
+        jsonapi_resources :tenants do
+          # Read-only access to the tokens relationship.
+          jsonapi_links :tokens, only: [:show]
+          jsonapi_related_resource :tokens
+        end
+
+        jsonapi_resources :tokens do
+          # Read-only access to the tenant relationship.
+          jsonapi_links :tenant, only: [:show]
+          jsonapi_related_resource :tenant
+        end
       end
     end
   end
