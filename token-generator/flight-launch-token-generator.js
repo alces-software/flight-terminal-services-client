@@ -418,6 +418,7 @@ function createTokens() {
     }
     runParallel(promiseFactories)
       .then(() => {
+        writeInfo("Done", true);
         fetchTenant();
       })
       .catch((error) => {
