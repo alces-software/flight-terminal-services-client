@@ -126,7 +126,11 @@ function createTenant() {
       if (response.ok) {
         return response.json();
       } else {
-        throw 'There was a problem creating the tenant';
+        return response.json().then((j) => {
+          var err = 'There was a problem updating the tenant\n';
+          err += j.errors[0].detail;
+          return Promise.reject(err);
+        });
       }
     })
     .then((tenantJSONAPIdoc) => {
@@ -267,7 +271,11 @@ function updateTenant() {
       if (response.ok) {
         return response.json();
       } else {
-        throw 'There was a problem updating the tenant';
+        return response.json().then((j) => {
+          var err = 'There was a problem updating the tenant\n';
+          err += j.errors[0].detail;
+          return Promise.reject(err);
+        });
       }
     })
     .then(tenantJSONAPIdoc => complete(tenantJSONAPIdoc.data))
