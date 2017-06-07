@@ -5,6 +5,7 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
+require_dependency 'alces/constraint/tenant'
 
 Rails.application.routes.draw do
   # In production, the index.html is served by nginx.
@@ -35,17 +36,28 @@ Rails.application.routes.draw do
   # Routes for all admin client communication other than loading the
   # application appear here.
   #
-  scope '/admin', admin: true do
-    namespace :api do
-      namespace :v1 do
-        jsonapi_resources :tenants
-        jsonapi_resources :tokens
+  scope '(/:alces_admin)', constraints: { alces_admin: /alces/ } do
+    scope '/admin/(:tenant)', admin: true, constraints: Alces::Constraint::Tenant do
+      namespace :api do
+        namespace :v1 do
+          jsonapi_resources :tenants do
+            # Read-only access to the tokens relationship.
+            jsonapi_links :tokens, only: [:show]
+            jsonapi_related_resource :tokens
+          end
+
+          jsonapi_resources :tokens do
+            # Read-only access to the tenant relationship.
+            jsonapi_links :tenant, only: [:show]
+            jsonapi_related_resource :tenant
+          end
+        end
       end
     end
   end
 
-  get '/admin/', to: static("admin.html")
-  get '/admin/token-generator', to: static("token-generator.html")
+  get '/alces/admin', to: static("__admin__/tenants.html")
+  get '(/alces)/admin/:tenant/token-generator', to: static("__admin__/token-generator.html"), constraints: Alces::Constraint::Tenant
 
   # For all other GET requests render the index page to load the client
   # application.
