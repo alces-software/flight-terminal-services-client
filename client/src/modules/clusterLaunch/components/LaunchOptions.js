@@ -43,6 +43,7 @@ const SingleLaunchOption = ({ clusterSpec, token }) => {
   return (
     <ClusterRuntimeExplanation
       clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+      singleLaunchOption
       tokenCredits={token.attributes.credits}
     />
   );

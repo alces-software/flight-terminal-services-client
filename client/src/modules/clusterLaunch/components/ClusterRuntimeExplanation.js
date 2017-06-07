@@ -9,7 +9,12 @@ import React, { PropTypes } from 'react';
 
 const propTypes = {
   clusterSpecCostPerHour: PropTypes.number.isRequired,
+  singleLaunchOption: PropTypes.bool.isRequired,
   tokenCredits: PropTypes.number.isRequired,
+};
+
+const defaultProps = {
+  singleLaunchOption: false,
 };
 
 
@@ -38,19 +43,29 @@ function calculateRuntime(clusterSpecCost, tokenCredits) {
   return `${hours}${fuzzyMinutes} hours`;
 }
 
-const ClusterRuntimeExplanation = ({ clusterSpecCostPerHour, tokenCredits }) => {
+const ClusterRuntimeExplanation = ({
+  clusterSpecCostPerHour,
+  singleLaunchOption,
+  tokenCredits,
+}) => {
   const runtime = calculateRuntime(clusterSpecCostPerHour, tokenCredits);
+  let selections;
+  if (singleLaunchOption) {
+    selections = 'The token';
+  } else {
+    selections = 'The token and durability setting';
+  }
 
   return (
     <p>
-      The token and durability setting you have selected will provide a{' '}
-      <strong>runtime of {runtime}</strong> for this cluster.  Once that time
-      has elapsed, the cluster will be <strong>shut down
-        automatically</strong>.
+      {selections}{' '}you have selected will provide a{' '} <strong>runtime
+        of {runtime}</strong> for this cluster.  Once that time has elapsed,
+      the cluster will be <strong>shut down automatically</strong>.
     </p>
   );
 };
 
 ClusterRuntimeExplanation.propTypes = propTypes;
+ClusterRuntimeExplanation.defaultProps = defaultProps;
 
 export default ClusterRuntimeExplanation;
