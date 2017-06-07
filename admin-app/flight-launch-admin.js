@@ -91,6 +91,7 @@ function startCreating() {
   populateOptionalField('newTenantNaventry', null, 'navEntry');
   populateOptionalField('newTenantHeader', null, 'header');
   populateOptionalField('newTenantEmailHeader', null, 'emailHeader');
+  populateRemainingCreditField('newTenantRemainingCredits', 'newTenantHasCreditLimit', null);
 
   document.getElementById('createForm').style.display = 'block';
 }
@@ -116,6 +117,7 @@ function createTenant() {
           header: getOptionalAttributeValue('newTenantHeader'),
           navEntry: getOptionalAttributeValue('newTenantNaventry'),
           emailHeader: getOptionalAttributeValue('newTenantEmailHeader'),
+          remainingCredits: getRemainingCredits('newTenantRemainingCredits', 'newTenantHasCreditLimit'),
         },
       },
     }),
@@ -162,15 +164,35 @@ function startEditing() {
   populateOptionalField('tenantNaventry', attrs, 'navEntry');
   populateOptionalField('tenantHeader', attrs, 'header');
   populateOptionalField('tenantEmailHeader', attrs, 'emailHeader');
+  populateRemainingCreditField('tenantRemainingCredits', 'tenantHasCreditLimit', attrs);
 
   document.getElementById('editForm').style.display = 'block';
 }
 
-function populateOptionalField(id, attributes, key) {
+function populateRemainingCreditField(id, checkboxId, attributes) {
   var input = document.getElementById(id);
-  var checkbox = document.getElementById(id + "UseDefault");
-  var usesDefault = attributes == null ? true : attributes[key + "UsesDefault"];
-  var attrValue = attributes == null ? null : attributes[key];
+  var checkbox = document.getElementById(checkboxId);
+  var hasCreditLimit = attributes == null ? true : attributes['hasCreditLimit'];
+  var remainingCredits = attributes == null ? null : attributes['remainingCredits'];
+  if (hasCreditLimit) {
+    input.value = remainingCredits
+    input.disabled = false;
+    checkbox.checked = true;
+  } else {
+    input.value = remainingCredits;
+    input.disabled = true;
+    checkbox.checked = false;
+  }
+}
+
+function populateOptionalField(id, attributes, attrName, checkboxId, usesDefaultAttrName) {
+  checkboxId = checkboxId || id + "UseDefault";
+  usesDefaultAttrName = checkboxId || attrName + "UsesDefault";
+
+  var input = document.getElementById(id);
+  var checkbox = document.getElementById(checkboxId);
+  var usesDefault = attributes == null ? true : attributes[usesDefaultAttrName];
+  var attrValue = attributes == null ? null : attributes[attrName];
   if (usesDefault) {
     input.value = attrValue
     input.disabled = true;
@@ -189,6 +211,16 @@ function getOptionalAttributeValue(id) {
     return null;
   } else {
     return input.value;
+  }
+}
+
+function getRemainingCredits(id, checkboxId) {
+  var input = document.getElementById(id);
+  var checkbox = document.getElementById(checkboxId);
+  if (checkbox.checked) {
+    return input.value;
+  } else {
+    return null;
   }
 }
 
@@ -226,6 +258,7 @@ function updateTenant() {
           header: getOptionalAttributeValue('tenantHeader'),
           navEntry: getOptionalAttributeValue('tenantNaventry'),
           emailHeader: getOptionalAttributeValue('tenantEmailHeader'),
+          remainingCredits: getRemainingCredits('tenantRemainingCredits', 'tenantHasCreditLimit'),
         },
       },
     }),
