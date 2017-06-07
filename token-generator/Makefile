@@ -10,4 +10,5 @@ upload: flight-launch-token-generator.html
 		s3://alces-flight-launch-token-generator/index.html
 
 install:
-	cp flight-launch-token-generator.html ../server/public/token-generator.html
+	mkdir -p ../server/public/__admin__
+	cp flight-launch-token-generator.html ../server/public/__admin__/token-generator.html

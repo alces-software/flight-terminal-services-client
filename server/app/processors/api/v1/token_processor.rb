@@ -28,7 +28,7 @@ class Api::V1::TokenProcessor < JSONAPI::Processor
     #
     # XXX Replace this with a better authentication system.  Perhaps
     # pundit-resources or jsonapi-authorization.
-    unless context[:admin] || params[:filters][:name].present?
+    unless context[:admin] || context[:alces_admin] || params[:filters][:name].present?
       raise JSONAPI::Exceptions::ParameterMissing.new('filter[name]')
     end
   end

@@ -40,7 +40,8 @@ class Tenant < ApplicationRecord
     numericality: {
       greater_than_or_equal_to: 0,
       only_integer: true
-    }
+    },
+    allow_blank: true
 
   def credit_limit?
     !remaining_credits.nil?

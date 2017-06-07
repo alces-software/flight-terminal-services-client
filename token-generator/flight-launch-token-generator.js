@@ -15,6 +15,7 @@ var ClusterSpecKeyToNameMap = {};
 
 // The tenant that we're creating tokens for.
 var activeTenant = undefined;
+var isAlcesAdmin = undefined;
 
 const urlParams = new URLSearchParams(window.location.search);
 fetchTenant()
@@ -24,7 +25,10 @@ fetchTenant()
   });
 
 function fetchTenant() {
-  var tenantIdentifier = urlParams.get('tenant') || 'default';
+  var u = new URL(window.location);
+  var pathParts = u.pathname.split('/');
+  isAlcesAdmin = pathParts[1] == 'alces';
+  var tenantIdentifier = pathParts[pathParts.length -2];
   var tenantUrl = "/api/v1/tenants?filter[identifier]=" + tenantIdentifier;
 
   return fetch(tenantUrl)
@@ -51,8 +55,9 @@ function fetchTenant() {
       document.getElementById('headerTenantIdentifier').innerHTML = attrs.identifier;
       if (attrs.hasCreditLimit) {
         document.getElementById('remainingCredits').innerHTML = attrs.remainingCredits;
+        document.getElementById('hasNoCreditLimitInfo').style.display = 'none';
       } else {
-        document.getElementById('remainingCreditsInfo').style.display = 'none';
+        document.getElementById('hasCreditLimitInfo').style.display = 'none';
       }
       return tenant;
     });
@@ -144,6 +149,17 @@ function clearErrorMessages() {
 }
 
 window.onerror = writeError;
+
+function makeAdminUrl(path) {
+  var adminPrefix;
+  if (isAlcesAdmin) {
+    adminPrefix = "/alces/admin/";
+  } else {
+    adminPrefix = "/admin/";
+  }
+  var url = adminPrefix + activeTenant.attributes.identifier + "/api/v1/tokens";
+  return url;
+}
 
 //
 // == Token generation configuration =======================
@@ -339,7 +355,7 @@ function createToken(params) {
   var token = randomToken();
   if (token == null) { return; }
   var tag = getTokenTag();
-  var url = "/admin/api/v1/tokens";
+  var url = makeAdminUrl("/api/v1/tokens");
 
   var attributes = {
     name: token,
@@ -417,6 +433,7 @@ function createTokens() {
     }
     runParallel(promiseFactories)
       .then(() => {
+        writeInfo("Done", true);
         fetchTenant();
       })
       .catch((error) => {
@@ -449,7 +466,7 @@ function fetchAvailableTokens() {
   clearTable();
 
   var url = new URL(activeTenant.relationships.tokens.links.related);
-  url.pathname = "/admin" + url.pathname;
+  url.pathname = makeAdminUrl(url.pathname);
   url.searchParams.set('filter[status]', 'AVAILABLE');
 
   fetch(url.toString(), {credentials: 'include'})

@@ -10,7 +10,7 @@ var TenantsMap = {};
 var editingTenantId;
 
 (function () {
-  fetch('/admin/api/v1/tenants', {credentials: 'include'})
+  fetch('/alces/admin/api/v1/tenants?sort=identifier', {credentials: 'include'})
     .then(response => {
       return response;
     })
@@ -91,13 +91,14 @@ function startCreating() {
   populateOptionalField('newTenantNaventry', null, 'navEntry');
   populateOptionalField('newTenantHeader', null, 'header');
   populateOptionalField('newTenantEmailHeader', null, 'emailHeader');
+  populateRemainingCreditField('newTenantRemainingCredits', 'newTenantHasCreditLimit', null);
 
   document.getElementById('createForm').style.display = 'block';
 }
 
 function createTenant() {
   clearMessages();
-  var url = "/admin/api/v1/tenants";
+  var url = "/alces/admin/api/v1/tenants";
   fetch(url, {
     credentials: 'include',
     method: 'POST',
@@ -116,6 +117,7 @@ function createTenant() {
           header: getOptionalAttributeValue('newTenantHeader'),
           navEntry: getOptionalAttributeValue('newTenantNaventry'),
           emailHeader: getOptionalAttributeValue('newTenantEmailHeader'),
+          remainingCredits: getRemainingCredits('newTenantRemainingCredits', 'newTenantHasCreditLimit'),
         },
       },
     }),
@@ -124,7 +126,11 @@ function createTenant() {
       if (response.ok) {
         return response.json();
       } else {
-        throw 'There was a problem creating the tenant';
+        return response.json().then((j) => {
+          var err = 'There was a problem updating the tenant\n';
+          err += j.errors[0].detail;
+          return Promise.reject(err);
+        });
       }
     })
     .then((tenantJSONAPIdoc) => {
@@ -162,15 +168,35 @@ function startEditing() {
   populateOptionalField('tenantNaventry', attrs, 'navEntry');
   populateOptionalField('tenantHeader', attrs, 'header');
   populateOptionalField('tenantEmailHeader', attrs, 'emailHeader');
+  populateRemainingCreditField('tenantRemainingCredits', 'tenantHasCreditLimit', attrs);
 
   document.getElementById('editForm').style.display = 'block';
 }
 
-function populateOptionalField(id, attributes, key) {
+function populateRemainingCreditField(id, checkboxId, attributes) {
   var input = document.getElementById(id);
-  var checkbox = document.getElementById(id + "UseDefault");
-  var usesDefault = attributes == null ? true : attributes[key + "UsesDefault"];
-  var attrValue = attributes == null ? null : attributes[key];
+  var checkbox = document.getElementById(checkboxId);
+  var hasCreditLimit = attributes == null ? true : attributes['hasCreditLimit'];
+  var remainingCredits = attributes == null ? null : attributes['remainingCredits'];
+  if (hasCreditLimit) {
+    input.value = remainingCredits
+    input.disabled = false;
+    checkbox.checked = true;
+  } else {
+    input.value = remainingCredits;
+    input.disabled = true;
+    checkbox.checked = false;
+  }
+}
+
+function populateOptionalField(id, attributes, attrName, checkboxId, usesDefaultAttrName) {
+  checkboxId = checkboxId || id + "UseDefault";
+  usesDefaultAttrName = checkboxId || attrName + "UsesDefault";
+
+  var input = document.getElementById(id);
+  var checkbox = document.getElementById(checkboxId);
+  var usesDefault = attributes == null ? true : attributes[usesDefaultAttrName];
+  var attrValue = attributes == null ? null : attributes[attrName];
   if (usesDefault) {
     input.value = attrValue
     input.disabled = true;
@@ -192,6 +218,16 @@ function getOptionalAttributeValue(id) {
   }
 }
 
+function getRemainingCredits(id, checkboxId) {
+  var input = document.getElementById(id);
+  var checkbox = document.getElementById(checkboxId);
+  if (checkbox.checked) {
+    return input.value;
+  } else {
+    return null;
+  }
+}
+
 function updateTenant() {
   clearMessages();
   tenant = TenantsMap[editingTenantId];
@@ -203,7 +239,7 @@ function updateTenant() {
   }
 
   var url = new URL(tenant.links.self);
-  url.pathname = "/admin" + url.pathname;
+  url.pathname = "/alces/admin" + url.pathname;
   var attributes = {
     name: document.getElementById('tenantName').value,
   };
@@ -226,6 +262,7 @@ function updateTenant() {
           header: getOptionalAttributeValue('tenantHeader'),
           navEntry: getOptionalAttributeValue('tenantNaventry'),
           emailHeader: getOptionalAttributeValue('tenantEmailHeader'),
+          remainingCredits: getRemainingCredits('tenantRemainingCredits', 'tenantHasCreditLimit'),
         },
       },
     }),
@@ -234,7 +271,11 @@ function updateTenant() {
       if (response.ok) {
         return response.json();
       } else {
-        throw 'There was a problem updating the tenant';
+        return response.json().then((j) => {
+          var err = 'There was a problem updating the tenant\n';
+          err += j.errors[0].detail;
+          return Promise.reject(err);
+        });
       }
     })
     .then(tenantJSONAPIdoc => complete(tenantJSONAPIdoc.data))

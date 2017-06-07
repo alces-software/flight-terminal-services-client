@@ -4,4 +4,5 @@ flight-launch-admin.html: flight-launch-admin.html.erb *.js
 		> flight-launch-admin.html
 
 install:
-	cp flight-launch-admin.html ../server/public/admin.html
+	mkdir -p ../server/public/__admin__
+	cp flight-launch-admin.html ../server/public/__admin__/tenants.html
