@@ -97,7 +97,7 @@ const enhance = compose(
       <div>
         {
           isLoading ?
-            <span>Loading token <DelaySpinner /></span> :
+            <span>Loading token <DelaySpinner inline size="small" /></span> :
             <span>Failed to load token</span>
         }
       </div>
