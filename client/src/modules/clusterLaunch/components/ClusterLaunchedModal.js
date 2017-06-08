@@ -24,7 +24,7 @@ const ClusterLaunchedModal = ({ clusterName, email, onHide, show }) => (
   >
     <p>
       Your Alces Flight Compute HPC cluster, <em>{clusterName}</em>, is in the process of being
-      launched via Amazon Web Services.
+      launched.
     </p>
     <p>
       All notices on the status of your cluster will be sent to <a

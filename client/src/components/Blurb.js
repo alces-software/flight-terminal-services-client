@@ -61,7 +61,7 @@ const Blurb = () => (
                 duration={500}
                 delay={50}
               >
-                Launch a cluster on AWS
+                Launch a cluster
               </ScrollButton>
             </Col>
           </Row>

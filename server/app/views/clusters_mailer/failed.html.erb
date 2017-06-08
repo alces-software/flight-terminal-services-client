@@ -10,21 +10,6 @@
 <p>Your Alces Flight Compute HPC cluster <code><%= @cluster_name %></code><%=
 failed_branding_header %> has failed to launch.</p>
 
-<% if @show_cloudformation_link %>
-<% if @arn_present %>
-    <p>
-    You should visit your cluster's <a href="<%= @cloudformation_url %>">AWS
-        CloudFormation page</a> and terminate it.
-    </p>
-<% else %>
-    <p>
-    You should visit the <a href="<%= @cloudformation_url %>">AWS
-        CloudFormation console</a> and make sure that the cluster is not
-    running.
-    </p>
-<% end %>
-<% end %>
-
 <p>The error message received is below:</p>
 
 <blockquote>

@@ -19,8 +19,8 @@ const AboutPage = () => (
   <FlightAboutPage
     licensables={licensables}
     pageHeaderText={<span>
-      {productName} is a service to quickly launch a
-      preconfigured Flight Compute cluster against your AWS account.
+      {productName} is a service to quickly launch a preconfigured Flight
+      Compute cluster.
     </span>}
     productName={productName}
   />
