@@ -8,7 +8,9 @@
 
 export function fetchOneByLookupKey(baseUrl, key, value) {
   const url = new URL(baseUrl, window.location.href);
-  url.searchParams.append(`filter[${key}]`, value);
+  if (!(process.env.NODE_ENV === 'test' && url.searchParams === undefined)) {
+    url.searchParams.append(`filter[${key}]`, value);
+  }
 
   return fetch(url.href)
     .then((response) => {
