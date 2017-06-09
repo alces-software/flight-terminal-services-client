@@ -7,23 +7,29 @@
  *===========================================================================*/
 import { createSelector } from 'reselect';
 
+import loadingStates from '../../modules/loadingStates';
+
 import { NAME } from './constants';
 
+const tenantState = state => state[NAME];
+
 export function identifier(state) {
-  return state[NAME].identifier;
+  return tenantState(state).identifier;
 }
 
 export function tenant(state) {
-  return state[NAME].tenant;
+  return tenantState(state).tenant;
 }
 
-export function retrieval(state) {
-  const s = state[NAME];
-  return {
-    error: s.error,
-    loading: s.loading,
-  };
-}
+export const retrieval = createSelector(
+  tenantState,
+  identifier,
+
+  (ts, tenantIdentifier) => ({
+    error: loadingStates.selectors.isRejected(ts, tenantIdentifier),
+    loading: loadingStates.selectors.isLoading(ts, tenantIdentifier),
+  }),
+);
 
 export const clusterSpecsUrlConfig = createSelector(
   tenant,
