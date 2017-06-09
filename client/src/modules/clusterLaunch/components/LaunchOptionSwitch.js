@@ -9,6 +9,8 @@ import React, { PropTypes } from 'react';
 
 import SwitchButton from '../../../components/SwitchButton';
 
+import '../styles/LaunchOptionSwitch.scss';
+
 const propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.node.isRequired,
@@ -38,14 +40,17 @@ const LaunchOptionSwitch = ({
 
   return (
     <div>
-      {label}
-      <SwitchButton
-        input={input}
-        id={id}
-        label={label}
-        onText={onText}
-        offText={offText}
-      />
+      <div className="flight-LaunchOptionSwitch">
+        <span className="flight-LaunchOptionSwitch-label">{label}</span>
+        <SwitchButton
+          input={input}
+          id={id}
+          label={label}
+          onText={onText}
+          offText={offText}
+        />
+      </div>
+      <div className="clearfix" />
     </div>
   );
 };
