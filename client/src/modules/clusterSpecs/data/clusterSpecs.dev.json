@@ -37,6 +37,7 @@
                 "fly": {
                   "args": [],
                   "parameterDirectoryOverrides": {
+                    "ComputeSpotPrice": "0.113"
                   }
                 }
               },
@@ -64,7 +65,6 @@
                 "parameterDirectoryOverrides": {
                     "solo-legacy": {
                         "ComputeAutoscalingPolicy": "enabled",
-                        "ComputeSpotPrice": "0.113",
                         "FlightFeatures": "password-auth set-admin-password launch-compat",
                         "FlightSchedulerType": "gridscheduler",
                         "LoginSystemVolumeSize": "500",
@@ -101,6 +101,7 @@
                 "fly": {
                   "args": [],
                   "parameterDirectoryOverrides": {
+                    "ComputeSpotPrice": "0.113"
                   }
                 }
               },
@@ -128,7 +129,6 @@
                 "parameterDirectoryOverrides": {
                     "solo-legacy": {
                         "ComputeAutoscalingPolicy": "enabled",
-                        "ComputeSpotPrice": "0.113",
                         "FlightFeatures": "password-auth set-admin-password launch-compat",
                         "FlightSchedulerType": "slurm",
                         "LoginSystemVolumeSize": "500",
