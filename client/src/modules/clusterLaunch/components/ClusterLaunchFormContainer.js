@@ -19,6 +19,10 @@ import ClusterLaunchedModal from './ClusterLaunchedModal';
 
 const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
 
+function strip(string) {
+  return string.replace(/^ */, '').replace(/ *$/, '');
+}
+
 function validate(allValues) {
   const errors = {};
 
@@ -95,6 +99,10 @@ class ClusterLaunchFormContainer extends React.Component {
       ...this.state.values,
       [name]: value,
     });
+
+    if (name === 'launchToken') {
+      value = strip(value);
+    }
 
     this.setState({
       values: {
