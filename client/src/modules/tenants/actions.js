@@ -52,15 +52,15 @@ function failedToLoad(error, identifier) {
   };
 }
 
-export function loadTenant(tenantIdentifier) {
+export function loadTenant(identifier) {
   return (dispatch) => {
-    if (tenantIdentifier == null) { tenantIdentifier = 'default'; }
+    if (identifier == null) { identifier = 'default'; }
 
-    dispatch(loading(tenantIdentifier));
+    dispatch(loading(identifier));
 
     const baseTenantUrl = '/api/v1/tenants';
-    return api.actions.fetchOneByLookupKey(baseTenantUrl, 'identifier', tenantIdentifier)
+    return api.actions.fetchOneByLookupKey(baseTenantUrl, 'identifier', identifier)
       .then(entity => dispatch(loaded(entity)))
-      .catch(error => dispatch(failedToLoad(error, tenantIdentifier)));
+      .catch(error => Promise.reject(dispatch(failedToLoad(error, identifier))));
   };
 }

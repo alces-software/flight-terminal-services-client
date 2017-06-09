@@ -70,6 +70,6 @@ export function loadToken(name) {
 
     return api.actions.fetchOneByLookupKey(baseTokensUrl, 'name', name)
       .then(entity => dispatch(loaded(entity)))
-      .catch(error => dispatch(failedToLoad(error, name)));
+      .catch(error => Promise.reject(dispatch(failedToLoad(error, name))));
   };
 }
