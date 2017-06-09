@@ -1,303 +1,394 @@
 {
-  "schedulers": [
-    {
-      "type": "gridscheduler",
-      "text": "Grid engine",
-      "logoUrl": "http://gridscheduler.sourceforge.net/gridengine-logo.png",
-      "tooltip": "This cluster uses the Grid engine scheduler"
-    },
-    {
-      "type": "slurm",
-      "text": "Slurm",
-      "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Slurm_Workload_Manager.png/262px-Slurm_Workload_Manager.png",
-      "tooltip": "This cluster uses the Slurm scheduler"
-    }
-  ],
-  "clusterSpecs": [
-    {
-      "ui": {
-        "title": "Tiny slurm cluster",
-        "titleLowerCase": "tiny slurm cluster",
-        "subtitle": "Two nodes. Spot instances. SGE scheduler.",
-        "body": "A fixed size cluster of 2 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the Slurm scheduler.",
-        "logoUrl": "http://alces-flight.com/images/logo.png"
-      },
-      "launchOptions": {
-        "defaultOptionIndex": 0,
-        "options": [{
-          "costPerHour": 1,
-          "name": "Standard",
-          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0.5"
-              }
-            }
-          }
+    "schedulers": [
+        {
+            "type": "gridscheduler",
+            "text": "SGE",
+            "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
+            "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
         },
         {
-          "costPerHour": 2,
-          "name": "High",
-          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0"
-              }
-            }
-          }
-        }]
-      },
-      "key": "421aa06a-7a25-4e1e-96de-8c145c470cfd",
-      "fly": {
-        "args": [
-          "--solo",
-          "--template-set", "ben-20170322"
-        ],
-        "parameterDirectoryOverrides": {
-          "solo": {
-            "AutoscalingPolicy": "disabled",
-            "ComputeSpotPrice": "0.3",
-            "FlightFeatures": "password-auth set-admin-password",
-            "SchedulerType": "slurm"
-          }
+            "type": "slurm",
+            "text": "Slurm",
+            "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
+            "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
         }
-      }
-    },
-    {
-      "ui": { 
-        "title": "Small SGE cluster",
-        "titleLowerCase": "small SGE cluster",
-        "subtitle": "Autoscaling upto 8 nodes. Spot instances. SGE scheduler.",
-        "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
-        "logoUrl": "http://alces-flight.com/images/logo.png"
-      },
-      "launchOptions": {
-        "defaultOptionIndex": 1,
-        "options": [{
-          "costPerHour": 3,
-          "name": "Standard",
-          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0.5"
-              }
+    ],
+    "clusterSpecs": [
+        {
+            "ui": {
+                "title": "Standard compute (SGE)",
+                "titleLowerCase": "standard compute (SGE) cluster",
+                "subtitle": "For familiarisation and experimentation with Alces Flight Compute.",
+                "body": "A time-limited cluster constructed with a t2.large login node and c4.large instances (3.75 GiB, 2 CPUs) provided for familiarisation and experimentation with Alces Flight Compute.  The compute estate initially runs on two c4.large spot instances (7.5 GiB, 4 CPUs), with autoscaling enabled to shut down idle nodes (a minimum of one compute node will be retained at all times).  The cluster operates the Open Grid Scheduler (SGE) job scheduler.",
+                "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-1star.png",
+                "autoscaling": true,
+                "scheduler": {
+                    "type": "gridscheduler",
+                    "text": "SGE",
+                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
+                    "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
+                }
+            },
+            "launchOptions": {
+              "defaultOptionIndex": 0,
+              "options": [{
+                "costPerHour": 2,
+                "name": "Standard",
+                "description": "The standard launch configuration offering a good compromise between cost and job durability.",
+                "fly": {
+                  "args": [],
+                  "parameterDirectoryOverrides": {
+                  }
+                }
+              },
+              {
+                "costPerHour": 3,
+                "name": "High",
+                "description": "This launch configuration uses more compute units per hour to provide better durability for your jobs.",
+                "fly": {
+                  "args": [],
+                  "parameterDirectoryOverrides": {
+                    "solo-legacy": {
+                      "ComputeSpotPrice": "0.226"
+                    }
+                  }
+                }
+              }]
+            },
+            "costs": {
+                "estimated": {
+                    "pricePerHour": 2,
+                    "text": "2 cu/hour",
+                    "tooltip": "The compute power rating for this cluster is 2 cu (compute units) per hour."
+                }
+            },
+            "key": "f4831089-da05-4029-8d02-e7fb5c24dda6",
+            "fly": {
+                "args": [
+                    "--solo-legacy",
+                    "--runtime", "240",
+                    "--template-set", "2016.4r1-launch"
+                ],
+                "parameterDirectoryOverrides": {
+                    "solo-legacy": {
+                        "ComputeAutoscalingPolicy": "enabled",
+                        "ComputeSpotPrice": "0.113",
+                        "FlightFeatures": "password-auth set-admin-password launch-compat",
+                        "FlightSchedulerType": "gridscheduler",
+                        "LoginSystemVolumeSize": "500",
+                        "LoginSystemVolumeType": "magnetic.standard",
+                        "ComputeSystemVolumeType": "magnetic.standard",
+                        "ComputeInstanceType": "compute-2C-3.75GB.small-c4.large",
+                        "LoginInstanceType": "small-t2.large",
+                        "ComputeInitialNodes": "2",
+                        "FlightProfiles": "default"
+                    }
+                }
             }
-          }
         },
         {
-          "costPerHour": 4,
-          "name": "High",
-          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0"
-              }
+            "ui": {
+                "title": "Standard compute (Slurm)",
+                "titleLowerCase": "standard compute (Slurm) cluster",
+                "subtitle": "For familiarisation and experimentation with Alces Flight Compute.",
+                "body": "A time-limited cluster constructed with a t2.large login node and c4.large instances (3.75 GiB, 2 CPUs) provided for familiarisation and experimentation with Alces Flight Compute.  The compute estate initially runs on two c4.large spot instances (7.5 GiB, 4 CPUs), with autoscaling enabled to shut down idle nodes (a minimum of one compute node will be retained at all times).  The cluster operates the Slurm Workload Manager job scheduler.",
+                "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-1star.png",
+                "autoscaling": true,
+                "scheduler": {
+                    "type": "slurm",
+                    "text": "Slurm",
+                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
+                    "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
+                }
+            },
+            "launchOptions": {
+              "defaultOptionIndex": 0,
+              "options": [{
+                "costPerHour": 2,
+                "name": "Standard",
+                "description": "The standard launch configuration offering a good compromise between cost and job durability.",
+                "fly": {
+                  "args": [],
+                  "parameterDirectoryOverrides": {
+                  }
+                }
+              },
+              {
+                "costPerHour": 3,
+                "name": "High",
+                "description": "This launch configuration uses more compute units per hour to provide better durability for your jobs.",
+                "fly": {
+                  "args": [],
+                  "parameterDirectoryOverrides": {
+                    "solo-legacy": {
+                      "ComputeSpotPrice": "0.226"
+                    }
+                  }
+                }
+              }]
+            },
+            "costs": {
+                "estimated": {
+                    "pricePerHour": 2,
+                    "text": "2 cu/hour",
+                    "tooltip": "The compute power rating for this cluster is 2 cu (compute units) per hour."
+                }
+            },
+            "key": "54110718-68bd-49c1-84fe-df31f066b7d1",
+            "fly": {
+                "args": [
+                    "--solo-legacy",
+                    "--runtime", "240",
+                    "--template-set", "2016.4r1-launch"
+                ],
+                "parameterDirectoryOverrides": {
+                    "solo-legacy": {
+                        "ComputeAutoscalingPolicy": "enabled",
+                        "ComputeSpotPrice": "0.113",
+                        "FlightFeatures": "password-auth set-admin-password launch-compat",
+                        "FlightSchedulerType": "slurm",
+                        "LoginSystemVolumeSize": "500",
+                        "LoginSystemVolumeType": "magnetic.standard",
+                        "ComputeSystemVolumeType": "magnetic.standard",
+                        "ComputeInstanceType": "compute-2C-3.75GB.small-c4.large",
+                        "LoginInstanceType": "small-t2.large",
+                        "ComputeInitialNodes": "2",
+                        "FlightProfiles": "default"
+                    }
+                }
             }
-          }
-        }]
-      },
-      "key": "7e036437-97b8-4b13-9d83-d6da3f25cf9d",
-      "fly": {
-        "args": [
-          "--solo"
-        ],
-        "parameterDirectoryOverrides": {
-          "solo": {
-            "AutoscalingPolicy": "enabled",
-            "ComputeSpotPrice": "0.3",
-            "FlightFeatures": "password-auth set-admin-password",
-            "SchedulerType": "gridscheduler"
-          }
-        }
-      }
-    },
-    {
-      "ui": { 
-        "title": "Big SGE cluster",
-        "titleLowerCase": "big SGE cluster",
-        "subtitle": "Autoscaling upto 16 nodes. Dedicated instances. SGE scheduler.",
-        "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
-        "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
-      },
-      "launchOptions": {
-        "defaultOptionIndex": 0,
-        "options": [{
-          "costPerHour": 5,
-          "name": "Standard",
-          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly."
-        }]
-      },
-      "key": "c9db280c-e566-4688-92a9-9b266ae6f03d",
-      "fly": {
-        "args": [
-          "--solo"
-        ],
-        "parameterDirectoryOverrides": {
-          "solo": {
-            "AutoscalingPolicy": "enabled",
-            "ComputeSpotPrice": "0",
-            "FlightFeatures": "password-auth set-admin-password",
-            "SchedulerType": "gridscheduler"
-          }
-        }
-      }
-    },
-    {
-      "ui": { 
-        "title": "8 node GPU cluster",
-        "titleLowerCase": "8 node GPU cluster",
-        "subtitle": "Autoscaling upto 8 GPU nodes. Dedicated instances. SGE scheduler.",
-        "body": "A GPU cluster, autoscaling upto a maximum of 8 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler.",
-        "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
-      },
-      "launchOptions": {
-        "defaultOptionIndex": 1,
-        "options": [{
-          "costPerHour": 6,
-          "name": "Standard",
-          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0.5"
-              }
-            }
-          }
         },
         {
-          "costPerHour": 7,
-          "name": "High",
-          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0"
-              }
+            "ui": {
+                "title": "Performance compute (SGE)",
+                "titleLowerCase": "performance compute (SGE) cluster",
+                "subtitle": "For workloads that require enhanced processing and networking requirements.",
+                "body": "A time-limited cluster constructed with an r4.2xlarge login node and c4.8xlarge instances (60 GiB, 36 CPUs) providing enhanced performance for workloads with higher processing, memory and networking requirements.  The compute estate initially runs on a single c4.8xlarge spot instance, with autoscaling enabled to provide up to four c4.8xlarge spot instances (240 GiB, 144 CPUs).  The cluster operates the Open Grid Scheduler (SGE) job scheduler.",
+                "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-2star.png",
+                "autoscaling": true,
+                "scheduler": {
+                    "type": "gridscheduler",
+                    "text": "SGE",
+                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
+                    "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
+                }
+            },
+            "launchOptions": {
+              "defaultOptionIndex": 0,
+              "options": [{
+                "costPerHour": 30,
+                "name": "Standard",
+                "description": "The standard launch configuration offering a good compromise between cost and job durability.",
+                "fly": {
+                  "args": [],
+                  "parameterDirectoryOverrides": {
+                  }
+                }
+              }]
+            },
+            "costs": {
+                "estimated": {
+                    "pricePerHour": 30,
+                    "text": "30 cu/hour",
+                    "tooltip": "The compute power rating for this cluster is 30 cu (compute units) per hour."
+                }
+            },
+            "key": "0b337883-9420-4a8c-a5ff-ece297b8f4c5",
+            "fly": {
+                "args": [
+                    "--solo-legacy",
+                    "--runtime", "240",
+                    "--template-set", "2016.4r1-launch"
+                ],
+                "parameterDirectoryOverrides": {
+                    "solo-legacy": {
+                        "ComputeAutoscalingPolicy": "enabled",
+                        "ComputeSpotPrice": "1.811",
+                        "FlightFeatures": "password-auth set-admin-password launch-compat",
+                        "FlightSchedulerType": "gridscheduler",
+                        "LoginSystemVolumeSize": "500",
+                        "LoginSystemVolumeType": "general-purpose-ssd.gp2",
+                        "ComputeSystemVolumeType": "magnetic.standard",
+                        "ComputeInstanceType": "compute-36C-60GB.dedicated-c4.8xlarge",
+                        "LoginInstanceType": "medium-r4.2xlarge",
+                        "FlightProfiles": "default"
+                    }
+                }
             }
-          }
-        }]
-      },
-      "key": "3e55ae11-6276-4980-850d-14f7f0c2db8d",
-      "fly": {
-        "args": [
-          "--solo"
-        ],
-        "parameterDirectoryOverrides": {
-          "solo": {
-            "AutoscalingPolicy": "enabled",
-            "ComputeInstanceType": "gpu-1GPU-8C-15GB.small-g2.2xlarge",
-            "ComputeSpotPrice": "0",
-            "FlightFeatures": "password-auth set-admin-password",
-            "SchedulerType": "gridscheduler"
-          }
-        }
-      }
-    },
-    {
-      "ui": { 
-        "title": "Small Bioinformatics cluster",
-        "titleLowerCase": "small bioinformatics cluster",
-        "subtitle": "Autoscaling upto 8 nodes. Dedicated instances. SGE scheduler.",
-        "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use dedicated instances to ensure your workload completes.  It uses the SGE scheduler, and comes with common Bioinformatics software preinstalled.",
-        "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
-      },
-      "launchOptions": {
-        "defaultOptionIndex": 0,
-        "options": [{
-          "costPerHour": 8,
-          "name": "Standard",
-          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0.5"
-              }
-            }
-          }
         },
         {
-          "costPerHour": 9,
-          "name": "High",
-          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0"
-              }
+            "ui": {
+                "title": "Performance compute (Slurm)",
+                "titleLowerCase": "performance compute (Slurm) cluster",
+                "subtitle": "For workloads that require enhanced processing and networking requirements.",
+                "body": "A time-limited cluster constructed with an r4.2xlarge login node and c4.8xlarge instances (60 GiB, 36 CPUs) providing enhanced performance for workloads with higher processing, memory and networking requirements.  The compute estate initially runs on a single c4.8xlarge spot instance, with autoscaling enabled to provide up to four c4.8xlarge spot instances (240 GiB, 144 CPUs).  The cluster operates the Slurm Workload Manager job scheduler.",
+                "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-2star.png",
+                "autoscaling": true,
+                "scheduler": {
+                    "type": "slurm",
+                    "text": "Slurm",
+                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
+                    "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
+                }
+            },
+            "launchOptions": {
+              "defaultOptionIndex": 0,
+              "options": [{
+                "costPerHour": 30,
+                "name": "Standard",
+                "description": "The standard launch configuration offering a good compromise between cost and job durability.",
+                "fly": {
+                  "args": [],
+                  "parameterDirectoryOverrides": {
+                  }
+                }
+              }]
+            },
+            "costs": {
+                "estimated": {
+                    "pricePerHour": 30,
+                    "text": "30 cu/hour",
+                    "tooltip": "The compute power rating for this cluster is 30 cu (compute units) per hour."
+                }
+            },
+            "key": "b1319003-20f6-45b8-be4f-2ef0bae92abc",
+            "fly": {
+                "args": [
+                    "--solo-legacy",
+                    "--runtime", "240",
+                    "--template-set", "2016.4r1-launch"
+                ],
+                "parameterDirectoryOverrides": {
+                    "solo-legacy": {
+                        "ComputeAutoscalingPolicy": "enabled",
+                        "ComputeSpotPrice": "1.811",
+                        "FlightFeatures": "password-auth set-admin-password launch-compat",
+                        "FlightSchedulerType": "slurm",
+                        "LoginSystemVolumeSize": "500",
+                        "LoginSystemVolumeType": "general-purpose-ssd.gp2",
+                        "ComputeSystemVolumeType": "magnetic.standard",
+                        "ComputeInstanceType": "compute-36C-60GB.dedicated-c4.8xlarge",
+                        "LoginInstanceType": "medium-r4.2xlarge",
+                        "FlightProfiles": "default"
+                    }
+                }
             }
-          }
-        }]
-      },
-      "key": "a1295cc3-7c6a-46be-91d9-3476fb10dee6",
-      "fly": {
-        "args": [
-          "--solo"
-        ],
-        "parameterDirectoryOverrides": {
-          "solo": {
-            "AutoscalingPolicy": "enabled",
-            "ComputeSpotPrice": "0",
-            "FlightFeatures": "password-auth set-admin-password",
-            "PreloadSoftware": "bioinformatics",
-            "SchedulerType": "gridscheduler"
-          }
-        }
-      }
-    },
-    {
-      "ui": { 
-        "title": "Big Chemistry cluster",
-        "titleLowerCase": "big chemistry cluster",
-        "subtitle": "Autoscaling upto 16 nodes. Spot instances. SGE scheduler.",
-        "body": "An autoscaling cluster, scaling upto a maximum of 16 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler, and comes with common Chemistry software preinstalled.",
-        "logoUrl": "https://pbs.twimg.com/media/C3wALYvWcAMaqeN.png"
-      },
-      "launchOptions": {
-        "defaultOptionIndex": 1,
-        "options": [{
-          "costPerHour": 10,
-          "name": "Standard",
-          "description": "Standard level of compute durability.  Fewer compute units are consumed, but it is possible that compute nodes could be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0.5"
-              }
-            }
-          }
         },
         {
-          "costPerHour": 11,
-          "name": "High",
-          "description": "High level of compute durability.  More compute units are consumed in order to ensure that the compute nodes will not be terminated unexpectedly.",
-          "fly": {
-            "parameterDirectoryOverrides": {
-              "solo": {
-                "ComputeSpotPrice": "0"
-              }
+            "ui": {
+                "title": "GPU compute (SGE)",
+                "titleLowerCase": "GPU compute (SGE) cluster",
+                "subtitle": "For workloads that scale best on GPU architectures.",
+                "body": "A time-limited cluster constructed with an r4.2xlarge login node and p2.8xlarge instances (488 GiB, 32 CPUS, 8 GPUs) for workloads that scale best on a GPU architecture.  The compute estate initially runs on a single p2.8xlarge spot instance, with autoscaling enabled to provide up to two nodes (976 GiB, 64 CPUs, 16 GPUs).  The cluster operates the Open Grid Scheduler (SGE) job scheduler.",
+                "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-3star.png",
+                "autoscaling": true,
+                "scheduler": {
+                    "type": "gridscheduler",
+                    "text": "SGE",
+                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
+                    "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
+                }
+            },
+            "launchOptions": {
+              "defaultOptionIndex": 0,
+              "options": [{
+                "costPerHour": 70,
+                "name": "Standard",
+                "description": "The standard launch configuration offering a good compromise between cost and job durability.",
+                "fly": {
+                  "args": [],
+                  "parameterDirectoryOverrides": {
+                  }
+                }
+              }]
+            },
+            "costs": {
+                "estimated": {
+                    "pricePerHour": 70,
+                    "text": "70 cu/hour",
+                    "tooltip": "The compute power rating for this cluster is 70 cu (compute units) per hour."
+                }
+            },
+            "key": "f7bdee81-e157-458a-ba1d-c73dc013aa51",
+            "fly": {
+                "args": [
+                    "--solo-legacy",
+                    "--runtime", "240",
+                    "--template-set", "2016.4r1-launch"
+                ],
+                "parameterDirectoryOverrides": {
+                    "solo-legacy": {
+                        "ComputeAutoscalingPolicy": "enabled",
+                        "ComputeSpotPrice": "7.776",
+                        "FlightFeatures": "password-auth set-admin-password launch-compat",
+                        "FlightSchedulerType": "gridscheduler",
+                        "LoginSystemVolumeSize": "500",
+                        "LoginSystemVolumeType": "general-purpose-ssd.gp2",
+                        "ComputeSystemVolumeType": "magnetic.standard",
+                        "ComputeInstanceType": "gpu-8GPU-32C-488GB.large-p2.8xlarge",
+                        "LoginInstanceType": "medium-r4.2xlarge",
+                        "FlightProfiles": "default"
+                    }
+                }
             }
-          }
-        }]
-      },
-      "key": "dc8e362a-1389-4b69-bd18-da04019096d8",
-      "fly": {
-        "args": [
-          "--solo"
-        ],
-        "parameterDirectoryOverrides": {
-          "solo": {
-            "AutoscalingPolicy": "enabled",
-            "ComputeSpotPrice": "0.3",
-            "FlightFeatures": "password-auth set-admin-password",
-            "PreloadSoftware": "chemistry",
-            "SchedulerType": "gridscheduler"
-          }
+        },
+        {
+            "ui": {
+                "title": "GPU compute (Slurm)",
+                "titleLowerCase": "GPU compute (Slurm) cluster",
+                "subtitle": "For workloads that scale best on GPU architectures.",
+                "body": "A time-limited cluster constructed with an r4.2xlarge login node and p2.8xlarge instances (488 GiB, 32 CPUS, 8 GPUs) for workloads that scale best on a GPU architecture.  The compute estate initially runs on a single p2.8xlarge spot instance, with autoscaling enabled to provide up to two nodes (976 GiB, 64 CPUs, 16 GPUs).  The cluster operates the Slurm Workload Manager job scheduler.",
+                "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-3star.png",
+                "autoscaling": true,
+                "scheduler": {
+                    "type": "slurm",
+                    "text": "Slurm",
+                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
+                    "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
+                }
+            },
+            "launchOptions": {
+              "defaultOptionIndex": 0,
+              "options": [{
+                "costPerHour": 70,
+                "name": "Standard",
+                "description": "The standard launch configuration offering a good compromise between cost and job durability.",
+                "fly": {
+                  "args": [],
+                  "parameterDirectoryOverrides": {
+                  }
+                }
+              }]
+            },
+            "costs": {
+                "estimated": {
+                    "pricePerHour": 70,
+                    "text": "70 cu/hour",
+                    "tooltip": "The compute power rating for this cluster is 70 cu (compute units) per hour."
+                }
+            },
+            "key": "be32c4eb-89ff-46e4-bf14-6ac1f398fadf",
+            "fly": {
+                "args": [
+                    "--solo-legacy",
+                    "--runtime", "240",
+                    "--template-set", "2016.4r1-launch"
+                ],
+                "parameterDirectoryOverrides": {
+                    "solo-legacy": {
+                        "ComputeAutoscalingPolicy": "enabled",
+                        "ComputeSpotPrice": "7.776",
+                        "FlightFeatures": "password-auth set-admin-password launch-compat",
+                        "FlightSchedulerType": "slurm",
+                        "LoginSystemVolumeSize": "500",
+                        "LoginSystemVolumeType": "general-purpose-ssd.gp2",
+                        "ComputeSystemVolumeType": "magnetic.standard",
+                        "ComputeInstanceType": "gpu-8GPU-32C-488GB.large-p2.8xlarge",
+                        "LoginInstanceType": "medium-r4.2xlarge",
+                        "FlightProfiles": "default"
+                    }
+                }
+            }
         }
-      }
-    }
-  ]
+    ]
 }
