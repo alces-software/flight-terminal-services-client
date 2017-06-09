@@ -21,7 +21,6 @@
                 "subtitle": "For familiarisation and experimentation with Alces Flight Compute.",
                 "body": "A time-limited cluster constructed with a t2.large login node and c4.large instances (3.75 GiB, 2 CPUs) provided for familiarisation and experimentation with Alces Flight Compute.  The compute estate initially runs on two c4.large spot instances (7.5 GiB, 4 CPUs), with autoscaling enabled to shut down idle nodes (a minimum of one compute node will be retained at all times).  The cluster operates the Open Grid Scheduler (SGE) job scheduler.",
                 "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-1star.png",
-                "autoscaling": true,
                 "scheduler": {
                     "type": "gridscheduler",
                     "text": "SGE",
@@ -54,13 +53,6 @@
                   }
                 }
               }]
-            },
-            "costs": {
-                "estimated": {
-                    "pricePerHour": 2,
-                    "text": "2 cu/hour",
-                    "tooltip": "The compute power rating for this cluster is 2 cu (compute units) per hour."
-                }
             },
             "key": "f4831089-da05-4029-8d02-e7fb5c24dda6",
             "fly": {
@@ -93,7 +85,6 @@
                 "subtitle": "For familiarisation and experimentation with Alces Flight Compute.",
                 "body": "A time-limited cluster constructed with a t2.large login node and c4.large instances (3.75 GiB, 2 CPUs) provided for familiarisation and experimentation with Alces Flight Compute.  The compute estate initially runs on two c4.large spot instances (7.5 GiB, 4 CPUs), with autoscaling enabled to shut down idle nodes (a minimum of one compute node will be retained at all times).  The cluster operates the Slurm Workload Manager job scheduler.",
                 "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-1star.png",
-                "autoscaling": true,
                 "scheduler": {
                     "type": "slurm",
                     "text": "Slurm",
@@ -127,13 +118,6 @@
                 }
               }]
             },
-            "costs": {
-                "estimated": {
-                    "pricePerHour": 2,
-                    "text": "2 cu/hour",
-                    "tooltip": "The compute power rating for this cluster is 2 cu (compute units) per hour."
-                }
-            },
             "key": "54110718-68bd-49c1-84fe-df31f066b7d1",
             "fly": {
                 "args": [
@@ -165,7 +149,6 @@
                 "subtitle": "For workloads that require enhanced processing and networking requirements.",
                 "body": "A time-limited cluster constructed with an r4.2xlarge login node and c4.8xlarge instances (60 GiB, 36 CPUs) providing enhanced performance for workloads with higher processing, memory and networking requirements.  The compute estate initially runs on a single c4.8xlarge spot instance, with autoscaling enabled to provide up to four c4.8xlarge spot instances (240 GiB, 144 CPUs).  The cluster operates the Open Grid Scheduler (SGE) job scheduler.",
                 "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-2star.png",
-                "autoscaling": true,
                 "scheduler": {
                     "type": "gridscheduler",
                     "text": "SGE",
@@ -185,13 +168,6 @@
                   }
                 }
               }]
-            },
-            "costs": {
-                "estimated": {
-                    "pricePerHour": 30,
-                    "text": "30 cu/hour",
-                    "tooltip": "The compute power rating for this cluster is 30 cu (compute units) per hour."
-                }
             },
             "key": "0b337883-9420-4a8c-a5ff-ece297b8f4c5",
             "fly": {
@@ -223,7 +199,6 @@
                 "subtitle": "For workloads that require enhanced processing and networking requirements.",
                 "body": "A time-limited cluster constructed with an r4.2xlarge login node and c4.8xlarge instances (60 GiB, 36 CPUs) providing enhanced performance for workloads with higher processing, memory and networking requirements.  The compute estate initially runs on a single c4.8xlarge spot instance, with autoscaling enabled to provide up to four c4.8xlarge spot instances (240 GiB, 144 CPUs).  The cluster operates the Slurm Workload Manager job scheduler.",
                 "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-2star.png",
-                "autoscaling": true,
                 "scheduler": {
                     "type": "slurm",
                     "text": "Slurm",
@@ -243,13 +218,6 @@
                   }
                 }
               }]
-            },
-            "costs": {
-                "estimated": {
-                    "pricePerHour": 30,
-                    "text": "30 cu/hour",
-                    "tooltip": "The compute power rating for this cluster is 30 cu (compute units) per hour."
-                }
             },
             "key": "b1319003-20f6-45b8-be4f-2ef0bae92abc",
             "fly": {
@@ -281,7 +249,6 @@
                 "subtitle": "For workloads that scale best on GPU architectures.",
                 "body": "A time-limited cluster constructed with an r4.2xlarge login node and p2.8xlarge instances (488 GiB, 32 CPUS, 8 GPUs) for workloads that scale best on a GPU architecture.  The compute estate initially runs on a single p2.8xlarge spot instance, with autoscaling enabled to provide up to two nodes (976 GiB, 64 CPUs, 16 GPUs).  The cluster operates the Open Grid Scheduler (SGE) job scheduler.",
                 "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-3star.png",
-                "autoscaling": true,
                 "scheduler": {
                     "type": "gridscheduler",
                     "text": "SGE",
@@ -301,13 +268,6 @@
                   }
                 }
               }]
-            },
-            "costs": {
-                "estimated": {
-                    "pricePerHour": 70,
-                    "text": "70 cu/hour",
-                    "tooltip": "The compute power rating for this cluster is 70 cu (compute units) per hour."
-                }
             },
             "key": "f7bdee81-e157-458a-ba1d-c73dc013aa51",
             "fly": {
@@ -339,7 +299,6 @@
                 "subtitle": "For workloads that scale best on GPU architectures.",
                 "body": "A time-limited cluster constructed with an r4.2xlarge login node and p2.8xlarge instances (488 GiB, 32 CPUS, 8 GPUs) for workloads that scale best on a GPU architecture.  The compute estate initially runs on a single p2.8xlarge spot instance, with autoscaling enabled to provide up to two nodes (976 GiB, 64 CPUs, 16 GPUs).  The cluster operates the Slurm Workload Manager job scheduler.",
                 "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/flight-3star.png",
-                "autoscaling": true,
                 "scheduler": {
                     "type": "slurm",
                     "text": "Slurm",
@@ -359,13 +318,6 @@
                   }
                 }
               }]
-            },
-            "costs": {
-                "estimated": {
-                    "pricePerHour": 70,
-                    "text": "70 cu/hour",
-                    "tooltip": "The compute power rating for this cluster is 70 cu (compute units) per hour."
-                }
             },
             "key": "be32c4eb-89ff-46e4-bf14-6ac1f398fadf",
             "fly": {
