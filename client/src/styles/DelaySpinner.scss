@@ -1,0 +1,31 @@
+/*=============================================================================
+ * Copyright (C) 2016 Stephen F. Norledge and Alces Flight Ltd.
+ *
+ * This file is part of Alces Prime.
+ *
+ * All rights reserved, see LICENSE.txt.
+ *===========================================================================*/
+/* *************************************
+ *
+ *   delaySpinner
+ *   -> styles for the DelaySpinner component.
+ *
+ * *************************************/
+
+.flight-delaySpinner {
+    @extend .text-muted;
+
+    &--block {
+        height: 100%;
+        margin: auto;
+        padding-top: 0.25em;
+        text-align: center;
+        width: 100%;
+    }
+    &--inline {
+        display: inline-block;
+    }
+    &--large {
+        font-size: 10em;
+    }
+}

@@ -5,24 +5,22 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import loadingStates from '../../modules/loadingStates';
+import composeReducers from '../../reducers/composeReducers';
 
 import { LOADING, LOADED, FAILED } from './actionTypes';
 
 const initialState = {
-  error: undefined,
-  loading: true,
   identifier: undefined,
   tenant: undefined,
 };
 
-export default function reducer(state = initialState, { payload, type }) {
+function reducer(state = initialState, { payload, type }) {
   switch (type) {
 
     case LOADING:
       return {
         ...state,
-        error: false,
-        loading: true,
         identifier: payload.identifier,
       };
 
@@ -30,19 +28,24 @@ export default function reducer(state = initialState, { payload, type }) {
       return {
         ...state,
         tenant: payload.tenant,
-        error: false,
-        loading: false,
       };
 
     case FAILED:
       return {
         ...state,
         tenant: undefined,
-        error: payload.error,
-        loading: false,
       };
 
     default:
       return state;
   }
 }
+
+export default composeReducers(
+  loadingStates.reducer({
+    loading: LOADING,
+    resolved: LOADED,
+    rejected: FAILED,
+  }),
+  reducer,
+);
