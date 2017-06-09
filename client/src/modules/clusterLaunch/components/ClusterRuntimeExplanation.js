@@ -38,7 +38,7 @@ function calculateRuntime(clusterSpecCost, tokenCredits) {
   if (days > 0) {
     return `${days} days and ${hours} hours`;
   } else if (hours < 1) {
-    return `${minutes} minutes`;
+    return `${Math.trunc(minutes)} minutes`;
   }
   return `${hours}${fuzzyMinutes} hours`;
 }
