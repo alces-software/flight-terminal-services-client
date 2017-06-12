@@ -143,6 +143,25 @@ h4 {
                         </div>
                     </div>
 
+                    <div style="margin-bottom: 1em">
+                        <label for="tenantMaxTokenCreditLimit">
+                            <h4>Max credits for a token (optional):</h4>
+                        </label>
+                        <label>
+                            Limit the maximum credits that can be assigned to a token?
+                            <input id="tenantHasMaxTokenCreditLimit" type="checkbox" onChange="toggleDisabled('tenantMaxTokenCreditLimit')">
+                        </label>
+                        <div style="margin-top: 5px">
+                            <input id="tenantMaxTokenCreditLimit" size="32">
+                        </div>
+                        <div style="color: #737373">
+                            The maximum number of credits that can be assigned
+                            to a token for this tenant.  If this is not
+                            enabled, an unlimited number of credits can be
+                            assigned to a token.
+                        </div>
+                    </div>
+
                     <input type="submit" value="Update">
                 </form>
             </div>
@@ -249,6 +268,25 @@ h4 {
                             To create a tenant without allocating any credits,
                             set the remaining credits to 0.
                             </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1em">
+                        <label for="newTenantMaxTokenCreditLimit">
+                            <h4>Max credits for a token (optional):</h4>
+                        </label>
+                        <label>
+                            Limit the maximum credits that can be assigned to a token?
+                            <input id="newTenantHasMaxTokenCreditLimit" type="checkbox" onChange="toggleDisabled('newTenantMaxTokenCreditLimit')">
+                        </label>
+                        <div style="margin-top: 5px">
+                            <input id="newTenantMaxTokenCreditLimit" size="32">
+                        </div>
+                        <div style="color: #737373">
+                            The maximum number of credits that can be assigned
+                            to a token for this tenant.  If this is not
+                            enabled, an unlimited number of credits can be
+                            assigned to a token.
                         </div>
                     </div>
 

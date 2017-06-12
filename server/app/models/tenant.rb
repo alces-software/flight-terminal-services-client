@@ -43,6 +43,14 @@ class Tenant < ApplicationRecord
     },
     allow_blank: true
 
+  validates :max_token_credit_limit,
+    numericality: {
+      greater_than_or_equal_to: 1,
+      only_integer: true
+    },
+    allow_blank: true
+
+
   def credit_limit?
     !remaining_credits.nil?
   end

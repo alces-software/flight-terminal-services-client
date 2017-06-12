@@ -91,7 +91,21 @@ function startCreating() {
   populateOptionalField('newTenantNaventry', null, 'navEntry');
   populateOptionalField('newTenantHeader', null, 'header');
   populateOptionalField('newTenantEmailHeader', null, 'emailHeader');
-  populateRemainingCreditField('newTenantRemainingCredits', 'newTenantHasCreditLimit', null);
+  populateLimitField(
+    'newTenantRemainingCredits',
+    'newTenantHasCreditLimit',
+    'hasCreditLimit',
+    'remainingCredits',
+    null
+  );
+  populateLimitField(
+    'newTenantMaxTokenCreditLimit',
+    'newTenantHasMaxTokenCreditLimit',
+    'hasMaxTokenCreditLimit',
+    'maxTokenCreditLimit',
+    null
+  );
+
 
   document.getElementById('createForm').style.display = 'block';
 }
@@ -117,7 +131,8 @@ function createTenant() {
           header: getOptionalAttributeValue('newTenantHeader'),
           navEntry: getOptionalAttributeValue('newTenantNaventry'),
           emailHeader: getOptionalAttributeValue('newTenantEmailHeader'),
-          remainingCredits: getRemainingCredits('newTenantRemainingCredits', 'newTenantHasCreditLimit'),
+          remainingCredits: getLimitValue('newTenantRemainingCredits', 'newTenantHasCreditLimit'),
+          maxTokenCreditLimit: getLimitValue('newTenantMaxTokenCreditLimit', 'newTenantHasMaxTokenCreditLimit'),
         },
       },
     }),
@@ -168,22 +183,35 @@ function startEditing() {
   populateOptionalField('tenantNaventry', attrs, 'navEntry');
   populateOptionalField('tenantHeader', attrs, 'header');
   populateOptionalField('tenantEmailHeader', attrs, 'emailHeader');
-  populateRemainingCreditField('tenantRemainingCredits', 'tenantHasCreditLimit', attrs);
+  populateLimitField(
+    'tenantRemainingCredits',
+    'tenantHasCreditLimit',
+    'hasCreditLimit',
+    'remainingCredits',
+    attrs
+  );
+  populateLimitField(
+    'tenantMaxTokenCreditLimit',
+    'tenantHasMaxTokenCreditLimit',
+    'hasMaxTokenCreditLimit',
+    'maxTokenCreditLimit',
+    attrs
+  );
 
   document.getElementById('editForm').style.display = 'block';
 }
 
-function populateRemainingCreditField(id, checkboxId, attributes) {
+function populateLimitField(id, checkboxId, hasLimitAttrName, limitAttrName, attributes) {
   var input = document.getElementById(id);
   var checkbox = document.getElementById(checkboxId);
-  var hasCreditLimit = attributes == null ? true : attributes['hasCreditLimit'];
-  var remainingCredits = attributes == null ? null : attributes['remainingCredits'];
-  if (hasCreditLimit) {
-    input.value = remainingCredits
+  var hasLimit = attributes == null ? true : attributes[hasLimitAttrName];
+  var limit = attributes == null ? null : attributes[limitAttrName];
+  if (hasLimit) {
+    input.value = limit
     input.disabled = false;
     checkbox.checked = true;
   } else {
-    input.value = remainingCredits;
+    input.value = limit;
     input.disabled = true;
     checkbox.checked = false;
   }
@@ -218,7 +246,7 @@ function getOptionalAttributeValue(id) {
   }
 }
 
-function getRemainingCredits(id, checkboxId) {
+function getLimitValue(id, checkboxId) {
   var input = document.getElementById(id);
   var checkbox = document.getElementById(checkboxId);
   if (checkbox.checked) {
@@ -262,7 +290,8 @@ function updateTenant() {
           header: getOptionalAttributeValue('tenantHeader'),
           navEntry: getOptionalAttributeValue('tenantNaventry'),
           emailHeader: getOptionalAttributeValue('tenantEmailHeader'),
-          remainingCredits: getRemainingCredits('tenantRemainingCredits', 'tenantHasCreditLimit'),
+          remainingCredits: getLimitValue('tenantRemainingCredits', 'tenantHasCreditLimit'),
+          maxTokenCreditLimit: getLimitValue('tenantMaxTokenCreditLimit', 'tenantHasMaxTokenCreditLimit'),
         },
       },
     }),
