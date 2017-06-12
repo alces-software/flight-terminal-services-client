@@ -59,7 +59,8 @@ class ClusterSpecsSectionContainer extends React.Component {
       .then(() => {
         const specsFile = getClusterSpecsFile(this.props.location);
         this.props.dispatch(loadClusterSpecs(specsFile));
-      });
+      })
+      .catch(() => {});
   }
 
   componentWillUpdate(nextProps) {
