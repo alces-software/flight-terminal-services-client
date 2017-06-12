@@ -36,6 +36,16 @@ class Token < ApplicationRecord
       greater_than_or_equal_to: 1,
       only_integer: true
     }
+
+  validates :credits,
+    numericality: {
+    less_than_or_equal_to: lambda do |token|
+      token.tenant.max_token_credit_limit
+    end,
+    message: 'Exceeds tenant limit of %{count}'
+  },
+  if: ->(t){ t.tenant.max_token_credit_limit? }
+
   validate :tenant_has_sufficient_credits, 
     if: ->(t){ t.tenant.credit_limit? }
 
