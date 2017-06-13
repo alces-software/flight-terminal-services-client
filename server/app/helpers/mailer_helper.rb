@@ -44,4 +44,11 @@ module MailerHelper
   def td_width(pct)
     (MAIL_WIDTH * pct).floor
   end
+
+  def branding_header
+    return nil if @tenant.nil?
+    eh = @tenant.email_header
+    return nil if eh.blank?
+    " #{eh}"
+  end
 end
