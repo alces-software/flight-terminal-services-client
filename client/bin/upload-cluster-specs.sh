@@ -6,6 +6,9 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 
 main() {
     parse_arguments "$@"
+    echo
+    echo "Uploading ${SRC} -> FlightLaunch/ClusterSpecs/${DEST}"
+    echo
     aws s3api put-object \
         --acl public-read \
         --content-type application/json \
