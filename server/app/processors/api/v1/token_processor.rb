@@ -7,13 +7,8 @@
 #==============================================================================
 
 class Api::V1::TokenProcessor < JSONAPI::Processor
-  before_show_related_resources do
-    fail_unless_admin_or_name_filter_is_present
-  end
-
-  before_find do
-    fail_unless_admin_or_name_filter_is_present
-  end
+  before_show_related_resources :fail_unless_admin_or_name_filter_is_present
+  before_find :fail_unless_admin_or_name_filter_is_present
 
   private
 
