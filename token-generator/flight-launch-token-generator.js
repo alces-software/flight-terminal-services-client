@@ -588,21 +588,25 @@ function writeUsedTokens(tokens) {
       tokenCell.append(tokenAttrs.name);
 
       var usedByCell = document.createElement("td");
-      if (tokenAttrs.usedBy == null) {
+      var usedBy = tokenAttrs.usedBy;
+      if (usedBy == null) {
+        usedBy = tokenAttrs.assignedTo;
+      }
+      if (usedBy == null) {
         var em = document.createElement('em');
         em.append('unknown');
         usedByCell.append(em);
       } else {
-        usedByCell.append(tokenAttrs.usedBy);
+        usedByCell.append(usedBy);
       }
 
       var usedAtCell = document.createElement("td");
-      if (tokenAttrs.queued_at == null) {
+      if (tokenAttrs.queuedAt == null) {
         var em = document.createElement('em');
         em.append('unknown');
         usedAtCell.append(em);
       } else {
-        usedAtCell.append(tokenAttrs.queued_at);
+        usedAtCell.append(tokenAttrs.queuedAt);
       }
 
       var statusCell = document.createElement("td");
