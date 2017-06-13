@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612143135) do
+ActiveRecord::Schema.define(version: 20170612225251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 20170612143135) do
     t.uuid     "permitted_spec_keys",                                           array: true
     t.string   "tag",                 limit: 1024
     t.boolean  "migrated",                         default: false, null: false
+    t.string   "used_by",             limit: 255
+    t.datetime "queued_at"
     t.index ["name"], name: "index_tokens_on_name", unique: true, using: :btree
     t.index ["tenant_id"], name: "index_tokens_on_tenant_id", using: :btree
   end

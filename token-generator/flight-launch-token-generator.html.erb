@@ -90,13 +90,13 @@ var combinations = <%= load_combinations('combinations') %>;
             <pre id="errorMessages" style="color: red"></pre>
             <div style="margin-bottom: 1em"></div>
 
-            <h4>Tokens</h4>
+            <h4>Available tokens</h4>
             <div style="margin-bottom: 1em">
-                <input id="scanData" type="button" value="Get available tokens" onclick="fetchAvailableTokens();" />
-                <input id="copyToClipboard" type="button" value="Copy to clipboard" onclick="copyToClipboard();" />
-                <input type="button" value="Clear table" onclick="clearTable();" />
+                <input type="button" value="Get available tokens" onclick="fetchAvailableTokens();" />
+                <input type="button" value="Copy to clipboard" onclick="copyToClipboard('availableTokenTable');" />
+                <input type="button" value="Clear table" onclick="clearTable('availableTokenTableBody');" />
             </div>
-            <table id="tokenTable">
+            <table id="availableTokenTable">
                 <thead>
                     <tr>
                         <th>Token</th>
@@ -105,7 +105,26 @@ var combinations = <%= load_combinations('combinations') %>;
                         <th>Credits</th>
                     </tr>
                 </thead>
-                <tbody id="tokenTableBody">
+                <tbody id="availableTokenTableBody">
+                </tbody>
+            </table>
+
+            <h4>Used tokens</h4>
+            <div style="margin-bottom: 1em">
+                <input type="button" value="Get used tokens" onclick="fetchUsedTokens();" />
+                <input type="button" value="Copy to clipboard" onclick="copyToClipboard('usedTokenTable');" />
+                <input type="button" value="Clear table" onclick="clearTable('usedTokenTableBody');" />
+            </div>
+            <table id="usedTokenTable">
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Used by</th>
+                        <th>Used on</th>
+                        <th>Current status</th>
+                    </tr>
+                </thead>
+                <tbody id="usedTokenTableBody">
                 </tbody>
             </table>
         </div>

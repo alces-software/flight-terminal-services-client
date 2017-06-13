@@ -77,6 +77,8 @@ class Token < ApplicationRecord
 
   def mark_as(s, used_by)
     self.status = s.to_s.upcase
+    self.used_by = used_by
+    self.queued_at = Time.now if s.to_s.upcase == 'QUEUED'
     save!
   end
 

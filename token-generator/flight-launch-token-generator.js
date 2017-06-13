@@ -328,10 +328,10 @@ function selectTable(el) {
   }
 }
 
-function copyToClipboard() {
+function copyToClipboard(tableId) {
   var succeeded;
 
-  var element = document.getElementById("tokenTable");
+  var element = document.getElementById(tableId);
   selectTable(element);
 
   try {
@@ -399,7 +399,7 @@ function createToken(params) {
     })
     .then((jsonApiDoc) => {
       var token = jsonApiDoc.data;
-      writeTokens([token]);
+      writeAvailableTokens([token]);
     })
     .catch((err) => {
       writeError("Unable to create token " + token + ": " + JSON.stringify(err, undefined, 2));
@@ -463,7 +463,7 @@ function runSerial(promiseFactories) {
 function fetchAvailableTokens() {
   clearErrorMessages();
   writeInfo("Loading tokens...");
-  clearTable();
+  clearTable('availableTokenTableBody');
 
   var url = new URL(activeTenant.relationships.tokens.links.related);
   url.pathname = makeAdminUrl(url.pathname);
@@ -479,7 +479,37 @@ function fetchAvailableTokens() {
     })
     .then((jsonApiDoc) => {
       var tokens = jsonApiDoc.data;
-      writeTokens(tokens);
+      writeAvailableTokens(tokens);
+    })
+    .then((res) => {
+      writeInfo("Done", true);
+      return res;
+    })
+    .catch((err) => {
+      writeError(err);
+    });
+}
+
+function fetchUsedTokens() {
+  clearErrorMessages();
+  writeInfo("Loading tokens...");
+  clearTable('usedTokenTableBody');
+
+  var url = new URL(activeTenant.relationships.tokens.links.related);
+  url.pathname = makeAdminUrl(url.pathname);
+  url.searchParams.set('filter[status]', 'QUEUED,IN_USE,USED');
+
+  fetch(url.toString(), {credentials: 'include'})
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject('Unable to load used tokens');
+      }
+    })
+    .then((jsonApiDoc) => {
+      var tokens = jsonApiDoc.data;
+      writeUsedTokens(tokens);
     })
     .then((res) => {
       writeInfo("Done", true);
@@ -494,12 +524,12 @@ function fetchAvailableTokens() {
 // == Presentation of tokens ===============================
 //
 
-function clearTable() {
-  document.getElementById('tokenTableBody').innerHTML = "";
+function clearTable(tableId) {
+  document.getElementById(tableId).innerHTML = "";
 }
 
-function writeTokens(tokens) {
-  var table = document.getElementById('tokenTableBody');
+function writeAvailableTokens(tokens) {
+  var table = document.getElementById('availableTokenTableBody');
   tokens
     .sort(function(a, b) { return a.attributes.name < b.attributes.name ? -1 : 1 })
     .forEach(function(token) {
@@ -534,6 +564,46 @@ function writeTokens(tokens) {
       tr.append(permittedClustersCell);
       tr.append(tagCell);
       tr.append(creditCell);
+      table.append(tr);
+    });
+}
+
+function writeUsedTokens(tokens) {
+  var table = document.getElementById('usedTokenTableBody');
+  tokens
+    .sort(function(a, b) { return a.attributes.name < b.attributes.name ? -1 : 1 })
+    .forEach(function(token) {
+      var tokenAttrs = token.attributes;
+
+      var tokenCell = document.createElement("td");
+      tokenCell.append(tokenAttrs.name);
+
+      var usedByCell = document.createElement("td");
+      if (tokenAttrs.usedBy == null) {
+        var em = document.createElement('em');
+        em.append('unknown');
+        usedByCell.append(em);
+      } else {
+        usedByCell.append(tokenAttrs.usedBy);
+      }
+
+      var usedAtCell = document.createElement("td");
+      if (tokenAttrs.queued_at == null) {
+        var em = document.createElement('em');
+        em.append('unknown');
+        usedAtCell.append(em);
+      } else {
+        usedAtCell.append(tokenAttrs.queued_at);
+      }
+
+      var statusCell = document.createElement("td");
+      statusCell.append(tokenAttrs.status);
+
+      var tr = document.createElement("tr");
+      tr.append(tokenCell);
+      tr.append(usedByCell);
+      tr.append(usedAtCell);
+      tr.append(statusCell);
       table.append(tr);
     });
 }

@@ -11,7 +11,10 @@ class Api::V1::TokenResource < Api::V1::ApplicationResource
   attribute :credits
   attribute :name
   attribute :permitted_spec_keys
+  attribute :queued_at
+  attribute :status
   attribute :tag
+  attribute :used_by
 
   has_one :tenant
 
