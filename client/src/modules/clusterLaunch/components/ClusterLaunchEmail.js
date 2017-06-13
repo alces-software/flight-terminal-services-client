@@ -14,49 +14,43 @@ import Input from './ClusterFormInput';
 const propTypes = {
   error: PropTypes.string,
   id: PropTypes.string.isRequired,
+  inputRef: PropTypes.func,
   onChange: PropTypes.func,
   value: PropTypes.string,
 };
 
-class ClusterLaunchEmail extends React.Component {
-  blur() {
-    this.input.blur();
+const ClusterLaunchEmail = ({ error, id, inputRef, onChange, placeholder, value }) => {
+  let tip;
+  switch (error) {
+    case 'blank':
+      tip = <Tip type="error" text="An email address is required." />;
+      break;
+    case 'invalid':
+      tip = <Tip type="error" text="This doesn't look like a valid email address." />;
+      break;
+    default:
+      tip = undefined;
   }
 
-  render() {
-    const { error, id, onChange, value } = this.props;
-
-    let tip;
-    switch (error) {
-      case 'blank':
-        tip = <Tip type="error" text="An email address is required." />;
-        break;
-      case 'invalid':
-        tip = <Tip type="error" text="This doesn't look like a valid email address." />;
-        break;
-      default:
-        tip = undefined;
-    }
-
-    return (
-      <div>
-        <Input
-          ref={(el) => { this.input = el; }}
-          autofocus
-          error={error && 'error'}
-          help="We need your email address to send you an email when your
-          cluster is available."
-          id={`${id}-clusterLaunchEmail`}
-          name="email"
-          onChange={onChange}
-          label="Enter your email address"
-          value={value}
-          tip={tip}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Input
+        ref={inputRef}
+        autofocus
+        error={error && 'error'}
+        help="We need your email address to send you an email when your
+        cluster is available."
+        id={`${id}-clusterLaunchEmail`}
+        name="email"
+        onChange={onChange}
+        label="Enter your email address"
+        value={value}
+        tip={tip}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+};
 
 ClusterLaunchEmail.propTypes = propTypes;
 

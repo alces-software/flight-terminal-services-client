@@ -30,6 +30,11 @@ export class ClusterLaunchForm extends React.Component {
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
+    token: PropTypes.shape({
+      attributes: PropTypes.shape({
+        assignedTo: PropTypes.string
+      }).isRequired,
+    }),
     tokenName: PropTypes.string,
     tokenHasLoaded: PropTypes.bool,
   };
@@ -69,11 +74,16 @@ export class ClusterLaunchForm extends React.Component {
     {
       render: () => (
         <Email
-          ref={this.props.emailRef}
-          id={this.props.clusterSpec.ui.title} 
+          inputRef={this.props.emailRef}
           error={this.props.errors.email}
-          value={this.props.values.email}
+          id={this.props.clusterSpec.ui.title} 
           onChange={this.props.onChange}
+          placeholder={
+            this.props.token == null ?
+              null :
+              this.props.token.attributes.assignedTo
+          }
+          value={this.props.values.email}
         />),
       valid: () => !this.props.errors.email,
     },
@@ -124,4 +134,5 @@ export class ClusterLaunchForm extends React.Component {
 
 export default connect(createStructuredSelector({
   tokenHasLoaded: tokens.selectors.hasLoaded,
+  token: tokens.selectors.tokenFromName,
 }))(ClusterLaunchForm);

@@ -8,23 +8,45 @@
 
 module Alces
   module Constraint
-    module Tenant
-      #
-      # Ensure that the tenant identifier is for a known tenant.
-      #
-      # This constraint is also called for alces admins.  The tenant
-      # constraint is optional in that case, but if given must be valid.
-      #
-      def self.matches?(request)
-        alces_admin = request.env['action_dispatch.request.path_parameters'][:alces_admin]
-        requested_identifier = request.env['action_dispatch.request.path_parameters'][:tenant]
+    #
+    # Ensure that the tenant identifier is for a known tenant.
+    #
+    # This constraint can be configured to allow the tenant to be optional.
+    # If so configured, the tenant must be valid if given.
+    #
+    class Tenant
+      def initialize(tenant_optional:)
+        @tenant_optional = tenant_optional
+      end
 
-        if alces_admin && requested_identifier.nil?
+      def matches?(request)
+        if tenant_optional?(request) && requested_identifier(request).nil?
           return true
         end
 
         available_identifiers = ::Tenant.pluck('identifier')
-        available_identifiers.include?(requested_identifier)
+        available_identifiers.include?(requested_identifier(request))
+      end
+
+      private
+
+      def tenant_optional?(request)
+        case @tenant_optional
+        when true
+          true
+        when false
+          false
+        when :for_alces_admin
+          !!alces_admin(request)
+        end
+      end
+
+      def alces_admin(request)
+        request.env['action_dispatch.request.path_parameters'][:alces_admin]
+      end
+
+      def requested_identifier(request)
+        request.env['action_dispatch.request.path_parameters'][:tenant]
       end
     end
   end

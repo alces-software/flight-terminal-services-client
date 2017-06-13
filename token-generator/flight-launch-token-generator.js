@@ -169,6 +169,10 @@ function getTokenTag() {
   return document.getElementById('tokenTag').value;
 }
 
+function getTokenAssignedTo() {
+  return document.getElementById('tokenAssignedTo').value;
+}
+
 // Return the type of token to be generated. Either 'meaningless' or 'absurd'.
 function getTokenType() {
   return getRadioValue('tokenType');
@@ -355,6 +359,7 @@ function createToken(params) {
   var token = randomToken();
   if (token == null) { return; }
   var tag = getTokenTag();
+  var assignedTo = getTokenAssignedTo();
   var url = makeAdminUrl("/api/v1/tokens");
 
   var attributes = {
@@ -367,6 +372,10 @@ function createToken(params) {
   if (tag !== "") {
     attributes.tag = tag;
   }
+  if (assignedTo !== "") {
+    attributes.assignedTo = assignedTo;
+  }
+
 
   return fetch(url, {
     credentials: 'include',
