@@ -7,13 +7,10 @@
 #==============================================================================
 
 class Api::V1::TokenProcessor < JSONAPI::Processor
-  before_show_related_resources do
-    fail_unless_admin_or_name_filter_is_present
-  end
+  before_show_related_resources :fail_unless_admin_or_name_filter_is_present
+  before_find :fail_unless_admin_or_name_filter_is_present
 
-  before_find do
-    fail_unless_admin_or_name_filter_is_present
-  end
+  after_create_resource :email_token
 
   private
 
@@ -31,5 +28,13 @@ class Api::V1::TokenProcessor < JSONAPI::Processor
     unless context[:admin] || context[:alces_admin] || params[:filters][:name].present?
       raise JSONAPI::Exceptions::ParameterMissing.new('filter[name]')
     end
+  end
+
+  def email_token
+    return if @result.is_a?(JSONAPI::ErrorsOperationResult)
+    token = @result.resource._model
+    return if token.assigned_to.nil?
+
+    TokensMailer.assigned(token).deliver_now
   end
 end

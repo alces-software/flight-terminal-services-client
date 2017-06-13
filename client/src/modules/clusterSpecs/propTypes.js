@@ -7,8 +7,9 @@
  *===========================================================================*/
 import { PropTypes } from 'react';
 
-const schedulerShape = PropTypes.shape({
-  logoUrl: PropTypes.string.isRequired,
+const iconShape = PropTypes.shape({
+  icon: PropTypes.string.isRequired,
+  iconType: PropTypes.oneOf(['depot', 'font-awesome', 'url']),
   text: PropTypes.string.isRequired,
   tooltip: PropTypes.string.isRequired,
 });
@@ -22,10 +23,9 @@ export const clusterSpecShape = PropTypes.shape({
   ui: PropTypes.shape({
     body: PropTypes.string.isRequired,
     logoUrl: PropTypes.string.isRequired,
-    preloadSoftware: PropTypes.string,
-    scheduler: schedulerShape,
     subtitle: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    icons: PropTypes.arrayOf(iconShape),
   }),
   launchOptions: PropTypes.shape({
     defaultOptionIndex: PropTypes.number.isRequired,

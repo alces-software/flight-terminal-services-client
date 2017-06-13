@@ -31,7 +31,7 @@ GET (url) parameter.  This is probably made most clear with some examples:
 ## Format
 
 The cluster specs file must be valid JSON.  It must be an object with two
-keys: `schedulers` and `clusterSpecs`.  The format for their values are
+keys: `sharedIcons` and `clusterSpecs`.  The format for their values are
 described below.
 
 
@@ -68,7 +68,8 @@ subtitle and description of the cluster spec.  E.g.,
         "titleLowerCase": "tiny SGE cluster",
         "subtitle": "Two nodes. Spot instances. SGE scheduler.",
         "body": "A fixed size cluster of 2 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the Slurm scheduler.",
-        "logoUrl": "http://alces-flight.com/images/logo.png"
+        "logoUrl": "http://alces-flight.com/images/logo.png",
+        "icons" : [ ... ],
     },
 
     "fly": {...},
@@ -84,6 +85,93 @@ of the first letter in title.
 The UI section is presented to the user.  It should provide an accurate
 description of the cluster that should be launched.  Flight Launch makes no
 effort to ensure that it is a faithful description.
+
+
+##### Icons
+
+Cluster specs can also specify the icons that are to be shown in the footer of
+the cluster spec card.  The format for an icon object is as follows:
+
+```
+{
+  "icon": "...",
+  "iconType": "...",
+  "text": "...",
+  "tooltip": "..."
+}
+```
+
+ - The `text` value is shown as the text below the icon at the bottom of the
+   clusterSpecs' card.
+ - The `tooltip` value is shown as the tooltip for that icon.
+ - The `iconType` value specifies the type of icon.  Valid values are `url`,
+   `font-awesome` and `depot`.
+ - The `icon` value is interpreted differently depending on the `iconType`,
+   but in each case it specifies which icon to use.
+
+When `iconType` is `font-awesome`, the `icon` value is the name of the font
+awesome icon.
+
+When the `iconType` is `url` the `icon` value is the URL from which to
+download the icon.
+
+The `iconType` `depot` is intended to be used to show pre-installed software.
+E.g., if the cluster spec comes with the bioinformatics depot pre-installed
+setting `iconType` to `depot` and `icon` to `bioinformatics` the
+same bioinformatics logo as used in gridware.alces-flight.com will be
+included.
+
+There are two locations that icon objects can be defined, and two methods for
+specifying which icons are included for a cluster spec.
+
+An icon can be in-lined into the cluster spec's `ui.icons` value.  E.g.,
+
+```
+{
+  "clusterSpecs": [
+    {
+      "ui": {
+        "icons": [
+          {
+            "icon": "tachometer",
+            "iconType": "font-awesome",
+            "text": "2-3 cu/hour",
+            "tooltip": "The compute power rating for this cluster is between 2 and 3 cu (compute units) per hour."
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+An icon can also be defined as a shared icon and referenced from the cluster
+spec's `ui.icons` value.  E.g.,
+
+```
+{
+  "sharedIcons": {
+    "sge": {
+      "icon": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
+      "iconType": "url",
+      "text": "SGE",
+      "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
+    }
+  },
+  "clusterSpecs": [
+    {
+      "ui": {
+        "icons": [
+          {
+            "sharedIcon": "sge"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
 
 #### Fly section
 
@@ -184,26 +272,6 @@ The `args` and `parameterDirectoryOverrides` in the launch option take
 precedence over those specified for the cluster spec itself.
 
 
-### Format for schedulers 
-
-The value for the `schedulers` key must be an array of objects.  A scheduler
-object has the following shape.
-
-```
-{
-  "type": "gridscheduler",
-  "text": "Grid engine",
-  "logoUrl": "http://gridscheduler.sourceforge.net/gridengine-logo.png",
-  "tooltip": "This cluster uses the Grid engine scheduler"
-}
-```
-
- - The `type` value is used to find the scheduler used by a clusterSpec.
- - The `text` value is shown as the text below the scheduler icon at the
-   bottom of the clusterSpecs' card.
- - The `tooltip` value is shown as the tooltip for the for that icon.
- - The `logoUrl` is used as the logo for that scheduler.
-
 
 ## Example
 
@@ -211,19 +279,20 @@ An example of a cluster specs json file with three cluster specs is given below.
 
 ```
 {
-  "schedulers": [
-    {
-      "type": "gridscheduler",
-      "text": "Grid engine",
-      "logoUrl": "http://gridscheduler.sourceforge.net/gridengine-logo.png",
-      "tooltip": "This cluster uses the Grid engine scheduler"
+  "sharedIcons": {
+    "sge": {
+      "icon": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
+      "iconType": "url",
+      "text": "SGE",
+      "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
     },
-    {
-      "type": "slurm",
+    "slurm": {
+      "icon": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
+      "iconType": "url",
       "text": "Slurm",
-      "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Slurm_Workload_Manager.png/262px-Slurm_Workload_Manager.png",
-      "tooltip": "This cluster uses the Slurm scheduler"
+      "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
     }
+  },
 
   "clusterSpecs": [
     {
@@ -231,7 +300,18 @@ An example of a cluster specs json file with three cluster specs is given below.
         "title": "Small SGE cluster",
         "subtitle": "Autoscaling upto 8 nodes. Spot instances. SGE scheduler.",
         "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
-        "logoUrl": "http://alces-flight.com/images/logo.png"
+        "logoUrl": "http://alces-flight.com/images/logo.png",
+        "icons" [
+          {
+            "sharedIcon": "sge"
+          },
+          {
+            "icon": "tachometer",
+            "iconType": "font-awesome",
+            "text": "2-3 cu/hour",
+            "tooltip": "The compute power rating for this cluster is between 2 and 3 cu (compute units) per hour."
+          }
+        ]
       },
       "launchOptions": {
         "defaultOptionIndex": 0,
@@ -279,12 +359,23 @@ An example of a cluster specs json file with three cluster specs is given below.
         "title": "8 node GPU cluster",
         "subtitle": "8 on demand GPU spot instances. SGE scheduler.",
         "body": "An SGE cluster with 8 GPU compute nodes. The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
-        "logoUrl": "http://alces-flight.com/images/logo.png"
+        "logoUrl": "http://alces-flight.com/images/logo.png",
+        "icons" [
+          {
+            "sharedIcon": "sge"
+          },
+          {
+            "icon": "tachometer",
+            "iconType": "font-awesome",
+            "text": "2 cu/hour",
+            "tooltip": "The compute power rating for this cluster is 20 cu (compute units) per hour."
+          }
+        ]
       },
       "launchOptions": {
         "defaultOptionIndex": 0,
         "options": [{
-          "costPerHour": 2,
+          "costPerHour": 20,
           "name": "Standard",
           "description": "The standard launch configuration offering a good compromise between cost and job durability.",
           "fly": {
@@ -315,12 +406,23 @@ An example of a cluster specs json file with three cluster specs is given below.
         "title": "Biochemistry cluster",
         "subtitle": "Slurm scheduler; Biochemistry software preinstalled",
         "body": "An autoscaling Slurm cluster with common Biochemistry software preinstalled.  The compute nodes use spot instances with a reserve price of 0.3.",
-        "logoUrl": "http://alces-flight.com/images/logo.png"
+        "logoUrl": "http://alces-flight.com/images/logo.png",
+        "icons" [
+          {
+            "sharedIcon": "sge"
+          },
+          {
+            "icon": "tachometer",
+            "iconType": "font-awesome",
+            "text": "5-10 cu/hour",
+            "tooltip": "The compute power rating for this cluster is between 5 and 10 cu (compute units) per hour."
+          }
+        ]
       },
       "launchOptions": {
         "defaultOptionIndex": 0,
         "options": [{
-          "costPerHour": 2,
+          "costPerHour": 5,
           "name": "Standard",
           "description": "The standard launch configuration offering a good compromise between cost and job durability.",
           "fly": {

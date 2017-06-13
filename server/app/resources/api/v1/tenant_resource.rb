@@ -13,11 +13,13 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
   attribute :email_header
   attribute :email_header_uses_default
   attribute :has_credit_limit
+  attribute :has_max_token_credit_limit
   attribute :header
   attribute :header_uses_default
   attribute :home_page_url
   attribute :identifier
   attribute :logo_url
+  attribute :max_token_credit_limit
   attribute :name
   attribute :nav_entry
   attribute :nav_entry_uses_default
@@ -58,7 +60,8 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
       super - [
         :email_header_uses_default,
         :header_uses_default,
-        :nav_entry_uses_default
+        :nav_entry_uses_default,
+        :max_token_credits
       ]
     end
   end
@@ -75,6 +78,10 @@ class Api::V1::TenantResource < Api::V1::ApplicationResource
 
   def has_credit_limit
     @model.credit_limit?
+  end
+
+  def has_max_token_credit_limit
+    @model.max_token_credit_limit?
   end
 
   def email_header_uses_default

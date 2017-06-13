@@ -48,7 +48,7 @@ class ClusterSpecsSectionContainer extends React.Component {
       }).isRequired,
     }).isRequired,
     tenantRetrieval: PropTypes.shape({
-      error: PropTypes.any,
+      error: PropTypes.bool.isRequired,
       loading: PropTypes.bool.isRequired,
     }),
   };
@@ -59,7 +59,8 @@ class ClusterSpecsSectionContainer extends React.Component {
       .then(() => {
         const specsFile = getClusterSpecsFile(this.props.location);
         this.props.dispatch(loadClusterSpecs(specsFile));
-      });
+      })
+      .catch(() => {});
   }
 
   componentWillUpdate(nextProps) {
@@ -74,12 +75,12 @@ class ClusterSpecsSectionContainer extends React.Component {
   renderSectionContent() {
     const { clusterSpecs, clusterSpecsRetrieval, tenantRetrieval } = this.props;
 
-    if (tenantRetrieval.loading || clusterSpecsRetrieval.loading) {
-      return <DelaySpinner />;
-    } else if (tenantRetrieval.error) {
+    if (tenantRetrieval.error) {
       return <tenants.LoadError />;
     } else if (clusterSpecsRetrieval.error) {
       return <NoClustersAvailable />;
+    } else if (tenantRetrieval.loading || clusterSpecsRetrieval.loading) {
+      return <DelaySpinner />;
     } else if (clusterSpecs && clusterSpecs.length < 1) {
       return <NoClustersAvailable />;
     } else {

@@ -36,6 +36,16 @@ class Token < ApplicationRecord
       greater_than_or_equal_to: 1,
       only_integer: true
     }
+
+  validates :credits,
+    numericality: {
+    less_than_or_equal_to: lambda do |token|
+      token.tenant.max_token_credit_limit
+    end,
+    message: 'Exceeds tenant limit of %{count}'
+  },
+  if: ->(t){ t.tenant.max_token_credit_limit? }
+
   validate :tenant_has_sufficient_credits, 
     if: ->(t){ t.tenant.credit_limit? }
 
@@ -67,6 +77,8 @@ class Token < ApplicationRecord
 
   def mark_as(s, used_by)
     self.status = s.to_s.upcase
+    self.used_by = used_by
+    self.queued_at = Time.now if s.to_s.upcase == 'QUEUED'
     save!
   end
 
