@@ -23,7 +23,7 @@ function strip(string) {
   return string.replace(/^ */, '').replace(/ *$/, '');
 }
 
-function validate(allValues) {
+function validate(allValues, state) {
   const errors = {};
 
   if (allValues.launchToken == null || allValues.launchToken.length < 5) {
@@ -42,10 +42,24 @@ function validate(allValues) {
     errors.clusterName = 'format';
   }
 
-  if (allValues.email == null || allValues.email.length < 1) {
-    errors.email = 'blank';
-  } else if (!validatorUtils.isEmail(allValues.email)) {
-    errors.email = 'invalid';
+  const email = allValues.email;
+  const emailNotGiven = email == null || email.length < 1;
+  const tokenAssignedTo = state.token == null ?
+    null :
+    state.token.attributes.assignedTo;
+
+  if (emailNotGiven && tokenAssignedTo != null) {
+    // Validate the email assigned to the token.
+    if (!validatorUtils.isEmail(tokenAssignedTo)) {
+      errors.email = 'invalid';
+    }
+  } else {
+    // Validate the entered email.
+    if (emailNotGiven) {
+      errors.email = 'blank';
+    } else if (!validatorUtils.isEmail(allValues.email)) {
+      errors.email = 'invalid';
+    }
   }
 
   return errors;
@@ -61,7 +75,7 @@ class ClusterLaunchFormContainer extends React.Component {
 
   componentDidMount() {
     this.setState({
-      errors: validate(this.state.values),
+      errors: validate(this.state.values, this.state),
       values: {
         ...this.state.values,
         selectedLaunchOptionIndex: this.props.clusterSpec.launchOptions.defaultOptionIndex,
@@ -92,13 +106,14 @@ class ClusterLaunchFormContainer extends React.Component {
       error: null,
       title: null,
     },
+    token: null,
   }
 
   handleFormChange = ({ name, value }) => {
     const errors = validate({
       ...this.state.values,
       [name]: value,
-    });
+    }, this.state);
 
     if (name === 'launchToken') {
       value = strip(value);
@@ -133,7 +148,7 @@ class ClusterLaunchFormContainer extends React.Component {
         },
         clusterLaunch: {
           name: this.state.values.clusterName || this.state.values.launchToken,
-          email: this.state.values.email,
+          email: this.state.values.email || this.state.token.attributes.assignedTo,
           selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
         },
       })
@@ -142,7 +157,7 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleSuccessfulLaunch(json) {
     analytics.clusterLaunchAccepted(this.props.clusterSpec);
-    const errors = validate(this.initialValues);
+    const errors = validate(this.initialValues, this.state);
     this.setState({
       submitting: false,
       values: this.initialValues,
@@ -223,6 +238,7 @@ class ClusterLaunchFormContainer extends React.Component {
         if (response.error) {
           return Promise.reject(response);
         }
+        this.setState({ token: response.payload });
       })
       .catch((error) => {
         this.setState({
