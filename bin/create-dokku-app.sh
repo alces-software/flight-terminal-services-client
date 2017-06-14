@@ -94,6 +94,7 @@ add_cronjobs() {
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 */15 * * * * dokku --rm run flight-launch rake alces:clusters:expired:terminate
+1    2 * * * sudo /home/ubuntu/backup.sh
 EOF
 '
 }
