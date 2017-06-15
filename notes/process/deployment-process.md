@@ -53,7 +53,7 @@ but I've never seen it happen twice in a row.
 to deploy the release.
 
 **Deploying the server failed.  What do I do?**  Now this one is a little more
-tricky.  We're no longer the develop branch and have already spent time
+tricky.  We're no longer on the develop branch and have already spent time
 building the client.
 
 Discover why the deploy failed and see if you can fix it.  Once the
@@ -75,6 +75,6 @@ NEW_VERSION`
 
 ## Building a new AWS instance.
 
-We don't need to do this to deploy a new release.
-
-XXX Document this more complicate process.
+We don't need to do this to deploy a new release.  There is documentation on
+how to [build the AWS instance](./build-aws-instance.md) which also includes
+documentation on backup and restore.

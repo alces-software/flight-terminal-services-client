@@ -61,14 +61,8 @@ webpage which creates entries in a DynamoDB.
 
 ### Creating a launch token
 
-To create a launch token:
-
- 1. visit https://s3-eu-west-1.amazonaws.com/alces-flight-launch-token-generator/index.html.
- 2. Enter your AWS credentials.
- 3. Click "Go!".
-
-There are a few other things you can do on that web page.  You'll figure it
-out,  or [read this](token-generator/GENERATING_TOKENS.md).
+Instructions on creating a launch token can be [read
+here](token-generator/GENERATING_TOKENS.md).
 
 ### Developing the launch token generator
 
