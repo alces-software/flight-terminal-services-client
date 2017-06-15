@@ -18,6 +18,16 @@ wait_for_stack_create_complete() {
 
 main() {
     STACK_NAME="$1"
+    if [ "$STACK_NAME" == "" ] ; then
+        usage
+        exit 1
+    fi
+    if [ "$STACK_NAME" == "--help" ] ; then
+        usage
+        exit 0
+    fi
+
+
     header "Launching instance"
     # launch_instance
     STACK_ID=$(launch_instance | jq -r '.StackId')
@@ -35,6 +45,14 @@ subheader() {
 
 indent() {
     sed 's/^/       /'
+}
+
+usage() {
+    echo "Usage: $(basename $0) STACK_NAME"
+    echo
+    echo "Create a cloudformation stack to run flight-launch"
+    echo
+    echo -e "      --help\t\tShow this help message"
 }
 
 main "$@"
