@@ -12,6 +12,13 @@ module ClustersMailerHelper
     end
   end
 
+  def tutorials_link
+    tutorial = @cluster_details.detect do |cd|
+      cd.title == 'Flight Tutorials URL'
+    end
+    tutorial.value if tutorial.present?
+  end
+
   def password
     token = @cluster_details.detect do |cd|
       cd.title == 'Initial password'

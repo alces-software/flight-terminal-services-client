@@ -48,6 +48,36 @@ below.
     </table>
 </blockquote>
 
+<% if tutorials_link.present? %>
+<blockquote>
+    <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <h4 class="cluster-flight-tutorials-title">Follow an Alces Flight tutorial</h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <p>
+                    Your cluster has been configured with an installation of
+                    Flight Tutorials.  You can learn about Alces Flight
+                    Compute by 
+                    <a href="<%= tutorials_link %>">
+                        following one of the available tutorials.
+                    </a>
+                    When prompted for a password enter
+                    <code><%= password %></code>.
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+<% end %>
+
 <blockquote>
     <table cellpadding="0" cellspacing="0" border="0">
         <thead>
