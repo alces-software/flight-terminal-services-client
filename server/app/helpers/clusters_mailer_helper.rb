@@ -16,7 +16,12 @@ module ClustersMailerHelper
     tutorial = @cluster_details.detect do |cd|
       cd.title == 'Flight Tutorials URL'
     end
-    tutorial.value if tutorial.present?
+    return tutorial.value if tutorial.present?
+
+    tutorial = @cluster_details.detect do |cd|
+      cd.title == 'Flight Tutorials URL=https'
+    end
+    return "https:#{tutorial.value}" if tutorial.present?
   end
 
   def password
