@@ -8,7 +8,13 @@
 module ClustersMailerHelper
   def cluster_details
     @cluster_details.reject do |cd|
-      ['Key pair', 'UUID', 'Token'].include?(cd.title)
+      [
+        'Key pair',
+        'UUID',
+        'Token',
+        'Flight Tutorials URL',
+        'Flight Tutorials URL=https'
+      ].include?(cd.title)
     end
   end
 
