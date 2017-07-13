@@ -21,4 +21,6 @@ module.exports = {
   // perhaps that would be the better option.
   'flight-common/lib': resolveApp('../../flight-common/src'),
   'flight-common': resolveApp('../../flight-common'),
+  react: resolveApp('./node_modules/react'),
+  'react-dom': resolveApp('./node_modules/react-dom'),
 }
