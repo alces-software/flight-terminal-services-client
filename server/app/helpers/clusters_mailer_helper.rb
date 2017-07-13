@@ -8,8 +8,26 @@
 module ClustersMailerHelper
   def cluster_details
     @cluster_details.reject do |cd|
-      ['Key pair', 'UUID', 'Token'].include?(cd.title)
+      [
+        'Key pair',
+        'UUID',
+        'Token',
+        'Flight Tutorials URL',
+        'Flight Tutorials URL=https'
+      ].include?(cd.title)
     end
+  end
+
+  def tutorials_link
+    tutorial = @cluster_details.detect do |cd|
+      cd.title == 'Flight Tutorials URL'
+    end
+    return tutorial.value if tutorial.present?
+
+    tutorial = @cluster_details.detect do |cd|
+      cd.title == 'Flight Tutorials URL=https'
+    end
+    return "https:#{tutorial.value}" if tutorial.present?
   end
 
   def password
