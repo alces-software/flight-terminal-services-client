@@ -1,0 +1,108 @@
+Launching Flight Compute Solo cluster 'bens-test-again' (eu-west-1)...
+
+CREATE_IN_PROGRESS flight-cluster-bens-test-again (arn:aws:cloudformation:eu-west-1:700366075446:stack/flight-cluster-bens-test-again/b0ed0450-08b7-11e7-ad42-50faeb5cc8d2)
+CREATE_IN_PROGRESS MasterIAMRole (flight-cluster-bens-test-again-MasterIAMRole-74ZY5259NW8S)
+CREATE_IN_PROGRESS DHCPOptions (dopt-87b02ee3)
+CREATE_IN_PROGRESS ReadyHandle (https://cloudformation-waitcondition-eu-west-1.s3-eu-west-1.amazonaws.com/arn%3Aaws%3Acloudformation%3Aeu-west-1%3A700366075446%3Astack/flight-cluster-bens-test-again/b0ed0450-08b7-11e7-ad42-50faeb5cc8d2/ReadyHandle?AWSAccessKeyId=AKIAJRBFOG6RPGASDWGA&Expires=1489583493&Signature=gMLC2rsUjr4RTBbcb2rcZDuMlwo%3D)
+CREATE_IN_PROGRESS FlightVPC (vpc-52ddd736)
+CREATE_IN_PROGRESS PlacementGroup (flight-cluster-bens-test-again-PlacementGroup-1S5RK10793F9M)
+CREATE_COMPLETE ReadyHandle (https://cloudformation-waitcondition-eu-west-1.s3-eu-west-1.amazonaws.com/arn%3Aaws%3Acloudformation%3Aeu-west-1%3A700366075446%3Astack/flight-cluster-bens-test-again/b0ed0450-08b7-11e7-ad42-50faeb5cc8d2/ReadyHandle?AWSAccessKeyId=AKIAJRBFOG6RPGASDWGA&Expires=1489583493&Signature=gMLC2rsUjr4RTBbcb2rcZDuMlwo%3D)
+CREATE_IN_PROGRESS Gateway (igw-8667e2e2)
+CREATE_IN_PROGRESS ReadyCondition (arn:aws:cloudformation:eu-west-1:700366075446:stack/flight-cluster-bens-test-again/b0ed0450-08b7-11e7-ad42-50faeb5cc8d2/ReadyHandle)
+CREATE_IN_PROGRESS ComputeIAMRole (flight-cluster-bens-test-again-ComputeIAMRole-1JVHYLUW0SF95)
+CREATE_COMPLETE MasterIAMRole (flight-cluster-bens-test-again-MasterIAMRole-74ZY5259NW8S)
+CREATE_IN_PROGRESS MasterIAMProfile (flight-cluster-bens-test-again-MasterIAMProfile-A7917P9JLCIC)
+CREATE_IN_PROGRESS MasterBucketPolicy (fligh-Mast-15I136LJVM5MT)
+CREATE_COMPLETE MasterBucketPolicy (fligh-Mast-15I136LJVM5MT)
+CREATE_COMPLETE ComputeIAMRole (flight-cluster-bens-test-again-ComputeIAMRole-1JVHYLUW0SF95)
+CREATE_COMPLETE Gateway (igw-8667e2e2)
+CREATE_IN_PROGRESS ComputeIAMProfile (flight-cluster-bens-test-again-ComputeIAMProfile-Y3JRBJO8QIOC)
+CREATE_COMPLETE PlacementGroup (flight-cluster-bens-test-again-PlacementGroup-1S5RK10793F9M)
+CREATE_COMPLETE FlightVPC (vpc-52ddd736)
+CREATE_COMPLETE DHCPOptions (dopt-87b02ee3)
+CREATE_IN_PROGRESS ComputeBucketPolicy (fligh-Comp-HQ4Q003M07S8)
+CREATE_COMPLETE ComputeBucketPolicy (fligh-Comp-HQ4Q003M07S8)
+CREATE_IN_PROGRESS PubRouteTable (rtb-cb3a92ac)
+CREATE_COMPLETE DHCPOptionsAssoc (fligh-DHCPO-40153TMBGBCE)
+CREATE_IN_PROGRESS PubNetAcl (acl-e68f5981)
+CREATE_IN_PROGRESS PrvNetAcl (acl-188f597f)
+CREATE_IN_PROGRESS PubSubnet (subnet-eba3fdb3)
+CREATE_COMPLETE PrvNetAcl (acl-188f597f)
+CREATE_IN_PROGRESS PrvRouteTable (rtb-ca3a92ad)
+CREATE_IN_PROGRESS DHCPOptionsAssoc (fligh-DHCPO-40153TMBGBCE)
+CREATE_IN_PROGRESS GatewayAssoc (fligh-Gatew-1Q725N2FE66OM)
+CREATE_COMPLETE PubRouteTable (rtb-cb3a92ac)
+CREATE_COMPLETE PubNetAcl (acl-e68f5981)
+CREATE_COMPLETE PrvRouteTable (rtb-ca3a92ad)
+CREATE_IN_PROGRESS PubNetInternetRoute (fligh-PubNe-TY82HGQ95RK0)
+CREATE_IN_PROGRESS PrvNetAclAllowInboundAny (fligh-PrvNe-4MR3VDYMGWDT)
+CREATE_IN_PROGRESS PrvNetAclAllowOutboundPub (fligh-PrvNe-1BU3BI22MJ2KY)
+CREATE_IN_PROGRESS PrvNetAclAllowInboundPub (fligh-PrvNe-1ORM9TBP4Z0ZF)
+CREATE_IN_PROGRESS PubNetAclAllowOutboundPrv (fligh-PubNe-14C3HVNKFALBP)
+CREATE_IN_PROGRESS PubNetAclAllowOutboundAny (fligh-PubNe-AEO4BY91C2ZI)
+CREATE_IN_PROGRESS PrvNetAclRejectOutboundVPC (fligh-PrvNe-1IV2VEPGPIOXL)
+CREATE_IN_PROGRESS PubNetAclRejectInboundVPC (fligh-PubNe-6MBJWQODXZ6D)
+CREATE_IN_PROGRESS PubNetAclRejectOutboundVPC (fligh-PubNe-9FM4HJDMNFDY)
+CREATE_IN_PROGRESS PrvNetAclRejectInboundVPC (fligh-PrvNe-FAXLRAKX3DZS)
+CREATE_IN_PROGRESS PubNetAclAllowInboundPrv (fligh-PubNe-120FTS6ZK8TIM)
+CREATE_IN_PROGRESS PubNetAclAllowInboundAny (fligh-PubNe-DCUOXOQGL8LC)
+CREATE_IN_PROGRESS PrvNetAclAllowOutboundAny (fligh-PrvNe-14UAANDTWSPCQ)
+CREATE_COMPLETE GatewayAssoc (fligh-Gatew-1Q725N2FE66OM)
+CREATE_IN_PROGRESS MasterSG (sg-c64fbdbf)
+CREATE_IN_PROGRESS ComputeSG (sg-c74fbdbe)
+CREATE_COMPLETE PubSubnet (subnet-eba3fdb3)
+CREATE_COMPLETE ComputeSG (sg-c74fbdbe)
+CREATE_COMPLETE MasterSG (sg-c64fbdbf)
+CREATE_IN_PROGRESS PrvSubnet (subnet-9ba3fdc3)
+CREATE_IN_PROGRESS PubRouteAssoc (rtbassoc-ff9e6c99)
+CREATE_COMPLETE PubNetInternetRoute (fligh-PubNe-TY82HGQ95RK0)
+CREATE_IN_PROGRESS PubNetAclAssoc (aclassoc-f1734489)
+CREATE_COMPLETE PubNetAclAllowOutboundAny (fligh-PubNe-AEO4BY91C2ZI)
+CREATE_COMPLETE PrvNetAclRejectOutboundVPC (fligh-PrvNe-1IV2VEPGPIOXL)
+CREATE_COMPLETE PubNetAclAllowInboundPrv (fligh-PubNe-120FTS6ZK8TIM)
+CREATE_COMPLETE PrvNetAclRejectInboundVPC (fligh-PrvNe-FAXLRAKX3DZS)
+CREATE_COMPLETE PrvNetAclAllowInboundAny (fligh-PrvNe-4MR3VDYMGWDT)
+CREATE_COMPLETE PubNetAclRejectOutboundVPC (fligh-PubNe-9FM4HJDMNFDY)
+CREATE_COMPLETE PubNetAclRejectInboundVPC (fligh-PubNe-6MBJWQODXZ6D)
+CREATE_COMPLETE PubNetAclAllowOutboundPrv (fligh-PubNe-14C3HVNKFALBP)
+CREATE_COMPLETE PrvNetAclAllowInboundPub (fligh-PrvNe-1ORM9TBP4Z0ZF)
+CREATE_COMPLETE PubNetAclAllowInboundAny (fligh-PubNe-DCUOXOQGL8LC)
+CREATE_COMPLETE PrvNetAclAllowOutboundPub (fligh-PrvNe-1BU3BI22MJ2KY)
+CREATE_COMPLETE PrvNetAclAllowOutboundAny (fligh-PrvNe-14UAANDTWSPCQ)
+CREATE_COMPLETE PrvSubnet (subnet-9ba3fdc3)
+CREATE_COMPLETE PubRouteAssoc (rtbassoc-ff9e6c99)
+CREATE_COMPLETE PubNetAclAssoc (aclassoc-f1734489)
+CREATE_IN_PROGRESS PrvRouteAssoc (rtbassoc-cf9e6ca9)
+CREATE_IN_PROGRESS PrvNetAclAssoc (aclassoc-d57344ad)
+CREATE_COMPLETE PrvNetAclAssoc (aclassoc-d57344ad)
+CREATE_COMPLETE PrvRouteAssoc (rtbassoc-cf9e6ca9)
+CREATE_COMPLETE MasterIAMProfile (flight-cluster-bens-test-again-MasterIAMProfile-A7917P9JLCIC)
+CREATE_COMPLETE ComputeIAMProfile (flight-cluster-bens-test-again-ComputeIAMProfile-Y3JRBJO8QIOC)
+CREATE_IN_PROGRESS FlightMaster (i-04144ca502e253e77)
+CREATE_COMPLETE FlightMaster (i-04144ca502e253e77)
+CREATE_IN_PROGRESS ComputeGroupConfig (flight-cluster-bens-test-again-ComputeGroupConfig-1CVGXQNHJHH12)
+CREATE_COMPLETE ComputeGroupConfig (flight-cluster-bens-test-again-ComputeGroupConfig-1CVGXQNHJHH12)
+CREATE_IN_PROGRESS PrvRoute (fligh-PrvRo-P15J5B4AYVBO)
+CREATE_IN_PROGRESS FlightComputeGroup (flight-cluster-bens-test-again-FlightComputeGroup-BM3ACWQM01QG)
+CREATE_COMPLETE FlightComputeGroup (flight-cluster-bens-test-again-FlightComputeGroup-BM3ACWQM01QG)
+CREATE_COMPLETE PrvRoute (fligh-PrvRo-P15J5B4AYVBO)
+CREATE_COMPLETE ReadyCondition (arn:aws:cloudformation:eu-west-1:700366075446:stack/flight-cluster-bens-test-again/b0ed0450-08b7-11e7-ad42-50faeb5cc8d2/ReadyHandle)
+DONE
+
+Cluster launched.
+
+== Cluster details ==
+Administrator username: alces
+IP address: 34.251.133.40
+Key pair: aws_ireland
+Access URL: http://ec2-34-251-133-40.eu-west-1.compute.amazonaws.com
+Initial password: rykut-fivom-zioni
+Flight Tutorials URL=https: //ec2-34-251-133-40.eu-west-1.compute.amazonaws.com/tutorials
+UUID: b0ed0450-08b7-11e7-ad42-50faeb5cc8d2
+Token: NDM4OTE5ZTAtZDY5Ni01
+
+
+
+Access via:
+
+	ssh alces@34.251.133.40

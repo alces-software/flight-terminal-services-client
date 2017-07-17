@@ -9,6 +9,18 @@ FLY_EXE_PATH=/app/fly
 APPS=(flight-launch flight-launch-staging)
 declare -A DOMAINS
 
+declare -A ACTIVE_JOB_QUEUES
+ACTIVE_JOB_QUEUES[flight-launch]="flight_launch_production"
+ACTIVE_JOB_QUEUES[flight-launch-staging]="flight_launch_staging"
+
+declare -A BCC_ADDRESS
+BCC_ADDRESS[flight-launch]="flight@alces-software.com"
+BCC_ADDRESS[flight-launch-staging]=""
+
+declare -A WORKER_CONCURRENCY
+WORKER_CONCURRENCY[flight-launch]="4"
+WORKER_CONCURRENCY[flight-launch-staging]="1"
+
 main() {
     parse_arguments "$@"
     determine_domains
@@ -50,24 +62,25 @@ create_app() {
 configure_app() {
     ssh ${DOKKU_SERVER} \
         "dokku config:set --no-restart ${app} \
-            ACTIVE_JOB_QUEUE_NAME_PREFIX=flight_launch_production \
+            ACTIVE_JOB_QUEUE_NAME_PREFIX=${ACTIVE_JOB_QUEUES[${app}]} \
             ALCES_LOG_WRITER_DEST=stdout \
             AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+            AWS_REGION=eu-west-1 \
             AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
             BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-ruby.git \
+            CLUSTER_SPECS_URL_PREFIX=https://alces-flight.s3.amazonaws.com/FlightLaunch/ClusterSpecs/ \
             DEFAULT_KEY_PAIR=aws_ireland \
             DOKKU_DOCKER_STOP_TIMEOUT=1200 \
-            AWS_REGION=eu-west-1 \
             FLY_DOWNLOAD_URL=$FLY_DOWNLOAD_URL \
             FLY_EXE_PATH=$FLY_EXE_PATH \
+            MAIL_BCC_ADDRESS=${BCC_ADDRESS[${app}]} \
             RACK_ENV=production \
             RAILS_ENV=production \
             SMTP_HOST=smtp.sparkpostmail.com \
             SMTP_PASSWORD=${SMTP_PASSWORD} \
             SMTP_USERNAME=SMTP_Injection \
             TZ=UTC \
-            WAIT_FOR_ARN_DURATION=120 \
-            WORKER_CONCURRENCY=1 \
+            WORKER_CONCURRENCY=${WORKER_CONCURRENCY[${app}]} \
             WORKER_DELAY=60 \
             "
 
@@ -81,6 +94,7 @@ add_cronjobs() {
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 */15 * * * * dokku --rm run flight-launch rake alces:clusters:expired:terminate
+1    2 * * * sudo /home/ubuntu/backup.sh
 EOF
 '
 }
@@ -116,6 +130,7 @@ print_further_instructions() {
       |  - SMTP_PASSWORD
       |  - AWS_ACCESS_KEY_ID
       |  - AWS_SECRET_ACCESS_KEY
+      |  - DATABASE_URL
       |
       |You may also want to configure:
       |

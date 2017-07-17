@@ -172,6 +172,10 @@
         "UserData" : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash\n",
 
+          "# Install awscli. We use this for the backup script\n",
+          "sudo apt-get --yes update\n",
+          "sudo apt-get --yes install awscli\n",
+
           "# Install dokku\n",
           "wget https://raw.githubusercontent.com/dokku/dokku/v0.8.2/bootstrap.sh\n",
           "sudo DOKKU_TAG=v0.8.2 bash bootstrap.sh\n",

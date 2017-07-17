@@ -15,6 +15,10 @@
     @extend %section-title;
 }
 
+.cluster-flight-tutorials-title {
+    @extend %section-title;
+}
+
 .cluster-resources-title {
     @extend %section-title;
 }

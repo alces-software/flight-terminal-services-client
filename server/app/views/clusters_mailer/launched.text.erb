@@ -20,6 +20,15 @@ Cluster details:
 
 <%= cluster_details.map(&:to_s).join("\n") %>
 
+<%- if tutorials_link.present? -%>
+Follow an Alces Flight tutorial:
+
+Your cluster has been configured with an installation of Flight Tutorials. You
+can learn about Alces Flight Compute by following one of the tutorials
+available at <%= tutorials_link %>.
+When prompted for a password enter: <%= password %>
+
+<%- end -%>
 You can access your cluster using the URL provided above or via SSH.
 When prompted for a password enter: <%= password %>
 
