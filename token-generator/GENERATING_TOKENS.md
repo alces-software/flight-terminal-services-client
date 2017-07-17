@@ -11,6 +11,8 @@ To generate a token for a particular set of cluster specs add
 `?clusterSpecs=<my-cluster-specs>` to the URL.  E.g.,
 `https://launch.alces-flight.com/alces/admin/default/token-generator?clusterSpecs=staging.json`.
 
+The token generator is password protected.  Rather than including the password
+here, please ask Ben to provide it to you.
 
 ## Generating a token
 
@@ -19,16 +21,20 @@ To generate a token for a particular set of cluster specs add
  2. Select if the token can launch *any* cluster (for the specified tenant) or
     is restricted to launching only certain clusters (for the specified
     tenant).
- 3. Select the number of tokens to create
+ 3. Select the number of tokens to create.
  4. Add a note to the tokens that you create.  This can later be used for
     deleting old tokens from old events.
  5. Optionally, enter an email address to have the token automatically emailed
     to the recipient by Flight Launch.
  6. Click "Go!"
+ 7. The tokens will be displayed in the table under the header "Available
+    tokens".  You can click "Copy to clipboard" to copy the tokens to your
+    clipboard and process as desired.
 
 
 ## For the staging deployment  (https://staging.launch.alces-flight.com)
 
 Generating tokens for the staging deployment of Flight Launch is similar to
-above.  However, the URLs will need to be prefixed with `staging.`, e.g., 
-`https://launch.alces-flight.com/alces/admin/default/token-generator`.
+above.  However, the URLs will need to be prefixed with `staging.`, e.g.,
+`https://launch.alces-flight.com/alces/admin/default/token-generator` becomes
+`https://staging.launch.alces-flight.com/alces/admin/default/token-generator`.
