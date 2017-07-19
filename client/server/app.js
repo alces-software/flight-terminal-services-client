@@ -42,6 +42,8 @@ app.use('/static', express.static(path.resolve(process.env.APPROOT, 'build')))
 app.use('/api', api)
 
 // Always return the main index.html, so react-router render the route in the client
+// XXX Why do we have this in addition to the above app.use('/', index)?  It
+// looks like index will call universalLoader anyway.
 app.use('/', universalLoader)
 
 // XXX - Error handling?
