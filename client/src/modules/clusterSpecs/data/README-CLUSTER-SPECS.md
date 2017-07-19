@@ -204,9 +204,9 @@ launch the cluster. E.g.,
 Valid values for the `solo` parameter directory override can be found by
 running `fly --create-parameter-directory foo ; cat foo/solo.yml`.
 
-Valid values for the `args` array can be found by running `fly cluster launch --help`.
-In practice, passing the `"--solo" flag and the `"--runtime"` argument are
-likely to be all that is required or wanted.
+Valid values for the `args` array can be found by running `fly cluster launch
+--help`.  In practice, passing the `"--solo" flag is likely to be all that is
+required or wanted.
 
 #### Launch options section
 
@@ -298,6 +298,7 @@ An example of a cluster specs json file with three cluster specs is given below.
     {
       "ui": { 
         "title": "Small SGE cluster",
+        "titleLowerCase": "small SGE cluster",
         "subtitle": "Autoscaling upto 8 nodes. Spot instances. SGE scheduler.",
         "body": "An autoscaling cluster, scaling upto a maximum of 8 compute nodes.  The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
         "logoUrl": "http://alces-flight.com/images/logo.png",
@@ -357,6 +358,7 @@ An example of a cluster specs json file with three cluster specs is given below.
     {
       "ui": { 
         "title": "8 node GPU cluster",
+        "titleLowerCase": "8 node GPU cluster",
         "subtitle": "8 on demand GPU spot instances. SGE scheduler.",
         "body": "An SGE cluster with 8 GPU compute nodes. The compute nodes use spot instances with a reserve price of 0.3.  It uses the SGE scheduler.",
         "logoUrl": "http://alces-flight.com/images/logo.png",
@@ -404,6 +406,7 @@ An example of a cluster specs json file with three cluster specs is given below.
     {
       "ui": { 
         "title": "Biochemistry cluster",
+        "titleLowerCase": "biochemistry cluster",
         "subtitle": "Slurm scheduler; Biochemistry software preinstalled",
         "body": "An autoscaling Slurm cluster with common Biochemistry software preinstalled.  The compute nodes use spot instances with a reserve price of 0.3.",
         "logoUrl": "http://alces-flight.com/images/logo.png",

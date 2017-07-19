@@ -537,42 +537,105 @@ function clearTable(tableId) {
   document.getElementById(tableId).innerHTML = "";
 }
 
+function tokenCell(tokenAttrs) {
+  var tokenCell = document.createElement("td");
+  tokenCell.append(tokenAttrs.name);
+  return tokenCell;
+}
+function permittedClustersCell(tokenAttrs) {
+  var permittedSpecKeys = tokenAttrs.permittedSpecKeys;
+  var permittedClustersCell = document.createElement("td");
+  if (permittedSpecKeys == null || permittedSpecKeys.length < 1) {
+    var em = document.createElement('em');
+    em.append('Any cluster for tenant "' + activeTenant.attributes.identifier + '"');
+    permittedClustersCell.append(em);
+  } else {
+    var clusterNames = [];
+    for (var i=0; i < permittedSpecKeys.length; i++) {
+      var key = permittedSpecKeys[i];
+      var name = ClusterSpecKeyToNameMap[key];
+      clusterNames.push(name);
+    }
+    permittedClustersCell.append(clusterNames.join(", "));
+  }
+
+  return permittedClustersCell;
+}
+
+function tagCell(tokenAttrs) {
+  var tagCell = document.createElement("td");
+  tagCell.append(tokenAttrs.tag || '');
+  return tagCell;
+}
+
+function creditCell(tokenAttrs) {
+  var creditCell = document.createElement("td");
+  creditCell.append(tokenAttrs.credits);
+  return creditCell;
+}
+
+function assignedToCell(tokenAttrs) {
+  var assignedToCell = document.createElement("td");
+  var assignedTo = tokenAttrs.assignedTo;
+  if (assignedTo == null) {
+    var em = document.createElement('em');
+    em.append('unassigned');
+    assignedToCell.append(em);
+  } else {
+    assignedToCell.append(assignedTo);
+  }
+
+  return assignedToCell;
+}
+
+function usedByCell(tokenAttrs) {
+  var usedByCell = document.createElement("td");
+  var usedBy = tokenAttrs.usedBy;
+  if (usedBy == null) {
+    usedBy = tokenAttrs.assignedTo;
+  }
+  if (usedBy == null) {
+    var em = document.createElement('em');
+    em.append('unknown');
+    usedByCell.append(em);
+  } else {
+    usedByCell.append(usedBy);
+  }
+  return usedByCell;
+}
+
+function usedAtCell(tokenAttrs) {
+  var usedAtCell = document.createElement("td");
+  if (tokenAttrs.queuedAt == null) {
+    var em = document.createElement('em');
+    em.append('unknown');
+    usedAtCell.append(em);
+  } else {
+    usedAtCell.append(tokenAttrs.queuedAt);
+  }
+  return usedAtCell;
+}
+
+function statusCell(tokenAttrs) {
+  var statusCell = document.createElement("td");
+  statusCell.append(tokenAttrs.status);
+  return statusCell;
+}
+
+
 function writeAvailableTokens(tokens) {
   var table = document.getElementById('availableTokenTableBody');
   tokens
     .sort(function(a, b) { return a.attributes.name < b.attributes.name ? -1 : 1 })
     .forEach(function(token) {
       var tokenAttrs = token.attributes;
-      var tokenCell = document.createElement("td");
-      tokenCell.append(tokenAttrs.name);
-
-      var permittedSpecKeys = tokenAttrs.permittedSpecKeys;
-      var permittedClustersCell = document.createElement("td");
-      if (permittedSpecKeys == null || permittedSpecKeys.length < 1) {
-        var em = document.createElement('em');
-        em.append('Any cluster for tenant "' + activeTenant.attributes.identifier + '"');
-        permittedClustersCell.append(em);
-      } else {
-        var clusterNames = [];
-        for (var i=0; i < permittedSpecKeys.length; i++) {
-          var key = permittedSpecKeys[i];
-          var name = ClusterSpecKeyToNameMap[key];
-          clusterNames.push(name);
-        }
-        permittedClustersCell.append(clusterNames.join(", "));
-      }
-
-      var tagCell = document.createElement("td");
-      tagCell.append(tokenAttrs.tag || '');
-
-      var creditCell = document.createElement("td");
-      creditCell.append(tokenAttrs.credits);
 
       var tr = document.createElement("tr");
-      tr.append(tokenCell);
-      tr.append(permittedClustersCell);
-      tr.append(tagCell);
-      tr.append(creditCell);
+      tr.append(tokenCell(tokenAttrs));
+      tr.append(permittedClustersCell(tokenAttrs));
+      tr.append(tagCell(tokenAttrs));
+      tr.append(creditCell(tokenAttrs));
+      tr.append(assignedToCell(tokenAttrs));
       table.append(tr);
     });
 }
@@ -584,39 +647,15 @@ function writeUsedTokens(tokens) {
     .forEach(function(token) {
       var tokenAttrs = token.attributes;
 
-      var tokenCell = document.createElement("td");
-      tokenCell.append(tokenAttrs.name);
-
-      var usedByCell = document.createElement("td");
-      var usedBy = tokenAttrs.usedBy;
-      if (usedBy == null) {
-        usedBy = tokenAttrs.assignedTo;
-      }
-      if (usedBy == null) {
-        var em = document.createElement('em');
-        em.append('unknown');
-        usedByCell.append(em);
-      } else {
-        usedByCell.append(usedBy);
-      }
-
-      var usedAtCell = document.createElement("td");
-      if (tokenAttrs.queuedAt == null) {
-        var em = document.createElement('em');
-        em.append('unknown');
-        usedAtCell.append(em);
-      } else {
-        usedAtCell.append(tokenAttrs.queuedAt);
-      }
-
-      var statusCell = document.createElement("td");
-      statusCell.append(tokenAttrs.status);
-
       var tr = document.createElement("tr");
-      tr.append(tokenCell);
-      tr.append(usedByCell);
-      tr.append(usedAtCell);
-      tr.append(statusCell);
+      tr.append(tokenCell(tokenAttrs));
+      tr.append(permittedClustersCell(tokenAttrs));
+      tr.append(tagCell(tokenAttrs));
+      tr.append(creditCell(tokenAttrs));
+      tr.append(assignedToCell(tokenAttrs));
+      tr.append(usedByCell(tokenAttrs));
+      tr.append(usedAtCell(tokenAttrs));
+      tr.append(statusCell(tokenAttrs));
       table.append(tr);
     });
 }
