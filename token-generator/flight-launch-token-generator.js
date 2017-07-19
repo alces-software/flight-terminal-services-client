@@ -639,6 +639,10 @@ function writeUsedTokens(tokens) {
 
       var tr = document.createElement("tr");
       tr.append(tokenCell(tokenAttrs));
+      tr.append(permittedClustersCell(tokenAttrs));
+      tr.append(tagCell(tokenAttrs));
+      tr.append(creditCell(tokenAttrs));
+      tr.append(assignedToCell(tokenAttrs));
       tr.append(usedByCell);
       tr.append(usedAtCell);
       tr.append(statusCell);
