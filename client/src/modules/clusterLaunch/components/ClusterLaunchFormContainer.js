@@ -78,7 +78,7 @@ class ClusterLaunchFormContainer extends React.Component {
       errors: validate(this.state.values, this.state),
       values: {
         ...this.state.values,
-        selectedLaunchOptionIndex: this.props.clusterSpec.launchOptions.defaultOptionIndex,
+        selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
       }
     });
   }
@@ -107,6 +107,10 @@ class ClusterLaunchFormContainer extends React.Component {
       title: null,
     },
     token: null,
+  }
+
+  defaultLaunchOptionIndex() {
+    return this.props.clusterSpec.launchOptions.defaultOptionIndex;
   }
 
   handleFormChange = ({ name, value }) => {
@@ -160,7 +164,10 @@ class ClusterLaunchFormContainer extends React.Component {
     const errors = validate(this.initialValues, this.state);
     this.setState({
       submitting: false,
-      values: this.initialValues,
+      values: {
+        ...this.initialValues,
+        selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
+      },
       currentPageIndex: 0,
       errors: errors,
       modalProps: {
