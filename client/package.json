@@ -1,6 +1,6 @@
 {
-  "name": "v2",
-  "version": "0.1.0",
+  "name": "flight-launch",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
@@ -46,7 +46,7 @@
     "webpack": "^3.0.0"
   },
   "scripts": {
-    "start": "node scripts/customized-config start",
+    "start": "PORT=4001 node scripts/customized-config start",
     "build": "node scripts/customized-config build && NODE_ENV=production webpack --config config/webpack.server.config.js",
     "build:client": "node scripts/customized-config build",
     "build:server": "NODE_ENV=production webpack --config config/webpack.server.config.js",
@@ -58,5 +58,5 @@
     "start:server": "APPROOT=$(pwd) NODE_ENV=development nodemon --watch src --watch server server/index.js",
     "serve": "APPROOT=$(pwd) node build/server/server.js"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:4003"
 }
