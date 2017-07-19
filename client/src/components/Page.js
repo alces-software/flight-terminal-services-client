@@ -10,14 +10,14 @@ const Page = ({ children, title }) => {
   return (
     <div>
       <Helmet>
-        <title>Alces Example - {title}</title>
+        <title>{title}</title>
       </Helmet>
       <ProductBar
         items={items}
         noaccount
         nosearch
         page={title}
-        site="Example"
+        site={process.env.REACT_APP_SITE}
       />
       {children}
     </div>

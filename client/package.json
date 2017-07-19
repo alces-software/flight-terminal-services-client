@@ -2,6 +2,8 @@
   "name": "flight-launch",
   "version": "0.2.0",
   "private": true,
+  "author": "Alces Flight Limited",
+  "license": "All Rights Reserved",
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",

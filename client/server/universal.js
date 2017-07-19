@@ -47,7 +47,7 @@ module.exports = function universalLoader(req, res) {
             location={location}
             context={context}
           >
-            <Page site="Flight">
+            <Page site={process.env.REACT_APP_SITE}>
               <Route render={renderPage} />
             </Page>
           </StaticRouter>

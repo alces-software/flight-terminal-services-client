@@ -9,6 +9,7 @@ import { Route, withRouter } from 'react-router';
 import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { reducer as formReducer } from 'redux-form';
+import Helmet from 'react-helmet';
 
 import { Analytics, Page, Scrolling } from 'flight-reactware';
 
@@ -74,13 +75,18 @@ class ScrollToTopRoute extends Component {
   }
 }
 const ScrollToTop = withRouter(ScrollToTopRoute);
+const productName = process.env.REACT_APP_PRODUCT_NAME;
 
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history}>
       <ScrollToTop>
-        <Page site="Example">
+        <Page site={process.env.REACT_APP_SITE}>
+          <Helmet
+            defaultTitle={productName}
+            titleTemplate={`${productName} - %s`}
+          />
           <Route
             render={
               ({ location }) => {
