@@ -568,11 +568,15 @@ function writeAvailableTokens(tokens) {
       var creditCell = document.createElement("td");
       creditCell.append(tokenAttrs.credits);
 
+      var assignedToCell = document.createElement("td");
+      assignedToCell.append(tokenAttrs.assignedTo || '');
+
       var tr = document.createElement("tr");
       tr.append(tokenCell);
       tr.append(permittedClustersCell);
       tr.append(tagCell);
       tr.append(creditCell);
+      tr.append(assignedToCell);
       table.append(tr);
     });
 }
