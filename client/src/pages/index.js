@@ -31,8 +31,8 @@ const makePage = (title, component) => {
 };
 
 const pages = {
-  '': makePage('Hello', Home),
-  'example': makePage('Example', Example),
+  '': makePage('About', Home),
+  'access': makePage('Access', Example),
   'about': makePage('About', About),
   'terms': makePage('Terms', Terms),
   'privacy': makePage('Privacy', Privacy),
