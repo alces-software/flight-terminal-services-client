@@ -4,8 +4,16 @@ import {
   Row,
   Col,
 } from 'reactstrap';
+import { ContextLink as ReactWareContextLink } from 'flight-reactware';
 
-import Lorem from 'react-lorem-component';
+const ContextLink = ({ linkSite, location, children }) => (
+  <ReactWareContextLink
+    site={process.env.REACT_APP_SITE}
+    link={ReactWareContextLink.makeLink(linkSite, location)}
+  >
+    {children}
+  </ReactWareContextLink>
+);
 
 const Home = () => {
   return (
@@ -69,9 +77,10 @@ const Home = () => {
               Once you are notified that your HPC cluster is active you can use the
               pre-determined time as you see fit. Work with the applications that
               come pre-installed or try your hand at installing and running
-              applications from the <a href="https://gridware.alces-flight.com/" target="_blank"
-                rel="noopener noreferrer">Alces Gridware open source application
-                library</a>.
+              applications from the{' '}
+              <ContextLink linkSite="Gridware" location="/">
+                Alces Gridware open source application library
+              </ContextLink>.
             </p>
             <p>
               While we’ll send you emails to let you know when your HPC cluster has
@@ -82,11 +91,15 @@ const Home = () => {
 
             <h5>Getting ready to launch and more information</h5>
             <p>
-              Want to spend some time reading up on the Alces Flight Launch service prior to
-              starting your evaluation? We have a <a href="http://docs.alces-flight.com"
-                target="_blank" rel="noopener noreferrer">documentation site</a> dedicated to
-              the cause as well as a <a href="http://community.alces-flight.com"
-                target="_blank" rel="noopener noreferrer">Community Support Portal</a>{' '}
+              Want to spend some time reading up on the Alces Flight Launch
+              service prior to starting your evaluation? We have a{' '}
+              {' '}<ContextLink linkSite="Docs" location="/">
+                documentation site
+              </ContextLink>{' '}
+              dedicated to the cause as well as a 
+              {' '}<ContextLink linkSite="Community" location="/">
+                Community Support Portal
+              </ContextLink>{' '}
               available for you to join in and read through.
             </p>
             <p>
