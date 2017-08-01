@@ -1,5 +1,6 @@
 import Example from './Example';
 import Home from './Home';
+import clusterSpecs from '../modules/clusterSpecs';
 import MetaPage from './MetaPage';
 
 import { MetaPages } from 'flight-reactware';
@@ -32,6 +33,7 @@ const makePage = (title, component) => {
 
 const pages = {
   '': makePage('About', Home),
+  'launch': makePage('Launch', clusterSpecs.Page),
   'access': makePage('Access', Example),
   'about': makePage('About', About),
   'terms': makePage('Terms', Terms),

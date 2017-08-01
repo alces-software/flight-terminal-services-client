@@ -1,3 +1,5 @@
-const reducers = {};
+import clusterSpecs from '../modules/clusterSpecs';
 
-export default reducers;
+export default {
+  [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
+};
