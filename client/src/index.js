@@ -15,6 +15,7 @@ import { Analytics, Page, Scrolling } from 'flight-reactware';
 
 import registerServiceWorker from './registerServiceWorker';
 import reducers from './reducers';
+import middleware from './middleware';
 import { getPage } from './pages';
 import SitePage from './components/Page';
 
@@ -27,7 +28,6 @@ const preloadedState = window.__PRELOADED_STATE__;
 delete window.__PRELOADED_STATE__;
 
 const history = createHistory();
-const middleware = routerMiddleware(history);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   combineReducers({
@@ -37,7 +37,10 @@ const store = createStore(
   }),
   preloadedState,
   composeEnhancers(
-    applyMiddleware(middleware)
+    applyMiddleware(
+      ...middleware,
+      routerMiddleware(history)
+    )
   )
 );
 
