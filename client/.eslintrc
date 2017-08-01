@@ -38,7 +38,7 @@ rules: {
     'default-case': ['warn', { commentPattern: '^no default$' }],
     'dot-location': ['warn', 'property'],
     'eol-last': 'warn',
-    'eqeqeq': ['warn', 'always'],
+    'eqeqeq': ['warn', 'always', { null: 'ignore' }],
     'indent': ['warn', 2, { "SwitchCase": 1 }],
     'guard-for-in': 'warn',
     'keyword-spacing': 'warn',
