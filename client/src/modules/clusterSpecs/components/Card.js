@@ -28,11 +28,11 @@ const ClusterSpecCard = ({ className, clusterSpec, isFlipped, onKeyDown, showBac
     >
       <CardFront
         clusterSpec={clusterSpec}
-        onClick={showBack}
+        showBack={showBack}
       />
       <CardBack
         clusterSpec={clusterSpec}
-        onClick={showFront}
+        showFront={showFront}
       />
     </FlipCard>
   </div>

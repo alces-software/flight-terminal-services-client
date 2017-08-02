@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBlock, CardText } from 'reactstrap';
+import { Card, CardBlock } from 'reactstrap';
 
 import { CardTitleBlock } from 'flight-reactware';
+import clusterLaunch from '../../clusterLaunch/';
 
 import { clusterSpecShape } from '../propTypes';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
-  onClick: PropTypes.func.isRequired,
+  showFront: PropTypes.func.isRequired,
 };
 
-const CardFront = ({ clusterSpec, onClick }) => (
-  <Card onClick={onClick} >
+const CardFront = ({ clusterSpec, showFront }) => (
+  <Card>
     <CardBlock>
       <CardTitleBlock
         logoOnRight
@@ -20,7 +21,12 @@ const CardFront = ({ clusterSpec, onClick }) => (
         subtitle={clusterSpec.ui.subtitle}
         title={clusterSpec.ui.title}
       />
-      <CardText>XXX Add a form here</CardText>
+      <clusterLaunch.Form
+        clusterSpec={clusterSpec}
+        clusterSpecsFile="default.json"
+        onCancel={showFront}
+        tenantIdentifier="default"
+      />
     </CardBlock>
   </Card>
 );
