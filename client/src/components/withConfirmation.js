@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toClass, withProps, wrapDisplayName } from 'recompose';
 
-import FlightConfirmation from './FlightConfirmation';
+import PopoverConfirmation from './PopoverConfirmation';
 
 export default function withConfirmation(config) {
   return (WrappedComponent) => {
@@ -63,7 +63,7 @@ export default function withConfirmation(config) {
         } = this.props;
 
         const confirmationPopover = (
-          <FlightConfirmation
+          <PopoverConfirmation
             confirmText={confirmButtonText}
             onConfirmation={this.handleConfirmation}
             onHide={this.handleHideConfirmation}
@@ -72,7 +72,7 @@ export default function withConfirmation(config) {
             target={id}
           >
             {confirmText}
-          </FlightConfirmation>
+          </PopoverConfirmation>
         );
 
         return (
@@ -90,12 +90,12 @@ export default function withConfirmation(config) {
     }
 
     Wrapper.propTypes = {
-      confirmButtonText: FlightConfirmation.propTypes.confirmText,
-      confirmText: FlightConfirmation.propTypes.children,
+      confirmButtonText: PopoverConfirmation.propTypes.confirmText,
+      confirmText: PopoverConfirmation.propTypes.children,
       id: PropTypes.string.isRequired,
       onConfirm: PropTypes.func.isRequired,
       onConfirmationShown: PropTypes.func,
-      placement: FlightConfirmation.propTypes.placement,
+      placement: PopoverConfirmation.propTypes.placement,
     };
 
     Wrapper.displayName = wrapDisplayName(

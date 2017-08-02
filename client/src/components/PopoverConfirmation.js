@@ -34,7 +34,7 @@ const defaultProps = {
   placement: 'top',
 };
 
-const FlightConfirmation = ({
+const PopoverConfirmation = ({
   cancelIcon,
   cancelText,
   children,
@@ -76,7 +76,7 @@ const FlightConfirmation = ({
   </Popover>
 );
 
-FlightConfirmation.propTypes = propTypes;
-FlightConfirmation.defaultProps = defaultProps;
+PopoverConfirmation.propTypes = propTypes;
+PopoverConfirmation.defaultProps = defaultProps;
 
-export default FlightConfirmation;
+export default PopoverConfirmation;
