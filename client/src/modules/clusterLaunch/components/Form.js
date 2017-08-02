@@ -20,6 +20,10 @@ import ClusterNameInput from './ClusterNameInput';
 import EmailInput from './EmailInput';
 import LaunchOptions from './LaunchOptions';
 
+const cardHeight = 360;
+const titleAndButtonsHeight = 156;
+const formHeight = `${cardHeight - titleAndButtonsHeight}px`;
+
 export class ClusterLaunchForm extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
@@ -128,6 +132,7 @@ export class ClusterLaunchForm extends React.Component {
         currentPageIndex={this.props.currentPageIndex}
         // eslint-disable-next-line react/jsx-handler-names
         handleSubmit={this.props.handleSubmit}
+        height={formHeight}
         id={`clusterLaunchForm-${this.props.clusterSpec.key}`}
         onCancel={this.props.onCancel}
         onConfirm={this.props.handleSubmit}

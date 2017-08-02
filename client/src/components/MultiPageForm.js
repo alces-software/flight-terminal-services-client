@@ -28,10 +28,8 @@ const ConfirmableButton = withConfirmation()(({
   );
 });
 
-const cardHeight = 360;
-const titleAndButtonsHeight = 156;
 const Contents = styled.div`
-  height: ${cardHeight - titleAndButtonsHeight}px;
+  height: ${props => props.height};
 `;
 
 class MultiPageForm extends React.Component {
@@ -40,6 +38,7 @@ class MultiPageForm extends React.Component {
     confirmText: PropTypes.node,
     currentPageIndex: PropTypes.number,
     handleSubmit: PropTypes.func.isRequired,
+    height: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     onCancel: PropTypes.func,
     onConfirm: PropTypes.func,
@@ -176,7 +175,7 @@ class MultiPageForm extends React.Component {
 
     return (
       <form onSubmit={onSubmit} >
-        <Contents>
+        <Contents height={this.props.height} >
           {this.renderPage()}
         </Contents>
         {this.renderButtons()}
