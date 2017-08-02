@@ -9,10 +9,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, ButtonToolbar } from 'reactstrap';
 import invariant from 'invariant';
+import styled from 'styled-components';
 
 import withConfirmation from './withConfirmation';
-// XXX
-// import '../styles/MultiPageForm.scss';
 
 const ConfirmableButton = withConfirmation()(({
   children,
@@ -29,9 +28,14 @@ const ConfirmableButton = withConfirmation()(({
   );
 });
 
+const cardHeight = 360;
+const titleAndButtonsHeight = 156;
+const Contents = styled.div`
+  height: ${cardHeight - titleAndButtonsHeight}px;
+`;
+
 class MultiPageForm extends React.Component {
   static propTypes = {
-    className: PropTypes.string,
     confirmButtonText: PropTypes.string,
     confirmText: PropTypes.node,
     currentPageIndex: PropTypes.number,
@@ -74,7 +78,7 @@ class MultiPageForm extends React.Component {
     if (this.props.onCancel) {
       return (
         <Button
-          className="pull-right"
+          className="ml-auto"
           key="cancelButton"
           onClick={this.props.onCancel}
         >
@@ -91,9 +95,10 @@ class MultiPageForm extends React.Component {
     const submitting = this.props.submitting;
 
     const commonProps = {
+      className: "ml-1",
+      color: 'success',
       disabled: disabled || submitting,
       type: 'submit',
-      color: 'success',
     };
 
     if (this.props.currentPageIndex === this.props.pages.length - 1) {
@@ -168,13 +173,10 @@ class MultiPageForm extends React.Component {
     }
 
     return (
-      <form
-        className={this.props.className}
-        onSubmit={onSubmit}
-      >
-        <div className="MultiPageForm-contents">
+      <form onSubmit={onSubmit} >
+        <Contents>
           {this.renderPage()}
-        </div>
+        </Contents>
         {this.renderButtons()}
       </form>
     );

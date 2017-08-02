@@ -113,7 +113,6 @@ export class ClusterLaunchForm extends React.Component {
   render() {
     return (
       <MultiPageForm
-        className="ClusterLaunchForm"
         confirmButtonText="Launch"
         confirmText={<div>
           <p>

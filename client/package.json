@@ -13,6 +13,7 @@
     "history": "^4.6.1",
     "ignore-styles": "^5.0.1",
     "morgan": "^1.8.2",
+    "polished": "^1.3.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-flipcard": "^0.2.1",
