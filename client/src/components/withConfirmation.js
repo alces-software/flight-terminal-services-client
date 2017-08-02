@@ -52,6 +52,7 @@ export default function withConfirmation(config) {
           confirmButtonText,
           confirmText,
           placement,
+          id,
 
           /* eslint-disable no-unused-vars */
           onConfirm,
@@ -68,7 +69,7 @@ export default function withConfirmation(config) {
             onHide={this.handleHideConfirmation}
             placement={placement}
             show={this.state.showingConfirmation}
-            target={this.button && this.button.id}
+            target={id}
           >
             {confirmText}
           </FlightConfirmation>
@@ -78,6 +79,7 @@ export default function withConfirmation(config) {
           <WrappedComponent
             {...rest}
             confirmationPopover={confirmationPopover}
+            id={id}
             onClick={this.handleShowConfirmation}
             ref={(el) => { this.button = el; }}
             showingConfirmation={this.state.showingConfirmation}
@@ -90,6 +92,7 @@ export default function withConfirmation(config) {
     Wrapper.propTypes = {
       confirmButtonText: FlightConfirmation.propTypes.confirmText,
       confirmText: FlightConfirmation.propTypes.children,
+      id: PropTypes.string.isRequired,
       onConfirm: PropTypes.func.isRequired,
       onConfirmationShown: PropTypes.func,
       placement: FlightConfirmation.propTypes.placement,

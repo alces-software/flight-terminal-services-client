@@ -128,6 +128,7 @@ export class ClusterLaunchForm extends React.Component {
         currentPageIndex={this.props.currentPageIndex}
         // eslint-disable-next-line react/jsx-handler-names
         handleSubmit={this.props.handleSubmit}
+        id={`clusterLaunchForm-${this.props.clusterSpec.key}`}
         onCancel={this.props.onCancel}
         onConfirm={this.props.handleSubmit}
         onShowNextPage={this.handleShowNextPage}

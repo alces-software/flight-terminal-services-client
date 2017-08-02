@@ -40,6 +40,7 @@ class MultiPageForm extends React.Component {
     confirmText: PropTypes.node,
     currentPageIndex: PropTypes.number,
     handleSubmit: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
     onCancel: PropTypes.func,
     onConfirm: PropTypes.func,
     onShowNextPage: PropTypes.func,
@@ -109,6 +110,7 @@ class MultiPageForm extends React.Component {
         extraProps = {
           confirmButtonText: this.props.confirmButtonText,
           confirmText: this.props.confirmText,
+          id: `${this.props.id}-button`,
           onConfirm: this.props.onConfirm,
         };
       } else {

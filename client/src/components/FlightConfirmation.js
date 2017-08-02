@@ -7,7 +7,7 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Popover, PopoverContent, PopoverTitle } from 'reactstrap';
+import { Button, ButtonToolbar, Popover, PopoverContent, PopoverTitle } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 
 const propTypes = {
@@ -58,23 +58,20 @@ const FlightConfirmation = ({
     <PopoverTitle>{title}</PopoverTitle>
     <PopoverContent>
       {children}
-      <div className="flight-confirmation-actions">
-        <Button
-          onClick={onHide}
-          size="sm"
-        >
+      <ButtonToolbar className="justify-content-center">
+        <Button onClick={onHide}>
           <FontAwesome name={cancelIcon} />{' '}
           {cancelText}
         </Button>
         <Button
+          className="ml-1"
           color={confirmStyle}
           onClick={onConfirmation}
-          size="sm"
         >
           <FontAwesome name={confirmIcon} />{' '}
           {confirmText}
         </Button>
-      </div>
+      </ButtonToolbar>
     </PopoverContent>
   </Popover>
 );
