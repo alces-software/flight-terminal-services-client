@@ -70,7 +70,12 @@ class Input extends React.Component {
         className="Input"
         color={this.getValidationState()}
       >
-        <Label for={id}>{this.props.label}</Label>
+        <Label
+          className="form-control-label"
+          for={id}
+        >
+          {this.props.label}
+        </Label>
         <ReactstrapInput
           getRef={(inputEl) => { this.inputEl = inputEl; }}
           id={id}

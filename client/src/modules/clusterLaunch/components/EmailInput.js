@@ -48,7 +48,7 @@ const ClusterLaunchEmail = ({ error, id, inputRef, onChange, placeholder, value 
     <div>
       <Input
         autofocus
-        error={error && 'error'}
+        error={error && 'danger'}
         help="We need your email address to send you an email when your
         cluster is available."
         id={`${id}-clusterLaunchEmail`}

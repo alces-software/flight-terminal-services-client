@@ -7,7 +7,7 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-// import validatorUtils from 'validator';
+import validatorUtils from 'validator';
 import { connect } from 'react-redux';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
@@ -51,15 +51,15 @@ function validate(allValues, state) {
 
   if (emailNotGiven && tokenAssignedTo != null) {
     // Validate the email assigned to the token.
-    // if (!validatorUtils.isEmail(tokenAssignedTo)) {
-    //   errors.email = 'invalid';
-    // }
+    if (!validatorUtils.isEmail(tokenAssignedTo)) {
+      errors.email = 'invalid';
+    }
   } else {
     // Validate the entered email.
     if (emailNotGiven) {
       errors.email = 'blank';
-    // } else if (!validatorUtils.isEmail(allValues.email)) {
-    //   errors.email = 'invalid';
+    } else if (!validatorUtils.isEmail(allValues.email)) {
+      errors.email = 'invalid';
     }
   }
 

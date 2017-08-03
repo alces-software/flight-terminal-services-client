@@ -7,10 +7,8 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import FontAwesome from 'react-fontawesome';
-
-// import '../styles/Tip.scss'
+import styled from 'styled-components';
 
 const tipType = PropTypes.oneOf(['success', 'error', 'delay', 'warning']);
 
@@ -63,27 +61,51 @@ TipIcon.propTypes = {
   type: tipType,
 };
 
-const Tip = ({ noIcon, text, type, wide }) => {
-  const formTipClasses = classNames({
-    formTip: true,
-    [`formTip--${type}`]: type,
-    'formTip--wide': wide,
-  });
-  const formTipTextClasses = classNames({
-    'formTip-text': true,
-    'formTip-text--noIcon': noIcon === true,
-  });
+const Text = styled.span`
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.1;
 
+  width: ${props => props.wide && props.noIcon ? '100%' : 'calc(100% - 32px)'};
+
+  ${({ type, noIcon }) => {
+    if (type !== 'delay') { return undefined; }
+    return `padding-left: ${noIcon ? '0' : '0.1875rem'};`;
+  }}
+`;
+
+const Tip = styled(({ className, noIcon, text, type, wide }) => {
   return (
-    <div className={formTipClasses}>
+    <div className={`${className} form-control-feedback`}>
       <TipIcon
         noIcon={noIcon}
         type={type}
       />
-      <span className={formTipTextClasses}>{text}</span>
+      <Text
+        noIcon={noIcon}
+        type={type}
+        wide={wide}
+      >
+        {text}
+      </Text>
     </div>
   );
-};
+})`
+  line-height: 2.3;
+  vertical-align: middle;
+  position: relative;
+  margin-top: -5px;
+  display: inline-block;
+
+  ${props => props.wide && 'margin-right: -15px;'}
+
+  .fa {
+    vertical-align: middle;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+  }
+`;
 
 Tip.propTypes = {
   noIcon: PropTypes.bool,

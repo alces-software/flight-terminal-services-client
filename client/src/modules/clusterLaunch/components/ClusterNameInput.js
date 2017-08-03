@@ -47,7 +47,7 @@ const ClusterNameInput = ({ error, id, onChange, placeholder, value }) => {
     <div>
       <Input
         autofocus
-        error={error && 'warning'}
+        error={error && 'danger'}
         help="Choose a unique name for your cluster. Or leave blank to use the
         default. The name can only contain letters, numbers and hyphens (-).
         It cannot start or end with a hyphen."
