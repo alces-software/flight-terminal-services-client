@@ -7,7 +7,8 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HelpPopover } from 'flight-common';
+
+import HelpPopover from '../../../components/HelpPopover';
 
 const propTypes = {
   option: PropTypes.shape({
@@ -20,7 +21,6 @@ const LaunchOptionExplanation = ({ option }) => {
   return (
     <HelpPopover
       content={<span>{option.description}</span>}
-      id={`launchOption-popover-${option.name}`}
       title={`${option.name} compute durability`}
     >
       {option.name}

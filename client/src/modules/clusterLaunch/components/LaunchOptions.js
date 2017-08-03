@@ -16,7 +16,7 @@ import tokens from '../../../modules/tokens';
 
 import ClusterRuntimeExplanation from './ClusterRuntimeExplanation';
 import LaunchOptionSwitch from './LaunchOptionSwitch';
-// import LaunchOptionExplanation from './LaunchOptionExplanation';
+import LaunchOptionExplanation from './LaunchOptionExplanation';
 
 const launchOptionShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
@@ -60,10 +60,8 @@ const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange
 
   const standardOption = clusterSpec.launchOptions.options[0];
   const highOption = clusterSpec.launchOptions.options[1];
-  const standardExplanation = <span>Standard ?</span>;
-  const highExplanation = <span>High ?</span>;
-  // const standardExplanation = <LaunchOptionExplanation option={standardOption} />;
-  // const highExplanation = <LaunchOptionExplanation option={highOption} />;
+  const standardExplanation = <LaunchOptionExplanation option={standardOption} />;
+  const highExplanation = <LaunchOptionExplanation option={highOption} />;
   const selectedLaunchOption = selectedLaunchOptionIndex === 0 ? standardOption : highOption;
 
   return (
