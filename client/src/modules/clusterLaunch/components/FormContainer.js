@@ -11,12 +11,12 @@ import validatorUtils from 'validator';
 import { connect } from 'react-redux';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
-// import * as analytics from '../../../utils/analytics';
 import tokens from '../../../modules/tokens';
 
 import ErrorModal from './ErrorModal';
 import ClusterLaunchForm from './Form';
 import LaunchedModal from './LaunchedModal';
+import * as analytics from '../analytics';
 
 const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
 const oneCharClusterNameRe = /^[a-zA-Z0-9]$/;
@@ -169,7 +169,7 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleSuccessfulLaunch(json) {
-    // analytics.clusterLaunchAccepted(this.props.clusterSpec);
+    analytics.clusterLaunchAccepted(this.props.clusterSpec);
     const errors = validate(this.initialValues, this.state);
     this.setState({
       submitting: false,
@@ -188,7 +188,7 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleFailedLaunch(json) {
-    // analytics.clusterLaunchRejected(this.props.clusterSpec, json);
+    analytics.clusterLaunchRejected(this.props.clusterSpec, json);
     this.setState({
       modalProps: {
         error: json
@@ -221,7 +221,7 @@ class ClusterLaunchFormContainer extends React.Component {
     this.blurEmailField();
     this.setState({ submitting: true });
 
-    // analytics.clusterLaunchRequested(this.props.clusterSpec);
+    analytics.clusterLaunchRequested(this.props.clusterSpec);
     return this.sendLaunchRequest()
       .then((response) => {
         return response.json()

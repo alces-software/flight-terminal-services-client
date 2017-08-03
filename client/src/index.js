@@ -44,7 +44,7 @@ const store = createStore(
   )
 );
 
-Analytics.initialize(history);
+Analytics.initialize(process.env.REACT_APP_ANALYTICS_TRACKER_ID, history);
 
 class ScrollToTopRoute extends Component {
   // eslint-disable-next-line no-undef
