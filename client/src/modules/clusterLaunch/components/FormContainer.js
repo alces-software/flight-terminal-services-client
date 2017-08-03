@@ -16,7 +16,7 @@ import tokens from '../../../modules/tokens';
 
 // import ClusterErrorModal from './ClusterErrorModal';
 import ClusterLaunchForm from './Form';
-// import ClusterLaunchedModal from './ClusterLaunchedModal';
+import LaunchedModal from './LaunchedModal';
 
 const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
 const oneCharClusterNameRe = /^[a-zA-Z0-9]$/;
@@ -244,7 +244,7 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
   }
 
-  handleHideModal = () => {
+  hideModal = () => {
     this.setState({ showLaunchedModal: false, showErrorModal: false });
   }
 
@@ -281,15 +281,15 @@ class ClusterLaunchFormContainer extends React.Component {
         {/*
         <ClusterErrorModal
           {...this.state.modalProps}
-          onHide={this.handleHideModal}
+          onHide={this.hideModal}
           show={this.state.showErrorModal}
         />
-        <ClusterLaunchedModal
-          {...this.state.modalProps}
-          onHide={this.handleHideModal}
-          show={this.state.showLaunchedModal}
-        />
         */}
+        <LaunchedModal
+          {...this.state.modalProps}
+          isOpen={this.state.showLaunchedModal}
+          toggle={this.hideModal}
+        />
         <ClusterLaunchForm
           {...this.state}
           {...this.props}
