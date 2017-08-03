@@ -273,7 +273,6 @@ class ClusterLaunchFormContainer extends React.Component {
 
   blurEmailField() {
     if (this.emailInput) { this.emailInput.blur() ; }
-    // this.emailInput && this.emailInput.blur();
   }
 
   render() {

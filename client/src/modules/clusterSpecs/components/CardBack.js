@@ -1,18 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBlock } from 'reactstrap';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { CardTitleBlock } from 'flight-reactware';
 import clusterLaunch from '../../clusterLaunch/';
 
 import { clusterSpecShape } from '../propTypes';
+import { clusterSpecsFile } from '../selectors';
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
+  clusterSpecsFile: PropTypes.string.isRequired,
   showFront: PropTypes.func.isRequired,
+  tenantIdentifier: PropTypes.string,
 };
 
-const CardFront = ({ clusterSpec, showFront }) => (
+const CardBack = ({
+  clusterSpec,
+  clusterSpecsFile,
+  showFront,
+  tenantIdentifier
+}) => (
   <Card>
     <CardBlock>
       <CardTitleBlock
@@ -23,14 +33,19 @@ const CardFront = ({ clusterSpec, showFront }) => (
       />
       <clusterLaunch.Form
         clusterSpec={clusterSpec}
-        clusterSpecsFile="default.json"
+        clusterSpecsFile={clusterSpecsFile}
         onCancel={showFront}
-        tenantIdentifier="default"
+        tenantIdentifier={tenantIdentifier}
       />
     </CardBlock>
   </Card>
 );
 
-CardFront.propTypes = propTypes;
+CardBack.propTypes = propTypes;
 
-export default CardFront;
+const mapStateToProps = createStructuredSelector({
+  clusterSpecsFile,
+  tenantIdentifier: () => 'default',
+});
+
+export default connect(mapStateToProps)(CardBack);
