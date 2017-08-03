@@ -14,6 +14,7 @@ import { Badge, Label, FormGroup, Input as ReactstrapInput, FormText } from 'rea
 class Input extends React.Component {
   static defaultProps = {
     autofocus: false,
+    type: 'text',
   };
 
   static propTypes = {
@@ -27,6 +28,7 @@ class Input extends React.Component {
     optional: PropTypes.bool,
     placeholder: PropTypes.string,
     tip: PropTypes.node,
+    type: PropTypes.string.isRequired,
     value: PropTypes.string,
   };
 
@@ -62,7 +64,7 @@ class Input extends React.Component {
   }
 
   render() {
-    const { id, placeholder } = this.props;
+    const { id, placeholder, type } = this.props;
     return (
       <FormGroup
         className="Input"
@@ -75,7 +77,7 @@ class Input extends React.Component {
           onChange={this.handleChange}
           placeholder={placeholder}
           state={this.getValidationState()}
-          type="text"
+          type={type}
           value={this.props.value}
         />
         {

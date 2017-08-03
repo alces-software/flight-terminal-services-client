@@ -58,6 +58,7 @@ const ClusterLaunchEmail = ({ error, id, inputRef, onChange, placeholder, value 
         placeholder={placeholder}
         ref={inputRef}
         tip={tip}
+        type="email"
         value={value}
       />
     </div>
