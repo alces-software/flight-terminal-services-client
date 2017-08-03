@@ -19,6 +19,7 @@ import ClusterLaunchForm from './Form';
 // import ClusterLaunchedModal from './ClusterLaunchedModal';
 
 const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
+const oneCharClusterNameRe = /^[a-zA-Z0-9]$/;
 
 function strip(string) {
   return string.replace(/^ */, '').replace(/ *$/, '');
@@ -39,8 +40,12 @@ function validate(allValues, state) {
       errors.clusterName = 'blank';
     }
   }
-  if (allValues.clusterName && allValues.clusterName.length > 1 && !clusterNameRe.test(allValues.clusterName)) {
-    errors.clusterName = 'format';
+  if (allValues.clusterName) {
+    if (allValues.clusterName.length > 1 && !clusterNameRe.test(allValues.clusterName)) {
+      errors.clusterName = 'format';
+    } else if (allValues.clusterName.length <= 1 && !oneCharClusterNameRe.test(allValues.clusterName)) {
+      errors.clusterName = 'format';
+    }
   }
 
   const email = allValues.email;
