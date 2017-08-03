@@ -14,7 +14,7 @@ import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 // import * as analytics from '../../../utils/analytics';
 import tokens from '../../../modules/tokens';
 
-// import ClusterErrorModal from './ClusterErrorModal';
+import ErrorModal from './ErrorModal';
 import ClusterLaunchForm from './Form';
 import LaunchedModal from './LaunchedModal';
 
@@ -94,17 +94,17 @@ class ClusterLaunchFormContainer extends React.Component {
     submitting: false,
     values: this.initialValues,
     errors: {
-      clusterName: null,
-      email: null,
-      launchToken: null,
+      clusterName: undefined,
+      email: undefined,
+      launchToken: undefined,
     },
     modalProps: {
-      clusterName: null,
-      email: null,
-      error: null,
-      title: null,
+      clusterName: undefined,
+      email: undefined,
+      error: undefined,
+      title: undefined,
     },
-    token: null,
+    token: undefined,
   }
 
   componentDidMount() {
@@ -278,13 +278,11 @@ class ClusterLaunchFormContainer extends React.Component {
   render() {
     return (
       <div>
-        {/*
-        <ClusterErrorModal
+        <ErrorModal
           {...this.state.modalProps}
-          onHide={this.hideModal}
-          show={this.state.showErrorModal}
+          isOpen={this.state.showErrorModal}
+          toggle={this.hideModal}
         />
-        */}
         <LaunchedModal
           {...this.state.modalProps}
           isOpen={this.state.showLaunchedModal}
