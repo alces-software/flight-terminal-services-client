@@ -18,9 +18,9 @@ const specsUrl = state => state[NAME].url;
 //   (specs) => specs && specs.length,
 // );
 
-// export function clusterSpecsFile(state) {
-//   return state[NAME].file;
-// }
+export function clusterSpecsFile(state) {
+  return state[NAME].file;
+}
 
 export const retrieval = createSelector(
   clusterSpecsState,
