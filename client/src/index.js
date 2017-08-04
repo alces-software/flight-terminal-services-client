@@ -1,23 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
-import { Route, withRouter } from 'react-router';
 import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import Helmet from 'react-helmet';
+import { renderRoutes } from 'react-router-config';
 
-import { Analytics, Page, Scrolling } from 'flight-reactware';
+import { Analytics } from 'flight-reactware';
 
-import registerServiceWorker from './registerServiceWorker';
-import reducers from './reducers';
 import middleware from './middleware';
-import { getPage } from './pages';
-import SitePage from './components/Page';
+import reducers from './reducers';
+import registerServiceWorker from './registerServiceWorker';
+import routes from './routes';
 
 import './index.css';
 
@@ -46,73 +41,11 @@ const store = createStore(
 
 Analytics.initialize(process.env.REACT_APP_ANALYTICS_TRACKER_ID, history);
 
-class ScrollToTopRoute extends Component {
-  // eslint-disable-next-line no-undef
-  static propTypes = {
-    children: PropTypes.element.isRequired,
-    location: PropTypes.any,
-  };
-
-  componentDidMount() {
-    var hash = window.location.hash;
-    if (hash) {
-      Scrolling.scrollTo(hash.substring(1));
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if ( this.props.location.action === 'POP' ) {
-      return;
-    }
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      window.scrollTo(0, 0);
-    }
-    var hash = window.location.hash;
-    if (hash) {
-      Scrolling.scrollTo(hash.substring(1));
-    }
-  }
-
-  render() {
-    return this.props.children;
-  }
-}
-const ScrollToTop = withRouter(ScrollToTopRoute);
-const productName = process.env.REACT_APP_PRODUCT_NAME;
-
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history}>
-      <ScrollToTop>
-        <Page site={process.env.REACT_APP_SITE}>
-          <Helmet
-            defaultTitle={productName}
-            titleTemplate={`${productName} - %s`}
-          />
-          <Route
-            render={
-              ({ location }) => {
-                const page = getPage(location);
-                return (
-                  <SitePage title={page.title}>
-                    <CSSTransitionGroup
-                      transitionEnterTimeout={250}
-                      transitionLeave={false}
-                      transitionName="fade"
-                    >
-                      <Route
-                        component={page.component}
-                        key={location.key}
-                      />
-                    </CSSTransitionGroup>
-                  </SitePage>
-                );
-              }
-            }
-          />
-        </Page>
-      </ScrollToTop>
+      {renderRoutes(routes)}
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
