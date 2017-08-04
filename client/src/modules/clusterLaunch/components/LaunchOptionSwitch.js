@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import SwitchButton, { Label as SwitchButtonLabel } from '../../../components/SwitchButton';
+import { SwitchButton, SwitchButtonLabel } from 'flight-reactware';
 
 const Wrapper = styled.div`
   float: left;

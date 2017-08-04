@@ -9,8 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isFSA } from 'flux-standard-action';
 
-import StandardModal from '../../../components/StandardModal';
-
+import { StandardModal } from 'flight-reactware';
 import tokens from '../../../modules/tokens';
 
 function hasPropError(errorDetails, prop, error) {

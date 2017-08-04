@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import FontAwesome from 'react-fontawesome';
 
-import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
-import MultiPageForm from '../../../components/MultiPageForm';
 import tokens from '../../../modules/tokens';
+import { MultiPageForm } from 'flight-reactware';
+import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 
 import TokenInput from './TokenInput';
 import ClusterNameInput from './ClusterNameInput';

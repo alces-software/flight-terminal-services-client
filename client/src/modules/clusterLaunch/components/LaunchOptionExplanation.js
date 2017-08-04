@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import HelpPopover from '../../../components/HelpPopover';
+import { HelpPopover } from 'flight-reactware';
 
 const propTypes = {
   option: PropTypes.shape({

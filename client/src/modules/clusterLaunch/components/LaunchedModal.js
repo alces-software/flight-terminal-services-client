@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import StandardModal from '../../../components/StandardModal';
+import { StandardModal } from 'flight-reactware';
 
 const propTypes = {
   clusterName: PropTypes.string,
