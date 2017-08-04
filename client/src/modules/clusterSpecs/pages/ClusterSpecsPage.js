@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import 'url-search-params-polyfill';
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -40,6 +41,15 @@ const ClusterSpecsPage = ({ clusterSpecs, clusterSpecsRetrieval }) => {
   );
 };
 
+// Retrieve the specs file name from window.location.
+//
+//  - In a development build, setting the clusterSpecs parameter to `dev` will
+//    use the specs given in `../data/clusterSpecs.dev.json`.
+function getClusterSpecsFile(location) {
+  const urlParams = new URLSearchParams(location.search);
+  return urlParams.get('clusterSpecs');
+}
+
 const enhance = compose(
   connect(createStructuredSelector({
     clusterSpecs: clusterSpecsSelectors.clusterSpecs,
@@ -48,7 +58,8 @@ const enhance = compose(
 
   lifecycle({
     componentWillMount: function() {
-      this.props.dispatch(loadClusterSpecs());
+      const specsFile = getClusterSpecsFile(this.props.location);
+      this.props.dispatch(loadClusterSpecs(specsFile));
     }
   }),
 );
