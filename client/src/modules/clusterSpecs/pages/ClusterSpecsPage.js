@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { DelaySpinner } from 'flight-reactware';
+import tenants from '../../tenants';
 
 import * as clusterSpecsSelectors from '../selectors';
 import CardDeck from '../components/CardDeck';
@@ -17,16 +18,25 @@ import { loadClusterSpecs } from '../actions';
 const propTypes = {
   clusterSpecs: PropTypes.arrayOf(clusterSpecShape),
   clusterSpecsRetrieval: PropTypes.shape({
-    error: PropTypes.any,
     initiated: PropTypes.bool.isRequired,
     pending: PropTypes.bool.isRequired,
+    rejected: PropTypes.any,
+  }),
+  tenantRetrieval: PropTypes.shape({
+    initiated: PropTypes.bool.isRequired,
+    pending: PropTypes.bool.isRequired,
+    rejected: PropTypes.any,
   }),
 };
 
-const ClusterSpecsPage = ({ clusterSpecs, clusterSpecsRetrieval }) => {
+const ClusterSpecsPage = ({ clusterSpecs, clusterSpecsRetrieval, tenantRetrieval }) => {
   let content;
 
-  if (!clusterSpecsRetrieval.initiated || clusterSpecsRetrieval.pending) {
+  if (!tenantRetrieval.initiated || tenantRetrieval.pending) {
+    content = <DelaySpinner size="large" />;
+  } else if (tenantRetrieval.rejected) {
+    content = <tenants.LoadError />;
+  } else if (!clusterSpecsRetrieval.initiated || clusterSpecsRetrieval.pending) {
     content = <DelaySpinner size="large" />;
   } else if (clusterSpecsRetrieval.rejected) {
     content = <NoClustersAvailable />;
@@ -54,12 +64,18 @@ const enhance = compose(
   connect(createStructuredSelector({
     clusterSpecs: clusterSpecsSelectors.clusterSpecs,
     clusterSpecsRetrieval: clusterSpecsSelectors.retrieval,
+    tenantRetrieval: tenants.selectors.retrieval,
   })),
 
   lifecycle({
     componentWillMount: function() {
-      const specsFile = getClusterSpecsFile(this.props.location);
-      this.props.dispatch(loadClusterSpecs(specsFile));
+      const tenantIdentifier = 'default';
+      this.props.dispatch(tenants.actions.loadTenant(tenantIdentifier))
+        .then(() => {
+          const specsFile = getClusterSpecsFile(this.props.location);
+          this.props.dispatch(loadClusterSpecs(specsFile));
+        })
+        .catch(() => {});
     }
   }),
 );

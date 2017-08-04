@@ -8,7 +8,7 @@
 import invariant from 'invariant';
 import isPlainObject from 'lodash/isPlainObject';
 
-// import tenants from '../../modules/tenants';
+import tenants from '../../modules/tenants';
 import api from '../../modules/api';
 
 import { LOADING, LOADED, LOAD_FAILED } from './actionTypes';
@@ -65,11 +65,8 @@ export function loadToken(name) {
 
     dispatch(loading(name));
 
-    // const tenant = tenants.selectors.tenant(getState());
-    // const baseTokensUrl = tenant.relationships.tokens.links.related;
-
-    const baseTokensUrl = "/api/v1/tenants/3cb3966f-5610-408e-bfda-690f9c3ba0b5/tokens";
-
+    const tenant = tenants.selectors.tenant(getState());
+    const baseTokensUrl = tenant.relationships.tokens.links.related;
     return api.actions.fetchOneByLookupKey(baseTokensUrl, 'name', name)
       .then(entity => dispatch(loaded(entity)))
       .catch(error => Promise.reject(dispatch(failedToLoad(error, name))));
