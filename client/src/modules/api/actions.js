@@ -21,10 +21,7 @@ export function fetchOneByLookupKey(baseUrl, key, value) {
       }
     })
     .then((jsonApiDoc) => {
-      console.log('jsonApiDoc:', jsonApiDoc);  // eslint-disable-line no-console
       const entities = jsonApiDoc.data;
-      console.log('entities:', entities);  // eslint-disable-line no-console
-      console.log('entities.length:', entities.length);  // eslint-disable-line no-console
       if (entities.length < 1 || entities > 1) {
         return Promise.reject({
           errors: [{
