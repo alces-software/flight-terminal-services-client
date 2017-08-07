@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'reactstrap';
 
+import branding from '../../../modules/branding';
+
 const propTypes = {
   children: PropTypes.node.isRequired,
 };
@@ -12,11 +14,21 @@ const Section = ({ children }) => {
       <Container fluid>
         <Row>
           <Col>
-            <h1>Launch Alces Flight</h1>
-            <p>
-              Ready to get going? Choose a cluster specification and launch
-              your cluster now!
-            </p>
+            <div className="d-flex justify-content-center">
+              <h1>
+                Launch Alces Flight
+                <small><branding.Header /></small>
+              </h1>
+            </div>
+            <div className="d-flex justify-content-center">
+              <branding.Logo />
+            </div>
+            <div className="d-flex justify-content-center">
+              <p>
+                Ready to get going? Choose a cluster specification and launch
+                your cluster now!
+              </p>
+            </div>
           </Col>
         </Row>
         <Row>
