@@ -42,6 +42,7 @@ const metaPages = [
 
 const routes = [
   {
+    path: '/:tenantIdentifier?',
     component: App,
     routes: [
       ...metaPages,
@@ -51,15 +52,15 @@ const routes = [
         title: 'Launch',
       },
       {
+        path: '/access',
+        component: Example,
+        title: 'Access',
+      },
+      {
         path: '/:tenantIdentifier?',
         exact: true,
         component: Home,
         title: 'About',
-      },
-      {
-        path: '/access',
-        component: Example,
-        title: 'Access',
       },
       {
         component: NotFound,

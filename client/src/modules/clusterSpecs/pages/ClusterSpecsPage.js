@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'url-search-params-polyfill';
-import { compose, lifecycle } from 'recompose';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -13,7 +13,6 @@ import CardDeck from '../components/CardDeck';
 import NoClustersAvailable from '../components/NoClustersAvailable';
 import Section from '../components/Section';
 import { clusterSpecShape } from '../propTypes';
-import { loadClusterSpecs } from '../actions';
 
 const propTypes = {
   clusterSpecs: PropTypes.arrayOf(clusterSpecShape),
@@ -51,33 +50,12 @@ const ClusterSpecsPage = ({ clusterSpecs, clusterSpecsRetrieval, tenantRetrieval
   );
 };
 
-// Retrieve the specs file name from window.location.
-//
-//  - In a development build, setting the clusterSpecs parameter to `dev` will
-//    use the specs given in `../data/clusterSpecs.dev.json`.
-function getClusterSpecsFile(location) {
-  const urlParams = new URLSearchParams(location.search);
-  return urlParams.get('clusterSpecs');
-}
-
 const enhance = compose(
   connect(createStructuredSelector({
     clusterSpecs: clusterSpecsSelectors.clusterSpecs,
     clusterSpecsRetrieval: clusterSpecsSelectors.retrieval,
     tenantRetrieval: tenants.selectors.retrieval,
   })),
-
-  lifecycle({
-    componentWillMount: function() {
-      const tenantIdentifier = this.props.match.params.tenantIdentifier;
-      this.props.dispatch(tenants.actions.loadTenant(tenantIdentifier))
-        .then(() => {
-          const specsFile = getClusterSpecsFile(this.props.location);
-          this.props.dispatch(loadClusterSpecs(specsFile));
-        })
-        .catch(() => {});
-    }
-  }),
 );
 
 ClusterSpecsPage.propTypes = propTypes;
