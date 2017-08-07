@@ -52,7 +52,7 @@ const routes = [
         title: 'Launch',
       },
       {
-        path: '/access',
+        path: '/:tenantIdentifier?/access',
         component: Example,
         title: 'Access',
       },

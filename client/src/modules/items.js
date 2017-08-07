@@ -4,8 +4,11 @@ const { makeLink } = ContextLink;
 
 const currentSite = process.env.REACT_APP_SITE;
 
-export default [
-  makeItem('About', 'home', makeLink(currentSite, '/')),
-  makeItem('Launch', 'plane', makeLink(currentSite, '/launch')),
-  makeItem('Access', 'key', makeLink(currentSite, '/access')),
-];
+export default function(tenantIdentifier) {
+  const prefix = tenantIdentifier === 'default' ? '' : `${tenantIdentifier}/`;
+  return [
+    makeItem('About', 'home', makeLink(currentSite, `/${prefix}`)),
+    makeItem('Launch', 'plane', makeLink(currentSite, `/${prefix}launch`)),
+    makeItem('Access', 'key', makeLink(currentSite, `/${prefix}access`)),
+  ];
+}
