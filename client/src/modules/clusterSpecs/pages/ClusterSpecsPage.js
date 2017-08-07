@@ -69,7 +69,7 @@ const enhance = compose(
 
   lifecycle({
     componentWillMount: function() {
-      const tenantIdentifier = 'default';
+      const tenantIdentifier = this.props.match.params.tenantIdentifier;
       this.props.dispatch(tenants.actions.loadTenant(tenantIdentifier))
         .then(() => {
           const specsFile = getClusterSpecsFile(this.props.location);

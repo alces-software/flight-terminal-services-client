@@ -44,17 +44,17 @@ const routes = [
   {
     component: App,
     routes: [
+      ...metaPages,
       {
-        path: '/',
+        path: '/:tenantIdentifier?/launch',
+        component: clusterSpecs.Page,
+        title: 'Launch',
+      },
+      {
+        path: '/:tenantIdentifier?',
         exact: true,
         component: Home,
         title: 'About',
-      },
-      ...metaPages,
-      {
-        path: '/launch',
-        component: clusterSpecs.Page,
-        title: 'Launch',
       },
       {
         path: '/access',
