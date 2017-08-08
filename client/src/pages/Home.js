@@ -7,6 +7,8 @@ import {
 } from 'reactstrap';
 import { ContextLink as ReactwareContextLink } from 'flight-reactware';
 
+import branding from '../modules/branding';
+
 const ContextLink = ({ linkSite, location, children }) => (
   <ReactwareContextLink
     link={ReactwareContextLink.makeLink(linkSite, location)}
@@ -24,12 +26,22 @@ ContextLink.propTypes = {
 const Home = () => {
   return (
     <div>
+      <div className="d-flex justify-content-center">
+        <div>
+          <div className="d-flex justify-content-center">
+            <h1>
+              Welcome to the Alces Flight Launch Service!
+            </h1>
+          </div>
+          <div className="d-flex justify-content-center">
+            <branding.WithBranding>
+              {(branding) => <h3>{branding.navEntry}</h3>}
+            </branding.WithBranding>
+          </div>
+        </div>
+        <branding.Logo height="100px" />
+      </div>
       <Container fluid>
-        <Row>
-          <Col>
-            <h1>Welcome to the Alces Flight Launch Service!</h1>
-          </Col>
-        </Row>
         <Row>
           <Col>
             <p>
