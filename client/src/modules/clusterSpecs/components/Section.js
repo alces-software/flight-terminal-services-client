@@ -31,6 +31,8 @@ const Section = ({ children }) => {
             </div>
           </Col>
         </Row>
+      </Container>
+      <Container fluid>
         <Row>
           <Col>
             {children}
