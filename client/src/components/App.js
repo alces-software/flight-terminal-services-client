@@ -11,6 +11,7 @@ import { Page } from 'flight-reactware';
 import ScrollToTop from './ScrollToTop';
 import SitePage from './Page';
 import routes from '../routes';
+import appVersion from '../version';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
 
@@ -29,7 +30,12 @@ const App = ({ location, route }) => {
         <Helmet
           defaultTitle={productName}
           titleTemplate={`${productName} - %s`}
-        />
+        >
+          <meta
+            content={appVersion}
+            name="client-version"
+          />
+        </Helmet>
         <SitePage title={lastRouteComponent.title}>
           <CSSTransitionGroup
             transitionEnterTimeout={250}
