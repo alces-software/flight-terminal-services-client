@@ -1,5 +1,5 @@
 import { LOADING, LOADED, FAILED } from './actionTypes';
-// import tenants from '../../modules/tenants';
+import tenants from '../../modules/tenants';
 
 let devClusterSpecs;
 if (process.env.NODE_ENV === 'development') {
@@ -7,6 +7,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function buildClusterSpecsConfig(fileOverride, { defaultFile, defaultUrl, prefix }) {
+  if (fileOverride != null && !fileOverride.endsWith('.json')) {
+    fileOverride = `${fileOverride}.json`;
+  }
   return {
     url: fileOverride ? `${prefix}${fileOverride}` : defaultUrl,
     file: fileOverride ? fileOverride : defaultFile,
@@ -85,13 +88,6 @@ function loadSpecs(specsConfig) {
     });
 }
 
-const clusterSpecsUrlConfig = {
-  defaultFile: 'default.json',
-  // defaultUrl: 'https://alces-flight.s3.amazonaws.com/FlightLaunch/ClusterSpecs/default/default.json.NOPE',
-  defaultUrl: 'https://alces-flight.s3.amazonaws.com/FlightLaunch/ClusterSpecs/default/default.json',
-  prefix: 'https://alces-flight.s3.amazonaws.com/FlightLaunch/ClusterSpecs/default',
-};
-
 export function loadClusterSpecs(specsFileOverride) {
   if (process.env.NODE_ENV === 'test') {
     return setDevSpecs();
@@ -101,8 +97,7 @@ export function loadClusterSpecs(specsFileOverride) {
     return (dispatch, getState) => {
       const specsConfig = buildClusterSpecsConfig(
         specsFileOverride,
-        clusterSpecsUrlConfig,
-        // tenants.selectors.clusterSpecsUrlConfig(getState())
+        tenants.selectors.clusterSpecsUrlConfig(getState())
       );
 
       dispatch(loading(specsConfig));

@@ -22,6 +22,7 @@
     "react-lorem-component": "^0.12.1",
     "react-recaptcha": "^2.3.2",
     "react-redux": "^5.0.5",
+    "react-router-config": "^1.0.0-beta.3",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "next",
     "react-select": "1.0.0-rc.5",
@@ -34,6 +35,7 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "styled-components": "^2.0.1",
+    "url-search-params-polyfill": "^2.0.0",
     "validator": "^8.0.0"
   },
   "devDependencies": {
