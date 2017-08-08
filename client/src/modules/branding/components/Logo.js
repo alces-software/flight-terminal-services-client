@@ -15,8 +15,11 @@ const propTypes = {
   width: PropTypes.number,
 };
 
+const hasLogo = (branding) =>
+  branding.logoUrl != null && branding.logoUrl !== '';
+
 const Logo = ({ height, width }) => (
-  <WithBranding requires={['logoUrl']}>
+  <WithBranding when={hasLogo}>
     {(branding) => (
       <img
         alt="Tenant logo"

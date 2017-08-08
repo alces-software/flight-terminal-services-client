@@ -6,7 +6,6 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import PropTypes from 'prop-types';
-import every from 'lodash/every';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -21,18 +20,21 @@ const propTypes = {
     homePageUrl: PropTypes.string,
   }),
   children: PropTypes.func.isRequired,
-  requires: PropTypes.arrayOf(PropTypes.string.isRequired),
+  when: PropTypes.func.isRequired,
 };
 
-const WithBranding = ({ branding, children, requires }) => {
+const defaultProps = {
+  when: () => true,
+};
+
+const WithBranding = ({ branding, children, when }) => {
   if (branding == null) { return null; }
-  if (!every(requires, r => branding[r] != null)) {
-    return null;
-  }
+  if (!when(branding)) { return null; }
   return children(branding);
 };
 
 WithBranding.propTypes = propTypes;
+WithBranding.defaultProps = defaultProps;
 
 export default connect(createStructuredSelector({
   branding,
