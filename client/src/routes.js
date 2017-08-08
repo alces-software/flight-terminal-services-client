@@ -1,6 +1,10 @@
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+
 import { MetaPages } from 'flight-reactware';
 
 import App from './components/App';
+import TenantContext from './components/TenantContext';
 import Example from './pages/Example';
 import Home from './pages/Home';
 import MetaPage from './pages/MetaPage';
@@ -40,33 +44,57 @@ const metaPages = [
   },
 ];
 
+const redirects = {
+  '/': '/default',
+  '/launch': '/default/launch',
+  '/access': '/default/access',
+};
+const redirectRoutes = Object.keys(redirects).map((k) => {
+  const target = redirects[k];
+  return {
+    path: k,
+    exact: true,
+    component: () => <Redirect to={target} />,
+  };
+});
+
 const routes = [
+  ...redirectRoutes,
   {
-    path: '/:tenantIdentifier?',
     component: App,
     routes: [
       ...metaPages,
       {
-        path: '/:tenantIdentifier?/launch',
-        component: clusterSpecs.Page,
-        title: 'Launch',
-      },
-      {
-        path: '/:tenantIdentifier?/access',
-        component: Example,
-        title: 'Access',
-      },
-      {
+        component: TenantContext,
         path: '/:tenantIdentifier?',
-        exact: true,
-        component: Home,
-        title: 'About',
+        routes: [
+          {
+            path: '*/launch',
+            component: clusterSpecs.Page,
+            title: 'Launch',
+          },
+          {
+            path: '*/access',
+            component: Example,
+            title: 'Access',
+          },
+          {
+            path: '*/',
+            exact: true,
+            component: Home,
+            title: 'About',
+          },
+          {
+            component: NotFound,
+            title: 'Not found',
+          }
+        ],
       },
-      {
-        component: NotFound,
-        title: 'Not found',
-      }
-    ]
+    ],
+  },
+  {
+    component: NotFound,
+    title: 'Not found',
   }
 ];
 
