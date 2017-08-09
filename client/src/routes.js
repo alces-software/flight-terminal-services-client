@@ -69,7 +69,7 @@ const routes = [
       ...metaPages,
       {
         component: TenantContext,
-        path: '/:tenantIdentifier?',
+        path: '/:tenantIdentifier',
         routes: [
           {
             path: '*/launch',

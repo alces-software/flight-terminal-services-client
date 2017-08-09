@@ -12,7 +12,7 @@ import loadingStates from '../../modules/loadingStates';
 import { LOADING, LOADED, FAILED } from './actionTypes';
 
 const initialState = {
-  identifier: undefined,
+  identifier: 'default',
   tenant: undefined,
 };
 
