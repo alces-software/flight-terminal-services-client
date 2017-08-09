@@ -1,27 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Container,
   Row,
   Col,
 } from 'reactstrap';
-import { ContextLink as ReactwareContextLink } from 'flight-reactware';
 
 import branding from '../modules/branding';
-
-const ContextLink = ({ linkSite, location, children }) => (
-  <ReactwareContextLink
-    link={ReactwareContextLink.makeLink(linkSite, location)}
-    site={process.env.REACT_APP_SITE}
-  >
-    {children}
-  </ReactwareContextLink>
-);
-ContextLink.propTypes = {
-  children: PropTypes.node.isRequired,
-  linkSite: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-};
+import ContextLink from '../elements/ContextLink';
 
 const Home = () => {
   return (
