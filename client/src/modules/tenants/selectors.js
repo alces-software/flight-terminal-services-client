@@ -14,11 +14,11 @@ import { NAME } from './constants';
 const tenantState = state => state[NAME];
 
 export function identifier(state) {
-  return tenantState(state).identifier;
+  return tenantState(state).data.identifier;
 }
 
 export function tenant(state) {
-  return tenantState(state).tenant;
+  return tenantState(state).data.tenant;
 }
 
 export const retrieval = createSelector(

@@ -5,13 +5,14 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { combineReducers } from 'redux';
+
 import loadingStates from '../../modules/loadingStates';
-import composeReducers from '../../reducers/composeReducers';
 
 import { LOADING, LOADED, FAILED } from './actionTypes';
 
 const initialState = {
-  identifier: undefined,
+  identifier: 'default',
   tenant: undefined,
 };
 
@@ -41,11 +42,13 @@ function reducer(state = initialState, { payload, type }) {
   }
 }
 
-export default composeReducers(
-  loadingStates.reducer({
-    pending: LOADING,
-    resolved: LOADED,
-    rejected: FAILED,
+export default combineReducers({
+  data: reducer,
+  meta: combineReducers({
+    [loadingStates.constants.NAME]: loadingStates.reducer({
+      pending: LOADING,
+      resolved: LOADED,
+      rejected: FAILED,
+    }),
   }),
-  reducer,
-);
+});

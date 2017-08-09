@@ -5,8 +5,10 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { combineReducers } from 'redux';
+
 import loadingStates from '../../modules/loadingStates';
-import composeReducers from '../../reducers/composeReducers';
+import { reduceReducers } from '../../reducers/utils';
 
 import { LOADING, LOADED, FAILED } from './actionTypes';
 import { processClusterSpecs } from './processClusterSpecs';
@@ -47,12 +49,20 @@ function specsReducer(state = initialState, { payload, type }) {
   }
 }
 
-export default composeReducers(
-  loadingStates.reducer({
+const mainReducer = reduceReducers(
+  urlReducer,
+  specsReducer,
+);
+
+const metaReducers = combineReducers({
+  [loadingStates.constants.NAME]: loadingStates.reducer({
     pending: LOADING,
     resolved: LOADED,
     rejected: FAILED,
   }),
-  urlReducer,
-  specsReducer,
-);
+});
+
+export default combineReducers({
+  data: mainReducer,
+  meta: metaReducers,
+});

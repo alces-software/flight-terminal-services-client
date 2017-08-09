@@ -7,19 +7,13 @@ import { NAME } from './constants';
 const clusterSpecsState = state => state[NAME];
 
 export function clusterSpecs(state) {
-  return state[NAME].specs;
+  return state[NAME].data.specs;
 }
 
-const specsUrl = state => state[NAME].url;
-
-// export const numClusterSpecs = createSelector(
-//   clusterSpecs,
-
-//   (specs) => specs && specs.length,
-// );
+const specsUrl = state => state[NAME].data.url;
 
 export function clusterSpecsFile(state) {
-  return state[NAME].file;
+  return state[NAME].data.file;
 }
 
 export const retrieval = createSelector(

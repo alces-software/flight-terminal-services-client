@@ -2,18 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { CSSTransitionGroup } from 'react-transition-group';
-import { compose, lifecycle } from 'recompose';
-import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { matchRoutes, renderRoutes } from 'react-router-config';
 import { withRouter } from 'react-router';
 
-import clusterSpecs from '../modules/clusterSpecs';
-import tenants from '../modules/tenants';
 import { Page } from 'flight-reactware';
 
 import ScrollToTop from './ScrollToTop';
 import SitePage from './Page';
 import routes from '../routes';
+import appVersion from '../version';
 
 const productName = process.env.REACT_APP_PRODUCT_NAME;
 
@@ -32,7 +30,12 @@ const App = ({ location, route }) => {
         <Helmet
           defaultTitle={productName}
           titleTemplate={`${productName} - %s`}
-        />
+        >
+          <meta
+            content={appVersion}
+            name="client-version"
+          />
+        </Helmet>
         <SitePage title={lastRouteComponent.title}>
           <CSSTransitionGroup
             transitionEnterTimeout={250}
@@ -51,31 +54,8 @@ const App = ({ location, route }) => {
 
 App.propTypes = propTypes;
 
-// Retrieve the specs file name from window.location.
-//
-//  - In a development build, setting the clusterSpecs parameter to `dev` will
-//    use the specs given in `../data/clusterSpecs.dev.json`.
-function getClusterSpecsFile(location) {
-  const urlParams = new URLSearchParams(location.search);
-  return urlParams.get('clusterSpecs');
-}
-
 const enhance = compose(
-  connect(),
-
   withRouter,
-
-  lifecycle({
-    componentDidMount: function() {
-      const tenantIdentifier = this.props.match.params.tenantIdentifier;
-      this.props.dispatch(tenants.actions.loadTenant(tenantIdentifier))
-        .then(() => {
-          const specsFile = getClusterSpecsFile(this.props.location);
-          this.props.dispatch(clusterSpecs.actions.loadClusterSpecs(specsFile));
-        })
-        .catch(() => {});
-    }
-  }),
 );
 
 export default enhance(App);

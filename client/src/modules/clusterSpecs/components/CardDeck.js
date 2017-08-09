@@ -24,8 +24,11 @@ const ClusterSpecCardDeck = styled(({ className, clusterSpecs }) => {
     </div>
   );
 })`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
   ${ClusterSpecCard} {
-    float: left;
     padding-left: ${cardDeckPadding / 2}px;
     padding-right: ${cardDeckPadding / 2}px;
   }

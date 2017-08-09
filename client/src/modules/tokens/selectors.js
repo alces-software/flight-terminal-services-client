@@ -13,7 +13,7 @@ import loadingStates from '../../modules/loadingStates';
 import { NAME } from './constants';
 
 const tokenState = state => state[NAME];
-const allTokens = state => state[NAME].tokens;
+const allTokens = state => state[NAME].data.tokens;
 const tokenNameProp = (state, props) => props.tokenName;
 
 export const tokenFromName = createSelector(

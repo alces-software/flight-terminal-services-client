@@ -11,8 +11,8 @@ import PropTypes from 'prop-types';
 import WithBranding from './WithBranding';
 
 const propTypes = {
-  height: PropTypes.number,
-  width: PropTypes.number,
+  height: PropTypes.string,
+  width: PropTypes.string,
 };
 
 const hasLogo = (branding) =>

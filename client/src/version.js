@@ -6,14 +6,8 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-//
-// Return a new reducer which calls each provided reducer in turn.
-//
-export default function composeReducers(...reducers) {
-  return (state, action) => (
-    reducers.reduce(
-      (newState, nextReducer) => nextReducer(newState, action),
-      state,
-    )
-  );
-}
+import version from './data/version.json';
+
+export const major = version.major;
+export const minor = version.minor;
+export default `${version.major}.${version.minor}`;

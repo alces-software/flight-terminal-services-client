@@ -1,15 +1,22 @@
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+
 import { MetaPages } from 'flight-reactware';
 
 import App from './components/App';
+import TenantContext from './components/TenantContext';
 import Example from './pages/Example';
 import Home from './pages/Home';
 import MetaPage from './pages/MetaPage';
 import clusterSpecs from './modules/clusterSpecs';
 
-//import licenseData from '../data/licenses.json';
+import licenseData from './data/licenses.json';
+import { icons } from './utils/depotToIcon';
 
-//const licensables = MetaPages.About.buildLicensables(licenseData);
-const licensables = [];
+const licensables = MetaPages.About.buildLicensables({
+  softwareLicenses: licenseData,
+  icons: icons,
+});
 
 const About = MetaPage(MetaPages.About, { licensables });
 const Privacy = MetaPage(MetaPages.Privacy);
@@ -40,33 +47,57 @@ const metaPages = [
   },
 ];
 
+const redirects = {
+  '/': '/default',
+  '/launch': '/default/launch',
+  '/access': '/default/access',
+};
+const redirectRoutes = Object.keys(redirects).map((k) => {
+  const target = redirects[k];
+  return {
+    path: k,
+    exact: true,
+    component: () => <Redirect to={target} />,
+  };
+});
+
 const routes = [
+  ...redirectRoutes,
   {
-    path: '/:tenantIdentifier?',
     component: App,
     routes: [
       ...metaPages,
       {
-        path: '/:tenantIdentifier?/launch',
-        component: clusterSpecs.Page,
-        title: 'Launch',
+        component: TenantContext,
+        path: '/:tenantIdentifier',
+        routes: [
+          {
+            path: '*/launch',
+            component: clusterSpecs.Page,
+            title: 'Launch',
+          },
+          {
+            path: '*/access',
+            component: Example,
+            title: 'Access',
+          },
+          {
+            path: '*/',
+            exact: true,
+            component: Home,
+            title: 'About',
+          },
+          {
+            component: NotFound,
+            title: 'Not found',
+          }
+        ],
       },
-      {
-        path: '/:tenantIdentifier?/access',
-        component: Example,
-        title: 'Access',
-      },
-      {
-        path: '/:tenantIdentifier?',
-        exact: true,
-        component: Home,
-        title: 'About',
-      },
-      {
-        component: NotFound,
-        title: 'Not found',
-      }
-    ]
+    ],
+  },
+  {
+    component: NotFound,
+    title: 'Not found',
   }
 ];
 

@@ -5,8 +5,9 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { combineReducers } from 'redux';
+
 import loadingStates from '../../modules/loadingStates';
-import composeReducers from '../../reducers/composeReducers';
 
 import { LOADING, LOADED, LOAD_FAILED } from './actionTypes';
 
@@ -35,12 +36,13 @@ function reducer(state = initialState, { meta, payload, type }) {
   }
 }
 
-
-export default composeReducers(
-  loadingStates.reducer({
-    pending: LOADING,
-    resolved: LOADED,
-    rejected: LOAD_FAILED,
+export default combineReducers({
+  data: reducer,
+  meta: combineReducers({
+    [loadingStates.constants.NAME]: loadingStates.reducer({
+      pending: LOADING,
+      resolved: LOADED,
+      rejected: LOAD_FAILED,
+    }),
   }),
-  reducer,
-);
+});

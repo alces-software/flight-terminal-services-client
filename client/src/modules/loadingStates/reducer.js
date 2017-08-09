@@ -7,25 +7,14 @@
  *===========================================================================*/
 import { PENDING, RESOLVED, REJECTED } from './constants';
 
-const initialState = {
-  meta: {
-    loadingState: {},
-  },
-};
+const initialState = {};
 
 const setLoadingState = (actionMeta, loadingState) => state => (
   {
     ...state,
-    meta: {
-      ...state.meta,
-      loadingState: {
-        ...state.meta.loadingState,
-        [actionMeta.loadingState.key]: loadingState,
-      }
-    }
+    [actionMeta.loadingState.key]: loadingState,
   }
 );
-
 
 // Reducer to track the loading state of entities.
 export default function reducer(config) {
