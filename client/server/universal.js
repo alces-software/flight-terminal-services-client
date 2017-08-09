@@ -6,40 +6,29 @@ const { Provider } = require('react-redux');
 const { createStore, combineReducers } = require('redux');
 const { renderToString } = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
-const { Route } = require('react-router');
-// const { CSSTransitionGroup } = require('react-transition-group');
 const { ServerStyleSheet, StyleSheetManager } = require('styled-components');
-//const {default: configureStore} = require('../src/store');
-//const {default: App} = require('../src/containers/App');
 
-const { Page } = require('flight-reactware');
-const { default: SitePage } = require('../src/components/Page');
-const { getPage } = require ('../src/pages');
+const { default: routes } = require('../src/routes');
+const { renderRoutes } = require('react-router-config');
+
 const { default: reducers } = require('../src/reducers');
 
 module.exports = function universalLoader(req, res) {
+
   const location = { pathname: req.url };
-  const page = getPage(location);
-  if (!page) {
-    res.status(404).send('Not found');
-    return;
-  }
 
   const sheet = new ServerStyleSheet();
   const filePath = path.resolve(process.env.APPROOT, 'build', 'index.html');
 
-  fs.readFile(filePath, 'utf8', (err, htmlData)=>{
+  fs.readFile(filePath, 'utf8', (err, htmlData) => {
     if (err) {
       console.error('read err', err);
       return res.status(404).end();
     }
     const context = {};
     const store = createStore(combineReducers(reducers));
-    const renderPage = () => (
-      <SitePage title={page.title}>
-        <Route component={page.component} />
-      </SitePage>
-    );
+
+
     const markup = renderToString(
       <StyleSheetManager sheet={sheet.instance}>
         <Provider store={store}>
@@ -47,9 +36,7 @@ module.exports = function universalLoader(req, res) {
             context={context}
             location={location}
           >
-            <Page site={process.env.REACT_APP_SITE}>
-              <Route render={renderPage} />
-            </Page>
+            {renderRoutes(routes)}
           </StaticRouter>
         </Provider>
       </StyleSheetManager>
