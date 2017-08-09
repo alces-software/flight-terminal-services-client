@@ -11,7 +11,7 @@
 //
 export default function composeReducers(...reducers) {
   return (state, action) => (
-    reducers.reduce(
+    reducers.reduceRight(
       (newState, nextReducer) => nextReducer(newState, action),
       state,
     )
