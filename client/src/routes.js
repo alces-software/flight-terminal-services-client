@@ -4,10 +4,10 @@ import { Redirect } from 'react-router-dom';
 import { MetaPages } from 'flight-reactware';
 
 import App from './components/App';
-import TenantContext from './components/TenantContext';
-import Example from './pages/Example';
 import Home from './pages/Home';
 import MetaPage from './pages/MetaPage';
+import TenantContext from './components/TenantContext';
+import clusters from './modules/clusters';
 import clusterSpecs from './modules/clusterSpecs';
 
 import licenseData from './data/licenses.json';
@@ -50,7 +50,6 @@ const metaPages = [
 const redirects = {
   '/': '/default',
   '/launch': '/default/launch',
-  '/access': '/default/access',
 };
 const redirectRoutes = Object.keys(redirects).map((k) => {
   const target = redirects[k];
@@ -68,6 +67,16 @@ const routes = [
     routes: [
       ...metaPages,
       {
+        path: '/cluster/:ipAddress/vpn',
+        component: clusters.VpnPage,
+        title: 'VPN Access',
+      },
+      {
+        path: '/cluster/:ipAddress?',
+        component: clusters.Page,
+        title: 'Access',
+      },
+      {
         component: TenantContext,
         path: '/:tenantIdentifier',
         routes: [
@@ -75,11 +84,6 @@ const routes = [
             path: '*/launch',
             component: clusterSpecs.Page,
             title: 'Launch',
-          },
-          {
-            path: '*/access',
-            component: Example,
-            title: 'Access',
           },
           {
             path: '*/',
