@@ -8,7 +8,7 @@
 import { combineReducers } from 'redux';
 
 import loadingStates from '../../modules/loadingStates';
-import { reduceReducers, addReducers } from '../../reducers/utils';
+import { reduceReducers } from '../../reducers/utils';
 
 import { LOADING, LOADED, FAILED } from './actionTypes';
 import { processClusterSpecs } from './processClusterSpecs';
@@ -55,13 +55,14 @@ const mainReducer = reduceReducers(
 );
 
 const metaReducers = combineReducers({
-  loadingStates: loadingStates.reducer({
+  [loadingStates.constants.NAME]: loadingStates.reducer({
     pending: LOADING,
     resolved: LOADED,
     rejected: FAILED,
   }),
 });
 
-export default addReducers(mainReducer, {
+export default combineReducers({
+  data: mainReducer,
   meta: metaReducers,
 });

@@ -8,7 +8,6 @@
 import { combineReducers } from 'redux';
 
 import loadingStates from '../../modules/loadingStates';
-import { addReducers } from '../../reducers/utils';
 
 import { LOADING, LOADED, FAILED } from './actionTypes';
 
@@ -43,14 +42,13 @@ function reducer(state = initialState, { payload, type }) {
   }
 }
 
-const metaReducers = combineReducers({
-  loadingStates: loadingStates.reducer({
-    pending: LOADING,
-    resolved: LOADED,
-    rejected: FAILED,
+export default combineReducers({
+  data: reducer,
+  meta: combineReducers({
+    [loadingStates.constants.NAME]: loadingStates.reducer({
+      pending: LOADING,
+      resolved: LOADED,
+      rejected: FAILED,
+    }),
   }),
-});
-
-export default addReducers(reducer, {
-  meta: metaReducers,
 });

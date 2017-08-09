@@ -5,9 +5,9 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { PENDING, RESOLVED, REJECTED } from './constants';
+import { NAME, PENDING, RESOLVED, REJECTED } from './constants';
 
-export const loadingStateForKey = (state, key) => state.meta.loadingState[key];
+export const loadingStateForKey = (state, key) => state.meta[NAME][key];
 
 export const isPending = (state, key) =>
   loadingStateForKey(state, key) === PENDING;
