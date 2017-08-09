@@ -7,43 +7,18 @@
  *===========================================================================*/
 import { PENDING, RESOLVED, REJECTED } from './constants';
 
-const initialState = {
-  meta: {
-    loadingState: {},
-  },
-};
+const initialState = {};
 
 const setLoadingState = (actionMeta, loadingState) => state => (
   {
     ...state,
-    meta: {
-      ...state.meta,
-      loadingState: {
-        ...state.meta.loadingState,
-        [actionMeta.loadingState.key]: loadingState,
-      }
-    }
+    [actionMeta.loadingState.key]: loadingState,
   }
 );
-
-function mergeInitialState(state) {
-  if (state.meta == null || state.meta.loadingState == null) {
-    state = {
-      ...state,
-      meta: {
-        ...state.meta,
-        ...initialState.meta,
-      }
-    };
-  }
-  return state;
-}
 
 // Reducer to track the loading state of entities.
 export default function reducer(config) {
   return function(state = initialState, { meta, type }) {
-    state = mergeInitialState(state);
-
     switch (type) {
       case config.pending:
         return setLoadingState(meta, PENDING)(state);
