@@ -1,18 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'reactstrap';
-import { branch, compose, lifecycle, mapProps, renderComponent } from 'recompose';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
-import { DelaySpinner } from 'flight-reactware';
-
-import * as selectors from '../selectors';
-import * as actions from '../actions';
 import Community from '../components/Community';
 import Docs from '../components/Docs';
 import SshAccessDetails from '../components/SshAccessDetails';
 import Vpn from '../components/Vpn';
+import withCluster from '../components/withCluster';
 
 const propTypes = {
   cluster: PropTypes.shape({
@@ -65,25 +59,4 @@ const AccessDetails = ({ cluster }) => {
 
 AccessDetails.propTypes = propTypes;
 
-const enhance = compose(
-  mapProps(props => ({ ipAddress: props.match.params.ipAddress })),
-
-  connect(createStructuredSelector({
-    cluster: selectors.fromIpAddress,
-    retrieval: selectors.retrieval,
-  })),
-
-  lifecycle({
-    componentDidMount: function componentDidMount() {
-      const { dispatch, ipAddress } = this.props;
-      dispatch(actions.loadCluster(ipAddress));
-    },
-  }),
-
-  branch(
-    ({ retrieval }) => !retrieval.initiated || retrieval.pending,
-    renderComponent(DelaySpinner),
-  ),
-);
-
-export default enhance(AccessDetails);
+export default withCluster(AccessDetails);

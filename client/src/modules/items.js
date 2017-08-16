@@ -9,6 +9,6 @@ export default function(tenantIdentifier) {
   return [
     makeItem('About', 'home', makeLink(currentSite, `/${tid}`)),
     makeItem('Launch', 'plane', makeLink(currentSite, `/${tid}/launch`)),
-    makeItem('Access', 'key', makeLink(currentSite, '/cluster/52.48.157.53')),
+    makeItem('Access', 'key', makeLink(currentSite, '/cluster')),
   ];
 }

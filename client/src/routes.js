@@ -67,14 +67,20 @@ const routes = [
     routes: [
       ...metaPages,
       {
-        path: '/cluster/:ipAddress/vpn',
-        component: clusters.VpnPage,
-        title: 'VPN Access',
-      },
-      {
+        component: clusters.ClusterContext,
         path: '/cluster/:ipAddress?',
-        component: clusters.Page,
-        title: 'Access',
+        routes: [
+          {
+            path: '/cluster/:ipAddress/vpn',
+            component: clusters.VpnPage,
+            title: 'VPN Access',
+          },
+          {
+            path: '/cluster/:ipAddress?',
+            component: clusters.Page,
+            title: 'Access',
+          },
+        ],
       },
       {
         component: TenantContext,

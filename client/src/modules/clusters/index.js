@@ -9,7 +9,7 @@
 // Import and export the public facing API for the onboarding module.
 
 // import * as actions from './actions';
-// import * as components from './components';
+import * as components from './components';
 import AccessDetailsPage from './pages/AccessDetails';
 import VpnAccessPage from './pages/VpnAccessPage';
 import * as constants from './constants';
@@ -18,7 +18,7 @@ import reducer from './reducer';
 
 export default {
   // actions,
-  // ...components,
+  ...components,
   constants,
   reducer,
   selectors,

@@ -79,7 +79,7 @@ const fakeCluster = {
 export function loadCluster(ipAddress) {
   return (dispatch) => {
     dispatch(loading(ipAddress));
-    dispatch(loaded(fakeCluster));
+    setTimeout(() => { dispatch(loaded(fakeCluster)); }, 1000);
 
     // const baseTenantUrl = '/api/v1/tenants';
     // return api.actions.fetchOneByLookupKey(baseTenantUrl, 'identifier', identifier)
