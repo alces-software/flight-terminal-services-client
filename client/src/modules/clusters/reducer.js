@@ -33,12 +33,6 @@ function reducer(state = initialState, { payload, type }) {
         [payload.attributes.ipAddress]: payload,
       };
 
-    case FAILED:
-      return {
-        ...state,
-        [payload.attributes.ipAddress]: undefined,
-      };
-
     default:
       return state;
   }

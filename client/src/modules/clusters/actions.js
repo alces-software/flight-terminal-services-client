@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-import { LOADING, LOADED } from './actionTypes';
+import { LOADING, LOADED, FAILED } from './actionTypes';
 // import api from '../../modules/api';
 
 function loading(ipAddress) {
@@ -35,20 +35,20 @@ function loaded(cluster) {
   };
 }
 
-// function failedToLoad(error, ipAddress) {
-//   return {
-//     type: FAILED,
-//     error: true,
-//     payload: {
-//       error,
-//     },
-//     meta: {
-//       loadingState: {
-//         key: ipAddress,
-//       },
-//     },
-//   };
-// }
+function failedToLoad(error, ipAddress) {
+  return {
+    type: FAILED,
+    error: true,
+    payload: {
+      error,
+    },
+    meta: {
+      loadingState: {
+        key: ipAddress,
+      },
+    },
+  };
+}
 
 const fakeCluster = {
   id: 'd229b332-062e-4d91-b378-ea203f5a004c',
@@ -79,7 +79,11 @@ const fakeCluster = {
 export function loadCluster(ipAddress) {
   return (dispatch) => {
     dispatch(loading(ipAddress));
-    setTimeout(() => { dispatch(loaded(fakeCluster)); }, 1000);
+    if (true) {
+      setTimeout(() => { dispatch(loaded(fakeCluster)); }, 1000);
+    } else {
+      setTimeout(() => { dispatch(failedToLoad('fake error', ipAddress)); }, 1000);
+    }
 
     // const baseTenantUrl = '/api/v1/tenants';
     // return api.actions.fetchOneByLookupKey(baseTenantUrl, 'identifier', identifier)
