@@ -1,9 +1,9 @@
-import { compose, lifecycle, withProps } from 'recompose';
+import { branch, compose, lifecycle, renderComponent, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 
 import * as actions from '../actions';
-import ClusterSelectionBlurb from './ClusterSelectionBlurb';
+import AccessHowTo from './AccessHowTo';
 
 const ClusterContext = ({ route }) => {
   return renderRoutes(route.routes);
@@ -13,6 +13,11 @@ const enhance = compose(
   withProps(props => ({ ipAddress: props.match.params.ipAddress })),
 
   connect(),
+
+  branch(
+    ({ ipAddress }) => !ipAddress,
+    renderComponent(AccessHowTo),
+  ),
 
   lifecycle({
     componentDidMount: function componentDidMount() {
