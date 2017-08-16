@@ -10,9 +10,8 @@
 
 // import * as actions from './actions';
 import * as components from './components';
-import AccessDetailsPage from './pages/AccessDetails';
-import VpnAccessPage from './pages/VpnAccessPage';
 import * as constants from './constants';
+import * as pages from './pages';
 import * as selectors from './selectors';
 import reducer from './reducer';
 
@@ -20,8 +19,7 @@ export default {
   // actions,
   ...components,
   constants,
+  pages,
   reducer,
   selectors,
-  Page: AccessDetailsPage,
-  VpnPage: VpnAccessPage,
 };

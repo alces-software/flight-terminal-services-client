@@ -72,12 +72,12 @@ const routes = [
         routes: [
           {
             path: '/cluster/:ipAddress/vpn',
-            component: clusters.VpnPage,
+            component: clusters.pages.VpnDetails,
             title: 'VPN Access',
           },
           {
             path: '/cluster/:ipAddress?',
-            component: clusters.Page,
+            component: clusters.pages.AccessDetails,
             title: 'Access',
           },
         ],
@@ -88,7 +88,7 @@ const routes = [
         routes: [
           {
             path: '*/launch',
-            component: clusterSpecs.Page,
+            component: clusterSpecs.pages.ClusterSpecsPage,
             title: 'Launch',
           },
           {
