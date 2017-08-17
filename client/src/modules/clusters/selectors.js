@@ -21,12 +21,7 @@ export const retrieval = createSelector(
   clustersState,
   ipAddressFromProps,
 
-  (as, ipAddress) => ({
-    initiated: loadingStates.selectors.isInitiated(as, ipAddress), 
-    pending: loadingStates.selectors.isPending(as, ipAddress),
-    resolved: loadingStates.selectors.isResolved(as, ipAddress),
-    rejected: loadingStates.selectors.isRejected(as, ipAddress),
-  }),
+  loadingStates.selectors.retrieval,
 );
 
 export const fromIpAddress = createSelector(

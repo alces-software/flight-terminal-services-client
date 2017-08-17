@@ -20,10 +20,5 @@ export const retrieval = createSelector(
   clusterSpecsState,
   specsUrl,
 
-  (css, url) => ({
-    initiated: loadingStates.selectors.isInitiated(css, url), 
-    pending: loadingStates.selectors.isPending(css, url),
-    resolved: loadingStates.selectors.isResolved(css, url),
-    rejected: loadingStates.selectors.isRejected(css, url),
-  }),
+  loadingStates.selectors.retrieval,
 );

@@ -25,12 +25,7 @@ export const retrieval = createSelector(
   tenantState,
   identifier,
 
-  (ts, tenantIdentifier) => ({
-    initiated: loadingStates.selectors.isInitiated(ts, tenantIdentifier), 
-    pending: loadingStates.selectors.isPending(ts, tenantIdentifier),
-    resolved: loadingStates.selectors.isResolved(ts, tenantIdentifier),
-    rejected: loadingStates.selectors.isRejected(ts, tenantIdentifier),
-  }),
+  loadingStates.selectors.retrieval,
 );
 
 export const clusterSpecsUrlConfig = createSelector(

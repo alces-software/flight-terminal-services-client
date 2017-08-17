@@ -20,3 +20,10 @@ export const isRejected = (state, key) =>
 
 export const isInitiated = (state, key) =>
   isPending(state, key) || isResolved(state, key) || isRejected(state, key);
+
+export const retrieval = (state, key) => ({
+  initiated: isInitiated(state, key), 
+  pending: isPending(state, key),
+  resolved: isResolved(state, key),
+  rejected: isRejected(state, key),
+});
