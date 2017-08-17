@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 
 import { StandardModal } from 'flight-reactware';
 
+import CommunitySiteLink from '../../../elements/CommunitySiteLink';
+
 const propTypes = {
   clusterName: PropTypes.string,
   email: PropTypes.string,
@@ -32,7 +34,7 @@ const LaunchedModal = ({ clusterName, email, toggle, isOpen }) => (
       All notices on the status of your cluster will be sent to{' '}
       <a href={`mailto:${email}`}>{email}</a>.  Should you find yourself
       needing help, please visit our{' '}
-      <a href="https://community.alces-flight.com">Community Support Portal</a>.
+      <CommunitySiteLink>Community Support Portal</CommunitySiteLink>.
     </p>  
     <p>
       Thank you for choosing the Alces Flight Launch service.

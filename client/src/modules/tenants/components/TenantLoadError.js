@@ -12,6 +12,7 @@ import { createStructuredSelector } from 'reselect';
 
 import { MissingNotice } from 'flight-reactware';
 
+import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 import { identifier } from '../selectors';
 
 const propTypes = {
@@ -22,7 +23,7 @@ const TenantLoadError = ({ tenantIdentifier }) => (
   <MissingNotice title="Unable to load tenant">
     Unfortunately, the tenant <em>{tenantIdentifier}</em> cannot be loaded.
     Please check the tenant name and try again.  Please visit our{' '}
-    <a href="https://community.alces-flight.com">Community Support Portal</a>
+    <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
     {' '}for further help.
   </MissingNotice>
 );

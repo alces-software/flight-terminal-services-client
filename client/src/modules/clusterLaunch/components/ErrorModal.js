@@ -11,6 +11,7 @@ import { isFSA } from 'flux-standard-action';
 
 import { StandardModal } from 'flight-reactware';
 import tokens from '../../../modules/tokens';
+import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 
 function hasPropError(errorDetails, prop, error) {
   return errorDetails[prop] && errorDetails[prop].some(e => e === error);
@@ -82,8 +83,9 @@ function unexpectedMessage(message) {
       <p>
         Unfortunately, there was an unexpected error while launching your
         cluster.  Please check your settings and try again.{' '}
-        Please visit our <a href="https://community.alces-flight.com">Community Support
-        Portal</a> for further help.
+        Please visit our{' '}
+        <CommunitySiteLink>Community Support Portal</CommunitySiteLink> for
+        further help.
       </p>
       {details}
     </div>

@@ -1,19 +1,6 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
-import ContextLink from '../../../elements/ContextLink';
-
-const propTypes = {
-};
-
-const CommunityLink = () => (
-  <ContextLink
-    linkSite="Community"
-    location="/"
-  >
-    Alces Flight Community
-  </ContextLink>
-);
+import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 
 const Community = () => (
   <div>
@@ -21,7 +8,7 @@ const Community = () => (
       Alces Flight Community
     </h4>
     <p>
-      The <CommunityLink /> is a place to ask for help, advice and tips for
+      The <CommunitySiteLink /> is a place to ask for help, advice and tips for
       working with Alces Flight Compute and Alces Gridware, and to chat about
       your experiences.
     </p>
@@ -39,7 +26,5 @@ const Community = () => (
     </p>
   </div>
 );
-
-Community.propTypes = propTypes;
 
 export default Community;

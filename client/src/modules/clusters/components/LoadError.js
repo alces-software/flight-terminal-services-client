@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 
 import { MissingNotice } from 'flight-reactware';
 
+import CommunitySiteLink from '../../../elements/CommunitySiteLink';
+
 const propTypes = {
   ipAddress: PropTypes.string.isRequired,
 };
@@ -19,7 +21,7 @@ const LoadError = ({ ipAddress }) => (
     Unfortunately, the details for the cluster at <em>{ipAddress}</em> cannot
     be loaded.  Please check the IP address and try again.  Please visit
     our{' '}
-    <a href="https://community.alces-flight.com">Community Support Portal</a>
+    <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
     {' '}for further help.
   </MissingNotice>
 );

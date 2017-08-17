@@ -7,6 +7,8 @@ import {
 
 import branding from '../modules/branding';
 import ContextLink from '../elements/ContextLink';
+import CommunitySiteLink from '../elements/CommunitySiteLink';
+import DocsSiteLink from '../elements/DocsSiteLink';
 
 const Home = () => {
   return (
@@ -108,18 +110,10 @@ const Home = () => {
             <p>
               Want to spend some time reading up on the Alces Flight Launch
               service prior to starting your evaluation? We have a{' '}
-              <ContextLink
-                linkSite="Docs"
-                location="/"
-              >
-                documentation site
-              </ContextLink>{' '}dedicated to the cause as well as a {' '}
-              <ContextLink
-                linkSite="Community"
-                location="/"
-              >Community Support Portal
-              </ContextLink>{' '} available for you to join in and read
-              through.
+              <DocsSiteLink>documentation site</DocsSiteLink> dedicated to the
+              cause as well as a {' '}
+              <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
+              {' '} available for you to join in and read through.
             </p>
             <p>
               Enjoy your flight!
