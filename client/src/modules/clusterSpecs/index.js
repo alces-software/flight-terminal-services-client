@@ -2,7 +2,7 @@
 
 import * as actions from './actions';
 import * as components from './components';
-import ClusterSpecsPage from './pages/ClusterSpecsPage';
+import * as pages from './pages';
 import * as constants from './constants';
 import * as selectors from './selectors';
 import reducer from './reducer';
@@ -11,7 +11,7 @@ export default {
   actions,
   ...components,
   constants,
+  pages,
   reducer,
   selectors,
-  Page: ClusterSpecsPage,
 };
