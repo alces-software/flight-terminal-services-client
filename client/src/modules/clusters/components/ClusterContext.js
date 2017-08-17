@@ -12,12 +12,12 @@ const ClusterContext = ({ route }) => {
 const enhance = compose(
   withProps(props => ({ ipAddress: props.match.params.ipAddress })),
 
-  connect(),
-
   branch(
     ({ ipAddress }) => !ipAddress,
     renderComponent(AccessHowTo),
   ),
+
+  connect(),
 
   lifecycle({
     componentDidMount: function componentDidMount() {
