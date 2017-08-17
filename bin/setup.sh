@@ -42,7 +42,7 @@ setup_client() {
     cp -an .env.example .env
 
     header "Installing packages"
-    docker-compose run --rm client yarn 2> >(indent 1>&2) | indent
+    client yarn 2> >(indent 1>&2) | indent
 
     popd
 }
@@ -58,15 +58,12 @@ prepare_server() {
 
 setup_server() {
     pushd "${SOURCE_DIR}"/server
-
-    header "Installing gems"
-    local install_gems_args
-    install_gems_args=()
+    header "Running server setup script"
     if $ALLOW_REMOTE_GEMS ; then
-        install_gems_args+=" --remote-gems"
+        bin/setup --remote-gems
+    else
+        bin/setup
     fi
-    docker-compose run --rm server bundle install ${bundle_install_args[@]} 2> >(indent 1>&2) | indent
-
     popd
 }
 
@@ -122,4 +119,3 @@ indent() {
 }
 
 main "$@"
-

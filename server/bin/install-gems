@@ -8,53 +8,36 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 set -e
-set -o pipefail
 
 ALLOW_REMOTE_GEMS=false
-SOURCE_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 main() {
     parse_arguments "$@"
     check_dependencies
-    setup
+    install_gems
 }
 
-setup() {
-    header "Starting database container"
-    docker-compose up -d db 2> >(indent 1>&2) | indent
-    sleep 5   # Give the database a chance to start.
-
-    local install_gems_args
-    install_gems_args=()
+install_gems() {
+    header "Installing gems"
+    local bundle_install_args
+    bundle_install_args=()
     if $ALLOW_REMOTE_GEMS ; then
-        install_gems_args+=" --remote-gems"
+        subheader "Remote gems allowed"
+    else
+        subheader "Remote gems disallowed"
+        bundle_install_args+=" --local"
     fi
-    "$SOURCE_DIR"/install-gems ${install_gems_args[@]}
-
-    header "Setting up database"
-    docker-compose run --rm server rake db:setup  | indent
-
-    header "Starting docker containers"
-    docker-compose up server 2> >(indent 1>&2) | indent
-
-    header "Downloading fly executable"
-    FLY_DOWNLOAD_URL=${FLY_DOWNLOAD_URL:-https://s3-eu-west-1.amazonaws.com/alces-flight/FlightAttendant/0.6.0-dev/linux-x86_64/fly}
-    FLY_EXE_PATH=${FLY_EXE_PATH:-fly}
-    wget -q $FLY_DOWNLOAD_URL --output-document $FLY_EXE_PATH ; chmod +x $FLY_EXE_PATH
-
-    # Make sure the prompt isn't indented.
-    echo
+    docker-compose run --rm web bundle install ${bundle_install_args[@]} 2> >(indent 1>&2) | indent
 }
 
 usage() {
     echo "Usage: $(basename $0) [--remote-gems]"
     echo
-    echo "Build and start the docker containers."
+    echo "Install gems in the web docker container."
     echo
     echo "If --remote-gems is given gems will be downloaded from the internet where needed."
     echo "Otherwise they will have to be cached."
 }
-
 
 check_dependencies() {
     type -p docker > /dev/null || { echo "Please install docker and docker-compose" ; exit 1; }
