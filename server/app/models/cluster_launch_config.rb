@@ -66,14 +66,6 @@ class ClusterLaunchConfig
     end
   end
 
-  def region
-    @region || Rails.configuration.alces.default_region
-  end
-
-  def key_pair
-    @key_pair || Rails.configuration.alces.default_key_pair
-  end
-
   def validate_token
     if token.nil?
       errors.add(:base, 'Must provide token')
