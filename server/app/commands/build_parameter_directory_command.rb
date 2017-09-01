@@ -13,8 +13,11 @@ require 'yaml'
 # `cluster_spec`.
 #
 class BuildParameterDirectoryCommand
-  MANDATORY_OVERRIDES = {
+  DEFAULT_OVERRIDES = {
     'FlightProfileBucket' => :email_hash,
+  }.freeze
+
+  MANDATORY_OVERRIDES = {
     'ClusterName' => :cluster_name,
   }.freeze
 
@@ -26,6 +29,7 @@ class BuildParameterDirectoryCommand
 
   def perform
     create_parameter_directory
+    merge_default_overrides
     merge_cluster_spec_overrides
     merge_launch_option_overrides
     merge_mandatory_overrides
@@ -48,7 +52,7 @@ class BuildParameterDirectoryCommand
 
   def merge_cluster_spec_overrides
     overrides = @cluster_spec.parameter_directory_overrides
-    merge_overrides(overrides, "spec", backup: true)
+    merge_overrides(overrides, "spec")
   end
 
   def merge_launch_option_overrides
@@ -71,26 +75,34 @@ class BuildParameterDirectoryCommand
     end
   end
 
+  def merge_default_overrides
+    overrides = generate_overrides(DEFAULT_OVERRIDES)
+    merge_overrides(overrides, "default overrides", backup: true)
+  end
+
   def merge_mandatory_overrides
-    mandatory_overrides = generate_mandatory_overrides
-    parameter_files = Dir.glob(File.join(@parameter_dir, "*.yml")).map do |f|
-      File.basename(f).sub(/\.yml$/, '')
-    end
-    overrides = parameter_files.inject({}) do |acc, parameter_file|
-      acc[parameter_file] = mandatory_overrides
-      acc
-    end
+    overrides = generate_overrides(MANDATORY_OVERRIDES)
     merge_overrides(overrides, "mandatory overrides")
   end
 
-  def generate_mandatory_overrides
-    MANDATORY_OVERRIDES.inject({}) do |acc, override|
+  def parameter_files
+    Dir.glob(File.join(@parameter_dir, "*.yml")).map do |f|
+      File.basename(f).sub(/\.yml$/, '')
+    end
+  end
+
+  def generate_overrides(overrides_hash)
+    overrides = overrides_hash.inject({}) do |acc, override|
       key = override.first
       value = override.last
       if value.is_a?(Symbol)
         value = send(value)
       end
       acc[key] = value
+      acc
+    end
+    parameter_files.inject({}) do |acc, parameter_file|
+      acc[parameter_file] = overrides
       acc
     end
   end
