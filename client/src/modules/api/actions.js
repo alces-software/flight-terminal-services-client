@@ -6,6 +6,38 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
+const notFoundError = {
+  errors: [{
+    status: 404,
+    title: 'Record not found',
+    code: 'RECORD_NOT_FOUND',
+  }]
+};
+
+function parseJson(response) {
+  if (response.ok) {
+    return response.json();
+  } else {
+    return response.json().then(j => Promise.reject(j));
+  }
+}
+
+function rejectUnlessOneRecord(jsonApiDoc) {
+  const entities = jsonApiDoc.data;
+  if (entities == null) {
+    return Promise.reject(notFoundError);
+  }
+  if (Array.isArray(entities) && (entities.length < 1 || entities > 1)) {
+    return Promise.reject(notFoundError);
+  }
+  return jsonApiDoc;
+}
+
+function extractOneRecord(jsonApiDoc) {
+  const entities = jsonApiDoc.data;
+  return Array.isArray(entities) ? entities[0] : entities;
+}
+
 export function fetchOneByLookupKey(baseUrl, key, value) {
   const url = new URL(baseUrl, window.location.href);
   if (!(process.env.NODE_ENV === 'test' && url.searchParams === undefined)) {
@@ -13,30 +45,7 @@ export function fetchOneByLookupKey(baseUrl, key, value) {
   }
 
   return fetch(url.href)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        return response.json().then(j => Promise.reject(j));
-      }
-    })
-    .then((jsonApiDoc) => {
-      const entities = jsonApiDoc.data;
-      if (entities.length < 1 || entities > 1) {
-        return Promise.reject({
-          errors: [{
-            status: 404,
-            title: 'Record not found',
-            code: 'RECORD_NOT_FOUND',
-          }]
-        });
-      }
-      return entities[0];
-    })
-    .catch((error) => {
-      if (process.env.NODE_ENV !== 'test') {
-        console.log('fetchOneByLookupKey failed:', error);  // eslint-disable-line no-console
-      }
-      return Promise.reject(error);
-    });
+    .then(parseJson)
+    .then(rejectUnlessOneRecord)
+    .then(extractOneRecord)
 }
