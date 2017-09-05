@@ -13,20 +13,20 @@ import { NAME } from './constants';
 
 const clustersState = state => state[NAME];
 
-function ipAddressFromProps(state, props) {
-  return props.ipAddress;
+function hostnameFromProps(state, props) {
+  return props.hostname;
 }
 
 export const retrieval = createSelector(
   clustersState,
-  ipAddressFromProps,
+  hostnameFromProps,
 
   loadingStates.selectors.retrieval,
 );
 
-export const fromIpAddress = createSelector(
+export const fromHostname = createSelector(
   clustersState,
-  ipAddressFromProps,
+  hostnameFromProps,
 
-  (as, ipAddress) => as.data[ipAddress],
+  (as, hostname) => as.data[hostname],
 );

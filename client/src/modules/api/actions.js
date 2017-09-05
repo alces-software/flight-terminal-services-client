@@ -47,5 +47,12 @@ export function fetchOneByLookupKey(baseUrl, key, value) {
   return fetch(url.href)
     .then(parseJson)
     .then(rejectUnlessOneRecord)
-    .then(extractOneRecord)
+    .then(extractOneRecord);
+}
+
+export function fetchOne(url) {
+  return fetch(url)
+    .then(parseJson)
+    .then(rejectUnlessOneRecord)
+    .then(extractOneRecord);
 }

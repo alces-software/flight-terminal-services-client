@@ -37,7 +37,7 @@ const AccessDetails = ({ cluster }) => {
           />
         </Col>
         <Col md={6}>
-          { hasVpn ? <Vpn ipAddress={ipAddress} /> : null }
+          { hasVpn ? <Vpn hostname={hostname} /> : null }
         </Col>
       </Row>
       <Row>
