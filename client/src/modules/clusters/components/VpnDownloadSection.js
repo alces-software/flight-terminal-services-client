@@ -8,14 +8,14 @@ import VpnDownloadCard from './VpnDownloadCard';
 import DocsSiteLink from '../../../elements/DocsSiteLink';
 
 const propTypes = {
-  browseConfigsUrl: PropTypes.string.isRequired,
+  vpnBrowseConfigsUrl: PropTypes.string.isRequired,
   vpnConfigs: PropTypes.arrayOf(PropTypes.shape({
     url: PropTypes.string.isRequired,
     os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
   })).isRequired,
 };
 
-const VpnDownloadSection = ({ browseConfigsUrl, vpnConfigs }) => (
+const VpnDownloadSection = ({ vpnBrowseConfigsUrl, vpnConfigs }) => (
   <Container>
     <ScrollTarget name="vpn-download-section" />
     <Row>
@@ -28,7 +28,7 @@ const VpnDownloadSection = ({ browseConfigsUrl, vpnConfigs }) => (
         <p>
           Choose a configuration archive suitable for your platform from those
           offered below, or
-          {' '}<a href={browseConfigsUrl}>browse all available downloads</a>.{' '}
+          {' '}<a href={vpnBrowseConfigsUrl}>browse all available downloads</a>.{' '}
           Refer to the{' '}
           <ScrollButton
             href="#vpn-about-section"

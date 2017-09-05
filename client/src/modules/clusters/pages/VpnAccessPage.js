@@ -9,23 +9,23 @@ import withCluster from '../components/withCluster';
 const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
-      browseConfigsUrl: PropTypes.string.isRequired,
-      imgDir: PropTypes.string.isRequired,
+      vpnBrowseConfigsUrl: PropTypes.string.isRequired,
       vpnConfigs: PropTypes.arrayOf(PropTypes.shape({
         url: PropTypes.string.isRequired,
         os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
       })).isRequired,
+      vpnImgDir: PropTypes.string.isRequired,
     }),
   }),
 };
 
 const VpnAccessPage = ({ cluster }) => {
   const {
-    browseConfigsUrl,
     clusterName,
-    imgDir,
+    vpnBrowseConfigsUrl,
     vpnConfigFiles,
     vpnConfigs,
+    vpnImgDir,
   } = cluster.attributes;
 
   return (
@@ -39,14 +39,14 @@ const VpnAccessPage = ({ cluster }) => {
         </h2>
       </div>
       <VpnDownloadSection
-        browseConfigsUrl={browseConfigsUrl}
+        vpnBrowseConfigsUrl={vpnBrowseConfigsUrl}
         vpnConfigs={vpnConfigs}
       />
       <VpnAboutSection />
       <VpnPlatformInstructionsSection
         clusterName={clusterName}
-        imgDir={imgDir}
         vpnConfigFiles={vpnConfigFiles}
+        vpnImgDir={vpnImgDir}
       />
     </div>
   );

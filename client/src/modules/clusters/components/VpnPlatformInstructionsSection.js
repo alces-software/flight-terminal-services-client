@@ -13,11 +13,11 @@ const Img = styled.img`
 
 const propTypes = {
   clusterName: PropTypes.string.isRequired,
-  imgDir: PropTypes.string.isRequired,
   vpnConfigFiles: PropTypes.string.isRequired,
+  vpnImgDir: PropTypes.string.isRequired,
 };
 
-const VpnAboutSection = ({ clusterName, imgDir, vpnConfigFiles }) => (
+const VpnAboutSection = ({ clusterName, vpnImgDir, vpnConfigFiles }) => (
   <Container>
     <Row>
       <Col md="12">
@@ -53,7 +53,7 @@ const VpnAboutSection = ({ clusterName, imgDir, vpnConfigFiles }) => (
         <div className="text-center" >
           <Img
             alt="Installation of OpenVPN config on Windows"
-            src={`${imgDir}/windows-config-install.png`}
+            src={`${vpnImgDir}/windows-config-install.png`}
           />
         </div>
         <p>
@@ -64,7 +64,7 @@ const VpnAboutSection = ({ clusterName, imgDir, vpnConfigFiles }) => (
         <div className="text-center" >
           <Img
             alt="Selection of OpenVPN config on Windows"
-            src={`${imgDir}/windows-config-select.png`}
+            src={`${vpnImgDir}/windows-config-select.png`}
           />
         </div>
       </Col>
@@ -133,7 +133,7 @@ const VpnAboutSection = ({ clusterName, imgDir, vpnConfigFiles }) => (
           <Img
             alt="Approve adding extension to renamed folder"
             maxWidth="400px"
-            src={`${imgDir}/macos-rename.png`}
+            src={`${vpnImgDir}/macos-rename.png`}
           />
         </div>
         <p>
