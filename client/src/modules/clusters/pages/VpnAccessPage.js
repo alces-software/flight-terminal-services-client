@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, branch, renderComponent } from 'recompose';
+import { Redirect } from 'react-router';
 
 import VpnAboutSection from '../components/VpnAboutSection';
 import VpnDownloadSection from '../components/VpnDownloadSection';
@@ -54,4 +56,12 @@ const VpnAccessPage = ({ cluster }) => {
 
 VpnAccessPage.propTypes = propTypes;
 
-export default withCluster(VpnAccessPage);
+const enhance = compose(
+  withCluster,
+  branch(
+    ({ cluster }) => !cluster.attributes.hasVpn,
+    renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
+  )
+);
+
+export default enhance(VpnAccessPage);

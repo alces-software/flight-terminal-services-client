@@ -11,13 +11,12 @@ import withCluster from '../components/withCluster';
 const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
-      hasVpn: PropTypes.bool.isRequired,
+      hasVpn: PropTypes.bool,
       hostname: PropTypes.string.isRequired,
       ipAddress: PropTypes.string.isRequired,
     }),
   }),
 };
-
 
 const AccessDetails = ({ cluster }) => {
   const { hasVpn, hostname, ipAddress } = cluster.attributes;
