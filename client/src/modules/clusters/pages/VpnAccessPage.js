@@ -11,24 +11,21 @@ import withCluster from '../components/withCluster';
 const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
-      vpnBrowseConfigsUrl: PropTypes.string.isRequired,
-      vpnConfigs: PropTypes.arrayOf(PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
-      })).isRequired,
-      vpnImgDir: PropTypes.string.isRequired,
+      vpn: PropTypes.shape({
+        browseConfigsUrl: PropTypes.string.isRequired,
+        configFilesUrl: PropTypes.string.isRequired,
+        configs: PropTypes.arrayOf(PropTypes.shape({
+          url: PropTypes.string.isRequired,
+          os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
+        })).isRequired,
+        imgDir: PropTypes.string.isRequired,
+      }).isRequired,
     }),
   }),
 };
 
 const VpnAccessPage = ({ cluster }) => {
-  const {
-    clusterName,
-    vpnBrowseConfigsUrl,
-    vpnConfigFiles,
-    vpnConfigs,
-    vpnImgDir,
-  } = cluster.attributes;
+  const { clusterName, vpn } = cluster.attributes;
 
   return (
     <div>
@@ -41,14 +38,14 @@ const VpnAccessPage = ({ cluster }) => {
         </h2>
       </div>
       <VpnDownloadSection
-        vpnBrowseConfigsUrl={vpnBrowseConfigsUrl}
-        vpnConfigs={vpnConfigs}
+        browseConfigsUrl={vpn.browseConfigsUrl}
+        configs={vpn.configs}
       />
       <VpnAboutSection />
       <VpnPlatformInstructionsSection
         clusterName={clusterName}
-        vpnConfigFiles={vpnConfigFiles}
-        vpnImgDir={vpnImgDir}
+        configFilesUrl={vpn.configFilesUrl}
+        imgDir={vpn.imgDir}
       />
     </div>
   );

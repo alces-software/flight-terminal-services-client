@@ -8,14 +8,14 @@ import VpnDownloadCard from './VpnDownloadCard';
 import DocsSiteLink from '../../../elements/DocsSiteLink';
 
 const propTypes = {
-  vpnBrowseConfigsUrl: PropTypes.string.isRequired,
-  vpnConfigs: PropTypes.arrayOf(PropTypes.shape({
+  browseConfigsUrl: PropTypes.string.isRequired,
+  configs: PropTypes.arrayOf(PropTypes.shape({
     url: PropTypes.string.isRequired,
     os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
   })).isRequired,
 };
 
-const VpnDownloadSection = ({ vpnBrowseConfigsUrl, vpnConfigs }) => (
+const VpnDownloadSection = ({ browseConfigsUrl, configs }) => (
   <Container>
     <ScrollTarget name="vpn-download-section" />
     <Row>
@@ -28,7 +28,7 @@ const VpnDownloadSection = ({ vpnBrowseConfigsUrl, vpnConfigs }) => (
         <p>
           Choose a configuration archive suitable for your platform from those
           offered below, or
-          {' '}<a href={vpnBrowseConfigsUrl}>browse all available downloads</a>.{' '}
+          {' '}<a href={browseConfigsUrl}>browse all available downloads</a>.{' '}
           Refer to the{' '}
           <ScrollButton
             href="#vpn-about-section"
@@ -53,9 +53,9 @@ const VpnDownloadSection = ({ vpnBrowseConfigsUrl, vpnConfigs }) => (
     </Row>
     <Row>
       {
-        vpnConfigs.map((config, i) => (
+        configs.map((config, i) => (
           <Col key={i}>
-            <VpnDownloadCard vpnConfig={config} />
+            <VpnDownloadCard config={config} />
           </Col>
         ))
       }

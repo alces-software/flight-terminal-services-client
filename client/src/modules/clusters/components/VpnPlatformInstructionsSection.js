@@ -13,11 +13,11 @@ const Img = styled.img`
 
 const propTypes = {
   clusterName: PropTypes.string.isRequired,
-  vpnConfigFiles: PropTypes.string.isRequired,
-  vpnImgDir: PropTypes.string.isRequired,
+  configFilesUrl: PropTypes.string.isRequired,
+  imgDir: PropTypes.string.isRequired,
 };
 
-const VpnAboutSection = ({ clusterName, vpnImgDir, vpnConfigFiles }) => (
+const VpnAboutSection = ({ clusterName, imgDir, configFilesUrl }) => (
   <Container>
     <Row>
       <Col md="12">
@@ -53,7 +53,7 @@ const VpnAboutSection = ({ clusterName, vpnImgDir, vpnConfigFiles }) => (
         <div className="text-center" >
           <Img
             alt="Installation of OpenVPN config on Windows"
-            src={`${vpnImgDir}/windows-config-install.png`}
+            src={`${imgDir}/windows-config-install.png`}
           />
         </div>
         <p>
@@ -64,7 +64,7 @@ const VpnAboutSection = ({ clusterName, vpnImgDir, vpnConfigFiles }) => (
         <div className="text-center" >
           <Img
             alt="Selection of OpenVPN config on Windows"
-            src={`${vpnImgDir}/windows-config-select.png`}
+            src={`${imgDir}/windows-config-select.png`}
           />
         </div>
       </Col>
@@ -119,7 +119,7 @@ const VpnAboutSection = ({ clusterName, vpnImgDir, vpnConfigFiles }) => (
           >
             available above
           </ScrollButton>, or{' '}
-          <a href={vpnConfigFiles}>download them individually</a>.
+          <a href={configFilesUrl}>download them individually</a>.
         </p>
 
         <p>
@@ -133,7 +133,7 @@ const VpnAboutSection = ({ clusterName, vpnImgDir, vpnConfigFiles }) => (
           <Img
             alt="Approve adding extension to renamed folder"
             maxWidth="400px"
-            src={`${vpnImgDir}/macos-rename.png`}
+            src={`${imgDir}/macos-rename.png`}
           />
         </div>
         <p>

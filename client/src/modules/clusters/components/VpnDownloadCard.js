@@ -27,26 +27,26 @@ const cardText = {
 };
 
 const propTypes = {
-  vpnConfig: PropTypes.shape({
+  config: PropTypes.shape({
     url: PropTypes.string.isRequired,
     os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
   }).isRequired,
 };
 
-const VpnDownloadCard = ({ vpnConfig }) => (
+const VpnDownloadCard = ({ config }) => (
   <Card>
     <CardHeader>
-      <FontAwesome name={iconName[vpnConfig.os]} />{' '}
-      {headerText[vpnConfig.os]}
+      <FontAwesome name={iconName[config.os]} />{' '}
+      {headerText[config.os]}
     </CardHeader>
     <CardBlock>
       <CardText>
-        {cardText[vpnConfig.os]}
+        {cardText[config.os]}
       </CardText>
       <div className="text-center">
         <Button
           color="primary"
-          href={vpnConfig.url}
+          href={config.url}
         >
           <FontAwesome name="download" /> Download
         </Button>

@@ -54,7 +54,7 @@ function failedToLoad(error, hostname) {
 export function loadCluster(hostname) {
   return (dispatch) => {
     // XXX Perhaps we should take the URL instead of the hostname?
-    const url = `https://${hostname}/www-api/index.json`;
+    const url = `https://${hostname}/www/index.json`;
     dispatch(loading(hostname));
     return api.actions.fetchOne(url)
       .then(entity => dispatch(loaded(entity)))
