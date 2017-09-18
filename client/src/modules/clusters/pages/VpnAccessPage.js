@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, branch, renderComponent } from 'recompose';
 import { Redirect } from 'react-router';
+import { Container, Row, Col } from 'reactstrap';
 
 import VpnAboutSection from '../components/VpnAboutSection';
 import VpnDownloadSection from '../components/VpnDownloadSection';
@@ -18,7 +19,6 @@ const propTypes = {
           url: PropTypes.string.isRequired,
           os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
         })).isRequired,
-        imgDir: PropTypes.string.isRequired,
       }).isRequired,
     }),
   }),
@@ -29,14 +29,18 @@ const VpnAccessPage = ({ cluster }) => {
 
   return (
     <div>
-      <div className="d-flex justify-content-center">
-        <h2>
-          Clusterware VPN
-          <small>
-            Secure access to your cluster
-          </small>
-        </h2>
-      </div>
+      <Container>
+        <Row>
+          <Col md={12}>
+            <h2>
+              Clusterware VPN{' '}
+              <small>
+                Secure access to your cluster
+              </small>
+            </h2>
+          </Col>
+        </Row>
+      </Container>
       <VpnDownloadSection
         browseConfigsUrl={vpn.browseConfigsUrl}
         configs={vpn.configs}
@@ -45,7 +49,6 @@ const VpnAccessPage = ({ cluster }) => {
       <VpnPlatformInstructionsSection
         clusterName={clusterName}
         configFilesUrl={vpn.configFilesUrl}
-        imgDir={vpn.imgDir}
       />
     </div>
   );
