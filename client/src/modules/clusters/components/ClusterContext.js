@@ -22,7 +22,10 @@ const enhance = compose(
   lifecycle({
     componentDidMount: function componentDidMount() {
       const { dispatch, hostname } = this.props;
-      dispatch(actions.loadCluster(hostname));
+      const request = dispatch(actions.loadCluster(hostname));
+      if (request) {
+        request.catch(error => error);
+      }
     },
   }),
 );

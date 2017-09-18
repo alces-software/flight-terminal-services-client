@@ -11,5 +11,11 @@
 import * as constants from './constants';
 import * as selectors from './selectors';
 import reducer from './reducer';
+import withLoadingStates from './withLoadingStates';
 
-export default { constants, reducer, selectors };
+export default {
+  constants,
+  reducer,
+  selectors,
+  withLoadingStates,
+};

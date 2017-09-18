@@ -11,22 +11,42 @@ import loadingStates from '../../modules/loadingStates';
 
 import { NAME } from './constants';
 
-const clustersState = state => state[NAME];
+const clusterEntitiesState = state => {
+  if (state.entities[NAME] == null) { return {}; }
+  return state.entities[NAME];
+};
+
+const clusterEntitiesData = state => {
+  if (state.entities[NAME] == null) { return {}; }
+  if (state.entities[NAME].data == null) { return {}; }
+  return state.entities[NAME].data;
+};
+
+const clusterHostnameIndex = state => {
+  if (state.entities[NAME] == null) { return {}; }
+  if (state.entities[NAME].index == null) { return {}; }
+  if (state.entities[NAME].index.hostname == null) { return {}; }
+  return state.entities[NAME].index.hostname;
+};
 
 function hostnameFromProps(state, props) {
   return props.hostname;
 }
 
 export const retrieval = createSelector(
-  clustersState,
+  clusterEntitiesState,
   hostnameFromProps,
 
   loadingStates.selectors.retrieval,
 );
 
 export const fromHostname = createSelector(
-  clustersState,
+  clusterEntitiesData,
+  clusterHostnameIndex,
   hostnameFromProps,
 
-  (as, hostname) => as.data[hostname],
+  (clustersById, hostnameIndex, hostname) => {
+    const clusterId = hostnameIndex[hostname];
+    return clustersById[clusterId];
+  }
 );

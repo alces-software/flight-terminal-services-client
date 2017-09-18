@@ -5,50 +5,21 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { combineReducers } from 'redux';
-
-import loadingStates from '../../modules/loadingStates';
-
-import { LOADING, LOADED, FAILED } from './actionTypes';
+import { jsonApi } from 'flight-reactware';
 
 const initialState = {
   identifier: 'default',
-  tenant: undefined,
 };
 
-function reducer(state = initialState, { payload, type }) {
-  switch (type) {
-
-    case LOADING:
-      return {
-        ...state,
-        identifier: payload.identifier,
-      };
-
-    case LOADED:
-      return {
-        ...state,
-        tenant: payload.tenant,
-      };
-
-    case FAILED:
-      return {
-        ...state,
-        tenant: undefined,
-      };
-
-    default:
-      return state;
+export default function reducer(state = initialState, { meta, type }) {
+  if (
+    type === jsonApi.actionTypes.RESOURCE_REQUESTED &&
+    meta.entity.type === 'tenants'
+  ) {
+    return {
+      ...state,
+      identifier: meta.lookup.value,
+    };
   }
+  return state;
 }
-
-export default combineReducers({
-  data: reducer,
-  meta: combineReducers({
-    [loadingStates.constants.NAME]: loadingStates.reducer({
-      pending: LOADING,
-      resolved: LOADED,
-      rejected: FAILED,
-    }),
-  }),
-});

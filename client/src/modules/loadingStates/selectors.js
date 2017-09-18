@@ -7,7 +7,11 @@
  *===========================================================================*/
 import { NAME, PENDING, RESOLVED, REJECTED } from './constants';
 
-export const loadingStateForKey = (state, key) => state.meta[NAME][key];
+export const loadingStateForKey = (state, key) => {
+  if (state.meta == null) { return undefined; }
+  if (state.meta[NAME] == null) { return undefined; }
+  return state.meta[NAME][key];
+};
 
 export const isPending = (state, key) =>
   loadingStateForKey(state, key) === PENDING;

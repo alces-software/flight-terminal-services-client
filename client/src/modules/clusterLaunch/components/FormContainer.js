@@ -254,7 +254,7 @@ class ClusterLaunchFormContainer extends React.Component {
         if (response.error) {
           return Promise.reject(response);
         }
-        this.setState({ token: response.payload }, () => {
+        this.setState({ token: response.payload.data.data[0] }, () => {
           this.setState({
             errors: validate(this.state.values, this.state)
           });

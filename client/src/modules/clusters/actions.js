@@ -5,59 +5,21 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { jsonApi } from 'flight-reactware';
 
-import { LOADING, LOADED, FAILED } from './actionTypes';
-import api from '../../modules/api';
-
-function loading(hostname) {
-  return {
-    type: LOADING,
-    payload: {
-      hostname,
+export function loadCluster(hostname) {
+  // We need to include the type and the hostname attribute for the
+  // loadingStates module.
+  const resource = {
+    type: 'clusters',
+    links: {
+      self: `https://${hostname}/www/index.json`,
     },
     meta: {
-      loadingState: {
-        key: hostname,
-      }
-    }
-  };
-}
-
-function loaded(cluster) {
-  return {
-    type: LOADED,
-    payload: cluster,
-    meta: {
-      loadingState: {
-        key: cluster.attributes.hostname,
-      }
-    }
-  };
-}
-
-function failedToLoad(error, hostname) {
-  return {
-    type: FAILED,
-    error: true,
-    payload: {
-      error,
-    },
-    meta: {
-      loadingState: {
+      loadingStates: {
         key: hostname,
       },
     },
   };
-}
-
-
-export function loadCluster(hostname) {
-  return (dispatch) => {
-    // XXX Perhaps we should take the URL instead of the hostname?
-    const url = `https://${hostname}/www/index.json`;
-    dispatch(loading(hostname));
-    return api.actions.fetchOne(url)
-      .then(entity => dispatch(loaded(entity)))
-      .catch(error => Promise.reject(dispatch(failedToLoad(error, hostname))));
-  };
+  return jsonApi.actions.loadResource(resource);
 }
