@@ -21,6 +21,7 @@ const loadingStatesConfig = [
 
 export default {
   [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
+  [clusters.constants.NAME]: clusters.reducer,
   [tenants.constants.NAME]: tenants.reducer,
   entities: compose(
     jsonApi.withIndexes(entityIndexes),

@@ -14,6 +14,7 @@ import * as components from './components';
 import * as constants from './constants';
 import * as pages from './pages';
 import * as selectors from './selectors';
+import reducer from './reducer';
 
 const indexes = [{
   entityType: constants.NAME,
@@ -35,5 +36,6 @@ export default {
   indexes,
   loadingStatesConfig,
   pages,
+  reducer,
   selectors,
 };
