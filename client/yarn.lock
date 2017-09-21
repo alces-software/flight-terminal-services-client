@@ -6096,6 +6096,10 @@ schema-utils@^0.x:
   dependencies:
     ajv "^5.0.0"
 
+seamless-immutable@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/seamless-immutable/-/seamless-immutable-7.1.2.tgz#c87a1eba6767a32455311d76600ac5eddeafbb69"
+
 seedable-random@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/seedable-random/-/seedable-random-0.0.1.tgz#0b30cea79e4399688c5a067503a066b7c41e8316"

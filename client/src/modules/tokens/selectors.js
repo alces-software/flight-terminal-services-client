@@ -6,34 +6,51 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import find from 'lodash/find';
 
 import loadingStates from '../../modules/loadingStates';
 
 import { NAME } from './constants';
 
-const tokenState = state => state[NAME];
-const allTokens = state => state[NAME].data.tokens;
+const tokenEntitiesState = (state) => {
+  if (state.entities[NAME] == null) { return {}; }
+  return state.entities[NAME];
+};
+
+const tokenEntitiesData = state => {
+  if (state.entities[NAME] == null) { return {}; }
+  if (state.entities[NAME].data == null) { return {}; }
+  return state.entities[NAME].data;
+};
+
+const nameIndex = state => {
+  if (state.entities[NAME] == null) { return {}; }
+  if (state.entities[NAME].index == null) { return {}; }
+  if (state.entities[NAME].index.name == null) { return {}; }
+  return state.entities[NAME].index.name;
+};
+
 const tokenNameProp = (state, props) => props.tokenName;
 
 export const tokenFromName = createSelector(
-  allTokens,
+  nameIndex,
+  tokenEntitiesData,
   tokenNameProp,
 
-  (tokens, tokenName) => (
-    find(tokens, token => token.attributes.name === tokenName)
-  ),
+  (index, tokensById, tokenName) => {
+    const tenantId = index[tokenName];
+    return tokensById[tenantId];
+  },
 );
 
 export const isLoading = createSelector(
-  tokenState,
+  tokenEntitiesState,
   tokenNameProp,
 
   (ts, tokenName) => loadingStates.selectors.isPending(ts, tokenName),
 );
 
 export const hasLoaded = createSelector(
-  tokenState,
+  tokenEntitiesState,
   tokenNameProp,
 
   (ts, tokenName) => loadingStates.selectors.isResolved(ts, tokenName),

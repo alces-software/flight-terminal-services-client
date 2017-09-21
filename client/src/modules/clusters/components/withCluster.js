@@ -1,5 +1,5 @@
 import { Container } from 'reactstrap';
-import { branch, compose, nest, renderComponent, withProps } from 'recompose';
+import { branch, compose, nest, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -9,10 +9,8 @@ import * as selectors from '../selectors';
 import LoadError from './LoadError';
 
 const withCluster = compose(
-  withProps(props => ({ hostname: props.match.params.hostname })),
-
   connect(createStructuredSelector({
-    cluster: selectors.fromHostname,
+    cluster: selectors.currentCluster,
     retrieval: selectors.retrieval,
   })),
 

@@ -13,16 +13,41 @@ import { NAME } from './constants';
 
 const tenantState = state => state[NAME];
 
+const tenantEntitiesState = (state) => {
+  if (state.entities[NAME] == null) { return {}; }
+  return state.entities[NAME];
+};
+
+const tenantEntitiesData = state => {
+  if (state.entities[NAME] == null) { return {}; }
+  if (state.entities[NAME].data == null) { return {}; }
+  return state.entities[NAME].data;
+};
+
+const identifierIndex = state => {
+  if (state.entities[NAME] == null) { return {}; }
+  if (state.entities[NAME].index == null) { return {}; }
+  if (state.entities[NAME].index.identifier == null) { return {}; }
+  return state.entities[NAME].index.identifier;
+};
+
 export function identifier(state) {
-  return tenantState(state).data.identifier;
+  return tenantState(state).identifier;
 }
 
-export function tenant(state) {
-  return tenantState(state).data.tenant;
-}
+export const tenant = createSelector(
+  identifier,
+  identifierIndex,
+  tenantEntitiesData,
+
+  (identifier, index, tenantsById) => {
+    const tenantId = index[identifier];
+    return tenantsById[tenantId];
+  },
+);
 
 export const retrieval = createSelector(
-  tenantState,
+  tenantEntitiesState,
   identifier,
 
   loadingStates.selectors.retrieval,
