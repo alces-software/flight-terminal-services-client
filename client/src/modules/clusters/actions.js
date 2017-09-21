@@ -7,6 +7,8 @@
  *===========================================================================*/
 import { jsonApi } from 'flight-reactware';
 
+import { retrieval } from './selectors';
+
 export function loadCluster(hostname) {
   // We need to include the type and the hostname attribute for the
   // loadingStates module.
@@ -21,5 +23,10 @@ export function loadCluster(hostname) {
       },
     },
   };
-  return jsonApi.actions.loadResource(resource);
+  return (dispatch, getState) => {
+    const { initiated, rejected } = retrieval(getState(), { hostname });
+    if (!initiated || rejected) {
+      return dispatch(jsonApi.actions.loadResource(resource));
+    }
+  };
 }

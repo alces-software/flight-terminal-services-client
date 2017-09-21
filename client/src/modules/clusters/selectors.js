@@ -35,9 +35,13 @@ export function hostname(state) {
   return clustersState(state).hostname;
 }
 
+function hostnameFromPropsOrStore(state, props) {
+  return props.hostname || hostname(state);
+}
+
 export const retrieval = createSelector(
   clusterEntitiesState,
-  hostname,
+  hostnameFromPropsOrStore,
 
   loadingStates.selectors.retrieval,
 );
