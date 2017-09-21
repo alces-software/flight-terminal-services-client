@@ -6,8 +6,8 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { combineReducers } from 'redux';
+import { loadingStates } from 'flight-reactware';
 
-import loadingStates from '../../modules/loadingStates';
 import { reduceReducers } from '../../reducers/utils';
 
 import { LOADING, LOADED, FAILED } from './actionTypes';

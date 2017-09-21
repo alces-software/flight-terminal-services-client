@@ -1,9 +1,8 @@
 import { compose } from 'redux';
-import { jsonApi } from 'flight-reactware';
+import { jsonApi, loadingStates } from 'flight-reactware';
 
 import clusterSpecs from '../modules/clusterSpecs';
 import clusters from '../modules/clusters';
-import loadingStates from '../modules/loadingStates';
 import tenants from '../modules/tenants';
 import tokens from '../modules/tokens';
 

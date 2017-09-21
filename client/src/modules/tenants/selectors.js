@@ -6,8 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-
-import loadingStates from '../../modules/loadingStates';
+import { loadingStates } from 'flight-reactware';
 
 import { NAME } from './constants';
 
