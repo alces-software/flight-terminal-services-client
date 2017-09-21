@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'reactstrap';
 
-import Community from '../components/Community';
-import Docs from '../components/Docs';
 import SshAccessDetails from '../components/SshAccessDetails';
 import Vpn from '../components/Vpn';
 import withCluster from '../components/withCluster';
@@ -11,6 +9,7 @@ import withCluster from '../components/withCluster';
 const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
+      clusterName: PropTypes.string.isRequired,
       hasVpn: PropTypes.bool,
       hostname: PropTypes.string.isRequired,
       ipAddress: PropTypes.string.isRequired,
@@ -19,13 +18,13 @@ const propTypes = {
 };
 
 const AccessDetails = ({ cluster }) => {
-  const { hasVpn, hostname, ipAddress } = cluster.attributes;
+  const { clusterName, hasVpn, hostname, ipAddress } = cluster.attributes;
 
   return (
     <Container>
       <Row>
         <Col md={12}>
-          <h2>Access</h2>
+          <h2>Access details for <em>{clusterName}</em></h2>
         </Col>
       </Row>
       <Row>
@@ -37,19 +36,6 @@ const AccessDetails = ({ cluster }) => {
         </Col>
         <Col md={6}>
           { hasVpn ? <Vpn hostname={hostname} /> : null }
-        </Col>
-      </Row>
-      <Row>
-        <Col md={12}>
-          <h2>Resources</h2>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={6}>
-          <Community />
-        </Col>
-        <Col md={6}>
-          <Docs />
         </Col>
       </Row>
     </Container>

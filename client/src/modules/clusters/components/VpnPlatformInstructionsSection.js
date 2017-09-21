@@ -6,6 +6,10 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { ScrollButton } from 'flight-reactware';
 
+import windowsConfigInstall from './img/windows-config-install.png';
+import windowsConfigSelect from './img/windows-config-select.png';
+import macOSrename from './img/macos-rename.png';
+
 const Img = styled.img`
   width: 75%;
   max-width: ${props => props.maxWidth || '600px'};
@@ -14,10 +18,9 @@ const Img = styled.img`
 const propTypes = {
   clusterName: PropTypes.string.isRequired,
   configFilesUrl: PropTypes.string.isRequired,
-  imgDir: PropTypes.string.isRequired,
 };
 
-const VpnAboutSection = ({ clusterName, imgDir, configFilesUrl }) => (
+const VpnAboutSection = ({ clusterName, configFilesUrl }) => (
   <Container>
     <Row>
       <Col md="12">
@@ -53,7 +56,7 @@ const VpnAboutSection = ({ clusterName, imgDir, configFilesUrl }) => (
         <div className="text-center" >
           <Img
             alt="Installation of OpenVPN config on Windows"
-            src={`${imgDir}/windows-config-install.png`}
+            src={windowsConfigInstall}
           />
         </div>
         <p>
@@ -64,7 +67,7 @@ const VpnAboutSection = ({ clusterName, imgDir, configFilesUrl }) => (
         <div className="text-center" >
           <Img
             alt="Selection of OpenVPN config on Windows"
-            src={`${imgDir}/windows-config-select.png`}
+            src={windowsConfigSelect}
           />
         </div>
       </Col>
@@ -133,7 +136,7 @@ const VpnAboutSection = ({ clusterName, imgDir, configFilesUrl }) => (
           <Img
             alt="Approve adding extension to renamed folder"
             maxWidth="400px"
-            src={`${imgDir}/macos-rename.png`}
+            src={macOSrename}
           />
         </div>
         <p>
