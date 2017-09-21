@@ -10,6 +10,7 @@
     "bootstrap": "4.0.0-alpha.6",
     "compression": "^1.6.2",
     "express": "^4.15.3",
+    "flight-reactware": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.4/flight-reactware.tgz",
     "flux-standard-action": "^1.2.0",
     "history": "^4.6.1",
     "ignore-styles": "^5.0.1",
