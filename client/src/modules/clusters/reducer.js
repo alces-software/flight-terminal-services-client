@@ -30,7 +30,7 @@ function reducer(state = initialState, { payload, type }) {
     case LOADED:
       return {
         ...state,
-        [payload.attributes.ipAddress]: payload,
+        [payload.attributes.hostname]: payload,
       };
 
     default:

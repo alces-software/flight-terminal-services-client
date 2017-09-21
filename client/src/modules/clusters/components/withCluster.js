@@ -9,10 +9,10 @@ import * as selectors from '../selectors';
 import LoadError from './LoadError';
 
 const withCluster = compose(
-  withProps(props => ({ ipAddress: props.match.params.ipAddress })),
+  withProps(props => ({ hostname: props.match.params.hostname })),
 
   connect(createStructuredSelector({
-    cluster: selectors.fromIpAddress,
+    cluster: selectors.fromHostname,
     retrieval: selectors.retrieval,
   })),
 

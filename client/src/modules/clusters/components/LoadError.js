@@ -13,12 +13,12 @@ import { MissingNotice } from 'flight-reactware';
 import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 
 const propTypes = {
-  ipAddress: PropTypes.string.isRequired,
+  hostname: PropTypes.string.isRequired,
 };
 
-const LoadError = ({ ipAddress }) => (
+const LoadError = ({ hostname }) => (
   <MissingNotice title="Unable to load cluster">
-    Unfortunately, the details for the cluster at <em>{ipAddress}</em> cannot
+    Unfortunately, the details for the cluster at <em>{hostname}</em> cannot
     be loaded.  Please check the IP address and try again.  Please visit
     our{' '}
     <CommunitySiteLink>Community Support Portal</CommunitySiteLink>

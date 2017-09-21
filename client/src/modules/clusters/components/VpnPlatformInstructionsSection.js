@@ -13,11 +13,11 @@ const Img = styled.img`
 
 const propTypes = {
   clusterName: PropTypes.string.isRequired,
+  configFilesUrl: PropTypes.string.isRequired,
   imgDir: PropTypes.string.isRequired,
-  vpnConfigFiles: PropTypes.string.isRequired,
 };
 
-const VpnAboutSection = ({ clusterName, imgDir, vpnConfigFiles }) => (
+const VpnAboutSection = ({ clusterName, imgDir, configFilesUrl }) => (
   <Container>
     <Row>
       <Col md="12">
@@ -119,7 +119,7 @@ const VpnAboutSection = ({ clusterName, imgDir, vpnConfigFiles }) => (
           >
             available above
           </ScrollButton>, or{' '}
-          <a href={vpnConfigFiles}>download them individually</a>.
+          <a href={configFilesUrl}>download them individually</a>.
         </p>
 
         <p>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Vpn = ({ ipAddress }) => (
+const Vpn = ({ hostname }) => (
   <div>
     <h4>
       Clusterware VPN
@@ -14,13 +14,13 @@ const Vpn = ({ ipAddress }) => (
     <p>
       You can find information and downloads to configure VPN access on your
       platform by visting the{' '}
-      <Link to={`/cluster/${ipAddress}/vpn`}>VPN configuration page</Link>.
+      <Link to={`/cluster/${hostname}/vpn`}>VPN configuration page</Link>.
     </p>
   </div>
 );
 
 Vpn.propTypes = {
-  ipAddress: PropTypes.string.isRequired,
+  hostname: PropTypes.string.isRequired,
 };
 
 export default Vpn;

@@ -10,10 +10,10 @@ const ClusterContext = ({ route }) => {
 };
 
 const enhance = compose(
-  withProps(props => ({ ipAddress: props.match.params.ipAddress })),
+  withProps(props => ({ hostname: props.match.params.hostname })),
 
   branch(
-    ({ ipAddress }) => !ipAddress,
+    ({ hostname }) => !hostname,
     renderComponent(AccessHowTo),
   ),
 
@@ -21,8 +21,8 @@ const enhance = compose(
 
   lifecycle({
     componentDidMount: function componentDidMount() {
-      const { dispatch, ipAddress } = this.props;
-      dispatch(actions.loadCluster(ipAddress));
+      const { dispatch, hostname } = this.props;
+      dispatch(actions.loadCluster(hostname));
     },
   }),
 );

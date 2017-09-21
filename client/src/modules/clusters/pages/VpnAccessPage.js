@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, branch, renderComponent } from 'recompose';
+import { Redirect } from 'react-router';
 
 import VpnAboutSection from '../components/VpnAboutSection';
 import VpnDownloadSection from '../components/VpnDownloadSection';
@@ -9,24 +11,21 @@ import withCluster from '../components/withCluster';
 const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
-      browseConfigsUrl: PropTypes.string.isRequired,
-      imgDir: PropTypes.string.isRequired,
-      vpnConfigs: PropTypes.arrayOf(PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
-      })).isRequired,
+      vpn: PropTypes.shape({
+        browseConfigsUrl: PropTypes.string.isRequired,
+        configFilesUrl: PropTypes.string.isRequired,
+        configs: PropTypes.arrayOf(PropTypes.shape({
+          url: PropTypes.string.isRequired,
+          os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
+        })).isRequired,
+        imgDir: PropTypes.string.isRequired,
+      }).isRequired,
     }),
   }),
 };
 
 const VpnAccessPage = ({ cluster }) => {
-  const {
-    browseConfigsUrl,
-    clusterName,
-    imgDir,
-    vpnConfigFiles,
-    vpnConfigs,
-  } = cluster.attributes;
+  const { clusterName, vpn } = cluster.attributes;
 
   return (
     <div>
@@ -39,14 +38,14 @@ const VpnAccessPage = ({ cluster }) => {
         </h2>
       </div>
       <VpnDownloadSection
-        browseConfigsUrl={browseConfigsUrl}
-        vpnConfigs={vpnConfigs}
+        browseConfigsUrl={vpn.browseConfigsUrl}
+        configs={vpn.configs}
       />
       <VpnAboutSection />
       <VpnPlatformInstructionsSection
         clusterName={clusterName}
-        imgDir={imgDir}
-        vpnConfigFiles={vpnConfigFiles}
+        configFilesUrl={vpn.configFilesUrl}
+        imgDir={vpn.imgDir}
       />
     </div>
   );
@@ -54,4 +53,12 @@ const VpnAccessPage = ({ cluster }) => {
 
 VpnAccessPage.propTypes = propTypes;
 
-export default withCluster(VpnAccessPage);
+const enhance = compose(
+  withCluster,
+  branch(
+    ({ cluster }) => !cluster.attributes.hasVpn,
+    renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
+  )
+);
+
+export default enhance(VpnAccessPage);

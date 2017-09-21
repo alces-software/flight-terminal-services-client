@@ -9,13 +9,13 @@ import DocsSiteLink from '../../../elements/DocsSiteLink';
 
 const propTypes = {
   browseConfigsUrl: PropTypes.string.isRequired,
-  vpnConfigs: PropTypes.arrayOf(PropTypes.shape({
+  configs: PropTypes.arrayOf(PropTypes.shape({
     url: PropTypes.string.isRequired,
     os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
   })).isRequired,
 };
 
-const VpnDownloadSection = ({ browseConfigsUrl, vpnConfigs }) => (
+const VpnDownloadSection = ({ browseConfigsUrl, configs }) => (
   <Container>
     <ScrollTarget name="vpn-download-section" />
     <Row>
@@ -53,9 +53,9 @@ const VpnDownloadSection = ({ browseConfigsUrl, vpnConfigs }) => (
     </Row>
     <Row>
       {
-        vpnConfigs.map((config, i) => (
+        configs.map((config, i) => (
           <Col key={i}>
-            <VpnDownloadCard vpnConfig={config} />
+            <VpnDownloadCard config={config} />
           </Col>
         ))
       }

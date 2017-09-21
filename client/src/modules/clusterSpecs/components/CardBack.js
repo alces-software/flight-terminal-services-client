@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect';
 
 import { CardTitleBlock } from 'flight-reactware';
 import clusterLaunch from '../../clusterLaunch/';
+import tenants from '../../tenants/';
 
 import { clusterSpecShape } from '../propTypes';
 import { clusterSpecsFile } from '../selectors';
@@ -45,7 +46,7 @@ CardBack.propTypes = propTypes;
 
 const mapStateToProps = createStructuredSelector({
   clusterSpecsFile,
-  tenantIdentifier: () => 'default',
+  tenantIdentifier: tenants.selectors.identifier,
 });
 
 export default connect(mapStateToProps)(CardBack);
