@@ -6,7 +6,7 @@ const propTypes = {
   ipAddress: PropTypes.string.isRequired,
 };
 
-const SshAccessDetails = ({ hostname, ipAddress }) => (
+const SshAccessIntro = ({ hostname, ipAddress }) => (
   <div>
     <h4>
       SSH Access
@@ -31,6 +31,6 @@ const SshAccessDetails = ({ hostname, ipAddress }) => (
   </div>
 );
 
-SshAccessDetails.propTypes = propTypes;
+SshAccessIntro.propTypes = propTypes;
 
-export default SshAccessDetails;
+export default SshAccessIntro;

@@ -10,6 +10,6 @@ export default function(tenantIdentifier, clusterHostname) {
   return [
     makeItem('About', 'home', makeLink(currentSite, `/${tid}`)),
     makeItem('Launch', 'plane', makeLink(currentSite, `/${tid}/launch`)),
-    makeItem('Access', 'key', makeLink(currentSite, `/cluster/${hostname}`)),
+    makeItem('Access', 'key', makeLink(currentSite, `/cluster/${hostname || ''}`)),
   ];
 }
