@@ -32,6 +32,7 @@ class BuildParameterDirectoryCommand
     merge_default_overrides
     merge_cluster_spec_overrides
     merge_launch_option_overrides
+    merge_personality_data
     merge_mandatory_overrides
   end
 
@@ -59,6 +60,57 @@ class BuildParameterDirectoryCommand
     launch_option = @launch_config.launch_option
     overrides = launch_option.parameter_directory_overrides
     merge_overrides(overrides, "launch option #{launch_option.name}")
+  end
+
+  def personality_data(collections)
+    collections = Array.wrap(collections)
+    collections = collections.map{|c| " - #{c}"}.join("\n")
+    return <<-EOF.gsub(/^\s*\|/,'')
+      |---
+      |queues:
+      |  general-pilot:
+      |    desired: 0
+      |    min: 0
+      |    max: 2
+      |  general-lowcost:
+      |    desired: 0
+      |    min: 0
+      |    max: 8
+      |  general-durable:
+      |    desired: 0
+      |    min: 0
+      |    max: 8
+      |scheduler: slurm
+      |software:
+      |  gridware:
+      |  - apps/imb/4.0
+      |  docker:
+      |  - library/hello-world
+      |  - alces/gridware-apps-samtools-1.3
+      |  - apps-imb-4.0
+      |  profile:
+      |  - enginframe-2017.0
+      |profiles:
+      |  all:
+      |  - disable-thp
+      |  slave:
+      |  - disable-hyperthreading
+      |  master:
+      |  - start-session
+      |collections:
+      |  #{collections}
+    EOF
+  end
+
+  def merge_personality_data
+    collection = @launch_config.collection
+    # return unless collection.present?
+    overrides = {
+      "solo" => {
+        "PersonalityData" => personality_data(collection)
+      }
+    }
+    merge_overrides(overrides, "personality data collection=#{collection.inspect}")
   end
 
   def merge_overrides(parameter_directory_overrides, source, backup: false)
