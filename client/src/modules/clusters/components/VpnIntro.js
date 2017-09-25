@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Vpn = ({ hostname }) => (
+const VpnIntro = ({ hostname }) => (
   <div>
     <h4>
       Clusterware VPN
@@ -19,8 +19,8 @@ const Vpn = ({ hostname }) => (
   </div>
 );
 
-Vpn.propTypes = {
+VpnIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
 
-export default Vpn;
+export default VpnIntro;

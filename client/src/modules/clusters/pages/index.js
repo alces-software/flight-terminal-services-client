@@ -9,7 +9,8 @@
 // Add publicly exported pages here and to the export below.
 // Any pages which are intended to only be used internally to the
 // clusters module should not be included here.
-import AccessDetails from './AccessDetails';
+import AccessIntro from './AccessIntro';
+import Terminal from './Terminal';
 import VpnDetails from './VpnAccessPage';
 
-export { AccessDetails, VpnDetails };
+export { AccessIntro, Terminal, VpnDetails };

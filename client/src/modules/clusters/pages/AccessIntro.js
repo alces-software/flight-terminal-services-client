@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'reactstrap';
 
-import SshAccessDetails from '../components/SshAccessDetails';
-import Vpn from '../components/Vpn';
+import SshAccessIntro from '../components/SshAccessIntro';
+import TerminalIntro from '../components/TerminalIntro';
+import VpnIntro from '../components/VpnIntro';
 import withCluster from '../components/withCluster';
 
 const propTypes = {
@@ -11,14 +12,21 @@ const propTypes = {
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
       hasVpn: PropTypes.bool,
+      hasWebTerminal: PropTypes.bool,
       hostname: PropTypes.string.isRequired,
       ipAddress: PropTypes.string.isRequired,
     }),
   }),
 };
 
-const AccessDetails = ({ cluster }) => {
-  const { clusterName, hasVpn, hostname, ipAddress } = cluster.attributes;
+const AccessIntro = ({ cluster }) => {
+  const {
+    clusterName,
+    hasVpn,
+    hasWebTerminal,
+    hostname,
+    ipAddress,
+  } = cluster.attributes;
 
   return (
     <Container>
@@ -29,19 +37,24 @@ const AccessDetails = ({ cluster }) => {
       </Row>
       <Row>
         <Col md={6}>
-          <SshAccessDetails
+          <SshAccessIntro
             hostname={hostname}
             ipAddress={ipAddress}
           />
         </Col>
         <Col md={6}>
-          { hasVpn ? <Vpn hostname={hostname} /> : null }
+          { hasWebTerminal ? <TerminalIntro hostname={hostname} /> : null }
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6}>
+          { hasVpn ? <VpnIntro hostname={hostname} /> : null }
         </Col>
       </Row>
     </Container>
   );
 };
 
-AccessDetails.propTypes = propTypes;
+AccessIntro.propTypes = propTypes;
 
-export default withCluster(AccessDetails);
+export default withCluster(AccessIntro);

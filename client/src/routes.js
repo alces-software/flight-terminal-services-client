@@ -77,7 +77,7 @@ const routes = [
           },
           {
             path: '/cluster/:hostname?',
-            component: clusters.pages.AccessDetails,
+            component: clusters.pages.AccessIntro,
             title: 'Access',
           },
         ],
