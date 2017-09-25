@@ -76,6 +76,11 @@ const routes = [
             title: 'VPN Access',
           },
           {
+            path: '/cluster/:hostname/terminal',
+            component: clusters.pages.Terminal,
+            title: 'Terminal Access',
+          },
+          {
             path: '/cluster/:hostname?',
             component: clusters.pages.AccessIntro,
             title: 'Access',

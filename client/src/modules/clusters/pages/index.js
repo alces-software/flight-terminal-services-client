@@ -10,7 +10,7 @@
 // Any pages which are intended to only be used internally to the
 // clusters module should not be included here.
 import AccessIntro from './AccessIntro';
-import Terminal from './Terminal';
+import Terminal from './TerminalPage';
 import VpnDetails from './VpnAccessPage';
 
 export { AccessIntro, Terminal, VpnDetails };
