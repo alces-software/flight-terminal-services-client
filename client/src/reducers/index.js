@@ -1,5 +1,11 @@
 import { compose } from 'redux';
-import { jsonApi, loadingStates } from 'flight-reactware';
+import {
+  createReducers as createFlightReducers,
+  jsonApi,
+  loadingStates,
+} from 'flight-reactware';
+import { reducer as formReducer } from 'redux-form';
+import { routerReducer } from 'react-router-redux';
 
 import clusterSpecs from '../modules/clusterSpecs';
 import clusters from '../modules/clusters';
@@ -18,7 +24,8 @@ const loadingStatesConfig = [
   tokens.loadingStatesConfig || {},
 ];
 
-export default {
+export default (cookies) => ({
+  ...createFlightReducers(cookies),
   [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
   [clusters.constants.NAME]: clusters.reducer,
   [tenants.constants.NAME]: tenants.reducer,
@@ -26,4 +33,6 @@ export default {
     jsonApi.withIndexes(entityIndexes),
     loadingStates.withLoadingStates(loadingStatesConfig),
   )(jsonApi.reducer),
-};
+  form: formReducer,
+  router: routerReducer,
+});

@@ -19,7 +19,6 @@ const Page = ({ children, clusterHostname, tenantIdentifier, title }) => {
       </Helmet>
       <ProductBar
         items={items}
-        noaccount
         nosearch
         page={title}
         site={process.env.REACT_APP_SITE}
