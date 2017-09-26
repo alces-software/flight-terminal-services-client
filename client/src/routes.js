@@ -56,7 +56,14 @@ const redirectRoutes = Object.keys(redirects).map((k) => {
   return {
     path: k,
     exact: true,
-    component: () => <Redirect to={target} />,
+    component: ({ location }) => ( // eslint-disable-line react/prop-types
+      <Redirect
+        to={{
+          pathname: target,
+          search: location.search,
+        }}
+      />
+    ),
   };
 });
 
