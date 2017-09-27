@@ -6,44 +6,28 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import { auth, loadingStates } from 'flight-reactware';
+import { auth, loadingStates, selectorUtils } from 'flight-reactware';
 
 import { NAME } from './constants';
 
-const userEntitiesState = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  return state.entities[NAME];
-};
-
-const userEntitiesData = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].data == null) { return {}; }
-  return state.entities[NAME].data;
-};
-
-const usernameIndex = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].index == null) { return {}; }
-  if (state.entities[NAME].index.name == null) { return {}; }
-  return state.entities[NAME].index.name;
-};
+const {
+  jsonApiState,
+  jsonApiData,
+} = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
 export const retrieval = createSelector(
-  userEntitiesState,
+  jsonApiState,
   (state, props) => props.user,
 
   loadingStates.selectors.retrieval,
 );
 
 const userFromName = createSelector(
-  userEntitiesData,
-  usernameIndex,
+  jsonApiData,
+  selectorUtils.buildIndexSelector(NAME, 'name'),
   (state, props) => props.username,
 
-  (entitiesById, index, key) => {
-    const id = index[key];
-    return entitiesById[id];
-  },
+  selectorUtils.resourceFromIndex,
 );
 
 export function alcesUser(state) {

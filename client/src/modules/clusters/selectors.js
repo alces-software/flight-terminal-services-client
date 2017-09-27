@@ -6,29 +6,16 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import { loadingStates } from 'flight-reactware';
+import { loadingStates, selectorUtils } from 'flight-reactware';
 
 import { NAME } from './constants';
 
 const clustersState = state => state[NAME];
 
-const clusterEntitiesState = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  return state.entities[NAME];
-};
-
-const clusterEntitiesData = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].data == null) { return {}; }
-  return state.entities[NAME].data;
-};
-
-const clusterHostnameIndex = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].index == null) { return {}; }
-  if (state.entities[NAME].index.hostname == null) { return {}; }
-  return state.entities[NAME].index.hostname;
-};
+const {
+  jsonApiState,
+  jsonApiData,
+} = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
 export function hostname(state) {
   return clustersState(state).hostname;
@@ -39,19 +26,16 @@ function hostnameFromPropsOrStore(state, props) {
 }
 
 export const retrieval = createSelector(
-  clusterEntitiesState,
+  jsonApiState,
   hostnameFromPropsOrStore,
 
   loadingStates.selectors.retrieval,
 );
 
 export const currentCluster = createSelector(
-  clusterEntitiesData,
-  clusterHostnameIndex,
+  jsonApiData,
+  selectorUtils.buildIndexSelector(NAME, 'hostname'),
   hostname,
 
-  (clustersById, hostnameIndex, hostname) => {
-    const clusterId = hostnameIndex[hostname];
-    return clustersById[clusterId];
-  }
+  selectorUtils.resourceFromIndex,
 );

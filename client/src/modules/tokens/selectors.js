@@ -6,50 +6,34 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import { loadingStates } from 'flight-reactware';
+import { loadingStates, selectorUtils } from 'flight-reactware';
 
 import { NAME } from './constants';
 
-const tokenEntitiesState = (state) => {
-  if (state.entities[NAME] == null) { return {}; }
-  return state.entities[NAME];
-};
-
-const tokenEntitiesData = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].data == null) { return {}; }
-  return state.entities[NAME].data;
-};
-
-const nameIndex = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].index == null) { return {}; }
-  if (state.entities[NAME].index.name == null) { return {}; }
-  return state.entities[NAME].index.name;
-};
+const {
+  jsonApiState,
+  jsonApiData,
+} = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
 const tokenNameProp = (state, props) => props.tokenName;
 
 export const tokenFromName = createSelector(
-  nameIndex,
-  tokenEntitiesData,
+  jsonApiData,
+  selectorUtils.buildIndexSelector(NAME, 'name'),
   tokenNameProp,
 
-  (index, tokensById, tokenName) => {
-    const tenantId = index[tokenName];
-    return tokensById[tenantId];
-  },
+  selectorUtils.resourceFromIndex,
 );
 
 export const isLoading = createSelector(
-  tokenEntitiesState,
+  jsonApiState,
   tokenNameProp,
 
   (ts, tokenName) => loadingStates.selectors.isPending(ts, tokenName),
 );
 
 export const hasLoaded = createSelector(
-  tokenEntitiesState,
+  jsonApiState,
   tokenNameProp,
 
   (ts, tokenName) => loadingStates.selectors.isResolved(ts, tokenName),

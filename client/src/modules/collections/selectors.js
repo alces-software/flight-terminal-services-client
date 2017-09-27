@@ -6,39 +6,19 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import { loadingStates } from 'flight-reactware';
+import { loadingStates, selectorUtils } from 'flight-reactware';
 
 import users from '../../modules/users';
 
 import { NAME } from './constants';
 
-const collectionsEntitiesState = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  return state.entities[NAME];
-};
-
-const collectionEntitiesData = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].data == null) { return {}; }
-  return state.entities[NAME].data;
-};
-
-function collectionsForUser(user, allCollections) {
-  if (user == null) {
-    return [];
-  }
-  if (user.relationships.collections.data == null) {
-    return [];
-  }
-  const linkageData = user.relationships.collections.data;
-  return linkageData.reduce((accum, linkageDatum) => {
-    accum.push(allCollections[linkageDatum.id]);
-    return accum;
-  }, []);
-}
+const {
+  jsonApiState,
+  jsonApiData,
+} = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
 export const retrieval = createSelector(
-  collectionsEntitiesState,
+  jsonApiState,
   (state, props) => props.username,
 
   loadingStates.selectors.retrieval,
@@ -47,16 +27,20 @@ export const retrieval = createSelector(
 export const availableCollections = createSelector(
   users.selectors.currentUser,
   users.selectors.alcesUser,
-  collectionEntitiesData,
+  jsonApiData,
 
   (currentUser, alcesUser, collections) => {
     let userCols;
     if (currentUser === alcesUser) {
       userCols = [];
     } else {
-      userCols = collectionsForUser(currentUser, collections);
+      userCols = selectorUtils.relatedResourcesSelector(
+        currentUser, collections, 'collections'
+      );
     }
-    const alcesCols = collectionsForUser(alcesUser, collections);
+    const alcesCols = selectorUtils.relatedResourcesSelector(
+      alcesUser, collections, 'collections'
+    );
     return [ ...userCols, ...alcesCols ];
   },
 );
