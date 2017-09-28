@@ -16,6 +16,7 @@ import registerServiceWorker from './registerServiceWorker';
 import routes from './routes';
 
 import './index.css';
+import 'react-select/dist/react-select.css';
 
 const cookies = new Cookies();
 

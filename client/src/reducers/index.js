@@ -11,17 +11,20 @@ import clusterSpecs from '../modules/clusterSpecs';
 import clusters from '../modules/clusters';
 import tenants from '../modules/tenants';
 import tokens from '../modules/tokens';
+import users from '../modules/users';
 
 const entityIndexes = [
   ...clusters.indexes || [],
   ...tenants.indexes || [],
   ...tokens.indexes || [],
+  ...users.indexes || [],
 ];
 
 const loadingStatesConfig = [
   clusters.loadingStatesConfig || {},
   tenants.loadingStatesConfig || {},
   tokens.loadingStatesConfig || {},
+  users.loadingStatesConfig || {},
 ];
 
 export default (cookies) => ({
