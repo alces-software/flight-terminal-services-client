@@ -76,7 +76,18 @@ class ClustersController < ApplicationController
   end
 
   def cluster_launch_config_params
-    permitted_params = [:email, :name, :region, :key_pair, :collection]
+    queue_params = (params[:clusterLaunch] || {})[:queues] || {}
+    permitted_queues = queue_params.keys.each_with_object({}) do |q, h|
+      h[q] = [:desired, :min, :max]
+    end
+    permitted_params = [
+      :email,
+      :name,
+      :region,
+      :key_pair,
+      :collection,
+      queues: permitted_queues
+    ]
     required_params = [:email, :name]
 
     params.require(:clusterLaunch).permit(*permitted_params).tap do |h|

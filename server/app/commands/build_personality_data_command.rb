@@ -21,6 +21,7 @@ class BuildPersonalityDataCommand
 
   def generate_personality_data
     personality = {}.tap do |h|
+      h.merge!(generate_queues_data)
       h.merge!(generate_collections_data)
       h.merge!(generate_compute_personality)
     end
@@ -29,7 +30,15 @@ class BuildPersonalityDataCommand
     personality.to_yaml.sub(/^---\n/, '')
   end
 
+  def generate_queues_data
+    return {} if @launch_config.queues.nil? || @launch_config.queues.empty?
+    {
+      'queues' => @launch_config.queues.to_hash
+    }
+  end
+
   def generate_collections_data
+    return {} if @launch_config.collection.nil?
     {
       'collections' => Array.wrap(@launch_config.collection)
     }
