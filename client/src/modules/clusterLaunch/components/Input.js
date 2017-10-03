@@ -9,8 +9,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge, Label, FormGroup, Input as ReactstrapInput, FormText } from 'reactstrap';
 
-// import '../styles/ClusterFormInput.scss';
-
 class Input extends React.Component {
   static defaultProps = {
     autofocus: false,

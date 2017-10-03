@@ -88,10 +88,11 @@ class ClusterLaunchFormContainer extends React.Component {
 
   // eslint-disable-next-line react/sort-comp
   initialValues = {
-    selectedCollection: undefined,
     clusterName: '',
     email: '',
     launchToken: '',
+    queues: {},
+    selectedCollection: undefined,
   }
 
   state = {
@@ -127,6 +128,15 @@ class ClusterLaunchFormContainer extends React.Component {
 
   defaultLaunchOptionIndex() {
     return this.props.clusterSpec.launchOptions.defaultOptionIndex;
+  }
+
+  handleQueueChange = ({ name, queueName, value }) => {
+    this.setState((s) => {
+      const q = s.values.queues[queueName] || {};
+      q[name] = value;
+      s.values.queues[queueName] = q;
+      return s;
+    });
   }
 
   handleFormChange = ({ name, value }) => {
@@ -173,10 +183,11 @@ class ClusterLaunchFormContainer extends React.Component {
           file: this.props.clusterSpecsFile,
         },
         clusterLaunch: {
-          name: this.state.values.clusterName || this.state.values.launchToken,
-          email: this.state.values.email || this.state.token.attributes.assignedTo,
-          selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
           collection: collectionUrl,
+          email: this.state.values.email || this.state.token.attributes.assignedTo,
+          name: this.state.values.clusterName || this.state.values.launchToken,
+          queues: this.state.values.queues,
+          selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
         },
       })
     });
@@ -310,6 +321,7 @@ class ClusterLaunchFormContainer extends React.Component {
           handleSubmit={this.handleSubmit}
           onCancel={this.props.onCancel}
           onChange={this.handleFormChange}
+          onQueueChange={this.handleQueueChange}
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
           onTokenEntered={this.handleTokenEntered}
