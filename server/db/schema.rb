@@ -10,11 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612225251) do
+ActiveRecord::Schema.define(version: 20171003084950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
+
+  create_table "clusters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string   "token",      limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "compute_queue_actions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string   "spec",       limit: 255,                     null: false
+    t.integer  "min",                                        null: false
+    t.integer  "max",                                        null: false
+    t.integer  "desired",                                    null: false
+    t.string   "action",     limit: 64,                      null: false
+    t.string   "status",     limit: 64,  default: "PENDING", null: false
+    t.uuid     "cluster_id",                                 null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.index ["cluster_id"], name: "index_compute_queue_actions_on_cluster_id", using: :btree
+  end
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string   "identifier",             limit: 32,    null: false
@@ -50,5 +69,6 @@ ActiveRecord::Schema.define(version: 20170612225251) do
     t.index ["tenant_id"], name: "index_tokens_on_tenant_id", using: :btree
   end
 
+  add_foreign_key "compute_queue_actions", "clusters", on_update: :cascade, on_delete: :restrict
   add_foreign_key "tokens", "tenants", on_update: :cascade, on_delete: :restrict
 end

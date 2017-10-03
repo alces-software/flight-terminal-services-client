@@ -32,6 +32,19 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       jsonapi_resources :tenants, only: [:index, :show]
+
+      jsonapi_resources :clusters, only: [:show] do
+        # Read-only access to the account's depot definitions relationship.
+        # Creating and deleting depot definitions, should be done directly
+        # against the depot definition resource (URLs).
+        jsonapi_relationships only: [:show]
+      end
+
+      jsonapi_resources :compute_queue_actions do
+        # Read-only access to the cluster relationship.
+        jsonapi_links :cluster, only: [:show]
+        jsonapi_related_resource :cluster
+      end
     end
   end
 
