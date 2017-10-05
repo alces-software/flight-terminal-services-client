@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(version: 20171003084950) do
 
   create_table "compute_queue_actions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string   "spec",       limit: 255,                     null: false
-    t.integer  "min",                                        null: false
-    t.integer  "max",                                        null: false
-    t.integer  "desired",                                    null: false
+    t.integer  "min"
+    t.integer  "max"
+    t.integer  "desired"
     t.string   "action",     limit: 64,                      null: false
     t.string   "status",     limit: 64,  default: "PENDING", null: false
     t.uuid     "cluster_id",                                 null: false
