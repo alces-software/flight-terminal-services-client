@@ -24,7 +24,9 @@ class BuildPersonalityDataCommand
       h.merge!(generate_collections_data)
       h.merge!(generate_compute_personality)
     end
-    personality.to_yaml
+    # Workaround bugs in clusterware's personality data handling.
+    #  - Remove `---\n` at the beginning
+    personality.to_yaml.sub(/^---\n/, '')
   end
 
   def generate_collections_data
