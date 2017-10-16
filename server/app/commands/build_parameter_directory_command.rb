@@ -32,6 +32,7 @@ class BuildParameterDirectoryCommand
     merge_default_overrides
     merge_cluster_spec_overrides
     merge_launch_option_overrides
+    merge_personality_data
     merge_mandatory_overrides
   end
 
@@ -59,6 +60,16 @@ class BuildParameterDirectoryCommand
     launch_option = @launch_config.launch_option
     overrides = launch_option.parameter_directory_overrides
     merge_overrides(overrides, "launch option #{launch_option.name}")
+  end
+
+  def merge_personality_data
+    personality_data = BuildPersonalityDataCommand.new(@launch_config).perform
+    overrides = {
+      "solo" => {
+        "PersonalityData" => personality_data
+      }
+    }
+    merge_overrides(overrides, "personality data")
   end
 
   def merge_overrides(parameter_directory_overrides, source, backup: false)

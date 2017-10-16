@@ -31,6 +31,7 @@
     "reactstrap": "^4.6.2",
     "recompose": "^0.24.0",
     "redux": "^3.6.0",
+    "redux-cookie": "^0.5.9",
     "redux-form": "^6.8.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
@@ -38,6 +39,7 @@
     "seamless-immutable": "^7.1.2",
     "socket.io-client": "^2.0.3",
     "styled-components": "^2.0.1",
+    "universal-cookie": "^2.1.0",
     "url-search-params-polyfill": "^2.0.0",
     "validator": "^8.0.0"
   },

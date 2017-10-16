@@ -15,10 +15,11 @@ import tokens from '../../../modules/tokens';
 import { MultiPageForm } from 'flight-reactware';
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 
-import TokenInput from './TokenInput';
 import ClusterNameInput from './ClusterNameInput';
+import CollectionOptions from './CollectionOptions';
 import EmailInput from './EmailInput';
 import LaunchOptions from './LaunchOptions';
+import TokenInput from './TokenInput';
 
 const cardHeight = 360;
 const titleAndButtonsHeight = 156;
@@ -27,6 +28,7 @@ const formHeight = `${cardHeight - titleAndButtonsHeight}px`;
 export class ClusterLaunchForm extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
+    collections: CollectionOptions.propTypes.collections,
     currentPageIndex: PropTypes.number.isRequired,
     emailRef: PropTypes.func,
     errors: PropTypes.shape({
@@ -52,6 +54,7 @@ export class ClusterLaunchForm extends React.Component {
       clusterName: PropTypes.string,
       email: PropTypes.string,
       launchToken: PropTypes.string,
+      selectedCollection: PropTypes.string,
       selectedLaunchOptionIndex: PropTypes.number,
     }),
   };
@@ -76,6 +79,15 @@ export class ClusterLaunchForm extends React.Component {
           tokenName={this.props.tokenName}
         />),
       valid: () => this.props.tokenHasLoaded,
+    },
+    {
+      render: () => (
+        <CollectionOptions
+          collections={this.props.collections}
+          onChange={this.props.onChange}
+          selectedCollection={this.props.values.selectedCollection}
+        />),
+      valid: () => true,
     },
     {
       render: () => (

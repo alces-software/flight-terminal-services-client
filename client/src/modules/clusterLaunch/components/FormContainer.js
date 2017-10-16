@@ -9,9 +9,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import validatorUtils from 'validator';
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import { createStructuredSelector } from 'reselect';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import tokens from '../../../modules/tokens';
+import collections from '../../../modules/collections';
 
 import ErrorModal from './ErrorModal';
 import ClusterLaunchForm from './Form';
@@ -75,6 +78,9 @@ class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {
     clusterSpec: clusterSpecShape.isRequired,
     clusterSpecsFile: PropTypes.string.isRequired,
+    collections: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })).isRequired,
     dispatch: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     tenantIdentifier: PropTypes.string,
@@ -82,6 +88,7 @@ class ClusterLaunchFormContainer extends React.Component {
 
   // eslint-disable-next-line react/sort-comp
   initialValues = {
+    selectedCollection: undefined,
     clusterName: '',
     email: '',
     launchToken: '',
@@ -142,6 +149,12 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   sendLaunchRequest() {
+    const selectedCollection = (this.props.collections || [])
+      .find(c => c.id === this.state.values.selectedCollection);
+    const collectionUrl = selectedCollection == null 
+      ? undefined
+      : selectedCollection.links.self;
+
     return fetch('/clusters/launch', {
       method: 'POST',
       headers: {
@@ -163,6 +176,7 @@ class ClusterLaunchFormContainer extends React.Component {
           name: this.state.values.clusterName || this.state.values.launchToken,
           email: this.state.values.email || this.state.token.attributes.assignedTo,
           selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
+          collection: collectionUrl,
         },
       })
     });
@@ -306,4 +320,10 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 }
 
-export default connect()(ClusterLaunchFormContainer);
+const enhance = compose(
+  connect(createStructuredSelector({
+    collections: collections.selectors.availableCollections,
+  })),
+);
+
+export default enhance(ClusterLaunchFormContainer);

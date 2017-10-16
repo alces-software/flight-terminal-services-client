@@ -6,47 +6,31 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import { loadingStates } from 'flight-reactware';
+import { loadingStates, selectorUtils } from 'flight-reactware';
 
 import { NAME } from './constants';
 
 const tenantState = state => state[NAME];
 
-const tenantEntitiesState = (state) => {
-  if (state.entities[NAME] == null) { return {}; }
-  return state.entities[NAME];
-};
-
-const tenantEntitiesData = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].data == null) { return {}; }
-  return state.entities[NAME].data;
-};
-
-const identifierIndex = state => {
-  if (state.entities[NAME] == null) { return {}; }
-  if (state.entities[NAME].index == null) { return {}; }
-  if (state.entities[NAME].index.identifier == null) { return {}; }
-  return state.entities[NAME].index.identifier;
-};
+const {
+  jsonApiState,
+  jsonApiData,
+} = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
 export function identifier(state) {
   return tenantState(state).identifier;
 }
 
 export const tenant = createSelector(
+  jsonApiData,
+  selectorUtils.buildIndexSelector(NAME, 'identifier'),
   identifier,
-  identifierIndex,
-  tenantEntitiesData,
 
-  (identifier, index, tenantsById) => {
-    const tenantId = index[identifier];
-    return tenantsById[tenantId];
-  },
+  selectorUtils.resourceFromIndex,
 );
 
 export const retrieval = createSelector(
-  tenantEntitiesState,
+  jsonApiState,
   identifier,
 
   loadingStates.selectors.retrieval,

@@ -76,7 +76,7 @@ class ClustersController < ApplicationController
   end
 
   def cluster_launch_config_params
-    permitted_params = [:email, :name, :region, :key_pair]
+    permitted_params = [:email, :name, :region, :key_pair, :collection]
     required_params = [:email, :name]
 
     params.require(:clusterLaunch).permit(*permitted_params).tap do |h|

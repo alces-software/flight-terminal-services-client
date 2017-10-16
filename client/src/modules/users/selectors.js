@@ -6,36 +6,42 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import { loadingStates, selectorUtils } from 'flight-reactware';
+import { auth, loadingStates, selectorUtils } from 'flight-reactware';
 
 import { NAME } from './constants';
-
-const clustersState = state => state[NAME];
 
 const {
   jsonApiState,
   jsonApiData,
 } = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
-export function hostname(state) {
-  return clustersState(state).hostname;
-}
-
-function hostnameFromPropsOrStore(state, props) {
-  return props.hostname || hostname(state);
-}
-
 export const retrieval = createSelector(
   jsonApiState,
-  hostnameFromPropsOrStore,
+  (state, props) => props.user,
 
   loadingStates.selectors.retrieval,
 );
 
-export const currentCluster = createSelector(
+const userFromName = createSelector(
   jsonApiData,
-  selectorUtils.buildIndexSelector(NAME, 'hostname'),
-  hostname,
+  selectorUtils.buildIndexSelector(NAME, 'name'),
+  (state, props) => props.username,
 
   selectorUtils.resourceFromIndex,
+);
+
+export function alcesUser(state) {
+  return userFromName(state, { username: 'alces' });
+}
+
+export const currentUser = createSelector(
+  state => state,
+  auth.selectors.currentUserSelector,
+
+  (state, user) => {
+    if (user == null) {
+      return undefined;
+    }
+    return userFromName(state, { username: user.username });
+  }
 );

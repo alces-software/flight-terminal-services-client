@@ -30,9 +30,11 @@ class ClusterLaunchConfig
   attr_accessor :tenant
   attr_accessor :token
   attr_accessor :launch_option
+  attr_accessor :collection
 
   def attributes
     {
+      'collection' => nil,
       'email' => nil,
       'key_pair' => nil,
       'name' => nil,
