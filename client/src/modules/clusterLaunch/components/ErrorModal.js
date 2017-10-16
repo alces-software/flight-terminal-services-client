@@ -9,8 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isFSA } from 'flux-standard-action';
 
-import { StandardModal } from 'flight-reactware';
-import tokens from '../../../modules/tokens';
+import { apiRequest, jsonApi, StandardModal } from 'flight-reactware';
 import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 
 function hasPropError(errorDetails, prop, error) {
@@ -51,9 +50,10 @@ function messageFromDetails(details) {
   }
 }
 
-function messageFromReduxAction({ type, payload }) {
-  if (type === tokens.actionTypes.LOAD_FAILED) {
-    if (payload.errors && payload.errors.some(e => e.status === 404)) {
+function messageFromReduxAction(action) {
+  const errors = (action.error && action.error.data && action.error.data.errors) || [];
+  if (action.type === apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED)) {
+    if (errors && errors.some(e => e.status === 404)) {
       return messageFromDetails({ token: ['token not found'] });
     }
   }

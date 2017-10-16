@@ -29,12 +29,12 @@ class BuildFlyParamsCommand
       'cluster',
       'launch',
       stack_name,
-      *default_template_set,
+      *default_options,
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
       *@launch_config.spec.args,
       *@launch_config.launch_option.args,
-      *key_pair_and_region,
+      *launch_config_key_pair_and_region,
       '--parameter-directory', @parameter_dir,
       '--runtime', runtime,
     ]
@@ -42,16 +42,24 @@ class BuildFlyParamsCommand
     cmd
   end
 
-  def default_template_set
+  def default_options
     [].tap do |args|
       default_template_set = Rails.application.config.alces.default_template_set
       if default_template_set.present?
         args << '--template-set' << default_template_set
       end
+      default_key_pair = Rails.configuration.alces.default_key_pair
+      if default_key_pair.present?
+        args << '--key-pair' << default_key_pair
+      end
+      default_region = Rails.configuration.alces.default_region
+      if default_region.present?
+        args << '--region' << default_region
+      end
     end
   end
 
-  def key_pair_and_region
+  def launch_config_key_pair_and_region
     [].tap do |args|
       if @launch_config.key_pair.present?
         args << '--key-pair' << @launch_config.key_pair

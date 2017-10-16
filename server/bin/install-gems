@@ -27,7 +27,7 @@ install_gems() {
         subheader "Remote gems disallowed"
         bundle_install_args+=" --local"
     fi
-    docker-compose run --rm web bundle install ${bundle_install_args[@]} 2> >(indent 1>&2) | indent
+    docker-compose run --rm server bundle install ${bundle_install_args[@]} 2> >(indent 1>&2) | indent
 }
 
 usage() {
