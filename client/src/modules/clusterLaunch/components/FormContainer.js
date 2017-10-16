@@ -11,6 +11,7 @@ import validatorUtils from 'validator';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { createStructuredSelector } from 'reselect';
+import { auth } from 'flight-reactware';
 
 import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import tokens from '../../../modules/tokens';
@@ -76,6 +77,7 @@ function validate(allValues, state) {
 
 class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {
+    authToken: PropTypes.string,
     clusterSpec: clusterSpecShape.isRequired,
     clusterSpecsFile: PropTypes.string.isRequired,
     collections: PropTypes.arrayOf(PropTypes.shape({
@@ -164,12 +166,17 @@ class ClusterLaunchFormContainer extends React.Component {
     const collectionUrl = selectedCollection == null 
       ? undefined
       : selectedCollection.links.self;
+    let authHeaders = {};
+    if (this.props.authToken != null) {
+      authHeaders = { Authorization: `Bearer ${this.props.authToken}` };
+    }
 
     return fetch('/clusters/launch', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...authHeaders,
       },
       body: JSON.stringify({
         tenant: {
@@ -335,6 +342,7 @@ class ClusterLaunchFormContainer extends React.Component {
 const enhance = compose(
   connect(createStructuredSelector({
     collections: collections.selectors.availableCollections,
+    authToken: auth.selectors.ssoToken,
   })),
 );
 
