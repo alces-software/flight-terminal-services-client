@@ -8,10 +8,19 @@
 require_dependency 'json_web_token'
 
 class User < ApplicationRecord
+  include DefaultsConcern
 
   has_many :clusters
 
   validates :username, uniqueness: true
+
+  validates :compute_credits,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      only_integer: true
+    },
+    allow_blank: true
+  default :compute_credits, 0
 
   def self.from_jwt_token(token)
     claims = ::JsonWebToken.decode(token)  # handles signature verification too
