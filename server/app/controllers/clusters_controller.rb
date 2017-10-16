@@ -34,6 +34,7 @@ class ClustersController < ApplicationController
         cluster_launch_config.tenant,
         cluster_launch_config.token,
         cluster_launch_config.launch_option.as_json,
+        cluster_launch_config.user,
       )
     rescue
       cluster_launch_config.token.mark_as(:available, cluster_launch_config.email)
@@ -61,6 +62,7 @@ class ClustersController < ApplicationController
       tenant: tenant,
       token: token,
       launch_option: launch_option,
+      user: current_user,
     )
     ClusterLaunchConfig.new(config_params)
   rescue ClusterSpec::Error, TokenNotFound

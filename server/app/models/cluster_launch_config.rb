@@ -32,6 +32,7 @@ class ClusterLaunchConfig
   attr_accessor :launch_option
   attr_accessor :collection
   attr_accessor :queues
+  attr_accessor :user
 
   def attributes
     {
@@ -41,6 +42,7 @@ class ClusterLaunchConfig
       'name' => nil,
       'queues' => nil,
       'region' => nil,
+      'user' => nil,
     }
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171003084950) do
+ActiveRecord::Schema.define(version: 20171011155843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20171003084950) do
     t.string   "token",      limit: 255, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.uuid     "user_id"
+    t.index ["user_id"], name: "index_clusters_on_user_id", using: :btree
   end
 
   create_table "compute_queue_actions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -71,6 +73,17 @@ ActiveRecord::Schema.define(version: 20171003084950) do
     t.index ["tenant_id"], name: "index_tokens_on_tenant_id", using: :btree
   end
 
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string   "username",   limit: 255, null: false
+    t.string   "email",      limit: 255, null: false
+    t.uuid     "flight_id",              null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["flight_id"], name: "index_users_on_flight_id", using: :btree
+    t.index ["username"], name: "index_users_on_username", using: :btree
+  end
+
+  add_foreign_key "clusters", "users", on_update: :cascade, on_delete: :restrict
   add_foreign_key "compute_queue_actions", "clusters", on_update: :cascade, on_delete: :restrict
   add_foreign_key "tokens", "tenants", on_update: :cascade, on_delete: :restrict
 end

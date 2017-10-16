@@ -6,11 +6,17 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-class Cluster < ApplicationRecord
-  belongs_to :user
-  has_many :compute_queue_actions
-
-  validates :token,
-    length: {maximum: 255},
-    presence: true
+class ClusterBelongsToUser < ActiveRecord::Migration[5.0]
+  def change
+    change_table :clusters do |t|
+      t.references :user,
+        index: true,
+        type: :uuid,
+        foreign_key: {
+          on_update: :cascade,
+          on_delete: :restrict,
+        },
+        null: true
+    end
+  end
 end
