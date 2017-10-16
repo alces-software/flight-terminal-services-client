@@ -34,9 +34,9 @@ Rails.application.routes.draw do
       jsonapi_resources :tenants, only: [:index, :show]
 
       jsonapi_resources :clusters, only: [:show] do
-        # Read-only access to the account's depot definitions relationship.
-        # Creating and deleting depot definitions, should be done directly
-        # against the depot definition resource (URLs).
+        # Read-only access to the cluster's compute queue actions and user
+        # relationship.  Creating and deleting compute queue actions, should
+        # be done directly against the compute queue resource (URLs).
         jsonapi_relationships only: [:show]
       end
 
@@ -44,6 +44,12 @@ Rails.application.routes.draw do
         # Read-only access to the cluster relationship.
         jsonapi_links :cluster, only: [:show]
         jsonapi_related_resource :cluster
+      end
+
+      jsonapi_resources :users, only: [:show] do
+        # Read-only access to the clusters relationship.
+        jsonapi_links :clusters, only: [:show]
+        jsonapi_related_resource :clusters
       end
     end
   end

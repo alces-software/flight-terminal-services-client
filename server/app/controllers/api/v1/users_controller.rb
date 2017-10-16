@@ -5,8 +5,5 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
-
-class Api::V1::ClusterResource < Api::V1::ApplicationResource
-  has_one :user
-  has_many :compute_queue_actions
+class Api::V1::UsersController < Api::V1::ApplicationResourceController
 end
