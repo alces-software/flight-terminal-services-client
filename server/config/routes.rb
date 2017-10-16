@@ -46,10 +46,19 @@ Rails.application.routes.draw do
         jsonapi_related_resource :cluster
       end
 
+      jsonapi_resources :credit_usages do
+        # Read-only access to the cluster relationship.
+        jsonapi_links :cluster, only: [:show]
+        jsonapi_related_resource :cluster
+      end
+
       jsonapi_resources :users, only: [:show] do
         # Read-only access to the clusters relationship.
         jsonapi_links :clusters, only: [:show]
         jsonapi_related_resource :clusters
+        # Read-only access to the credit_usages relationship.
+        jsonapi_links :credit_usages, only: [:show]
+        jsonapi_related_resource :credit_usages
       end
     end
   end

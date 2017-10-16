@@ -11,6 +11,7 @@ class User < ApplicationRecord
   include DefaultsConcern
 
   has_many :clusters
+  has_many :credit_usages, through: :clusters
 
   validates :username, uniqueness: true
 

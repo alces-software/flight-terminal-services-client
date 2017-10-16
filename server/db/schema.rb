@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016084915) do
+ActiveRecord::Schema.define(version: 20171016121225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(version: 20171016084915) do
     t.index ["action"], name: "index_compute_queue_actions_on_action", using: :btree
     t.index ["cluster_id"], name: "index_compute_queue_actions_on_cluster_id", using: :btree
     t.index ["status"], name: "index_compute_queue_actions_on_status", using: :btree
+  end
+
+  create_table "credit_usages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "start_at",                 null: false
+    t.datetime "end_at"
+    t.float    "cu_in_use",  default: 0.0, null: false
+    t.uuid     "cluster_id",               null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["cluster_id"], name: "index_credit_usages_on_cluster_id", using: :btree
   end
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -86,5 +96,6 @@ ActiveRecord::Schema.define(version: 20171016084915) do
 
   add_foreign_key "clusters", "users", on_update: :cascade, on_delete: :restrict
   add_foreign_key "compute_queue_actions", "clusters", on_update: :cascade, on_delete: :restrict
+  add_foreign_key "credit_usages", "clusters", on_update: :cascade, on_delete: :restrict
   add_foreign_key "tokens", "tenants", on_update: :cascade, on_delete: :restrict
 end
