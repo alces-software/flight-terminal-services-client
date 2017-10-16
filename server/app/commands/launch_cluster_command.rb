@@ -74,6 +74,7 @@ class LaunchClusterCommand
         send_failed_email
       else
         mark_token_as(:used)
+        create_cluster_model
         send_completed_email
       end
     end
@@ -103,6 +104,17 @@ class LaunchClusterCommand
   def send_completed_email
     ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
       deliver_now
+  end
+
+  def create_cluster_model
+    parsed_output = ParseOutputCommand.new(@run_fly_cmd.stdout).perform
+    details = parsed_output.details
+    uuid_detail = details.detect {|d| d.title == 'UUID'}
+    token_detail = details.detect {|d| d.title == 'Token'}
+    uuid = uuid_detail.value
+    token = token_detail.value
+
+    Cluster.create!(id: uuid, token: token)
   end
 
   def mark_token_as(status)

@@ -21,14 +21,50 @@ class BuildPersonalityDataCommand
 
   def generate_personality_data
     personality = {}.tap do |h|
+      h.merge!(generate_queues_data)
       h.merge!(generate_collections_data)
+      h.merge!(generate_compute_personality)
     end
-    personality.to_yaml
+    # Workaround bugs in clusterware's personality data handling.
+    #  - Remove `---\n` at the beginning
+    personality.to_yaml.sub(/^---\n/, '')
+  end
+
+  def generate_queues_data
+    return {} if @launch_config.queues.nil? || @launch_config.queues.empty?
+    {
+      'queues' => @launch_config.queues.to_hash
+    }
   end
 
   def generate_collections_data
+    return {} if @launch_config.collection.nil?
     {
       'collections' => Array.wrap(@launch_config.collection)
+    }
+  end
+
+  def generate_compute_personality
+    hash = HashEmailCommand.new(@launch_config.email).perform
+    stack_name = "#{@launch_config.name}-#{hash}"
+
+    domain_arg_found = false
+    domain = nil
+    @launch_config.spec.args.each do |arg|
+      if domain_arg_found
+        domain = arg
+        break
+      end
+      if arg == '--domain' || arg == '-d'
+        domain_arg_found = true
+      end
+    end
+
+    {
+      'compute' => {
+        'cluster' => stack_name,
+        'auth_user' => "#{stack_name}.#{domain}.alces.network",
+      }
     }
   end
 end

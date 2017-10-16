@@ -19,6 +19,7 @@ import ClusterNameInput from './ClusterNameInput';
 import CollectionOptions from './CollectionOptions';
 import EmailInput from './EmailInput';
 import LaunchOptions from './LaunchOptions';
+import QueuesConfiguration from './QueuesConfiguration';
 import TokenInput from './TokenInput';
 
 const cardHeight = 360;
@@ -39,6 +40,7 @@ export class ClusterLaunchForm extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onQueueChange: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     onTokenEntered: PropTypes.func.isRequired,
@@ -54,6 +56,7 @@ export class ClusterLaunchForm extends React.Component {
       clusterName: PropTypes.string,
       email: PropTypes.string,
       launchToken: PropTypes.string,
+      queues: PropTypes.object.isRequired,
       selectedCollection: PropTypes.string,
       selectedLaunchOptionIndex: PropTypes.number,
     }),
@@ -86,6 +89,14 @@ export class ClusterLaunchForm extends React.Component {
           collections={this.props.collections}
           onChange={this.props.onChange}
           selectedCollection={this.props.values.selectedCollection}
+        />),
+      valid: () => true,
+    },
+    {
+      render: () => (
+        <QueuesConfiguration
+          onChange={this.props.onQueueChange}
+          queues={this.props.values.queues}
         />),
       valid: () => true,
     },

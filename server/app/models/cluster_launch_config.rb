@@ -31,6 +31,7 @@ class ClusterLaunchConfig
   attr_accessor :token
   attr_accessor :launch_option
   attr_accessor :collection
+  attr_accessor :queues
 
   def attributes
     {
@@ -38,6 +39,7 @@ class ClusterLaunchConfig
       'email' => nil,
       'key_pair' => nil,
       'name' => nil,
+      'queues' => nil,
       'region' => nil,
     }
   end

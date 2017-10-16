@@ -65,9 +65,15 @@ class BuildParameterDirectoryCommand
   def merge_personality_data
     personality_data = BuildPersonalityDataCommand.new(@launch_config).perform
     overrides = {
+      "cluster-compute" => {
+        "PersonalityData" => personality_data
+      },
+      "cluster-master" => {
+        "PersonalityData" => personality_data
+      },
       "solo" => {
         "PersonalityData" => personality_data
-      }
+      },
     }
     merge_overrides(overrides, "personality data")
   end
@@ -78,7 +84,7 @@ class BuildParameterDirectoryCommand
         overrides
       end
       params = YAML.load_file(File.join(@parameter_dir, "#{file_key}.yml"))
-      new_params = params.merge(overrides)
+      new_params = params.merge(overrides.slice(*params.keys))
       if backup
         File.write(File.join(@parameter_dir, "#{file_key}.yml.bak"), params.to_yaml)
       end
