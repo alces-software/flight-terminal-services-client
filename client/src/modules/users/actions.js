@@ -9,7 +9,7 @@ import { jsonApi } from 'flight-reactware';
 
 import { retrieval } from './selectors';
 
-const anvilBaseUrl = 'http://anvil.alces-flight.lvh.me:5000';
+const anvilBaseUrl = process.env.REACT_APP_ANVIL_BASE_URL;
 
 export function loadUser(username) {
   // We need to include the type and the hostname attribute for the
