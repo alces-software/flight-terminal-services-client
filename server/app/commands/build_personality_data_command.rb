@@ -21,7 +21,6 @@ class BuildPersonalityDataCommand
 
   def generate_personality_data
     personality = {}.tap do |h|
-      h.merge!(generate_collections_data)
       h.merge!(generate_compute_personality)
     end
     # Workaround bugs in clusterware's personality data handling.
@@ -29,12 +28,7 @@ class BuildPersonalityDataCommand
     personality.to_yaml.sub(/^---\n/, '')
   end
 
-  def generate_collections_data
-    {
-      'collections' => Array.wrap(@launch_config.collection)
-    }
-  end
-
+  # Generate personality data required by `alces compute ...` commands.
   def generate_compute_personality
     hash = HashEmailCommand.new(@launch_config.email).perform
     stack_name = "#{@launch_config.name}-#{hash}"
