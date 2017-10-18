@@ -37,7 +37,7 @@ class BuildParameterDirectoryCommand
   end
 
   def create_parameter_directory
-    fly_exe_path = @launch_config.spec.fly_executable_path,
+    fly_exe_path = @launch_config.spec.fly_executable_path
     cmd = [fly_exe_path, '--create-parameter-directory', @parameter_dir]
     Rails.logger.debug("Creating fly parameter directory: #{cmd.inspect}")
     exit_status = Open3.popen3(*cmd) do |stdin, stdout, stderr, wait_thr|
