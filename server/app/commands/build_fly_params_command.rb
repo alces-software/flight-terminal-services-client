@@ -25,7 +25,7 @@ class BuildFlyParamsCommand
 
   def build_command
     cmd = [
-      ENV['FLY_EXE_PATH'],
+      @launch_config.spec.fly_executable_path,
       'cluster',
       'launch',
       stack_name,
