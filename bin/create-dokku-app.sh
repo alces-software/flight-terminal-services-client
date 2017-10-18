@@ -2,9 +2,12 @@
 
 set -euo pipefail
 
-FLY_VERSION=0.6.0-dev
+FLY_VERSION=0.6.1
 FLY_DOWNLOAD_URL=https://s3-eu-west-1.amazonaws.com/alces-flight/FlightAttendant/${FLY_VERSION}/linux-x86_64/fly
 FLY_EXE_PATH=/app/fly
+FLY_NEXT_VERSION=0.7.0-dev
+FLY_NEXT_DOWNLOAD_URL=https://s3-eu-west-1.amazonaws.com/alces-flight/FlightAttendant/${FLY_NEXT_VERSION}/linux-x86_64/fly
+FLY_NEXT_EXE_PATH=/app/fly-next
 
 APPS=(flight-launch flight-launch-staging)
 declare -A DOMAINS
@@ -73,6 +76,8 @@ configure_app() {
             DOKKU_DOCKER_STOP_TIMEOUT=1200 \
             FLY_DOWNLOAD_URL=$FLY_DOWNLOAD_URL \
             FLY_EXE_PATH=$FLY_EXE_PATH \
+            FLY_NEXT_DOWNLOAD_URL=$FLY_NEXT_DOWNLOAD_URL \
+            FLY_NEXT_EXE_PATH=$FLY_NEXT_EXE_PATH \
             MAIL_BCC_ADDRESS=${BCC_ADDRESS[${app}]} \
             RACK_ENV=production \
             RAILS_ENV=production \
