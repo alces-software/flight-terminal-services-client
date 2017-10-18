@@ -32,6 +32,7 @@ class BuildParameterDirectoryCommand
     merge_default_overrides
     merge_cluster_spec_overrides
     merge_launch_option_overrides
+    merge_personality_data
     merge_mandatory_overrides
   end
 
@@ -61,13 +62,29 @@ class BuildParameterDirectoryCommand
     merge_overrides(overrides, "launch option #{launch_option.name}")
   end
 
+  def merge_personality_data
+    personality_data = BuildPersonalityDataCommand.new(@launch_config).perform
+    overrides = {
+      "cluster-compute" => {
+        "PersonalityData" => personality_data
+      },
+      "cluster-master" => {
+        "PersonalityData" => personality_data
+      },
+      "solo" => {
+        "PersonalityData" => personality_data
+      },
+    }
+    merge_overrides(overrides, "personality data")
+  end
+
   def merge_overrides(parameter_directory_overrides, source, backup: false)
     parameter_directory_overrides.each do |file_key, overrides|
       Alces.app.logger.debug "Merging overrides from #{source} for #{file_key} parameters" do
         overrides
       end
       params = YAML.load_file(File.join(@parameter_dir, "#{file_key}.yml"))
-      new_params = params.merge(overrides)
+      new_params = params.merge(overrides.slice(*params.keys))
       if backup
         File.write(File.join(@parameter_dir, "#{file_key}.yml.bak"), params.to_yaml)
       end
