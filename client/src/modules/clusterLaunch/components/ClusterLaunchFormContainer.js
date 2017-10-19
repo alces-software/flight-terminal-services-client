@@ -17,7 +17,7 @@ import ClusterErrorModal from './ClusterErrorModal';
 import ClusterLaunchForm from './ClusterLaunchForm';
 import ClusterLaunchedModal from './ClusterLaunchedModal';
 
-const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
+const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
 
 function strip(string) {
   return string.replace(/^ */, '').replace(/ *$/, '');
