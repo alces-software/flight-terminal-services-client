@@ -21,8 +21,8 @@ import ClusterLaunchForm from './Form';
 import LaunchedModal from './LaunchedModal';
 import * as analytics from '../analytics';
 
-const clusterNameRe = /^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/;
-const oneCharClusterNameRe = /^[a-zA-Z0-9]$/;
+const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
+const oneCharClusterNameRe = /^[a-z0-9]$/;
 
 function strip(string) {
   return string.replace(/^ */, '').replace(/ *$/, '');
