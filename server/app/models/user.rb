@@ -38,4 +38,8 @@ class User < ApplicationRecord
       u.save
     end
   end
+
+  def has_compute_credits?
+    compute_credits.present? && compute_credits > 0
+  end
 end

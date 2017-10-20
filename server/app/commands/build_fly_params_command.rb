@@ -36,7 +36,7 @@ class BuildFlyParamsCommand
       *@launch_config.launch_option.args,
       *launch_config_key_pair_and_region,
       '--parameter-directory', @parameter_dir,
-      '--runtime', runtime,
+      *runtime_flag,
     ]
 
     cmd
@@ -81,11 +81,14 @@ class BuildFlyParamsCommand
     "#{@launch_config.name}-#{hash}"
   end
 
-  def runtime
-    DetermineRuntimeCommand.new(
+  def runtime_flag
+    return [] unless @launch_config.using_token?
+
+    runtime = DetermineRuntimeCommand.new(
       @launch_config.launch_option,
       @launch_config.token
     ).perform.to_s
+    ['--runtime', runtime]
   end
 
   def log_params(params)
