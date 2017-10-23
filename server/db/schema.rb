@@ -32,7 +32,9 @@ ActiveRecord::Schema.define(version: 20171003084950) do
     t.uuid     "cluster_id",                                 null: false
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
+    t.index ["action"], name: "index_compute_queue_actions_on_action", using: :btree
     t.index ["cluster_id"], name: "index_compute_queue_actions_on_cluster_id", using: :btree
+    t.index ["status"], name: "index_compute_queue_actions_on_status", using: :btree
   end
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
