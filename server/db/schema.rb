@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023093831) do
+ActiveRecord::Schema.define(version: 20171023101452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,12 +85,13 @@ ActiveRecord::Schema.define(version: 20171023093831) do
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string   "username",        limit: 255,             null: false
-    t.string   "email",           limit: 255,             null: false
-    t.uuid     "flight_id",                               null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.integer  "compute_credits",             default: 0, null: false
+    t.string   "username",                limit: 255,             null: false
+    t.string   "email",                   limit: 255,             null: false
+    t.uuid     "flight_id",                                       null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.integer  "compute_credits",                     default: 0, null: false
+    t.datetime "credits_last_reduced_at"
     t.index ["flight_id"], name: "index_users_on_flight_id", using: :btree
     t.index ["username"], name: "index_users_on_username", using: :btree
   end

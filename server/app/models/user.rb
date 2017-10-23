@@ -16,10 +16,7 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
 
   validates :compute_credits,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      only_integer: true
-    },
+    numericality: { only_integer: true },
     allow_blank: true
   default :compute_credits, 0
 
