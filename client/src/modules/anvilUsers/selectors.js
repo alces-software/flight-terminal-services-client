@@ -8,12 +8,12 @@
 import { createSelector } from 'reselect';
 import { auth, loadingStates, selectorUtils } from 'flight-reactware';
 
-import { NAME } from './constants';
+import { RESOURCE_NAME } from './constants';
 
 const {
   jsonApiState,
   jsonApiData,
-} = selectorUtils.buildJsonApiResourceSelectors(NAME);
+} = selectorUtils.buildJsonApiResourceSelectors(RESOURCE_NAME);
 
 export const retrieval = createSelector(
   jsonApiState,
@@ -24,7 +24,7 @@ export const retrieval = createSelector(
 
 const userFromName = createSelector(
   jsonApiData,
-  selectorUtils.buildIndexSelector(NAME, 'name'),
+  selectorUtils.buildIndexSelector(RESOURCE_NAME, 'name'),
   (state, props) => props.username,
 
   selectorUtils.resourceFromIndex,

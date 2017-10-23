@@ -6,4 +6,5 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-export const NAME = 'users';
+export const MODULE_NAME = 'anilvUsers';
+export const RESOURCE_NAME = 'users';

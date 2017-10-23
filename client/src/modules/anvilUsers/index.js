@@ -15,13 +15,13 @@ import * as constants from './constants';
 import * as selectors from './selectors';
 
 const indexes = [{
-  entityType: constants.NAME,
+  entityType: constants.RESOURCE_NAME,
   indexName: 'name',
   indexAttribute: entity => entity.attributes.name,
 }];
 
 const loadingStatesConfig = {
-  resourceType: constants.NAME,
+  resourceType: constants.RESOURCE_NAME,
   key: resource => resource.meta.loadingStates.key || resource.attributes.name,
   pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
   rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
@@ -35,4 +35,3 @@ export default {
   loadingStatesConfig,
   selectors,
 };
-

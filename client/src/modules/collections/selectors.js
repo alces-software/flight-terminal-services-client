@@ -8,7 +8,7 @@
 import { createSelector } from 'reselect';
 import { loadingStates, selectorUtils } from 'flight-reactware';
 
-import users from '../../modules/users';
+import anvilUsers from '../../modules/anvilUsers';
 
 import { NAME } from './constants';
 
@@ -25,8 +25,8 @@ export const retrieval = createSelector(
 );
 
 export const availableCollections = createSelector(
-  users.selectors.currentUser,
-  users.selectors.alcesUser,
+  anvilUsers.selectors.currentUser,
+  anvilUsers.selectors.alcesUser,
   jsonApiData,
 
   (currentUser, alcesUser, collections) => {
