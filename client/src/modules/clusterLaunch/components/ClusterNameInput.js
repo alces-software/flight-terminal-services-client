@@ -49,8 +49,8 @@ const ClusterNameInput = ({ error, id, onChange, placeholder, value }) => {
         autofocus
         error={error && 'danger'}
         help="Choose a unique name for your cluster. Or leave blank to use the
-        default. The name can only contain letters, numbers and hyphens (-).
-        It cannot start or end with a hyphen."
+        default. The name can only contain lowercase letters, numbers and
+        hyphens (-).  It cannot start or end with a hyphen."
         id={`${id}-clusterName`}
         label="Enter a name for your cluster"
         name="clusterName"
