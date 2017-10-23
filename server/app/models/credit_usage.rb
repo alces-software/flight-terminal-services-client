@@ -44,8 +44,13 @@ class CreditUsage < ApplicationRecord
   validate do
     # Start must be in the past (or right now)
     errors.add(:start_at, 'start_in_future') unless start_at <= Time.now.utc.to_datetime
-
     errors.add(:end_at, 'end_before_start') unless end_at.nil? or start_at <= end_at
+  end
+
+  validate do
+    unless cluster.consumes_credits?
+      errors.add(:cluster, 'cluster does not consume credits')
+    end
   end
 
   class << self

@@ -116,7 +116,12 @@ class LaunchClusterCommand
 
     # XXX Add qualified_cluster_name.
     # XXX Use tracon to validate instead of storing token?
-    Cluster.create!(id: uuid, auth_token: auth_token, user: @launch_config.user)
+    Cluster.create!(
+      id: uuid,
+      auth_token: auth_token,
+      consumes_credits: !@launch_config.using_token?,
+      user: @launch_config.user
+    )
   end
 
   def mark_token_as(status)

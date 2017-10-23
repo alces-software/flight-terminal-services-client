@@ -6,15 +6,12 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-class Cluster < ApplicationRecord
-  belongs_to :user
-  has_many :compute_queue_actions
-  has_many :credit_usages
+class AddLaunchedWithTokenFlagToCluster < ActiveRecord::Migration[5.0]
+  def change
+    add_column :clusters, :consumes_credits, :boolean,
+      null: false,
+      default: false
 
-  validates :auth_token,
-    length: {maximum: 255},
-    presence: true
-
-  validates :consumes_credits,
-    inclusion: { in: [ true, false ] }
+    change_column_default :clusters, :consumes_credits, from: false, to: nil
+  end
 end
