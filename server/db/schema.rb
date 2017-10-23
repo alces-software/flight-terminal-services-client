@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016121225) do
+ActiveRecord::Schema.define(version: 20171023093058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
 
   create_table "clusters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string   "token",      limit: 255, null: false
+    t.string   "auth_token", limit: 255, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.uuid     "user_id"

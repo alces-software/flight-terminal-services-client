@@ -6,12 +6,8 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-class Cluster < ApplicationRecord
-  belongs_to :user
-  has_many :compute_queue_actions
-  has_many :credit_usages
-
-  validates :auth_token,
-    length: {maximum: 255},
-    presence: true
+class RenameClusterTokenColumn < ActiveRecord::Migration[5.0]
+  def change
+    rename_column :clusters, :token, :auth_token
+  end
 end
