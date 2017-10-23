@@ -64,7 +64,7 @@ namespace :alces do
           'cluster',
           'list',
           '--expired',
-          '--solo',
+          '--all',
           '--region', region,
         ]
         env = execution_environment
