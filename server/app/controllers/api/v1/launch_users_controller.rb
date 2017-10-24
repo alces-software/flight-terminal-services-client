@@ -5,5 +5,5 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
-class Api::V1::UsersController < Api::V1::ApplicationResourceController
+class Api::V1::LaunchUsersController < Api::V1::ApplicationResourceController
 end

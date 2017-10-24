@@ -7,7 +7,7 @@
 #==============================================================================
 
 class Api::V1::ClusterResource < Api::V1::ApplicationResource
-  has_one :user
+  has_one :launch_user
   has_many :compute_queue_actions
   has_many :credit_usages
 

@@ -6,7 +6,9 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-class Api::V1::UserResource < Api::V1::ApplicationResource
+class Api::V1::LaunchUserResource < Api::V1::ApplicationResource
+  model_name 'User'
+
   attribute :compute_credits
   attribute :email
   attribute :username
