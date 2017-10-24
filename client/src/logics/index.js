@@ -6,12 +6,16 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Import and export the public facing API for the session module.
+import session from '../modules/session';
 
-import * as constants from './constants';
-import logic from './logic';
+const logics = [
+  ...session.logic,
+];
 
-export default {
-  constants,
-  logic,
+export default (store) => {
+  store.subscribe(() => {
+    logics.forEach(logic => {
+      logic(store.dispatch, store.getState);
+    });
+  });
 };

@@ -11,8 +11,8 @@ import { renderRoutes } from 'react-router-config';
 import { Analytics } from 'flight-reactware';
 
 import middleware from './middleware';
-import session from './modules/session';
 import createReducers from './reducers';
+import createLogics from './logics';
 import registerServiceWorker from './registerServiceWorker';
 import routes from './routes';
 
@@ -43,6 +43,8 @@ const store = createStore(
   )
 );
 
+createLogics(store);
+
 Analytics.initialize(process.env.REACT_APP_ANALYTICS_TRACKER_ID, history);
 
 ReactDOM.render(
@@ -52,8 +54,7 @@ ReactDOM.render(
       {renderRoutes(routes)}
     </ConnectedRouter>
   </Provider>,
-  document.getElementById('root'),
-  () => store.dispatch(session.actions.loadUsers()),
+  document.getElementById('root')
 );
 
 registerServiceWorker();
