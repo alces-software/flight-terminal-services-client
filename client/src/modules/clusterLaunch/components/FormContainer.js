@@ -145,12 +145,26 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleQueueChange = ({ name, queueName, value }) => {
     this.setState((s) => {
-      const q = s.values.queues[queueName] || {};
-      q[name] = value;
-      s.values.queues[queueName] = q;
-      return s;
+      return {
+        ...s,
+        values: {
+          ...s.values,
+          queues: {
+            ...s.values.queues,
+            [queueName]: {
+              ...s.values.queues[queueName] || {},
+              [name]: value,
+            }
+          }
+        }
+      };
     });
   }
+
+  handleCancel = () => {
+    this.props.onCancel();
+    this.resetForm();
+  };
 
   handleFormChange = ({ name, value }) => {
     const errors = validate({
@@ -219,6 +233,17 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleSuccessfulLaunch(json) {
     analytics.clusterLaunchAccepted(this.props.clusterSpec);
+    this.setState({
+      modalProps: {
+        clusterName: json.cluster_name,
+        email: json.email,
+      },
+      showLaunchedModal: true,
+    });
+    this.resetForm();
+  }
+
+  resetForm() {
     const errors = validate(this.initialValues, this.state, this.props);
     this.setState({
       submitting: false,
@@ -228,11 +253,6 @@ class ClusterLaunchFormContainer extends React.Component {
       },
       currentPageIndex: initialPageIndex(this.props),
       errors: errors,
-      modalProps: {
-        clusterName: json.cluster_name,
-        email: json.email,
-      },
-      showLaunchedModal: true,
     });
   }
 
@@ -343,7 +363,7 @@ class ClusterLaunchFormContainer extends React.Component {
           emailRef={(el) => { this.emailInput = el; }}
           // eslint-disable-next-line react/jsx-handler-names
           handleSubmit={this.handleSubmit}
-          onCancel={this.props.onCancel}
+          onCancel={this.handleCancel}
           onChange={this.handleFormChange}
           onQueueChange={this.handleQueueChange}
           onShowNextPage={this.handleShowNextPage}
