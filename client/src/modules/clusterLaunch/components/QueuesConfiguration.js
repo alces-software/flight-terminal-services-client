@@ -76,9 +76,9 @@ Input.defaultProps = inputDefaultProp;
 
 const queueConfigPropTypes = {
   configuration: PropTypes.shape({
-    desired: PropTypes.number,
-    max: PropTypes.number,
-    min: PropTypes.number,
+    desired: PropTypes.string,
+    max: PropTypes.string,
+    min: PropTypes.string,
   }).isRequired,
   descriptor: PropTypes.shape({
     name: PropTypes.string.isRequired,
