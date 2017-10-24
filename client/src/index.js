@@ -11,6 +11,7 @@ import { renderRoutes } from 'react-router-config';
 import { Analytics } from 'flight-reactware';
 
 import middleware from './middleware';
+import session from './modules/session';
 import createReducers from './reducers';
 import registerServiceWorker from './registerServiceWorker';
 import routes from './routes';
@@ -51,7 +52,8 @@ ReactDOM.render(
       {renderRoutes(routes)}
     </ConnectedRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
+  () => store.dispatch(session.actions.loadUsers()),
 );
 
 registerServiceWorker();

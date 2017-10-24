@@ -10,12 +10,14 @@ import { routerReducer } from 'react-router-redux';
 import anvilUsers from '../modules/anvilUsers';
 import clusterSpecs from '../modules/clusterSpecs';
 import clusters from '../modules/clusters';
+import launchUsers from '../modules/launchUsers';
 import tenants from '../modules/tenants';
 import tokens from '../modules/tokens';
 
 const entityIndexes = [
   ...anvilUsers.indexes || [],
   ...clusters.indexes || [],
+  ...launchUsers.indexes || [],
   ...tenants.indexes || [],
   ...tokens.indexes || [],
 ];
@@ -23,6 +25,7 @@ const entityIndexes = [
 const loadingStatesConfig = [
   anvilUsers.loadingStatesConfig || {},
   clusters.loadingStatesConfig || {},
+  launchUsers.loadingStatesConfig || {},
   tenants.loadingStatesConfig || {},
   tokens.loadingStatesConfig || {},
 ];

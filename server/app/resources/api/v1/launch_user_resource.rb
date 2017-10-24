@@ -16,6 +16,8 @@ class Api::V1::LaunchUserResource < Api::V1::ApplicationResource
   has_many :clusters
   has_many :credit_usages
 
+  filter :username
+
   class <<self
     def creatable_fields(context)
       []
