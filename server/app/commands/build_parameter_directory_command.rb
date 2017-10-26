@@ -64,6 +64,15 @@ class BuildParameterDirectoryCommand
   end
 
   def merge_personality_data
+    # If we're not using the next version of `fly`, we're probably using a
+    # template set that has a bug with handling of personality data and
+    # probably using an AMI that doesn't make use of personality data.
+    # Probably.
+    #
+    # So let's not include any personality data.  This heuristic will become
+    # outdated soon and should be removed.
+    return if @launch_config.spec.fly_version != 'next'
+
     personality_data = BuildPersonalityDataCommand.new(@launch_config).perform
     overrides = {
       "cluster-compute" => {
