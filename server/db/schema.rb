@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023101452) do
+ActiveRecord::Schema.define(version: 20171027105411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20171023101452) do
     t.datetime "updated_at",                   null: false
     t.uuid     "user_id"
     t.boolean  "consumes_credits",             null: false
+    t.string   "domain",                       null: false
+    t.string   "qualified_name",               null: false
     t.index ["user_id"], name: "index_clusters_on_user_id", using: :btree
   end
 

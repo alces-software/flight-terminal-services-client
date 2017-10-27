@@ -28,7 +28,7 @@ class BuildFlyParamsCommand
       ENV['FLY_EXE_PATH'],
       'cluster',
       'launch',
-      stack_name,
+      qualified_cluster_name,
       *default_options,
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
@@ -76,9 +76,9 @@ class BuildFlyParamsCommand
     }
   end
 
-  def stack_name
-    hash = HashEmailCommand.new(@launch_config.email).perform
-    "#{@launch_config.name}-#{hash}"
+  def qualified_cluster_name
+    attrs = Cluster.attributes_from_launch_config(@launch_config)
+    attrs[:qualified_name]
   end
 
   def runtime_flag

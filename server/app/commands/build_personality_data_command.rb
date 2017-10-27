@@ -45,25 +45,14 @@ class BuildPersonalityDataCommand
   end
 
   def generate_compute_personality
-    hash = HashEmailCommand.new(@launch_config.email).perform
-    stack_name = "#{@launch_config.name}-#{hash}"
-
-    domain_arg_found = false
-    domain = nil
-    @launch_config.spec.args.each do |arg|
-      if domain_arg_found
-        domain = arg
-        break
-      end
-      if arg == '--domain' || arg == '-d'
-        domain_arg_found = true
-      end
-    end
+    attrs = Cluster.attributes_from_launch_config(@launch_config)
+    qualified_name = attrs[:qualified_name]
+    domain = attrs[:domain]
 
     {
       'compute' => {
-        'cluster' => stack_name,
-        'auth_user' => "#{stack_name}.#{domain}.alces.network",
+        'cluster' => qualified_name,
+        'auth_user' => "#{qualified_name}.#{domain}.alces.network",
       }
     }
   end
