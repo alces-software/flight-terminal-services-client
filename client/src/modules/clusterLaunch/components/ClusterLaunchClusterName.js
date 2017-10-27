@@ -44,8 +44,8 @@ const ClusterName = ({ error, id, onChange, placeholder, value }) => {
         onChange={onChange}
         placeholder={placeholder}
         help="Choose a unique name for your cluster. Or leave blank to use the
-        default. The name can only contain letters, numbers and hyphens (-).
-        It cannot start or end with a hyphen."
+        default. The name can only contain lower case letters, numbers and
+        hyphens (-).  It cannot start or end with a hyphen."
         tip={tip}
       />
     </div>
