@@ -7,6 +7,10 @@
 #==============================================================================
 
 class Cluster < ApplicationRecord
+  scope :consuming_credits, ->() {
+    where(consumes_credits: true)
+  }
+
   belongs_to :user
   has_many :compute_queue_actions
   has_many :credit_usages

@@ -24,7 +24,7 @@ class ReduceUsersCreditsJob < ApplicationJob
       user.credits_last_reduced_at = ap_end
       user.save!
     end
-    if user.compute_credits_changed? && user.compute_credits <= 0
+    if user.compute_credits_previously_changed? && user.compute_credits <= 0
       TerminateClusterQueuesCommand.new(user: user).perform
     end
   end
