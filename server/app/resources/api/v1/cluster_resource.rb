@@ -7,9 +7,16 @@
 #==============================================================================
 
 class Api::V1::ClusterResource < Api::V1::ApplicationResource
-  has_one :launch_user
+  has_one :owner,
+    class_name: 'LaunchUser',
+    relation_name: 'user',
+    foreign_key: 'user_id'
   has_many :compute_queue_actions
   has_many :credit_usages
+
+  attribute :consumes_credits
+  attribute :domain
+  attribute :qualified_name
 
   def records_for(relation_name)
     case relation_name
