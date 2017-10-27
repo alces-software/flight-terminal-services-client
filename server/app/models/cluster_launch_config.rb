@@ -48,7 +48,7 @@ class ClusterLaunchConfig
     presence: true,
     length: { minimum: 2 },
     format: {
-      with: /\A[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]\z/,
+      with: /\A[a-z0-9][-a-z0-9]*[a-z0-9]\z/,
       message: 'invalid format'
     }
 
