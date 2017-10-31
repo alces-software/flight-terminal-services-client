@@ -37,7 +37,8 @@ class BuildParameterDirectoryCommand
   end
 
   def create_parameter_directory
-    cmd = [ENV['FLY_EXE_PATH'], '--create-parameter-directory', @parameter_dir]
+    fly_exe_path = @launch_config.spec.fly_executable_path
+    cmd = [fly_exe_path, '--create-parameter-directory', @parameter_dir]
     Rails.logger.debug("Creating fly parameter directory: #{cmd.inspect}")
     exit_status = Open3.popen3(*cmd) do |stdin, stdout, stderr, wait_thr|
       stdin.close
@@ -63,6 +64,15 @@ class BuildParameterDirectoryCommand
   end
 
   def merge_personality_data
+    # If we're not using the next version of `fly`, we're probably using a
+    # template set that has a bug with handling of personality data and
+    # probably using an AMI that doesn't make use of personality data.
+    # Probably.
+    #
+    # So let's not include any personality data.  This heuristic will become
+    # outdated soon and should be removed.
+    return if @launch_config.spec.fly_version != 'next'
+
     personality_data = BuildPersonalityDataCommand.new(@launch_config).perform
     overrides = {
       "cluster-compute" => {
