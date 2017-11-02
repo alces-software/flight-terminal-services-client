@@ -2961,33 +2961,6 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.4/flight-reactware.tgz":
-  version "0.1.0"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.4/flight-reactware.tgz#5035738f023eac9cbbc171582e39c0dc773a2027"
-  dependencies:
-    axios "^0.16.2"
-    babel-preset-react-app "^3.0.1"
-    invariant "^2.2.2"
-    jwt-decode "^2.2.0"
-    lodash "^4.17.4"
-    moment "^2.18.1"
-    node-noop "^1.0.0"
-    pluralize "^7.0.0"
-    query-string "^5.0.0"
-    react-form "^1.2.8"
-    react-redux "^5.0.5"
-    react-router-dom "^4.1.1"
-    reactstrap "^4.8.0"
-    recompose "^0.24.0"
-    redux "^3.7.1"
-    redux-axios-middleware "^4.0.0"
-    redux-cookie "^0.5.9"
-    redux-form "^6.8.0"
-    redux-simple-promise "^2.0.2"
-    reselect "^3.0.1"
-    seamless-immutable "^7.1.2"
-    validator "^8.2.0"
-
 "flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.8/flight-reactware.tgz":
   version "0.1.0"
   resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.8/flight-reactware.tgz#89c952684416d14ba8e35b23445c80b16aad873c"
