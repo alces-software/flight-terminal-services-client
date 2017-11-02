@@ -6,6 +6,7 @@ import { PageHeading } from 'flight-reactware';
 
 import SshAccessIntro from '../components/SshAccessIntro';
 import TerminalIntro from '../components/TerminalIntro';
+import QueueManagementIntro from '../components/QueueManagementIntro';
 import VpnIntro from '../components/VpnIntro';
 import withCluster from '../components/withCluster';
 
@@ -21,6 +22,10 @@ const cards = [
   {
     display: (cluster) => cluster.attributes.hasVpn,
     render: VpnIntro,
+  },
+  {
+    display: (cluster) => cluster.attributes.hasQueueManagement,
+    render: QueueManagementIntro,
   },
 ];
 

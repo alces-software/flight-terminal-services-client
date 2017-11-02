@@ -8,8 +8,7 @@
 
 // Add publicly exported components here and to the export below.
 // Any components which are intended to only be used internally to the
-// clusters module should not be included here.
-import ClusterContext from './ClusterContext';
-import withCluster from './withCluster';
+// queueManagement module should not be included here.
+import QueueManagement from './QueueManagement';
 
-export { ClusterContext, withCluster };
+export { QueueManagement };

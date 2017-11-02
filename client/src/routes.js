@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Page from './components/Page';
 import clusterSpecs from './modules/clusterSpecs';
 import clusters from './modules/clusters';
+import queueManagement from './modules/queueManagement';
 import tenants from './modules/tenants';
 
 import licenseData from './data/licenses.json';
@@ -81,6 +82,12 @@ const routes = [
             path: '/cluster/:hostname/terminal',
             component: clusters.pages.Terminal,
             title: 'Terminal Access',
+            pageKey: 'Access',
+          },
+          {
+            path: '/cluster/:hostname/queue-management',
+            component: queueManagement.pages.QueueManagement,
+            title: 'Queue Management',
             pageKey: 'Access',
           },
           {

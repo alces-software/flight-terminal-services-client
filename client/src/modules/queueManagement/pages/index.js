@@ -6,10 +6,9 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Add publicly exported components here and to the export below.
-// Any components which are intended to only be used internally to the
+// Add publicly exported pages here and to the export below.
+// Any pages which are intended to only be used internally to the
 // clusters module should not be included here.
-import ClusterContext from './ClusterContext';
-import withCluster from './withCluster';
+import QueueManagement from './QueueManagementPage';
 
-export { ClusterContext, withCluster };
+export { QueueManagement };
