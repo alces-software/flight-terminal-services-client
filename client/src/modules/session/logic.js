@@ -17,6 +17,7 @@ let alcesUserLoaded = false;
 function loadAlcesUserOnInitialization(dispatch) {
   if (!alcesUserLoaded) {
     alcesUserLoaded = true;
+    // XXX catch rejected promises here or elsewhere?
     dispatch(anvilUsers.actions.loadUser('alces'));
   }
 }
@@ -27,7 +28,9 @@ function loadUsersWhenAuthChanges(dispatch, getState) {
   if (currentUser !== previousCurrentUser) {
     previousCurrentUser = currentUser;
     if (currentUser != null) {
+      // XXX catch rejected promises here or elsewhere?
       dispatch(launchUsers.actions.loadUser(currentUser.username));
+      // XXX catch rejected promises here or elsewhere?
       dispatch(anvilUsers.actions.loadUser(currentUser.username));
     }
   }
