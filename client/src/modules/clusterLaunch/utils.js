@@ -16,5 +16,20 @@ export function getDefaultEmail(props, state={}) {
 
 export function useCredits({ clusterSpec, launchUser }) {
   const solo = clusterSpec.fly.args.includes('--solo');
-  return !solo && launchUser && launchUser.attributes.computeCredits > 0;
+  return !!(!solo && launchUser && launchUser.attributes.computeCredits > 0);
+}
+
+export function getClusterName({ clusterName, launchToken }) {
+  if (clusterName != null && clusterName.length > 0) {
+    return clusterName;
+  }
+  if (launchToken != null && launchToken.length > 0) {
+    return getDefaultClusterName({ launchToken });
+  }
+}
+
+export function getDefaultClusterName({ launchToken }) {
+  if (launchToken != null && launchToken.length > 0) {
+    return launchToken.toLowerCase();
+  }
 }

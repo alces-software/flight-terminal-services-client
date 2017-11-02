@@ -22,7 +22,7 @@ import * as analytics from '../analytics';
 import ClusterLaunchForm from './Form';
 import ErrorModal from './ErrorModal';
 import LaunchedModal from './LaunchedModal';
-import { getDefaultEmail, useCredits } from '../utils';
+import { getClusterName, getDefaultEmail, useCredits } from '../utils';
 
 const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
 const oneCharClusterNameRe = /^[a-z0-9]$/;
@@ -44,22 +44,13 @@ function validate(allValues, state, props) {
     errors.launchToken = 'error';
   }
 
-  // If a launch token is provided, we'll default to using that as the cluster
-  // name. So we only need to check that there is a value for clusterName when
-  // that's not the case.
-  if (errors.launchToken != null) {
-    if (allValues.clusterName == null || allValues.clusterName.length < 1) {
-      errors.clusterName = 'blank';
-    }
-  }
-  if (allValues.clusterName == null || !allValues.clusterName.length) {
+  const clusterName = getClusterName(allValues);
+  if (clusterName == null || !clusterName.length) {
     errors.clusterName = 'blank';
-  } else {
-    if (allValues.clusterName.length > 1 && !clusterNameRe.test(allValues.clusterName)) {
-      errors.clusterName = 'format';
-    } else if (allValues.clusterName.length <= 1 && !oneCharClusterNameRe.test(allValues.clusterName)) {
-      errors.clusterName = 'format';
-    }
+  } else if (clusterName.length <= 1 && !oneCharClusterNameRe.test(clusterName)) {
+    errors.clusterName = 'format';
+  } else if (clusterName.length > 1 && !clusterNameRe.test(clusterName)) {
+    errors.clusterName = 'format';
   }
 
   const email = allValues.email;
@@ -93,7 +84,7 @@ class ClusterLaunchFormContainer extends React.Component {
     })).isRequired,
     dispatch: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    launchUser: PropTypes.object.isRequired,
+    launchUser: PropTypes.object,
     onCancel: PropTypes.func.isRequired,
     tenantIdentifier: PropTypes.string,
   };
@@ -223,7 +214,7 @@ class ClusterLaunchFormContainer extends React.Component {
         clusterLaunch: {
           collection: collectionUrl,
           email: email,
-          name: this.state.values.clusterName || this.state.values.launchToken,
+          name: getClusterName(this.state.values),
           queues: this.state.values.queues,
           selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
         },

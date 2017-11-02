@@ -22,7 +22,7 @@ import LaunchConfirmationText from './LaunchConfirmationText';
 import LaunchOptions from './LaunchOptions';
 import QueuesConfiguration from './QueuesConfiguration';
 import TokenInput from './TokenInput';
-import { getDefaultEmail, useCredits } from '../utils';
+import { getDefaultClusterName, getDefaultEmail, useCredits } from '../utils';
 
 const cardHeight = 360;
 const titleAndButtonsHeight = 156;
@@ -119,7 +119,7 @@ export class ClusterLaunchForm extends React.Component {
           error={this.props.errors.clusterName}
           id={this.props.clusterSpec.ui.title}
           onChange={this.props.onChange}
-          placeholder={this.props.values.launchToken}
+          placeholder={getDefaultClusterName(this.props.values)}
           value={this.props.values.clusterName}
         />),
       valid: () => !this.props.errors.clusterName,
