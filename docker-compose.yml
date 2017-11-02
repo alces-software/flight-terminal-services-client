@@ -1,6 +1,7 @@
 version: '2'
 services:
   server:
+    network_mode: "bridge"
     image: launch-server
     build:
       context: ./server
@@ -17,4 +18,5 @@ services:
       - db
 
   db:
+    network_mode: "bridge"
     image: postgres:9.5
