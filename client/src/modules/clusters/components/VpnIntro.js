@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import AccessIntroCard from './AccessIntroCard';
+
 const VpnIntro = ({ hostname }) => (
-  <div>
-    <h4>
-      Clusterware VPN
-    </h4>
+  <AccessIntroCard
+    buttonHref={`/cluster/${hostname}/vpn`}
+    headerText="Clusterware VPN"
+    iconName="desktop"
+  >
     <p>
       Your cluster has been configured with a VPN endpoint, which allows you
       to securely access and share resources such as interactive sessions.
@@ -16,7 +19,7 @@ const VpnIntro = ({ hostname }) => (
       platform by visting the{' '}
       <Link to={`/cluster/${hostname}/vpn`}>VPN configuration page</Link>.
     </p>
-  </div>
+  </AccessIntroCard>
 );
 
 VpnIntro.propTypes = {
