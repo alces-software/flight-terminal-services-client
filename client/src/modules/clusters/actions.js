@@ -26,7 +26,9 @@ export function loadCluster(hostname) {
   return (dispatch, getState) => {
     const { initiated, rejected } = retrieval(getState(), { hostname });
     if (!initiated || rejected) {
-      return dispatch(jsonApi.actions.loadResource(resource));
+      const action = jsonApi.actions.loadResource(resource);
+      action.meta.apiRequest.skipAuthHeader = true;
+      return dispatch(action);
     }
   };
 }
