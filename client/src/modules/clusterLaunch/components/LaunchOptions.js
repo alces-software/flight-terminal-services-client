@@ -17,43 +17,41 @@ import tokens from '../../../modules/tokens';
 import ClusterRuntimeExplanation from './ClusterRuntimeExplanation';
 import LaunchOptionSwitch from './LaunchOptionSwitch';
 import LaunchOptionExplanation from './LaunchOptionExplanation';
+import SingleLaunchOption from './SingleLaunchOption';
 
 const launchOptionShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   costPerHour: PropTypes.number.isRequired,
 });
 
-const SingleLaunchOption = ({ clusterSpec, token }) => {
-  const selectedLaunchOption = clusterSpec.launchOptions.options[0];
-
-  return (
-    <ClusterRuntimeExplanation
-      clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
-      singleLaunchOption
-      tokenCredits={token.attributes.credits}
-    />
-  );
-};
-
-SingleLaunchOption.propTypes = {
+const propTypes = {
   clusterSpec: PropTypes.shape({
     launchOptions: PropTypes.shape({
       options: PropTypes.arrayOf(launchOptionShape.isRequired).isRequired,
     }).isRequired,
   }).isRequired,
+  onChange: PropTypes.func.isRequired,
+  selectedLaunchOptionIndex: PropTypes.number.isRequired,
   token: PropTypes.shape({
     attributes: PropTypes.shape({
       credits: PropTypes.number.isRequired,
     }).isRequired
-  }).isRequired,
+  }),
+  useCredits: PropTypes.bool.isRequired,
 };
 
-const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange }) => {
+const LaunchOptions = ({ clusterSpec,
+  token,
+  selectedLaunchOptionIndex,
+  onChange,
+  useCredits,
+}) => {
   if (clusterSpec.launchOptions.options.length < 2) {
     return (
       <SingleLaunchOption
         clusterSpec={clusterSpec}
         token={token}
+        useCredits={useCredits}
       />
     );
   }
@@ -82,7 +80,8 @@ const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange
       />
       <ClusterRuntimeExplanation
         clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
-        tokenCredits={token.attributes.credits}
+        tokenCredits={token == null ? undefined : token.attributes.credits}
+        useCredits={useCredits}
       />
     </div>
   );
@@ -97,7 +96,7 @@ const enhance = compose(
   connect(mapStateToProps),
 
   branch(
-    ({ token }) => token == null,
+    ({ token, useCredits }) => !useCredits && token == null,
     renderComponent(({ tokenIsLoading }) => (
       <div>
         {
@@ -111,19 +110,6 @@ const enhance = compose(
   ),
 );
 
-LaunchOptions.propTypes = {
-  clusterSpec: PropTypes.shape({
-    launchOptions: PropTypes.shape({
-      options: PropTypes.arrayOf(launchOptionShape.isRequired).isRequired,
-    }).isRequired,
-  }).isRequired,
-  onChange: PropTypes.func.isRequired,
-  selectedLaunchOptionIndex: PropTypes.number.isRequired,
-  token: PropTypes.shape({
-    attributes: PropTypes.shape({
-      credits: PropTypes.number.isRequired,
-    }).isRequired
-  }).isRequired,
-};
+LaunchOptions.propTypes = propTypes;
 
 export default enhance(LaunchOptions);

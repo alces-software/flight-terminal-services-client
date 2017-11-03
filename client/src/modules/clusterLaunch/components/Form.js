@@ -18,9 +18,11 @@ import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import ClusterNameInput from './ClusterNameInput';
 import CollectionOptions from './CollectionOptions';
 import EmailInput from './EmailInput';
+import LaunchConfirmationText from './LaunchConfirmationText';
 import LaunchOptions from './LaunchOptions';
 import QueuesConfiguration from './QueuesConfiguration';
 import TokenInput from './TokenInput';
+import { getDefaultEmail, useCredits } from '../utils';
 
 const cardHeight = 360;
 const titleAndButtonsHeight = 156;
@@ -45,6 +47,7 @@ export class ClusterLaunchForm extends React.Component {
     onShowPreviousPage: PropTypes.func.isRequired,
     onTokenEntered: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
+    // eslint-disable-next-line react/no-unused-prop-types
     token: PropTypes.shape({
       attributes: PropTypes.shape({
         assignedTo: PropTypes.string
@@ -65,13 +68,20 @@ export class ClusterLaunchForm extends React.Component {
   pages = [
     {
       render: () => (
-        <TokenInput
-          error={this.props.errors.launchToken}
-          id={this.props.clusterSpec.ui.title}
-          onChange={this.props.onChange}
-          value={this.props.values.launchToken}
-        />),
-      valid: () => !this.props.errors.launchToken,
+        useCredits(this.props)
+        ? null
+        : (
+          <TokenInput
+            error={this.props.errors.launchToken}
+            id={this.props.clusterSpec.ui.title}
+            onChange={this.props.onChange}
+            value={this.props.values.launchToken}
+          />
+        )
+      ),
+      valid: () => (
+        useCredits(this.props) ? true : !this.props.errors.launchToken
+      ),
     },
     {
       render: () => (
@@ -80,8 +90,11 @@ export class ClusterLaunchForm extends React.Component {
           onChange={this.props.onChange}
           selectedLaunchOptionIndex={this.props.values.selectedLaunchOptionIndex}
           tokenName={this.props.tokenName}
+          useCredits={useCredits(this.props)}
         />),
-      valid: () => this.props.tokenHasLoaded,
+      valid: () => (
+        useCredits(this.props) ? true : this.props.tokenHasLoaded
+      ),
     },
     {
       render: () => (
@@ -118,20 +131,19 @@ export class ClusterLaunchForm extends React.Component {
           id={this.props.clusterSpec.ui.title} 
           inputRef={this.props.emailRef}
           onChange={this.props.onChange}
-          placeholder={
-            this.props.token == null ?
-              null :
-              this.props.token.attributes.assignedTo
-          }
+          placeholder={getDefaultEmail(this.props)}
           value={this.props.values.email}
-        />),
+        />
+      ),
       valid: () => !this.props.errors.email,
     },
   ];
 
   handleShowNextPage = () => {
     const indexOfTokenPage = 0;
-    if (this.props.currentPageIndex === indexOfTokenPage) {
+    const leavingTokenPage = this.props.currentPageIndex === indexOfTokenPage &&
+      !useCredits(this.props) ;
+    if (leavingTokenPage) {
       this.props.onTokenEntered();
     }
     this.props.onShowNextPage();
@@ -141,17 +153,9 @@ export class ClusterLaunchForm extends React.Component {
     return (
       <MultiPageForm
         confirmButtonText="Launch"
-        confirmText={<div>
-          <p>
-            You are about to launch an Alces Flight Compute HPC cluster for trial use through the
-            Alces Flight Launch service.  By clicking the launch button you
-            understand this is a trial service and that Alces Flight Ltd
-            takes no responsibility for the work performed during the trial.
-            Users are highly encouraged to save their work as once the trial
-            ends they will no longer have access to their work.
-          </p>
-          <p>I understand and wish to continue.</p>
-        </div>}
+        confirmText={
+          <LaunchConfirmationText useCredits={useCredits(this.props)} />
+        }
         currentPageIndex={this.props.currentPageIndex}
         // eslint-disable-next-line react/jsx-handler-names
         handleSubmit={this.props.handleSubmit}

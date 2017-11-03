@@ -28,7 +28,7 @@ class BuildFlyParamsCommand
       @launch_config.spec.fly_executable_path,
       'cluster',
       'launch',
-      stack_name,
+      qualified_cluster_name,
       *default_options,
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
@@ -36,7 +36,7 @@ class BuildFlyParamsCommand
       *@launch_config.launch_option.args,
       *launch_config_key_pair_and_region,
       '--parameter-directory', @parameter_dir,
-      '--runtime', runtime,
+      *runtime_flag,
     ]
 
     cmd
@@ -76,16 +76,19 @@ class BuildFlyParamsCommand
     }
   end
 
-  def stack_name
-    hash = HashEmailCommand.new(@launch_config.email).perform
-    "#{@launch_config.name}-#{hash}"
+  def qualified_cluster_name
+    attrs = Cluster.attributes_from_launch_config(@launch_config)
+    attrs[:qualified_name]
   end
 
-  def runtime
-    DetermineRuntimeCommand.new(
+  def runtime_flag
+    return [] unless @launch_config.using_token?
+
+    runtime = DetermineRuntimeCommand.new(
       @launch_config.launch_option,
       @launch_config.token
     ).perform.to_s
+    ['--runtime', runtime]
   end
 
   def log_params(params)

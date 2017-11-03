@@ -11,15 +11,18 @@ import validatorUtils from 'validator';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { createStructuredSelector } from 'reselect';
+import { auth } from 'flight-reactware';
 
-import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
-import tokens from '../../../modules/tokens';
 import collections from '../../../modules/collections';
+import launchUsers from '../../../modules/launchUsers';
+import tokens from '../../../modules/tokens';
+import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 
-import ErrorModal from './ErrorModal';
-import ClusterLaunchForm from './Form';
-import LaunchedModal from './LaunchedModal';
 import * as analytics from '../analytics';
+import ClusterLaunchForm from './Form';
+import ErrorModal from './ErrorModal';
+import LaunchedModal from './LaunchedModal';
+import { getDefaultEmail, useCredits } from '../utils';
 
 const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
 const oneCharClusterNameRe = /^[a-z0-9]$/;
@@ -28,10 +31,16 @@ function strip(string) {
   return string.replace(/^ */, '').replace(/ *$/, '');
 }
 
-function validate(allValues, state) {
+function initialPageIndex(props) {
+  return useCredits(props) ? 1 : 0;
+}
+
+function validate(allValues, state, props) {
   const errors = {};
 
-  if (allValues.launchToken == null || allValues.launchToken.length < 5) {
+  if (!useCredits(props) && (
+    allValues.launchToken == null || allValues.launchToken.length < 5)
+  ) {
     errors.launchToken = 'error';
   }
 
@@ -43,7 +52,9 @@ function validate(allValues, state) {
       errors.clusterName = 'blank';
     }
   }
-  if (allValues.clusterName) {
+  if (allValues.clusterName == null || !allValues.clusterName.length) {
+    errors.clusterName = 'blank';
+  } else {
     if (allValues.clusterName.length > 1 && !clusterNameRe.test(allValues.clusterName)) {
       errors.clusterName = 'format';
     } else if (allValues.clusterName.length <= 1 && !oneCharClusterNameRe.test(allValues.clusterName)) {
@@ -53,13 +64,11 @@ function validate(allValues, state) {
 
   const email = allValues.email;
   const emailNotGiven = email == null || email.length < 1;
-  const tokenAssignedTo = state.token == null ?
-    null :
-    state.token.attributes.assignedTo;
+  const defaultEmail = getDefaultEmail(props, state);
 
-  if (emailNotGiven && tokenAssignedTo != null) {
+  if (emailNotGiven && defaultEmail != null) {
     // Validate the email assigned to the token.
-    if (!validatorUtils.isEmail(tokenAssignedTo)) {
+    if (!validatorUtils.isEmail(defaultEmail)) {
       errors.email = 'invalid';
     }
   } else {
@@ -76,12 +85,15 @@ function validate(allValues, state) {
 
 class ClusterLaunchFormContainer extends React.Component {
   static propTypes = {
+    authToken: PropTypes.string,
     clusterSpec: clusterSpecShape.isRequired,
     clusterSpecsFile: PropTypes.string.isRequired,
     collections: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string.isRequired,
     })).isRequired,
     dispatch: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    launchUser: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     tenantIdentifier: PropTypes.string,
   };
@@ -118,7 +130,8 @@ class ClusterLaunchFormContainer extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
-      errors: validate(this.state.values, this.state),
+      errors: validate(this.state.values, this.state, this.props),
+      currentPageIndex: initialPageIndex(this.props),
       values: {
         ...this.state.values,
         selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
@@ -132,18 +145,32 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleQueueChange = ({ name, queueName, value }) => {
     this.setState((s) => {
-      const q = s.values.queues[queueName] || {};
-      q[name] = value;
-      s.values.queues[queueName] = q;
-      return s;
+      return {
+        ...s,
+        values: {
+          ...s.values,
+          queues: {
+            ...s.values.queues,
+            [queueName]: {
+              ...s.values.queues[queueName] || {},
+              [name]: value,
+            }
+          }
+        }
+      };
     });
   }
+
+  handleCancel = () => {
+    this.props.onCancel();
+    this.resetForm();
+  };
 
   handleFormChange = ({ name, value }) => {
     const errors = validate({
       ...this.state.values,
       [name]: value,
-    }, this.state);
+    }, this.state, this.props);
 
     if (name === 'launchToken') {
       value = strip(value);
@@ -164,27 +191,38 @@ class ClusterLaunchFormContainer extends React.Component {
     const collectionUrl = selectedCollection == null 
       ? undefined
       : selectedCollection.links.self;
+    let authHeaders = {};
+    if (this.props.authToken != null) {
+      authHeaders = { Authorization: `Bearer ${this.props.authToken}` };
+    }
+    const email = this.state.values.email ||
+      getDefaultEmail(this.props, this.state);
+    const tokenParams = {};
+    if (!useCredits(this.props)) {
+      tokenParams.token = { 
+        name: this.state.values.launchToken,
+      };
+    }
 
     return fetch('/clusters/launch', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...authHeaders,
       },
       body: JSON.stringify({
         tenant: {
           identifier: this.props.tenantIdentifier,
         },
-        token: {
-          name: this.state.values.launchToken,
-        },
+        ...tokenParams,
         clusterSpec: {
           name: this.props.clusterSpec.ui.title,
           file: this.props.clusterSpecsFile,
         },
         clusterLaunch: {
           collection: collectionUrl,
-          email: this.state.values.email || this.state.token.attributes.assignedTo,
+          email: email,
           name: this.state.values.clusterName || this.state.values.launchToken,
           queues: this.state.values.queues,
           selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
@@ -195,20 +233,26 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleSuccessfulLaunch(json) {
     analytics.clusterLaunchAccepted(this.props.clusterSpec);
-    const errors = validate(this.initialValues, this.state);
+    this.setState({
+      modalProps: {
+        clusterName: json.cluster_name,
+        email: json.email,
+      },
+      showLaunchedModal: true,
+    });
+    this.resetForm();
+  }
+
+  resetForm() {
+    const errors = validate(this.initialValues, this.state, this.props);
     this.setState({
       submitting: false,
       values: {
         ...this.initialValues,
         selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
       },
-      currentPageIndex: 0,
+      currentPageIndex: initialPageIndex(this.props),
       errors: errors,
-      modalProps: {
-        clusterName: json.cluster_name,
-        email: json.email,
-      },
-      showLaunchedModal: true,
     });
   }
 
@@ -281,7 +325,7 @@ class ClusterLaunchFormContainer extends React.Component {
         }
         this.setState({ token: response.payload.data.data[0] }, () => {
           this.setState({
-            errors: validate(this.state.values, this.state)
+            errors: validate(this.state.values, this.state, this.props)
           });
         });
       })
@@ -319,7 +363,7 @@ class ClusterLaunchFormContainer extends React.Component {
           emailRef={(el) => { this.emailInput = el; }}
           // eslint-disable-next-line react/jsx-handler-names
           handleSubmit={this.handleSubmit}
-          onCancel={this.props.onCancel}
+          onCancel={this.handleCancel}
           onChange={this.handleFormChange}
           onQueueChange={this.handleQueueChange}
           onShowNextPage={this.handleShowNextPage}
@@ -335,6 +379,8 @@ class ClusterLaunchFormContainer extends React.Component {
 const enhance = compose(
   connect(createStructuredSelector({
     collections: collections.selectors.availableCollections,
+    authToken: auth.selectors.ssoToken,
+    launchUser: launchUsers.selectors.currentUser,
   })),
 );
 

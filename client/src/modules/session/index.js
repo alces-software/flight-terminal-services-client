@@ -6,11 +6,12 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Add publicly exported components here and to the export below.
-// Any components which are intended to only be used internally to the
-// onboarding module should not be included here.
-import FormContainer from './FormContainer';
+// Import and export the public facing API for the session module.
 
-const Form = FormContainer;
+import * as constants from './constants';
+import logic from './logic';
 
-export { Form };
+export default {
+  constants,
+  logic,
+};

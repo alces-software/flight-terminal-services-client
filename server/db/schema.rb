@@ -10,16 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171003084950) do
+ActiveRecord::Schema.define(version: 20171027105411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
 
   create_table "clusters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string   "token",      limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "auth_token",       limit: 255, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.uuid     "user_id"
+    t.boolean  "consumes_credits",             null: false
+    t.string   "domain",                       null: false
+    t.string   "qualified_name",               null: false
+    t.index ["user_id"], name: "index_clusters_on_user_id", using: :btree
   end
 
   create_table "compute_queue_actions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -35,6 +40,16 @@ ActiveRecord::Schema.define(version: 20171003084950) do
     t.index ["action"], name: "index_compute_queue_actions_on_action", using: :btree
     t.index ["cluster_id"], name: "index_compute_queue_actions_on_cluster_id", using: :btree
     t.index ["status"], name: "index_compute_queue_actions_on_status", using: :btree
+  end
+
+  create_table "credit_usages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "start_at",                 null: false
+    t.datetime "end_at"
+    t.float    "cu_in_use",  default: 0.0, null: false
+    t.uuid     "cluster_id",               null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["cluster_id"], name: "index_credit_usages_on_cluster_id", using: :btree
   end
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -71,6 +86,20 @@ ActiveRecord::Schema.define(version: 20171003084950) do
     t.index ["tenant_id"], name: "index_tokens_on_tenant_id", using: :btree
   end
 
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string   "username",                limit: 255,             null: false
+    t.string   "email",                   limit: 255,             null: false
+    t.uuid     "flight_id",                                       null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.integer  "compute_credits",                     default: 0, null: false
+    t.datetime "credits_last_reduced_at"
+    t.index ["flight_id"], name: "index_users_on_flight_id", using: :btree
+    t.index ["username"], name: "index_users_on_username", using: :btree
+  end
+
+  add_foreign_key "clusters", "users", on_update: :cascade, on_delete: :restrict
   add_foreign_key "compute_queue_actions", "clusters", on_update: :cascade, on_delete: :restrict
+  add_foreign_key "credit_usages", "clusters", on_update: :cascade, on_delete: :restrict
   add_foreign_key "tokens", "tenants", on_update: :cascade, on_delete: :restrict
 end

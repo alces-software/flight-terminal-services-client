@@ -17,22 +17,18 @@ const {
 
 export const retrieval = createSelector(
   jsonApiState,
-  (state, props) => props.user,
+  (state, props) => props.username,
 
   loadingStates.selectors.retrieval,
 );
 
-const userFromName = createSelector(
+const userFromUsername = createSelector(
   jsonApiData,
-  selectorUtils.buildIndexSelector(NAME, 'name'),
+  selectorUtils.buildIndexSelector(NAME, 'username'),
   (state, props) => props.username,
 
   selectorUtils.resourceFromIndex,
 );
-
-export function alcesUser(state) {
-  return userFromName(state, { username: 'alces' });
-}
 
 export const currentUser = createSelector(
   state => state,
@@ -42,6 +38,6 @@ export const currentUser = createSelector(
     if (user == null) {
       return undefined;
     }
-    return userFromName(state, { username: user.username });
+    return userFromUsername(state, { username: user.username });
   }
 );

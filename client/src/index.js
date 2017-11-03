@@ -12,6 +12,7 @@ import { Analytics } from 'flight-reactware';
 
 import middleware from './middleware';
 import createReducers from './reducers';
+import createLogics from './logics';
 import registerServiceWorker from './registerServiceWorker';
 import routes from './routes';
 
@@ -41,6 +42,8 @@ const store = createStore(
     )
   )
 );
+
+createLogics(store);
 
 Analytics.initialize(process.env.REACT_APP_ANALYTICS_TRACKER_ID, history);
 

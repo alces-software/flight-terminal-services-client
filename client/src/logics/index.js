@@ -6,11 +6,16 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Add publicly exported components here and to the export below.
-// Any components which are intended to only be used internally to the
-// onboarding module should not be included here.
-import FormContainer from './FormContainer';
+import session from '../modules/session';
 
-const Form = FormContainer;
+const logics = [
+  ...session.logic,
+];
 
-export { Form };
+export default (store) => {
+  store.subscribe(() => {
+    logics.forEach(logic => {
+      logic(store.dispatch, store.getState);
+    });
+  });
+};

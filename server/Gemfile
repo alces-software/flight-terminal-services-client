@@ -27,6 +27,11 @@ gem                   'actionpack', rails_version
 gem                     'railties', rails_version
 
 ##################################
+# Authentication / Authorization
+##################################
+gem 'jwt'
+
+##################################
 # Database access
 ##################################
 gem 'pg'

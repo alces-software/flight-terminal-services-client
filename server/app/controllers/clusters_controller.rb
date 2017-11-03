@@ -22,10 +22,13 @@ class ClustersController < ApplicationController
       return
     end
 
-    # We need to mark the token as queued prior to scheduling
-    # ClusterLaunchJob, or else we could fall foul of a race condition in
-    # which the token is still AVAILABLE when we try to process the job.
-    cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
+    # If a token is being used, it needs to be marked as queued prior to
+    # scheduling ClusterLaunchJob, or else we could fall foul of a race
+    # condition in which the token is still AVAILABLE when we try to process
+    # the job.
+    if cluster_launch_config.using_token?
+      cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
+    end
 
     begin
       ClusterLaunchJob.perform_later(
@@ -34,9 +37,12 @@ class ClustersController < ApplicationController
         cluster_launch_config.tenant,
         cluster_launch_config.token,
         cluster_launch_config.launch_option.as_json,
+        cluster_launch_config.user,
       )
     rescue
-      cluster_launch_config.token.mark_as(:available, cluster_launch_config.email)
+      if cluster_launch_config.using_token?
+        cluster_launch_config.token.mark_as(:available, cluster_launch_config.email)
+      end
     end
 
     render(
@@ -52,8 +58,9 @@ class ClustersController < ApplicationController
 
   def build_launch_config
     tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
-    token = tenant.tokens.find_by(params.require(:token).permit(:name))
-    raise TokenNotFound if token.nil?
+
+    token = find_token(tenant)
+
     cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
     launch_option = LaunchOption.new(launch_option_params(cluster_spec))
     config_params = cluster_launch_config_params.merge(
@@ -61,6 +68,7 @@ class ClustersController < ApplicationController
       tenant: tenant,
       token: token,
       launch_option: launch_option,
+      user: current_user,
     )
     ClusterLaunchConfig.new(config_params)
   rescue ClusterSpec::Error, TokenNotFound
@@ -100,6 +108,17 @@ class ClustersController < ApplicationController
     params = cluster_spec.selected_launch_option(selected_index)
     params.tap do |h|
       h['cost_per_hour'] = h.delete('costPerHour') if h.key?('costPerHour')
+    end
+  end
+
+  def find_token(tenant)
+    # A cluster can be launched using either a token or user's credits.  If a
+    # token parameter is given the request is an attempt to launch with a
+    # token.
+    return nil if params[:token].blank?
+
+    tenant.tokens.find_by(params.require(:token).permit(:name)).tap do |token|
+      raise TokenNotFound if token.nil?
     end
   end
 

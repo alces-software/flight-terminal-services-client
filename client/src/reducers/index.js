@@ -7,24 +7,27 @@ import {
 import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 
+import anvilUsers from '../modules/anvilUsers';
 import clusterSpecs from '../modules/clusterSpecs';
 import clusters from '../modules/clusters';
+import launchUsers from '../modules/launchUsers';
 import tenants from '../modules/tenants';
 import tokens from '../modules/tokens';
-import users from '../modules/users';
 
 const entityIndexes = [
+  ...anvilUsers.indexes || [],
   ...clusters.indexes || [],
+  ...launchUsers.indexes || [],
   ...tenants.indexes || [],
   ...tokens.indexes || [],
-  ...users.indexes || [],
 ];
 
 const loadingStatesConfig = [
+  anvilUsers.loadingStatesConfig || {},
   clusters.loadingStatesConfig || {},
+  launchUsers.loadingStatesConfig || {},
   tenants.loadingStatesConfig || {},
   tokens.loadingStatesConfig || {},
-  users.loadingStatesConfig || {},
 ];
 
 export default (cookies) => ({

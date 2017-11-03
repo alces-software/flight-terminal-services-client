@@ -37,7 +37,7 @@ class LaunchClusterCommand
     # Check that the launch config's token is still queued.  This prevents
     # launching a duplicate cluster should the active job be processed twice,
     # which is possible with SQS.
-    unless @launch_config.token.queued?
+    if @launch_config.using_token? && ! @launch_config.token.queued?
       Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +
                         "Current status is #{@launch_config.token.status}")
       return
@@ -110,17 +110,17 @@ class LaunchClusterCommand
     parsed_output = ParseOutputCommand.new(@run_fly_cmd.stdout).perform
     details = parsed_output.details
     uuid_detail = details.detect {|d| d.title == 'UUID'}
-    token_detail = details.detect {|d| d.title == 'Token'}
+    auth_token_detail = details.detect {|d| d.title == 'Token'}
     uuid = uuid_detail.value
-    token = token_detail.value
+    auth_token = auth_token_detail.value
+    attrs = Cluster.attributes_from_launch_config(@launch_config)
 
-    Cluster.create!(id: uuid, token: token)
+    Cluster.create!(attrs.merge(id: uuid, auth_token: auth_token))
   end
 
   def mark_token_as(status)
-    token = @launch_config.token
-    if token.present?
-      token.mark_as(status, @launch_config.email)
+    if @launch_config.using_token?
+      @launch_config.token.mark_as(status, @launch_config.email)
     end
   end
 end

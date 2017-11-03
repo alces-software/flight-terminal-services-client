@@ -6,17 +6,27 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-class Api::V1::ClusterResource < Api::V1::ApplicationResource
-  has_one :owner,
-    class_name: 'LaunchUser',
-    relation_name: 'user',
-    foreign_key: 'user_id'
-  has_many :compute_queue_actions
+class Api::V1::LaunchUserResource < Api::V1::ApplicationResource
+  model_name 'User'
+
+  attribute :compute_credits
+  attribute :email
+  attribute :username
+
+  has_many :clusters
   has_many :credit_usages
 
-  attribute :consumes_credits
-  attribute :domain
-  attribute :qualified_name
+  filter :username
+
+  class <<self
+    def creatable_fields(context)
+      []
+    end
+
+    def updatable_fields(context)
+      [:compute_credits]
+    end
+  end
 
   def records_for(relation_name)
     case relation_name
