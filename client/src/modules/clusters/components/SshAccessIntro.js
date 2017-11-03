@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AccessIntroCard from './AccessIntroCard';
+
 const propTypes = {
   hostname: PropTypes.string.isRequired,
   ipAddress: PropTypes.string.isRequired,
 };
 
 const SshAccessIntro = ({ hostname, ipAddress }) => (
-  <div>
-    <h4>
-      SSH Access
-    </h4>
+  <AccessIntroCard
+    headerText="SSH Access"
+    iconName="laptop"
+  >
     <p>
       Your Alces Flight cluster is ready and waiting to run your computational
       workloads.
@@ -28,7 +30,7 @@ const SshAccessIntro = ({ hostname, ipAddress }) => (
       You can log in by providing the hostname <code>{hostname}</code> or the
       IP address <code>{ipAddress}</code>.
     </p>
-  </div>
+  </AccessIntroCard>
 );
 
 SshAccessIntro.propTypes = propTypes;

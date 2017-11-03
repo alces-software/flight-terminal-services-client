@@ -1,11 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'reactstrap';
+import styled from 'styled-components';
 
 import SshAccessIntro from '../components/SshAccessIntro';
 import TerminalIntro from '../components/TerminalIntro';
 import VpnIntro from '../components/VpnIntro';
 import withCluster from '../components/withCluster';
+
+const cards = [
+  {
+    display: () => true,
+    render: SshAccessIntro,
+  },
+  {
+    display: (cluster) => cluster.attributes.hasWebTerminal,
+    render: TerminalIntro,
+  },
+  {
+    display: (cluster) => cluster.attributes.hasVpn,
+    render: VpnIntro,
+  },
+];
 
 const propTypes = {
   cluster: PropTypes.shape({
@@ -19,41 +35,43 @@ const propTypes = {
   }),
 };
 
-const AccessIntro = ({ cluster }) => {
-  const {
-    clusterName,
-    hasVpn,
-    hasWebTerminal,
-    hostname,
-    ipAddress,
-  } = cluster.attributes;
+const EqualHeightRow = styled(Row)`
+  display: flex;
+  flex-wrap: wrap;
+  & > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 6px;
+  }
 
-  return (
-    <Container>
-      <Row>
-        <Col md={12}>
-          <h2>Access details for <em>{clusterName}</em></h2>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={6}>
-          <SshAccessIntro
-            hostname={hostname}
-            ipAddress={ipAddress}
-          />
-        </Col>
-        <Col md={6}>
-          { hasWebTerminal ? <TerminalIntro hostname={hostname} /> : null }
-        </Col>
-      </Row>
-      <Row>
-        <Col md={6}>
-          { hasVpn ? <VpnIntro hostname={hostname} /> : null }
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+  .card {
+      flex: 1;
+  }
+`;
+
+const AccessIntro = ({ cluster }) => (
+  <Container>
+    <Row>
+      <Col md={12}>
+        <h2>Access details for <em>{cluster.attributes.clusterName}</em></h2>
+      </Col>
+    </Row>
+    <EqualHeightRow>
+      {
+        cards
+          .filter(c => c.display(cluster))
+          .map((c, i) => (
+            <Col
+              key={i}
+              md={6}
+            >
+              { c.render({ ...cluster.attributes }) }
+            </Col>
+          ))
+      }
+    </EqualHeightRow>
+  </Container>
+);
 
 AccessIntro.propTypes = propTypes;
 
