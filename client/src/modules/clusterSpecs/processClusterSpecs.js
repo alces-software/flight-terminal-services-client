@@ -22,7 +22,8 @@ export function processClusterSpecs(clusterSpecs) {
       ui: {
         ...clusterSpec.ui,
         icons: icons,
-      }
+      },
+      features: clusterSpec.features || {},
     };
   });
 }
