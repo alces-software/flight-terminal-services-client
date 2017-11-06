@@ -13,7 +13,7 @@ import { Analytics } from 'flight-reactware';
 import middleware from './middleware';
 import createReducers from './reducers';
 import createLogics from './logics';
-import registerServiceWorker from './registerServiceWorker';
+import { unregister as unregisterServiceWorker } from './registerServiceWorker';
 import routes from './routes';
 
 import './index.css';
@@ -57,4 +57,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-registerServiceWorker();
+unregisterServiceWorker();
