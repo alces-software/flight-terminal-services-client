@@ -31,7 +31,7 @@ class BuildPersonalityDataCommand
   end
 
   def generate_queues_data
-    return {} unless @launch_config.spec.features['initialQueueConfiguration']
+    return {} unless @launch_config.spec.feature(:initialQueueConfiguration)
     return {} if @launch_config.queues.nil? || @launch_config.queues.empty?
     {
       'queues' => @launch_config.queues.to_hash
@@ -39,7 +39,7 @@ class BuildPersonalityDataCommand
   end
 
   def generate_collections_data
-    return {} unless @launch_config.spec.features['forgeCollections']
+    return {} unless @launch_config.spec.feature(:forgeCollections)
     return {} if @launch_config.collection.nil?
     {
       'collections' => Array.wrap(@launch_config.collection)

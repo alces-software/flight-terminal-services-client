@@ -282,16 +282,18 @@ precedence over those specified for the cluster spec itself.
 #### Features section
 
 The features section contains a description of which features the cluster spec
-supports.  At the time of writing, there are two supported features:
-`forgeCollections` and `initialQueueConfiguration`.  If a feature is not
-present, it defaults to not being supported.
+supports.  At the time of writing, there are three supported features:
+`personalityData`, `forgeCollections` and `initialQueueConfiguration`.
+
+ - `personalityData` feature: personality data should be generated for this
+   cluster spec.  Defaults to true.
 
  - `forgeCollections` feature: the user will be offered the option of
    specifying which forge collections they wish installed when their cluster
-   launches.
+   launches.  Defaults to false.
 
  - `initialQueueConfiguration` feature: the user will be offered the option of
-   specifying an initial queue configuration.
+   specifying an initial queue configuration.  Defaults to false.
 
 ```
 {
@@ -301,6 +303,7 @@ present, it defaults to not being supported.
     "fly": {...},
 
     "features": {
+      "personalityData": true | false,
       "forgeCollections": true | false,
       "initialQueueConfiguration": true | false
     }
@@ -426,6 +429,7 @@ An example of a cluster specs json file with three cluster specs is given below.
         }]
       },
       "features": {
+        "personalityData": true,
         "forgeCollections": true,
         "initialQueueConfiguration": true
       },

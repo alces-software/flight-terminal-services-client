@@ -72,7 +72,7 @@ class BuildParameterDirectoryCommand
     # So let's not include any personality data.  This heuristic will become
     # outdated soon and should be removed.
     #
-    return unless @launch_config.spec.features['personalityData']
+    return unless @launch_config.spec.feature(:personalityData)
 
     personality_data = BuildPersonalityDataCommand.new(@launch_config).perform
     overrides = {

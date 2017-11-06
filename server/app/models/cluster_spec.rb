@@ -131,6 +131,16 @@ class ClusterSpec
     @features || {}
   end
 
+  def feature(name)
+    f = features[name.to_s]
+
+    if f.nil? && name.to_s == 'personalityData'
+      return true
+    end
+
+    f
+  end
+
   def fly_executable_path
     if @fly_version == 'next'
       ENV['FLY_NEXT_EXE_PATH']
