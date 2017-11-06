@@ -68,17 +68,14 @@ export class ClusterLaunchForm extends React.Component {
   pages = () => [
     {
       render: () => (
-        useCredits(this.props)
-        ? null
-        : (
-          <TokenInput
-            error={this.props.errors.launchToken}
-            id={this.props.clusterSpec.ui.title}
-            onChange={this.props.onChange}
-            value={this.props.values.launchToken}
-          />
-        )
+        <TokenInput
+          error={this.props.errors.launchToken}
+          id={this.props.clusterSpec.ui.title}
+          onChange={this.props.onChange}
+          value={this.props.values.launchToken}
+        />
       ),
+      skip: () => useCredits(this.props),
       valid: () => (
         useCredits(this.props) ? true : !this.props.errors.launchToken
       ),
