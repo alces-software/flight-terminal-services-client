@@ -18,6 +18,8 @@ main() {
     trap remove_client_bundle_commit EXIT
     header "Deploying to ${REMOTE}"
     deploy_server
+    header "Migrating database"
+    migrate_database
 }
 
 abort_if_uncommitted_changes_present() {
@@ -67,6 +69,16 @@ deploy_server() {
     git push ${REMOTE} -f ${tmp_branch}:master
     git branch -D ${tmp_branch}
     ) 2> >(indent 1>&2) | indent
+}
+
+migrate_database() {
+    local dokku_server
+    local dokku_app
+    dokku_server=$( git remote get-url "${REMOTE}" | cut -d@ -f2 | cut -d: -f1 )
+    dokku_app=$( git remote get-url "${REMOTE}" | cut -d: -f2 )
+
+    ssh ${dokku_server} \
+        "dokku run \"${dokku_app}\" db:migrate:status; dokku run \"${dokku_app}\" db:migrate"
 }
 
 remove_client_bundle_commit() {
