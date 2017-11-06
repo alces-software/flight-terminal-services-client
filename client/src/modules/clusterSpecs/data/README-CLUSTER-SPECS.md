@@ -276,10 +276,16 @@ precedence over those specified for the cluster spec itself.
 #### Features section
 
 The features section contains a description of which features the cluster spec
-supports.  At the time of writing, the only supported feature is the
-`forgeCollections` feature.  If a cluster spec supports this feature, the user
-will be offered the option of specifying which forge collections they wish
-installed when their cluster launches.
+supports.  At the time of writing, there are two supported features:
+`forgeCollections` and `initialQueueConfiguration`.  If a feature is not
+present, it defaults to not being supported.
+
+ - `forgeCollections` feature: the user will be offered the option of
+   specifying which forge collections they wish installed when their cluster
+   launches.
+
+ - `initialQueueConfiguration` feature: the user will be offered the option of
+   specifying an initial queue configuration.
 
 ```
 {
@@ -289,7 +295,8 @@ installed when their cluster launches.
     "fly": {...},
 
     "features": {
-      "forgeCollections": true
+      "forgeCollections": true | false,
+      "initialQueueConfiguration": true | false
     }
 }
 ```
@@ -413,7 +420,8 @@ An example of a cluster specs json file with three cluster specs is given below.
         }]
       },
       "features": {
-        "forgeCollections": true
+        "forgeCollections": true,
+        "initialQueueConfiguration": true
       },
       "fly": {
         "args": [

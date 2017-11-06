@@ -109,6 +109,7 @@ export class ClusterLaunchForm extends React.Component {
           onChange={this.props.onQueueChange}
           queues={this.props.values.queues}
         />),
+      skip: () => !this.props.clusterSpec.features.initialQueueConfiguration,
       valid: () => true,
     },
     {
