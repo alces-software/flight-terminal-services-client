@@ -59,6 +59,7 @@ class ClusterSpec
           title: spec['ui']['title'],
           titleLowerCase: spec['ui']['titleLowerCase'],
         },
+        features: spec['features'],
       )
     end
   end
@@ -96,6 +97,9 @@ class ClusterSpec
   # cluster spec.
   attr_accessor :key
 
+  # The list of features supported by a cluster spec.
+  attr_accessor :features
+
   def attributes
     {
       'args' => nil,
@@ -103,6 +107,7 @@ class ClusterSpec
       'key' => nil,
       'meta' => nil,
       'parameter_directory_overrides' => nil,
+      'features' => nil,
     }
   end
 
@@ -120,6 +125,20 @@ class ClusterSpec
 
   def selected_launch_option(index)
     launch_options['options'][index].dup
+  end
+
+  def features
+    @features || {}
+  end
+
+  def feature(name)
+    f = features[name.to_s]
+
+    if f.nil? && name.to_s == 'personalityData'
+      return true
+    end
+
+    f
   end
 
   def fly_executable_path

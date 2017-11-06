@@ -65,20 +65,17 @@ export class ClusterLaunchForm extends React.Component {
     }),
   };
 
-  pages = [
+  pages = () => [
     {
       render: () => (
-        useCredits(this.props)
-        ? null
-        : (
-          <TokenInput
-            error={this.props.errors.launchToken}
-            id={this.props.clusterSpec.ui.title}
-            onChange={this.props.onChange}
-            value={this.props.values.launchToken}
-          />
-        )
+        <TokenInput
+          error={this.props.errors.launchToken}
+          id={this.props.clusterSpec.ui.title}
+          onChange={this.props.onChange}
+          value={this.props.values.launchToken}
+        />
       ),
+      skip: () => useCredits(this.props),
       valid: () => (
         useCredits(this.props) ? true : !this.props.errors.launchToken
       ),
@@ -103,6 +100,7 @@ export class ClusterLaunchForm extends React.Component {
           onChange={this.props.onChange}
           selectedCollection={this.props.values.selectedCollection}
         />),
+      skip: () => !this.props.clusterSpec.features.forgeCollections,
       valid: () => true,
     },
     {
@@ -111,6 +109,7 @@ export class ClusterLaunchForm extends React.Component {
           onChange={this.props.onQueueChange}
           queues={this.props.values.queues}
         />),
+      skip: () => !this.props.clusterSpec.features.initialQueueConfiguration,
       valid: () => true,
     },
     {
@@ -137,7 +136,7 @@ export class ClusterLaunchForm extends React.Component {
       ),
       valid: () => !this.props.errors.email,
     },
-  ];
+  ].filter(pg => pg.skip == null || !pg.skip());
 
   handleShowNextPage = () => {
     const indexOfTokenPage = 0;
@@ -165,7 +164,7 @@ export class ClusterLaunchForm extends React.Component {
         onConfirm={this.props.handleSubmit}
         onShowNextPage={this.handleShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}
-        pages={this.pages}
+        pages={this.pages()}
         submitButtonContent={<span>Launch{' '}<FontAwesome name="plane" /></span>}
         submitting={this.props.submitting}
         submittingButtonContent={<span>

@@ -71,7 +71,8 @@ class BuildParameterDirectoryCommand
     #
     # So let's not include any personality data.  This heuristic will become
     # outdated soon and should be removed.
-    return if @launch_config.spec.fly_version != 'next'
+    #
+    return unless @launch_config.spec.feature(:personalityData)
 
     personality_data = BuildPersonalityDataCommand.new(@launch_config).perform
     overrides = {

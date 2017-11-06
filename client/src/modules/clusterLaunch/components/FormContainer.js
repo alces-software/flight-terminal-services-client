@@ -31,10 +31,6 @@ function strip(string) {
   return string.replace(/^ */, '').replace(/ *$/, '');
 }
 
-function initialPageIndex(props) {
-  return useCredits(props) ? 1 : 0;
-}
-
 function validate(allValues, state, props) {
   const errors = {};
 
@@ -122,7 +118,7 @@ class ClusterLaunchFormContainer extends React.Component {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
       errors: validate(this.state.values, this.state, this.props),
-      currentPageIndex: initialPageIndex(this.props),
+      currentPageIndex: 0,
       values: {
         ...this.state.values,
         selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
@@ -242,7 +238,7 @@ class ClusterLaunchFormContainer extends React.Component {
         ...this.initialValues,
         selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
       },
-      currentPageIndex: initialPageIndex(this.props),
+      currentPageIndex: 0,
       errors: errors,
     });
   }
