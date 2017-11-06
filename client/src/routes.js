@@ -1,48 +1,41 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { MetaPages } from 'flight-reactware';
+import { makeMetaPages } from 'flight-reactware';
 
 import App from './components/App';
 import Home from './pages/Home';
-import MetaPage from './pages/MetaPage';
+import Page from './components/Page';
 import TenantContext from './components/TenantContext';
-import clusters from './modules/clusters';
 import clusterSpecs from './modules/clusterSpecs';
-
+import clusters from './modules/clusters';
 import licenseData from './data/licenses.json';
 import { icons } from './utils/depotToIcon';
 
-const licensables = MetaPages.About.buildLicensables({
+const metaPageComponents = makeMetaPages(Page, {
   softwareLicenses: licenseData,
   icons: icons,
 });
 
-const About = MetaPage(MetaPages.About, { licensables });
-const Privacy = MetaPage(MetaPages.Privacy);
-const Security = MetaPage(MetaPages.Security);
-const Terms = MetaPage(MetaPages.Terms);
-const NotFound = MetaPage(MetaPages.NotFound);
-
 const metaPages = [
   {
     path: '/about',
-    component: About,
+    component: metaPageComponents.About,
     title: 'About',
   },
   {
     path: '/privacy',
-    component: Privacy,
+    component: metaPageComponents.Privacy,
     title: 'Privacy',
   },
   {
     path: '/security',
-    component: Security,
+    component: metaPageComponents.Security,
     title: 'Security',
   },
   {
     path: '/terms',
-    component: Terms,
+    component: metaPageComponents.Terms,
     title: 'Terms',
   },
 ];
@@ -113,7 +106,7 @@ const routes = [
             title: 'Overview',
           },
           {
-            component: NotFound,
+            component: metaPageComponents.NotFound,
             title: 'Not found',
           }
         ],
@@ -121,7 +114,7 @@ const routes = [
     ],
   },
   {
-    component: NotFound,
+    component: metaPageComponents.NotFound,
     title: 'Not found',
   }
 ];
