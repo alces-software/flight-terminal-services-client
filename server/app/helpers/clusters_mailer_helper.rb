@@ -6,15 +6,18 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 module ClustersMailerHelper
+  BLACK_LISTED_CLUSTER_DETAILS = [
+    'Key pair',
+    'UUID',
+    'Token',
+    'Flight Tutorials URL',
+    'Flight Tutorials URL=https',
+    'Queues',
+  ].freeze
+
   def cluster_details
     @cluster_details.reject do |cd|
-      [
-        'Key pair',
-        'UUID',
-        'Token',
-        'Flight Tutorials URL',
-        'Flight Tutorials URL=https'
-      ].include?(cd.title)
+      BLACK_LISTED_CLUSTER_DETAILS.include?(cd.title)
     end
   end
 
