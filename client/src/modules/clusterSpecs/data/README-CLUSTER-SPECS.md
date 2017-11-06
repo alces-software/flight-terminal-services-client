@@ -177,7 +177,7 @@ spec's `ui.icons` value.  E.g.,
 #### Fly section
 
 The `fly` section consists of the parameters given to the `fly` binary to
-launch the cluster. E.g.,
+launch the cluster, along with the version of `fly` to use. E.g.,
 
 ```
 {
@@ -185,6 +185,7 @@ launch the cluster. E.g.,
     "ui": {...},
 
     "fly": {
+      "version": "next" | "current",
       "args": [
         "--solo"
       ],
@@ -201,6 +202,11 @@ launch the cluster. E.g.,
 },
 
 ```
+
+The supported values for `version` are `"next"` and `"current"`, defaulting to
+`"current"` if not provided.  When `"next"` is specified the development
+version of `fly` is used, otherwise the most recently released version of
+`fly` is used.
 
 Valid values for the `solo` parameter directory override can be found by
 running `fly --create-parameter-directory foo ; cat foo/solo.yml`.
