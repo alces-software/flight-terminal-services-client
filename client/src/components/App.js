@@ -36,7 +36,10 @@ const App = ({ location, route }) => {
             name="client-version"
           />
         </Helmet>
-        <SitePage title={lastRouteComponent.title}>
+        <SitePage
+          pageKey={lastRouteComponent.pageKey}
+          title={lastRouteComponent.title}
+        >
           <CSSTransitionGroup
             transitionEnterTimeout={250}
             transitionLeave={false}

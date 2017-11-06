@@ -10,7 +10,13 @@ import clusters from '../modules/clusters';
 import getItems from '../modules/items';
 import tenants from '../modules/tenants';
 
-const Page = ({ children, clusterHostname, tenantIdentifier, title }) => {
+const Page = ({
+  children,
+  clusterHostname,
+  pageKey,
+  tenantIdentifier,
+  title,
+}) => {
   const items = getItems(tenantIdentifier, clusterHostname);
   return (
     <div>
@@ -20,7 +26,7 @@ const Page = ({ children, clusterHostname, tenantIdentifier, title }) => {
       <ProductBar
         items={items}
         nosearch
-        page={title}
+        page={pageKey || title || ''}
         site={process.env.REACT_APP_SITE}
       />
       {children}
@@ -31,6 +37,7 @@ const Page = ({ children, clusterHostname, tenantIdentifier, title }) => {
 Page.propTypes = {
   children: PropTypes.node.isRequired,
   clusterHostname: PropTypes.string,
+  pageKey: PropTypes.string,
   tenantIdentifier: PropTypes.string,
   title: PropTypes.string.isRequired,
 };
