@@ -107,7 +107,7 @@ const routes = [
             path: '*/',
             exact: true,
             component: Home,
-            title: 'About',
+            title: 'Overview',
           },
           {
             component: NotFound,
