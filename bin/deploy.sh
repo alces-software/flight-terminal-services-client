@@ -78,7 +78,7 @@ migrate_database() {
     dokku_app=$( git remote get-url "${REMOTE}" | cut -d: -f2 )
 
     ssh ${dokku_server} \
-        "dokku run \"${dokku_app}\" db:migrate:status; dokku run \"${dokku_app}\" db:migrate"
+        "dokku run \"${dokku_app}\" rake db:migrate:status; dokku run \"${dokku_app}\" rake db:migrate"
 }
 
 remove_client_bundle_commit() {
