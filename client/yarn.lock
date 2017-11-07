@@ -1738,7 +1738,7 @@ commonmark@^0.24.0:
     mdurl "~ 1.0.1"
     string.prototype.repeat "^0.2.0"
 
-component-bind@1.0.0:
+component-bind@1.0.0, component-bind@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/component-bind/-/component-bind-1.0.0.tgz#00c608ab7dcd93897c0009651b1d3a8e1e73bbd1"
 
@@ -3064,6 +3064,22 @@ flatten@^1.0.2:
     seamless-immutable "^7.1.2"
     styled-components "^2.0.1"
     validator "^8.2.0"
+
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.0/flight-tutorials-client.tgz":
+  version "0.1.0"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.0/flight-tutorials-client.tgz#f107e5fb40a196fceba93dab0b52a7052c1f7f9f"
+  dependencies:
+    classnames "^2.2.5"
+    debug "^2.6.8"
+    flight-reactware "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.12/flight-reactware.tgz"
+    react-fontawesome "^1.6.1"
+    react-markdown "^2.5.0"
+    reactstrap "^4.8.0"
+    socket.io-client "^2.0.3"
+    socket.io-stream "^0.9.1"
+    styled-components "^2.1.2"
+    terminal.js "^1.0.9"
+    url-search-params-polyfill "^2.0.0"
 
 flux-standard-action@0.6.0:
   version "0.6.0"
@@ -6881,6 +6897,13 @@ socket.io-parser@~3.1.1:
     has-binary2 "~1.0.2"
     isarray "2.0.1"
 
+socket.io-stream@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/socket.io-stream/-/socket.io-stream-0.9.1.tgz#421258316288b83ac693b0d43efd09d6d43aba97"
+  dependencies:
+    component-bind "~1.0.0"
+    debug "~2.2.0"
+
 sockjs-client@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sockjs-client/-/sockjs-client-1.1.2.tgz#f0212a8550e4c9468c8cceaeefd2e3493c033ad5"
@@ -7148,6 +7171,24 @@ styled-components@^2.0.1:
     stylis "^3.0.19"
     supports-color "^3.2.3"
 
+styled-components@^2.1.2:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.2.3.tgz#154575c269880c840f903f580287dab155cf684c"
+  dependencies:
+    buffer "^5.0.3"
+    css-to-react-native "^2.0.3"
+    fbjs "^0.8.9"
+    hoist-non-react-statics "^1.2.0"
+    is-function "^1.0.1"
+    is-plain-object "^2.0.1"
+    prop-types "^15.5.4"
+    stylis "3.x"
+    supports-color "^3.2.3"
+
+stylis@3.x:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.4.0.tgz#55c6530ebceeca5976d54fb4adc67578afee828d"
+
 stylis@^3.0.19:
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.1.6.tgz#2c7dc68b787e1d3be17fa6fdcae578076567f864"
@@ -7281,6 +7322,10 @@ tcomb-validation@^3.0.0:
 tcomb@^3.0.0:
   version "3.2.24"
   resolved "https://registry.yarnpkg.com/tcomb/-/tcomb-3.2.24.tgz#7f427053cc393b5997c4c3d859ca20411180887b"
+
+terminal.js@^1.0.9:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/terminal.js/-/terminal.js-1.0.10.tgz#8faade2699e854874a43016590fdf5b5d34fc3c0"
 
 test-exclude@^4.1.1:
   version "4.1.1"
