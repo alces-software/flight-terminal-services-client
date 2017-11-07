@@ -1,13 +1,14 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import { ScrollButton, ScrollTarget } from 'flight-reactware';
+import { ScrollButton } from 'flight-reactware';
 
 import VpnDownloadCard from './VpnDownloadCard';
 import DocsSiteLink from '../../../elements/DocsSiteLink';
 
 const propTypes = {
+  aboutSectionTarget: PropTypes.string.isRequired,
   browseConfigsUrl: PropTypes.string.isRequired,
   configs: PropTypes.arrayOf(PropTypes.shape({
     url: PropTypes.string.isRequired,
@@ -15,14 +16,8 @@ const propTypes = {
   })).isRequired,
 };
 
-const VpnDownloadSection = ({ browseConfigsUrl, configs }) => (
-  <Container>
-    <ScrollTarget name="vpn-download-section" />
-    <Row>
-      <Col md="12">
-        <h3>Downloads</h3>
-      </Col>
-    </Row>
+const VpnDownloadSection = ({ aboutSectionTarget, browseConfigsUrl, configs }) => (
+  <div>
     <Row>
       <Col>
         <p>
@@ -31,9 +26,9 @@ const VpnDownloadSection = ({ browseConfigsUrl, configs }) => (
           {' '}<a href={browseConfigsUrl}>browse all available downloads</a>.{' '}
           Refer to the{' '}
           <ScrollButton
-            href="#vpn-about-section"
+            href={`#${aboutSectionTarget}`}
             tag="a"
-            to="vpn-about-section"
+            to={aboutSectionTarget}
           >
             information below
           </ScrollButton>{' '}
@@ -60,7 +55,7 @@ const VpnDownloadSection = ({ browseConfigsUrl, configs }) => (
         ))
       }
     </Row>
-  </Container>
+  </div>
 );
 
 VpnDownloadSection.propTypes = propTypes;

@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FontAwesome from 'react-fontawesome';
 import styled from 'styled-components';
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
-import { ScrollButton } from 'flight-reactware';
+import { ScrollButton, SectionIcon } from 'flight-reactware';
 
 import windowsConfigInstall from './img/windows-config-install.png';
 import windowsConfigSelect from './img/windows-config-select.png';
@@ -13,26 +12,26 @@ import macOSrename from './img/macos-rename.png';
 const Img = styled.img`
   width: 75%;
   max-width: ${props => props.maxWidth || '600px'};
+  margin-bottom: 20px;
 `;
 
 const propTypes = {
   clusterName: PropTypes.string.isRequired,
   configFilesUrl: PropTypes.string.isRequired,
+  downloadSectionTarget: PropTypes.string.isRequired,
 };
 
-const VpnAboutSection = ({ clusterName, configFilesUrl }) => (
-  <Container>
-    <Row>
-      <Col md="12">
-        <h3>Platform instructions</h3>
-      </Col>
-    </Row>
+const VpnAboutSection = ({ clusterName, configFilesUrl, downloadSectionTarget }) => (
+  <div>
     <Row>
       <Col>
-        <h5>
-          <FontAwesome name="windows" />{' '}
-          CONNECTING FROM WINDOWS
-        </h5>
+        <SectionIcon
+          name="windows"
+          size="medium"
+        />
+        <h4>
+          Connecting from Windows
+        </h4>
         <p>
           In order to connect to the VPN you will need to configure a VPN
           client application. Ask your system administrator if you already
@@ -75,10 +74,13 @@ const VpnAboutSection = ({ clusterName, configFilesUrl }) => (
 
     <Row>
       <Col>
-        <h5>
-          <FontAwesome name="apple" />{' '}
-          CONNECTING FROM MACOS
-        </h5>
+        <SectionIcon
+          name="apple"
+          size="medium"
+        />
+        <h4>
+          Connecting from maCOS
+        </h4>
 
         <p>
           macOS contains native support for VPN networks but currently has no
@@ -87,9 +89,9 @@ const VpnAboutSection = ({ clusterName, configFilesUrl }) => (
           application <a href="https://tunnelblick.net/">Tunnelblick</a>.
         </p>
 
-        <h6>
-          USING THE TUNNELBLICK ZIP ARCHIVE
-        </h6>
+        <h5>
+          Using the Tunnelblick zip archive
+        </h5>
         <p>
           Once you have installed and launched Tunnelblick, extract the
           Tunnelblick ZIP archive you've downloaded. Double-click on the{' '}
@@ -100,9 +102,9 @@ const VpnAboutSection = ({ clusterName, configFilesUrl }) => (
           with your Alces Flight Compute cluster.
         </p>
 
-        <h6>
-          MANUAL SETUP
-        </h6>
+        <h5>
+          Manual setup
+        </h5>
         <p>
           Once you have installed and launched Tunnelblick, open the control
           panel from the Tunnelblick menu by selecting "VPN Details". Add a
@@ -116,9 +118,9 @@ const VpnAboutSection = ({ clusterName, configFilesUrl }) => (
           the <code>client.crt.pem</code> and <code>client.key.pem</code>
           files if applicable. You can find the files within the archives{' '}
           <ScrollButton
-            href="#vpn-download-section"
+            href={`#${downloadSectionTarget}`}
             tag="a"
-            to="vpn-download-section"
+            to={downloadSectionTarget}
           >
             available above
           </ScrollButton>, or{' '}
@@ -153,8 +155,11 @@ const VpnAboutSection = ({ clusterName, configFilesUrl }) => (
     <Row>
       <Col>
         <h5>
-          <FontAwesome name="linux" />{' '}
-          CONNECTING FROM LINUX
+          <SectionIcon
+            name="linux"
+            size="medium"
+          />
+          Connecting from Linux
         </h5>
 
         <p>
@@ -179,7 +184,7 @@ const VpnAboutSection = ({ clusterName, configFilesUrl }) => (
       </Col>
     </Row>
 
-  </Container>
+  </div>
 );
 
 VpnAboutSection.propTypes = propTypes;

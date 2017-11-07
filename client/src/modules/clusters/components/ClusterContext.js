@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 
 import * as actions from '../actions';
-import AccessHowTo from './AccessHowTo';
+import GainAccessHowTo from '../pages/GainAccessHowTo';
 
 const ClusterContext = ({ route }) => {
   return renderRoutes(route.routes);
@@ -14,7 +14,7 @@ const enhance = compose(
 
   branch(
     ({ hostname }) => !hostname,
-    renderComponent(AccessHowTo),
+    renderComponent(GainAccessHowTo),
   ),
 
   connect(),
