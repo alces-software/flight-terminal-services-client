@@ -1,18 +1,10 @@
 import React from 'react';
-import { Button, Container, Row, Col } from 'reactstrap';
-
-import { ScrollTarget } from 'flight-reactware';
+import { Button, Row, Col } from 'reactstrap';
 
 import DocsSiteLink, { docsSiteHref } from '../../../elements/DocsSiteLink';
 
 const VpnAboutSection = () => (
-  <Container>
-    <ScrollTarget name="vpn-about-section" />
-    <Row>
-      <Col md="12">
-        <h3>About</h3>
-      </Col>
-    </Row>
+  <div>
     <Row>
       <Col>
         <p>
@@ -57,7 +49,7 @@ const VpnAboutSection = () => (
         </Button>
       </Col>
     </Row>
-  </Container>
+  </div>
 );
 
 export default VpnAboutSection;

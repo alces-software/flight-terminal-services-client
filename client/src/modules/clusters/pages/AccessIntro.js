@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col } from 'reactstrap';
 import styled from 'styled-components';
+import { PageHeading } from 'flight-reactware';
 
 import SshAccessIntro from '../components/SshAccessIntro';
 import TerminalIntro from '../components/TerminalIntro';
@@ -49,29 +50,40 @@ const EqualHeightRow = styled(Row)`
   }
 `;
 
-const AccessIntro = ({ cluster }) => (
-  <Container>
-    <Row>
-      <Col md={12}>
-        <h2>Access details for <em>{cluster.attributes.clusterName}</em></h2>
-      </Col>
-    </Row>
-    <EqualHeightRow>
-      {
-        cards
-          .filter(c => c.display(cluster))
-          .map((c, i) => (
-            <Col
-              key={i}
-              md={6}
-            >
-              { c.render({ ...cluster.attributes }) }
-            </Col>
-          ))
-      }
-    </EqualHeightRow>
-  </Container>
-);
+const AccessIntro = ({ cluster }) => {
+  const clusterName = cluster.attributes.clusterName;
+  const overview = (
+    <span>
+      Your Alces Flight cluster{' '}<em>{clusterName}</em>{' '} is ready and
+      waiting to run your computational workloads.  Use the access options
+      below to gain access.
+    </span>
+  );
+
+  return (
+    <Container>
+      <PageHeading
+        overview={overview}
+        sections={[]}
+        title="Access options for your cluster"
+      />
+      <EqualHeightRow>
+        {
+          cards
+            .filter(c => c.display(cluster))
+            .map((c, i) => (
+              <Col
+                key={i}
+                md={6}
+              >
+                { c.render({ ...cluster.attributes }) }
+              </Col>
+            ))
+        }
+      </EqualHeightRow>
+    </Container>
+  );
+};
 
 AccessIntro.propTypes = propTypes;
 

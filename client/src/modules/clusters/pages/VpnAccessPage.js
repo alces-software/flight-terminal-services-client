@@ -2,12 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, branch, renderComponent } from 'recompose';
 import { Redirect } from 'react-router';
-import { Container, Row, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
+import { PageHeading, Section, makeSection } from 'flight-reactware';
 
 import VpnAboutSection from '../components/VpnAboutSection';
 import VpnDownloadSection from '../components/VpnDownloadSection';
 import VpnPlatformInstructionsSection from '../components/VpnPlatformInstructionsSection';
 import withCluster from '../components/withCluster';
+
+
+const sections = {
+  download: makeSection('Downloads', 'vpn-download-section', 'pink', 'download'),
+  about: makeSection('About', 'about', 'orange', 'book'),
+  instructions: makeSection('Platform instructions', 'instructions', 'green', 'desktop'),
+};
 
 const propTypes = {
   cluster: PropTypes.shape({
@@ -28,29 +36,39 @@ const VpnAccessPage = ({ cluster }) => {
   const { clusterName, vpn } = cluster.attributes;
 
   return (
-    <div>
-      <Container>
-        <Row>
-          <Col md={12}>
-            <h2>
-              Clusterware VPN{' '}
-              <small>
-                Secure access to your cluster
-              </small>
-            </h2>
-          </Col>
-        </Row>
-      </Container>
-      <VpnDownloadSection
-        browseConfigsUrl={vpn.browseConfigsUrl}
-        configs={vpn.configs}
+    <Container>
+      <PageHeading
+        overview="Secure access to your cluster"
+        sections={Object.values(sections)}
+        title="Clusterware VPN"
       />
-      <VpnAboutSection />
-      <VpnPlatformInstructionsSection
-        clusterName={clusterName}
-        configFilesUrl={vpn.configFilesUrl}
-      />
-    </div>
+      <Section
+        section={sections.download}
+        title="Downloads"
+      >
+        <VpnDownloadSection
+          aboutSectionTarget={sections.about.target}
+          browseConfigsUrl={vpn.browseConfigsUrl}
+          configs={vpn.configs}
+        />
+      </Section>
+      <Section
+        section={sections.about}
+        title="About"
+      >
+        <VpnAboutSection />
+      </Section>
+      <Section
+        section={sections.instructions}
+        title="Platform instructions"
+      >
+        <VpnPlatformInstructionsSection
+          clusterName={clusterName}
+          configFilesUrl={vpn.configFilesUrl}
+          downloadSectionTarget={sections.download.target}
+        />
+      </Section>
+    </Container>
   );
 };
 

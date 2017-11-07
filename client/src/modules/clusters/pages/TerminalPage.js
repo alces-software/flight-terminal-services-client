@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Container, Row, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { Redirect } from 'react-router';
 import { compose, branch, renderComponent } from 'recompose';
+import { PageHeading } from 'flight-reactware';
 
 import withCluster from '../components/withCluster';
 import Terminal from '../components/Terminal';
@@ -29,29 +30,30 @@ const Centered = styled.div`
 
 const TerminalPage = ({ cluster }) => {
   const { webTerminal } = cluster.attributes;
+  const title = (
+    <span>
+      Cluster Terminal for <em>{cluster.attributes.clusterName}</em>
+    </span>
+  );
+  const overview = (
+    <p>
+      You can use the terminal below to access your cluster.  On first
+      connecting to the cluster, you will need to provide the initial
+      password which you will have received via email.  You will then
+      be asked to change your password.  To do so you will need to
+      provide the initial password a second time and then enter your
+      new password twice.
+    </p>
+  );
 
   return (
     <div>
       <Container>
-        <Row>
-          <Col md={12}>
-            <h2>
-              Cluster Terminal for <em>{cluster.attributes.clusterName}</em>
-            </h2>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}>
-            <p>
-              You can use the terminal below to access your cluster.  On first
-              connecting to the cluster, you will need to provide the initial
-              password which you will have received via email.  You will then
-              be asked to change your password.  To do so you will need to
-              provide the initial password a second time and then enter your
-              new password twice.
-            </p>
-          </Col>
-        </Row>
+        <PageHeading
+          overview={overview}
+          sections={[]}
+          title={title}
+        />
       </Container>
       <Centered>
         <Terminal

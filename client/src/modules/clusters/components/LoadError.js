@@ -19,12 +19,13 @@ const propTypes = {
 const LoadError = ({ hostname }) => (
   <MissingNotice title="Unable to load cluster">
     Unfortunately, the details for the cluster at <em>{hostname}</em> cannot
-    be loaded.  Please check the IP address and try again.  Please visit
-    our{' '}
+    be loaded.  Please check that the hostname is correct and try again, or
+    visit our{' '}
     <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
     {' '}for further help.
   </MissingNotice>
 );
 
 LoadError.propTypes = propTypes;
+
 export default LoadError;
