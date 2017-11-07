@@ -5,14 +5,12 @@ import {
   Col,
 } from 'reactstrap';
 import {
-  PageHeading,
   PageHeadingContainer,
   Section,
   SectionButtons,
   SectionIcon,
   makeSection,
 } from 'flight-reactware';
-import styled from 'styled-components';
 
 import branding from '../modules/branding';
 import ContextLink from '../elements/ContextLink';
