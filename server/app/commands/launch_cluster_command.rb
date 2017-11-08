@@ -50,23 +50,8 @@ class LaunchClusterCommand
       fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
         perform
       @run_fly_cmd = RunFlyLaunchCommand.new(fly_params)
-
       send_about_to_launch_email
-      run_launch_command
-    ensure
-      FileUtils.rm_r(parameter_dir, secure: true)
-    end
-  end
-
-  def run_launch_command
-    begin
       @run_fly_cmd.perform
-    rescue
-      Rails.logger.info "Launch thread raised exception #{$!}"
-      Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
-      mark_token_as(:available)
-      send_failed_email
-    else
       Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
       if @run_fly_cmd.failed?
         Rails.logger.info("Launch error: #{@run_fly_cmd.stderr}") 
@@ -77,6 +62,13 @@ class LaunchClusterCommand
         create_cluster_model
         send_completed_email
       end
+    rescue
+      Rails.logger.info "Launch thread raised exception #{$!}"
+      Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
+      mark_token_as(:available)
+      send_failed_email
+    ensure
+      FileUtils.rm_r(parameter_dir, secure: true)
     end
   end
 

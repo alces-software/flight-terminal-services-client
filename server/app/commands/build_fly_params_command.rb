@@ -18,9 +18,7 @@ class BuildFlyParamsCommand
   end
 
   def perform
-    Result.new(build_command, build_environment).tap do |r|
-      log_params(r)
-    end
+    Result.new(build_command, build_environment)
   end
 
   def build_command
@@ -89,12 +87,5 @@ class BuildFlyParamsCommand
       @launch_config.token
     ).perform.to_s
     ['--runtime', runtime]
-  end
-
-  def log_params(params)
-    sanitized_cmd = params.cmd.map do |i|
-      (i == @launch_config.access_key || i == @launch_config.secret_key) ? '[REDACTED]' : i
-    end
-    Rails.logger.debug "Running command #{sanitized_cmd.inspect} in env #{params.env.inspect}"
   end
 end
