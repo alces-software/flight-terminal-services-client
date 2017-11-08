@@ -36,14 +36,14 @@ const TerminalPage = ({ cluster }) => {
     </span>
   );
   const overview = (
-    <p>
+    <span>
       You can use the terminal below to access your cluster.  On first
       connecting to the cluster, you will need to provide the initial
       password which you will have received via email.  You will then
       be asked to change your password.  To do so you will need to
       provide the initial password a second time and then enter your
       new password twice.
-    </p>
+    </span>
   );
 
   return (
