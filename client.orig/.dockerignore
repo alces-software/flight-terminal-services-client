@@ -1,9 +1,0 @@
-*~
-.git/
-tags
-src/
-build/
-bin/
-node_modules/
-public/
-coverage/
