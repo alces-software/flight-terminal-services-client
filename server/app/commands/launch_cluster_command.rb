@@ -49,7 +49,7 @@ class LaunchClusterCommand
         perform
       fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
         perform
-      @run_fly_cmd = RunFlyLaunchCommand.new(fly_params)
+      @run_fly_cmd = RunFlyLaunchCommand.new(fly_params, @launch_config)
       send_about_to_launch_email
       @run_fly_cmd.perform
       Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"

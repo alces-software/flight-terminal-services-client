@@ -14,8 +14,9 @@ require 'open3'
 class RunFlyLaunchCommand
   attr_reader :stdout, :stderr
 
-  def initialize(fly_params)
+  def initialize(fly_params, launch_config)
     @fly_params = fly_params
+    @launch_config = launch_config
   end
 
   def perform
