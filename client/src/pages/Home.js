@@ -87,16 +87,13 @@ const Home = () => {
                 network you should have a received a Flight Launch token
                 consisting of three unrelated words (e.g. “flower – star –
                 moose”). Don’t have one yet?{' '}
-                <a
-                  href="mailto:flight@alces-flight.com?subject=Flight Launch
-                  Token Request&body=Please send me a Flight Launch Token by
-                  return email.%0D%0A%0D%0AKind regards."
-                  rel="noopener noreferrer"
-                  target="_blank"
+                <ContextLink
+                  linkSite="Home"
+                  location="/start#launch-flight"
                 >
                   Let us know
-                </a> and we’ll start the process of securing you a Flight
-                Launch token.
+                </ContextLink> and we’ll start the process of securing you a
+                Flight Launch token.
               </p>
               <p>
                 Once you’ve secured a token simply search through the available
