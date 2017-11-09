@@ -1,54 +1,69 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import {
+  Button,
   Container,
   Row,
   Col,
 } from 'reactstrap';
+import styled from 'styled-components';
 import {
-  PageHeadingContainer,
+  LinkContainer,
   Section,
-  SectionButtons,
   SectionIcon,
   makeSection,
 } from 'flight-reactware';
+import FontAwesome from 'react-fontawesome';
 
-import branding from '../modules/branding';
 import ContextLink from '../elements/ContextLink';
 import CommunitySiteLink from '../elements/CommunitySiteLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
+import PageHeading from '../components/PageHeading';
+import tenants from '../modules/tenants';
 
 const sections = {
   whatIsIt: makeSection('What is Flight Launch?', 'what-is-it', 'pink', 'question'),
   howToUse: makeSection('How to use Flight Launch', 'how-to-use', 'orange', 'ticket'),
-  readyToLaunch: makeSection('Ready to launch', 'read-to-launch', 'blue', 'plane'),
+  moreInfo: makeSection('Getting more information', 'more-information', 'blue', 'book'),
 };
 
-const Home = () => {
+const CallToAction = styled(({ children, className, icon, to }) => {
+  return (
+    <LinkContainer 
+      className={className}
+      to={to}
+    >
+      <Button
+        color="success"
+        size="lg"
+      >
+        <FontAwesome
+          fixedWidth
+          name={icon}
+        />
+        {children}
+      </Button>
+    </LinkContainer>
+  );
+})`
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+`;
+
+const Home = ({ tenantIdentifier }) => {
   return (
     <div>
       <Container fluid>
-        <PageHeadingContainer>
-          <div className="d-flex justify-content-center">
-            <div>
-              <div className="d-flex justify-content-center">
-                <h1>
-                  Welcome to the Alces Flight Launch Service!
-                </h1>
-              </div>
-              <div className="d-flex justify-content-center">
-                <branding.WithBranding>
-                  {(branding) => <h3>{branding.navEntry}</h3>}
-                </branding.WithBranding>
-              </div>
-              <p>
-                This service has been developed to quickly launch a preconfigured
-                High Performance Computing (HPC) cluster.
-              </p>
-            </div>
-            <branding.Logo height="100px" />
-          </div>
-          <SectionButtons sections={Object.values(sections)} />
-        </PageHeadingContainer>
+        <PageHeading
+          overview="This service has been developed to quickly launch a
+          preconfigured High Performance Computing (HPC) cluster."
+          sections={Object.values(sections)}
+          title="Welcome to Alces Flight Launch!"
+        />
       </Container>
       <Container>
         <Section
@@ -56,7 +71,7 @@ const Home = () => {
           HPC cluster, ready to go, complete with job scheduler and
           applications."
           section={sections.whatIsIt}
-          title="What is the Alces Flight Launch service?"
+          title="What is Alces Flight Launch?"
         >
           <p>
             Simply select the HPC cluster you want to evaluate, enter your
@@ -74,7 +89,7 @@ const Home = () => {
         <Section
           overview="Use a Flight Launch token to take an Alces Flight Compute cluster for a spin — no cloud account required!"
           section={sections.howToUse}
-          title="How to use the Alces Flight Launch service"
+          title="How to use Alces Flight Launch."
         >
           <Row>
             <Col>
@@ -132,12 +147,22 @@ const Home = () => {
               </p>
             </Col>
           </Row>
+          <Row>
+            <Col className="d-flex justify-content-center">
+              <CallToAction
+                icon="play-circle"
+                to={`/${tenantIdentifier}/launch`}
+              >
+                Launch a cluster now
+              </CallToAction>
+            </Col>
+          </Row>
         </Section>
         <Section
-          overview="Want to spend some time reading up on the Alces Flight
-          Launch service prior to starting your evaluation?"
-          section={sections.readyToLaunch}
-          title="Getting ready to launch and more information"
+          overview="Want to spend some time reading up on Alces Flight Compute
+          prior to starting your evaluation?"
+          section={sections.moreInfo}
+          title="Getting more information."
         >
           <p>
             We have a{' '}
@@ -155,4 +180,12 @@ const Home = () => {
   );
 };
 
-export default Home;
+Home.propTypes = {
+  tenantIdentifier: PropTypes.string.isRequired,
+};
+
+const enhance = connect(createStructuredSelector({
+  tenantIdentifier: tenants.selectors.identifier,
+}));
+
+export default enhance(Home);

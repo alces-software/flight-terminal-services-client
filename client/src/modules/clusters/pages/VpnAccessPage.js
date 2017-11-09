@@ -40,11 +40,11 @@ const VpnAccessPage = ({ cluster }) => {
       <PageHeading
         overview="Secure access to your cluster"
         sections={Object.values(sections)}
-        title="Clusterware VPN"
+        title="Clusterware VPN."
       />
       <Section
         section={sections.download}
-        title="Downloads"
+        title="Downloads."
       >
         <VpnDownloadSection
           aboutSectionTarget={sections.about.target}
@@ -54,13 +54,13 @@ const VpnAccessPage = ({ cluster }) => {
       </Section>
       <Section
         section={sections.about}
-        title="About"
+        title="About."
       >
         <VpnAboutSection />
       </Section>
       <Section
         section={sections.instructions}
-        title="Platform instructions"
+        title="Platform instructions."
       >
         <VpnPlatformInstructionsSection
           clusterName={clusterName}

@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'url-search-params-polyfill';
 import { Container, Row, Col } from 'reactstrap';
-import { DelaySpinner, PageHeading } from 'flight-reactware';
+import { DelaySpinner } from 'flight-reactware';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import branding from '../../../modules/branding';
 import tenants from '../../tenants';
+import PageHeading from '../../../components/PageHeading';
 
 import * as clusterSpecsSelectors from '../selectors';
 import CardDeck from '../components/CardDeck';
@@ -20,12 +20,12 @@ const Wrapper = ({ children }) => {
     <div>
       <Container fluid>
         <PageHeading
-          overview="Ready to get going? Choose a cluster specification and launch your cluster now!"
+          brandingLogo
+          overview="Ready to get going? Choose a cluster specification and
+          launch your cluster now!"
           sections={[]}
-          title={<span>Launch Alces Flight <small><branding.Header /></small></span>}
-        >
-          <branding.Logo />
-        </PageHeading>
+          title="Launch Alces Flight"
+        />
         <Row>
           <Col>
             {children}
