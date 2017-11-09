@@ -20,6 +20,8 @@ const defaultProps = {
 };
 
 
+// This fuzzy time algorithm here should be kept in sync with the fuzzy time
+// algorithm in server/app/commands/determine_runtime_command.rb
 function calculateRuntime(clusterSpecCost, tokenCredits) {
   const fractionalHours = tokenCredits / clusterSpecCost;
   const days = Math.trunc(fractionalHours / 24);

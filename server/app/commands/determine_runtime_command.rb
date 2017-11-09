@@ -34,19 +34,33 @@ class DetermineRuntimeCommand
     runtime_in_minutes
   end
 
+  # This fuzzy time algorithm here should be kept in sync with the fuzzy time
+  # algorithm in
+  # client/src/modules/clusterLaunch/components/ClusterRuntimeExplanation.js
   def humanize(runtime_in_minutes)
-    if runtime_in_minutes < 60
-      value = runtime_in_minutes
-      unit = 'minute'
-    elsif runtime_in_minutes < 60*24
-      value = (runtime_in_minutes/60.0).round
-      unit = 'hour'
+    fractional_hours = runtime_in_minutes / 60.0
+    days = (fractional_hours / 24.0).truncate
+    hours = fractional_hours.truncate - days * 24
+    minutes = (fractional_hours - hours) * 60
+
+    if minutes < 15
+      fuzzy_minutes = ''
+    elsif minutes < 30
+      fuzzy_minutes = ' and a quarter'
+    elsif minutes < 45
+      fuzzy_minutes = ' and a half'
     else
-      value = (runtime_in_minutes/(60.0*24)).round
-      unit = 'day'
+      fuzzy_minutes = ' and three quarter'
     end
 
-    "#{value} #{unit.pluralize(value)}"
+    if days > 0
+      "#{days} #{'day'.pluralize(days)} and #{hours} #{'hour'.pluralize(hours)}"
+    elsif hours < 1
+      "#{minutes.truncate} #{'minutes'.pluralize(minutes)}"
+    else
+      unit = fuzzy_minutes.empty? ? 'hour'.pluralize(hours) : 'hours'
+      "#{hours}#{fuzzy_minutes} #{unit}"
+    end
   end
 end
 
