@@ -19,7 +19,9 @@ const Terminal = ({ columns, rows, socketIOPath, socketIOUrl }) => (
     socketIOUrl={socketIOUrl}
   >
     {({
+      onCloseSocketError,
       socket,
+      socketError,
     }) => (
       <TerminalContainer
         columns={columns}
@@ -33,9 +35,11 @@ const Terminal = ({ columns, rows, socketIOPath, socketIOUrl }) => (
           terminal,
         }) => (
           <TerminalLayout
+            onCloseSocketError={onCloseSocketError}
             onSessionRestartAccepted={onSessionRestartAccepted}
             onSessionRestartRequestClosed={onSessionRestartRequestClosed}
             requestSessionRestart={requestSessionRestart}
+            socketError={socketError}
           >
             {terminal}
           </TerminalLayout>
