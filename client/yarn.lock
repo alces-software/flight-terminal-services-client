@@ -3027,47 +3027,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.13/flight-reactware.tgz":
-  version "0.1.13"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.13/flight-reactware.tgz#5c7b1c96a73f3a2f85c9ff1a09fbad97a815545e"
-  dependencies:
-    axios "^0.16.2"
-    babel-preset-react-app "^3.0.1"
-    invariant "^2.2.2"
-    jwt-decode "^2.2.0"
-    lodash "^4.17.4"
-    moment "^2.18.1"
-    node-noop "^1.0.0"
-    pluralize "^7.0.0"
-    polished "^1.3.0"
-    query-string "^5.0.0"
-    react-cookie-banner "^0.0.18"
-    react-fontawesome "^1.6.1"
-    react-form "^1.2.8"
-    react-ga "^2.2.0"
-    react-helmet "^5.1.3"
-    react-images "https://github.com/mjtko/react-images"
-    react-markdown "^2.5.0"
-    react-redux "^5.0.5"
-    react-router-dom "^4.1.1"
-    react-router-redux "^4.0.8"
-    react-s-alert "^1.3.0"
-    react-scroll "1.5.4"
-    reactstrap "^4.8.0"
-    recompose "^0.24.0"
-    redux "^3.7.1"
-    redux-axios-middleware "^4.0.0"
-    redux-cookie "^0.5.9"
-    redux-form "^6.8.0"
-    redux-simple-promise "^2.0.2"
-    reselect "^3.0.1"
-    seamless-immutable "^7.1.2"
-    styled-components "^2.0.1"
-    validator "^8.2.0"
-
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.14/flight-reactware.tgz":
-  version "0.1.13"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.14/flight-reactware.tgz#e573402813296b141bc37e04dfe284df0ad151e9"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.16/flight-reactware.tgz":
+  version "0.1.16"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.16/flight-reactware.tgz#c050b9e4dfb33056547139903de05ca953a120aa"
   dependencies:
     axios "^0.16.2"
     babel-preset-react-app "^3.0.1"
@@ -5496,8 +5458,8 @@ pluralize@^7.0.0:
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
 
 polished@^1.3.0:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-1.8.2.tgz#b73c16f7ae4e531a459e9de5dc2416d97e1df4e9"
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-1.9.0.tgz#76d277d6610dbcb85477dbba1bd1aa8e642741b6"
 
 portfinder@^1.0.9:
   version "1.0.13"
@@ -6256,8 +6218,8 @@ react-transition-group@^1.2.0:
     warning "^3.0.0"
 
 react@>=0.13.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.1.0.tgz#1c2bdac3c17fe7ee9282fa35aca6cc36387903e1"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
