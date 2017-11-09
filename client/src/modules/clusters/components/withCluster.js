@@ -12,6 +12,7 @@ const withCluster = compose(
   connect(createStructuredSelector({
     cluster: selectors.currentCluster,
     retrieval: selectors.retrieval,
+    hostname: selectors.hostname,
   })),
 
   showSpinnerUntil(
