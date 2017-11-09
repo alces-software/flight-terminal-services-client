@@ -25,6 +25,7 @@ const Page = ({
       </Helmet>
       <ProductBar
         items={items}
+        noaccount
         nosearch
         page={pageKey || title || ''}
         site={process.env.REACT_APP_SITE}
