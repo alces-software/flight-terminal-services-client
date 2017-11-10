@@ -14,11 +14,13 @@ require 'open3'
 class RunFlyLaunchCommand
   attr_reader :stdout, :stderr
 
-  def initialize(fly_params)
+  def initialize(fly_params, launch_config)
     @fly_params = fly_params
+    @launch_config = launch_config
   end
 
   def perform
+    log_params
     launch_with_popen3
   end
 
@@ -40,5 +42,12 @@ class RunFlyLaunchCommand
       @stderr = stderr.read
       wait_thr.value
     end
+  end
+
+  def log_params
+    sanitized_cmd = @fly_params.cmd.map do |i|
+      (i == @launch_config.access_key || i == @launch_config.secret_key) ? '[REDACTED]' : i
+    end
+    Rails.logger.debug "Running command #{sanitized_cmd.inspect} in env #{@fly_params.env.inspect}"
   end
 end

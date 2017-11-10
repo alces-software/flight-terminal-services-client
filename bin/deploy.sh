@@ -18,6 +18,8 @@ main() {
     trap remove_client_bundle_commit EXIT
     header "Deploying to ${REMOTE}"
     deploy_server
+    header "Migrating database"
+    migrate_database
 }
 
 abort_if_uncommitted_changes_present() {
@@ -46,8 +48,9 @@ build_token_generator_app() {
 build_client() {
     (
     rm -rf client/build/
-    docker-compose run --rm client ./bin/use-latest-flight-common.sh
-    docker-compose run --rm client yarn run build
+    pushd client/
+    yarn run build
+    popd
     ) 2> >(indent 1>&2) | indent
 }
 
@@ -57,7 +60,6 @@ commit_client_bundle() {
     git add -A server/public/
     git commit -m 'Add client bundles' server/public/
     ) 2> >(indent 1>&2) | indent
-    CLIENT_BUNDLE_COMMITTED=1
 }
 
 deploy_server() {
@@ -69,11 +71,19 @@ deploy_server() {
     ) 2> >(indent 1>&2) | indent
 }
 
+migrate_database() {
+    local dokku_server
+    local dokku_app
+    dokku_server=$( git remote get-url "${REMOTE}" | cut -d@ -f2 | cut -d: -f1 )
+    dokku_app=$( git remote get-url "${REMOTE}" | cut -d: -f2 )
+
+    ssh ${dokku_server} \
+        "dokku run \"${dokku_app}\" rake db:migrate:status; dokku run \"${dokku_app}\" rake db:migrate"
+}
+
 remove_client_bundle_commit() {
     subheader "Removing client bundle commit"
-    if [ "${CLIENT_BUNDLE_COMMITTED}" == "1" ] ; then
-        git reset --hard HEAD~1 2> >(indent 1>&2) | indent
-    fi
+    git reset --hard HEAD~1 2> >(indent 1>&2) | indent
 }
 
 

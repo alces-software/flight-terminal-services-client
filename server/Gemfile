@@ -7,7 +7,7 @@
 #==============================================================================
 
 source 'http://rubygems.org'
-ruby ENV['ALCES_RUBY_VERSION'] || '2.3.1'
+ruby ENV['ALCES_RUBY_VERSION'] || '2.3.4'
 
 rails_version                  = '~>  5.0.2'
 
@@ -25,6 +25,11 @@ gem                'activesupport', rails_version
 gem                 'actionmailer', rails_version
 gem                   'actionpack', rails_version
 gem                     'railties', rails_version
+
+##################################
+# Authentication / Authorization
+##################################
+gem 'jwt'
 
 ##################################
 # Database access

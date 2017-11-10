@@ -1,20 +1,44 @@
-/*=============================================================================
- * Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
- *
- * This file is part of Flight Launch.
- *
- * All rights reserved, see LICENSE.txt.
- *===========================================================================*/
-import { combineReducers } from 'redux';
+import { compose } from 'redux';
+import {
+  createReducers as createFlightReducers,
+  jsonApi,
+  loadingStates,
+} from 'flight-reactware';
+import { reducer as formReducer } from 'redux-form';
+import { routerReducer } from 'react-router-redux';
 
+import anvilUsers from '../modules/anvilUsers';
 import clusterSpecs from '../modules/clusterSpecs';
-import onboarding from '../modules/onboarding';
+import clusters from '../modules/clusters';
+import launchUsers from '../modules/launchUsers';
 import tenants from '../modules/tenants';
 import tokens from '../modules/tokens';
 
-export default combineReducers({
+const entityIndexes = [
+  ...anvilUsers.indexes || [],
+  ...clusters.indexes || [],
+  ...launchUsers.indexes || [],
+  ...tenants.indexes || [],
+  ...tokens.indexes || [],
+];
+
+const loadingStatesConfig = [
+  anvilUsers.loadingStatesConfig || {},
+  clusters.loadingStatesConfig || {},
+  launchUsers.loadingStatesConfig || {},
+  tenants.loadingStatesConfig || {},
+  tokens.loadingStatesConfig || {},
+];
+
+export default (cookies) => ({
+  ...createFlightReducers(cookies),
   [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
-  [onboarding.constants.NAME]: onboarding.reducer,
+  [clusters.constants.NAME]: clusters.reducer,
   [tenants.constants.NAME]: tenants.reducer,
-  [tokens.constants.NAME]: tokens.reducer,
+  entities: compose(
+    jsonApi.withIndexes(entityIndexes),
+    loadingStates.withLoadingStates(loadingStatesConfig),
+  )(jsonApi.reducer),
+  form: formReducer,
+  router: routerReducer,
 });

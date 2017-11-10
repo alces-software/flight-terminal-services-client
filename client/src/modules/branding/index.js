@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Import and export the public facing API for the onboarding module.
+// Import and export the public facing API for the branding module.
 
 import * as components from './components';
 import * as selectors from './selectors';

@@ -5,8 +5,10 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
-import { HelpPopover } from 'flight-common';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { HelpPopover } from 'flight-reactware';
 
 const propTypes = {
   option: PropTypes.shape({
@@ -18,9 +20,8 @@ const propTypes = {
 const LaunchOptionExplanation = ({ option }) => {
   return (
     <HelpPopover
-      id={`launchOption-popover-${option.name}`}
-      title={`${option.name} compute durability`}
       content={<span>{option.description}</span>}
+      title={`${option.name} compute durability`}
     >
       {option.name}
     </HelpPopover>

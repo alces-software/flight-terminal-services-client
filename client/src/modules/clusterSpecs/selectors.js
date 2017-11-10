@@ -1,32 +1,23 @@
-/*=============================================================================
- * Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
- *
- * This file is part of Flight Launch.
- *
- * All rights reserved, see LICENSE.txt.
- *===========================================================================*/
 import { createSelector } from 'reselect';
+import { loadingStates } from 'flight-reactware';
 
 import { NAME } from './constants';
 
+const clusterSpecsState = state => state[NAME];
+
 export function clusterSpecs(state) {
-  return state[NAME].specs;
+  return state[NAME].data.specs;
 }
 
-export const numClusterSpecs = createSelector(
-  clusterSpecs,
-
-  (specs) => specs && specs.length,
-);
+const specsUrl = state => state[NAME].data.url;
 
 export function clusterSpecsFile(state) {
-  return state[NAME].file;
+  return state[NAME].data.file;
 }
 
-export function retrieval(state) {
-  const s = state[NAME];
-  return {
-    error: s.error,
-    loading: s.loading,
-  };
-}
+export const retrieval = createSelector(
+  clusterSpecsState,
+  specsUrl,
+
+  loadingStates.selectors.retrieval,
+);

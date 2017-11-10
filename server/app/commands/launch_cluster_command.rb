@@ -37,7 +37,7 @@ class LaunchClusterCommand
     # Check that the launch config's token is still queued.  This prevents
     # launching a duplicate cluster should the active job be processed twice,
     # which is possible with SQS.
-    unless @launch_config.token.queued?
+    if @launch_config.using_token? && ! @launch_config.token.queued?
       Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +
                         "Current status is #{@launch_config.token.status}")
       return
@@ -49,24 +49,9 @@ class LaunchClusterCommand
         perform
       fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
         perform
-      @run_fly_cmd = RunFlyLaunchCommand.new(fly_params)
-
+      @run_fly_cmd = RunFlyLaunchCommand.new(fly_params, @launch_config)
       send_about_to_launch_email
-      run_launch_command
-    ensure
-      FileUtils.rm_r(parameter_dir, secure: true)
-    end
-  end
-
-  def run_launch_command
-    begin
       @run_fly_cmd.perform
-    rescue
-      Rails.logger.info "Launch thread raised exception #{$!}"
-      Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
-      mark_token_as(:available)
-      send_failed_email
-    else
       Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
       if @run_fly_cmd.failed?
         Rails.logger.info("Launch error: #{@run_fly_cmd.stderr}") 
@@ -74,8 +59,16 @@ class LaunchClusterCommand
         send_failed_email
       else
         mark_token_as(:used)
+        create_cluster_model
         send_completed_email
       end
+    rescue
+      Rails.logger.info "Launch thread raised exception #{$!}"
+      Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
+      mark_token_as(:available)
+      send_failed_email
+    ensure
+      FileUtils.rm_r(parameter_dir, secure: true)
     end
   end
 
@@ -105,10 +98,21 @@ class LaunchClusterCommand
       deliver_now
   end
 
+  def create_cluster_model
+    parsed_output = ParseOutputCommand.new(@run_fly_cmd.stdout).perform
+    details = parsed_output.details
+    uuid_detail = details.detect {|d| d.title == 'UUID'}
+    auth_token_detail = details.detect {|d| d.title == 'Token'}
+    uuid = uuid_detail.value
+    auth_token = auth_token_detail.value
+    attrs = Cluster.attributes_from_launch_config(@launch_config)
+
+    Cluster.create!(attrs.merge(id: uuid, auth_token: auth_token))
+  end
+
   def mark_token_as(status)
-    token = @launch_config.token
-    if token.present?
-      token.mark_as(status, @launch_config.email)
+    if @launch_config.using_token?
+      @launch_config.token.mark_as(status, @launch_config.email)
     end
   end
 end

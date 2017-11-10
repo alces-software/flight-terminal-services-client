@@ -5,47 +5,21 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import loadingStates from '../../modules/loadingStates';
-import composeReducers from '../../reducers/composeReducers';
-
-import { LOADING, LOADED, FAILED } from './actionTypes';
+import { jsonApi } from 'flight-reactware';
 
 const initialState = {
-  identifier: undefined,
-  tenant: undefined,
+  identifier: 'default',
 };
 
-function reducer(state = initialState, { payload, type }) {
-  switch (type) {
-
-    case LOADING:
-      return {
-        ...state,
-        identifier: payload.identifier,
-      };
-
-    case LOADED:
-      return {
-        ...state,
-        tenant: payload.tenant,
-      };
-
-    case FAILED:
-      return {
-        ...state,
-        tenant: undefined,
-      };
-
-    default:
-      return state;
+export default function reducer(state = initialState, { meta, type }) {
+  if (
+    type === jsonApi.actionTypes.RESOURCE_REQUESTED &&
+    meta.entity.type === 'tenants'
+  ) {
+    return {
+      ...state,
+      identifier: meta.lookup.value,
+    };
   }
+  return state;
 }
-
-export default composeReducers(
-  loadingStates.reducer({
-    loading: LOADING,
-    resolved: LOADED,
-    rejected: FAILED,
-  }),
-  reducer,
-);

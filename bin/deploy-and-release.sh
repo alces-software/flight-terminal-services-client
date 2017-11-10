@@ -22,18 +22,18 @@ main() {
     run_deploy_script
 
     echo ""
-    echo "${NEW_VERSION} has been deployed to staging app."
-    echo "Test that all is good and then we'll promote staging to production"
-    wait_for_confirmation
-    promote_staging_to_production
+    echo "${NEW_VERSION} has been deployed to production app."
+    # echo "Test that all is good and then we'll promote staging to production"
+    # wait_for_confirmation
+    # promote_staging_to_production
 
-    echo ""
-    echo "Staging has been promoted to production."
-    echo "Test that all is good and then we'll continue with tag creation and pushing"
-    wait_for_confirmation
+    # echo ""
+    # echo "Staging has been promoted to production."
+    # echo "Test that all is good and then we'll continue with tag creation and pushing"
+    # wait_for_confirmation
 
-    header "Merging, tagging, and pushing"
-    run_merge_script
+    # header "Merging, tagging, and pushing"
+    # run_merge_script
 }
 
 abort_if_uncommitted_changes_present() {
@@ -66,7 +66,7 @@ commit_version_bump() {
 }
 
 run_deploy_script() {
-    "${REPO_ROOT}"/bin/deploy.sh
+    "${REPO_ROOT}"/bin/deploy.sh --dokku-remote dokku
 }
 
 promote_staging_to_production() {

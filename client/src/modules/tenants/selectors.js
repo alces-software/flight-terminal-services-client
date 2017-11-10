@@ -6,29 +6,34 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-
-import loadingStates from '../../modules/loadingStates';
+import { loadingStates, selectorUtils } from 'flight-reactware';
 
 import { NAME } from './constants';
 
 const tenantState = state => state[NAME];
 
+const {
+  jsonApiState,
+  jsonApiData,
+} = selectorUtils.buildJsonApiResourceSelectors(NAME);
+
 export function identifier(state) {
   return tenantState(state).identifier;
 }
 
-export function tenant(state) {
-  return tenantState(state).tenant;
-}
-
-export const retrieval = createSelector(
-  tenantState,
+export const tenant = createSelector(
+  jsonApiData,
+  selectorUtils.buildIndexSelector(NAME, 'identifier'),
   identifier,
 
-  (ts, tenantIdentifier) => ({
-    error: loadingStates.selectors.isRejected(ts, tenantIdentifier),
-    loading: loadingStates.selectors.isLoading(ts, tenantIdentifier),
-  }),
+  selectorUtils.resourceFromIndex,
+);
+
+export const retrieval = createSelector(
+  jsonApiState,
+  identifier,
+
+  loadingStates.selectors.retrieval,
 );
 
 export const clusterSpecsUrlConfig = createSelector(
