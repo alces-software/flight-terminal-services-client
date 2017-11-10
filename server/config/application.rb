@@ -32,5 +32,7 @@ module Launch
     Alces::Extensions::Rails::Application.setup(self, "launch")
 
     config.middleware.delete(::Rack::Sendfile)
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
   end
 end

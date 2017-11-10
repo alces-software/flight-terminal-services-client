@@ -1,22 +1,7 @@
 version: '2'
 services:
-  client:
-    image: launch-client
-    build:
-      context: ./client
-      args:
-        - USER_ID=${USER_ID}
-    command: yarn run start
-    volumes:
-      - ./client:/home/launch/launch
-      - ${HOME}/.cache/yarn:/home/launch/.cache/yarn
-      - ../flight-common:/home/flight-common
-    links:
-      - server
-    ports:
-      - "4002:4002"
-
   server:
+    network_mode: "bridge"
     image: launch-server
     build:
       context: ./server
@@ -33,4 +18,5 @@ services:
       - db
 
   db:
+    network_mode: "bridge"
     image: postgres:9.5

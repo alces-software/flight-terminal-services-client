@@ -6,42 +6,35 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import find from 'lodash/find';
-
-import loadingStates from '../../modules/loadingStates';
+import { loadingStates, selectorUtils } from 'flight-reactware';
 
 import { NAME } from './constants';
 
-const tokenState = state => state[NAME];
-const allTokens = state => state[NAME].tokens;
+const {
+  jsonApiState,
+  jsonApiData,
+} = selectorUtils.buildJsonApiResourceSelectors(NAME);
+
 const tokenNameProp = (state, props) => props.tokenName;
 
 export const tokenFromName = createSelector(
-  allTokens,
+  jsonApiData,
+  selectorUtils.buildIndexSelector(NAME, 'name'),
   tokenNameProp,
 
-  (tokens, tokenName) => (
-    find(tokens, token => token.attributes.name === tokenName)
-  ),
+  selectorUtils.resourceFromIndex,
 );
 
 export const isLoading = createSelector(
-  tokenState,
+  jsonApiState,
   tokenNameProp,
 
-  (ts, tokenName) => loadingStates.selectors.isLoading(ts, tokenName),
+  (ts, tokenName) => loadingStates.selectors.isPending(ts, tokenName),
 );
 
 export const hasLoaded = createSelector(
-  tokenState,
+  jsonApiState,
   tokenNameProp,
 
   (ts, tokenName) => loadingStates.selectors.isResolved(ts, tokenName),
-);
-
-export const hasFailedToLoad = createSelector(
-  tokenState,
-  tokenNameProp,
-
-  (ts, tokenName) => loadingStates.selectors.isRejected(ts, tokenName),
 );

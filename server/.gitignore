@@ -33,6 +33,10 @@ vendor/cache/*-x86_64-linux.gem
 vendor/cache/*-x86_64-darwin-??.gem
 vendor/cache/*.rc?.gem
 vendor/ruby/*
+vendor/bin/*
+vendor/gems/*
+vendor/specifications/*
+vendor/extensions/*
 
 # Ignore local changes to the foreman configuration.
 config/foreman/local.*.env

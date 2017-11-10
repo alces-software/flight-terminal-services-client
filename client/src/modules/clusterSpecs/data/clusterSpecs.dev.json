@@ -1,18 +1,4 @@
 {
-    "schedulers": [
-        {
-            "type": "gridscheduler",
-            "text": "SGE",
-            "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
-            "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
-        },
-        {
-            "type": "slurm",
-            "text": "Slurm",
-            "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
-            "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
-        }
-    ],
     "sharedIcons": {
       "sge": {
         "icon": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
@@ -51,13 +37,7 @@
                     "text": "Job durability",
                     "tooltip": "This cluster has job durability options"
                   }
-                ],
-                "scheduler": {
-                    "type": "gridscheduler",
-                    "text": "SGE",
-                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
-                    "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
-                }
+                ]
             },
             "launchOptions": {
               "defaultOptionIndex": 0,
@@ -132,13 +112,7 @@
                     "text": "Job durability",
                     "tooltip": "This cluster has job durability options"
                   }
-                ],
-                "scheduler": {
-                    "type": "slurm",
-                    "text": "Slurm",
-                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
-                    "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
-                }
+                ]
             },
             "launchOptions": {
               "defaultOptionIndex": 0,
@@ -207,13 +181,7 @@
                     "text": "30 cu/hour",
                     "tooltip": "The compute power rating for this cluster is 30 cu (compute units) per hour."
                   }
-                ],
-                "scheduler": {
-                    "type": "gridscheduler",
-                    "text": "SGE",
-                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
-                    "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
-                }
+                ]
             },
             "launchOptions": {
               "defaultOptionIndex": 0,
@@ -268,13 +236,7 @@
                     "text": "30 cu/hour",
                     "tooltip": "The compute power rating for this cluster is 30 cu (compute units) per hour."
                   }
-                ],
-                "scheduler": {
-                    "type": "slurm",
-                    "text": "Slurm",
-                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
-                    "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
-                }
+                ]
             },
             "launchOptions": {
               "defaultOptionIndex": 0,
@@ -329,13 +291,7 @@
                     "text": "70 cu/hour",
                     "tooltip": "The compute power rating for this cluster is 70 cu (compute units) per hour."
                   }
-                ],
-                "scheduler": {
-                    "type": "gridscheduler",
-                    "text": "SGE",
-                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/gridengine.png",
-                    "tooltip": "This cluster provides the Open Grid Scheduler (SGE) job scheduler."
-                }
+                ]
             },
             "launchOptions": {
               "defaultOptionIndex": 0,
@@ -390,13 +346,7 @@
                     "text": "70 cu/hour",
                     "tooltip": "The compute power rating for this cluster is 70 cu (compute units) per hour."
                   }
-                ],
-                "scheduler": {
-                    "type": "slurm",
-                    "text": "Slurm",
-                    "logoUrl": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightLaunch/Logos/slurm.png",
-                    "tooltip": "This cluster uses the Slurm Workload Manager job scheduler."
-                }
+                ]
             },
             "launchOptions": {
               "defaultOptionIndex": 0,

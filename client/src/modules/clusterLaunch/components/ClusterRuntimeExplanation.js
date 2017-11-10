@@ -5,12 +5,14 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const propTypes = {
   clusterSpecCostPerHour: PropTypes.number.isRequired,
   singleLaunchOption: PropTypes.bool.isRequired,
-  tokenCredits: PropTypes.number.isRequired,
+  tokenCredits: PropTypes.number,
+  useCredits: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -18,6 +20,8 @@ const defaultProps = {
 };
 
 
+// This fuzzy time algorithm here should be kept in sync with the fuzzy time
+// algorithm in server/app/commands/determine_runtime_command.rb
 function calculateRuntime(clusterSpecCost, tokenCredits) {
   const fractionalHours = tokenCredits / clusterSpecCost;
   const days = Math.trunc(fractionalHours / 24);
@@ -47,7 +51,22 @@ const ClusterRuntimeExplanation = ({
   clusterSpecCostPerHour,
   singleLaunchOption,
   tokenCredits,
+  useCredits,
 }) => {
+  if (useCredits) {
+    return (
+      <div>
+        <p>
+          Launching this cluster will consume the compute credits assigned to
+          your account.  It will continue running until either you terminate
+          it, or your account runs out of credits.  Once your account runs out
+          of credits, the cluster will be <strong>shut down
+            automatically</strong>.
+        </p>
+      </div>
+    );
+  }
+
   const runtime = calculateRuntime(clusterSpecCostPerHour, tokenCredits);
   let selections;
   if (singleLaunchOption) {

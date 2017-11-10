@@ -5,47 +5,64 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { combineReducers } from 'redux';
+import { loadingStates } from 'flight-reactware';
+
+import { reduceReducers } from '../../reducers/utils';
 
 import { LOADING, LOADED, FAILED } from './actionTypes';
 import { processClusterSpecs } from './processClusterSpecs';
 
 const initialState = {
-  error: undefined,
   file: undefined,
-  loading: true,
   specs: undefined,
   url: undefined,
 };
 
-export default function reducer(state = initialState, { payload, type }) {
-  switch (type) {
+function urlReducer(state, { payload, type }) {
+  if (type !== LOADING) { return state; }
 
-    case LOADING:
-      return {
-        ...state,
-        error: false,
-        file: payload.file,
-        loading: true,
-        url: payload.url,
-      };
+  return {
+    ...state,
+    file: payload.file,
+    url: payload.url,
+  };
+}
+
+function specsReducer(state = initialState, { payload, type }) {
+  switch (type) {
 
     case LOADED:
       return {
         ...state,
         specs: processClusterSpecs(payload.specs),
-        error: false,
-        loading: false,
       };
 
     case FAILED:
       return {
         ...state,
         specs: undefined,
-        error: payload.error,
-        loading: false,
       };
 
     default:
       return state;
   }
 }
+
+const mainReducer = reduceReducers(
+  urlReducer,
+  specsReducer,
+);
+
+const metaReducers = combineReducers({
+  [loadingStates.constants.NAME]: loadingStates.reducer({
+    pending: LOADING,
+    resolved: LOADED,
+    rejected: FAILED,
+  }),
+});
+
+export default combineReducers({
+  data: mainReducer,
+  meta: metaReducers,
+});

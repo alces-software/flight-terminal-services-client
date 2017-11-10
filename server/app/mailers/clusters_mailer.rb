@@ -65,6 +65,8 @@ class ClustersMailer < ApplicationMailer
   private
 
   def determine_runtime(launch_config)
+    return nil unless launch_config.using_token?
+
     DetermineRuntimeCommand.new(
       launch_config.launch_option,
       launch_config.token,

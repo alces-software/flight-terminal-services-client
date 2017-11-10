@@ -5,11 +5,10 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
-import classNames from 'classnames';
-import { Icon } from 'flight-common';
-
-import '../styles/Tip.scss'
+import React from 'react';
+import PropTypes from 'prop-types';
+import FontAwesome from 'react-fontawesome';
+import styled from 'styled-components';
 
 const tipType = PropTypes.oneOf(['success', 'error', 'delay', 'warning']);
 
@@ -20,16 +19,37 @@ const TipIcon = ({ noIcon, type }) => {
 
   switch (type) {
     case 'delay':
-      return <Icon name="spinner" size="2x" spin />;
+      return (
+        <FontAwesome
+          name="spinner"
+          size="2x"
+          spin
+        />
+      );
 
     case 'error':
-      return <Icon name="frown-o" size="2x" />;
+      return (
+        <FontAwesome
+          name="frown-o"
+          size="2x"
+        />
+      );
 
     case 'success':
-      return <Icon name="smile-o" size="2x" />;
+      return (
+        <FontAwesome
+          name="smile-o"
+          size="2x"
+        />
+      );
 
     case 'warning':
-      return <Icon name="meh-o" size="2x" />;
+      return (
+        <FontAwesome
+          name="meh-o"
+          size="2x"
+        />
+      );
 
     default:
       return null;
@@ -41,24 +61,51 @@ TipIcon.propTypes = {
   type: tipType,
 };
 
-const Tip = ({ noIcon, text, type, wide }) => {
-  const formTipClasses = classNames({
-    formTip: true,
-    [`formTip--${type}`]: type,
-    'formTip--wide': wide,
-  });
-  const formTipTextClasses = classNames({
-    'formTip-text': true,
-    'formTip-text--noIcon': noIcon === true,
-  });
+const Text = styled.span`
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.1;
 
+  width: ${props => props.wide && props.noIcon ? '100%' : 'calc(100% - 32px)'};
+
+  ${({ type, noIcon }) => {
+    if (type !== 'delay') { return undefined; }
+    return `padding-left: ${noIcon ? '0' : '0.1875rem'};`;
+  }}
+`;
+
+const Tip = styled(({ className, noIcon, text, type, wide }) => {
   return (
-    <div className={formTipClasses}>
-      <TipIcon noIcon={noIcon} type={type} />
-      <span className={formTipTextClasses}>{text}</span>
+    <div className={`${className} form-control-feedback`}>
+      <TipIcon
+        noIcon={noIcon}
+        type={type}
+      />
+      <Text
+        noIcon={noIcon}
+        type={type}
+        wide={wide}
+      >
+        {text}
+      </Text>
     </div>
   );
-};
+})`
+  line-height: 2.3;
+  vertical-align: middle;
+  position: relative;
+  margin-top: -5px;
+  display: inline-block;
+
+  ${props => props.wide && 'margin-right: -15px;'}
+
+  .fa {
+    vertical-align: middle;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+  }
+`;
 
 Tip.propTypes = {
   noIcon: PropTypes.bool,

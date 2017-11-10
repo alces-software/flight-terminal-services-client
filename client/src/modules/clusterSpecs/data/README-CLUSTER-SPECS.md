@@ -46,6 +46,7 @@ cluster spec object has four parts to it.
     "ui": {...},
     "fly": {...},
     "launchOptions": {...},
+    "features": {...},
 }
 ```
 
@@ -176,7 +177,7 @@ spec's `ui.icons` value.  E.g.,
 #### Fly section
 
 The `fly` section consists of the parameters given to the `fly` binary to
-launch the cluster. E.g.,
+launch the cluster, along with the version of `fly` to use. E.g.,
 
 ```
 {
@@ -184,6 +185,7 @@ launch the cluster. E.g.,
     "ui": {...},
 
     "fly": {
+      "version": "next" | "current",
       "args": [
         "--solo"
       ],
@@ -200,6 +202,11 @@ launch the cluster. E.g.,
 },
 
 ```
+
+The supported values for `version` are `"next"` and `"current"`, defaulting to
+`"current"` if not provided.  When `"next"` is specified the development
+version of `fly` is used, otherwise the most recently released version of
+`fly` is used.
 
 Valid values for the `solo` parameter directory override can be found by
 running `fly --create-parameter-directory foo ; cat foo/solo.yml`.
@@ -270,6 +277,38 @@ value has the same format as described above (Fly section).
 
 The `args` and `parameterDirectoryOverrides` in the launch option take
 precedence over those specified for the cluster spec itself.
+
+
+#### Features section
+
+The features section contains a description of which features the cluster spec
+supports.  At the time of writing, there are three supported features:
+`personalityData`, `forgeCollections` and `initialQueueConfiguration`.
+
+ - `personalityData` feature: personality data should be generated for this
+   cluster spec.  Defaults to true.
+
+ - `forgeCollections` feature: the user will be offered the option of
+   specifying which forge collections they wish installed when their cluster
+   launches.  Defaults to false.
+
+ - `initialQueueConfiguration` feature: the user will be offered the option of
+   specifying an initial queue configuration.  Defaults to false.
+
+```
+{
+    "key": UUID,
+    "ui": {...},
+    "launchOptions": {...},
+    "fly": {...},
+
+    "features": {
+      "personalityData": true | false,
+      "forgeCollections": true | false,
+      "initialQueueConfiguration": true | false
+    }
+}
+```
 
 
 
@@ -389,15 +428,18 @@ An example of a cluster specs json file with three cluster specs is given below.
           }
         }]
       },
+      "features": {
+        "personalityData": true,
+        "forgeCollections": true,
+        "initialQueueConfiguration": true
+      },
       "fly": {
         "args": [
-          "--solo"
+          "--domain", "launch-1",
         ],
         "parameterDirectoryOverrides": {
-          "solo": {
-            "AutoscalingPolicy": "disabled",
-            "SchedulerType": "gridscheduler",
-            "ComputeInstanceType": "gpu-1GPU-8C-15GB.small-g2.2xlarge"
+          "cluster-master": {
+            "SchedulerType": "gridscheduler"
           }
         }
       }

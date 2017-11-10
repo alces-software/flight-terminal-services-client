@@ -1,19 +1,10 @@
-/*=============================================================================
- * Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
- *
- * This file is part of Flight Launch.
- *
- * All rights reserved, see LICENSE.txt.
- *===========================================================================*/
+import { middleware } from 'flight-reactware';
 
-import { applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 
-import logger from './logger';
-
-const enhanceWithMiddleware = applyMiddleware(
+export default [
   thunk,
   logger,
-);
-
-export default enhanceWithMiddleware;
+  middleware,
+];

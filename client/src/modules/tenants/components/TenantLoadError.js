@@ -6,20 +6,29 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { MissingNotice } from 'flight-common';
 
+import { MissingNotice } from 'flight-reactware';
+
+import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 import { identifier } from '../selectors';
+
+const propTypes = {
+  tenantIdentifier: PropTypes.string.isRequired,
+};
 
 const TenantLoadError = ({ tenantIdentifier }) => (
   <MissingNotice title="Unable to load tenant">
     Unfortunately, the tenant <em>{tenantIdentifier}</em> cannot be loaded.
-    Please check the tenant name and try again.  Please visit our <a
-      href="https://community.alces-flight.com">Community Support Portal</a>{' '}
-    for further help.
+    Please check the tenant name and try again.  Please visit our{' '}
+    <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
+    {' '}for further help.
   </MissingNotice>
 );
+
+TenantLoadError.propTypes = propTypes;
 
 export default connect(createStructuredSelector({
   tenantIdentifier: identifier,

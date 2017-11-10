@@ -5,23 +5,26 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import WithBranding from './WithBranding';
 
 const propTypes = {
-  height: PropTypes.number,
-  width: PropTypes.number,
+  height: PropTypes.string,
+  width: PropTypes.string,
 };
 
+const hasLogo = (branding) =>
+  branding.logoUrl != null && branding.logoUrl !== '';
+
 const Logo = ({ height, width }) => (
-  <WithBranding requires={['logoUrl']}>
+  <WithBranding when={hasLogo}>
     {(branding) => (
       <img
-        className="card-title-logo"
-        role="presentation"
+        alt="Tenant logo"
         src={branding.logoUrl}
-        style={{height: height, width: width}}
+        style={{ height: height, width: width }}
       />
     )}
   </WithBranding>

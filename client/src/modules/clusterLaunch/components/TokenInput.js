@@ -5,27 +5,28 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Input from './ClusterFormInput';
+import Input from './Input';
 
 const propTypes = {
+  error: PropTypes.string,
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  error: PropTypes.string,
   value: PropTypes.string,
 };
 
 const TokenInput = ({ error, id, onChange, value }) => (
   <Input
     error={error}
-    id={`${id}-launch-token`}
-    name="launchToken"
-    onChange={onChange}
-    label="Enter your Flight Launch token"
-    value={value}
     help="A Flight Launch token allows you to try out Alces Flight Compute
     without incurring any charges."
+    id={`${id}-launch-token`}
+    label="Enter your Flight Launch token"
+    name="launchToken"
+    onChange={onChange}
+    value={value}
   />
 );
 

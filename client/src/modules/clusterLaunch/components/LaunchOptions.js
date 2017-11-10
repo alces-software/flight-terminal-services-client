@@ -5,17 +5,19 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { branch, compose, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { DelaySpinner } from '../../../components/delayedUntil';
+import { DelaySpinner } from 'flight-reactware';
 import tokens from '../../../modules/tokens';
 
 import ClusterRuntimeExplanation from './ClusterRuntimeExplanation';
 import LaunchOptionSwitch from './LaunchOptionSwitch';
 import LaunchOptionExplanation from './LaunchOptionExplanation';
+import SingleLaunchOption from './SingleLaunchOption';
 
 const launchOptionShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
@@ -34,31 +36,31 @@ const propTypes = {
     attributes: PropTypes.shape({
       credits: PropTypes.number.isRequired,
     }).isRequired
-  }).isRequired,
+  }),
+  useCredits: PropTypes.bool.isRequired,
 };
 
-const SingleLaunchOption = ({ clusterSpec, token }) => {
-  const selectedLaunchOption = clusterSpec.launchOptions.options[0];
-
-  return (
-    <ClusterRuntimeExplanation
-      clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
-      singleLaunchOption
-      tokenCredits={token.attributes.credits}
-    />
-  );
-};
-
-const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange }) => {
+const LaunchOptions = ({ clusterSpec,
+  token,
+  selectedLaunchOptionIndex,
+  onChange,
+  useCredits,
+}) => {
   if (clusterSpec.launchOptions.options.length < 2) {
-    return <SingleLaunchOption clusterSpec={clusterSpec} token={token} />;
+    return (
+      <SingleLaunchOption
+        clusterSpec={clusterSpec}
+        token={token}
+        useCredits={useCredits}
+      />
+    );
   }
 
   const standardOption = clusterSpec.launchOptions.options[0];
   const highOption = clusterSpec.launchOptions.options[1];
   const standardExplanation = <LaunchOptionExplanation option={standardOption} />;
   const highExplanation = <LaunchOptionExplanation option={highOption} />;
-  const selectedLaunchOption = selectedLaunchOptionIndex === 0 ? standardOption : highOption
+  const selectedLaunchOption = selectedLaunchOptionIndex === 0 ? standardOption : highOption;
 
   return (
     <div>
@@ -68,16 +70,18 @@ const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange
         then click "Next".
       </p>
       <LaunchOptionSwitch
-        label="Compute durability"
-        selectedLaunchOptionIndex={selectedLaunchOptionIndex}
-        onChange={onChange}
-        onText={highOption.name}
-        offText={standardOption.name}
         id={`LaunchOptionSwitch-${clusterSpec.key}`}
+        label="Compute durability"
+        offText={standardOption.name}
+        onChange={onChange}
+        // eslint-disable-next-line react/jsx-handler-names
+        onText={highOption.name}
+        selectedLaunchOptionIndex={selectedLaunchOptionIndex}
       />
       <ClusterRuntimeExplanation
         clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
-        tokenCredits={token.attributes.credits}
+        tokenCredits={token == null ? undefined : token.attributes.credits}
+        useCredits={useCredits}
       />
     </div>
   );
@@ -85,18 +89,19 @@ const LaunchOptions = ({ clusterSpec, token, selectedLaunchOptionIndex, onChange
 
 const mapStateToProps = createStructuredSelector({
   token: tokens.selectors.tokenFromName,
-  isLoading: tokens.selectors.isLoading,
-})
+  tokenIsLoading: tokens.selectors.isLoading,
+});
 
 const enhance = compose(
   connect(mapStateToProps),
 
   branch(
-    ({ token }) => token == null,
-    renderComponent(({ isLoading }) => (
+    ({ token, useCredits }) => !useCredits && token == null,
+    renderComponent(({ tokenIsLoading }) => (
       <div>
         {
-          isLoading ?
+          tokenIsLoading ?
+            // eslint-disable-next-line react/jsx-max-props-per-line
             <span>Loading token <DelaySpinner inline size="small" /></span> :
             <span>Failed to load token</span>
         }

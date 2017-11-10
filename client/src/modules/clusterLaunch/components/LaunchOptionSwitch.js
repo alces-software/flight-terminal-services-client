@@ -5,11 +5,31 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-import SwitchButton from '../../../components/SwitchButton';
+import { SwitchButton, SwitchButtonLabel } from 'flight-reactware';
 
-import '../styles/LaunchOptionSwitch.scss';
+const Wrapper = styled.div`
+  float: left;
+  margin-bottom: 5px;
+
+  ${SwitchButton} {
+    float: left;
+  }
+
+  ${SwitchButtonLabel} {
+      margin-bottom: 0;
+  }
+`;
+
+const Label = styled.span`
+  float: left;
+  height: 34px;
+  line-height:: 34px;
+  margin-right: 5px;
+`;
 
 const propTypes = {
   id: PropTypes.string.isRequired,
@@ -40,16 +60,17 @@ const LaunchOptionSwitch = ({
 
   return (
     <div>
-      <div className="flight-LaunchOptionSwitch">
-        <span className="flight-LaunchOptionSwitch-label">{label}</span>
+      <Wrapper>
+        <Label>{label}</Label>
         <SwitchButton
-          input={input}
           id={id}
+          input={input}
           label={label}
-          onText={onText}
           offText={offText}
+          onText={onText}
+          width="10rem"
         />
-      </div>
+      </Wrapper>
       <div className="clearfix" />
     </div>
   );

@@ -8,10 +8,30 @@
 
 // Import and export the public facing API for the onboarding module.
 
+import { jsonApi, apiRequest } from 'flight-reactware';
+
 import * as actions from './actions';
-import * as actionTypes from './actionTypes';
 import * as constants from './constants';
 import * as selectors from './selectors';
-import reducer from './reducer';
 
-export default { actions, actionTypes, constants, reducer, selectors };
+const indexes = [{
+  entityType: constants.NAME,
+  indexName: 'name',
+  indexAttribute: entity => entity.attributes.name,
+}];
+
+const loadingStatesConfig = {
+  resourceType: constants.NAME,
+  key: resource => resource.meta.loadingStates.key || resource.attributes.name,
+  pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
+  rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
+  resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
+};
+
+export default {
+  actions,
+  constants,
+  indexes,
+  loadingStatesConfig,
+  selectors,
+};

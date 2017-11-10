@@ -21,6 +21,8 @@ class BuildPersonalityDataCommand
 
   def generate_personality_data
     personality = {}.tap do |h|
+      h.merge!(generate_queues_data)
+      h.merge!(generate_collections_data)
       h.merge!(generate_compute_personality)
     end
     # Workaround bugs in clusterware's personality data handling.
@@ -28,27 +30,31 @@ class BuildPersonalityDataCommand
     personality.to_yaml.sub(/^---\n/, '')
   end
 
-  # Generate personality data required by `alces compute ...` commands.
-  def generate_compute_personality
-    hash = HashEmailCommand.new(@launch_config.email).perform
-    stack_name = "#{@launch_config.name}-#{hash}"
+  def generate_queues_data
+    return {} unless @launch_config.spec.feature(:initialQueueConfiguration)
+    return {} if @launch_config.queues.nil? || @launch_config.queues.empty?
+    {
+      'queues' => @launch_config.queues.to_hash
+    }
+  end
 
-    domain_arg_found = false
-    domain = nil
-    @launch_config.spec.args.each do |arg|
-      if domain_arg_found
-        domain = arg
-        break
-      end
-      if arg == '--domain' || arg == '-d'
-        domain_arg_found = true
-      end
-    end
+  def generate_collections_data
+    return {} unless @launch_config.spec.feature(:forgeCollections)
+    return {} if @launch_config.collection.nil?
+    {
+      'collections' => Array.wrap(@launch_config.collection)
+    }
+  end
+
+  def generate_compute_personality
+    attrs = Cluster.attributes_from_launch_config(@launch_config)
+    qualified_name = attrs[:qualified_name]
+    domain = attrs[:domain]
 
     {
       'compute' => {
-        'cluster' => stack_name,
-        'auth_user' => "#{stack_name}.#{domain}.alces.network",
+        'cluster' => qualified_name,
+        'auth_user' => "#{qualified_name}.#{domain}.alces.network",
       }
     }
   end
