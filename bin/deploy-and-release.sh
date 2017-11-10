@@ -27,6 +27,9 @@ main() {
     wait_for_confirmation
     promote_staging_to_production
 
+    header "Migrating production database"
+    migrate_production_database
+
     echo ""
     echo "Staging has been promoted to production."
     echo "Test that all is good and then we'll continue with tag creation and pushing"
@@ -79,6 +82,16 @@ promote_staging_to_production() {
 
     ssh ${dokku_server} \
         "sudo docker tag dokku/${staging_app} dokku/${production_app} ; dokku tags:deploy ${production_app} latest"
+}
+
+migrate_production_database() {
+    local dokku_server
+    local production_app
+    dokku_server=$( git remote get-url dokku-staging | cut -d@ -f2 | cut -d: -f1 )
+    production_app=$( git remote get-url dokku | cut -d: -f2 )
+
+    ssh ${dokku_server} \
+        "dokku run \"${production_app}\" rake db:migrate:status; dokku run \"${production_app}\" rake db:migrate"
 }
 
 run_merge_script() {
