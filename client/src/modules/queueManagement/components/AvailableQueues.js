@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { showModal } from '../actions';
 
 const propTypes = {
+  dispatch: PropTypes.func.isRequired,
   queueDescriptors: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,

@@ -45,7 +45,7 @@ export function toggleModal() {
     } else {
       dispatch(showModal());
     }
-  }
+  };
 }
 
 

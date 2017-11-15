@@ -26,6 +26,8 @@ const propTypes = {
       // }).isRequired,
     }),
   }),
+  showingModal: PropTypes.bool.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
 
 const QueueManagement = ({ cluster, showingModal, toggleModal }) => {
