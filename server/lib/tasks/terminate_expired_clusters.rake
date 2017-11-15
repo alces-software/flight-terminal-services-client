@@ -35,7 +35,9 @@ namespace :alces do
         threads.map(&:join)
       end
 
-      class Cluster < Struct.new(:region, :type, :name, :domain); end
+      # Don't name this Cluster or there will be a name clash with the Cluster
+      # model, and this rake task will break.
+      class ClusterStruct < Struct.new(:region, :type, :name, :domain); end
 
       REGIONS = %w(us-east-1 us-east-2 us-west-1 us-west-2 ca-central-1
                    ap-south-1 ap-northeast-2 ap-southeast-1 ap-southeast-2
@@ -91,7 +93,7 @@ namespace :alces do
           else
             Rails.logger.warn("Unknown cluster type #{cluster_type.inspect}. Not terminating.")
           end
-          Cluster.new(region, cluster_type, cluster_name, domain_name)
+          ClusterStruct.new(region, cluster_type, cluster_name, domain_name)
         end
       end
 
