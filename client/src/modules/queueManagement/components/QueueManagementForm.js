@@ -13,7 +13,7 @@ import { FormInput } from 'flight-reactware';
 import { compose } from 'recompose';
 
 import { NAME } from '../constants';
-import { createComputeQueueAction } from '../actions';
+import { createOrModifyQueue } from '../actions';
 
 const Input = ({
   autoFocus,
@@ -49,6 +49,12 @@ const QueueManagementForm = ({ queueDescriptor, handleSubmit }) => (
     onSubmit={handleSubmit}
   >
     <Input
+      component={Input}
+      label="Desired number of nodes"
+      name="desired"
+      queueName={queueDescriptor.name}
+    />
+    <Input
       autoFocus
       component={Input}
       label="Minimum number of nodes"
@@ -59,12 +65,6 @@ const QueueManagementForm = ({ queueDescriptor, handleSubmit }) => (
       component={Input}
       label="Maximum number of nodes"
       name="max"
-      queueName={queueDescriptor.name}
-    />
-    <Input
-      component={Input}
-      label="Desired number of nodes"
-      name="desired"
       queueName={queueDescriptor.name}
     />
   </Form>
@@ -91,7 +91,7 @@ const enhance = compose(
     form: NAME,
     onSubmit: (formValues, dispatch, props) => {
       const cluster = props.cluster;
-      dispatch(createComputeQueueAction(cluster, formValues));
+      dispatch(createOrModifyQueue(cluster, formValues));
     }
   })
 );

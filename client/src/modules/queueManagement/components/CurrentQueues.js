@@ -7,23 +7,61 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ScrollButton } from 'flight-reactware';
+import { Row, Col } from 'reactstrap';
+
+import CurrentQueueCard from './CurrentQueueCard';
 
 const propTypes = {
-  cluster: PropTypes.shape({
-    attributes: PropTypes.shape({
-    }),
-  }),
+  availableQueuesSectionTarget: PropTypes.string.isRequired,
+  // cluster: PropTypes.shape({
+  //   attributes: PropTypes.shape({
+  //   }),
+  // }),
+  // computeQueues: PropTypes.arrayOf(PropTypes.shape({
+  // })).isRequired,
 };
 
-const CurrentQueues = ({ cluster }) => {
+const CurrentQueues = ({
+  availableQueuesSectionTarget,
+  cluster,
+  currentQueues,
+}) => {
+  const { clusterName } = cluster.attributes;
+  if (!currentQueues.length) {
+    return (
+      <div>
+        <p>
+          Your cluster <em>{clusterName}</em> does not yet have any compute
+          queues configured.  You can{' '}
+          <ScrollButton
+            href={`#${availableQueuesSectionTarget}`}
+            tag="a"
+            to={availableQueuesSectionTarget}
+          >
+            view the available compute queues 
+          </ScrollButton>
+          {' '}and configure a queue now.  Once you have configured a queue,
+          it will be listed here.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <ul>
-        <li>XXX Load current queues from tracon and display here.</li>
-        <li>XXX Could have the client or server load it.</li>
-        <li>XXX Whichever is chosen needs the cluster auth available.</li>
-        <li>XXX Should probably be the server.</li>
-      </ul>
+      <Row>
+        {
+          currentQueues.map((queue) => (
+            <Col
+              key={queue.spec}
+              md={4}
+            >
+              <CurrentQueueCard queue={queue} />
+            </Col>
+          ))
+        }
+      </Row>
     </div>
   );
 };

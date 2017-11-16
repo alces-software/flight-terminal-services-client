@@ -22,7 +22,9 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         action: action.payload.action,
-        queueDescriptor: action.payload.queueDescriptor,
+        queueDescriptor: {
+          name: action.payload.queueSpecName,
+        },
         showingModal: true,
       };
 

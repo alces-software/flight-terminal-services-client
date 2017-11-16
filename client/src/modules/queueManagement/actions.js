@@ -10,23 +10,16 @@ import { jsonApi } from 'flight-reactware';
 import { MODAL_HIDDEN, MODAL_SHOWN } from './actionTypes';
 import * as selectors from './selectors';
 
-export function createComputeQueueAction(cluster, attributes) {
+// Create a ComputeQueueActionResource on the launch server which will
+// eventually be processed to create or modify the queue.
+export function createOrModifyQueue(cluster, attributes) {
   return (dispatch, getState) => {
     const queueDescriptor = selectors.queueDescriptor(getState());
     const queueAction = selectors.queueAction(getState());
 
-    const action = jsonApi.actions.createResource({
-      type: 'computeQueueActions',
-      attributes: {
-        ...attributes,
-        action: queueAction,
-        spec: queueDescriptor.name,
-      },
-      relationships: {
-        cluster: { data: { type: 'clusters', id: cluster.id } },
-      },
-      links: { self: '/api/v1/compute-queue-actions' },
-    });
+    const action = computeQueueActionCreator(
+      cluster, queueAction, queueDescriptor.name, attributes
+    );
 
     return dispatch(action)
       .then((response) => {
@@ -36,6 +29,29 @@ export function createComputeQueueAction(cluster, attributes) {
   };
 }
 
+export function removeQueue(cluster, queueSpecName) {
+  return computeQueueActionCreator(cluster, 'DELETE', queueSpecName);
+}
+
+function computeQueueActionCreator(
+  cluster,
+  queueAction,
+  queueSpecName,
+  attributes={},
+) {
+  return jsonApi.actions.createResource({
+    type: 'computeQueueActions',
+    attributes: {
+      ...attributes,
+      action: queueAction,
+      spec: queueSpecName,
+    },
+    relationships: {
+      launchCluster: { data: { type: 'launchClusters', id: cluster.id } },
+    },
+    links: { self: '/api/v1/compute-queue-actions' },
+  });
+}
 
 export function toggleModal() {
   return (dispatch, getState) => {
@@ -55,12 +71,12 @@ export function hideModal() {
   };
 }
 
-export function showModal(queueDescriptor, action) {
+export function showModal(queueSpecName, action) {
   return {
     type: MODAL_SHOWN,
     payload: {
       action,
-      queueDescriptor,
+      queueSpecName,
     },
   };
 }

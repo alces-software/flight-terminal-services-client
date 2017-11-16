@@ -24,7 +24,7 @@ const cards = [
     render: VpnIntro,
   },
   {
-    display: (cluster) => cluster.attributes.hasQueueManagement,
+    display: (cluster) => cluster.attributes.hasQueueManagement || cluster.attributes.hasQueueManangement,
     render: QueueManagementIntro,
   },
 ];

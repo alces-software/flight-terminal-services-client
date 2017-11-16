@@ -6,6 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
+// XXX Remove?
 export const queueDescriptors = [
   {
     name: 'general-pilot',

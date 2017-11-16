@@ -22,7 +22,9 @@ const enhance = compose(
   lifecycle({
     componentDidMount: function componentDidMount() {
       const { dispatch, hostname } = this.props;
+      console.log('hostname:', hostname);  // eslint-disable-line no-console
       const request = dispatch(actions.loadCluster(hostname));
+      console.log('request:', request);  // eslint-disable-line no-console
       if (request) {
         request.catch(error => error);
       }

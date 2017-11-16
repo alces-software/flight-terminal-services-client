@@ -1,23 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+
+import AccessIntroCard from './AccessIntroCard';
 
 const QueueManagementIntro = ({ hostname }) => (
-  <div>
-    <h4>
-      Cluster compute queue management
-    </h4>
+  <AccessIntroCard
+    buttonHref={`/cluster/${hostname}/queue-management`}
+    buttonText="Manage compute queues"
+    headerText="Cluster compute queue management"
+    iconName="cog"
+  >
     <p>
-      Your cluster has been configured with a VPN endpoint, which allows you
-      to securely access and share resources such as interactive sessions.
+      Your cluster has been configured to support management of its compute
+      queues through Flight Launch.  You can create, modify and remove compute
+      queues by visiting the queue management page.
     </p>
-    <p>
-      You can manage your cluster's compute queues by visting the{' '}
-      <Link to={`/cluster/${hostname}/queue-management`}>
-        queue management page
-      </Link>.
-    </p>
-  </div>
+  </AccessIntroCard>
 );
 
 QueueManagementIntro.propTypes = {
