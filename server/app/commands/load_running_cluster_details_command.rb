@@ -23,6 +23,14 @@ class LoadRunningClusterDetailsCommand
     @resource['attributes']['clusterName']
   end
 
+  def hostname
+    @resource['attributes']['hostname']
+  end
+
+  def ip_address
+    @resource['attributes']['ipAddress']
+  end
+
   def features
     @resource['attributes'].except(
       "clusterName",

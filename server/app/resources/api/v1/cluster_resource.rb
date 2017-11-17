@@ -16,11 +16,13 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
 
   attribute :available_compute_queues
   attribute :cluster_name
-  attribute :current_compute_queues
   attribute :consumes_credits
+  attribute :current_compute_queues
   attribute :domain
-  attribute :qualified_name
   attribute :features
+  attribute :hostname
+  attribute :ip_address
+  attribute :qualified_name
 
   def records_for(relation_name)
     case relation_name
@@ -45,6 +47,14 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
 
   def features
     running_cluster_details.features
+  end
+
+  def hostname
+    running_cluster_details.hostname
+  end
+
+  def ip_address
+    running_cluster_details.ip_address
   end
 
   private
