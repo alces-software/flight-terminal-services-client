@@ -7,50 +7,59 @@
  *===========================================================================*/
 import { jsonApi } from 'flight-reactware';
 
+import { LOAD_CLUSTER_REQUESTED } from './actionTypes';
 import { retrieval } from './selectors';
 
-export function loadCluster(hostname) {
-  // We need to include the type and the hostname attribute for the
-  // loadingStates module.
-  const resource = {
-    type: 'clusters',
-    links: {
-      self: `https://${hostname}/www/index.json`,
-    },
+// Load the cluster attributes defined on the running cluster.
+function loadAttributesFromRunningCluster(hostname) {
+  return {
+    type: LOAD_CLUSTER_REQUESTED,
     meta: {
-      loadingStates: {
-        key: hostname,
+      apiRequest: {
+        config: {
+          url: `https://${hostname}/www/index.json`,
+        },
+        skipAuthHeader: true,
       },
+      hostname: hostname,
     },
   };
+}
+
+// Load the cluster resource from the Flight Launch server.
+function loadClusterResource(clusterId, hostname) {
   return (dispatch, getState) => {
     const { initiated, rejected } = retrieval(getState(), { hostname });
     if (!initiated || rejected) {
+      const resource = {
+        type: 'clusters',
+        id: clusterId,
+        links: {
+          self: `/api/v1/clusters/${clusterId}`,
+        },
+        meta: {
+          loadingStates: {
+            key: clusterId
+          }
+        }
+      };
       const action = jsonApi.actions.loadResource(resource);
-      action.meta.apiRequest.skipAuthHeader = true;
-      return dispatch(action)
-        .then((resp) => {
-          const clusterId = resp.payload.data.data.id;
-
-          const action = jsonApi.actions.loadResource({
-            type: 'launchClusters',
-            id: clusterId,
-            links: {
-              self: `/api/v1/launch-clusters/${clusterId}`,
-            },
-            meta: {
-              loadingStates: {
-                key: hostname
-              }
-            }
-          });
-          return dispatch(action);
-        });
-
+      return dispatch(action);
       // return dispatchFakeActions(dispatch, hostname, resource);
     }
   };
 }
+
+export function loadCluster(hostname) {
+  return (dispatch, getState) => {
+    dispatch(loadAttributesFromRunningCluster(hostname))
+      .then((resp) => {
+        const clusterId = resp.payload.data.data.id;
+        return dispatch(loadClusterResource(clusterId));
+      });
+  };
+}
+
 
 // function dispatchFakeActions(dispatch, hostname, resource) {
 //   const previousAction = {

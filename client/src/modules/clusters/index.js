@@ -19,12 +19,12 @@ import reducer from './reducer';
 const indexes = [{
   entityType: constants.NAME,
   indexName: 'hostname',
-  indexAttribute: entity => entity.attributes.hostname,
+  indexAttribute: entity => entity.attributes && entity.attributes.hostname,
 }];
 
 const loadingStatesConfig = {
   resourceType: constants.NAME,
-  key: resource => resource.meta.loadingStates.key || resource.attributes.hostname,
+  key: resource => resource.id,
   pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
   rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
   resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),

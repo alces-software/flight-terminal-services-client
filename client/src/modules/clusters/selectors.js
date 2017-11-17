@@ -25,16 +25,21 @@ function hostnameFromPropsOrStore(state, props) {
   return props.hostname || hostname(state);
 }
 
+const hostnameIndex = selectorUtils.buildIndexSelector(NAME, 'hostname');
+
 export const retrieval = createSelector(
   jsonApiState,
   hostnameFromPropsOrStore,
+  hostnameIndex,
 
-  loadingStates.selectors.retrieval,
+  (state, hostname, index) => (
+    loadingStates.selectors.retrieval(state, index[hostname])
+  ),
 );
 
 export const currentCluster = createSelector(
   jsonApiData,
-  selectorUtils.buildIndexSelector(NAME, 'hostname'),
+  hostnameIndex,
   hostname,
 
   selectorUtils.resourceFromIndex,

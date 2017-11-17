@@ -16,15 +16,18 @@ const cards = [
     render: SshAccessIntro,
   },
   {
-    display: (cluster) => cluster.attributes.hasWebTerminal,
+    display: (cluster) => cluster.attributes.features.hasWebTerminal,
     render: TerminalIntro,
   },
   {
-    display: (cluster) => cluster.attributes.hasVpn,
+    display: (cluster) => cluster.attributes.features.hasVpn,
     render: VpnIntro,
   },
   {
-    display: (cluster) => cluster.attributes.hasQueueManagement || cluster.attributes.hasQueueManangement,
+    display: (cluster) => {
+      const features = cluster.attributes.features;
+      return features.hasQueueManagement || features.hasQueueManangement;
+    },
     render: QueueManagementIntro,
   },
 ];

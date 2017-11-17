@@ -42,12 +42,17 @@ const propTypes = {
 };
 
 const QueueManagementPage = ({
-  availableQueues,
+  // availableQueues,
   cluster,
-  currentQueues,
+  // currentQueues,
   showingModal,
   toggleModal,
 }) => {
+  const {
+    availableComputeQueues: availableQueues,
+    currentComputeQueues: currentQueues,
+  } = cluster.attributes;
+
   return (
     <Container>
       <PageHeading
@@ -91,25 +96,28 @@ const enhance = compose(
   clusters.withCluster,
 
   branch(
-    ({ cluster }) => !cluster.attributes.hasQueueManagement && !cluster.attributes.hasQueueManangement,
+    ({ cluster }) => {
+      const features = cluster.attributes.features;
+      return !features.hasQueueManagement && !features.hasQueueManangement;
+    },
     renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
   ),
 
-  connect(state => {
-    let availableComputeQueues = [];
-    let computeQueues = [];
-    const launchClustersState = state.entities.launchClusters;
-    if (launchClustersState != null) {
-      const launchCluster = launchClustersState.data[Object.keys(launchClustersState.data)[0]];
-      if (launchCluster != null && launchCluster.attributes != null) {
-        ({ availableComputeQueues, computeQueues } = launchCluster.attributes);
-      }
-    }
-    return {
-      availableQueues: availableComputeQueues,
-      currentQueues: computeQueues,
-    };
-  }),
+  // connect(state => {
+  //   let availableComputeQueues = [];
+  //   let computeQueues = [];
+  //   const launchClustersState = state.entities.launchClusters;
+  //   if (launchClustersState != null) {
+  //     const launchCluster = launchClustersState.data[Object.keys(launchClustersState.data)[0]];
+  //     if (launchCluster != null && launchCluster.attributes != null) {
+  //       ({ availableComputeQueues, computeQueues } = launchCluster.attributes);
+  //     }
+  //   }
+  //   return {
+  //     availableQueues: availableComputeQueues,
+  //     currentQueues: computeQueues,
+  //   };
+  // }),
 
   connect(
     createStructuredSelector({
