@@ -17,12 +17,12 @@ class Api::V1::LaunchClusterResource < Api::V1::ApplicationResource
   has_many :credit_usages
 
   attribute :available_compute_queues
-  attribute :compute_queues
+  attribute :cluster_name
+  attribute :current_compute_queues
   attribute :consumes_credits
   attribute :domain
   attribute :qualified_name
-
-  # attribute :tracon_auth_token
+  attribute :features
 
   def records_for(relation_name)
     case relation_name
@@ -33,28 +33,20 @@ class Api::V1::LaunchClusterResource < Api::V1::ApplicationResource
     end
   end
 
-  # def tracon_auth_token
-  #   Base64.strict_encode64("#{qualified_name}.#{domain}:#{@model.auth_token}")
-  # end
-
-  def compute_queues
-    uri = URI("#{tracon_base_url}/clusters/#{qualified_name}/queues")
-    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-      req = Net::HTTP::Get.new(uri)
-      req.basic_auth("#{qualified_name}.#{domain}", @model.auth_token)
-      response = http.request(req)
-      JSON.parse(response.body)
-    end
+  def available_compute_queues
+    tracon_cluster_details.available_queues
   end
 
-  def available_compute_queues
-    uri = URI("#{tracon_base_url}/queues")
-    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-      req = Net::HTTP::Get.new(uri)
-      req.basic_auth("#{qualified_name}.#{domain}", @model.auth_token)
-      response = http.request(req)
-      JSON.parse(response.body)
-    end
+  def cluster_name
+    running_cluster_details.cluster_name
+  end
+
+  def current_compute_queues
+    tracon_cluster_details.current_queues
+  end
+
+  def features
+    running_cluster_details.features
   end
 
   private
@@ -67,5 +59,23 @@ class Api::V1::LaunchClusterResource < Api::V1::ApplicationResource
     tracon_base_url = ENV['TRACON_BASE_URL']
     tracon_ip = `ip route show | awk '/default/ {print $3}'`.chomp
     tracon_base_url = "http://#{tracon_ip}:6000"
+  end
+
+  def tracon_cluster_details
+    return @tracon_command if @tracon_command
+
+    @tracon_command = LoadTraconClusterDetailsCommand.new(cluster: @model)
+    @tracon_command.perform
+    @tracon_command
+  end
+
+  def running_cluster_details
+    return @running_command if @running_command
+
+    @running_command = LoadRunningClusterDetailsCommand.new(
+      cluster_access_url: tracon_cluster_details.web_access_url
+    )
+    @running_command.perform
+    @running_command
   end
 end
