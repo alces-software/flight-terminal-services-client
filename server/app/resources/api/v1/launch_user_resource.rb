@@ -13,7 +13,7 @@ class Api::V1::LaunchUserResource < Api::V1::ApplicationResource
   attribute :email
   attribute :username
 
-  has_many :launch_clusters
+  has_many :clusters
   has_many :credit_usages
 
   filter :username

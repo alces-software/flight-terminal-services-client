@@ -15,9 +15,7 @@ class Api::V1::ComputeQueueActionResource < Api::V1::ApplicationResource
   attribute :spec
   attribute :status
 
-  has_one :launch_cluster,
-    relation_name: 'cluster',
-    foreign_key: 'cluster_id'
+  has_one :cluster
 
   filter :status
   filter :action

@@ -6,9 +6,7 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-class Api::V1::LaunchClusterResource < Api::V1::ApplicationResource
-  model_name 'Cluster'
-
+class Api::V1::ClusterResource < Api::V1::ApplicationResource
   has_one :owner,
     class_name: 'LaunchUser',
     relation_name: 'user',

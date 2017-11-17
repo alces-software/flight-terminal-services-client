@@ -5,5 +5,5 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
-class Api::V1::LaunchClustersController < Api::V1::ApplicationResourceController
+class Api::V1::ClustersController < Api::V1::ApplicationResourceController
 end

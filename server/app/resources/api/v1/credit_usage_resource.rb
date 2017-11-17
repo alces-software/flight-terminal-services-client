@@ -13,7 +13,7 @@ class Api::V1::CreditUsageResource < Api::V1::ApplicationResource
   attribute :end_at
   attribute :start_at
 
-  has_one :launch_cluster
+  has_one :cluster
 
   after_create :finalize_current_credit_usage
 
