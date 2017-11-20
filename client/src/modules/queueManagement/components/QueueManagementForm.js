@@ -7,6 +7,7 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Form } from 'reactstrap';
 import { Field, reduxForm, propTypes as formPropTypes } from 'redux-form';
 import { FormInput } from 'flight-reactware';
@@ -86,12 +87,37 @@ QueueManagementForm.propTypes = {
 
 
 const enhance = compose(
+  connect(
+    (state, { cluster, queueSpec }) => {
+      const currentQueue = cluster.attributes.currentComputeQueues.find(
+        q => q.spec === queueSpec.name
+      );
+      if (currentQueue == null) {
+        return {
+          initialValues: {
+            desired: 0,
+            max: 10,
+            min: 0,
+          }
+        };
+      }
+      const { current, min, max } = currentQueue;
+      return {
+        initialValues: {
+          desired: current,
+          max,
+          min,
+        },
+      };
+    },
+  ),
+
   reduxForm({
     destroyOnUnmount: false,
     form: NAME,
     onSubmit: (formValues, dispatch, props) => {
       const cluster = props.cluster;
-      dispatch(createOrModifyQueue(cluster, formValues));
+      return dispatch(createOrModifyQueue(cluster, formValues));
     }
   })
 );

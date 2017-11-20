@@ -41,7 +41,7 @@ SubmitButton.propTypes = {
 const enhance = compose(
   connect(
     state => ({
-      editing: selectors.queueAction(state) == 'UPDATE',
+      editing: selectors.queueAction(state) == 'MODIFY',
     }),
     {
       submit: () => submitReduxForm(formName),
@@ -49,7 +49,6 @@ const enhance = compose(
   ),
 
   reduxForm({
-    destroyOnUnmount: !module.hot,
     form: formName,
   }),
 );
