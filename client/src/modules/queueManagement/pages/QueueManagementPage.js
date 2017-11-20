@@ -28,25 +28,24 @@ const sections = {
 };
 
 const propTypes = {
+  availableQueues: PropTypes.array.isRequired,
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
     }),
   }),
+  currentQueues: PropTypes.array.isRequired,
   showingModal: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
 };
 
 const QueueManagementPage = ({
+  availableQueues,
   cluster,
+  currentQueues,
   showingModal,
   toggleModal,
 }) => {
-  const {
-    availableComputeQueues: availableQueues,
-    currentComputeQueues: currentQueues,
-  } = cluster.attributes;
-
   return (
     <Container>
       <PageHeading
@@ -73,6 +72,7 @@ const QueueManagementPage = ({
         <AvailableQueues
           availableQueues={availableQueues}
           cluster={cluster}
+          currentQueues={currentQueues}
         />
       </Section>
       <QueueManagementFormModal
@@ -99,6 +99,8 @@ const enhance = compose(
 
   connect(
     createStructuredSelector({
+      availableQueues: selectors.availableQueues,
+      currentQueues: selectors.currentQueues,
       showingModal: selectors.showingModal,
     }),
     { toggleModal: actions.toggleModal }

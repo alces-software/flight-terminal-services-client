@@ -5,6 +5,8 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { createSelector } from 'reselect';
+
 import clusters from '../../modules/clusters';
 
 import { NAME } from './constants';
@@ -24,3 +26,22 @@ export function queueAction(state) {
 }
 
 export const retrieval = clusters.selectors.relationshipRetrieval('computeQueueActions');
+
+export const currentQueues = createSelector(
+  clusters.selectors.currentCluster,
+
+  (cluster) => cluster.attributes.currentComputeQueues,
+);
+
+export const availableQueues = createSelector(
+  clusters.selectors.currentCluster,
+  currentQueues,
+
+  (cluster, current) => {
+    const { availableComputeQueues } = cluster.attributes;
+    const currentQueueNames = current.map(q => q.spec);
+    const availableQueues = availableComputeQueues
+      .filter(q => !currentQueueNames.includes(q.name));
+    return availableQueues;
+  }
+);
