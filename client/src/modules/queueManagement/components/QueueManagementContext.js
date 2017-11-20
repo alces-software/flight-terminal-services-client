@@ -1,4 +1,4 @@
-import { branch, compose, lifecycle } from 'recompose';
+import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { renderRoutes } from 'react-router-config';
@@ -26,6 +26,7 @@ const enhance = compose(
   ),
 
   // XXX we should probably branch here.  Loading the cluster may have failed.
+  // Or perhaps we should use withCluster.
 
   lifecycle({
     componentDidMount: function componentDidMount() {
@@ -36,6 +37,8 @@ const enhance = compose(
       }
     },
   }),
+
+  // XXX we should probably branch here.  Loading the cluster may have failed.
 
   showSpinnerUntil(
     ({ queueRetrieval }) => {

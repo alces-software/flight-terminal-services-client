@@ -8,18 +8,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'reactstrap';
-import { connect } from 'react-redux';
 
 import AvailableQueueCard from './AvailableQueueCard';
 
 const propTypes = {
-  // dispatch: PropTypes.func.isRequired,
-  // availableQueues: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     name: PropTypes.string.isRequired,
-  //     description: PropTypes.string.isRequired,
-  //   })
-  // ).isRequired,
+  availableQueues: PropTypes.object.isRequired,
+  cluster: PropTypes.shape({
+    attributes: PropTypes.shape({
+      clusterName: PropTypes.string.isRequired,
+    }),
+  }),
 };
 
 const AvailableQueues = ({ availableQueues, cluster }) => {

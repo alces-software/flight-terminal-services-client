@@ -28,23 +28,17 @@ const sections = {
 };
 
 const propTypes = {
-  // availableQueues: PropTypes.arrayOf(PropTypes.shape({
-  // })).isRequired,
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
-      // queueManagement: PropTypes.shape({
-      // }).isRequired,
     }),
   }),
-  // computeQueues: PropTypes.arrayOf(PropTypes.shape({
-  // })).isRequired,
+  showingModal: PropTypes.bool.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
 
 const QueueManagementPage = ({
-  // availableQueues,
   cluster,
-  // currentQueues,
   showingModal,
   toggleModal,
 }) => {

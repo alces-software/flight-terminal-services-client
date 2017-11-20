@@ -53,7 +53,7 @@ export function loadCluster(hostname) {
           return dispatch(loadClusterResource(clusterId, hostname));
         });
     };
-  }
+  };
 }
 
 

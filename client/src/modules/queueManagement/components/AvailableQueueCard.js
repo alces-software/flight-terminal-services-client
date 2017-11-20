@@ -7,10 +7,11 @@ import { connect } from 'react-redux';
 import { showQueueManagementForm } from '../actions';
 
 const propTypes = {
-  // config: PropTypes.shape({
-  //   url: PropTypes.string.isRequired,
-  //   os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
-  // }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  queue: PropTypes.shape({
+    description: PropTypes.string.isRequired,
+  }).isRequired,
+  queueName: PropTypes.string.isRequired,
 };
 
 

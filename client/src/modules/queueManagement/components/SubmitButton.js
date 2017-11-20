@@ -41,7 +41,7 @@ SubmitButton.propTypes = {
 const enhance = compose(
   connect(
     state => ({
-      editing: selectors.queueAction(state) == 'MODIFY',
+      editing: selectors.queueAction(state) === 'MODIFY',
     }),
     {
       submit: () => submitReduxForm(formName),

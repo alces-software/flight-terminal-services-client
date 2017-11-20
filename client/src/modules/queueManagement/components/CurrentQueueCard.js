@@ -11,13 +11,16 @@ import {
 import FontAwesome from 'react-fontawesome';
 import { connect } from 'react-redux';
 
-import { showQueueManagementForm } from '../actions';
+import { removeQueue, showQueueManagementForm } from '../actions';
 
 const propTypes = {
-  // config: PropTypes.shape({
-  //   url: PropTypes.string.isRequired,
-  //   os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
-  // }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  queue: PropTypes.shape({
+    current: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    min: PropTypes.number.isRequired,
+    spec: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 
@@ -40,7 +43,7 @@ const CurrentQueueCard = ({ dispatch, queue }) => (
         </Button>
         <Button
           color="primary"
-          onClick={() => dispatch(removeQueue(cluster, queue.spec))}
+          onClick={() => dispatch(removeQueue(queue.spec))}
         >
           <FontAwesome name="trash" /> Remove
         </Button>

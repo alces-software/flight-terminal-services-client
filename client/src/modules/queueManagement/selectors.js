@@ -5,8 +5,6 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { createSelector } from 'reselect';
-
 import clusters from '../../modules/clusters';
 
 import { NAME } from './constants';

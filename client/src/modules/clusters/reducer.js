@@ -5,7 +5,6 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { jsonApi } from 'flight-reactware';
 import { LOAD_CLUSTER_REQUESTED } from './actionTypes';
 
 const initialState = {

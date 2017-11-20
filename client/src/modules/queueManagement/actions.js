@@ -7,6 +7,8 @@
  *===========================================================================*/
 import { jsonApi } from 'flight-reactware';
 
+import clusters from '../../modules/clusters';
+
 import { MODAL_HIDDEN, MODAL_SHOWN } from './actionTypes';
 import * as selectors from './selectors';
 
@@ -23,13 +25,19 @@ export function createOrModifyQueue(cluster, attributes) {
 
     return dispatch(action)
       .then(() => {
+        dispatch(loadComputeQueueActions(cluster, { force: true }));
+      })
+      .then(() => {
         dispatch(hideQueueManagementForm());
       });
   };
 }
 
-export function removeQueue(cluster, queueSpecName) {
-  return computeQueueActionCreator(cluster, 'DELETE', queueSpecName);
+export function removeQueue(queueSpecName) {
+  return (dispatch, getState) => {
+    const cluster = clusters.selectors.currentCluster(getState());
+    dispatch(computeQueueActionCreator(cluster, 'DELETE', queueSpecName));
+  };
 }
 
 function computeQueueActionCreator(
@@ -95,5 +103,5 @@ export function loadComputeQueueActions(cluster, { force }={ force: false }) {
       });
       return dispatch(action);
     }
-  }
+  };
 }

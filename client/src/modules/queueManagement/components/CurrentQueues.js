@@ -14,12 +14,14 @@ import CurrentQueueCard from './CurrentQueueCard';
 
 const propTypes = {
   availableQueuesSectionTarget: PropTypes.string.isRequired,
-  // cluster: PropTypes.shape({
-  //   attributes: PropTypes.shape({
-  //   }),
-  // }),
-  // computeQueues: PropTypes.arrayOf(PropTypes.shape({
-  // })).isRequired,
+  cluster: PropTypes.shape({
+    attributes: PropTypes.shape({
+      clusterName: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  currentQueues: PropTypes.arrayOf(PropTypes.shape({
+    spec: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 const CurrentQueues = ({
