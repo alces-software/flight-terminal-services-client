@@ -12,7 +12,9 @@ import { Row, Col } from 'reactstrap';
 import AvailableQueueCard from './AvailableQueueCard';
 
 const propTypes = {
-  availableQueues: PropTypes.object.isRequired,
+  availableQueues: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  })).isRequired,
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
@@ -32,15 +34,12 @@ const AvailableQueues = ({ availableQueues, cluster }) => {
       </p>
       <Row>
         {
-          Object.keys(availableQueues).map((queueSpec) => (
+          availableQueues.map(queueSpec => (
             <Col
-              key={queueSpec}
+              key={queueSpec.name}
               md={4}
             >
-              <AvailableQueueCard
-                queue={availableQueues[queueSpec]}
-                queueName={queueSpec}
-              />
+              <AvailableQueueCard queue={queueSpec} />
             </Col>
           ))
         }

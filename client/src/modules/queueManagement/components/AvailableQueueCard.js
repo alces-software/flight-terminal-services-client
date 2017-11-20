@@ -10,15 +10,15 @@ const propTypes = {
   dispatch: PropTypes.func.isRequired,
   queue: PropTypes.shape({
     description: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
   }).isRequired,
-  queueName: PropTypes.string.isRequired,
 };
 
 
-const AvailableQueueCard = ({ dispatch, queue, queueName }) => (
+const AvailableQueueCard = ({ dispatch, queue }) => (
   <Card>
     <CardHeader>
-      {queueName}
+      {queue.name}
     </CardHeader>
     <CardBlock>
       <CardText>
@@ -27,7 +27,7 @@ const AvailableQueueCard = ({ dispatch, queue, queueName }) => (
       <div className="text-center">
         <Button
           color="primary"
-          onClick={() => dispatch(showQueueManagementForm(queueName, 'CREATE'))}
+          onClick={() => dispatch(showQueueManagementForm(queue.name, 'CREATE'))}
         >
           <FontAwesome name="cog" /> Configure
         </Button>

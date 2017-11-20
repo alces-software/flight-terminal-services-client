@@ -28,12 +28,16 @@ class LoadTraconClusterDetailsCommand
 
   def available_queues
     Alces.app.logger.info("Requesting tracon available queue details for cluster #{fqdn}")
-    @available_queues = make_request(available_queues_uri)
+    @available_queues = make_request(available_queues_uri).reduce([]) do |a, q|
+      a.push({name: q[0], description: q[1]['description']})
+    end
   end
 
   def current_queues
     Alces.app.logger.info("Requesting tracon current queue details for cluster #{fqdn}")
-    @current_queues = make_request(current_queues_uri)
+    @current_queues = make_request(current_queues_uri).map do |q|
+      q.slice('current', 'max', 'min', 'spec')
+    end
   end
 
   private
