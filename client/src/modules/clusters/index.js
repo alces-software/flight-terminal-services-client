@@ -24,10 +24,22 @@ const indexes = [{
 
 const loadingStatesConfig = {
   resourceType: constants.NAME,
-  key: resource => resource.meta.loadingStates.key || resource.attributes.hostname,
-  pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
-  rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
-  resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
+  key: resource => {
+    if (resource.meta.loadingStates != null) {
+      return resource.meta.loadingStates.key;
+    }
+    return resource.attributes.hostname;
+  },
+  self: {
+    pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
+    rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
+    resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
+  },
+  relationship: {
+    pending: jsonApi.actionTypes.RELATION_REQUESTED,
+    rejected: apiRequest.rejected(jsonApi.actionTypes.RELATION_REQUESTED),
+    resolved: apiRequest.resolved(jsonApi.actionTypes.RELATION_REQUESTED),
+  },
 };
 
 export default {

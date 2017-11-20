@@ -80,3 +80,19 @@ export function showQueueManagementForm(queueSpecName, action) {
     },
   };
 }
+
+export function loadComputeQueueActions(cluster) {
+  return (dispatch, getState) => {
+    const { initiated, rejected } = selectors.retrieval(
+      getState(), { hostname: cluster.attributes.hostname }
+    );
+    if (!initiated || rejected) {
+      const action = jsonApi.actions.loadRelationshipAndLinkageData({
+        source: cluster,
+        relationName: 'computeQueueActions',
+        params: {},
+      });
+      return dispatch(action);
+    }
+  }
+}

@@ -34,6 +34,14 @@ export const retrieval = createSelector(
   loadingStates.selectors.retrieval,
 );
 
+export const relationshipRetrieval = relationName => createSelector(
+  jsonApiState,
+  hostnameFromPropsOrStore,
+  () => relationName,
+
+  loadingStates.selectors.relationshipRetrieval,
+);
+
 export const currentCluster = createSelector(
   jsonApiData,
   hostnameIndex,

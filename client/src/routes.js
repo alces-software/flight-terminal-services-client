@@ -85,10 +85,16 @@ const routes = [
             pageKey: 'Access',
           },
           {
+            component: queueManagement.QueueManagementContext,
             path: '/cluster/:hostname/queue-management',
-            component: queueManagement.pages.QueueManagement,
-            title: 'Queue Management',
-            pageKey: 'Access',
+            routes: [
+              {
+                path: '*',
+                component: queueManagement.pages.QueueManagement,
+                title: 'Queue Management',
+                pageKey: 'Access',
+              },
+            ]
           },
           {
             path: '/cluster/:hostname?',

@@ -5,6 +5,10 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { createSelector } from 'reselect';
+
+import clusters from '../../modules/clusters';
+
 import { NAME } from './constants';
 
 const stateSlice = state => state[NAME];
@@ -20,3 +24,5 @@ export function queueDescriptor(state) {
 export function queueAction(state) {
   return stateSlice(state).action;
 }
+
+export const retrieval = clusters.selectors.relationshipRetrieval('computeQueueActions');
