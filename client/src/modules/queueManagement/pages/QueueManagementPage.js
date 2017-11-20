@@ -103,22 +103,6 @@ const enhance = compose(
     renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
   ),
 
-  // connect(state => {
-  //   let availableComputeQueues = [];
-  //   let computeQueues = [];
-  //   const launchClustersState = state.entities.launchClusters;
-  //   if (launchClustersState != null) {
-  //     const launchCluster = launchClustersState.data[Object.keys(launchClustersState.data)[0]];
-  //     if (launchCluster != null && launchCluster.attributes != null) {
-  //       ({ availableComputeQueues, computeQueues } = launchCluster.attributes);
-  //     }
-  //   }
-  //   return {
-  //     availableQueues: availableComputeQueues,
-  //     currentQueues: computeQueues,
-  //   };
-  // }),
-
   connect(
     createStructuredSelector({
       showingModal: selectors.showingModal,
