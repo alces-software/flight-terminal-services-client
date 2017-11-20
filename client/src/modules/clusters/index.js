@@ -24,7 +24,7 @@ const indexes = [{
 
 const loadingStatesConfig = {
   resourceType: constants.NAME,
-  key: resource => resource.id,
+  key: resource => resource.meta.loadingStates.key || resource.attributes.hostname,
   pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
   rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
   resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),

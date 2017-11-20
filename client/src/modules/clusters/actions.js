@@ -28,36 +28,32 @@ function loadAttributesFromRunningCluster(hostname) {
 
 // Load the cluster resource from the Flight Launch server.
 function loadClusterResource(clusterId, hostname) {
-  return (dispatch, getState) => {
-    const { initiated, rejected } = retrieval(getState(), { hostname });
-    if (!initiated || rejected) {
-      const resource = {
-        type: 'clusters',
-        id: clusterId,
-        links: {
-          self: `/api/v1/clusters/${clusterId}`,
-        },
-        meta: {
-          loadingStates: {
-            key: clusterId
-          }
-        }
-      };
-      const action = jsonApi.actions.loadResource(resource);
-      return dispatch(action);
-      // return dispatchFakeActions(dispatch, hostname, resource);
+  const resource = {
+    type: 'clusters',
+    id: clusterId,
+    links: {
+      self: `/api/v1/clusters/${clusterId}`,
+    },
+    meta: {
+      loadingStates: {
+        key: hostname
+      }
     }
   };
+  return jsonApi.actions.loadResource(resource);
 }
 
 export function loadCluster(hostname) {
   return (dispatch, getState) => {
-    dispatch(loadAttributesFromRunningCluster(hostname))
-      .then((resp) => {
-        const clusterId = resp.payload.data.data.id;
-        return dispatch(loadClusterResource(clusterId));
-      });
-  };
+    const { initiated, rejected } = retrieval(getState(), { hostname });
+    if (!initiated || rejected) {
+      dispatch(loadAttributesFromRunningCluster(hostname))
+        .then((resp) => {
+          const clusterId = resp.payload.data.data.id;
+          return dispatch(loadClusterResource(clusterId, hostname));
+        });
+    };
+  }
 }
 
 

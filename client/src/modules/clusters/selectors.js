@@ -30,11 +30,8 @@ const hostnameIndex = selectorUtils.buildIndexSelector(NAME, 'hostname');
 export const retrieval = createSelector(
   jsonApiState,
   hostnameFromPropsOrStore,
-  hostnameIndex,
 
-  (state, hostname, index) => (
-    loadingStates.selectors.retrieval(state, index[hostname])
-  ),
+  loadingStates.selectors.retrieval,
 );
 
 export const currentCluster = createSelector(
