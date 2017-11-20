@@ -14,17 +14,16 @@ import * as selectors from './selectors';
 // eventually be processed to create or modify the queue.
 export function createOrModifyQueue(cluster, attributes) {
   return (dispatch, getState) => {
-    const queueDescriptor = selectors.queueDescriptor(getState());
+    const queueSpec = selectors.queueSpec(getState());
     const queueAction = selectors.queueAction(getState());
 
     const action = computeQueueActionCreator(
-      cluster, queueAction, queueDescriptor.name, attributes
+      cluster, queueAction, queueSpec.name, attributes
     );
 
     return dispatch(action)
-      .then((response) => {
+      .then(() => {
         dispatch(hideQueueManagementForm());
-        return response;
       });
   };
 }
@@ -81,16 +80,18 @@ export function showQueueManagementForm(queueSpecName, action) {
   };
 }
 
-export function loadComputeQueueActions(cluster) {
+export function loadComputeQueueActions(cluster, { force }={ force: false }) {
   return (dispatch, getState) => {
     const { initiated, rejected } = selectors.retrieval(
       getState(), { hostname: cluster.attributes.hostname }
     );
-    if (!initiated || rejected) {
+    if (force || !initiated || rejected) {
       const action = jsonApi.actions.loadRelationshipAndLinkageData({
         source: cluster,
         relationName: 'computeQueueActions',
-        params: {},
+        params: {
+          'filter[status]': 'PENDING,IN_PROGRESS'
+        },
       });
       return dispatch(action);
     }

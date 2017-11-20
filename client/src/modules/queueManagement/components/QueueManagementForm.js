@@ -44,7 +44,7 @@ Input.propTypes = {
   value: PropTypes.number,
 };
 
-const QueueManagementForm = ({ queueDescriptor, handleSubmit }) => (
+const QueueManagementForm = ({ queueSpec, handleSubmit }) => (
   <Form
     onSubmit={handleSubmit}
   >
@@ -52,20 +52,20 @@ const QueueManagementForm = ({ queueDescriptor, handleSubmit }) => (
       component={Input}
       label="Desired number of nodes"
       name="desired"
-      queueName={queueDescriptor.name}
+      queueName={queueSpec.name}
     />
     <Input
       autoFocus
       component={Input}
       label="Minimum number of nodes"
       name="min"
-      queueName={queueDescriptor.name}
+      queueName={queueSpec.name}
     />
     <Input
       component={Input}
       label="Maximum number of nodes"
       name="max"
-      queueName={queueDescriptor.name}
+      queueName={queueSpec.name}
     />
   </Form>
 );
@@ -79,7 +79,7 @@ QueueManagementForm.propTypes = {
       // }).isRequired,
     }),
   }),
-  queueDescriptor: PropTypes.shape({
+  queueSpec: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
 };

@@ -13,7 +13,7 @@ const initialState = {
   // The queue action either CREATE or MODIFY.
   action: undefined,
   // The queue being created or modified.
-  queueDescriptor: undefined,
+  queueSpec: undefined,
 };
 
 export default function reducer(state = initialState, action) {
@@ -22,7 +22,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         action: action.payload.action,
-        queueDescriptor: {
+        queueSpec: {
           name: action.payload.queueSpecName,
         },
         showingModal: true,

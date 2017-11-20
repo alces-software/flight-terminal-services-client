@@ -17,8 +17,8 @@ export function showingModal(state) {
   return stateSlice(state).showingModal;
 }
 
-export function queueDescriptor(state) {
-  return stateSlice(state).queueDescriptor;
+export function queueSpec(state) {
+  return stateSlice(state).queueSpec;
 }
 
 export function queueAction(state) {
