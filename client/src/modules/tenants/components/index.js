@@ -10,5 +10,6 @@
 // Any components which are intended to only be used internally to the
 // onboarding module should not be included here.
 import LoadError from './TenantLoadError';
+import Context from './TenantContext';
 
-export { LoadError };
+export { Context, LoadError };

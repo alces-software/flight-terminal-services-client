@@ -2,8 +2,8 @@ import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 
-import clusterSpecs from '../modules/clusterSpecs';
-import tenants from '../modules/tenants';
+import clusterSpecs from '../../../modules/clusterSpecs';
+import { loadTenant } from '../actions';
 
 const TenantContext = ({ route }) => renderRoutes(route.routes);
 
@@ -22,7 +22,7 @@ const enhance = compose(
   lifecycle({
     componentDidMount: function() {
       const tenantIdentifier = this.props.match.params.tenantIdentifier;
-      this.props.dispatch(tenants.actions.loadTenant(tenantIdentifier))
+      this.props.dispatch(loadTenant(tenantIdentifier))
         .then(() => {
           const specsFile = getClusterSpecsFile(this.props.location);
           this.props.dispatch(clusterSpecs.actions.loadClusterSpecs(specsFile));
