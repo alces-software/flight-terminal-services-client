@@ -11,7 +11,7 @@ import {
 import FontAwesome from 'react-fontawesome';
 import { connect } from 'react-redux';
 
-import { showModal } from '../actions';
+import { showQueueManagementForm } from '../actions';
 
 const propTypes = {
   // config: PropTypes.shape({
@@ -34,7 +34,7 @@ const CurrentQueueCard = ({ dispatch, queue }) => (
         <Button
           className="mr-1"
           color="primary"
-          onClick={() => dispatch(showModal(queue.spec, 'MODIFY'))}
+          onClick={() => dispatch(showQueueManagementForm(queue.spec, 'MODIFY'))}
         >
           <FontAwesome name="cog" /> Modify
         </Button>

@@ -4,7 +4,7 @@ import { Button, Card, CardBlock, CardHeader, CardText } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import { connect } from 'react-redux';
 
-import { showModal } from '../actions';
+import { showQueueManagementForm } from '../actions';
 
 const propTypes = {
   // config: PropTypes.shape({
@@ -17,9 +17,6 @@ const propTypes = {
 const AvailableQueueCard = ({ dispatch, queue, queueName }) => (
   <Card>
     <CardHeader>
-      {/*
-      <FontAwesome name={iconName[config.os]} />{' '}
-      */}
       {queueName}
     </CardHeader>
     <CardBlock>
@@ -29,8 +26,7 @@ const AvailableQueueCard = ({ dispatch, queue, queueName }) => (
       <div className="text-center">
         <Button
           color="primary"
-          // href={config.url}
-          onClick={() => dispatch(showModal(queueName, 'CREATE'))}
+          onClick={() => dispatch(showQueueManagementForm(queueName, 'CREATE'))}
         >
           <FontAwesome name="cog" /> Configure
         </Button>

@@ -24,23 +24,13 @@ const propTypes = {
 
 const AvailableQueues = ({ availableQueues, cluster }) => {
   const { clusterName } = cluster.attributes;
-  // const descriptions = queueDescriptors.map(descriptor => (
-  //   <div key={descriptor.name}>
-  //     <strong>{descriptor.name}</strong>
-  //     <p>{descriptor.description}</p>
-  //     <Button onClick={() => dispatch(showModal(descriptor, 'CREATE'))}>
-  //       Create queue
-  //     </Button>
-  //     <Button onClick={() => dispatch(showModal(descriptor, 'MODIFY'))}>
-  //       Modify queue
-  //     </Button>
-  //   </div>
-  // ));
-
   return (
     <div>
       <p>
-        Your cluster <em>{clusterName}</em> supports the following queues:
+        The queues supported by <em>{clusterName}</em> are shown below.  To
+        configure a queue for your cluster, click on the queue's "Configure"
+        button, select the desired, minimum and maximum nodes that the queue
+        should have and then click "Add to cluster".
       </p>
       <Row>
         {

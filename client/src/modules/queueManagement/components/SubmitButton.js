@@ -13,7 +13,7 @@ import { Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-// import { cluster as formName } from '../../forms/names';
+import * as selectors from '../selectors';
 
 // XXX take as param?
 const formName = 'queueManagement';
@@ -27,7 +27,7 @@ const SubmitButton = ({ editing, invalid, submit, submitting }) => (
     submitting={submitting}
     type="submit"
   >
-    { editing ? 'Update' : 'Create' }
+    { editing ? 'Update' : 'Add to cluster' }
   </StatefulButton>
 );
 
@@ -39,9 +39,14 @@ SubmitButton.propTypes = {
 };
 
 const enhance = compose(
-  connect(null, {
-    submit: () => submitReduxForm(formName),
-  }),
+  connect(
+    state => ({
+      editing: selectors.queueAction(state) == 'UPDATE',
+    }),
+    {
+      submit: () => submitReduxForm(formName),
+    }
+  ),
 
   reduxForm({
     destroyOnUnmount: !module.hot,

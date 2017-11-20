@@ -43,7 +43,7 @@ const QueueManagementFormModal = ({ cluster, isOpen, toggle, queueDescriptor }) 
 
   return (
     <StandardModal
-      buttons={<SubmitButton editing={cluster != null} />}
+      buttons={<SubmitButton />}
       isOpen={isOpen}
       size="lg"
       title={title}

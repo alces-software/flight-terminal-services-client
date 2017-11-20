@@ -23,7 +23,7 @@ export function createOrModifyQueue(cluster, attributes) {
 
     return dispatch(action)
       .then((response) => {
-        dispatch(hideModal());
+        dispatch(hideQueueManagementForm());
         return response;
       });
   };
@@ -47,7 +47,7 @@ function computeQueueActionCreator(
       spec: queueSpecName,
     },
     relationships: {
-      launchCluster: { data: { type: 'launchClusters', id: cluster.id } },
+      cluster: { data: { type: 'clusters', id: cluster.id } },
     },
     links: { self: '/api/v1/compute-queue-actions' },
   });
@@ -57,21 +57,21 @@ export function toggleModal() {
   return (dispatch, getState) => {
     const showingModal = selectors.showingModal(getState());
     if (showingModal) {
-      dispatch(hideModal());
+      dispatch(hideQueueManagementForm());
     } else {
-      dispatch(showModal());
+      dispatch(showQueueManagementForm());
     }
   };
 }
 
 
-export function hideModal() {
+export function hideQueueManagementForm() {
   return {
     type: MODAL_HIDDEN,
   };
 }
 
-export function showModal(queueSpecName, action) {
+export function showQueueManagementForm(queueSpecName, action) {
   return {
     type: MODAL_SHOWN,
     payload: {
