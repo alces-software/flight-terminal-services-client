@@ -25,7 +25,7 @@ export function createOrModifyQueue(cluster, attributes) {
 
     return dispatch(action)
       .then(() => {
-        dispatch(loadComputeQueueActions(cluster, { force: true }));
+        dispatch(loadComputeQueueActionsLinkageData(cluster));
       })
       .then(() => {
         dispatch(hideQueueManagementForm());
@@ -88,12 +88,12 @@ export function showQueueManagementForm(queueSpecName, action) {
   };
 }
 
-export function loadComputeQueueActions(cluster, { force }={ force: false }) {
+export function loadComputeQueueActions(cluster) {
   return (dispatch, getState) => {
     const { initiated, rejected } = selectors.retrieval(
       getState(), { hostname: cluster.attributes.hostname }
     );
-    if (force || !initiated || rejected) {
+    if (!initiated || rejected) {
       const action = jsonApi.actions.loadRelationshipAndLinkageData({
         source: cluster,
         relationName: 'computeQueueActions',
@@ -104,4 +104,11 @@ export function loadComputeQueueActions(cluster, { force }={ force: false }) {
       return dispatch(action);
     }
   };
+}
+
+export function loadComputeQueueActionsLinkageData(cluster) {
+  return jsonApi.actions.loadRelationshipLinkageData({
+    source: cluster,
+    relationName: 'computeQueueActions',
+  });
 }
