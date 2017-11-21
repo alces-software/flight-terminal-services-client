@@ -47,7 +47,7 @@ const QueueManagementPage = ({
   toggleModal,
 }) => {
   return (
-    <Container>
+    <Container fluid >
       <PageHeading
         overview="Manage your cluster's compute queues."
         sections={Object.values(sections)}
@@ -100,7 +100,7 @@ const enhance = compose(
   connect(
     createStructuredSelector({
       availableQueues: selectors.availableQueues,
-      currentQueues: selectors.currentQueues,
+      currentQueues: selectors.allQueues,
       showingModal: selectors.showingModal,
     }),
     { toggleModal: actions.toggleModal }

@@ -59,7 +59,7 @@ const CurrentQueues = ({
           currentQueues.map((queue) => (
             <Col
               key={queue.spec.spec}
-              md={6}
+              md={4}
             >
               <CurrentQueueCard queue={queue} />
             </Col>

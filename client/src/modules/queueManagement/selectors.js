@@ -36,7 +36,6 @@ export const computeQueueActions = createSelector(
   selectorUtils.relatedResourcesSelector,
 );
 
-// XXX complete comment Return a list of the current clusters compute queues
 export const currentQueues = createSelector(
   clusters.selectors.currentCluster,
   computeQueueActions,
@@ -99,6 +98,57 @@ export const currentQueues = createSelector(
       });
 
     return [...currentQueues, ...queuesBeingCreated].sort(q => q.spec.name);
+  },
+);
+
+// XXX complete comment Return a list of the current clusters compute queues
+export const allQueues = createSelector(
+  clusters.selectors.currentCluster,
+  computeQueueActions,
+
+  (cluster, queueActions) => {
+    const { availableComputeQueues, currentComputeQueues } = cluster.attributes;
+
+    const currentQueuesMap = currentComputeQueues.reduce(
+      (accum, q) => { accum[q.spec] = q; return accum; },
+      {}
+    );
+
+    const createOrModifyActionsMap = [].concat(queueActions)
+      .filter(qa => qa)
+      .sort(qa => qa.attributes.createdAt)  // Take only the most recent.
+      .filter(({ attributes: qa }) =>
+        ['PENDING', 'IN_PROGRESS'].includes(qa.status)
+      )
+      .reduce(
+        (accum, { attributes }) => { accum[attributes.spec] = attributes; return accum; },
+        {}
+      );
+
+    const queues = availableComputeQueues
+      .map(qspec => {
+        const queue = currentQueuesMap[qspec.spec];
+        const createOrModifyAction = createOrModifyActionsMap[qspec.spec];
+        let status;
+        if (createOrModifyAction == null && queue == null) {
+          status = 'UNCONFIGURED';
+        } else if (createOrModifyAction == null && queue != null) {
+          status = 'CREATE_COMPLETE';
+        } else if (createOrModifyAction != null && queue == null) {
+          status = 'CREATE_IN_PROGRESS';
+        } else if (createOrModifyAction != null && queue != null) {
+          status = 'MODIFY_IN_PROGRESS';
+        }
+
+        return {
+          current: queue,
+          spec: qspec,
+          status: status,
+          modification: createOrModifyAction,
+        };
+      });
+
+    return queues;
   },
 );
 
