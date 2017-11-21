@@ -7,39 +7,47 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ScrollButton } from 'flight-reactware';
 import { Row, Col } from 'reactstrap';
 
-import AvailableQueueCard from './AvailableQueueCard';
+import CurrentQueueCard from './CurrentQueueCard';
 
 const propTypes = {
-  availableQueues: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  })).isRequired,
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
-    }),
-  }),
+    }).isRequired,
+  }).isRequired,
+  queues: PropTypes.arrayOf(PropTypes.shape({
+    spec: PropTypes.shape({
+      spec: PropTypes.string.isRequired,
+    }).isRequired,
+  })).isRequired,
 };
 
-const AvailableQueues = ({ availableQueues, cluster }) => {
+const QueueCards = ({ cluster, queues, }) => {
   const { clusterName } = cluster.attributes;
+  if (!queues.length) {
+    return (
+      <div>
+        <p>
+          Your cluster <em>{clusterName}</em> does not yet have any compute
+          queues available for it.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <p>
-        The queues supported by <em>{clusterName}</em> are shown below.  To
-        configure a queue for your cluster, click on the queue's "Configure"
-        button, select the desired, minimum and maximum nodes that the queue
-        should have and then click "Add to cluster".
-      </p>
       <Row>
         {
-          availableQueues.map(queueSpec => (
+          queues.map((queue) => (
             <Col
-              key={queueSpec.name}
+              key={queue.spec.spec}
               md={4}
             >
-              <AvailableQueueCard queue={queueSpec} />
+              <CurrentQueueCard queue={queue} />
             </Col>
           ))
         }
@@ -48,6 +56,6 @@ const AvailableQueues = ({ availableQueues, cluster }) => {
   );
 };
 
-AvailableQueues.propTypes = propTypes;
+QueueCards.propTypes = propTypes;
 
-export default AvailableQueues;
+export default QueueCards;

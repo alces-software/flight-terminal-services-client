@@ -18,31 +18,27 @@ import clusters from '../../clusters';
 
 import * as actions from '../actions';
 import * as selectors from '../selectors';
-import AvailableQueues from '../components/AvailableQueues';
-import CurrentQueues from '../components/CurrentQueues';
+import QueueCards from '../components/QueueCards';
 import QueueManagementFormModal from '../components/QueueManagementFormModal';
 
 const sections = {
-  currentQueues: makeSection('Current queues', 'current-queues', 'pink', 'cog'),
-  availableQueues: makeSection('Available queues', 'about', 'orange', 'book'),
+  queues: makeSection('Queues', 'queues', 'pink', 'cog'),
 };
 
 const propTypes = {
-  availableQueues: PropTypes.array.isRequired,
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
     }),
   }),
-  currentQueues: PropTypes.array.isRequired,
+  queues: PropTypes.array.isRequired,
   showingModal: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
 };
 
 const QueueManagementPage = ({
-  availableQueues,
   cluster,
-  currentQueues,
+  queues,
   showingModal,
   toggleModal,
 }) => {
@@ -54,25 +50,13 @@ const QueueManagementPage = ({
         title="Compute queue management."
       />
       <Section
-        overview="The currently configured queues for your cluster."
-        section={sections.currentQueues}
-        title="Current queues."
-      >
-        <CurrentQueues
-          availableQueuesSectionTarget={sections.availableQueues.target}
-          cluster={cluster}
-          currentQueues={currentQueues}
-        />
-      </Section>
-      <Section
         overview="The available queues for your cluster."
-        section={sections.availableQueues}
+        section={sections.queues}
         title="Available queues."
       >
-        <AvailableQueues
-          availableQueues={availableQueues}
+        <QueueCards
           cluster={cluster}
-          currentQueues={currentQueues}
+          queues={queues}
         />
       </Section>
       <QueueManagementFormModal
@@ -99,8 +83,7 @@ const enhance = compose(
 
   connect(
     createStructuredSelector({
-      availableQueues: selectors.availableQueues,
-      currentQueues: selectors.allQueues,
+      queues: selectors.allQueues,
       showingModal: selectors.showingModal,
     }),
     { toggleModal: actions.toggleModal }
