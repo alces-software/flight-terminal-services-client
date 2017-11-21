@@ -20,7 +20,9 @@ const propTypes = {
     }).isRequired,
   }).isRequired,
   currentQueues: PropTypes.arrayOf(PropTypes.shape({
-    spec: PropTypes.string.isRequired,
+    spec: PropTypes.shape({
+      spec: PropTypes.string.isRequired,
+    }).isRequired,
   })).isRequired,
 };
 
@@ -56,8 +58,8 @@ const CurrentQueues = ({
         {
           currentQueues.map((queue) => (
             <Col
-              key={queue.spec.name}
-              md={4}
+              key={queue.spec.spec}
+              md={6}
             >
               <CurrentQueueCard queue={queue} />
             </Col>

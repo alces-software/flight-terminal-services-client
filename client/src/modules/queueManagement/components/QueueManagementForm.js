@@ -90,7 +90,7 @@ const enhance = compose(
   connect(
     (state, { cluster, queueSpec }) => {
       const currentQueue = cluster.attributes.currentComputeQueues.find(
-        q => q.spec === queueSpec.name
+        q => q.spec === queueSpec.spec
       );
       if (currentQueue == null) {
         return {

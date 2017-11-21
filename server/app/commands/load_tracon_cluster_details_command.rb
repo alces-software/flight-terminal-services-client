@@ -29,7 +29,10 @@ class LoadTraconClusterDetailsCommand
   def available_queues
     Alces.app.logger.info("Requesting tracon available queue details for cluster #{fqdn}")
     @available_queues = make_request(available_queues_uri).reduce([]) do |a, q|
-      a.push({name: q[0], description: q[1]['description']})
+      spec = q[0]
+      attributes = q[1]
+      a.push({spec: spec}.merge(attributes.slice('description', 'name')))
+      # a.push({spec: q[0], description: q[1]['description'], name: q[1]['name']})
     end
   end
 

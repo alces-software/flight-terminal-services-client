@@ -44,7 +44,7 @@ export const currentQueues = createSelector(
   (cluster, queueActions) => {
     const queueSpecs = cluster.attributes.availableComputeQueues.reduce(
       (accum, qs) => {
-        accum[qs.name] = qs;
+        accum[qs.spec] = qs;
         return accum;
       },
       {}
@@ -98,7 +98,7 @@ export const currentQueues = createSelector(
         };
       });
 
-    return [...currentQueues, ...queuesBeingCreated].sort(q => q.spec);
+    return [...currentQueues, ...queuesBeingCreated].sort(q => q.spec.name);
   },
 );
 
@@ -108,9 +108,9 @@ export const availableQueues = createSelector(
 
   (cluster, current) => {
     const { availableComputeQueues } = cluster.attributes;
-    const currentQueueNames = current.map(q => q.spec);
+    const currentQueueNames = current.map(q => q.spec.spec);
     const availableQueues = availableComputeQueues
-      .filter(q => !currentQueueNames.includes(q.name));
+      .filter(q => !currentQueueNames.includes(q.spec));
     return availableQueues;
   }
 );
