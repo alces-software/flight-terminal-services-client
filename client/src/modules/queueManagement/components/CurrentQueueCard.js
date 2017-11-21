@@ -27,12 +27,25 @@ const propTypes = {
 const CurrentQueueCard = ({ dispatch, queue }) => (
   <Card>
     <CardHeader>
-      {queue.spec}
+      {queue.spec.name}
     </CardHeader>
     <CardBlock>
       <CardText>
+        {queue.spec.description}
+      </CardText>
+      <CardText>
         Running {queue.current} nodes (min {queue.min}, max {queue.max})
       </CardText>
+      <CardText>
+        {queue.status}
+      </CardText>
+      {
+        queue.modification ?
+          <CardText>
+            Modification: {queue.modification.current} nodes (min {queue.modification.min}, max {queue.modification.max})
+          </CardText>
+          : null
+      }
       <ButtonToolbar className="justify-content-center">
         <Button
           className="mr-1"

@@ -56,7 +56,7 @@ const CurrentQueues = ({
         {
           currentQueues.map((queue) => (
             <Col
-              key={queue.spec}
+              key={queue.spec.name}
               md={4}
             >
               <CurrentQueueCard queue={queue} />
