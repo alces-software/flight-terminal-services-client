@@ -60,9 +60,9 @@ CardStatusText.propTypes = {
     min: PropTypes.number.isRequired,
   }),
   modification: PropTypes.shape({
-    desired: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-    min: PropTypes.number.isRequired,
+    desired: PropTypes.number,
+    max: PropTypes.number,
+    min: PropTypes.number,
   }),
   status: PropTypes.oneOf([
     'UNCONFIGURED',

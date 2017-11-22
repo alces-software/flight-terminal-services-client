@@ -7,30 +7,34 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, submit as submitReduxForm } from 'redux-form';
-// import { StatefulButton } from 'flight-reactware';
-import { Button } from 'reactstrap';
+import FontAwesome from 'react-fontawesome';
+import { StatefulButton } from 'flight-reactware';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { reduxForm, submit as submitReduxForm } from 'redux-form';
 
 import * as selectors from '../selectors';
 
 // XXX take as param?
 const formName = 'queueManagement';
-const StatefulButton = Button;
 
-const SubmitButton = ({ isCreating, invalid, submit, submitting }) => (
-  <StatefulButton
-    disabled={submitting || invalid}
-    icon="cog"
-    onClick={submit}
-    submitting={submitting}
-    type="submit"
-  >
-    { isCreating ? 'Add to cluster' : 'Update' }
-  </StatefulButton>
-);
+const SubmitButton = ({ isCreating, invalid, submit, submitting }) => {
+  const icon = <FontAwesome name="cog" />;
+  const text = isCreating ? 'Add to cluster' : 'Update';
+
+  return (
+    <StatefulButton
+      disabled={submitting || invalid}
+      onClick={submit}
+      submitting={submitting}
+      submittingText="Requesting..."
+      type="submit"
+    >
+      {icon} {text}
+    </StatefulButton>
+  );
+};
 
 SubmitButton.propTypes = {
   invalid: PropTypes.bool.isRequired,

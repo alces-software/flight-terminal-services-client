@@ -3,34 +3,9 @@ import PropTypes from 'prop-types';
 import { Button, ButtonToolbar } from 'reactstrap';
 import { connect } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
-import { withConfirmation } from 'flight-reactware';
 
-import { removeQueue, showQueueManagementForm } from '../actions';
-
-const RemoveQueueButton = withConfirmation({
-  confirmButtonText: "Remove queue",
-  confirmText:(
-    <p>
-      Are you sure you wish to remove this queue?  All compute nodes
-      in the queue will be terminated and any work they are processing
-      may be lost.
-    </p>
-  ),
-  placement: "top",
-})(({
-  children,
-  confirmationPopover,
-  showingConfirmation,
-  submitting,
-  ...props,
-}) => {
-  return (
-    <Button {...props} >
-      {children}
-      {confirmationPopover}
-    </Button>
-  );
-});
+import RemoveQueueButton from './RemoveQueueButton';
+import { showQueueManagementForm } from '../actions';
 
 const CardButtons = ({ dispatch, queue, status }) => {
   let buttons;
@@ -60,13 +35,12 @@ const CardButtons = ({ dispatch, queue, status }) => {
           </Button>
           <RemoveQueueButton
             color="primary"
-            id="remove-queue-button"
-            onConfirm={() => dispatch(removeQueue(queue))}
-          >
-            <FontAwesome name="trash" /> Remove
-          </RemoveQueueButton>
+            id={`remove-queue-button-${queue.spec.spec}`}
+            queue={queue}
+          />
         </div>
       );
+      break;
 
     default:
       buttons = null;
@@ -81,7 +55,11 @@ const CardButtons = ({ dispatch, queue, status }) => {
 
 CardButtons.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  queue: PropTypes.object.isRequired,
+  queue: PropTypes.shape({
+    spec: PropTypes.shape({
+      spec: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   status: PropTypes.oneOf([
     'UNCONFIGURED',
     'CREATE_IN_PROGRESS',
