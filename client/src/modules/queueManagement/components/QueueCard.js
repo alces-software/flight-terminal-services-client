@@ -30,7 +30,7 @@ const QueueCard = styled(({ className, queue }) => (
         />
       </CardText>
       <Buttons
-        qspec={queue.spec}
+        queue={queue}
         status={queue.status}
       />
     </CardBlock>
@@ -45,10 +45,8 @@ const QueueCard = styled(({ className, queue }) => (
   }}
 `;
 
-  // background-color: ${props => props.queue.status === 'UNCONFIGURED' ? 'grey' : 'green'};
-
 QueueCard.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   queue: PropTypes.shape({
     status: PropTypes.string.isRequired,
     spec: PropTypes.shape({

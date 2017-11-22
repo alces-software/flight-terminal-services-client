@@ -20,19 +20,14 @@ const Input = ({
   autoFocus,
   label,
   name,
-  queueName,
-  value,
 }) => {
-  // const qualifiedName = `${queueName}-${name}`;
-  const qualifiedName = name;
-
   return (
     <Field
       autoFocus={autoFocus}
       component={FormInput}
-      id={qualifiedName}
+      id={name}
       label={label}
-      name={qualifiedName}
+      name={name}
       type="number"
     />
   );
@@ -41,79 +36,84 @@ Input.propTypes = {
   autoFocus: PropTypes.bool,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  queueName: PropTypes.string.isRequired,
-  value: PropTypes.number,
 };
 
-const QueueManagementForm = ({ queueSpec, handleSubmit }) => (
+const QueueManagementForm = ({ handleSubmit }) => (
   <Form
     onSubmit={handleSubmit}
   >
     <Input
+      autoFocus
       component={Input}
       label="Desired number of nodes"
       name="desired"
-      queueName={queueSpec.name}
     />
     <Input
-      autoFocus
       component={Input}
       label="Minimum number of nodes"
       name="min"
-      queueName={queueSpec.name}
     />
     <Input
       component={Input}
       label="Maximum number of nodes"
       name="max"
-      queueName={queueSpec.name}
     />
   </Form>
 );
 
 QueueManagementForm.propTypes = {
   ...formPropTypes,
-  cluster: PropTypes.shape({
-    attributes: PropTypes.shape({
-      // clusterName: PropTypes.string.isRequired,
-      // queueManagement: PropTypes.shape({
-      // }).isRequired,
+  cluster: PropTypes.object.isRequired,
+  queue: PropTypes.shape({
+    current: PropTypes.shape({
+      current: PropTypes.number.isRequired,
+      max: PropTypes.number.isRequired,
+      min: PropTypes.number.isRequired,
     }),
-  }),
-  queueSpec: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    modification: PropTypes.shape({
+      desired: PropTypes.number.isRequired,
+      max: PropTypes.number.isRequired,
+      min: PropTypes.number.isRequired,
+    }),
   }).isRequired,
 };
 
 
 const enhance = compose(
   connect(
-    (state, { cluster, queueSpec }) => {
-      const currentQueue = cluster.attributes.currentComputeQueues.find(
-        q => q.spec === queueSpec.spec
-      );
-      if (currentQueue == null) {
+    (state, { queue }) => {
+      if (queue.modification) {
+        const { desired, min, max } = queue.modification;
+        return {
+          initialValues: {
+            desired,
+            max,
+            min,
+          }
+        };
+      } else if (queue.current) {
+        const { current, min, max } = queue.current;
+        return {
+          initialValues: {
+            desired: current,
+            max,
+            min,
+          },
+        };
+      } else {
         return {
           initialValues: {
             desired: 0,
             max: 10,
             min: 0,
-          }
+          },
         };
       }
-      const { current, min, max } = currentQueue;
-      return {
-        initialValues: {
-          desired: current,
-          max,
-          min,
-        },
-      };
     },
   ),
 
   reduxForm({
-    destroyOnUnmount: false,
+    destroyOnUnmount: true,
     form: NAME,
     onSubmit: (formValues, dispatch, props) => {
       const cluster = props.cluster;

@@ -50,9 +50,9 @@ const QueueManagementPage = ({
         title="Compute queue management."
       />
       <Section
-        overview="The available queues for your cluster."
+        overview="Add, modify and remove your cluster's compute queues."
         section={sections.queues}
-        title="Available queues."
+        title="Configure your cluster's compute queues."
       >
         <QueueCards
           cluster={cluster}

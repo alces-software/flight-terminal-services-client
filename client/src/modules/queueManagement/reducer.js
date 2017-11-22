@@ -13,7 +13,7 @@ const initialState = {
   // The queue action either CREATE or MODIFY.
   action: undefined,
   // The queue being created or modified.
-  queueSpec: undefined,
+  editingQueue: undefined,
 };
 
 export default function reducer(state = initialState, action) {
@@ -22,9 +22,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         action: action.payload.action,
-        queueSpec: {
-          name: action.payload.queueSpecName,
-        },
+        editingQueue: action.payload.queue,
         showingModal: true,
       };
 

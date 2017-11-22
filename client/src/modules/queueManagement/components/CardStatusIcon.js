@@ -30,6 +30,14 @@ const CardStatusIcon = ({ status }) => {
         />
       );
 
+    case 'DELETE_IN_PROGRESS':
+      return (
+        <FontAwesome
+          className="float-right"
+          name="trash"
+        />
+      );
+
     case 'UNCONFIGURED':
       return (
         <FontAwesome
@@ -49,6 +57,7 @@ CardStatusIcon.propTypes = {
     'CREATE_IN_PROGRESS',
     'CREATE_COMPLETE',
     'MODIFY_IN_PROGRESS',
+    'DELETE_IN_PROGRESS',
   ]).isRequired,
 };
 

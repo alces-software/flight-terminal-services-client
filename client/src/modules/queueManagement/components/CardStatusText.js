@@ -41,6 +41,13 @@ const CardStatusText = ({ current, modification, status }) => {
         </span>
       );
 
+    case 'DELETE_IN_PROGRESS':
+      return (
+        <span>
+          This queue is being removed from your cluster.
+        </span>
+      );
+
     default:
       return <span>Unknown status</span>;
   }
@@ -62,6 +69,7 @@ CardStatusText.propTypes = {
     'CREATE_IN_PROGRESS',
     'CREATE_COMPLETE',
     'MODIFY_IN_PROGRESS',
+    'DELETE_IN_PROGRESS',
   ]).isRequired,
 };
 

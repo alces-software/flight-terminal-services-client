@@ -18,12 +18,16 @@ export function showingModal(state) {
   return stateSlice(state).showingModal;
 }
 
-export function queueSpec(state) {
-  return stateSlice(state).queueSpec;
+export function editingQueue(state) {
+  return stateSlice(state).editingQueue;
 }
 
-export function queueAction(state) {
+export function queueEditAction(state) {
   return stateSlice(state).action;
+}
+
+export function isCreatingQueue(state) {
+  return queueEditAction(state) === 'CREATE';
 }
 
 export const retrieval = clusters.selectors.relationshipRetrieval('computeQueueActions');
@@ -68,10 +72,8 @@ export const allQueues = createSelector(
           status = 'UNCONFIGURED';
         } else if (createOrModifyAction == null && queue != null) {
           status = 'CREATE_COMPLETE';
-        } else if (createOrModifyAction != null && queue == null) {
-          status = 'CREATE_IN_PROGRESS';
-        } else if (createOrModifyAction != null && queue != null) {
-          status = 'MODIFY_IN_PROGRESS';
+        } else {
+          status = `${createOrModifyAction.action}_IN_PROGRESS`;
         }
 
         return {

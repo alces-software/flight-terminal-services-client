@@ -22,24 +22,45 @@ const propTypes = {
     attributes: PropTypes.shape({
     }).isRequired,
   }).isRequired,
+  isCreating: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  queueSpec: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+  queue: PropTypes.shape({
+    spec: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  }),
   toggle: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
-  queueSpec: { name: '', description: '' },
+  queue: {
+    spec: { name: '' },
+  },
 };
 
-const QueueManagementFormModal = ({ cluster, isOpen, toggle, queueSpec }) => {
-  const title = (
-    <span>
-      Compute queue <em>{queueSpec.name}</em> for cluster{' '}
-      <em>{cluster.attributes.clusterName}</em>
-    </span>
-  );
+const QueueManagementFormModal = ({
+  cluster,
+  isCreating,
+  isOpen,
+  toggle,
+  queue,
+}) => {
+  const clusterName = cluster.attributes.clusterName;
+  let title;
+  if (isCreating) {
+    title = (
+      <span>
+        Add queue <em>{queue.spec.name}</em> to <em>{clusterName}</em>.
+      </span>
+    );
+  } else {
+    title = (
+      <span>
+        Modify queue <em>{queue.spec.name}</em> on {' '}
+        <em>{clusterName}</em>.
+      </span>
+    );
+  }
 
   return (
     <StandardModal
@@ -51,7 +72,7 @@ const QueueManagementFormModal = ({ cluster, isOpen, toggle, queueSpec }) => {
     >
       <QueueManagementForm
         cluster={cluster}
-        queueSpec={queueSpec}
+        queue={queue}
       />
     </StandardModal>
   );
@@ -63,7 +84,8 @@ QueueManagementFormModal.defaultProps = defaultProps;
 const enhance = compose(
   connect(
     createStructuredSelector({
-      queueSpec: selectors.queueSpec,
+      queue: selectors.editingQueue,
+      isCreating: selectors.isCreatingQueue,
     })
   ),
 );

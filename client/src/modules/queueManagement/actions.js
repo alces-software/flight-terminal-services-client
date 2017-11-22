@@ -16,11 +16,11 @@ import * as selectors from './selectors';
 // eventually be processed to create or modify the queue.
 export function createOrModifyQueue(cluster, attributes) {
   return (dispatch, getState) => {
-    const queueSpec = selectors.queueSpec(getState());
-    const queueAction = selectors.queueAction(getState());
+    const queue = selectors.editingQueue(getState());
+    const queueEditAction = selectors.queueEditAction(getState());
 
     const action = computeQueueActionCreator(
-      cluster, queueAction, queueSpec.name, attributes
+      cluster, queueEditAction, queue.spec.spec, attributes
     );
 
     return dispatch(action)
@@ -33,16 +33,20 @@ export function createOrModifyQueue(cluster, attributes) {
   };
 }
 
-export function removeQueue(queueSpecName) {
+export function removeQueue(queue) {
   return (dispatch, getState) => {
     const cluster = clusters.selectors.currentCluster(getState());
-    dispatch(computeQueueActionCreator(cluster, 'DELETE', queueSpecName));
+    const specName = queue.spec.spec;
+    return dispatch(computeQueueActionCreator(cluster, 'DELETE', specName))
+      .then(() => {
+        dispatch(loadComputeQueueActionsLinkageData(cluster));
+      });
   };
 }
 
 function computeQueueActionCreator(
   cluster,
-  queueAction,
+  queueEditAction,
   queueSpecName,
   attributes={},
 ) {
@@ -50,7 +54,7 @@ function computeQueueActionCreator(
     type: 'computeQueueActions',
     attributes: {
       ...attributes,
-      action: queueAction,
+      action: queueEditAction,
       spec: queueSpecName,
     },
     relationships: {
@@ -78,12 +82,12 @@ export function hideQueueManagementForm() {
   };
 }
 
-export function showQueueManagementForm(queueSpecName, action) {
+export function showQueueManagementForm(queue, action) {
   return {
     type: MODAL_SHOWN,
     payload: {
       action,
-      queueSpecName,
+      queue,
     },
   };
 }
