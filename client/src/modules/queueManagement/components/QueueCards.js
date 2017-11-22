@@ -7,10 +7,9 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ScrollButton } from 'flight-reactware';
 import { Row, Col } from 'reactstrap';
 
-import CurrentQueueCard from './CurrentQueueCard';
+import QueueCard from './QueueCard';
 
 const propTypes = {
   cluster: PropTypes.shape({
@@ -47,7 +46,7 @@ const QueueCards = ({ cluster, queues, }) => {
               key={queue.spec.spec}
               md={4}
             >
-              <CurrentQueueCard queue={queue} />
+              <QueueCard queue={queue} />
             </Col>
           ))
         }

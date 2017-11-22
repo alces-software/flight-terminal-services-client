@@ -12,7 +12,7 @@ import StatusText from './CardStatusText';
 import StatusIcon from './CardStatusIcon';
 import Buttons from './CardButtons';
 
-const CurrentQueueCard = styled(({ className, queue }) => (
+const QueueCard = styled(({ className, queue }) => (
   <Card className={className}>
     <CardBlock>
       <StatusIcon status={queue.status} />
@@ -47,7 +47,7 @@ const CurrentQueueCard = styled(({ className, queue }) => (
 
   // background-color: ${props => props.queue.status === 'UNCONFIGURED' ? 'grey' : 'green'};
 
-CurrentQueueCard.propTypes = {
+QueueCard.propTypes = {
   className: PropTypes.string.isRequired,
   queue: PropTypes.shape({
     status: PropTypes.string.isRequired,
@@ -58,4 +58,4 @@ CurrentQueueCard.propTypes = {
   }).isRequired,
 };
 
-export default CurrentQueueCard;
+export default QueueCard;
