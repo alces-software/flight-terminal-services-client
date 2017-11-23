@@ -1,4 +1,5 @@
-import { compose, lifecycle } from 'recompose';
+import { Container } from 'reactstrap';
+import { branch, compose, lifecycle, nest, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { renderRoutes } from 'react-router-config';
@@ -6,6 +7,7 @@ import { showSpinnerUntil } from 'flight-reactware';
 
 import * as actions from '../actions';
 import * as selectors from '../selectors';
+import LoadError from './LoadError';
 import clusters from '../../../modules/clusters';
 
 const QueueManagementContext = ({ route }) => {
@@ -13,20 +15,7 @@ const QueueManagementContext = ({ route }) => {
 };
 
 const enhance = compose(
-  connect(createStructuredSelector({
-    cluster: clusters.selectors.currentCluster,
-    clusterRetrieval: clusters.selectors.retrieval,
-    queueRetrieval: selectors.retrieval,
-  })),
-
-  showSpinnerUntil(
-    ({ clusterRetrieval }) => {
-      return clusterRetrieval.initiated && !clusterRetrieval.pending;
-    }
-  ),
-
-  // XXX we should probably branch here.  Loading the cluster may have failed.
-  // Or perhaps we should use withCluster.
+  clusters.withCluster,
 
   lifecycle({
     componentDidMount: function componentDidMount() {
@@ -38,7 +27,9 @@ const enhance = compose(
     },
   }),
 
-  // XXX we should probably branch here.  Loading the cluster may have failed.
+  connect(createStructuredSelector({
+    queueRetrieval: selectors.retrieval,
+  })),
 
   showSpinnerUntil(
     ({ queueRetrieval }) => {
@@ -46,6 +37,10 @@ const enhance = compose(
     }
   ),
 
+  branch(
+    ({ queueRetrieval }) => queueRetrieval.rejected,
+    renderComponent(nest(Container, LoadError)),
+  ),
 );
 
 export default enhance(QueueManagementContext);

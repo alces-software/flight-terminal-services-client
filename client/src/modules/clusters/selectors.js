@@ -18,7 +18,7 @@ const {
 } = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
 export function hostname(state) {
-  return clustersState(state).hostname;
+  return clustersState(state).data.hostname;
 }
 
 function hostnameFromPropsOrStore(state, props) {
@@ -27,11 +27,41 @@ function hostnameFromPropsOrStore(state, props) {
 
 const hostnameIndex = selectorUtils.buildIndexSelector(NAME, 'hostname');
 
-export const retrieval = createSelector(
+// Returns the retrieval for the JSONAPI resource obtained from the Flight
+// Launch server.
+const jsonApiRetrieval = createSelector(
   jsonApiState,
   hostnameFromPropsOrStore,
 
   loadingStates.selectors.retrieval,
+);
+
+// Returns the retrieval for the cluster attributes obtained from the running
+// cluster itself.
+const clusterRetrieval = createSelector(
+  clustersState,
+  hostnameFromPropsOrStore,
+
+  loadingStates.selectors.retrieval,
+);
+
+export const retrieval = createSelector(
+  clusterRetrieval,
+  jsonApiRetrieval,
+
+  (cr, jar) => {
+    const initiated = cr.initiated || jar.initiated;
+    const resolved = cr.resolved && jar.resolved;
+    const rejected = cr.rejected || jar.rejected;
+    const pending = initiated && ! resolved && ! rejected;
+
+    return {
+      initiated,
+      pending,
+      resolved,
+      rejected,
+    };
+  },
 );
 
 export const relationshipRetrieval = relationName => createSelector(

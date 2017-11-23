@@ -21,6 +21,9 @@ function loadAttributesFromRunningCluster(hostname) {
         },
         skipAuthHeader: true,
       },
+      loadingState: {
+        key: hostname,
+      },
       hostname: hostname,
     },
   };
@@ -51,7 +54,8 @@ export function loadCluster(hostname) {
         .then((resp) => {
           const clusterId = resp.payload.data.data.id;
           return dispatch(loadClusterResource(clusterId, hostname));
-        });
+        })
+        .catch(e => e);
     };
   };
 }

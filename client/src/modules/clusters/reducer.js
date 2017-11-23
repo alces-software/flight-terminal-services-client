@@ -5,13 +5,26 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
+import { combineReducers } from 'redux';
+import { apiRequest, loadingStates } from 'flight-reactware';
+
 import { LOAD_CLUSTER_REQUESTED } from './actionTypes';
 
 const initialState = {
-  hostname: undefined,
+  data: {
+    hostname: undefined,
+  },
 };
 
-export default function reducer(state = initialState, { meta, type }) {
+const metaReducers = combineReducers({
+  [loadingStates.constants.NAME]: loadingStates.reducer({
+    pending: LOAD_CLUSTER_REQUESTED,
+    resolved: apiRequest.resolved(LOAD_CLUSTER_REQUESTED),
+    rejected: apiRequest.rejected(LOAD_CLUSTER_REQUESTED),
+  }),
+});
+
+function dataReducer(state = initialState, { meta, type }) {
   switch (type) {
     case LOAD_CLUSTER_REQUESTED:
       return {
@@ -23,3 +36,8 @@ export default function reducer(state = initialState, { meta, type }) {
       return state;
   }
 }
+
+export default combineReducers({
+  data: dataReducer,
+  meta: metaReducers,
+});
