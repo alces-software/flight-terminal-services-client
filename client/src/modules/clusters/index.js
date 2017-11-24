@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Import and export the public facing API for the onboarding module.
+// Import and export the public facing API for the clusters module.
 
 import { jsonApi, apiRequest } from 'flight-reactware';
 
@@ -25,7 +25,7 @@ const indexes = [{
 const loadingStatesConfig = {
   resourceType: constants.NAME,
   key: resource => {
-    if (resource.meta.loadingStates != null) {
+    if (resource.meta != null && resource.meta.loadingStates != null) {
       return resource.meta.loadingStates.key;
     }
     return resource.attributes.hostname;
