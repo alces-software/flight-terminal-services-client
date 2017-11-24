@@ -14,15 +14,35 @@ const QueueManagementContext = ({ route }) => {
   return renderRoutes(route.routes);
 };
 
+function periodicallyLoadComputeQueueActions({ reload }={ reload: true }) {
+  const { cluster, dispatch } = this.props;
+  const request = dispatch(actions.loadComputeQueueActions(cluster, reload));
+  if (request) {
+    request
+      .then(() => {
+        this.setState({ initialLoadCompleted: true });
+      })
+      .catch(error => error);
+  }
+
+  this.setTimeoutId = setTimeout(
+    periodicallyLoadComputeQueueActions.bind(this),
+    60 * 1000,
+  );
+}
+
 const enhance = compose(
   clusters.withCluster,
 
   lifecycle({
     componentDidMount: function componentDidMount() {
-      const { cluster, dispatch } = this.props;
-      const request = dispatch(actions.loadComputeQueueActions(cluster));
-      if (request) {
-        request.catch(error => error);
+      periodicallyLoadComputeQueueActions.bind(this)({ reload: false });
+    },
+
+    componentWillUnmount: function componentWillUnmount() {
+      if (this.setTimeoutId != null) {
+        clearTimeout(this.setTimeoutId);
+        this.setTimeoutId = undefined;
       }
     },
   }),
@@ -32,8 +52,14 @@ const enhance = compose(
   })),
 
   showSpinnerUntil(
-    ({ queueRetrieval }) => {
-      return queueRetrieval.initiated && !queueRetrieval.pending;
+    ({ initialLoadCompleted, queueRetrieval }) => {
+      if (initialLoadCompleted) {
+        // Once the initial set of data is loaded we don't want to display the
+        // spinner for subsequent requests.
+        return true;
+      } else {
+        return queueRetrieval.initiated && !queueRetrieval.pending;
+      }
     }
   ),
 
