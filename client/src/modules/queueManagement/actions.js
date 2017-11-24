@@ -12,10 +12,6 @@ import clusters from '../../modules/clusters';
 import { MODAL_HIDDEN, MODAL_SHOWN } from './actionTypes';
 import * as selectors from './selectors';
 
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 // Create a ComputeQueueActionResource on the launch server which will
 // eventually be processed to create or modify the queue.
 export function createOrModifyQueue(cluster, attributes) {
@@ -54,8 +50,8 @@ function computeQueueActionCreator(
   queueSpecName,
   attributes={},
 ) {
-  return (dispatch) => {
-    const action = jsonApi.actions.createResource({
+  return jsonApi.actions.createResource(
+    {
       type: 'computeQueueActions',
       attributes: {
         ...attributes,
@@ -66,13 +62,10 @@ function computeQueueActionCreator(
         cluster: { data: { type: 'clusters', id: cluster.id } },
       },
       links: { self: '/api/v1/compute-queue-actions' },
-    });
-
-    return Promise.all([
-      delay(1000),
-      dispatch(action)
-    ]);
-  };
+    },
+    {},
+    { minimumDuration: 500 },
+  );
 }
 
 export function toggleModal() {
@@ -114,6 +107,9 @@ export function loadComputeQueueActions(cluster) {
         relationName: 'computeQueueActions',
         params: {
           'filter[status]': 'PENDING,IN_PROGRESS'
+        },
+        apiRequestMeta: {
+          minimumDuration: 500,
         },
       });
       return dispatch(action);
