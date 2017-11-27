@@ -96,18 +96,12 @@ export function showQueueManagementForm(queue, action) {
   };
 }
 
-export function loadComputeQueueActions(cluster, reload) {
+export function loadComputeQueueActions(cluster) {
   return (dispatch, getState) => {
     const { initiated, rejected } = selectors.retrieval(
       getState(), { hostname: cluster.attributes.hostname }
     );
-    if (reload) {
-      const action = jsonApi.actions.loadRelationship({
-        source: cluster,
-        relationName: 'computeQueueActions',
-      });
-      return dispatch(action);
-    } else if (!initiated || rejected) {
+    if (!initiated || rejected) {
       const action = jsonApi.actions.loadRelationshipAndLinkageData({
         source: cluster,
         relationName: 'computeQueueActions',
@@ -128,4 +122,8 @@ export function loadComputeQueueActionsLinkageData(cluster) {
     source: cluster,
     relationName: 'computeQueueActions',
   });
+}
+
+export function loadComputeQueueAction(queueAction) {
+  return jsonApi.actions.loadResource(queueAction);
 }

@@ -14,16 +14,18 @@ const QueueManagementContext = ({ route }) => {
   return renderRoutes(route.routes);
 };
 
-function periodicallyLoadComputeQueueActions({ reload }={ reload: true }) {
-  const { cluster, dispatch } = this.props;
-  const request = dispatch(actions.loadComputeQueueActions(cluster, reload));
-  if (request) {
-    request
-      .then(() => {
-        this.setState({ initialLoadCompleted: true });
-      })
-      .catch(error => error);
-  }
+function periodicallyLoadComputeQueueActions() {
+  const { computeQueueActions, dispatch } = this.props;
+
+  // XXX Remove need to filter(qa => qa) below.  The selector should do this.
+
+  computeQueueActions
+    .filter(qa => qa)
+    .forEach((qa) => {
+      if (['PENDING', 'IN_PROGRESS'].includes(qa.attributes.status)) {
+        dispatch(actions.loadComputeQueueAction(qa));
+      }
+    });
 
   this.setTimeoutId = setTimeout(
     periodicallyLoadComputeQueueActions.bind(this),
@@ -34,9 +36,19 @@ function periodicallyLoadComputeQueueActions({ reload }={ reload: true }) {
 const enhance = compose(
   clusters.withCluster,
 
+  connect(createStructuredSelector({
+    queueRetrieval: selectors.retrieval,
+    computeQueueActions: selectors.computeQueueActions,
+  })),
+
   lifecycle({
     componentDidMount: function componentDidMount() {
-      periodicallyLoadComputeQueueActions.bind(this)({ reload: false });
+      const { cluster, dispatch } = this.props;
+      const request = dispatch(actions.loadComputeQueueActions(cluster));
+      if (request) {
+        request.catch(error => error);
+      }
+      periodicallyLoadComputeQueueActions.bind(this)();
     },
 
     componentWillUnmount: function componentWillUnmount() {
@@ -47,20 +59,8 @@ const enhance = compose(
     },
   }),
 
-  connect(createStructuredSelector({
-    queueRetrieval: selectors.retrieval,
-  })),
-
   showSpinnerUntil(
-    ({ initialLoadCompleted, queueRetrieval }) => {
-      if (initialLoadCompleted) {
-        // Once the initial set of data is loaded we don't want to display the
-        // spinner for subsequent requests.
-        return true;
-      } else {
-        return queueRetrieval.initiated && !queueRetrieval.pending;
-      }
-    }
+    ({ queueRetrieval }) => queueRetrieval.initiated && !queueRetrieval.pending,
   ),
 
   branch(
