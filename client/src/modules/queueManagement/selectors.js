@@ -35,9 +35,15 @@ export const retrieval = clusters.selectors.relationshipRetrieval('computeQueueA
 export const computeQueueActions = createSelector(
   clusters.selectors.currentCluster,
   selectorUtils.buildJsonApiResourceSelectors('computeQueueActions').jsonApiData,
-  () => 'computeQueueActions',
 
-  selectorUtils.relatedResourcesSelector,
+  (cluster, computeQueuesData) => (
+    selectorUtils.relatedResourcesSelector(
+      cluster,
+      computeQueuesData,
+      'computeQueueActions'
+    )
+    .filter(qa => qa)
+  ),
 );
 
 export const allQueues = createSelector(
@@ -53,7 +59,6 @@ export const allQueues = createSelector(
     );
 
     const createOrModifyActionsMap = [].concat(queueActions)
-      .filter(qa => qa)
       .sort(qa => qa.attributes.createdAt)  // Take only the most recent.
       .filter(({ attributes: qa }) =>
         ['PENDING', 'IN_PROGRESS'].includes(qa.status)

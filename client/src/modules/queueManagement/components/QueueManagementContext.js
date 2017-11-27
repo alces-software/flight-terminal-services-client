@@ -17,10 +17,7 @@ const QueueManagementContext = ({ route }) => {
 function periodicallyLoadComputeQueueActions() {
   const { computeQueueActions, dispatch } = this.props;
 
-  // XXX Remove need to filter(qa => qa) below.  The selector should do this.
-
   computeQueueActions
-    .filter(qa => qa)
     .forEach((qa) => {
       if (['PENDING', 'IN_PROGRESS'].includes(qa.attributes.status)) {
         dispatch(actions.loadComputeQueueAction(qa));
