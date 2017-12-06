@@ -5,11 +5,4 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-
-// Add publicly exported components here and to the export below.
-// Any components which are intended to only be used internally to the
-// onboarding module should not be included here.
-import LoadError from './TenantLoadError';
-import Context from './TenantContext';
-
-export { Context, LoadError };
+export const LOAD_CLUSTER_REQUESTED = '@launch/clusters/LOAD_CLUSTER_REQUESTED';

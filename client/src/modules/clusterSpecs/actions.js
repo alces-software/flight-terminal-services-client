@@ -1,5 +1,6 @@
 import { LOADING, LOADED, FAILED } from './actionTypes';
 import tenants from '../../modules/tenants';
+import { clusterSpecsFile } from './selectors';
 
 let devClusterSpecs;
 if (process.env.NODE_ENV === 'development') {
@@ -88,13 +89,25 @@ function loadSpecs(specsConfig) {
     });
 }
 
+function determineSpecsFileOverride(specsFileOverride, getState) {
+  // If the redux store contains a specs file override we continue to use it.
+  // Otherwise, we can end up showing a different set of cluster specs when
+  // navigating between tabs.
+  const storedSpecsFile = clusterSpecsFile(getState());
+  if (storedSpecsFile != null) {
+    return storedSpecsFile;
+  }
+  return specsFileOverride;
+}
+
 export function loadClusterSpecs(specsFileOverride) {
-  if (process.env.NODE_ENV === 'test') {
-    return setDevSpecs();
-  } else if (process.env.NODE_ENV === 'development' && specsFileOverride === 'dev') {
-    return setDevSpecs();
-  } else {
-    return (dispatch, getState) => {
+  return (dispatch, getState) => {
+    specsFileOverride = determineSpecsFileOverride(specsFileOverride, getState);
+    if (process.env.NODE_ENV === 'test') {
+      return setDevSpecs();
+    } else if (process.env.NODE_ENV === 'development' && specsFileOverride === 'dev') {
+      return setDevSpecs();
+    } else {
       const specsConfig = buildClusterSpecsConfig(
         specsFileOverride,
         tenants.selectors.clusterSpecsUrlConfig(getState())
@@ -104,6 +117,6 @@ export function loadClusterSpecs(specsFileOverride) {
       loadSpecs(specsConfig)
         .then(specs => dispatch(loaded(specs, specsConfig)))
         .catch(error => dispatch(failedToLoad(error, specsConfig)));
-    };
-  }
+    }
+  };
 }

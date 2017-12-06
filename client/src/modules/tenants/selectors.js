@@ -21,6 +21,10 @@ export function identifier(state) {
   return tenantState(state).identifier;
 }
 
+function identifierFromPropsOrStore(state, props) {
+  return props.identifier || identifier(state);
+}
+
 export const tenant = createSelector(
   jsonApiData,
   selectorUtils.buildIndexSelector(NAME, 'identifier'),
@@ -31,7 +35,7 @@ export const tenant = createSelector(
 
 export const retrieval = createSelector(
   jsonApiState,
-  identifier,
+  identifierFromPropsOrStore,
 
   loadingStates.selectors.retrieval,
 );

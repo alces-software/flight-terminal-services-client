@@ -10,6 +10,8 @@ module.exports = function(config) {
 
   // Avoids loading multiple copies of React
   config.resolve.alias.react = path.resolve("./node_modules/react");
+  // Avoids loading multiple copies of redux-form
+  config.resolve.alias['redux-form'] = path.resolve("./node_modules/redux-form");
   // Avoids loading multiple copies of styled-components
   config.resolve.alias['styled-components'] = path.resolve("./node_modules/styled-components");
 

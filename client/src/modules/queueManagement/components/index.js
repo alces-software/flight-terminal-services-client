@@ -8,8 +8,7 @@
 
 // Add publicly exported components here and to the export below.
 // Any components which are intended to only be used internally to the
-// onboarding module should not be included here.
-import LoadError from './TenantLoadError';
-import Context from './TenantContext';
+// queueManagement module should not be included here.
+import QueueManagementContext from './QueueManagementContext';
 
-export { Context, LoadError };
+export { QueueManagementContext };

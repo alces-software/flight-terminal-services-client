@@ -6,9 +6,11 @@ import { makeMetaPages } from 'flight-reactware';
 import App from './components/App';
 import Home from './pages/Home';
 import Page from './components/Page';
-import TenantContext from './components/TenantContext';
 import clusterSpecs from './modules/clusterSpecs';
 import clusters from './modules/clusters';
+import queueManagement from './modules/queueManagement';
+import tenants from './modules/tenants';
+
 import licenseData from './data/licenses.json';
 import { icons } from './utils/depotToIcon';
 
@@ -83,6 +85,18 @@ const routes = [
             pageKey: 'Access',
           },
           {
+            component: queueManagement.QueueManagementContext,
+            path: '/cluster/:hostname/queue-management',
+            routes: [
+              {
+                path: '*',
+                component: queueManagement.pages.QueueManagement,
+                title: 'Queue Management',
+                pageKey: 'Access',
+              },
+            ]
+          },
+          {
             path: '/cluster/:hostname?',
             component: clusters.pages.AccessIntro,
             title: 'Access',
@@ -91,7 +105,7 @@ const routes = [
         ],
       },
       {
-        component: TenantContext,
+        component: tenants.Context,
         path: '/:tenantIdentifier',
         routes: [
           {

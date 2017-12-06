@@ -17,7 +17,8 @@ let alcesUserLoaded = false;
 function loadAlcesUserOnInitialization(dispatch) {
   if (!alcesUserLoaded) {
     alcesUserLoaded = true;
-    dispatch(anvilUsers.actions.loadUser('alces'));
+    dispatch(anvilUsers.actions.loadUser('alces'))
+      .catch(e => e);
   }
 }
 
@@ -27,8 +28,10 @@ function loadUsersWhenAuthChanges(dispatch, getState) {
   if (currentUser !== previousCurrentUser) {
     previousCurrentUser = currentUser;
     if (currentUser != null) {
-      dispatch(launchUsers.actions.loadUser(currentUser.username));
-      dispatch(anvilUsers.actions.loadUser(currentUser.username));
+      dispatch(launchUsers.actions.loadUser(currentUser.username))
+        .catch(e => e);
+      dispatch(anvilUsers.actions.loadUser(currentUser.username))
+        .catch(e => e);
     }
   }
 };

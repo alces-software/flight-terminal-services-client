@@ -105,8 +105,8 @@ var combinations = <%= load_combinations('combinations') %>;
             <h4>Available tokens</h4>
             <div style="margin-bottom: 1em">
                 <input type="button" value="Get available tokens" onclick="fetchAvailableTokens();" />
-                <input type="button" value="Copy to clipboard" onclick="copyToClipboard('availableTokenTable');" />
-                <input type="button" value="Clear table" onclick="clearTable('availableTokenTableBody');" />
+                <input type="button" value="Copy table to clipboard" onclick="copyTableToClipboard('availableTokenTable');" />
+                <input type="button" value="Clear table (non-destructive)" onclick="clearTable('availableTokenTableBody');" title="Empty the table below WITHOUT deleting any tokens. This makes finding a newly created token much easier." />
             </div>
             <table id="availableTokenTable">
                 <thead>
@@ -116,6 +116,7 @@ var combinations = <%= load_combinations('combinations') %>;
                         <th>Event</th>
                         <th>Credits</th>
                         <th>Assigned to</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="availableTokenTableBody">
@@ -125,8 +126,8 @@ var combinations = <%= load_combinations('combinations') %>;
             <h4>Used tokens</h4>
             <div style="margin-bottom: 1em">
                 <input type="button" value="Get used tokens" onclick="fetchUsedTokens();" />
-                <input type="button" value="Copy to clipboard" onclick="copyToClipboard('usedTokenTable');" />
-                <input type="button" value="Clear table" onclick="clearTable('usedTokenTableBody');" />
+                <input type="button" value="Copy table to clipboard" onclick="copyTableToClipboard('usedTokenTable');" />
+                <input type="button" value="Clear table (non-destructive)" onclick="clearTable('usedTokenTableBody');" title="Empty the table below WITHOUT deleting any tokens." />
             </div>
             <table id="usedTokenTable">
                 <thead>

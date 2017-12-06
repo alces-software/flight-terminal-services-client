@@ -42,3 +42,4 @@ vendor/extensions/*
 config/foreman/local.*.env
 
 fly
+fly-next

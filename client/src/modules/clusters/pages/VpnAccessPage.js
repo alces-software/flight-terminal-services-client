@@ -20,20 +20,23 @@ const sections = {
 const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
-      vpn: PropTypes.shape({
-        browseConfigsUrl: PropTypes.string.isRequired,
-        configFilesUrl: PropTypes.string.isRequired,
-        configs: PropTypes.arrayOf(PropTypes.shape({
-          url: PropTypes.string.isRequired,
-          os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
-        })).isRequired,
+      features: PropTypes.shape({
+        vpn: PropTypes.shape({
+          browseConfigsUrl: PropTypes.string.isRequired,
+          configFilesUrl: PropTypes.string.isRequired,
+          configs: PropTypes.arrayOf(PropTypes.shape({
+            url: PropTypes.string.isRequired,
+            os: PropTypes.oneOf(['linux', 'windows', 'macos']).isRequired,
+          })).isRequired,
+        }).isRequired,
       }).isRequired,
     }),
   }),
 };
 
 const VpnAccessPage = ({ cluster }) => {
-  const { clusterName, vpn } = cluster.attributes;
+  const { vpn } = cluster.attributes.features;
+  const { clusterName } = cluster.attributes;
 
   return (
     <Container>
@@ -77,7 +80,7 @@ VpnAccessPage.propTypes = propTypes;
 const enhance = compose(
   withCluster,
   branch(
-    ({ cluster }) => !cluster.attributes.hasVpn,
+    ({ cluster }) => !cluster.attributes.features.hasVpn,
     renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
   )
 );

@@ -5,22 +5,39 @@
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
-import { jsonApi } from 'flight-reactware';
+import { combineReducers } from 'redux';
+import { apiRequest, loadingStates } from 'flight-reactware';
+
+import { LOAD_CLUSTER_REQUESTED } from './actionTypes';
 
 const initialState = {
-  hostname: undefined,
+  data: {
+    hostname: undefined,
+  },
 };
 
-export default function reducer(state = initialState, { meta, type }) {
-  if (
-    type === jsonApi.actionTypes.RESOURCE_REQUESTED &&
-    meta.entity.type === 'clusters'
-  ) {
-    return {
-      ...state,
-      hostname: meta.entity.meta.loadingStates.key,
-    };
+const metaReducers = combineReducers({
+  [loadingStates.constants.NAME]: loadingStates.reducer({
+    pending: LOAD_CLUSTER_REQUESTED,
+    resolved: apiRequest.resolved(LOAD_CLUSTER_REQUESTED),
+    rejected: apiRequest.rejected(LOAD_CLUSTER_REQUESTED),
+  }),
+});
+
+function dataReducer(state = initialState, { meta, type }) {
+  switch (type) {
+    case LOAD_CLUSTER_REQUESTED:
+      return {
+        ...state,
+        hostname: meta.hostname,
+      };
+
+    default:
+      return state;
   }
-  return state;
 }
 
+export default combineReducers({
+  data: dataReducer,
+  meta: metaReducers,
+});

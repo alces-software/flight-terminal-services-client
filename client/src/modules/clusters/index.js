@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Import and export the public facing API for the onboarding module.
+// Import and export the public facing API for the clusters module.
 
 import { jsonApi, apiRequest } from 'flight-reactware';
 
@@ -19,15 +19,27 @@ import reducer from './reducer';
 const indexes = [{
   entityType: constants.NAME,
   indexName: 'hostname',
-  indexAttribute: entity => entity.attributes.hostname,
+  indexAttribute: entity => entity.attributes && entity.attributes.hostname,
 }];
 
 const loadingStatesConfig = {
   resourceType: constants.NAME,
-  key: resource => resource.meta.loadingStates.key || resource.attributes.hostname,
-  pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
-  rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
-  resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
+  key: resource => {
+    if (resource.meta != null && resource.meta.loadingStates != null) {
+      return resource.meta.loadingStates.key;
+    }
+    return resource.attributes.hostname;
+  },
+  self: {
+    pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
+    rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
+    resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
+  },
+  relationship: {
+    pending: jsonApi.actionTypes.RELATION_REQUESTED,
+    rejected: apiRequest.rejected(jsonApi.actionTypes.RELATION_REQUESTED),
+    resolved: apiRequest.resolved(jsonApi.actionTypes.RELATION_REQUESTED),
+  },
 };
 
 export default {

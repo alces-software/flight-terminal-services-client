@@ -6,10 +6,9 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Add publicly exported components here and to the export below.
-// Any components which are intended to only be used internally to the
-// onboarding module should not be included here.
-import LoadError from './TenantLoadError';
-import Context from './TenantContext';
+// Add publicly exported pages here and to the export below.
+// Any pages which are intended to only be used internally to the
+// clusters module should not be included here.
+import QueueManagement from './QueueManagementPage';
 
-export { Context, LoadError };
+export { QueueManagement };
