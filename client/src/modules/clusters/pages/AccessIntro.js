@@ -6,6 +6,7 @@ import { PageHeading } from 'flight-reactware';
 
 import SshAccessIntro from '../components/SshAccessIntro';
 import TerminalIntro from '../components/TerminalIntro';
+import TutorialsIntro from '../components/TutorialsIntro';
 import QueueManagementIntro from '../components/QueueManagementIntro';
 import VpnIntro from '../components/VpnIntro';
 import withCluster from '../components/withCluster';
@@ -29,6 +30,10 @@ const cards = [
       return features.hasQueueManagement || features.hasQueueManangement;
     },
     render: QueueManagementIntro,
+  },
+  {
+    display: (cluster) => cluster.attributes.features.hasWebTerminal,
+    render: TutorialsIntro,
   },
 ];
 

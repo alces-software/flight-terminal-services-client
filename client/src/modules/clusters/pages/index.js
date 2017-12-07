@@ -11,6 +11,7 @@
 // clusters module should not be included here.
 import AccessIntro from './AccessIntro';
 import Terminal from './TerminalPage';
+import Tutorials from './TutorialsPage';
 import VpnDetails from './VpnAccessPage';
 
-export { AccessIntro, Terminal, VpnDetails };
+export { AccessIntro, Terminal, Tutorials, VpnDetails };
