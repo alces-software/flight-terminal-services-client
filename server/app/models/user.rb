@@ -23,7 +23,12 @@ class User < ApplicationRecord
   def self.from_jwt_token(token)
     claims = ::JsonWebToken.decode(token)  # handles signature verification too
 
-    user = where(flight_id: claims.fetch('flight_id')).first_or_initialize
+    user = where(flight_id: claims.fetch('flight_id')).first_or_initialize do |u|
+      # The following _is_ provided as a block to `first_or_initialize` as we
+      # want to only allocate the initial credits to new users.
+      initial_compute_credits = ENV['INITIAL_COMPUTE_CREDITS_FOR_NEW_USERS']
+      u.compute_credits = initial_compute_credits.to_i
+    end
 
     user.tap do |u|
       # The following is _not_ provided as a block to `first_or_initialize`
