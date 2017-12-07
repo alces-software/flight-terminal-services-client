@@ -20,6 +20,7 @@ import DocsSiteLink from '../../../elements/DocsSiteLink';
 import launchUsers from '../../../modules/launchUsers';
 
 import TopUpForm from '../components/TopUpForm';
+import Modal from '../components/Modal';
 
 const sections = {
   topUp: makeSection('Compute packs', 'topup', 'pink', 'cog'),
@@ -28,6 +29,7 @@ const sections = {
 const TopUpPage = () => {
   return (
     <Container >
+      <Modal />
       <Section
         overview="Top up your account with a compute pack to gain access to
         new compute time."

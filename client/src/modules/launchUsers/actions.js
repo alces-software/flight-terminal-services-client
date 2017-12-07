@@ -7,7 +7,7 @@
  *===========================================================================*/
 import { jsonApi } from 'flight-reactware';
 
-import { retrieval } from './selectors';
+import { currentUser, retrieval } from './selectors';
 
 export function loadUser(username) {
   // We need to include the type and the hostname attribute for the
@@ -31,5 +31,13 @@ export function loadUser(username) {
       );
       return dispatch(action);
     }
+  };
+}
+
+export function reloadCurrentUser() {
+  return (dispatch, getState) => {
+    const user = currentUser(getState());
+
+    return dispatch(jsonApi.actions.loadResource(user, {}));
   };
 }
