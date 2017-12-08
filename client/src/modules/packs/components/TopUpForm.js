@@ -20,6 +20,7 @@ import tenants from '../../tenants/';
 
 import { NAME } from '../constants';
 import { topupFromToken } from '../actions';
+import { validator } from '../validations';
 
 const TopUpForm = ({ form, handleSubmit }) => (
   <Form
@@ -30,13 +31,17 @@ const TopUpForm = ({ form, handleSubmit }) => (
       id="token"
       label="Enter your Flight Launch token"
       name="token"
+      type="text"
     />
-    <SubmitButton
-      color="success"
-      form={form}
-    >
-      Top up
-    </SubmitButton>
+    <div style={{ textAlign: 'center' }}>
+      <SubmitButton
+        color="success"
+        form={form}
+        size="lg"
+      >
+        Top up
+      </SubmitButton>
+    </div>
   </Form>
 );
 
@@ -56,7 +61,8 @@ const enhance = compose(
     form: `${NAME}:topUp`,
     onSubmit: (formValues, dispatch, props) => {
       return dispatch(topupFromToken(props.tenantIdentifier, formValues.token));
-    }
+    },
+    validate: validator,
   })
 );
 
