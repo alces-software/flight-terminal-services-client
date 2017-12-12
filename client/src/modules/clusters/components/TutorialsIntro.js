@@ -22,4 +22,3 @@ TutorialsIntro.propTypes = {
 };
 
 export default TutorialsIntro;
-
