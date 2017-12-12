@@ -12,7 +12,7 @@ import { Redirect } from 'react-router';
 import { compose, branch, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { Section, SectionIcon, makeSection } from 'flight-reactware';
+import { Section, SectionIcon, makeSection, showSpinnerUntil } from 'flight-reactware';
 
 import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 import ContextLink from '../../../elements/ContextLink';
@@ -93,7 +93,12 @@ TopUpPage.propTypes = {
 const enhance = compose(
   connect(createStructuredSelector({
     launchUser: launchUsers.selectors.currentUser,
+    launchUserRetrieval: launchUsers.selectors.retrieval,
   })),
+
+  showSpinnerUntil(
+    ({ launchUserRetrieval: r }) => r.initiated && !r.pending,
+  ),
 
   branch(
     ({ launchUser }) => !launchUser,

@@ -15,9 +15,13 @@ const {
   jsonApiData,
 } = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
+function usernameFromPropsOrState(state, props) {
+  return props.username || auth.selectors.currentUsernameSelector(state);
+}
+
 export const retrieval = createSelector(
   jsonApiState,
-  (state, props) => props.username,
+  usernameFromPropsOrState,
 
   loadingStates.selectors.retrieval,
 );
