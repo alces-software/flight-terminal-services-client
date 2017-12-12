@@ -8,6 +8,9 @@
 class ApplicationController < ActionController::API
   include ::ActionController::Cookies
 
+  # Make sure that we create a new User record if required.
+  before_action :current_user
+
   def current_user
     return @current_user if defined?(@current_user)
 

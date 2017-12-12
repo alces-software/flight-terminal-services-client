@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end)
 
   post 'clusters/launch'
+  post 'packs/top-up-from-token', controller: 'packs', action: 'top_up_from_token'
 
   #
   # Routes for all non-admin client communication other than loading the

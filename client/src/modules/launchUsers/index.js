@@ -9,6 +9,7 @@
 // Import and export the public facing API for the onboarding module.
 
 import { jsonApi, apiRequest } from 'flight-reactware';
+import { get } from 'lodash';
 
 import * as actions from './actions';
 import * as constants from './constants';
@@ -22,7 +23,10 @@ const indexes = [{
 
 const loadingStatesConfig = {
   resourceType: constants.NAME,
-  key: resource => resource.meta.loadingStates.key || resource.attributes.username,
+  key: resource => (
+    get(resource, 'meta.loadingStates.key') ||
+    get(resource, 'attributes.username')
+  ),
   pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
   rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
   resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
