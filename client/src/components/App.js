@@ -93,7 +93,7 @@ const App = ({ location, route }) => {
             transitionLeave={false}
             transitionName="fade"
           >
-            <div key={location.key}>
+            <div key={lastRouteComponent.key || location.pathname}>
               {renderRoutes(route.routes, {}, { location: location })}
             </div>
           </CSSTransitionGroup>

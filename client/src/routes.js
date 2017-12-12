@@ -71,8 +71,15 @@ const routes = [
       ...metaPages,
       {
         component: packs.pages.TopUp,
+        path: '/packs/usage',
+        title: 'Top up',
+        key: 'packs:topup',
+      },
+      {
+        component: packs.pages.TopUp,
         path: '/packs/top-up',
-        title: 'Top up'
+        title: 'Top up',
+        key: 'packs:topup',
       },
       {
         component: clusters.ClusterContext,
