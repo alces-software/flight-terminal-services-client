@@ -37,8 +37,13 @@ class User < ApplicationRecord
       # executes the block when the record cannot be found.
       u.email = claims.fetch('email')
       u.username = claims.fetch('username')
-      u.save!
+      u.save
     end
+  rescue
+    Alces.app.logger.warn("Error whilst retrieving user from JWT") do
+      $!
+    end
+    raise
   end
 
   def has_compute_credits?
