@@ -90,6 +90,12 @@ const routes = [
             pageKey: 'Access',
           },
           {
+            path: '/cluster/:hostname/tutorials',
+            component: clusters.pages.Tutorials,
+            title: 'Tutorial',
+            pageKey: 'Access',
+          },
+          {
             path: '/cluster/:hostname/terminal',
             component: clusters.pages.Terminal,
             title: 'Terminal Access',
