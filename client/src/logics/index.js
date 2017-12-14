@@ -6,11 +6,12 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-import session from '../modules/session';
+import * as modules from '../modules';
 
-const logics = [
-  ...session.logic,
-];
+const logics = Object.keys(modules).reduce(
+  (accum, name) => accum.concat(modules[name].logic || []),
+  [],
+);
 
 export default (store) => {
   store.subscribe(() => {

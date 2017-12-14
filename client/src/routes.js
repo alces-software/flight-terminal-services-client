@@ -6,12 +6,13 @@ import { makeMetaPages } from 'flight-reactware';
 import App from './components/App';
 import Home from './pages/Home';
 import Page from './components/Page';
-import clusterSpecs from './modules/clusterSpecs';
-import clusters from './modules/clusters';
-import packs from './modules/packs';
-import queueManagement from './modules/queueManagement';
-import tenants from './modules/tenants';
-
+import {
+  clusterSpecs,
+  clusters,
+  packs,
+  queueManagement,
+  tenants,
+} from './modules';
 import licenseData from './data/licenses.json';
 import { icons } from './utils/depotToIcon';
 

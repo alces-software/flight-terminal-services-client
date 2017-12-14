@@ -6,9 +6,8 @@ import { createStructuredSelector } from 'reselect';
 
 import { ProductBar } from 'flight-reactware';
 
-import clusters from '../modules/clusters';
 import getItems from '../modules/items';
-import tenants from '../modules/tenants';
+import { clusters, tenants } from '../modules';
 
 const Page = ({
   children,
