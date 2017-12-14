@@ -47,7 +47,7 @@ class LoadTraconClusterDetailsCommand
 
   def make_request(uri)
     body = open(
-      uri,
+      uri.to_s,
       http_basic_authentication: [fqdn, @cluster.auth_token]
     ).read
     if body.empty?
