@@ -140,7 +140,6 @@ const Home = ({ tenantIdentifier }) => {
             {' '} available for you to join in and read through.
           </p>
           <p>
-            Alces Flight Launch is excellent you should try it out now!
             Enjoy your flight!
           </p>
         </Section>
