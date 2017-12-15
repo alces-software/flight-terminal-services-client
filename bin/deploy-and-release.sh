@@ -8,6 +8,7 @@ main() {
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
 
+    # XXX Should this check be made in deploy.sh?
     local app_mode
     app_mode=$(get_app_mode)
     header "Going to build launch client for app mode ${app_mode}"
@@ -52,6 +53,7 @@ abort_if_uncommitted_changes_present() {
 }
 
 get_app_mode() {
+    # XXX This should check both locations.  They should be consistent.
     grep REACT_APP_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
 }
 
