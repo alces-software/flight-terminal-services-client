@@ -13,7 +13,7 @@ const TerminalIntro = ({ hostname }) => (
     <p>
       Your cluster has been configured with the Alces Web Terminal service,
       which allows you to securely log in to your cluster through Flight
-      Launch.
+      Manage.
     </p>
   </AccessIntroCard>
 );

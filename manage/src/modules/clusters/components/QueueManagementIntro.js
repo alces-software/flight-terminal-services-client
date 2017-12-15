@@ -12,7 +12,7 @@ const QueueManagementIntro = ({ hostname }) => (
   >
     <p>
       Your cluster has been configured to support management of its compute
-      queues through Flight Launch.  You can create, modify and remove compute
+      queues through Flight Manage.  You can create, modify and remove compute
       queues by visiting the queue management page.
     </p>
   </AccessIntroCard>
