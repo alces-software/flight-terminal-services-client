@@ -9,5 +9,6 @@ export default function(clusterHostname) {
   return [
     makeItem('Overview', 'home', makeLink(currentSite, '/')),
     makeItem('Access', 'key', makeLink(currentSite, `/cluster/${hostname || ''}`)),
+    makeItem('Manage', 'dashboard', makeLink(currentSite, `/manage/${hostname || ''}`)),
   ];
 }

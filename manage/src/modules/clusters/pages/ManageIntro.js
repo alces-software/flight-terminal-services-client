@@ -4,28 +4,16 @@ import { Container, Row, Col } from 'reactstrap';
 import styled from 'styled-components';
 import { PageHeading } from 'flight-reactware';
 
-import SshAccessIntro from '../components/SshAccessIntro';
-import TerminalIntro from '../components/TerminalIntro';
-import TutorialsIntro from '../components/TutorialsIntro';
-import VpnIntro from '../components/VpnIntro';
+import QueueManagementIntro from '../components/QueueManagementIntro';
 import withCluster from '../components/withCluster';
 
 const cards = [
   {
-    display: () => true,
-    render: SshAccessIntro,
-  },
-  {
-    display: (cluster) => cluster.attributes.features.hasVpn,
-    render: VpnIntro,
-  },
-  {
-    display: (cluster) => cluster.attributes.features.hasWebTerminal,
-    render: TerminalIntro,
-  },
-  {
-    display: (cluster) => cluster.attributes.features.hasWebTerminal,
-    render: TutorialsIntro,
+    display: (cluster) => {
+      const features = cluster.attributes.features;
+      return features.hasQueueManagement || features.hasQueueManangement;
+    },
+    render: QueueManagementIntro,
   },
 ];
 
@@ -34,11 +22,9 @@ const propTypes = {
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
       features: PropTypes.shape({
-        hasVpn: PropTypes.bool,
-        hasWebTerminal: PropTypes.bool,
+        hasQueueManagement: PropTypes.bool,
       }),
       hostname: PropTypes.string.isRequired,
-      ipAddress: PropTypes.string.isRequired,
     }),
   }),
 };
@@ -57,13 +43,13 @@ const EqualHeightRow = styled(Row)`
   }
 `;
 
-const AccessIntro = ({ cluster }) => {
+const ManageIntro = ({ cluster }) => {
   const clusterName = cluster.attributes.clusterName;
   const overview = (
     <span>
       Your Alces Flight cluster{' '}<em>{clusterName}</em>{' '} is ready and
-      waiting to run your computational workloads.  Use the access options
-      below to gain access.
+      waiting to run your computational workloads.  Use the options below to
+      manage your cluster.
     </span>
   );
 
@@ -72,7 +58,7 @@ const AccessIntro = ({ cluster }) => {
       <PageHeading
         overview={overview}
         sections={[]}
-        title="Access options for your cluster"
+        title="Management options for your cluster"
       />
       <EqualHeightRow>
         {
@@ -92,6 +78,7 @@ const AccessIntro = ({ cluster }) => {
   );
 };
 
-AccessIntro.propTypes = propTypes;
+ManageIntro.propTypes = propTypes;
 
-export default withCluster(AccessIntro);
+export default withCluster(ManageIntro);
+

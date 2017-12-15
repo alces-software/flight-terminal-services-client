@@ -51,6 +51,30 @@ const routes = [
       },
       {
         component: clusters.ClusterContext,
+        path: '/manage/:hostname?',
+        routes: [
+          {
+            component: queueManagement.QueueManagementContext,
+            path: '/manage/:hostname/queue-management',
+            routes: [
+              {
+                path: '*',
+                component: queueManagement.pages.QueueManagement,
+                title: 'Queue Management',
+                pageKey: 'Manage',
+              },
+            ]
+          },
+          {
+            path: '/manage/:hostname?',
+            component: clusters.pages.ManageIntro,
+            title: 'Manage',
+            pageKey: 'Manage',
+          },
+        ],
+      },
+      {
+        component: clusters.ClusterContext,
         path: '/cluster/:hostname?',
         routes: [
           {
@@ -70,18 +94,6 @@ const routes = [
             component: clusters.pages.Terminal,
             title: 'Terminal Access',
             pageKey: 'Access',
-          },
-          {
-            component: queueManagement.QueueManagementContext,
-            path: '/cluster/:hostname/queue-management',
-            routes: [
-              {
-                path: '*',
-                component: queueManagement.pages.QueueManagement,
-                title: 'Queue Management',
-                pageKey: 'Access',
-              },
-            ]
           },
           {
             path: '/cluster/:hostname?',

@@ -5,7 +5,7 @@ import AccessIntroCard from './AccessIntroCard';
 
 const QueueManagementIntro = ({ hostname }) => (
   <AccessIntroCard
-    buttonHref={`/cluster/${hostname}/queue-management`}
+    buttonHref={`/manage/${hostname}/queue-management`}
     buttonText="Manage compute queues"
     headerText="Cluster compute queue management"
     iconName="cog"
