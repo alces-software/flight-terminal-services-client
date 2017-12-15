@@ -10,9 +10,9 @@ here](GETTING_STARTED.md).
 
 ## High-level documenation
 
-Flight Launch consists of four services: server, client, launch token
+Flight Launch consists of four services: server, launch client, launch token
 generator and tenant admin app.  All of these services are contained in this
-repository, in the `server`, `client`, `token-generator` and `admin-app`
+repository, in the `server`, `launch`, `token-generator` and `admin-app`
 directories, respectively.
 
 Flight Launch makes use of a number of concepts, "cluster specs", "launch
@@ -23,7 +23,7 @@ links to more information can be found below.
 
 Cluster specs specify which clusters are available for launch and what
 configuration those clusters are launched with.  More documentation can be
-[found here](client/src/modules/clusterSpecs/data/README-CLUSTER-SPECS.md).
+[found here](launch/src/modules/clusterSpecs/data/README-CLUSTER-SPECS.md).
 
 ### Launch tokens
 

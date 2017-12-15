@@ -10,12 +10,12 @@ main() {
     build_admin_app
     build_token_generator_app
     if [ "$SKIP_CLIENT_BUILD" == "false" ] ; then
-        header "Building client"
-        build_client
+        header "Building launch client"
+        build_launch_client
     fi
-    subheader "Committing client bundle"
-    commit_client_bundle
-    trap remove_client_bundle_commit EXIT
+    subheader "Committing client bundles"
+    commit_client_bundles
+    trap remove_client_bundles_commit EXIT
     header "Deploying to ${REMOTE}"
     deploy_server
     header "Migrating database"
@@ -45,18 +45,18 @@ build_token_generator_app() {
     ) 2> >(indent 1>&2) | indent
 }
 
-build_client() {
+build_launch_client() {
     (
-    rm -rf client/build/
-    pushd client/
+    rm -rf launch/build/
+    pushd launch/
     yarn run build
     popd
     ) 2> >(indent 1>&2) | indent
 }
 
-commit_client_bundle() {
+commit_client_bundles() {
     (
-    cp -ar client/build/*  server/public/
+    cp -ar launch/build/*  server/public/
     git add -A server/public/
     git commit -m 'Add client bundles' server/public/
     ) 2> >(indent 1>&2) | indent
@@ -81,8 +81,8 @@ migrate_database() {
         "dokku run \"${dokku_app}\" rake db:migrate:status; dokku run \"${dokku_app}\" rake db:migrate"
 }
 
-remove_client_bundle_commit() {
-    subheader "Removing client bundle commit"
+remove_client_bundles_commit() {
+    subheader "Removing client bundles commit"
     git reset --hard HEAD~1 2> >(indent 1>&2) | indent
 }
 
@@ -105,12 +105,12 @@ usage() {
     echo "Deploy HEAD to a dokku app"
     echo
     echo -e "      --dokku-remote REMOTE\t\tThe git remote to deploy to"
-    echo -e "      --skip-client-build\t\tDon't rebuild the client"
+    echo -e "      --skip-launch-client-build\t\tDon't rebuild the launch client"
     echo -e "      --help\t\tShow this help message"
 }
 
 REMOTE=dokku-staging
-SKIP_CLIENT_BUILD=false
+SKIP_LAUNCH_CLIENT_BUILD=false
 
 parse_arguments() {
     while [[ $# > 0 ]] ; do
@@ -123,8 +123,8 @@ parse_arguments() {
                 shift
                 ;;
 
-            --skip-client-build)
-                SKIP_CLIENT_BUILD=true
+            --skip-launch-client-build)
+                SKIP_LAUNCH_CLIENT_BUILD=true
                 shift
                 ;;
 

@@ -36,7 +36,7 @@ class DetermineRuntimeCommand
 
   # This fuzzy time algorithm here should be kept in sync with the fuzzy time
   # algorithm in
-  # client/src/modules/clusterLaunch/components/ClusterRuntimeExplanation.js
+  # launch/src/modules/clusterLaunch/components/ClusterRuntimeExplanation.js
   def humanize(runtime_in_minutes)
     fractional_hours = runtime_in_minutes / 60.0
     days = (fractional_hours / 24.0).truncate

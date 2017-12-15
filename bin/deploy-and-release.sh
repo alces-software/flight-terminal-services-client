@@ -10,7 +10,7 @@ main() {
 
     local app_mode
     app_mode=$(get_app_mode)
-    header "Going to build client for app mode ${app_mode}"
+    header "Going to build launch client for app mode ${app_mode}"
     wait_for_confirmation
 
     NEW_VERSION=$(get_new_version)
@@ -52,7 +52,7 @@ abort_if_uncommitted_changes_present() {
 }
 
 get_app_mode() {
-    grep REACT_APP_MODE client/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
+    grep REACT_APP_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
 }
 
 get_new_version() {
@@ -69,11 +69,11 @@ checkout_release_branch() {
 }
 
 commit_version_bump() {
-    cp -f "${REPO_ROOT}/version.json" "${REPO_ROOT}/client/src/data/version.json"
+    cp -f "${REPO_ROOT}/version.json" "${REPO_ROOT}/launch/src/data/version.json"
     cp -f "${REPO_ROOT}/version.json" "${REPO_ROOT}/server/lib/launch/version.json"
     git commit -m "Bump version to ${NEW_VERSION}" \
         "${REPO_ROOT}/version.json" \
-        "${REPO_ROOT}/client/src/data/version.json" \
+        "${REPO_ROOT}/launch/src/data/version.json" \
         "${REPO_ROOT}/server/lib/launch/version.json"
 }
 

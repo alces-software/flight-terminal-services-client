@@ -1,5 +1,7 @@
 # Overview of deployment process
 
+XXX lots of things to update here.
+
 ## Prerequisites
 
  - A checked out copy of the flight-launch git repo.
@@ -57,10 +59,10 @@ tricky.  We're no longer on the develop branch and have already spent time
 building the client.
 
 Discover why the deploy failed and see if you can fix it.  Once the
-fix has been commited, run `./bin/deploy.sh --skip-client-build`.  That will
-attempt a new deploy to the staging app.  Once the deployment is successful,
-promote staging to production by SSHing into the dokku server and running the
-commands from the `promote_staging_to_production` function in
+fix has been commited, run `./bin/deploy.sh --skip-launch-client-build`.  That
+will attempt a new deploy to the staging app.  Once the deployment is
+successful, promote staging to production by SSHing into the dokku server and
+running the commands from the `promote_staging_to_production` function in
 `./bin/deploy-and-release.sh`.  Finally, run `./bin/merge-and-tag-release.sh
 NEW_VERSION` 
 

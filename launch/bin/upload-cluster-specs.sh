@@ -29,7 +29,7 @@ usage() {
 }
 
 DEST=test.json
-DEFAULT_SRC="${REPO_ROOT}/client/src/modules/clusterSpecs/data/clusterSpecs.dev.json"
+DEFAULT_SRC="${REPO_ROOT}/launch/src/modules/clusterSpecs/data/clusterSpecs.dev.json"
 SRC=$DEFAULT_SRC
 
 parse_arguments() {

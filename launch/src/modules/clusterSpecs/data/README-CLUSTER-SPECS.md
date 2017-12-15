@@ -221,10 +221,10 @@ The `launchOptions` section describes a set of launch options for the cluster
 spec.
 
 These options are mutually exclusive and exactly one must be selected.  If
-there is a single option the client app will automatically select that option.
+there is a single option the launch app will automatically select that option.
 If there are two options the user will be able to select one of them.
 
-WARNING: Currently, if there are more than two options, the client app will
+WARNING: Currently, if there are more than two options, the launch app will
 only allow selecting between the first two.  It should be relatively simple to
 extend this to support more than two options.
 
