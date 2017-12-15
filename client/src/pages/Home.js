@@ -21,7 +21,7 @@ import ContextLink from '../elements/ContextLink';
 import CommunitySiteLink from '../elements/CommunitySiteLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
 import PageHeading from '../components/PageHeading';
-import tenants from '../modules/tenants';
+import { tenants } from '../modules';
 
 const sections = {
   whatIsIt: makeSection('What is Flight Launch?', 'what-is-it', 'pink', 'question'),

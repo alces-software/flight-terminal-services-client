@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PageHeadingContainer, SectionButtons } from 'flight-reactware';
 
-import branding from '../modules/branding';
+import { branding } from '../modules';
 
 const PageHeading = ({ brandingLogo, overview, sections, title }) => (
   <PageHeadingContainer>

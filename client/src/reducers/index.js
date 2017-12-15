@@ -7,42 +7,38 @@ import {
 import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 
-import anvilUsers from '../modules/anvilUsers';
-import clusterSpecs from '../modules/clusterSpecs';
-import clusters from '../modules/clusters';
-import launchUsers from '../modules/launchUsers';
-import packs from '../modules/packs';
-import queueManagement from '../modules/queueManagement';
-import tenants from '../modules/tenants';
-import tokens from '../modules/tokens';
+import * as modules from '../modules';
 
-const entityIndexes = [
-  ...anvilUsers.indexes || [],
-  ...clusters.indexes || [],
-  ...launchUsers.indexes || [],
-  ...packs.indexes || [],
-  ...queueManagement.indexes || [],
-  ...tenants.indexes || [],
-  ...tokens.indexes || [],
-];
+const entityIndexes = Object.keys(modules).reduce(
+  (accum, name) => accum.concat(modules[name].indexes || []),
+  [],
+);
 
-const loadingStatesConfig = [
-  anvilUsers.loadingStatesConfig || {},
-  clusters.loadingStatesConfig || {},
-  launchUsers.loadingStatesConfig || {},
-  packs.loadingStatesConfig || {},
-  queueManagement.loadingStatesConfig || {},
-  tenants.loadingStatesConfig || {},
-  tokens.loadingStatesConfig || {},
-];
+const loadingStatesConfig = Object.keys(modules).reduce(
+  (accum, name) => {
+    const c = modules[name].loadingStatesConfig;
+    if (c) {
+      accum.push(c);
+    }
+    return accum;
+  },
+  [],
+);
+
+const moduleReducers = Object.keys(modules).reduce(
+  (accum, name) => {
+    const m = modules[name];
+    if (m.reducer) {
+      accum[m.constants.NAME] = m.reducer;
+    }
+    return accum;
+  },
+  {},
+);
 
 export default (cookies) => ({
   ...createFlightReducers(cookies),
-  [clusterSpecs.constants.NAME]: clusterSpecs.reducer,
-  [clusters.constants.NAME]: clusters.reducer,
-  [packs.constants.NAME]: packs.reducer,
-  [queueManagement.constants.NAME]: queueManagement.reducer,
-  [tenants.constants.NAME]: tenants.reducer,
+  ...moduleReducers,
   entities: compose(
     jsonApi.withIndexes(entityIndexes),
     loadingStates.withLoadingStates(loadingStatesConfig),
