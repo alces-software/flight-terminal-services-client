@@ -1,7 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-
-import { makeMetaPages } from 'flight-reactware';
+import { makeMetaPages, makeMetaPageRouteConfigs } from 'flight-reactware';
 
 import App from './components/App';
 import Home from './pages/Home';
@@ -14,33 +13,12 @@ import {
 import licenseData from './data/licenses.json';
 import { icons } from './utils/depotToIcon';
 
-const metaPageComponents = makeMetaPages(Page, {
+const metaPages = makeMetaPages(Page, {
   softwareLicenses: licenseData,
   icons: icons,
 });
 
-const metaPages = [
-  {
-    path: '/about',
-    component: metaPageComponents.About,
-    title: 'About',
-  },
-  {
-    path: '/privacy',
-    component: metaPageComponents.Privacy,
-    title: 'Privacy',
-  },
-  {
-    path: '/security',
-    component: metaPageComponents.Security,
-    title: 'Security',
-  },
-  {
-    path: '/terms',
-    component: metaPageComponents.Terms,
-    title: 'Terms',
-  },
-];
+const metaPageRouteConfigs = makeMetaPageRouteConfigs(metaPages);
 
 const redirects = {
   '/': '/default',
@@ -67,7 +45,7 @@ const routes = [
   {
     component: App,
     routes: [
-      ...metaPages,
+      ...metaPageRouteConfigs,
       // {
       //   component: packs.pages.TopUp,
       //   path: '/packs/usage',
@@ -94,7 +72,7 @@ const routes = [
             title: 'Overview',
           },
           {
-            component: metaPageComponents.NotFound,
+            component: metaPages.NotFound,
             title: 'Not found',
           }
         ],
@@ -102,7 +80,7 @@ const routes = [
     ],
   },
   {
-    component: metaPageComponents.NotFound,
+    component: metaPages.NotFound,
     title: 'Not found',
   }
 ];
