@@ -14,6 +14,9 @@ const metaPages = makeMetaPages(Page, {
 });
 
 const metaPageRouteConfigs = makeMetaPageRouteConfigs(metaPages);
+const notFoundRouteConfig = {
+  component: metaPages.NotFound,
+};
 
 const routes = [
   {
@@ -37,19 +40,23 @@ const routes = [
             path: '/manage/:hostname/queue-management',
             routes: [
               {
-                path: '*',
+                path: '/manage/:hostname/queue-management',
+                exact: true,
                 component: queueManagement.pages.QueueManagement,
                 title: 'Queue Management',
                 pageKey: 'Manage',
               },
+              notFoundRouteConfig,
             ]
           },
           {
             path: '/manage/:hostname?',
+            exact: true,
             component: clusters.pages.ManageIntro,
             title: 'Manage',
             pageKey: 'Manage',
           },
+          notFoundRouteConfig,
         ],
       },
       {
@@ -60,36 +67,38 @@ const routes = [
         routes: [
           {
             path: '/cluster/:hostname/vpn',
+            exact: true,
             component: clusters.pages.VpnDetails,
             title: 'VPN Access',
             pageKey: 'Access',
           },
           {
             path: '/cluster/:hostname/tutorials',
+            exact: true,
             component: clusters.pages.Tutorials,
             title: 'Tutorial',
             pageKey: 'Access',
           },
           {
             path: '/cluster/:hostname/terminal',
+            exact: true,
             component: clusters.pages.Terminal,
             title: 'Terminal Access',
             pageKey: 'Access',
           },
           {
             path: '/cluster/:hostname?',
+            exact: true,
             component: clusters.pages.AccessIntro,
             title: 'Access',
             pageKey: 'Access',
           },
+          notFoundRouteConfig,
         ],
       },
+      notFoundRouteConfig,
     ],
   },
-  {
-    component: metaPages.NotFound,
-    title: 'Not found',
-  }
 ];
 
 export default routes;

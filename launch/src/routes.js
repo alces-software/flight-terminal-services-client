@@ -19,6 +19,9 @@ const metaPages = makeMetaPages(Page, {
 });
 
 const metaPageRouteConfigs = makeMetaPageRouteConfigs(metaPages);
+const notFoundRouteConfig = {
+  component: metaPages.NotFound,
+};
 
 const redirects = {
   '/': '/default',
@@ -61,28 +64,23 @@ const routes = [
         path: '/:tenantIdentifier',
         routes: [
           {
-            path: '*/launch',
+            exact: true,
+            path: '/:tenantIdentifier/launch',
             component: clusterSpecs.pages.ClusterSpecsPage,
             title: 'Launch',
           },
           {
-            path: '*/',
             exact: true,
+            path: '/:tenantIdentifier',
             component: Home,
             title: 'Overview',
           },
-          {
-            component: metaPages.NotFound,
-            title: 'Not found',
-          }
+          notFoundRouteConfig,
         ],
       },
+      notFoundRouteConfig,
     ],
   },
-  {
-    component: metaPages.NotFound,
-    title: 'Not found',
-  }
 ];
 
 export default routes;
