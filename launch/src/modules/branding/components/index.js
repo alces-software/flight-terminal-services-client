@@ -11,6 +11,7 @@
 // onboarding module should not be included here.
 import Logo from './Logo';
 import Header from './Header';
+import PageHeading from './PageHeading';
 import WithBranding from './WithBranding';
 
-export { Logo, Header, WithBranding };
+export { Logo, Header, PageHeading, WithBranding };

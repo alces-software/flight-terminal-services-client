@@ -7,8 +7,8 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import branding from '../../branding';
 import tenants from '../../tenants';
-import PageHeading from '../../../components/PageHeading';
 
 import * as clusterSpecsSelectors from '../selectors';
 import CardDeck from '../components/CardDeck';
@@ -19,7 +19,7 @@ const Wrapper = ({ children }) => {
   return (
     <div>
       <Container fluid>
-        <PageHeading
+        <branding.PageHeading
           brandingLogo
           overview="Ready to get going? Choose a cluster specification and
           launch your cluster now!"

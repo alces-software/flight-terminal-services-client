@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PageHeadingContainer, SectionButtons } from 'flight-reactware';
 
-import { branding } from '../modules';
+import WithBranding from './WithBranding';
+import Logo from './Logo';
 
 const PageHeading = ({ brandingLogo, overview, sections, title }) => (
   <PageHeadingContainer>
@@ -12,14 +13,14 @@ const PageHeading = ({ brandingLogo, overview, sections, title }) => (
           <h1>{title}</h1>
         </div>
         <div className="d-flex justify-content-center">
-          <branding.WithBranding>
+          <WithBranding>
             {(branding) => <h3>{branding.navEntry}</h3>}
-          </branding.WithBranding>
+          </WithBranding>
         </div>
         {
           brandingLogo ?
             <div className="d-flex justify-content-center">
-              <branding.Logo />
+              <Logo />
             </div>
             : null
         }

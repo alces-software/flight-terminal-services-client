@@ -20,8 +20,7 @@ import FontAwesome from 'react-fontawesome';
 import ContextLink from '../elements/ContextLink';
 import CommunitySiteLink from '../elements/CommunitySiteLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
-import PageHeading from '../components/PageHeading';
-import { tenants } from '../modules';
+import { branding, tenants } from '../modules';
 
 const sections = {
   whatIsIt: makeSection('What is Flight Launch?', 'what-is-it', 'pink', 'question'),
@@ -58,7 +57,7 @@ const Home = ({ tenantIdentifier }) => {
   return (
     <div>
       <Container fluid>
-        <PageHeading
+        <branding.PageHeading
           overview="This service has been developed to quickly launch a
           preconfigured High Performance Computing (HPC) cluster."
           sections={Object.values(sections)}
