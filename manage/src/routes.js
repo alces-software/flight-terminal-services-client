@@ -8,11 +8,9 @@ import {
   queueManagement,
 } from './modules';
 import licenseData from './data/licenses.json';
-import { icons } from './utils/depotToIcon';
 
 const metaPageComponents = makeMetaPages(Page, {
   softwareLicenses: licenseData,
-  icons: icons,
 });
 
 const metaPages = [
