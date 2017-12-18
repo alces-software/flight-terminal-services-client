@@ -50,7 +50,9 @@ const routes = [
         title: 'Overview',
       },
       {
-        component: clusters.ClusterContext,
+        component: clusters.withClusterContext({
+          NoClusterSpecified: clusters.pages.ManageHowTo,
+        }),
         path: '/manage/:hostname?',
         routes: [
           {
@@ -74,7 +76,9 @@ const routes = [
         ],
       },
       {
-        component: clusters.ClusterContext,
+        component: clusters.withClusterContext({
+          NoClusterSpecified: clusters.pages.GainAccessHowTo,
+        }),
         path: '/cluster/:hostname?',
         routes: [
           {

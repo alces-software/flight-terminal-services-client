@@ -10,9 +10,19 @@
 // Any pages which are intended to only be used internally to the
 // clusters module should not be included here.
 import AccessIntro from './AccessIntro';
+import GainAccessHowTo from './GainAccessHowTo';
+import ManageHowTo from './ManageHowTo';
 import ManageIntro from './ManageIntro';
 import Terminal from './TerminalPage';
 import Tutorials from './TutorialsPage';
 import VpnDetails from './VpnAccessPage';
 
-export { AccessIntro, ManageIntro, Terminal, Tutorials, VpnDetails };
+export {
+  AccessIntro,
+  GainAccessHowTo,
+  ManageHowTo,
+  ManageIntro,
+  Terminal,
+  Tutorials,
+  VpnDetails,
+};
