@@ -1,7 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import {
   Button,
   Container,
@@ -21,7 +18,6 @@ import FontAwesome from 'react-fontawesome';
 import ContextLink from '../elements/ContextLink';
 import CommunitySiteLink from '../elements/CommunitySiteLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
-import { tenants } from '../modules';
 
 const sections = {
   whatIsIt: makeSection('What is Flight Manage?', 'what-is-it', 'pink', 'question'),
@@ -53,7 +49,7 @@ const CallToAction = styled(({ children, className, icon, to }) => {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
 `;
 
-const Home = ({ tenantIdentifier }) => {
+const Home = () => {
   return (
     <div>
       <Container fluid>
@@ -148,12 +144,4 @@ const Home = ({ tenantIdentifier }) => {
   );
 };
 
-Home.propTypes = {
-  tenantIdentifier: PropTypes.string.isRequired,
-};
-
-const enhance = connect(createStructuredSelector({
-  tenantIdentifier: tenants.selectors.identifier,
-}));
-
-export default enhance(Home);
+export default Home;
