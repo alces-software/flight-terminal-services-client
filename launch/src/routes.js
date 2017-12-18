@@ -8,9 +8,7 @@ import Home from './pages/Home';
 import Page from './components/Page';
 import {
   clusterSpecs,
-  clusters,
   packs,
-  queueManagement,
   tenants,
 } from './modules';
 import licenseData from './data/licenses.json';
@@ -79,48 +77,6 @@ const routes = [
         component: packs.pages.TopUp,
         path: '/packs/top-up',
         title: 'Top up',
-      },
-      {
-        component: clusters.ClusterContext,
-        path: '/cluster/:hostname?',
-        routes: [
-          {
-            path: '/cluster/:hostname/vpn',
-            component: clusters.pages.VpnDetails,
-            title: 'VPN Access',
-            pageKey: 'Access',
-          },
-          {
-            path: '/cluster/:hostname/tutorials',
-            component: clusters.pages.Tutorials,
-            title: 'Tutorial',
-            pageKey: 'Access',
-          },
-          {
-            path: '/cluster/:hostname/terminal',
-            component: clusters.pages.Terminal,
-            title: 'Terminal Access',
-            pageKey: 'Access',
-          },
-          {
-            component: queueManagement.QueueManagementContext,
-            path: '/cluster/:hostname/queue-management',
-            routes: [
-              {
-                path: '*',
-                component: queueManagement.pages.QueueManagement,
-                title: 'Queue Management',
-                pageKey: 'Access',
-              },
-            ]
-          },
-          {
-            path: '/cluster/:hostname?',
-            component: clusters.pages.AccessIntro,
-            title: 'Access',
-            pageKey: 'Access',
-          },
-        ],
       },
       {
         component: tenants.Context,

@@ -7,16 +7,15 @@ import { createStructuredSelector } from 'reselect';
 import { ProductBar } from 'flight-reactware';
 
 import getItems from '../modules/items';
-import { clusters, tenants } from '../modules';
+import { tenants } from '../modules';
 
 const Page = ({
   children,
-  clusterHostname,
   pageKey,
   tenantIdentifier,
   title,
 }) => {
-  const items = getItems(tenantIdentifier, clusterHostname);
+  const items = getItems(tenantIdentifier);
   return (
     <div>
       <Helmet>
@@ -36,7 +35,6 @@ const Page = ({
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,
-  clusterHostname: PropTypes.string,
   pageKey: PropTypes.string,
   tenantIdentifier: PropTypes.string,
   title: PropTypes.string.isRequired,
@@ -44,5 +42,4 @@ Page.propTypes = {
 
 export default connect(createStructuredSelector({
   tenantIdentifier: tenants.selectors.identifier,
-  clusterHostname: clusters.selectors.hostname,
 }))(Page);
