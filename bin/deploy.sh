@@ -9,7 +9,7 @@ main() {
     header "Building admin and token generator apps"
     build_admin_app
     build_token_generator_app
-    if [ "$SKIP_CLIENT_BUILD" == "false" ] ; then
+    if [ "$SKIP_LAUNCH_CLIENT_BUILD" == "false" ] ; then
         header "Building launch client"
         build_launch_client
     fi
@@ -20,6 +20,8 @@ main() {
     deploy_server
     header "Migrating database"
     migrate_database
+    header "Deploying manage client"
+    deploy_manage_client
 }
 
 abort_if_uncommitted_changes_present() {
@@ -64,9 +66,21 @@ commit_client_bundles() {
 
 deploy_server() {
     (
+    local tmp_branch
     tmp_branch=deployment-$(date +%s)
     git branch ${tmp_branch} $(git subtree split --prefix server HEAD )
     git push ${REMOTE} -f ${tmp_branch}:master
+    git branch -D ${tmp_branch}
+    ) 2> >(indent 1>&2) | indent
+}
+
+deploy_manage_client() {
+    (
+    local tmp_branch remote
+    remote=dokku-manage-staging
+    tmp_branch=manage-deployment-$(date +%s)
+    git branch ${tmp_branch} $(git subtree split --prefix manage HEAD )
+    git push ${remote} -f ${tmp_branch}:master
     git branch -D ${tmp_branch}
     ) 2> >(indent 1>&2) | indent
 }

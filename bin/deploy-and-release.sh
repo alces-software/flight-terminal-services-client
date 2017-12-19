@@ -9,9 +9,12 @@ main() {
     abort_if_uncommitted_changes_present
 
     # XXX Should this check be made in deploy.sh?
-    local app_mode
+    local app_mode app_nav_mode
     app_mode=$(get_app_mode)
-    header "Going to build launch client for app mode ${app_mode}"
+    app_nav_mode=$(get_app_nav_mode)
+    header "Building launch client with"
+    echo "  app mode = ${app_mode}"
+    echo "  app nav mode = ${app_nav_mode}"
     wait_for_confirmation
 
     NEW_VERSION=$(get_new_version)
@@ -29,9 +32,10 @@ main() {
 
     echo ""
     echo "${NEW_VERSION} has been deployed to staging app."
-    echo "Test that all is good and then we'll promote staging to production"
+    echo "Test that all is good and then we'll promote launch and manage staging apps to production"
     wait_for_confirmation
-    promote_staging_to_production
+    promote_launch_staging_to_production
+    promote_manage_staging_to_production
 
     header "Migrating production database"
     migrate_production_database
@@ -53,8 +57,11 @@ abort_if_uncommitted_changes_present() {
 }
 
 get_app_mode() {
-    # XXX This should check both locations.  They should be consistent.
     grep REACT_APP_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
+}
+
+get_app_nav_mode() {
+    grep REACT_APP_NAV_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
 }
 
 get_new_version() {
@@ -72,10 +79,12 @@ checkout_release_branch() {
 
 commit_version_bump() {
     cp -f "${REPO_ROOT}/version.json" "${REPO_ROOT}/launch/src/data/version.json"
+    cp -f "${REPO_ROOT}/version.json" "${REPO_ROOT}/manage/src/data/version.json"
     cp -f "${REPO_ROOT}/version.json" "${REPO_ROOT}/server/lib/launch/version.json"
     git commit -m "Bump version to ${NEW_VERSION}" \
         "${REPO_ROOT}/version.json" \
         "${REPO_ROOT}/launch/src/data/version.json" \
+        "${REPO_ROOT}/manage/src/data/version.json" \
         "${REPO_ROOT}/server/lib/launch/version.json"
 }
 
@@ -83,14 +92,30 @@ run_deploy_script() {
     "${REPO_ROOT}"/bin/deploy.sh
 }
 
-promote_staging_to_production() {
+promote_launch_staging_to_production() {
     local dokku_server
     local staging_app
     local production_app
+
     dokku_server=$( git remote get-url dokku-staging | cut -d@ -f2 | cut -d: -f1 )
     staging_app=$( git remote get-url dokku-staging | cut -d: -f2 )
     production_app=$( git remote get-url dokku | cut -d: -f2 )
 
+    subheader "Promoting ${staging_app} to ${production_app}"
+    ssh ${dokku_server} \
+        "sudo docker tag dokku/${staging_app} dokku/${production_app} ; dokku tags:deploy ${production_app} latest"
+}
+
+promote_manage_staging_to_production() {
+    local dokku_server
+    local staging_app
+    local production_app
+
+    dokku_server=$( git remote get-url dokku-manage-staging | cut -d@ -f2 | cut -d: -f1 )
+    staging_app=$( git remote get-url dokku-manage-staging | cut -d: -f2 )
+    production_app=$( git remote get-url dokku-manage | cut -d: -f2 )
+
+    subheader "Promoting ${staging_app} to ${production_app}"
     ssh ${dokku_server} \
         "sudo docker tag dokku/${staging_app} dokku/${production_app} ; dokku tags:deploy ${production_app} latest"
 }
