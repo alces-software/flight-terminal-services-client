@@ -1,7 +1,7 @@
 # Getting started
 
 The instructions below assume that docker is being used to run the server and
-that the client applications are built on the docker hos.  Using docker isn't
+that the client applications are built on the docker host.  Using docker isn't
 necessary, but the instructions below, and many of the scripts assume that to
 be the case.
 
