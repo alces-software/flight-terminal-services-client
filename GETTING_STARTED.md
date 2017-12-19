@@ -13,8 +13,10 @@ forward and you can document what happened here.
 
 ## Initial setup
 
-First you need to copy and adapt the environment variables file suitably for
-your local environment:
+First you need to copy and adapt the server and client environment variables
+files suitably for your local environment:
+
+For the server:
 
 ```bash
 cp server/config/foreman/{dev.env,local.dev.env}
@@ -24,6 +26,8 @@ $EDITOR server/config/foreman/local.dev.env
 At a minimum you will need to set the `AWS_ACCESS_KEY_ID` and
 `AWS_SECRET_ACCESS_KEY`.
 
+For the launch client:
+
 ```bash
 cp launch/{.env.example,.env}
 $EDITOR launch/.env
@@ -31,6 +35,13 @@ $EDITOR launch/.env
 
 If you are going to deploy to production at any point, you will need to set
 the `REACT_APP_ANALYTICS_TRACKER_ID`.
+
+For the manage client:
+
+```bash
+cp manage/{.env.example,.env}
+$EDITOR manage/.env
+```
 
 Once you have your environment variables configured, run the setup script.
 
@@ -41,8 +52,8 @@ bin/setup.sh
 
 ## Starting the containers
 
-Once the initial setup has been completed, you can run the client build server
-and the web server in two separate terminals:
+Once the initial setup has been completed, you can run the launch and manage
+client build servers and the web server in separate terminals:
 
 ```bash
 docker-compose up server
@@ -52,6 +63,10 @@ docker-compose up server
 cd launch ; yarn run start
 ```
 
-Flight Launch will then be accessible at `localhost:3002`.  Configuring the
-port that Flight Launch runs on during development has been left as a future
-enhancement.
+```bash
+cd manage ; yarn run start
+```
+
+Flight Launch will then be accessible at `localhost:3002` and Flight Manage at
+`localhost:3004`.  Configuring the port that Flight Launch runs on during
+development has been left as a future enhancement.

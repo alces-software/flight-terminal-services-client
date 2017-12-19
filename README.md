@@ -1,7 +1,8 @@
-# Flight Launch
+# Flight Launch and Flight Manage
 
 Flight Launch is a service provided by Alces Flight to quickly launch a
-preconfigured Flight Compute cluster.
+preconfigured Flight Compute cluster.  Flight Manage is a service provided by
+Alces Flight to provide access to and management of Flight Compute clusters.
 
 ## Getting started developing Flight Launch
 
@@ -10,10 +11,10 @@ here](GETTING_STARTED.md).
 
 ## High-level documenation
 
-Flight Launch consists of four services: server, launch client, launch token
-generator and tenant admin app.  All of these services are contained in this
-repository, in the `server`, `launch`, `token-generator` and `admin-app`
-directories, respectively.
+Flight Launch consists of four services: server, launch client, manage client,
+launch token generator and tenant admin app.  All of these services are
+contained in this repository, in the `server`, `launch`, `manaage`,
+`token-generator` and `admin-app` directories, respectively.
 
 Flight Launch makes use of a number of concepts, "cluster specs", "launch
 tokens", "credits" and "tenants".  A brief overview of these concepts and

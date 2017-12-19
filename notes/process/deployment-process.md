@@ -5,14 +5,17 @@ XXX lots of things to update here.
 ## Prerequisites
 
  - A checked out copy of the flight-launch git repo.
- - A couple of git remotes which can be created with:  `git remote add dokku
-   dokku@launch.alces-flight.com:flight-launch` and `git remote add
-   dokku-staging dokku@launch.alces-flight.com:flight-launch-staging`.
+ - Some git remotes which can be created with:
+   - `git remote add dokku dokku@apps.alces-flight.com:flight-launch`
+   - `git remote add dokku-staging dokku@apps.alces-flight.com:flight-launch-staging`
+   - `git remote add dokku-manage dokku@apps.alces-flight.com:flight-manage`
+   - `git remote add dokku-manage-staging dokku@apps.alces-flight.com:flight-manage-staging`
  - Some unix tools: `ruby`, `jq`, `docker` and `docker-compose`.
 
 ## How to deploy a branch to production.
 
-To deploy a new release of Flight Launch follow the instructions below:
+To deploy a new release of Flight Launch and Flight Manage follow the
+instructions below:
 
  1. Checkout the branch you wish to deploy.
  2. Run `./bin/deploy-and-release.sh`.
@@ -24,20 +27,24 @@ To deploy a new release of Flight Launch follow the instructions below:
 
  1. Determines the next tag to use (e.g., 201704.15).
  2. Creates a new release branch (e.g., release/201704.15).
- 3. Bumps the version files used by the client and server.
+ 3. Bumps the version files used by the launch client, manage client and server.
  4. Runs the `./bin/deploy.sh` script.
  5. Promotes the staging app to production app.
  6. Merges, tags and pushes to github.
 
 ## What does deploy.sh do?
 
- 1. Builds the client.
- 2. Commits the built client to the server's public directory.
+ 1. Builds the launch client, token generator client and admin app client.
+ 2. Commits the built clients to the server's public directory.
  3. Performs git magic to push only the server directory to the
     `dokku-staging` remote.
  4. The dokku remote builds the server application using a standard ruby build
     pack.
- 5. Removes the built client from the server's public directory.
+ 5. Performs git magic to push only the manage directory to the
+    `dokku-manage-staging` remote.
+ 6. The dokku remote builds the manage server and client applications using a
+    standard ruby build pack.
+ 7. Removes the built clients from the server's public directory.
 
 ## What can go wrong and how do we fix it?
 
@@ -47,12 +54,12 @@ all that is needed.  If there is a problem, intervention may be required.
 **I can't install docker or docker-compose because MAC. What do I do?**
 Contact Ben and tell him to deploy the release.
 
-**Building the client has failed.  What do I do?**  Run
-`./bin/deploy-and-release.sh` again.  Building the client occasionally fails,
-but I've never seen it happen twice in a row.
+**Building the launch client has failed.  What do I do?**  Run
+`./bin/deploy-and-release.sh` again.  Building the launch client occasionally
+fails, but I've never seen it happen twice in a row.
 
-**Building the client failed again.  What do I do?**  Contact Ben and tell him
-to deploy the release.
+**Building the launch client failed again.  What do I do?**  Contact Ben and
+tell him to deploy the release.
 
 **Deploying the server failed.  What do I do?**  Now this one is a little more
 tricky.  We're no longer on the develop branch and have already spent time
