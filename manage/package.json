@@ -71,7 +71,10 @@
     "lint:watch": "esw -w src/ server/",
     "test": "node scripts/customized-config test --env=jsdom",
     "eject": "react-scripts eject",
-    "start:server": "APPROOT=$(pwd) NODE_ENV=development PORT=4004 nodemon --watch src --watch server server/index.js",
-    "serve": "APPROOT=$(pwd) PORT=4004 node build/server/server.js"
+    "start:server": "APPROOT=$(pwd) NODE_ENV=development nodemon --watch src --watch server server/index.js",
+    "serve": "APPROOT=$(pwd) node build/server/server.js"
+  },
+  "engines": {
+    "node": "8.x.x"
   }
 }

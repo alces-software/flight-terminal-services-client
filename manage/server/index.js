@@ -1,5 +1,3 @@
-require('react-scripts/config/env');
-
 const app = require('./app');
 
 const PORT = process.env.PORT || 4001;
