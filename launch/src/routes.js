@@ -5,6 +5,7 @@ import { makeMetaPages, makeMetaPageRouteConfigs } from 'flight-reactware';
 import App from './components/App';
 import Home from './pages/Home';
 import Page from './components/Page';
+import RedirectToFlightManage from './components/RedirectToFlightManage';
 import {
   clusterSpecs,
   packs,
@@ -45,6 +46,15 @@ const redirectRoutes = Object.keys(redirects).map((k) => {
 
 const routes = [
   ...redirectRoutes,
+  {
+    path: '/cluster',
+    component: (props) => (
+      <RedirectToFlightManage
+        processPathname={(pathname) => pathname.replace('cluster', 'access')}
+        {...props}
+      />
+    ),
+  },
   {
     component: App,
     routes: [

@@ -1,3 +1,5 @@
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { makeMetaPages, makeMetaPageRouteConfigs } from 'flight-reactware';
 
 import App from './components/App';
@@ -18,7 +20,26 @@ const notFoundRouteConfig = {
   component: metaPages.NotFound,
 };
 
+const redirects = {
+  '/cluster': (location) => location.pathname.replace('cluster', 'access'),
+};
+const redirectRoutes = Object.keys(redirects).map((k) => {
+  const target = redirects[k];
+  return {
+    path: k,
+    exact: false,
+    component: ({ location }) => ( // eslint-disable-line react/prop-types
+      <Redirect
+        to={{
+          pathname: target(location),
+          search: location.search,
+        }}
+      />
+    ),
+  };
+});
 const routes = [
+  ...redirectRoutes,
   {
     component: App,
     routes: [
@@ -63,31 +84,31 @@ const routes = [
         component: clusters.withClusterContext({
           NoClusterSpecified: clusters.pages.GainAccessHowTo,
         }),
-        path: '/cluster/:hostname?',
+        path: '/access/:hostname?',
         routes: [
           {
-            path: '/cluster/:hostname/vpn',
+            path: '/access/:hostname/vpn',
             exact: true,
             component: clusters.pages.VpnDetails,
             title: 'VPN Access',
             pageKey: 'Access',
           },
           {
-            path: '/cluster/:hostname/tutorials',
+            path: '/access/:hostname/tutorials',
             exact: true,
             component: clusters.pages.Tutorials,
             title: 'Tutorial',
             pageKey: 'Access',
           },
           {
-            path: '/cluster/:hostname/terminal',
+            path: '/access/:hostname/terminal',
             exact: true,
             component: clusters.pages.Terminal,
             title: 'Terminal Access',
             pageKey: 'Access',
           },
           {
-            path: '/cluster/:hostname?',
+            path: '/access/:hostname?',
             exact: true,
             component: clusters.pages.AccessIntro,
             title: 'Access',
