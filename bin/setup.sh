@@ -28,21 +28,36 @@ setup() {
     export GROUP_ID=$(id -g)
     docker-compose build 2> >(indent 1>&2) | indent
 
-    setup_client
+    setup_launch_client
+    setup_manage_client
     setup_server
 
     # Make sure the prompt isn't indented.
     echo
 }
 
-setup_client() {
-    pushd "${SOURCE_DIR}"/client
+setup_launch_client() {
+    header "Setting up launch client"
+    pushd "${SOURCE_DIR}"/launch
 
-    header "Creating .env file (if it doesn't exist)"
+    subheader "Creating .env file (if it doesn't exist)"
     cp -an .env.example .env
 
-    header "Installing packages"
-    client yarn 2> >(indent 1>&2) | indent
+    subheader "Installing packages"
+    yarn 2> >(indent 1>&2) | indent
+
+    popd
+}
+
+setup_launch_client() {
+    header "Setting up manage client"
+    pushd "${SOURCE_DIR}"/manage
+
+    subheader "Creating .env file (if it doesn't exist)"
+    cp -an .env.example .env
+
+    subheader "Installing packages"
+    yarn 2> >(indent 1>&2) | indent
 
     popd
 }
@@ -70,7 +85,7 @@ setup_server() {
 usage() {
     echo "Usage: $(basename $0) [--remote-gems]"
     echo
-    echo "Build the client and server docker containers."
+    echo "Build the launch client and server docker containers."
     echo
     echo "If --remote-gems is given gems will be downloaded from the internet where needed."
     echo "Otherwise they will have to be cached."
