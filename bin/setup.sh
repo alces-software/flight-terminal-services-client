@@ -29,6 +29,7 @@ setup() {
     docker-compose build 2> >(indent 1>&2) | indent
 
     setup_launch_client
+    setup_manage_client
     setup_server
 
     # Make sure the prompt isn't indented.
@@ -38,6 +39,19 @@ setup() {
 setup_launch_client() {
     header "Setting up launch client"
     pushd "${SOURCE_DIR}"/launch
+
+    subheader "Creating .env file (if it doesn't exist)"
+    cp -an .env.example .env
+
+    subheader "Installing packages"
+    yarn 2> >(indent 1>&2) | indent
+
+    popd
+}
+
+setup_launch_client() {
+    header "Setting up manage client"
+    pushd "${SOURCE_DIR}"/manage
 
     subheader "Creating .env file (if it doesn't exist)"
     cp -an .env.example .env
