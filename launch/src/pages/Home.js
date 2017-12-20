@@ -3,22 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
-  Button,
   Container,
   Row,
   Col,
 } from 'reactstrap';
-import styled from 'styled-components';
 import {
-  LinkContainer,
   Section,
   SectionIcon,
   makeSection,
 } from 'flight-reactware';
-import FontAwesome from 'react-fontawesome';
 
-import ContextLink from '../elements/ContextLink';
+import CallToAction from '../components/CallToAction';
 import CommunitySiteLink from '../elements/CommunitySiteLink';
+import ContextLink from '../elements/ContextLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
 import { branding, tenants } from '../modules';
 
@@ -28,30 +25,27 @@ const sections = {
   moreInfo: makeSection('Getting more information', 'more-information', 'blue', 'book'),
 };
 
-const CallToAction = styled(({ children, className, icon, to }) => {
-  return (
-    <LinkContainer 
-      className={className}
-      to={to}
-    >
-      <Button
-        color="success"
-        size="lg"
-      >
-        <FontAwesome
-          fixedWidth
-          name={icon}
-        />
-        {children}
-      </Button>
-    </LinkContainer>
-  );
-})`
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-`;
+const LaunchNowButton = ({ tenantIdentifier }) => (
+  <CallToAction
+    icon="play-circle"
+    to={`/${tenantIdentifier}/launch`}
+  >
+    Launch a cluster now
+  </CallToAction>
+);
+LaunchNowButton.propTypes = {
+  tenantIdentifier: PropTypes.string.isRequired,
+};
+
+// eslint-disable-next-line react/prop-types
+const Centered = ({ children }) => (
+  <div className="d-flex justify-content-center">{children}</div>
+);
+
+// eslint-disable-next-line react/prop-types
+const CenteredCol = ({ children }) => (
+  <Col className="d-flex justify-content-center">{children}</Col>
+);
 
 const Home = ({ tenantIdentifier }) => {
   return (
@@ -72,21 +66,57 @@ const Home = ({ tenantIdentifier }) => {
           section={sections.whatIsIt}
           title="What is Alces Flight Launch?"
         >
-          <p>
-            Simply select the HPC cluster you want to evaluate, enter your
-            Flight Launch token, cluster name, and an email address for
-            notifications and you are ready to go!
-          </p>
-          <p>
-            Clusters are deployed in a Virtual Private Cluster (VPC)
-            environment for security, with SSH and graphical-desktop
-            connectivity for users.  Data management tools for POSIX and S3
-            object storage are also included to help users transfer files
-            and manage storage resources.
-          </p>
+          <Row>
+            <Col>
+              <p>
+                Simply select the HPC cluster you want to evaluate, enter your
+                Flight Launch token, cluster name, and an email address for
+                notifications and you are ready to go!
+              </p>
+              <p>
+                Clusters are deployed in a Virtual Private Cluster (VPC)
+                environment for security, with SSH and graphical-desktop
+                connectivity for users.  Data management tools for POSIX and S3
+                object storage are also included to help users transfer files
+                and manage storage resources.
+              </p>
+            </Col>
+            <Col>
+              <p>
+                Already got your token? Great -- get going in 3 easy steps:
+              </p>
+              <ol>
+                <li>Select the cluster specification you want to try.</li>
+                <li>Enter your trial token code and email address and
+                  optionally give your cluster a name.</li>
+                <li>Launch!</li>
+              </ol>
+              <Centered>
+                <LaunchNowButton tenantIdentifier={tenantIdentifier} />
+              </Centered>
+            </Col>
+          </Row>
+          <Row>
+            <CenteredCol>
+              <p>
+                Want to take a test Flight?
+                Apply for your
+                {' '}
+                <ContextLink
+                  linkSite="Home"
+                  location="/start#launch-flight"
+                >
+                  cluster trial token
+                </ContextLink>
+                {' '}
+                now!
+              </p>
+            </CenteredCol>
+          </Row>
         </Section>
         <Section
-          overview="Use a Flight Launch token to take an Alces Flight Compute cluster for a spin — no cloud account required!"
+          overview="Use a Flight Launch token to take an Alces Flight Compute
+          cluster for a spin — no cloud account required!"
           section={sections.howToUse}
           title="How to use Alces Flight Launch."
         >
@@ -147,14 +177,9 @@ const Home = ({ tenantIdentifier }) => {
             </Col>
           </Row>
           <Row>
-            <Col className="d-flex justify-content-center">
-              <CallToAction
-                icon="play-circle"
-                to={`/${tenantIdentifier}/launch`}
-              >
-                Launch a cluster now
-              </CallToAction>
-            </Col>
+            <CenteredCol>
+              <LaunchNowButton tenantIdentifier={tenantIdentifier} />
+            </CenteredCol>
           </Row>
         </Section>
         <Section
