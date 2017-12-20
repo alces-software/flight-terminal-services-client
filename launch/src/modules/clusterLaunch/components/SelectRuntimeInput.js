@@ -27,9 +27,9 @@ const SelectRuntimeInput = ({ error, id, onChange, onUseLaunchToken, value }) =>
       run.  Your account will have the appropriate number of credits deducted.
       You will be given an opportunity to review this figure before the cluster
       launches."
-      id={`${id}-runtime`}
+      id={`${id}-desired-runtime`}
       label="Enter the number of hours the cluster should run for"
-      name="runtime"
+      name="desiredRuntime"
       onChange={onChange}
       type="number"
       value={value}

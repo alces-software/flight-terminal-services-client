@@ -11,7 +11,7 @@ import validatorUtils from 'validator';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { createStructuredSelector } from 'reselect';
-import { auth } from 'flight-reactware';
+import { auth, validation as v } from 'flight-reactware';
 
 import collections from '../../../modules/collections';
 import launchUsers from '../../../modules/launchUsers';
@@ -38,6 +38,14 @@ function validate(allValues, state, props) {
     allValues.launchToken == null || allValues.launchToken.length < 5)
   ) {
     errors.launchToken = 'error';
+  }
+
+  // XXX Should this be guarded behind a check for whether we're asking the
+  // user for the desired runtime?
+  const { desiredRuntime } = allValues;
+  const e = v.required(desiredRuntime) || v.decimalInteger(desiredRuntime);
+  if (e) {
+    errors.desiredRuntime = e;
   }
 
   const clusterName = getClusterName(allValues);
@@ -88,6 +96,7 @@ class ClusterLaunchFormContainer extends React.Component {
   // eslint-disable-next-line react/sort-comp
   initialValues = {
     clusterName: '',
+    desiredRuntime: null,
     email: '',
     launchToken: '',
     queues: {},

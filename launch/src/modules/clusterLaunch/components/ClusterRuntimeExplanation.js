@@ -10,7 +10,9 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   clusterSpecCostPerHour: PropTypes.number.isRequired,
+  desiredRuntime: PropTypes.number,
   isRuntimeFixed: PropTypes.bool.isRequired,
+  isUsingLaunchToken: PropTypes.bool.isRequired,
   singleLaunchOption: PropTypes.bool.isRequired,
   tokenCredits: PropTypes.number,
 };
@@ -19,6 +21,9 @@ const defaultProps = {
   singleLaunchOption: false,
 };
 
+function calculateCreditCost(clusterSpecCostPerHour, desiredRuntime) {
+  return clusterSpecCostPerHour * desiredRuntime;
+}
 
 // This fuzzy time algorithm here should be kept in sync with the fuzzy time
 // algorithm in server/app/commands/determine_runtime_command.rb
@@ -49,9 +54,11 @@ function calculateRuntime(clusterSpecCost, tokenCredits) {
 
 const ClusterRuntimeExplanation = ({
   clusterSpecCostPerHour,
+  desiredRuntime,
   singleLaunchOption,
   tokenCredits,
   isRuntimeFixed,
+  isUsingLaunchToken,
 }) => {
   if (!isRuntimeFixed) {
     return (
@@ -67,18 +74,39 @@ const ClusterRuntimeExplanation = ({
     );
   }
 
-  const runtime = calculateRuntime(clusterSpecCostPerHour, tokenCredits);
+  if (isUsingLaunchToken) {
+    const runtime = calculateRuntime(clusterSpecCostPerHour, tokenCredits);
+    let selections;
+    if (singleLaunchOption) {
+      selections = 'The token';
+    } else {
+      selections = 'The token and durability setting';
+    }
+
+    return (
+      <p>
+        {selections}{' '}you have selected will provide a{' '} <strong>runtime
+          of {runtime}</strong> for this cluster.  Once that time has elapsed,
+        the cluster will be <strong>shut down automatically</strong>.
+      </p>
+    );
+  }
+
+  const creditCost = calculateCreditCost(clusterSpecCostPerHour, desiredRuntime);
   let selections;
   if (singleLaunchOption) {
-    selections = 'The token';
+    selections = 'The runtime';
   } else {
-    selections = 'The token and durability setting';
+    selections = 'The runtime and durability setting';
   }
 
   return (
     <p>
-      {selections}{' '}you have selected will provide a{' '} <strong>runtime
-        of {runtime}</strong> for this cluster.  Once that time has elapsed,
+      {selections}{' '}
+      you have selected will cost{' '}
+      <strong>{creditCost}{' '}credits</strong> for this cluster.
+      Your account will be charged for these credits when the cluster begins
+      to launch.  When the cluster's runtime has elapsed,
       the cluster will be <strong>shut down automatically</strong>.
     </p>
   );

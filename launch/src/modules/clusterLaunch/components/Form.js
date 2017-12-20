@@ -42,9 +42,9 @@ export class ClusterLaunchForm extends React.Component {
     emailRef: PropTypes.func,
     errors: PropTypes.shape({
       clusterName: PropTypes.any,
+      desiredRuntime: PropTypes.any,
       email: PropTypes.any,
       launchToken: PropTypes.any,
-      selectRuntime: PropTypes.any,
     }),
     handleSubmit: PropTypes.func.isRequired,
     isUsingLaunchToken: PropTypes.bool.isRequired,
@@ -66,12 +66,12 @@ export class ClusterLaunchForm extends React.Component {
     tokenName: PropTypes.string,
     values: PropTypes.shape({
       clusterName: PropTypes.string,
+      desiredRuntime: PropTypes.number,
       email: PropTypes.string,
       launchToken: PropTypes.string,
       queues: PropTypes.object.isRequired,
       selectedCollection: PropTypes.string,
       selectedLaunchOptionIndex: PropTypes.number,
-      selectRuntime: PropTypes.number,
     }),
   };
 
@@ -79,16 +79,16 @@ export class ClusterLaunchForm extends React.Component {
     {
       render: () => (
         <SelectRuntimeInput
-          error={this.props.errors.selectRuntime}
+          error={this.props.errors.desiredRuntime}
           id={this.props.clusterSpec.ui.title}
           onChange={this.props.onChange}
           onUseLaunchToken={this.props.onUseLaunchToken}
-          value={this.props.values.selectRuntime}
+          value={this.props.values.desiredRuntime}
         />
       ),
       skip: () => !canSelectRuntime(this.props) || this.props.isUsingLaunchToken,
       valid: () => (
-        this.props.isUsingLaunchToken ? true : !this.props.errors.selectRuntime
+        this.props.isUsingLaunchToken ? true : !this.props.errors.desiredRuntime
       ),
     },
     {
@@ -109,6 +109,7 @@ export class ClusterLaunchForm extends React.Component {
       render: () => (
         <LaunchOptions
           clusterSpec={this.props.clusterSpec}
+          desiredRuntime={this.props.values.desiredRuntime}
           isRuntimeFixed={isRuntimeFixed(this.props)}
           isUsingLaunchToken={this.props.isUsingLaunchToken}
           onChange={this.props.onChange}

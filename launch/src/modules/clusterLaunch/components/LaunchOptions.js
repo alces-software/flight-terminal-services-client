@@ -30,7 +30,9 @@ const propTypes = {
       options: PropTypes.arrayOf(launchOptionShape.isRequired).isRequired,
     }).isRequired,
   }).isRequired,
+  desiredRuntime: PropTypes.number,
   isRuntimeFixed: PropTypes.bool.isRequired,
+  isUsingLaunchToken: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   selectedLaunchOptionIndex: PropTypes.number.isRequired,
   token: PropTypes.shape({
@@ -40,17 +42,22 @@ const propTypes = {
   }),
 };
 
-const LaunchOptions = ({ clusterSpec,
-  token,
-  selectedLaunchOptionIndex,
-  onChange,
+const LaunchOptions = ({
+  clusterSpec,
+  desiredRuntime,
   isRuntimeFixed,
+  isUsingLaunchToken,
+  onChange,
+  selectedLaunchOptionIndex,
+  token,
 }) => {
   if (clusterSpec.launchOptions.options.length < 2) {
     return (
       <SingleLaunchOption
         clusterSpec={clusterSpec}
+        desiredRuntime={desiredRuntime}
         isRuntimeFixed={isRuntimeFixed}
+        isUsingLaunchToken={isUsingLaunchToken}
         token={token}
       />
     );
@@ -80,7 +87,9 @@ const LaunchOptions = ({ clusterSpec,
       />
       <ClusterRuntimeExplanation
         clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+        desiredRuntime={desiredRuntime}
         isRuntimeFixed={isRuntimeFixed}
+        isUsingLaunchToken={isUsingLaunchToken}
         tokenCredits={token == null ? undefined : token.attributes.credits}
       />
     </div>
