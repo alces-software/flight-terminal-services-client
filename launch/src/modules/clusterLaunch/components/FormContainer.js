@@ -22,7 +22,7 @@ import * as analytics from '../analytics';
 import ClusterLaunchForm from './Form';
 import ErrorModal from './ErrorModal';
 import LaunchedModal from './LaunchedModal';
-import { getClusterName, getDefaultEmail, useCredits } from '../utils';
+import { canUseCredits, getClusterName, getDefaultEmail } from '../utils';
 
 const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
 const oneCharClusterNameRe = /^[a-z0-9]$/;
@@ -34,7 +34,7 @@ function strip(string) {
 function validate(allValues, state, props) {
   const errors = {};
 
-  if (!useCredits(props) && (
+  if (state.isUsingLaunchToken && (
     allValues.launchToken == null || allValues.launchToken.length < 5)
   ) {
     errors.launchToken = 'error';
@@ -96,6 +96,7 @@ class ClusterLaunchFormContainer extends React.Component {
 
   state = {
     currentPageIndex: 0,
+    isUsingLaunchToken: true,
     showErrorModal: false,
     showLaunchedModal: false,
     submitting: false,
@@ -119,6 +120,7 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({
       errors: validate(this.state.values, this.state, this.props),
       currentPageIndex: 0,
+      isUsingLaunchToken: !canUseCredits(this.props),
       values: {
         ...this.state.values,
         selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
@@ -185,7 +187,7 @@ class ClusterLaunchFormContainer extends React.Component {
     const email = this.state.values.email ||
       getDefaultEmail(this.props, this.state);
     const tokenParams = {};
-    if (!useCredits(this.props)) {
+    if (this.state.isUsingLaunchToken) {
       tokenParams.token = { 
         name: this.state.values.launchToken,
       };
@@ -240,6 +242,7 @@ class ClusterLaunchFormContainer extends React.Component {
       },
       currentPageIndex: 0,
       errors: errors,
+      isUsingLaunchToken: !canUseCredits(this.props),
     });
   }
 
@@ -327,6 +330,10 @@ class ClusterLaunchFormContainer extends React.Component {
       });
   }
 
+  handleUseLaunchToken = () => {
+    this.setState({ isUsingLaunchToken: true });
+  }
+
   blurEmailField() {
     if (this.emailInput) { this.emailInput.blur() ; }
   }
@@ -356,6 +363,7 @@ class ClusterLaunchFormContainer extends React.Component {
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
           onTokenEntered={this.handleTokenEntered}
+          onUseLaunchToken={this.handleUseLaunchToken}
           tokenName={this.state.values.launchToken}
         />
       </div>

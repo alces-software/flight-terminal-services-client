@@ -21,23 +21,23 @@ const propTypes = {
       options: PropTypes.arrayOf(launchOptionShape.isRequired).isRequired,
     }).isRequired,
   }).isRequired,
+  isRuntimeFixed: PropTypes.bool.isRequired,
   token: PropTypes.shape({
     attributes: PropTypes.shape({
       credits: PropTypes.number.isRequired,
     }).isRequired
   }),
-  useCredits: PropTypes.bool.isRequired,
 };
 
-const SingleLaunchOption = ({ clusterSpec, token, useCredits }) => {
+const SingleLaunchOption = ({ clusterSpec, token, isRuntimeFixed }) => {
   const selectedLaunchOption = clusterSpec.launchOptions.options[0];
 
   return (
     <ClusterRuntimeExplanation
       clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+      isRuntimeFixed={isRuntimeFixed}
       singleLaunchOption
       tokenCredits={token == null ? undefined : token.attributes.credits}
-      useCredits={useCredits}
     />
   );
 };

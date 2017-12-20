@@ -21,8 +21,14 @@ import EmailInput from './EmailInput';
 import LaunchConfirmationText from './LaunchConfirmationText';
 import LaunchOptions from './LaunchOptions';
 import QueuesConfiguration from './QueuesConfiguration';
+import SelectRuntimeInput from './SelectRuntimeInput';
 import TokenInput from './TokenInput';
-import { getDefaultClusterName, getDefaultEmail, useCredits } from '../utils';
+import {
+  canSelectRuntime,
+  getDefaultClusterName,
+  getDefaultEmail,
+  isRuntimeFixed,
+} from '../utils';
 
 const cardHeight = 360;
 const titleAndButtonsHeight = 156;
@@ -38,14 +44,17 @@ export class ClusterLaunchForm extends React.Component {
       clusterName: PropTypes.any,
       email: PropTypes.any,
       launchToken: PropTypes.any,
+      selectRuntime: PropTypes.any,
     }),
     handleSubmit: PropTypes.func.isRequired,
+    isUsingLaunchToken: PropTypes.bool.isRequired,
     onCancel: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onQueueChange: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
     onShowPreviousPage: PropTypes.func.isRequired,
     onTokenEntered: PropTypes.func.isRequired,
+    onUseLaunchToken: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
     token: PropTypes.shape({
@@ -62,10 +71,26 @@ export class ClusterLaunchForm extends React.Component {
       queues: PropTypes.object.isRequired,
       selectedCollection: PropTypes.string,
       selectedLaunchOptionIndex: PropTypes.number,
+      selectRuntime: PropTypes.number,
     }),
   };
 
   pages = () => [
+    {
+      render: () => (
+        <SelectRuntimeInput
+          error={this.props.errors.selectRuntime}
+          id={this.props.clusterSpec.ui.title}
+          onChange={this.props.onChange}
+          onUseLaunchToken={this.props.onUseLaunchToken}
+          value={this.props.values.selectRuntime}
+        />
+      ),
+      skip: () => !canSelectRuntime(this.props) || this.props.isUsingLaunchToken,
+      valid: () => (
+        this.props.isUsingLaunchToken ? true : !this.props.errors.selectRuntime
+      ),
+    },
     {
       render: () => (
         <TokenInput
@@ -75,22 +100,23 @@ export class ClusterLaunchForm extends React.Component {
           value={this.props.values.launchToken}
         />
       ),
-      skip: () => useCredits(this.props),
+      skip: () => !this.props.isUsingLaunchToken,
       valid: () => (
-        useCredits(this.props) ? true : !this.props.errors.launchToken
+        this.props.isUsingLaunchToken ? !this.props.errors.launchToken : true
       ),
     },
     {
       render: () => (
         <LaunchOptions
           clusterSpec={this.props.clusterSpec}
+          isRuntimeFixed={isRuntimeFixed(this.props)}
+          isUsingLaunchToken={this.props.isUsingLaunchToken}
           onChange={this.props.onChange}
           selectedLaunchOptionIndex={this.props.values.selectedLaunchOptionIndex}
           tokenName={this.props.tokenName}
-          useCredits={useCredits(this.props)}
         />),
       valid: () => (
-        useCredits(this.props) ? true : this.props.tokenHasLoaded
+        this.props.isUsingLaunchToken ? this.props.tokenHasLoaded : true
       ),
     },
     {
@@ -139,9 +165,10 @@ export class ClusterLaunchForm extends React.Component {
   ].filter(pg => pg.skip == null || !pg.skip());
 
   handleShowNextPage = () => {
+    // XXX Not sure this is correct anymore.
     const indexOfTokenPage = 0;
     const leavingTokenPage = this.props.currentPageIndex === indexOfTokenPage &&
-      !useCredits(this.props) ;
+      this.props.isUsingLaunchToken;
     if (leavingTokenPage) {
       this.props.onTokenEntered();
     }
@@ -153,7 +180,7 @@ export class ClusterLaunchForm extends React.Component {
       <MultiPageForm
         confirmButtonText="Launch"
         confirmText={
-          <LaunchConfirmationText useCredits={useCredits(this.props)} />
+          <LaunchConfirmationText isRuntimeFixed={isRuntimeFixed(this.props)} />
         }
         currentPageIndex={this.props.currentPageIndex}
         // eslint-disable-next-line react/jsx-handler-names

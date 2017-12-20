@@ -9,11 +9,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  useCredits: PropTypes.bool.isRequired,
+  isRuntimeFixed: PropTypes.bool.isRequired,
 };
 
-const LaunchConfirmationText = ({ useCredits }) => {
-  if (useCredits) {
+const LaunchConfirmationText = ({ isRuntimeFixed }) => {
+  if (!isRuntimeFixed) {
     return (
       <div>
         <p>

@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   clusterSpecCostPerHour: PropTypes.number.isRequired,
+  isRuntimeFixed: PropTypes.bool.isRequired,
   singleLaunchOption: PropTypes.bool.isRequired,
   tokenCredits: PropTypes.number,
-  useCredits: PropTypes.bool.isRequired,
 };
 
 const defaultProps = {
@@ -51,9 +51,9 @@ const ClusterRuntimeExplanation = ({
   clusterSpecCostPerHour,
   singleLaunchOption,
   tokenCredits,
-  useCredits,
+  isRuntimeFixed,
 }) => {
-  if (useCredits) {
+  if (!isRuntimeFixed) {
     return (
       <div>
         <p>
