@@ -13,37 +13,33 @@ require 'tmpdir'
 #
 # An overview of the launch process is:
 #
-#  1. Have `fly` build a new parameter directory.
+#  1. Check that the payment is valid.
 #
-#  2. Merge in any overrides present in `@launch_config.spec`.
+#  2. Have `fly` build a new parameter directory, and configure values
+#     appropriately.
 #
-#  3. Run the `fly cluster launch` command in a background thread, using the
-#     correct parameter directory.
+#  3. Run the `fly cluster launch` using the correct parameter directory.
 #
-#  5. In the background thread, when the fly launch command has completed,
-#     send an email to that affect.
+#  4. When the fly launch command has completed, send an email to that affect
+#     and create a cluster model.
+#
+#  5. Update / rollback the payment as appropriate.
 #
 class LaunchClusterCommand
   delegate :stdout, :stderr, to: :@run_fly_cmd
 
   def initialize(launch_config)
     @launch_config = launch_config
+    @payment_processor = ProcessPaymentCommand.load(@launch_config)
   end
 
   def perform
     Rails.logger.info("Launching cluster #{@launch_config.name} " +
                       "with spec #{@launch_config.spec.inspect}")
 
-    # Check that the launch config's token is still queued.  This prevents
-    # launching a duplicate cluster should the active job be processed twice,
-    # which is possible with SQS.
-    if @launch_config.using_token? && ! @launch_config.token.queued?
-      Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +
-                        "Current status is #{@launch_config.token.status}")
-      return
-    end
+    return unless @payment_processor.valid_to_launch?
+    @payment_processor.about_to_launch
 
-    mark_token_as(:in_use)
     begin
       BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
         perform
@@ -55,17 +51,17 @@ class LaunchClusterCommand
       Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
       if @run_fly_cmd.failed?
         Rails.logger.info("Launch error: #{@run_fly_cmd.stderr}") 
-        mark_token_as(:available)
+        @payment_processor.launch_failed
         send_failed_email
       else
-        mark_token_as(:used)
+        @payment_processor.launch_succeeded
         create_cluster_model
         send_completed_email
       end
     rescue
       Rails.logger.info "Launch thread raised exception #{$!}"
       Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
-      mark_token_as(:available)
+      @payment_processor.launch_failed
       send_failed_email
     ensure
       FileUtils.rm_r(parameter_dir, secure: true)
@@ -108,11 +104,5 @@ class LaunchClusterCommand
     attrs = Cluster.attributes_from_launch_config(@launch_config)
 
     Cluster.create!(attrs.merge(id: uuid, auth_token: auth_token))
-  end
-
-  def mark_token_as(status)
-    if @launch_config.using_token?
-      @launch_config.token.mark_as(status, @launch_config.email)
-    end
   end
 end

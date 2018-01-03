@@ -225,8 +225,21 @@ class ClusterLaunchFormContainer extends React.Component {
           queues: this.state.values.queues,
           selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
         },
+        payment: {
+          method: this.paymentMethod(),
+        },
       })
     });
+  }
+
+  paymentMethod() {
+    if (this.state.isUsingLaunchToken) {
+      return 'token';
+    } else if (this.state.values.desiredRuntime) {
+      return 'credits:upfront';
+    } else {
+      return 'credits:ongoing';
+    }
   }
 
   handleSuccessfulLaunch(json) {

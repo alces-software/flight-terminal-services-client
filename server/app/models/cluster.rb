@@ -30,10 +30,10 @@ class Cluster < ApplicationRecord
       qualified_cluster_name = "#{launch_config.name}-#{hash}"
 
       {
-        consumes_credits: !launch_config.using_token?,
+        consumes_credits: launch_config.payment.using_credits?,
         domain: domain_from_launch_config(launch_config),
         qualified_name: qualified_cluster_name,
-        user: launch_config.user,
+        user: launch_config.payment.user,
       }
     end
 

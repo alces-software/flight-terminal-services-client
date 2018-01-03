@@ -80,11 +80,11 @@ class BuildFlyParamsCommand
   end
 
   def runtime_flag
-    return [] unless @launch_config.using_token?
+    return [] unless @launch_config.payment.using_token?
 
     runtime = DetermineRuntimeCommand.new(
       @launch_config.launch_option,
-      @launch_config.token
+      @launch_config.payment.token
     ).perform.to_s
     ['--runtime', runtime]
   end
