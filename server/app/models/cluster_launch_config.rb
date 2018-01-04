@@ -22,14 +22,12 @@ class ClusterLaunchConfig
   include ActiveModel::Model
   include ActiveModel::Serializers::JSON
 
-  attr_accessor :runtime
   attr_accessor :email
   attr_accessor :key_pair
   attr_accessor :name
   attr_accessor :region
   attr_accessor :spec # An instance of ClusterSpec.
   attr_accessor :tenant
-  attr_accessor :launch_option
   attr_accessor :collection
   attr_accessor :payment
   attr_accessor :queues
@@ -37,7 +35,6 @@ class ClusterLaunchConfig
   def attributes
     {
       'collection' => nil,
-      'runtime' => nil,
       'email' => nil,
       'key_pair' => nil,
       'name' => nil,

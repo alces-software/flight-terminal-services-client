@@ -223,10 +223,11 @@ class ClusterLaunchFormContainer extends React.Component {
           email: email,
           name: getClusterName(this.state.values),
           queues: this.state.values.queues,
-          selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
         },
         payment: {
+          launchOptionIndex: this.state.values.selectedLaunchOptionIndex,
           method: this.paymentMethod(),
+          runtime: this.state.values.desiredRuntime,
         },
       })
     });

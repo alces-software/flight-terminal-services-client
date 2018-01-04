@@ -65,12 +65,9 @@ class ClustersMailer < ApplicationMailer
   private
 
   def determine_runtime(launch_config)
-    return nil unless launch_config.payment.using_token?
+    payment = launch_config.payment
+    return nil unless payment.has_expiration?
 
-    DetermineRuntimeCommand.new(
-      launch_config.launch_option,
-      launch_config.payment.token,
-      humanized: true
-    ).perform
+    payment.runtime_in_minutes(humanized: true)
   end
 end

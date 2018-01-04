@@ -34,7 +34,7 @@ class ClustersController < ApplicationController
         tenant: cluster_launch_config.tenant,
         payment_params: payment.as_json,
         token: payment.token,
-        launch_option_params: cluster_launch_config.launch_option.as_json,
+        launch_option_params: payment.launch_option.as_json,
         user: payment.user,
       )
     rescue
@@ -61,10 +61,10 @@ class ClustersController < ApplicationController
     cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
     launch_option = LaunchOption.new(launch_option_params(cluster_spec))
     payment.cluster_spec = cluster_spec
+    payment.launch_option = launch_option
     config_params = cluster_launch_config_params.merge(
       spec: cluster_spec,
       tenant: tenant,
-      launch_option: launch_option,
       payment: payment,
     )
     ClusterLaunchConfig.new(config_params)
@@ -74,7 +74,7 @@ class ClustersController < ApplicationController
   end
 
   def payment_params
-    params.require(:payment).permit(:method).tap do |h|
+    params.require(:payment).permit(:method, :runtime).tap do |h|
       h.require(:method)
       h['user'] = current_user
     end
@@ -93,11 +93,11 @@ class ClustersController < ApplicationController
       h[q] = [:desired, :min, :max]
     end
     permitted_params = [
+      :collection,
       :email,
+      :key_pair,
       :name,
       :region,
-      :key_pair,
-      :collection,
       queues: permitted_queues
     ]
     required_params = [:email, :name]
@@ -108,7 +108,7 @@ class ClustersController < ApplicationController
   end
 
   def launch_option_params(cluster_spec)
-    selected_index = params.require(:clusterLaunch).require(:selectedLaunchOptionIndex)
+    selected_index = params.require(:payment).require(:launchOptionIndex)
     params = cluster_spec.selected_launch_option(selected_index)
     params.tap do |h|
       h['cost_per_hour'] = h.delete('costPerHour') if h.key?('costPerHour')

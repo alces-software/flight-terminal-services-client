@@ -31,7 +31,7 @@ class BuildFlyParamsCommand
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
       *@launch_config.spec.args,
-      *@launch_config.launch_option.args,
+      *@launch_config.payment.launch_option.args,
       *launch_config_key_pair_and_region,
       '--parameter-directory', @parameter_dir,
       *runtime_flag,
@@ -80,12 +80,9 @@ class BuildFlyParamsCommand
   end
 
   def runtime_flag
-    return [] unless @launch_config.payment.using_token?
+    payment = @launch_config.payment
+    return [] unless payment.has_expiration?
 
-    runtime = DetermineRuntimeCommand.new(
-      @launch_config.launch_option,
-      @launch_config.payment.token
-    ).perform.to_s
-    ['--runtime', runtime]
+    ['--runtime', payment.runtime_in_minutes.to_s]
   end
 end

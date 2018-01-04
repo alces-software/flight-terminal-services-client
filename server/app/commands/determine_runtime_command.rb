@@ -7,9 +7,9 @@
 #==============================================================================
 
 class DetermineRuntimeCommand
-  def initialize(launch_option, token, humanized: false)
-    @launch_option = launch_option
-    @token = token
+  def initialize(payment, humanized: false)
+    @payment = payment
+    @launch_option = @payment.launch_option
     @humanized = humanized
   end
 
@@ -26,11 +26,13 @@ class DetermineRuntimeCommand
       return ENV['CLUSTER_RUNTIME']
     end
 
-    token_credits = @token.credits.to_f
     spec_cost_per_hour = @launch_option.cost_per_hour.to_f
-    fractional_hours = token_credits / spec_cost_per_hour
+    if @payment.using_token?
+      fractional_hours = @payment.token.credits.to_f / spec_cost_per_hour
+    elsif
+      fractional_hours = @payment.runtime.to_f
+    end
     runtime_in_minutes = (fractional_hours * 60).ceil
-
     runtime_in_minutes
   end
 

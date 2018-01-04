@@ -13,7 +13,8 @@ class ProcessPaymentCommand
     case launch_config.payment.method
     when 'token'
       TokenPaymentProcessor.new(launch_config)
-    # when 'credits:upfront'
+    when 'credits:upfront'
+      CreditsUpfrontPaymentProcessor.new(launch_config)
     when 'credits:ongoing'
       # No processing of payment is required here.  Credits will be
       # periodically removed from the user's account whilst the cluster is
@@ -29,7 +30,8 @@ class ProcessPaymentCommand
     @payment = launch_config.payment
   end
 
-  def valid_to_launch?; raise NotImplementedError; end
+  def valid_to_launch?; @payment.valid?; end
+
   def about_to_queue; raise NotImplementedError; end
   def queue_failed; raise NotImplementedError; end
   def about_to_launch; raise NotImplementedError; end
@@ -42,6 +44,23 @@ class ProcessPaymentCommand
     def queue_failed; end
     def about_to_launch; end
     def launch_failed; end
+    def launch_succeeded; end
+  end
+
+  class CreditsUpfrontPaymentProcessor < ProcessPaymentCommand
+    def about_to_queue; end
+    def queue_failed; end
+
+    def about_to_launch
+      @payment.user.compute_credits -= @payment.required_credits
+      @payment.user.save!
+    end
+
+    def launch_failed
+      @payment.user.compute_credits += @payment.required_credits
+      @payment.user.save!
+    end
+
     def launch_succeeded; end
   end
 
