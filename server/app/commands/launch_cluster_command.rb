@@ -38,9 +38,9 @@ class LaunchClusterCommand
                       "with spec #{@launch_config.spec.inspect}")
 
     return unless @payment_processor.valid_to_launch?
-    @payment_processor.about_to_launch
 
     begin
+      @payment_processor.about_to_launch
       BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
         perform
       fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
