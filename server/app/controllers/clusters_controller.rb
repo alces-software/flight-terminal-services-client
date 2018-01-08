@@ -112,7 +112,7 @@ class ClustersController < ApplicationController
     selected_index = params.require(:payment).require(:launchOptionIndex)
     params = cluster_spec.selected_launch_option(selected_index)
     params.tap do |h|
-      h['cost_per_hour'] = h.delete('costPerHour') if h.key?('costPerHour')
+      h['charging_model'] = h.delete('chargingModel') if h.key?('chargingModel')
     end
   end
 

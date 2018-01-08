@@ -21,7 +21,7 @@ import SingleLaunchOption from './SingleLaunchOption';
 
 const launchOptionShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
-  costPerHour: PropTypes.number.isRequired,
+  chargingModel: PropTypes.object.isRequired,
 });
 
 const propTypes = {
@@ -86,7 +86,7 @@ const LaunchOptions = ({
         selectedLaunchOptionIndex={selectedLaunchOptionIndex}
       />
       <ClusterRuntimeExplanation
-        clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+        chargingModel={selectedLaunchOption.chargingModel}
         desiredRuntime={desiredRuntime}
         isRuntimeFixed={isRuntimeFixed}
         isUsingLaunchToken={isUsingLaunchToken}
