@@ -31,6 +31,7 @@ class ProcessPaymentCommand
   end
 
   def valid_to_launch?; @payment.valid?; end
+  def send_invalid_email?; true ; end
 
   def about_to_queue; raise NotImplementedError; end
   def queue_failed; raise NotImplementedError; end
@@ -87,6 +88,14 @@ class ProcessPaymentCommand
                           "Current status is #{@payment.token.status}")
         false
       end
+    end
+
+    def send_invalid_email?
+      # The only reason this could have failed is due to an SQS job being
+      # processed multiple times.  We don't want to send an email explaining
+      # that the cluster is not being launched, when a separate processing of
+      # the SQS job is launching the cluster.
+      false
     end
 
     # If a token is being used, it needs to be marked as queued prior to

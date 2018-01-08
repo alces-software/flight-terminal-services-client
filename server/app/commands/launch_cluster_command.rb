@@ -37,7 +37,10 @@ class LaunchClusterCommand
     Rails.logger.info("Launching cluster #{@launch_config.name} " +
                       "with spec #{@launch_config.spec.inspect}")
 
-    return unless @payment_processor.valid_to_launch?
+    unless @payment_processor.valid_to_launch?
+      send_payment_invalid_email
+      return
+    end
 
     begin
       @payment_processor.about_to_launch
@@ -74,6 +77,12 @@ class LaunchClusterCommand
       Dir.tmpdir,
       Dir::Tmpname.make_tmpname('flight-launch-', nil)
     )
+  end
+
+  def send_payment_invalid_email
+    return unless @payment_processor.send_invalid_email?
+    ClustersMailer.payment_invalid(@launch_config, @payment_processor.payment).
+      deliver_now
   end
 
   def send_about_to_launch_email

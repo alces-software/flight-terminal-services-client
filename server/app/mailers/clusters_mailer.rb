@@ -8,6 +8,12 @@
 #==============================================================================
 class ClustersMailer < ApplicationMailer
 
+  def payment_invalid(launch_config, payment)
+    @cluster_name = launch_config.name
+    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
+    @payment = payment
+  end
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
