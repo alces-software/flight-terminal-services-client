@@ -7,6 +7,8 @@
 #==============================================================================
 
 class TerminateClusterQueuesCommand
+  include ApiEndpointUrlsConcern
+
   def initialize(user:)
     @user = user
   end
@@ -42,17 +44,6 @@ class TerminateClusterQueuesCommand
   end
 
   def terminate_cluster_uri(cluster)
-    URI("#{tracon_base_url}/clusters/#{cluster.qualified_name}/queues")
-  end
-
-  def tracon_base_url
-    use_docker_host = ENV['TRACON_BASE_URL_USE_DOCKER_HOST']
-    base_url = ENV['TRACON_BASE_URL']
-    if Rails.env.development? && ( use_docker_host || base_url.blank? )
-      tracon_ip = `ip route show | awk '/default/ {print $3}'`.chomp
-      "http://#{tracon_ip}:6000"
-    else
-      base_url
-    end
+    URI("#{tracon_base_url(local: true)}/clusters/#{cluster.qualified_name}/queues")
   end
 end

@@ -11,6 +11,8 @@
 # profile.
 #
 class BuildPersonalityDataCommand
+  include ApiEndpointUrlsConcern
+
   def initialize(launch_config)
     @launch_config = launch_config
   end
@@ -42,7 +44,7 @@ class BuildPersonalityDataCommand
   def generate_queue_manager_personality
     {
       'queue-manager' => {
-        'endpoint_url' => ENV['LAUNCH_API_BASE_URL'],
+        'endpoint_url' => launch_api_base_url,
       }
     }
   end
@@ -64,7 +66,7 @@ class BuildPersonalityDataCommand
       'compute' => {
         'cluster' => qualified_name,
         'auth_user' => "#{qualified_name}.#{domain}.alces.network",
-        'endpoint_url' => ENV['TRACON_BASE_URL'],
+        'endpoint_url' => tracon_base_url,
       }
     }
   end
