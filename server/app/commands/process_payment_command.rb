@@ -31,7 +31,13 @@ class ProcessPaymentCommand
   end
 
   def valid_to_launch?
-    @payment.valid?
+    @payment.about_to_launch
+    @payment.valid?.tap do |is_valid|
+      log_invalid_reason unless is_valid
+    end
+  end
+
+  def log_invalid_reason
   end
 
   def send_invalid_email?

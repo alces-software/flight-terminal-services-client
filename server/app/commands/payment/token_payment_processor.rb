@@ -8,17 +8,9 @@
 
 module Payment
   class TokenPaymentProcessor < ProcessPaymentCommand
-    def valid_to_launch?
-      # Check that the launch config's token is still queued.  This prevents
-      # launching a duplicate cluster should the active job be processed twice,
-      # which is possible with SQS.
-      if @payment.token.queued?
-        true
-      else
-        Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +
-                          "Current status is #{@payment.token.status}")
-        false
-      end
+    def log_invalid_reason
+      Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +
+                        "Current status is #{@payment.token.status}")
     end
 
     def send_invalid_email?
