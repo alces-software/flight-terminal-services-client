@@ -47,6 +47,7 @@ class Cluster < ApplicationRecord
           domain_arg_found = true
         end
       end
+      return nil
     end
   end
 end
