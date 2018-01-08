@@ -77,6 +77,7 @@ class ClustersController < ApplicationController
     params.require(:payment).permit(:method, :runtime).tap do |h|
       h.require(:method)
       h['user'] = current_user
+      h['validation_state'] = 'about_to_queue'
     end
   end
 

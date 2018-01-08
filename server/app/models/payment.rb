@@ -9,7 +9,6 @@
 class Payment
   include ActiveModel::Model
   include ActiveModel::Serializers::JSON
-  include DefaultsConcern
 
   METHODS = [
     'credits:ongoing',
@@ -29,8 +28,6 @@ class Payment
   attr_accessor :token
   attr_accessor :user
   attr_accessor :validation_state
-
-  default :validation_state, 'about_to_queue'
 
   validates :cluster_spec,
     presence: true
