@@ -11,7 +11,7 @@ import validatorUtils from 'validator';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { createStructuredSelector } from 'reselect';
-import { auth } from 'flight-reactware';
+import { auth, validation as v } from 'flight-reactware';
 
 import collections from '../../../modules/collections';
 import launchUsers from '../../../modules/launchUsers';
@@ -22,7 +22,7 @@ import * as analytics from '../analytics';
 import ClusterLaunchForm from './Form';
 import ErrorModal from './ErrorModal';
 import LaunchedModal from './LaunchedModal';
-import { getClusterName, getDefaultEmail, useCredits } from '../utils';
+import { canUseCredits, getClusterName, getDefaultEmail } from '../utils';
 
 const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
 const oneCharClusterNameRe = /^[a-z0-9]$/;
@@ -34,10 +34,18 @@ function strip(string) {
 function validate(allValues, state, props) {
   const errors = {};
 
-  if (!useCredits(props) && (
+  if (state.isUsingLaunchToken && (
     allValues.launchToken == null || allValues.launchToken.length < 5)
   ) {
     errors.launchToken = 'error';
+  }
+
+  // XXX Should this be guarded behind a check for whether we're asking the
+  // user for the desired runtime?
+  const { desiredRuntime } = allValues;
+  const e = v.required(desiredRuntime) || v.decimalInteger(desiredRuntime);
+  if (e) {
+    errors.desiredRuntime = e;
   }
 
   const clusterName = getClusterName(allValues);
@@ -88,6 +96,7 @@ class ClusterLaunchFormContainer extends React.Component {
   // eslint-disable-next-line react/sort-comp
   initialValues = {
     clusterName: '',
+    desiredRuntime: null,
     email: '',
     launchToken: '',
     queues: {},
@@ -96,6 +105,7 @@ class ClusterLaunchFormContainer extends React.Component {
 
   state = {
     currentPageIndex: 0,
+    isUsingLaunchToken: true,
     showErrorModal: false,
     showLaunchedModal: false,
     submitting: false,
@@ -119,6 +129,7 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({
       errors: validate(this.state.values, this.state, this.props),
       currentPageIndex: 0,
+      isUsingLaunchToken: !canUseCredits(this.props),
       values: {
         ...this.state.values,
         selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
@@ -185,7 +196,7 @@ class ClusterLaunchFormContainer extends React.Component {
     const email = this.state.values.email ||
       getDefaultEmail(this.props, this.state);
     const tokenParams = {};
-    if (!useCredits(this.props)) {
+    if (this.state.isUsingLaunchToken) {
       tokenParams.token = { 
         name: this.state.values.launchToken,
       };
@@ -212,10 +223,24 @@ class ClusterLaunchFormContainer extends React.Component {
           email: email,
           name: getClusterName(this.state.values),
           queues: this.state.values.queues,
-          selectedLaunchOptionIndex: this.state.values.selectedLaunchOptionIndex,
+        },
+        payment: {
+          launchOptionIndex: this.state.values.selectedLaunchOptionIndex,
+          method: this.paymentMethod(),
+          runtime: this.state.values.desiredRuntime,
         },
       })
     });
+  }
+
+  paymentMethod() {
+    if (this.state.isUsingLaunchToken) {
+      return 'token';
+    } else if (this.state.values.desiredRuntime) {
+      return 'credits:upfront';
+    } else {
+      return 'credits:ongoing';
+    }
   }
 
   handleSuccessfulLaunch(json) {
@@ -240,6 +265,7 @@ class ClusterLaunchFormContainer extends React.Component {
       },
       currentPageIndex: 0,
       errors: errors,
+      isUsingLaunchToken: !canUseCredits(this.props),
     });
   }
 
@@ -327,6 +353,10 @@ class ClusterLaunchFormContainer extends React.Component {
       });
   }
 
+  handleUseLaunchToken = () => {
+    this.setState({ isUsingLaunchToken: true });
+  }
+
   blurEmailField() {
     if (this.emailInput) { this.emailInput.blur() ; }
   }
@@ -356,6 +386,7 @@ class ClusterLaunchFormContainer extends React.Component {
           onShowNextPage={this.handleShowNextPage}
           onShowPreviousPage={this.handleShowPreviousPage}
           onTokenEntered={this.handleTokenEntered}
+          onUseLaunchToken={this.handleUseLaunchToken}
           tokenName={this.state.values.launchToken}
         />
       </div>

@@ -30,6 +30,9 @@ const propTypes = {
       options: PropTypes.arrayOf(launchOptionShape.isRequired).isRequired,
     }).isRequired,
   }).isRequired,
+  desiredRuntime: PropTypes.number,
+  isRuntimeFixed: PropTypes.bool.isRequired,
+  isUsingLaunchToken: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   selectedLaunchOptionIndex: PropTypes.number.isRequired,
   token: PropTypes.shape({
@@ -37,21 +40,25 @@ const propTypes = {
       credits: PropTypes.number.isRequired,
     }).isRequired
   }),
-  useCredits: PropTypes.bool.isRequired,
 };
 
-const LaunchOptions = ({ clusterSpec,
-  token,
-  selectedLaunchOptionIndex,
+const LaunchOptions = ({
+  clusterSpec,
+  desiredRuntime,
+  isRuntimeFixed,
+  isUsingLaunchToken,
   onChange,
-  useCredits,
+  selectedLaunchOptionIndex,
+  token,
 }) => {
   if (clusterSpec.launchOptions.options.length < 2) {
     return (
       <SingleLaunchOption
         clusterSpec={clusterSpec}
+        desiredRuntime={desiredRuntime}
+        isRuntimeFixed={isRuntimeFixed}
+        isUsingLaunchToken={isUsingLaunchToken}
         token={token}
-        useCredits={useCredits}
       />
     );
   }
@@ -80,8 +87,10 @@ const LaunchOptions = ({ clusterSpec,
       />
       <ClusterRuntimeExplanation
         clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+        desiredRuntime={desiredRuntime}
+        isRuntimeFixed={isRuntimeFixed}
+        isUsingLaunchToken={isUsingLaunchToken}
         tokenCredits={token == null ? undefined : token.attributes.credits}
-        useCredits={useCredits}
       />
     </div>
   );
@@ -96,7 +105,7 @@ const enhance = compose(
   connect(mapStateToProps),
 
   branch(
-    ({ token, useCredits }) => !useCredits && token == null,
+    ({ isUsingLaunchToken, token }) => isUsingLaunchToken && token == null,
     renderComponent(({ tokenIsLoading }) => (
       <div>
         {

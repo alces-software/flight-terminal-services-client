@@ -14,9 +14,21 @@ export function getDefaultEmail(props, state={}) {
     null;
 }
 
-export function useCredits({ clusterSpec, launchUser }) {
-  const solo = clusterSpec.fly.args.includes('--solo');
-  return !!(!solo && launchUser && launchUser.attributes.computeCredits > 0);
+function isSoloCluster(clusterSpec) {
+  return clusterSpec.fly.args.includes('--solo') ||
+    clusterSpec.fly.args.includes('-s');
+}
+
+export function canUseCredits({ launchUser }) {
+  return !!(launchUser && launchUser.attributes.computeCredits > 0);
+}
+
+export function canSelectRuntime({ clusterSpec, launchUser }) {
+  return isSoloCluster(clusterSpec) && canUseCredits({ launchUser });
+}
+
+export function isRuntimeFixed({ clusterSpec, isUsingLaunchToken }) {
+  return isSoloCluster(clusterSpec) || isUsingLaunchToken;
 }
 
 export function getClusterName({ clusterName, launchToken }) {

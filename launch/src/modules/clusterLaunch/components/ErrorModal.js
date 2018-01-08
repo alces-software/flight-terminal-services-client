@@ -7,31 +7,33 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { isFSA } from 'flux-standard-action';
 
 import { apiRequest, jsonApi, StandardModal } from 'flight-reactware';
 import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 
 function hasPropError(errorDetails, prop, error) {
-  return errorDetails[prop] && errorDetails[prop].some(e => e === error);
+  const propDetails = get(errorDetails, prop);
+  return propDetails && propDetails.some(e => e === error);
 }
 
 function messageFromDetails(details) {
-  if (hasPropError(details, 'token', 'token not found')) {
+  if (hasPropError(details, 'payment.token', 'token not found')) {
     return (
       <span>
         Unfortunately, we haven't been able to find the token entered.  Please
         check your token details and try again.
       </span>
     );
-  } else if (hasPropError(details, 'token', 'token has already been used')) {
+  } else if (hasPropError(details, 'payment.token', 'token has already been used')) {
     return (
       <span>
         The token you have entered has already been used.  Please check your
         token details and try again.
       </span>
     );
-  } else if (hasPropError(details, 'token', 'token cannot launch cluster spec')) {
+  } else if (hasPropError(details, 'payment.token', 'token cannot launch cluster spec')) {
     return (
       <span>
         That token cannot be used with the cluster you have tried to launch.
@@ -54,7 +56,7 @@ function messageFromReduxAction(action) {
   const errors = (action.error && action.error.data && action.error.data.errors) || [];
   if (action.type === apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED)) {
     if (errors && errors.some(e => e.status === 404)) {
-      return messageFromDetails({ token: ['token not found'] });
+      return messageFromDetails({ payment: { token: ['token not found'] } });
     }
   }
 

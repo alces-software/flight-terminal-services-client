@@ -58,7 +58,7 @@ class BuildParameterDirectoryCommand
   end
 
   def merge_launch_option_overrides
-    launch_option = @launch_config.launch_option
+    launch_option = @launch_config.payment.launch_option
     overrides = launch_option.parameter_directory_overrides
     merge_overrides(overrides, "launch option #{launch_option.name}")
   end
