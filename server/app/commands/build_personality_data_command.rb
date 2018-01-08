@@ -21,7 +21,8 @@ class BuildPersonalityDataCommand
 
   def generate_personality_data
     personality = {}.tap do |h|
-      h.merge!(generate_queues_data)
+      h.merge!(generate_initial_queues_data)
+      h.merge!(generate_queue_manager_personality)
       h.merge!(generate_collections_data)
       h.merge!(generate_compute_personality)
     end
@@ -30,11 +31,19 @@ class BuildPersonalityDataCommand
     personality.to_yaml.sub(/^---\n/, '')
   end
 
-  def generate_queues_data
+  def generate_initial_queues_data
     return {} unless @launch_config.spec.feature(:initialQueueConfiguration)
     return {} if @launch_config.queues.nil? || @launch_config.queues.empty?
     {
       'queues' => @launch_config.queues.to_hash
+    }
+  end
+
+  def generate_queue_manager_personality
+    {
+      'queue-manager' => {
+        'endpoint_url' => ENV['LAUNCH_API_BASE_URL'],
+      }
     }
   end
 
@@ -55,6 +64,7 @@ class BuildPersonalityDataCommand
       'compute' => {
         'cluster' => qualified_name,
         'auth_user' => "#{qualified_name}.#{domain}.alces.network",
+        'endpoint_url' => ENV['TRACON_BASE_URL'],
       }
     }
   end

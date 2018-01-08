@@ -15,7 +15,6 @@ class TerminateClusterQueuesCommand
     msg = "Requesting termination of user's cluster's queues " +
       "#{@user.username}:#{@user.id}"
     Alces.app.logger.info(msg)
-    # Make HTTP post to traccon.
 
     @user.clusters.consuming_credits.each do |cluster|
       terminate_cluster(cluster)
@@ -47,6 +46,13 @@ class TerminateClusterQueuesCommand
   end
 
   def tracon_base_url
-    ENV['TRACON_BASE_URL']
+    use_docker_host = ENV['TRACON_BASE_URL_USE_DOCKER_HOST']
+    base_url = ENV['TRACON_BASE_URL']
+    if Rails.env.development? && ( use_docker_host || base_url.blank? )
+      tracon_ip = `ip route show | awk '/default/ {print $3}'`.chomp
+      "http://#{tracon_ip}:6000"
+    else
+      base_url
+    end
   end
 end

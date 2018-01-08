@@ -63,12 +63,6 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     ar_relation.between(@context[:ap_start], @context[:ap_end])
   end
 
-  def tracon_base_url 
-    tracon_base_url = ENV['TRACON_BASE_URL']
-    tracon_ip = `ip route show | awk '/default/ {print $3}'`.chomp
-    tracon_base_url = "http://#{tracon_ip}:6000"
-  end
-
   def tracon_cluster_details
     return @tracon_command if @tracon_command
 

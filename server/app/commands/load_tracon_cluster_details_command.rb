@@ -74,11 +74,13 @@ class LoadTraconClusterDetailsCommand
   end
 
   def tracon_base_url 
-    if Rails.env.development? && ENV['TRACON_BASE_URL'].blank?
+    use_docker_host = ENV['TRACON_BASE_URL_USE_DOCKER_HOST']
+    base_url = ENV['TRACON_BASE_URL']
+    if Rails.env.development? && ( use_docker_host || base_url.blank? )
       tracon_ip = `ip route show | awk '/default/ {print $3}'`.chomp
       "http://#{tracon_ip}:6000"
     else
-      ENV['TRACON_BASE_URL']
+      base_url
     end
   end
 end
