@@ -44,23 +44,23 @@ class ProcessPaymentCommand
     true 
   end
 
-  def about_to_queue
+  def process_about_to_queue
     raise NotImplementedError
   end
 
-  def queue_failed
+  def process_queue_failed
     raise NotImplementedError
   end
 
-  def about_to_launch
+  def process_about_to_launch
     raise NotImplementedError
   end
 
-  def launch_failed
+  def process_launch_failed
     raise NotImplementedError
   end
 
-  def launch_succeeded
+  def process_launch_succeeded
     raise NotImplementedError
   end
 end

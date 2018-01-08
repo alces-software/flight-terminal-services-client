@@ -8,19 +8,19 @@
 
 module Payment
   class CreditsUpFrontPaymentProcessor < ProcessPaymentCommand
-    def about_to_queue
+    def process_about_to_queue
     end
 
-    def queue_failed
+    def process_queue_failed
     end
 
-    def about_to_launch
+    def process_about_to_launch
       @payment.user.compute_credits -= @payment.required_credits
       @payment.user.save!
       @credits_subtracted = true
     end
 
-    def launch_failed
+    def process_launch_failed
       return unless @credits_subtracted
       @payment.user.compute_credits += @payment.required_credits
       begin
@@ -35,7 +35,7 @@ module Payment
       end
     end
 
-    def launch_succeeded
+    def process_launch_succeeded
     end
   end
 end

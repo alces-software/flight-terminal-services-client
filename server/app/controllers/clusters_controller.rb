@@ -27,7 +27,7 @@ class ClustersController < ApplicationController
 
     payment_processor = ProcessPaymentCommand.load(cluster_launch_config)
     begin
-      payment_processor.about_to_queue
+      payment_processor.process_about_to_queue
       ClusterLaunchJob.perform_later(
         launch_config_params: cluster_launch_config.as_json,
         cluster_spec_params: cluster_launch_config.spec.as_json,
@@ -39,7 +39,7 @@ class ClustersController < ApplicationController
       )
     rescue
       Rails.logger.warn("Queueing cluster launch failed: #{$!.message}")
-      payment_processor.queue_failed
+      payment_processor.process_queue_failed
     end
 
     render(

@@ -25,23 +25,23 @@ module Payment
     # scheduling ClusterLaunchJob, or else we could fall foul of a race
     # condition in which the token is still AVAILABLE when we try to process
     # the job.
-    def about_to_queue
+    def process_about_to_queue
       mark_token_as(:queued)
     end
 
-    def queue_failed
+    def process_queue_failed
       mark_token_as(:available)
     end
 
-    def about_to_launch
+    def process_about_to_launch
       mark_token_as(:in_use)
     end
 
-    def launch_failed
+    def process_launch_failed
       mark_token_as(:available)
     end
 
-    def launch_succeeded
+    def process_launch_succeeded
       mark_token_as(:used)
     end
 

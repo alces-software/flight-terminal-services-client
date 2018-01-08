@@ -43,7 +43,7 @@ class LaunchClusterCommand
     end
 
     begin
-      @payment_processor.about_to_launch
+      @payment_processor.process_about_to_launch
       BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
         perform
       fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
@@ -54,17 +54,17 @@ class LaunchClusterCommand
       Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
       if @run_fly_cmd.failed?
         Rails.logger.info("Launch error: #{@run_fly_cmd.stderr}") 
-        @payment_processor.launch_failed
+        @payment_processor.process_launch_failed
         send_failed_email
       else
-        @payment_processor.launch_succeeded
+        @payment_processor.process_launch_succeeded
         create_cluster_model
         send_completed_email
       end
     rescue
       Rails.logger.info "Launch thread raised exception #{$!}"
       Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
-      @payment_processor.launch_failed
+      @payment_processor.process_launch_failed
       send_failed_email
     ensure
       FileUtils.rm_r(parameter_dir, secure: true)

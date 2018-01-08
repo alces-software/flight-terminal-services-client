@@ -12,19 +12,19 @@ module Payment
       true
     end
 
-    def about_to_queue
+    def process_about_to_queue
     end
 
-    def queue_failed
+    def process_queue_failed
     end
 
-    def about_to_launch
+    def process_about_to_launch
     end
 
-    def launch_failed
+    def process_launch_failed
     end
 
-    def launch_succeeded
+    def process_launch_succeeded
     end
   end
 end
