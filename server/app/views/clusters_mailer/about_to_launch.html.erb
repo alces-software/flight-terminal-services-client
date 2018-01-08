@@ -11,9 +11,16 @@
 <p>
 Your <%= @cluster_spec_name %> <code><%= @cluster_name %></code> will begin
 launching shortly.
+<%- if @payment.has_expiration? -%>
 Once you are in flight, the evaluation period for your Alces Flight Compute HPC cluster will be
 <%= @runtime %>.  Please remember to save your work as you go as, once the
 trial completes, the cluster will be shut down automatically.
+<%- else -%>
+    This cluster will continue to consume your account's compute credits until
+    it is termianted.  If your account runs out of compute credits the cluster
+    will be shut down automatically.  Please remember to save your work as you
+    go.
+<%- end -%>
 </p>
 
 <p>

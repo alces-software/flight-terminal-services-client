@@ -9,9 +9,15 @@
 Welcome on board the Alces Flight Launch service<%= launching_branding_header %>.
 
 Your <%= @cluster_spec_name %> "<%= @cluster_name %>" will begin launching shortly.
+<%- if @payment.has_expiration? -%>
 Once you are in flight, the evaluation period for your Alces Flight Compute
 HPC cluster will be <%= @runtime %>.  Please remember to save your work as you go
 as, once the trial completes, the cluster will shutdown automatically.
+<%- else -%>
+This cluster will continue to consume your account's compute credits until it
+is terminated.  If your account runs out of compute credits the cluster will
+be shut down automatically.  Please remember to save your work as you go.
+<%- end -%>
 
 You will receive another email shortly letting you know that your Alces Flight
 Compute HPC cluster is available for use.

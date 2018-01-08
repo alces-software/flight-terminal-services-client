@@ -11,8 +11,14 @@ Your Alces Flight Compute HPC cluster<%= launched_branding_header %> is ready fo
 Your <%= @cluster_spec_name %> "<%= @cluster_name %>" has reached cruising
 altitude and is available for use.
 
+<%- if @payment.has_expiration? -%>
 Remember, the flight time for this cluster is <%= @runtime %>. Please remember to save
 your work.
+<%- else -%>
+Remember, this cluster will consume your account's compute credits until it is
+terminated.  If your account runs out of compute credits the cluster will be
+shut down automatically.
+<%- end -%>
 
 You can find details about your cluster including how to access it below.
 
