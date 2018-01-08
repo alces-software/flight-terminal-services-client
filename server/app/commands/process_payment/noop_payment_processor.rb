@@ -6,7 +6,7 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-module Payment
+module ProcessPayment
   class NoopProcessor < ProcessPaymentCommand
     def valid_to_launch?
       true

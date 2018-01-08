@@ -6,7 +6,7 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-module Payment
+module ProcessPayment
   class TokenPaymentProcessor < ProcessPaymentCommand
     def log_invalid_reason
       Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +

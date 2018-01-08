@@ -12,14 +12,14 @@ class ProcessPaymentCommand
   def self.load(launch_config)
     case launch_config.payment.method
     when 'token'
-      Payment::TokenPaymentProcessor.new(launch_config)
+      ProcessPayment::TokenPaymentProcessor.new(launch_config)
     when 'credits:upfront'
-      Payment::CreditsUpFrontPaymentProcessor.new(launch_config)
+      ProcessPayment::CreditsUpFrontPaymentProcessor.new(launch_config)
     when 'credits:ongoing'
       # No processing of payment is required here.  Credits will be
       # periodically removed from the user's account whilst the cluster is
       # running.
-      Payment::NoopPaymentProcessor.new(launch_config)
+      ProcessPayment::NoopPaymentProcessor.new(launch_config)
     else
       raise UnknownPaymentType, launch_config.payment_method
     end

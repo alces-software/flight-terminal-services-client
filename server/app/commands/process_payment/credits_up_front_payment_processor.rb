@@ -6,7 +6,7 @@
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
 
-module Payment
+module ProcessPayment
   class CreditsUpFrontPaymentProcessor < ProcessPaymentCommand
     def process_about_to_queue
     end
