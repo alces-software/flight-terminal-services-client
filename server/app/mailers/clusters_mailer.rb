@@ -8,10 +8,10 @@
 #==============================================================================
 class ClustersMailer < ApplicationMailer
 
-  def payment_invalid(launch_config, payment)
+  def payment_invalid(launch_config)
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @payment = payment
+    @payment = launch_config.payment
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -22,6 +22,7 @@ class ClustersMailer < ApplicationMailer
   def about_to_launch(launch_config)
     @cluster_name = launch_config.name
     @tenant = launch_config.tenant
+    @payment = launch_config.payment
 
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @runtime = determine_runtime(launch_config)
@@ -43,6 +44,7 @@ class ClustersMailer < ApplicationMailer
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @runtime = determine_runtime(launch_config)
     @tenant = launch_config.tenant
+    @payment = launch_config.payment
 
     @resources = @parsed_output.resources.
       select {|r| r.final_status == 'CREATE_COMPLETE'}.

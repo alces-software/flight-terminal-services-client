@@ -81,7 +81,7 @@ class LaunchClusterCommand
 
   def send_payment_invalid_email
     return unless @payment_processor.send_invalid_email?
-    ClustersMailer.payment_invalid(@launch_config, @payment_processor.payment).
+    ClustersMailer.payment_invalid(@launch_config).
       deliver_now
   end
 
