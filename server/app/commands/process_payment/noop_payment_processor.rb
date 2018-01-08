@@ -7,7 +7,7 @@
 #==============================================================================
 
 module ProcessPayment
-  class NoopProcessor < ProcessPaymentCommand
+  class NoopPaymentProcessor < ProcessPaymentCommand
     def valid_to_launch?
       true
     end
