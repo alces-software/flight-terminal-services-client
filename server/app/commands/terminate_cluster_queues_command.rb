@@ -7,6 +7,8 @@
 #==============================================================================
 
 class TerminateClusterQueuesCommand
+  include ApiEndpointUrlsConcern
+
   def initialize(user:)
     @user = user
   end
@@ -15,7 +17,6 @@ class TerminateClusterQueuesCommand
     msg = "Requesting termination of user's cluster's queues " +
       "#{@user.username}:#{@user.id}"
     Alces.app.logger.info(msg)
-    # Make HTTP post to traccon.
 
     @user.clusters.consuming_credits.each do |cluster|
       terminate_cluster(cluster)
@@ -43,10 +44,6 @@ class TerminateClusterQueuesCommand
   end
 
   def terminate_cluster_uri(cluster)
-    URI("#{tracon_base_url}/clusters/#{cluster.qualified_name}/queues")
-  end
-
-  def tracon_base_url
-    ENV['TRACON_BASE_URL']
+    URI("#{tracon_base_url(local: true)}/clusters/#{cluster.qualified_name}/queues")
   end
 end

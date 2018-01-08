@@ -8,6 +8,8 @@
 require 'open-uri'
 
 class LoadTraconClusterDetailsCommand
+  include ApiEndpointUrlsConcern
+
   attr_reader :available_queues, :current_queues
 
   def initialize(cluster:)
@@ -62,23 +64,14 @@ class LoadTraconClusterDetailsCommand
   end
 
   def cluster_details_uri
-    URI("#{tracon_base_url}/clusters/#{@cluster.qualified_name}")
+    URI("#{tracon_base_url(local: true)}/clusters/#{@cluster.qualified_name}")
   end
 
   def current_queues_uri
-    URI("#{tracon_base_url}/clusters/#{@cluster.qualified_name}/queues")
+    URI("#{tracon_base_url(local: true)}/clusters/#{@cluster.qualified_name}/queues")
   end
 
   def available_queues_uri
-    URI("#{tracon_base_url}/queues")
-  end
-
-  def tracon_base_url 
-    if Rails.env.development? && ENV['TRACON_BASE_URL'].blank?
-      tracon_ip = `ip route show | awk '/default/ {print $3}'`.chomp
-      "http://#{tracon_ip}:6000"
-    else
-      ENV['TRACON_BASE_URL']
-    end
+    URI("#{tracon_base_url(local: true)}/queues")
   end
 end
