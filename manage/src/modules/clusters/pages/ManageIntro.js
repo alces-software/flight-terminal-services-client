@@ -10,8 +10,8 @@ import withCluster from '../components/withCluster';
 const cards = [
   {
     display: (cluster) => {
-      const features = cluster.attributes.features;
-      return features.hasQueueManagement || features.hasQueueManangement;
+      const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
+      return hasQueueManagement || hasQueueManangement;
     },
     render: QueueManagementIntro,
   },
@@ -21,9 +21,7 @@ const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
-      features: PropTypes.shape({
-        hasQueueManagement: PropTypes.bool,
-      }),
+      hasQueueManagement: PropTypes.bool,
       hostname: PropTypes.string.isRequired,
     }),
   }),

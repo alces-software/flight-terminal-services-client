@@ -16,12 +16,6 @@ import * as pages from './pages';
 import * as selectors from './selectors';
 import reducer from './reducer';
 
-const indexes = [{
-  entityType: constants.NAME,
-  indexName: 'hostname',
-  indexAttribute: entity => entity.attributes && entity.attributes.hostname,
-}];
-
 const loadingStatesConfig = {
   resourceType: constants.NAME,
   key: resource => {
@@ -45,7 +39,6 @@ const loadingStatesConfig = {
 export default {
   ...components,
   constants,
-  indexes,
   loadingStatesConfig,
   pages,
   reducer,

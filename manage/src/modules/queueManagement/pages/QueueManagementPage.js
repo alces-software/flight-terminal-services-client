@@ -99,8 +99,8 @@ const enhance = compose(
 
   branch(
     ({ cluster }) => {
-      const features = cluster.attributes.features;
-      return !features.hasQueueManagement && !features.hasQueueManangement;
+      const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
+      return !hasQueueManagement && !hasQueueManangement;
     },
     renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
   ),
