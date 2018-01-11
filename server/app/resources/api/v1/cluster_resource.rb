@@ -34,27 +34,27 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   end
 
   def available_compute_queues
-    tracon_cluster_details.available_queues
+    tracon_cluster_details.available_queues if advanced_cluster?
   end
 
   def cluster_name
-    running_cluster_details.cluster_name
+    running_cluster_details.cluster_name if advanced_cluster?
   end
 
   def current_compute_queues
-    tracon_cluster_details.current_queues
+    tracon_cluster_details.current_queues if advanced_cluster?
   end
 
   def features
-    running_cluster_details.features
+    running_cluster_details.features if advanced_cluster?
   end
 
   def hostname
-    running_cluster_details.hostname
+    running_cluster_details.hostname if advanced_cluster?
   end
 
   def ip_address
-    running_cluster_details.ip_address
+    running_cluster_details.ip_address if advanced_cluster?
   end
 
   private
@@ -69,6 +69,10 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     @tracon_command = LoadTraconClusterDetailsCommand.new(cluster: @model)
     @tracon_command.perform
     @tracon_command
+  end
+
+  def advanced_cluster?
+    @model.domain.present?
   end
 
   def running_cluster_details
