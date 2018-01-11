@@ -1,17 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Row, Col } from 'reactstrap';
 import styled from 'styled-components';
+import { Container, Row, Col } from 'reactstrap';
 import { PageHeading } from 'flight-reactware';
+import { branch, compose, nest, renderComponent } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import * as selectors from '../selectors';
 import QueueManagementIntro from '../components/QueueManagementIntro';
 import withCluster from '../components/withCluster';
+import ManagementUnsupported from '../components/ManagementUnsupported';
 
 const cards = [
   {
     display: (cluster) => {
-      const features = cluster.attributes.features;
-      return features.hasQueueManagement || features.hasQueueManangement;
+      const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
+      return hasQueueManagement || hasQueueManangement;
     },
     render: QueueManagementIntro,
   },
@@ -21,9 +26,7 @@ const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
-      features: PropTypes.shape({
-        hasQueueManagement: PropTypes.bool,
-      }),
+      hasQueueManagement: PropTypes.bool,
       hostname: PropTypes.string.isRequired,
     }),
   }),
@@ -80,5 +83,19 @@ const ManageIntro = ({ cluster }) => {
 
 ManageIntro.propTypes = propTypes;
 
-export default withCluster(ManageIntro);
+const enhance = compose(
+  withCluster,
 
+  connect(createStructuredSelector({
+    launchClusterRetrieval: selectors.launchClusterRetrieval,
+  })),
+
+  branch(
+    ({ cluster, launchClusterRetrieval }) => {
+      return launchClusterRetrieval.rejected || cluster.attributes.isSolo;
+    },
+    renderComponent(nest(Container, ManagementUnsupported)),
+  ),
+);
+
+export default enhance(ManageIntro);

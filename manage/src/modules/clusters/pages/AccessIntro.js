@@ -16,15 +16,15 @@ const cards = [
     render: SshAccessIntro,
   },
   {
-    display: (cluster) => cluster.attributes.features.hasVpn,
+    display: (cluster) => cluster.attributes.hasVpn,
     render: VpnIntro,
   },
   {
-    display: (cluster) => cluster.attributes.features.hasWebTerminal,
+    display: (cluster) => cluster.attributes.hasWebTerminal,
     render: TerminalIntro,
   },
   {
-    display: (cluster) => cluster.attributes.features.hasWebTerminal,
+    display: (cluster) => cluster.attributes.hasWebTerminal,
     render: TutorialsIntro,
   },
 ];
@@ -33,10 +33,8 @@ const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
-      features: PropTypes.shape({
-        hasVpn: PropTypes.bool,
-        hasWebTerminal: PropTypes.bool,
-      }),
+      hasVpn: PropTypes.bool,
+      hasWebTerminal: PropTypes.bool,
       hostname: PropTypes.string.isRequired,
       ipAddress: PropTypes.string.isRequired,
     }),

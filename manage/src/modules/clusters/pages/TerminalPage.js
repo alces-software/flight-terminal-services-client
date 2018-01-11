@@ -12,13 +12,11 @@ import Terminal from '../components/Terminal';
 const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
-      features: PropTypes.shape({
-        webTerminal: PropTypes.shape({
-          socketIO: PropTypes.shape({
-            path: PropTypes.string.isRequired,
-          }).isRequired,
-          url: PropTypes.string.isRequired,
+      webTerminal: PropTypes.shape({
+        socketIO: PropTypes.shape({
+          path: PropTypes.string.isRequired,
         }).isRequired,
+        url: PropTypes.string.isRequired,
       }).isRequired,
     }),
   }),
@@ -31,7 +29,7 @@ const Centered = styled.div`
 `;
 
 const TerminalPage = ({ cluster }) => {
-  const { webTerminal } = cluster.attributes.features;
+  const { webTerminal } = cluster.attributes;
   const title = (
     <span>
       Cluster Terminal for <em>{cluster.attributes.clusterName}</em>
@@ -75,7 +73,7 @@ const enhance = compose(
   withCluster,
 
   branch(
-    ({ cluster }) => !cluster.attributes.features.hasWebTerminal,
+    ({ cluster }) => !cluster.attributes.hasWebTerminal,
     renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
   )
 );

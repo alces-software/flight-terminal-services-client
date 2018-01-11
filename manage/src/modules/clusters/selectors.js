@@ -11,6 +11,7 @@ import { loadingStates, selectorUtils } from 'flight-reactware';
 import { NAME } from './constants';
 
 const clustersState = state => state[NAME];
+const clustersData = state => clustersState(state).data;
 
 const {
   jsonApiState,
@@ -18,18 +19,22 @@ const {
 } = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
 export function hostname(state) {
-  return clustersState(state).data.hostname;
+  return clustersState(state).meta.hostname;
 }
 
 function hostnameFromPropsOrStore(state, props) {
   return props.hostname || hostname(state);
 }
 
-const hostnameIndex = selectorUtils.buildIndexSelector(NAME, 'hostname');
+const hostnameIndex = selectorUtils.buildIndexSelector(
+  NAME,
+  'hostname',
+  clustersState,
+);
 
 // Returns the retrieval for the JSONAPI resource obtained from the Flight
 // Launch server.
-const jsonApiRetrieval = createSelector(
+export const launchClusterRetrieval = createSelector(
   jsonApiState,
   hostnameFromPropsOrStore,
 
@@ -45,14 +50,20 @@ const clusterRetrieval = createSelector(
   loadingStates.selectors.retrieval,
 );
 
+// Selects the retrieval state for the current cluster.
+//
+// The details for the cluster can come from two distinct locations: the
+// cluster itself and the Flight Launch server.  The details from the Flight
+// Launch server are optional. If they cannot be retrieved, that should not be
+// considered a failure to retrive the cluster's details.
 export const retrieval = createSelector(
   clusterRetrieval,
-  jsonApiRetrieval,
+  launchClusterRetrieval,
 
   (cr, jar) => {
     const initiated = cr.initiated || jar.initiated;
-    const resolved = cr.resolved && jar.resolved;
-    const rejected = cr.rejected || jar.rejected;
+    const resolved = cr.resolved && ( jar.initiated && !jar.pending );
+    const rejected = cr.rejected;
     const pending = initiated && ! resolved && ! rejected;
 
     return {
@@ -72,10 +83,42 @@ export const relationshipRetrieval = relationName => createSelector(
   loadingStates.selectors.relationshipRetrieval,
 );
 
-export const currentCluster = createSelector(
+// Selects the details the Flight Launch server maintains (if any) about the
+// current cluster.
+const launchClusterDetails = createSelector(
   jsonApiData,
   hostnameIndex,
   hostname,
 
   selectorUtils.resourceFromIndex,
+);
+
+// Selects the details the cluster provides about itself.
+const clusterDetails = createSelector(
+  clustersData,
+  hostnameIndex,
+  hostname,
+
+  selectorUtils.resourceFromIndex,
+);
+
+export const currentCluster = createSelector(
+  launchClusterDetails,
+  clusterDetails,
+
+  (lc, rc) => {
+    if (lc == null && rc == null) {
+      return undefined;
+    } else if (lc == null || rc == null) {
+      return lc || rc;
+    } else {
+      return {
+        ...lc,
+        attributes: {
+          ...lc.attributes,
+          ...rc.attributes,
+        }
+      };
+    }
+  },
 );

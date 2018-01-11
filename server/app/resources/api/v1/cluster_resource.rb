@@ -15,14 +15,11 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   has_many :credit_usages
 
   attribute :available_compute_queues
-  attribute :cluster_name
   attribute :consumes_credits
   attribute :current_compute_queues
   attribute :domain
-  attribute :features
-  attribute :hostname
-  attribute :ip_address
   attribute :qualified_name
+  attribute :is_solo
 
   def records_for(relation_name)
     case relation_name
@@ -34,27 +31,15 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   end
 
   def available_compute_queues
-    tracon_cluster_details.available_queues
-  end
-
-  def cluster_name
-    running_cluster_details.cluster_name
+    tracon_cluster_details.available_queues if advanced_cluster?
   end
 
   def current_compute_queues
-    tracon_cluster_details.current_queues
+    tracon_cluster_details.current_queues if advanced_cluster?
   end
 
-  def features
-    running_cluster_details.features
-  end
-
-  def hostname
-    running_cluster_details.hostname
-  end
-
-  def ip_address
-    running_cluster_details.ip_address
+  def is_solo
+    !advanced_cluster?
   end
 
   private
@@ -71,13 +56,7 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     @tracon_command
   end
 
-  def running_cluster_details
-    return @running_command if @running_command
-
-    @running_command = LoadRunningClusterDetailsCommand.new(
-      cluster_access_url: tracon_cluster_details.web_access_url
-    )
-    @running_command.perform
-    @running_command
+  def advanced_cluster?
+    @model.domain.present?
   end
 end

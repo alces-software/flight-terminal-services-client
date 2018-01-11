@@ -10,13 +10,40 @@ import { apiRequest, loadingStates } from 'flight-reactware';
 
 import { LOAD_CLUSTER_REQUESTED } from './actionTypes';
 
-const initialState = {
-  data: {
-    hostname: undefined,
-  },
-};
+// A reducer to maintain the hostname for the current cluster being stewarded.
+function hostnameReducer(state = null, { meta, type }) {
+  switch (type) {
+    case LOAD_CLUSTER_REQUESTED:
+      return meta.hostname;
+
+    default:
+      return state;
+  }
+}
+
+// A simplified version of the withIndexes higher order reducer.
+//
+// The `withIndexes` higher order reducer cannot be used here as it is too
+// tightly coupled to flight-reactware's jsonApi module.  See comments in
+// `withIndexes` module.
+function indexReducer(state = {}, { type, payload }) {
+  switch (type) {
+    case apiRequest.resolved(LOAD_CLUSTER_REQUESTED):
+      const jsonApiDoc = payload.data.data;
+      return {
+        hostname: {
+          ...state.hostname || {},
+          [jsonApiDoc.attributes.hostname]: jsonApiDoc.id,
+        }
+      };
+
+    default:
+      return state;
+  }
+}
 
 const metaReducers = combineReducers({
+  hostname: hostnameReducer,
   [loadingStates.constants.NAME]: loadingStates.reducer({
     pending: LOAD_CLUSTER_REQUESTED,
     resolved: apiRequest.resolved(LOAD_CLUSTER_REQUESTED),
@@ -24,12 +51,13 @@ const metaReducers = combineReducers({
   }),
 });
 
-function dataReducer(state = initialState, { meta, type }) {
+function dataReducer(state = {}, { type, payload }) {
   switch (type) {
-    case LOAD_CLUSTER_REQUESTED:
+    case apiRequest.resolved(LOAD_CLUSTER_REQUESTED):
+      const jsonApiDoc = payload.data.data;
       return {
         ...state,
-        hostname: meta.hostname,
+        [jsonApiDoc.id]: jsonApiDoc,
       };
 
     default:
@@ -40,4 +68,5 @@ function dataReducer(state = initialState, { meta, type }) {
 export default combineReducers({
   data: dataReducer,
   meta: metaReducers,
+  index: indexReducer,
 });
