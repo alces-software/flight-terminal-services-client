@@ -15,13 +15,9 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   has_many :credit_usages
 
   attribute :available_compute_queues
-  attribute :cluster_name
   attribute :consumes_credits
   attribute :current_compute_queues
   attribute :domain
-  attribute :features
-  attribute :hostname
-  attribute :ip_address
   attribute :qualified_name
 
   def records_for(relation_name)
@@ -37,24 +33,8 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     tracon_cluster_details.available_queues if advanced_cluster?
   end
 
-  def cluster_name
-    running_cluster_details.cluster_name if advanced_cluster?
-  end
-
   def current_compute_queues
     tracon_cluster_details.current_queues if advanced_cluster?
-  end
-
-  def features
-    running_cluster_details.features if advanced_cluster?
-  end
-
-  def hostname
-    running_cluster_details.hostname if advanced_cluster?
-  end
-
-  def ip_address
-    running_cluster_details.ip_address if advanced_cluster?
   end
 
   private
@@ -73,15 +53,5 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
 
   def advanced_cluster?
     @model.domain.present?
-  end
-
-  def running_cluster_details
-    return @running_command if @running_command
-
-    @running_command = LoadRunningClusterDetailsCommand.new(
-      cluster_access_url: tracon_cluster_details.web_access_url
-    )
-    @running_command.perform
-    @running_command
   end
 end

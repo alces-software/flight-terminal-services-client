@@ -19,15 +19,6 @@ class LoadTraconClusterDetailsCommand
   def perform
   end
 
-  def web_access_url
-    cluster_details['outputs']['WebAccess']
-  end
-
-  def cluster_details
-    Alces.app.logger.info("Requesting tracon cluster details for cluster #{fqdn}")
-    @cluster_details ||= make_request(cluster_details_uri)
-  end
-
   def available_queues
     Alces.app.logger.info("Requesting tracon available queue details for cluster #{fqdn}")
     @available_queues = make_request(available_queues_uri).reduce([]) do |a, q|
