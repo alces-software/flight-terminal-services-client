@@ -34,7 +34,7 @@ const hostnameIndex = selectorUtils.buildIndexSelector(
 
 // Returns the retrieval for the JSONAPI resource obtained from the Flight
 // Launch server.
-const jsonApiRetrieval = createSelector(
+export const launchClusterRetrieval = createSelector(
   jsonApiState,
   hostnameFromPropsOrStore,
 
@@ -58,7 +58,7 @@ const clusterRetrieval = createSelector(
 // considered a failure to retrive the cluster's details.
 export const retrieval = createSelector(
   clusterRetrieval,
-  jsonApiRetrieval,
+  launchClusterRetrieval,
 
   (cr, jar) => {
     const initiated = cr.initiated || jar.initiated;
@@ -85,7 +85,7 @@ export const relationshipRetrieval = relationName => createSelector(
 
 // Selects the details the Flight Launch server maintains (if any) about the
 // current cluster.
-const launchCluster = createSelector(
+const launchClusterDetails = createSelector(
   jsonApiData,
   hostnameIndex,
   hostname,
@@ -94,7 +94,7 @@ const launchCluster = createSelector(
 );
 
 // Selects the details the cluster provides about itself.
-const runningCluster = createSelector(
+const clusterDetails = createSelector(
   clustersData,
   hostnameIndex,
   hostname,
@@ -103,8 +103,8 @@ const runningCluster = createSelector(
 );
 
 export const currentCluster = createSelector(
-  launchCluster,
-  runningCluster,
+  launchClusterDetails,
+  clusterDetails,
 
   (lc, rc) => {
     if (lc == null && rc == null) {

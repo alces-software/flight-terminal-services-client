@@ -19,6 +19,7 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   attribute :current_compute_queues
   attribute :domain
   attribute :qualified_name
+  attribute :is_solo
 
   def records_for(relation_name)
     case relation_name
@@ -35,6 +36,10 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
 
   def current_compute_queues
     tracon_cluster_details.current_queues if advanced_cluster?
+  end
+
+  def is_solo
+    !advanced_cluster?
   end
 
   private
