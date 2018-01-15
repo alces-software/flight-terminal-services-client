@@ -2,10 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Container } from 'reactstrap';
+import { PageHeading } from 'flight-reactware';
 import { Redirect } from 'react-router';
 import { compose, branch, renderComponent } from 'recompose';
-import { PageHeading } from 'flight-reactware';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import * as selectors from '../selectors';
 import withCluster from '../components/withCluster';
 import Tutorials from '../components/Tutorials';
 
@@ -65,8 +68,12 @@ TutorialsPage.propTypes = {
 const enhance = compose(
   withCluster,
 
+  connect(createStructuredSelector({
+    availableAccessItems: selectors.availableAccessItems,
+  })),
+
   branch(
-    ({ cluster }) => !cluster.attributes.hasWebTerminal,
+    ({ availableAccessItems }) => !availableAccessItems.tutorials,
     renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
   )
 );

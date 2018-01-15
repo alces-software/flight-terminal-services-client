@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Row, Col } from 'reactstrap';
 import styled from 'styled-components';
+import { Container, Row, Col } from 'reactstrap';
 import { PageHeading } from 'flight-reactware';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import * as selectors from '../selectors';
 import SshAccessIntro from '../components/SshAccessIntro';
 import TerminalIntro from '../components/TerminalIntro';
 import TutorialsIntro from '../components/TutorialsIntro';
@@ -12,31 +16,33 @@ import withCluster from '../components/withCluster';
 
 const cards = [
   {
-    display: () => true,
+    item: 'ssh',
     render: SshAccessIntro,
   },
   {
-    display: (cluster) => cluster.attributes.hasVpn,
+    item: 'vpn',
     render: VpnIntro,
   },
   {
-    display: (cluster) => cluster.attributes.hasWebTerminal,
+    item: 'terminal',
     render: TerminalIntro,
   },
   {
-    display: (cluster) => cluster.attributes.hasWebTerminal,
+    item: 'tutorials',
     render: TutorialsIntro,
   },
 ];
 
 const propTypes = {
+  availableAccessItems: PropTypes.shape({
+    ssh: PropTypes.bool.isRequired,
+    vpn: PropTypes.bool.isRequired,
+    terminal: PropTypes.bool.isRequired,
+    tutorials: PropTypes.bool.isRequired,
+  }).isRequired,
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
-      hasVpn: PropTypes.bool,
-      hasWebTerminal: PropTypes.bool,
-      hostname: PropTypes.string.isRequired,
-      ipAddress: PropTypes.string.isRequired,
     }),
   }),
 };
@@ -55,7 +61,7 @@ const EqualHeightRow = styled(Row)`
   }
 `;
 
-const AccessIntro = ({ cluster }) => {
+const AccessIntro = ({ availableAccessItems, cluster }) => {
   const clusterName = cluster.attributes.clusterName;
   const overview = (
     <span>
@@ -75,7 +81,7 @@ const AccessIntro = ({ cluster }) => {
       <EqualHeightRow>
         {
           cards
-            .filter(c => c.display(cluster))
+            .filter(c => availableAccessItems[c.item])
             .map((c, i) => (
               <Col
                 key={i}
@@ -92,4 +98,12 @@ const AccessIntro = ({ cluster }) => {
 
 AccessIntro.propTypes = propTypes;
 
-export default withCluster(AccessIntro);
+const enhance = compose(
+  withCluster,
+
+  connect(createStructuredSelector({
+    availableAccessItems: selectors.availableAccessItems,
+  })),
+);
+
+export default enhance(AccessIntro);
