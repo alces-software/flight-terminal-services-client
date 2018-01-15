@@ -28,12 +28,14 @@ class Cluster < ApplicationRecord
     def attributes_from_launch_config(launch_config)
       hash = HashEmailCommand.new(launch_config.email).perform
       qualified_cluster_name = "#{launch_config.name}-#{hash}"
+      payment = launch_config.payment
 
       {
-        consumes_credits: launch_config.payment.using_ongoing_credits?,
+        consumes_credits: payment.using_ongoing_credits?,
         domain: domain_from_launch_config(launch_config),
+        master_node_cost_per_hour: master_node_cost_per_hour(payment),
         qualified_name: qualified_cluster_name,
-        user: launch_config.payment.user,
+        user: payment.user,
       }
     end
 
@@ -48,6 +50,11 @@ class Cluster < ApplicationRecord
         end
       end
       return nil
+    end
+
+    def master_node_cost_per_hour(payment)
+      return nil unless payment.using_ongoing_credits?
+      payment.launch_option.master_node_cost_per_hour
     end
   end
 end

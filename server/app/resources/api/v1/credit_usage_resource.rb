@@ -43,6 +43,10 @@ class Api::V1::CreditUsageResource < Api::V1::ApplicationResource
     @model.duration(ap_start, ap_end)
   end
 
+  def cu_in_use=(cu_usage_for_queues)
+    @model.cu_in_use = cu_usage_for_queues + @model.cluster.master_node_cost_per_hour.to_i
+  end
+
   def self.records(options={})
     context = options[:context]
     super.between(context[:ap_start], context[:ap_end])

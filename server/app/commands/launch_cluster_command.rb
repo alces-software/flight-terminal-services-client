@@ -112,6 +112,12 @@ class LaunchClusterCommand
     auth_token = auth_token_detail.value
     attrs = Cluster.attributes_from_launch_config(@launch_config)
 
-    Cluster.create!(attrs.merge(id: uuid, auth_token: auth_token))
+    Cluster.transaction do
+      Cluster.create!(attrs.merge(id: uuid, auth_token: auth_token)).tap do |cluster|
+        if cluster.master_node_cost_per_hour.present?
+          cluster.credit_usages.create!(cu_in_use: cluster.master_node_cost_per_hour)
+        end
+      end
+    end
   end
 end
