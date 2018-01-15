@@ -32,6 +32,7 @@ class CreditUsage < ApplicationRecord
   }
 
   belongs_to :cluster
+  validates :cluster, presence: true
 
   validates :queues_cu_in_use,
     numericality: {
@@ -49,6 +50,20 @@ class CreditUsage < ApplicationRecord
       r.cluster.master_node_cost_per_hour || 0
     end
   }
+  before_validation do
+    # It is not always possible to set the correct default for
+    # master_node_cu_in_use when the CreditUsage is created.  If a CreditUsage
+    # is created as below:
+    #
+    #   cu = CreditUsage.new
+    #   cu.cluster = cluster
+    #   cu.save
+    #
+    # The cluster is not available when the default block is executed.  This
+    # is how jsonapi-resources creates the CreditUsage.  This
+    # before_validation block works around that issue.
+    set_default_value :master_node_cu_in_use
+  end
 
   validates :start_at, presence: true
   default :start_at, ->(r, a){ Time.now.utc.to_datetime }
@@ -60,7 +75,7 @@ class CreditUsage < ApplicationRecord
   end
 
   validate do
-    unless cluster.consumes_credits?
+    if cluster && !cluster.consumes_credits?
       errors.add(:cluster, 'cluster does not consume credits')
     end
   end
