@@ -10,16 +10,15 @@ const QueueManagementIntro = ({ hostname }) => (
     headerText="Cluster compute queue management"
     iconName="cog"
   >
-    <p>
-      Your cluster has been configured to support management of its compute
-      queues through Flight Manage.  You can create, modify and remove compute
-      queues by visiting the queue management page.
-    </p>
+    Your cluster has been configured to support management of its compute
+    queues through Flight Manage.  You can create, modify and remove compute
+    queues by visiting the queue management page.
   </AccessIntroCard>
 );
 
 QueueManagementIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
+QueueManagementIntro.manageItemKey = 'queueManagement';
 
 export default QueueManagementIntro;

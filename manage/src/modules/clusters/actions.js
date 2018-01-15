@@ -7,7 +7,7 @@
  *===========================================================================*/
 import { jsonApi } from 'flight-reactware';
 
-import { LOAD_CLUSTER_REQUESTED } from './actionTypes';
+import { LOAD_CLUSTER_REQUESTED, TUTORIAL_ACCESS_PERMITTED } from './actionTypes';
 import { retrieval } from './selectors';
 
 // Load the cluster attributes defined on the running cluster.
@@ -57,6 +57,12 @@ export function loadCluster(hostname) {
         })
         .catch(e => e);
     };
+  };
+}
+
+export function permitTutorialsAccess() {
+  return {
+    type: TUTORIAL_ACCESS_PERMITTED,
   };
 }
 

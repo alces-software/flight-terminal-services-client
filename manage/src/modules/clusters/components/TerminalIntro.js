@@ -10,16 +10,15 @@ const TerminalIntro = ({ hostname }) => (
     headerText="Cluster Terminal"
     iconName="terminal"
   >
-    <p>
-      Your cluster has been configured with the Alces Web Terminal service,
-      which allows you to securely log in to your cluster through Flight
-      Manage.
-    </p>
+    Your cluster has been configured with the Alces Web Terminal service,
+    which allows you to securely log in to your cluster through Flight
+    Manage.
   </AccessIntroCard>
 );
 
 TerminalIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
+TerminalIntro.accessItemKey = 'terminal';
 
 export default TerminalIntro;

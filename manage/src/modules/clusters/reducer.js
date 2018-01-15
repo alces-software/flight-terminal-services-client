@@ -8,7 +8,7 @@
 import { combineReducers } from 'redux';
 import { apiRequest, loadingStates } from 'flight-reactware';
 
-import { LOAD_CLUSTER_REQUESTED } from './actionTypes';
+import { LOAD_CLUSTER_REQUESTED, TUTORIAL_ACCESS_PERMITTED } from './actionTypes';
 
 // A reducer to maintain the hostname for the current cluster being stewarded.
 function hostnameReducer(state = null, { meta, type }) {
@@ -49,6 +49,9 @@ const metaReducers = combineReducers({
     resolved: apiRequest.resolved(LOAD_CLUSTER_REQUESTED),
     rejected: apiRequest.rejected(LOAD_CLUSTER_REQUESTED),
   }),
+  tutorialAccessPermitted: (state=false, { type }) => (
+    type === TUTORIAL_ACCESS_PERMITTED ? true : state
+  ),
 });
 
 function dataReducer(state = {}, { type, payload }) {

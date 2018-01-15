@@ -13,17 +13,16 @@ const SshAccessIntro = ({ hostname, ipAddress }) => (
     headerText="SSH Access"
     iconName="laptop"
   >
-    <p>
-      You can log in to your cluster using an SSH client, such as the{' '}
-      <code>ssh</code> command at your prompt on Linux or macOS, or with{' '}
-      <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">
-        <em>PuTTY</em>
-      </a> on Windows.  You can log in by providing the hostname{' '}
-      <code>{hostname}</code> or the IP address <code>{ipAddress}</code>.
-    </p>
+    You can log in to your cluster using an SSH client, such as the{' '}
+    <code>ssh</code> command at your prompt on Linux or macOS, or with{' '}
+    <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">
+      <em>PuTTY</em>
+    </a> on Windows.  You can log in by providing the hostname{' '}
+    <code>{hostname}</code> or the IP address <code>{ipAddress}</code>.
   </AccessIntroCard>
 );
 
 SshAccessIntro.propTypes = propTypes;
+SshAccessIntro.accessItemKey = 'ssh';
 
 export default SshAccessIntro;

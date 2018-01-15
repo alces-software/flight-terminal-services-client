@@ -12,6 +12,7 @@ import { NAME } from './constants';
 
 const clustersState = state => state[NAME];
 const clustersData = state => clustersState(state).data;
+const clustersMeta = state => clustersState(state).meta;
 
 const {
   jsonApiState,
@@ -19,7 +20,7 @@ const {
 } = selectorUtils.buildJsonApiResourceSelectors(NAME);
 
 export function hostname(state) {
-  return clustersState(state).meta.hostname;
+  return clustersMeta(state).hostname;
 }
 
 function hostnameFromPropsOrStore(state, props) {
@@ -120,5 +121,32 @@ export const currentCluster = createSelector(
         }
       };
     }
+  },
+);
+
+export const availableAccessItems = createSelector(
+  currentCluster,
+  clustersMeta,
+
+  (cluster, meta) => {
+    const { hasVpn, hasWebTerminal } = cluster.attributes;
+
+    return {
+      ssh: true,
+      vpn: hasVpn,
+      terminal: hasWebTerminal,
+      tutorials: hasWebTerminal && meta.tutorialAccessPermitted,
+    };
+  },
+);
+
+export const availableManageItems = createSelector(
+  currentCluster,
+
+  (cluster) => {
+    const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
+    return {
+      queueManagement: hasQueueManagement || hasQueueManangement,
+    };
   },
 );

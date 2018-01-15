@@ -9,17 +9,16 @@ const VpnIntro = ({ hostname }) => (
     headerText="Clusterware VPN"
     iconName="lock"
   >
-    <p>
-      Your cluster has been configured with a VPN endpoint, which allows you
-      to securely access and share resources such as interactive sessions.
-      You can find information and downloads to configure VPN access on your
-      platform by visting the VPN configuration page.
-    </p>
+    Your cluster has been configured with a VPN endpoint, which allows you
+    to securely access and share resources such as interactive sessions.
+    You can find information and downloads to configure VPN access on your
+    platform by visting the VPN configuration page.
   </AccessIntroCard>
 );
 
 VpnIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
+VpnIntro.accessItemKey = 'vpn';
 
 export default VpnIntro;

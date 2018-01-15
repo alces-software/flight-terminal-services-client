@@ -10,15 +10,14 @@ const TutorialsIntro = ({ hostname }) => (
     headerText="Flight Compute Tutorials"
     iconName="book"
   >
-    <p>
-      Follow a Flight Compute Tutorial to learn more about your Flight Compute
-      HPC cluster.
-    </p>
+    Follow a Flight Compute Tutorial to learn more about your Flight Compute
+    HPC cluster.
   </AccessIntroCard>
 );
 
 TutorialsIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
+TutorialsIntro.accessItemKey = 'tutorials';
 
 export default TutorialsIntro;

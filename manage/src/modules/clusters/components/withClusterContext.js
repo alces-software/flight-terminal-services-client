@@ -26,6 +26,10 @@ export default function withClusterContext({ NoClusterSpecified }) {
         if (request) {
           request.catch(error => error);
         }
+        const urlParams = new URLSearchParams(this.props.location.search);
+        if (urlParams.has('permitTutorialAccess')) {
+          dispatch(actions.permitTutorialsAccess());
+        }
       },
     }),
   );

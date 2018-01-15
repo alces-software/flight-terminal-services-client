@@ -13,16 +13,13 @@ import withCluster from '../components/withCluster';
 import ManagementUnsupported from '../components/ManagementUnsupported';
 
 const cards = [
-  {
-    display: (cluster) => {
-      const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
-      return hasQueueManagement || hasQueueManangement;
-    },
-    render: QueueManagementIntro,
-  },
+  QueueManagementIntro,
 ];
 
 const propTypes = {
+  availableManageItems: PropTypes.shape({
+    queueManagement: PropTypes.bool.isRequired,
+  }),
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
@@ -46,7 +43,7 @@ const EqualHeightRow = styled(Row)`
   }
 `;
 
-const ManageIntro = ({ cluster }) => {
+const ManageIntro = ({ availableManageItems, cluster }) => {
   const clusterName = cluster.attributes.clusterName;
   const overview = (
     <span>
@@ -66,13 +63,13 @@ const ManageIntro = ({ cluster }) => {
       <EqualHeightRow>
         {
           cards
-            .filter(c => c.display(cluster))
-            .map((c, i) => (
+            .filter(c => availableManageItems[c.manageItemKey])
+            .map((Card) => (
               <Col
-                key={i}
+                key={Card.manageItemKey}
                 md={6}
               >
-                { c.render({ ...cluster.attributes }) }
+                <Card {...cluster.attributes} />
               </Col>
             ))
         }
@@ -87,6 +84,7 @@ const enhance = compose(
   withCluster,
 
   connect(createStructuredSelector({
+    availableManageItems: selectors.availableManageItems,
     launchClusterRetrieval: selectors.launchClusterRetrieval,
   })),
 
