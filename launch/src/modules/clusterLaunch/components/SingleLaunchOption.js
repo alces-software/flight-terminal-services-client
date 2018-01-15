@@ -12,7 +12,7 @@ import ClusterRuntimeExplanation from './ClusterRuntimeExplanation';
 
 const launchOptionShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
-  costPerHour: PropTypes.number.isRequired,
+  chargingModel: PropTypes.object.isRequired,
 });
 
 const propTypes = {
@@ -42,7 +42,7 @@ const SingleLaunchOption = ({
 
   return (
     <ClusterRuntimeExplanation
-      clusterSpecCostPerHour={selectedLaunchOption.costPerHour}
+      chargingModel={selectedLaunchOption.chargingModel}
       desiredRuntime={desiredRuntime}
       isRuntimeFixed={isRuntimeFixed}
       isUsingLaunchToken={isUsingLaunchToken}

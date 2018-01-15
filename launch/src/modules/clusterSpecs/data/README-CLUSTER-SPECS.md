@@ -18,11 +18,16 @@ GET (url) parameter.  This is probably made most clear with some examples:
     loads the clusters specs from
     `s3://alces-flight/FlightLaunch/ClusterSpecs/default/default.json`.
 
- 2. Visiting `https://launch.alces-flight.com/bigvuni` uses the bigvuni tenant
+ 2. Visiting `https://launch.alces-flight.com?ClusterSpecs=test.json` uses the
+    default tenant and the "test.json" cluster specs. So loads the clusters
+    specs from
+    `s3://alces-flight/FlightLaunch/ClusterSpecs/default/test.json`.
+
+ 3. Visiting `https://launch.alces-flight.com/bigvuni` uses the bigvuni tenant
     and so loads the cluster specs from 
     `s3://alces-flight/FlightLaunch/ClusterSpecs/bigvuni/default.json`.
 
- 3. Visiting `https://launch.alces-flight.com/bigvuni?clusterSpecs=test.json`
+ 4. Visiting `https://launch.alces-flight.com/bigvuni?clusterSpecs=test.json`
     uses the bigvuni tenant and the "test.json" cluster specs.  So loads the
     cluster specs from
     `s3://alces-flight/FlightLaunch/ClusterSpecs/bigvuni/test.json`.
@@ -58,7 +63,7 @@ specs.  It must be a UUID and it should be unique across all cluster specs.
 #### UI section
 
 The `ui` section specifies the title, a lowercase variant of the title,
-subtitle and description of the cluster spec.  E.g.,
+subtitle, icons, logoUrl and description (body) of the cluster spec.  E.g.,
 
 ```
 {
@@ -90,8 +95,9 @@ effort to ensure that it is a faithful description.
 
 ##### Icons
 
-Cluster specs can also specify the icons that are to be shown in the footer of
-the cluster spec card.  The format for an icon object is as follows:
+Cluster specs can specify the icons that are to be shown in the footer of
+the cluster spec card.  This is done with the `icons` attribute of the `ui`
+section. The format for an icon object is as follows:
 
 ```
 {
@@ -177,7 +183,9 @@ spec's `ui.icons` value.  E.g.,
 #### Fly section
 
 The `fly` section consists of the parameters given to the `fly` binary to
-launch the cluster, along with the version of `fly` to use. E.g.,
+launch the cluster, along with the version of `fly` to use.  The values given
+here can be overridden by the `launchOptions` section, more on that later.  An
+example `fly` section is shown below.
 
 ```
 {
@@ -200,7 +208,6 @@ launch the cluster, along with the version of `fly` to use. E.g.,
 
     "launchOptions": {...},
 },
-
 ```
 
 The supported values for `version` are `"next"` and `"current"`, defaulting to
@@ -209,11 +216,13 @@ version of `fly` is used, otherwise the most recently released version of
 `fly` is used.
 
 Valid values for the `solo` parameter directory override can be found by
-running `fly --create-parameter-directory foo ; cat foo/solo.yml`.
+running `fly --create-parameter-directory foo ; cat foo/solo.yml`.  Valid
+values can be found for the cluster master node similarly.
 
 Valid values for the `args` array can be found by running `fly cluster launch
---help`.  In practice, passing the `"--solo" flag is likely to be all that is
-required or wanted.
+--help`.  For solo clusters, passing the `"--solo" flag is likely to be all
+that is required or wanted.  Advanced clusters will need a `--domain` and
+probably a `--quota`.
 
 #### Launch options section
 
@@ -226,7 +235,7 @@ If there are two options the user will be able to select one of them.
 
 WARNING: Currently, if there are more than two options, the launch app will
 only allow selecting between the first two.  It should be relatively simple to
-extend this to support more than two options.
+extend the launch client app to support more than two options.
 
 ```
 {
@@ -236,7 +245,14 @@ extend this to support more than two options.
     "launchOptions": {
       "defaultOptionIndex": 0,
       "options": [{
-        "costPerHour": 2,
+        "chargingModel": {
+          "upfront": {
+            "clusterCostPerHour": 40
+          },
+          "ongoing": {
+            "masterNodeCostPerHour": 2
+          }
+        },
         "name": "Standard",
         "description": "Offers a good compromise between cost and job durability.",
         "fly": {
@@ -248,7 +264,14 @@ extend this to support more than two options.
           }
         }
       },{
-        "costPerHour": 3,
+        "chargingModel": {
+          "upfront": {
+            "clusterCostPerHour": 50
+          },
+          "ongoing": {
+            "masterNodeCostPerHour": 4
+          }
+        },
         "name": "High",
         "description": "Uses more compute units; provides better job durability",
         "fly": {
@@ -271,13 +294,38 @@ The `launchOptions` object must contain two keys `defaultOptionIndex` and
 selected by default.  The `options` array contains a list of launch options.
 
 Each launch option has a `name` and `description` which are presented to the
-user to allow them to chose between them.  The `costPerHour` value is the
-number of compute credits that that option consumes each hour.  The `fly`
-value has the same format as described above (Fly section).
+user to allow them to make their selection.  The `fly` value has the same
+format as described above (Fly section).  The `args` and
+`parameterDirectoryOverrides` in the launch option take precedence over those
+specified for the cluster spec itself.
 
-The `args` and `parameterDirectoryOverrides` in the launch option take
-precedence over those specified for the cluster spec itself.
+There is also a `chargingModel` attribute, which specifies how much will be
+charged for running the cluster spec with that launch option, this is detailed
+below.
 
+#### Launch option charging models
+
+The clusters that Flight Launch supports can be categorized as either "solo"
+or "advanced" clusters.  There are two charging models "upfront" and
+"ongoing".
+
+The "upfront" charging model involves a single charge being made when the
+cluster launches.  The "ongoing" charging model involves charges being taken
+during the lifetime of the cluster based on cluster usage patterns.
+
+For solo clusters, the upfront charging model is always used.
+
+Advanced clusters are slightly more complicated.  If they are launched with a
+token their runtime is limited and the "upfront" charging model is used.
+Otherwise they use the "ongoing" charging model.
+
+The "upfront" charging model has a single attribute, `clusterCostPerHour`.
+This is the cost for the entire cluster per hour.  This along with the token
+is used to work out the cluster's runtime.
+
+The "ongoing" charging model has a single attribute, `masterNodeCostPerHour`.
+This is the cost for just the cluster's master node.  The account is charged
+for the master node in addition to any charges for running compute queues.
 
 #### Features section
 
@@ -356,7 +404,11 @@ An example of a cluster specs json file with three cluster specs is given below.
       "launchOptions": {
         "defaultOptionIndex": 0,
         "options": [{
-          "costPerHour": 2,
+          "chargingModel": {
+            "upfront": {
+              "clusterCostPerHour": 2
+            }
+          },
           "name": "Standard",
           "description": "The standard launch configuration offering a good compromise between cost and job durability.",
           "fly": {
@@ -368,7 +420,11 @@ An example of a cluster specs json file with three cluster specs is given below.
           }
         },
         {
-          "costPerHour": 3,
+          "chargingModel": {
+            "upfront": {
+              "clusterCostPerHour": 2
+            }
+          },
           "name": "High",
           "description": "This launch configuration uses more compute units per hour to provide better durability for your jobs.",
           "fly": {
@@ -416,7 +472,14 @@ An example of a cluster specs json file with three cluster specs is given below.
       "launchOptions": {
         "defaultOptionIndex": 0,
         "options": [{
-          "costPerHour": 20,
+          "chargingModel": {
+            "upfront": {
+              "clusterCostPerHour": 20
+            },
+            "ongoing": {
+              "masterNodeCostPerHour": 2
+            }
+          },
           "name": "Standard",
           "description": "The standard launch configuration offering a good compromise between cost and job durability.",
           "fly": {
@@ -467,7 +530,11 @@ An example of a cluster specs json file with three cluster specs is given below.
       "launchOptions": {
         "defaultOptionIndex": 0,
         "options": [{
-          "costPerHour": 5,
+          "chargingModel": {
+            "upfront": {
+              "clusterCostPerHour": 5
+            }
+          },
           "name": "Standard",
           "description": "The standard launch configuration offering a good compromise between cost and job durability.",
           "fly": {

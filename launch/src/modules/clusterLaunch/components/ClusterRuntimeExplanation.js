@@ -9,7 +9,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  clusterSpecCostPerHour: PropTypes.number.isRequired,
+  chargingModel: PropTypes.shape({
+    upfront: PropTypes.shape({
+      clusterCostPerHour: PropTypes.number.isRequired,
+    }).isRequired,
+    ongoing: PropTypes.shape({
+      masterNodeCostPerHour: PropTypes.number.isRequired,
+    }),
+  }).isRequired,
   desiredRuntime: PropTypes.number,
   isRuntimeFixed: PropTypes.bool.isRequired,
   isUsingLaunchToken: PropTypes.bool.isRequired,
@@ -21,14 +28,14 @@ const defaultProps = {
   singleLaunchOption: false,
 };
 
-function calculateCreditCost(clusterSpecCostPerHour, desiredRuntime) {
-  return clusterSpecCostPerHour * desiredRuntime;
+function calculateCreditCost(clusterCostPerHour, desiredRuntime) {
+  return clusterCostPerHour * desiredRuntime;
 }
 
 // This fuzzy time algorithm here should be kept in sync with the fuzzy time
 // algorithm in server/app/commands/determine_runtime_command.rb
-function calculateRuntime(clusterSpecCost, tokenCredits) {
-  const fractionalHours = tokenCredits / clusterSpecCost;
+function calculateRuntime(clusterCostPerHour, tokenCredits) {
+  const fractionalHours = tokenCredits / clusterCostPerHour;
   const days = Math.trunc(fractionalHours / 24);
   const hours = Math.trunc(fractionalHours) - days * 24;
   const minutes = (fractionalHours - hours) * 60;
@@ -53,7 +60,7 @@ function calculateRuntime(clusterSpecCost, tokenCredits) {
 }
 
 const ClusterRuntimeExplanation = ({
-  clusterSpecCostPerHour,
+  chargingModel,
   desiredRuntime,
   singleLaunchOption,
   tokenCredits,
@@ -75,7 +82,10 @@ const ClusterRuntimeExplanation = ({
   }
 
   if (isUsingLaunchToken) {
-    const runtime = calculateRuntime(clusterSpecCostPerHour, tokenCredits);
+    const runtime = calculateRuntime(
+      chargingModel.upfront.clusterCostPerHour,
+      tokenCredits
+    );
     let selections;
     if (singleLaunchOption) {
       selections = 'The token';
@@ -92,7 +102,10 @@ const ClusterRuntimeExplanation = ({
     );
   }
 
-  const creditCost = calculateCreditCost(clusterSpecCostPerHour, desiredRuntime);
+  const creditCost = calculateCreditCost(
+    chargingModel.upfront.clusterCostPerHour,
+    desiredRuntime
+  );
   let selections;
   if (singleLaunchOption) {
     selections = 'The runtime';

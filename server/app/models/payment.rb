@@ -99,7 +99,7 @@ class Payment
   def required_credits
     return nil unless using_upfront_credits?
 
-    @launch_option.cost_per_hour * @runtime.to_i
+    @launch_option.upfront_cost_per_hour * @runtime.to_i
   end
 
   def runtime_in_minutes(humanized: false)

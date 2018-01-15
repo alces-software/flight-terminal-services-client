@@ -26,7 +26,7 @@ class DetermineRuntimeCommand
       return ENV['CLUSTER_RUNTIME']
     end
 
-    spec_cost_per_hour = @launch_option.cost_per_hour.to_f
+    spec_cost_per_hour = @launch_option.upfront_cost_per_hour.to_f
     if @payment.using_token?
       fractional_hours = @payment.token.credits.to_f / spec_cost_per_hour
     elsif

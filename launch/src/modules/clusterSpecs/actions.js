@@ -4,7 +4,7 @@ import { clusterSpecsFile } from './selectors';
 
 let devClusterSpecs;
 if (process.env.NODE_ENV === 'development') {
-  devClusterSpecs = require('./data/clusterSpecs.dev.json');
+  devClusterSpecs = require('./data/clusterSpecs.example.json');
 }
 
 function buildClusterSpecsConfig(fileOverride, { defaultFile, defaultUrl, prefix }) {

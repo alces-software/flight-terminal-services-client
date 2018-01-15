@@ -10,20 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180108145948) do
+ActiveRecord::Schema.define(version: 20180115100541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
 
   create_table "clusters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string   "auth_token",       limit: 255, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "auth_token",                limit: 255, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.uuid     "user_id"
-    t.boolean  "consumes_credits",             null: false
+    t.boolean  "consumes_credits",                      null: false
     t.string   "domain"
-    t.string   "qualified_name",               null: false
+    t.string   "qualified_name",                        null: false
+    t.integer  "master_node_cost_per_hour"
     t.index ["user_id"], name: "index_clusters_on_user_id", using: :btree
   end
 
@@ -43,12 +44,13 @@ ActiveRecord::Schema.define(version: 20180108145948) do
   end
 
   create_table "credit_usages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "start_at",                 null: false
+    t.datetime "start_at",                            null: false
     t.datetime "end_at"
-    t.float    "cu_in_use",  default: 0.0, null: false
-    t.uuid     "cluster_id",               null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.float    "queues_cu_in_use",      default: 0.0, null: false
+    t.uuid     "cluster_id",                          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "master_node_cu_in_use",               null: false
     t.index ["cluster_id"], name: "index_credit_usages_on_cluster_id", using: :btree
   end
 
