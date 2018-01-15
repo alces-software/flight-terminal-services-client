@@ -125,10 +125,10 @@ export const currentCluster = createSelector(
 );
 
 export const availableAccessItems = createSelector(
-  clustersMeta,
   currentCluster,
+  clustersMeta,
 
-  (meta, cluster) => {
+  (cluster, meta) => {
     const { hasVpn, hasWebTerminal } = cluster.attributes;
 
     return {
@@ -136,6 +136,17 @@ export const availableAccessItems = createSelector(
       vpn: hasVpn,
       terminal: hasWebTerminal,
       tutorials: hasWebTerminal && meta.tutorialAccessPermitted,
+    };
+  },
+);
+
+export const availableManageItems = createSelector(
+  currentCluster,
+
+  (cluster) => {
+    const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
+    return {
+      queueManagement: hasQueueManagement || hasQueueManangement,
     };
   },
 );

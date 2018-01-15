@@ -18,5 +18,6 @@ const TutorialsIntro = ({ hostname }) => (
 TutorialsIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
+TutorialsIntro.accessItemKey = 'tutorials';
 
 export default TutorialsIntro;

@@ -19,5 +19,6 @@ const VpnIntro = ({ hostname }) => (
 VpnIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
+VpnIntro.accessItemKey = 'vpn';
 
 export default VpnIntro;

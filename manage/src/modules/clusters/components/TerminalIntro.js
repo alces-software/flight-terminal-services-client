@@ -19,5 +19,6 @@ const TerminalIntro = ({ hostname }) => (
 TerminalIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
+TerminalIntro.accessItemKey = 'terminal';
 
 export default TerminalIntro;

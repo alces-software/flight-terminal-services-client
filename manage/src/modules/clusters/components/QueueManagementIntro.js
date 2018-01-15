@@ -19,5 +19,6 @@ const QueueManagementIntro = ({ hostname }) => (
 QueueManagementIntro.propTypes = {
   hostname: PropTypes.string.isRequired,
 };
+QueueManagementIntro.manageItemKey = 'queueManagement';
 
 export default QueueManagementIntro;

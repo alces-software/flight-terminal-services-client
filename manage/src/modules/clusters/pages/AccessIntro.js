@@ -15,22 +15,10 @@ import VpnIntro from '../components/VpnIntro';
 import withCluster from '../components/withCluster';
 
 const cards = [
-  {
-    item: 'ssh',
-    render: SshAccessIntro,
-  },
-  {
-    item: 'vpn',
-    render: VpnIntro,
-  },
-  {
-    item: 'terminal',
-    render: TerminalIntro,
-  },
-  {
-    item: 'tutorials',
-    render: TutorialsIntro,
-  },
+  SshAccessIntro,
+  VpnIntro,
+  TerminalIntro,
+  TutorialsIntro,
 ];
 
 const propTypes = {
@@ -81,13 +69,13 @@ const AccessIntro = ({ availableAccessItems, cluster }) => {
       <EqualHeightRow>
         {
           cards
-            .filter(c => availableAccessItems[c.item])
-            .map((c, i) => (
+            .filter(c => availableAccessItems[c.accessItemKey])
+            .map((Card) => (
               <Col
-                key={i}
+                key={Card.accessItemKey}
                 md={6}
               >
-                { c.render({ ...cluster.attributes }) }
+                <Card {...cluster.attributes} />
               </Col>
             ))
         }

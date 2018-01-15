@@ -23,5 +23,6 @@ const SshAccessIntro = ({ hostname, ipAddress }) => (
 );
 
 SshAccessIntro.propTypes = propTypes;
+SshAccessIntro.accessItemKey = 'ssh';
 
 export default SshAccessIntro;
