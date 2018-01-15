@@ -91,7 +91,9 @@ class LaunchClusterCommand
   end
 
   def send_failed_email
-    err = ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
+    unless @run_fly_cmd.nil?
+      err = ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
+    end
     ClustersMailer.failed(@launch_config, err).
       deliver_now
   rescue

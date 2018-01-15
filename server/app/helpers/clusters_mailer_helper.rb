@@ -47,6 +47,8 @@ module ClustersMailerHelper
       "different cluster name and try again."
     when ParseLaunchErrorCommand::LaunchError
       error.stderr
+    when nil
+      "An unknown error occurred"
     else
       error
     end
