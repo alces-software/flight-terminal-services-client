@@ -229,9 +229,11 @@
               "--quota", "40"
             ],
             "parameterDirectoryOverrides": {
-              "MasterSystemVolumeSize": "500",
-              "MasterSystemVolumeType": "magnetic.standard",
-              "MasterInstanceType": "small-t2.large"
+              "cluster-master": {
+                "MasterSystemVolumeSize": "500",
+                "MasterSystemVolumeType": "magnetic.standard",
+                "MasterInstanceType": "small-t2.large"
+              }
             }
           }
         }]
@@ -301,9 +303,11 @@
               "--quota", "40"
             ],
             "parameterDirectoryOverrides": {
-              "MasterSystemVolumeSize": "500",
-              "MasterSystemVolumeType": "magnetic.standard",
-              "MasterInstanceType": "small-t2.large"
+              "cluster-master": {
+                "MasterSystemVolumeSize": "500",
+                "MasterSystemVolumeType": "magnetic.standard",
+                "MasterInstanceType": "small-t2.large"
+              }
             }
           }
         },
@@ -323,9 +327,11 @@
               "--quota", "40"
             ],
             "parameterDirectoryOverrides": {
-              "MasterSystemVolumeSize": "1000",
-              "MasterSystemVolumeType": "magnetic.standard",
-              "MasterInstanceType": "small-t2.large"
+              "cluster-master": {
+                "MasterSystemVolumeSize": "1000",
+                "MasterSystemVolumeType": "magnetic.standard",
+                "MasterInstanceType": "small-t2.large"
+              }
             }
           }
         }]
