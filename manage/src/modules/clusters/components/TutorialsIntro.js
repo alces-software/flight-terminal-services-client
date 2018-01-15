@@ -10,10 +10,8 @@ const TutorialsIntro = ({ hostname }) => (
     headerText="Flight Compute Tutorials"
     iconName="book"
   >
-    <p>
-      Follow a Flight Compute Tutorial to learn more about your Flight Compute
-      HPC cluster.
-    </p>
+    Follow a Flight Compute Tutorial to learn more about your Flight Compute
+    HPC cluster.
   </AccessIntroCard>
 );
 
