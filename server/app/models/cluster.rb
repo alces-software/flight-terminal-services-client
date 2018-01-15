@@ -22,6 +22,10 @@ class Cluster < ApplicationRecord
   validates :consumes_credits,
     inclusion: { in: [ true, false ] }
 
+  before_create do
+    credit_usages.build if consumes_credits?
+  end
+
   class << self
     # Return attributes suitable for creating a new cluster from the given
     # launch config.

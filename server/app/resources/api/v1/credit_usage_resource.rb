@@ -8,9 +8,11 @@
 
 class Api::V1::CreditUsageResource < Api::V1::ApplicationResource
   attribute :accrued_usage
-  attribute :cu_in_use
+  attribute :cu_in_use, delegate: :queues_cu_in_use
   attribute :duration
   attribute :end_at
+  attribute :master_node_cu_in_use
+  attribute :queues_cu_in_use
   attribute :start_at
 
   has_one :cluster
@@ -41,10 +43,6 @@ class Api::V1::CreditUsageResource < Api::V1::ApplicationResource
 
   def duration
     @model.duration(ap_start, ap_end)
-  end
-
-  def cu_in_use=(cu_usage_for_queues)
-    @model.cu_in_use = cu_usage_for_queues + @model.cluster.master_node_cost_per_hour.to_i
   end
 
   def self.records(options={})
