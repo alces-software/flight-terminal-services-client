@@ -4,7 +4,10 @@ import { compose, branch, renderComponent } from 'recompose';
 import { Redirect } from 'react-router';
 import { Container } from 'reactstrap';
 import { PageHeading, Section, makeSection } from 'flight-reactware';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import * as selectors from '../selectors';
 import VpnAboutSection from '../components/VpnAboutSection';
 import VpnDownloadSection from '../components/VpnDownloadSection';
 import VpnPlatformInstructionsSection from '../components/VpnPlatformInstructionsSection';
@@ -76,8 +79,13 @@ VpnAccessPage.propTypes = propTypes;
 
 const enhance = compose(
   withCluster,
+
+  connect(createStructuredSelector({
+    availableAccessItems: selectors.availableAccessItems,
+  })),
+
   branch(
-    ({ cluster }) => !cluster.attributes.hasVpn,
+    ({ availableAccessItems }) => !availableAccessItems.vpn,
     renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
   )
 );
