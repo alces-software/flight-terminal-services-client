@@ -109,9 +109,9 @@ class ClustersController < ApplicationController
   end
 
   def launch_option_params(cluster_spec)
-    selected_index = params.require(:payment).require(:launchOptionIndex)
-    params = cluster_spec.selected_launch_option(selected_index)
-    params.tap do |h|
+    selected_index = params.require(:launchOption).require(:index)
+    launch_option_from_spec = cluster_spec.selected_launch_option(selected_index)
+    launch_option_from_spec.tap do |h|
       h['charging_model'] = h.delete('chargingModel') if h.key?('chargingModel')
     end
   end
