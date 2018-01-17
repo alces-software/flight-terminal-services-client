@@ -145,8 +145,10 @@ export const availableManageItems = createSelector(
 
   (cluster) => {
     const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
+    const links = cluster.links || {};
     return {
       queueManagement: hasQueueManagement || hasQueueManangement,
+      terminateCluster: links.terminate,
     };
   },
 );

@@ -7,6 +7,7 @@ import { LinkContainer } from 'flight-reactware';
 const propTypes = {
   buttonHref: PropTypes.string,
   buttonText: PropTypes.string,
+  buttons: PropTypes.node,
   children: PropTypes.node.isRequired,
   headerText: PropTypes.node.isRequired,
   iconName: PropTypes.string.isRequired,
@@ -19,19 +20,28 @@ const defaultProps = {
 const AccessIntroCard = ({
   buttonHref,
   buttonText,
+  buttons,
   children,
   headerText,
   iconName,
 }) => {
-  const buttons = buttonHref == null
-    ? null
-    : (
+  if (buttons == null) {
+    buttons = buttonHref == null
+      ? null
+      : (
+        <div className="text-center">
+          <LinkContainer to={buttonHref}>
+            <Button color="primary" >{buttonText}</Button>
+          </LinkContainer>
+        </div>
+      );
+  } else {
+    buttons = (
       <div className="text-center">
-        <LinkContainer to={buttonHref}>
-          <Button color="primary" >{buttonText}</Button>
-        </LinkContainer>
+        {buttons}
       </div>
     );
+  }
 
   return (
     <Card>

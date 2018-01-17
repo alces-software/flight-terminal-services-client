@@ -66,6 +66,25 @@ export function permitTutorialsAccess() {
   };
 }
 
+export function terminateCluster(cluster) {
+  return (dispatch) => {
+    const action = {
+      type: 'CLUSTER_TERMINATION',
+      meta: {
+        apiRequest: {
+          config: {
+            method: 'post',
+            url: cluster.links.terminate,
+          },
+        },
+        entity: cluster,
+      },
+    };
+    return dispatch(action)
+      .catch(e => e);
+  };
+}
+
 
 // function dispatchFakeActions(dispatch, hostname, resource) {
 //   const previousAction = {
