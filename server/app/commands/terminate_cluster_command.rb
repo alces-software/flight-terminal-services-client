@@ -7,6 +7,16 @@
 #==============================================================================
 
 class TerminateClusterCommand
+  # Still to do:
+  #
+  # - XXX Mark the cluster as terminated.
+  # - XXX Send emails to clusters launched without a Flight account.
+  # - XXX Store cluster name and use in emails.
+  # - XXX Record the cluster's region when the cluster is launched.
+  # - XXX Refactor cluster_launch_config to use fly_config.
+  # - XXX Better UX for terminate button: show spinner etc..
+  # - XXX Refactor BuildFlyTerminateCommand and BuildFlyParamsCommand.
+
   def initialize(cluster)
     @cluster = cluster
   end
@@ -40,21 +50,24 @@ class TerminateClusterCommand
   private
 
   def send_about_to_terminate_email
-    # ClustersMailer.about_to_terminate(@fly_config).
-    #   deliver_now
+    return if @cluster.user.nil?
+    ClusterTerminationMailer.about_to_terminate(@cluster).
+      deliver_now
   end
 
   def send_failed_email
-    # unless @runner.nil?
-    #   err = ParseFlyStderrCommand.new(@runner.stderr).perform
-    # end
-    # ClustersMailer.failed(@fly_config, err).
-    #   deliver_now
+    return if @cluster.user.nil?
+    unless @runner.nil?
+      err = ParseFlyStderrCommand.new(@runner.stderr).perform
+    end
+    ClusterTerminationMailer.failed(@cluster, err).
+      deliver_now
   end
 
   def send_completed_email
-    # ClustersMailer.terminated(@fly_config).
-    #   deliver_now
+    return if @cluster.user.nil?
+    ClusterTerminationMailer.terminated(@cluster).
+      deliver_now
   end
 
   def destroy_cluster_model

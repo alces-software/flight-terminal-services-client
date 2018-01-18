@@ -63,7 +63,6 @@ class Cluster < ApplicationRecord
   end
 
   def region
-    # XXX Record the real region when the cluster is launched.
     Rails.configuration.alces.default_region
   end
 end
