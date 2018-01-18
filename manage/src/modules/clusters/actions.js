@@ -7,8 +7,23 @@
  *===========================================================================*/
 import { jsonApi } from 'flight-reactware';
 
-import { LOAD_CLUSTER_REQUESTED, TUTORIAL_ACCESS_PERMITTED } from './actionTypes';
+import {
+  LOAD_CLUSTER_REQUESTED,
+  MODAL_SHOWN,
+  MODAL_HIDDEN,
+  TERMINATION,
+  TUTORIAL_ACCESS_PERMITTED,
+} from './actionTypes';
 import { retrieval } from './selectors';
+
+const showModal = (error) => ({
+  type: MODAL_SHOWN,
+  error,
+});
+
+export const hideModal = () => ({
+  type: MODAL_HIDDEN,
+});
 
 // Load the cluster attributes defined on the running cluster.
 function loadAttributesFromRunningCluster(hostname) {
@@ -69,7 +84,7 @@ export function permitTutorialsAccess() {
 export function terminateCluster(cluster) {
   return (dispatch) => {
     const action = {
-      type: 'CLUSTER_TERMINATION',
+      type: TERMINATION,
       meta: {
         apiRequest: {
           config: {
@@ -81,9 +96,14 @@ export function terminateCluster(cluster) {
       },
     };
     return dispatch(action)
-      .catch(e => e);
+      .then(() => dispatch(showModal()))
+      .catch((e) => {
+        dispatch(showModal(e));
+        return Promise.reject(e);
+      });
   };
 }
+
 
 
 // function dispatchFakeActions(dispatch, hostname, resource) {

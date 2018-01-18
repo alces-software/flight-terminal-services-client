@@ -1,8 +1,9 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import FontAwesome from 'react-fontawesome';
 import { Button } from 'reactstrap';
-import { withConfirmation } from 'flight-reactware';
 import { connect } from 'react-redux';
+import { withConfirmation } from 'flight-reactware';
 
 import * as actions from '../actions';
 
@@ -29,12 +30,21 @@ const TerminateButton = withConfirmation({
   submitting,
   ...props,
 }) => {
+  const submittingText = (
+    <span>
+      Terminating&hellip;{' '}
+      <FontAwesome
+        name="spinner"
+        spin
+      />
+    </span>
+  );
   return (
     <Button
       {...props}
       color="success"
     >
-      Terminate
+      { submitting ? submittingText : 'Terminate' }
       {confirmationPopover}
     </Button>
   );

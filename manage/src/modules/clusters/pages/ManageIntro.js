@@ -12,6 +12,7 @@ import QueueManagementIntro from '../components/QueueManagementIntro';
 import TerminateClusterIntro from '../components/TerminateClusterIntro';
 import withCluster from '../components/withCluster';
 import ManagementUnsupported from '../components/ManagementUnsupported';
+import Modal from '../components/Modal';
 
 const cards = [
   TerminateClusterIntro,
@@ -57,6 +58,7 @@ const ManageIntro = ({ availableManageItems, cluster }) => {
 
   return (
     <Container>
+      <Modal />
       <PageHeading
         overview={overview}
         sections={[]}
