@@ -114,6 +114,12 @@ class LaunchClusterCommand
     auth_token = auth_token_detail.value
     attrs = Cluster.attributes_from_launch_config(@launch_config)
 
-    Cluster.create!(attrs.merge(id: uuid, auth_token: auth_token))
+    Cluster.create!(
+      attrs.merge(
+        id: uuid,
+        auth_token: auth_token,
+        status: 'CREATE_COMPLETE'
+      )
+    )
   end
 end

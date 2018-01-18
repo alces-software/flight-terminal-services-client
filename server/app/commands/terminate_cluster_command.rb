@@ -9,12 +9,9 @@
 class TerminateClusterCommand
   # Still to do:
   #
-  # - XXX Mark the cluster as terminated.
   # - XXX Send emails to clusters launched without a Flight account.
-  # - XXX Store cluster name and use in emails.
-  # - XXX Record the cluster's region when the cluster is launched.
+  #
   # - XXX Refactor cluster_launch_config to use fly_config.
-  # - XXX Better UX for terminate button: show spinner etc..
   # - XXX Refactor BuildFlyTerminateCommand and BuildFlyParamsCommand.
 
   def initialize(cluster)
@@ -25,7 +22,14 @@ class TerminateClusterCommand
     msg = "Requesting termination of cluster #{@cluster.id}:#{@cluster.qualified_name}"
     Alces.app.logger.info(msg)
 
+    unless @cluster.can_terminate?
+      msg = "Cluster in non-terminable state #{@cluster.status}"
+      Alces.app.logger.info(msg)
+      return
+    end
+
     begin
+      @cluster.update(status: 'TERMINATION_IN_PROGRESS')
       @fly_config = FlyConfig.new(@cluster)
       fly_params = BuildFlyTerminateCommand.new(@fly_config).perform
       @runner = FlyRunner.new(fly_params, @fly_config)
@@ -37,12 +41,13 @@ class TerminateClusterCommand
         Rails.logger.info("Terminate error: #{@runner.stderr}") 
         send_failed_email
       else
-        destroy_cluster_model
+        @cluster.update(status: 'TERMINATION_COMPLETE')
         send_completed_email
       end
     rescue
       Alces.app.logger.info "Terminate thread raised exception #{$!}"
       Alces.app.logger.info "Terminate thread raised exception #{$!.backtrace}"
+      @cluster.update(status: 'TERMINATION_FAILED')
       send_failed_email
     end
   end
@@ -68,14 +73,5 @@ class TerminateClusterCommand
     return if @cluster.user.nil?
     ClusterTerminationMailer.terminated(@cluster).
       deliver_now
-  end
-
-  def destroy_cluster_model
-    # @fly_config.cluster.destroy!
-  rescue
-    Alces.app.logger.info("Destroying cluster failed: #{@cluster.id}:#{@cluster.qualified_name}")
-    Alces.app.logger.info "Terminate thread raised exception #{$!}"
-    Alces.app.logger.info "Terminate thread raised exception #{$!.backtrace}"
-    raise
   end
 end

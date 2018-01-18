@@ -8,27 +8,22 @@
 #==============================================================================
 class ClusterTerminationMailer < ApplicationMailer
 
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.clusters_mailer.about_to_launch.subject
-  #
   def about_to_terminate(cluster)
-    @cluster_name = cluster.qualified_name
+    @cluster_name = cluster.cluster_name
 
     mail to: cluster.user.email,
       subject: "Your Alces Flight Compute HPC cluster is terminating"
   end
 
   def terminated(cluster)
-    @cluster_name = cluster.qualified_name
+    @cluster_name = cluster.cluster_name
 
     mail to: cluster.user.email,
       subject: "Your Alces Flight Compute HPC cluster has been terminated"
   end
 
   def failed(cluster, error)
-    @cluster_name = cluster.qualified_name
+    @cluster_name = cluster.cluster_name
     @error = error
 
     mail to: cluster.user.email,

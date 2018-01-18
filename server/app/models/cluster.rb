@@ -7,6 +7,13 @@
 #==============================================================================
 
 class Cluster < ApplicationRecord
+  STATUSES = [
+    'CREATE_COMPLETE',
+    'TERMINATION_IN_PROGRESS',
+    'TERMINATION_FAILED',
+    'TERMINATION_COMPLETE',
+  ].freeze
+
   scope :consuming_credits, ->() {
     where(consumes_credits: true)
   }
@@ -22,6 +29,10 @@ class Cluster < ApplicationRecord
   validates :consumes_credits,
     inclusion: { in: [ true, false ] }
 
+  validates :status,
+    presence: true,
+    inclusion: { within: STATUSES }
+
   before_create do
     credit_usages.build if consumes_credits?
   end
@@ -35,10 +46,12 @@ class Cluster < ApplicationRecord
       payment = launch_config.payment
 
       {
+        cluster_name: launch_config.name,
         consumes_credits: payment.using_ongoing_credits?,
         domain: domain_from_launch_config(launch_config),
         master_node_cost_per_hour: master_node_cost_per_hour(payment),
         qualified_name: qualified_cluster_name,
+        region: launch_config.region,
         user: payment.user,
       }
     end
@@ -62,7 +75,7 @@ class Cluster < ApplicationRecord
     end
   end
 
-  def region
-    Rails.configuration.alces.default_region
+  def can_terminate?
+    ['CREATE_COMPLETE', 'TERMINATION_FAILED'].include?(status)
   end
 end

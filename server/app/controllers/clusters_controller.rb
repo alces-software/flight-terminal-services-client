@@ -53,6 +53,10 @@ class ClustersController < ApplicationController
 
   def terminate
     cluster = Cluster.find(params[:id])
+    unless cluster.can_terminate?
+      render status: :unacceptable
+      return
+    end
     TerminateClusterJob.perform_later(cluster)
     render status: :accepted
   end
