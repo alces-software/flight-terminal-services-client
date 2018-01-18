@@ -9,14 +9,14 @@
 require 'open3'
 
 #
-# Run the `fly cluster launch` command.
+# Run the `fly` command described by the given `fly_params`.
 #
-class RunFlyLaunchCommand
+class FlyRunner
   attr_reader :stdout, :stderr
 
-  def initialize(fly_params, launch_config)
+  def initialize(fly_params, fly_config)
     @fly_params = fly_params
-    @launch_config = launch_config
+    @fly_config = fly_config
   end
 
   def perform
@@ -26,10 +26,6 @@ class RunFlyLaunchCommand
 
   def failed?
     @exit_status && ! @exit_status.success?
-  end
-
-  def build_command_and_environment
-    BuildFlyParamsCommand.new(@parameter_dir, @launch_config).perform
   end
 
   # XXX Can we now use Alces::Tools::Execution ?
@@ -46,7 +42,7 @@ class RunFlyLaunchCommand
 
   def log_params
     sanitized_cmd = @fly_params.cmd.map do |i|
-      (i == @launch_config.access_key || i == @launch_config.secret_key) ? '[REDACTED]' : i
+      (i == @fly_config.access_key || i == @fly_config.secret_key) ? '[REDACTED]' : i
     end
     Rails.logger.debug "Running command #{sanitized_cmd.inspect} in env #{@fly_params.env.inspect}"
   end

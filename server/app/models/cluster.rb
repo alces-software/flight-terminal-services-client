@@ -61,4 +61,9 @@ class Cluster < ApplicationRecord
       payment.launch_option.master_node_cost_per_hour
     end
   end
+
+  def region
+    # XXX Record the real region when the cluster is launched.
+    Rails.configuration.alces.default_region
+  end
 end

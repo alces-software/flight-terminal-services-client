@@ -42,6 +42,14 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     !advanced_cluster?
   end
 
+  def custom_links(options)
+    base_url = options[:serializer].link_builder.base_url
+    url_helpers = Rails.application.routes.url_helpers
+    {
+      terminate: url_helpers.cluster_terminate_url(_model, host: base_url),
+    }
+  end
+
   private
 
   def inside_accounting_period(ar_relation)
