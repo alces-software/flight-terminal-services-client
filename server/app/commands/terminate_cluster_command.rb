@@ -7,13 +7,6 @@
 #==============================================================================
 
 class TerminateClusterCommand
-  # Still to do:
-  #
-  # - XXX Send emails to clusters launched without a Flight account.
-  #
-  # - XXX Refactor cluster_launch_config to use fly_config.
-  # - XXX Refactor BuildFlyTerminateCommand and BuildFlyParamsCommand.
-
   def initialize(cluster)
     @cluster = cluster
   end
