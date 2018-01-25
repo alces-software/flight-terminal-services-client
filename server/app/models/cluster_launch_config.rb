@@ -22,6 +22,8 @@ class ClusterLaunchConfig
   include ActiveModel::Model
   include ActiveModel::Serializers::JSON
 
+  # XXX This class now shares some common attributes with FlyConfig.  Refactor
+  # so that ClusterLaunchConfig has a FlyConfig.
   attr_accessor :email
   attr_accessor :key_pair
   attr_accessor :name

@@ -26,7 +26,7 @@ require 'tmpdir'
 #  5. Update / rollback the payment as appropriate.
 #
 class LaunchClusterCommand
-  delegate :stdout, :stderr, to: :@run_fly_cmd
+  delegate :stdout, :stderr, to: :@runner
 
   def initialize(launch_config)
     @launch_config = launch_config
@@ -48,12 +48,12 @@ class LaunchClusterCommand
         perform
       fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
         perform
-      @run_fly_cmd = RunFlyLaunchCommand.new(fly_params, @launch_config)
+      @runner = FlyRunner.new(fly_params, @launch_config)
       send_about_to_launch_email
-      @run_fly_cmd.perform
-      Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
-      if @run_fly_cmd.failed?
-        Rails.logger.info("Launch error: #{@run_fly_cmd.stderr}") 
+      @runner.perform
+      Rails.logger.info "Launch thread completed #{@runner.failed? ? 'un' : ''}successfully"
+      if @runner.failed?
+        Rails.logger.info("Launch error: #{@runner.stderr}") 
         @payment_processor.process_launch_failed
         send_failed_email
       else
@@ -91,8 +91,8 @@ class LaunchClusterCommand
   end
 
   def send_failed_email
-    unless @run_fly_cmd.nil?
-      err = ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
+    unless @runner.nil?
+      err = ParseLaunchErrorCommand.new(@runner.stderr).perform
     end
     ClustersMailer.failed(@launch_config, err).
       deliver_now
@@ -101,12 +101,12 @@ class LaunchClusterCommand
   end
 
   def send_completed_email
-    ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
+    ClustersMailer.launched(@launch_config, @runner.stdout).
       deliver_now
   end
 
   def create_cluster_model
-    parsed_output = ParseOutputCommand.new(@run_fly_cmd.stdout).perform
+    parsed_output = ParseOutputCommand.new(@runner.stdout).perform
     details = parsed_output.details
     uuid_detail = details.detect {|d| d.title == 'UUID'}
     auth_token_detail = details.detect {|d| d.title == 'Token'}
@@ -114,6 +114,12 @@ class LaunchClusterCommand
     auth_token = auth_token_detail.value
     attrs = Cluster.attributes_from_launch_config(@launch_config)
 
-    Cluster.create!(attrs.merge(id: uuid, auth_token: auth_token))
+    Cluster.create!(
+      attrs.merge(
+        id: uuid,
+        auth_token: auth_token,
+        status: 'CREATE_COMPLETE'
+      )
+    )
   end
 end

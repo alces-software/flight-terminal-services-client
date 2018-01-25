@@ -6,7 +6,7 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { createSelector } from 'reselect';
-import { loadingStates, selectorUtils } from 'flight-reactware';
+import { loadingStates, modals, selectorUtils } from 'flight-reactware';
 
 import { NAME } from './constants';
 
@@ -145,8 +145,19 @@ export const availableManageItems = createSelector(
 
   (cluster) => {
     const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
+    const links = cluster.links || {};
     return {
       queueManagement: hasQueueManagement || hasQueueManangement,
+      terminateCluster: links.terminate,
     };
   },
+);
+
+export const isModalShowing = modals.createModalSelector(NAME, 'meta', 'terminationModal');
+export const modalData = modals.createModalDataSelector(NAME, 'meta', 'terminationModal');
+
+export const modalError = createSelector(
+  modalData,
+
+  (data) => data.error == null ? undefined : data.error,
 );

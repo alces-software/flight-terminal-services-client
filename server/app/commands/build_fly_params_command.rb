@@ -10,6 +10,8 @@
 # Build the command-line parameters and environment for running fly.
 #
 class BuildFlyParamsCommand
+  # XXX This command has lots of duplication with BuildFlyTerminateCommand.
+  # Refactor to remove this.
   class Result < Struct.new(:cmd, :env); end
 
   def initialize(parameter_dir, launch_config)

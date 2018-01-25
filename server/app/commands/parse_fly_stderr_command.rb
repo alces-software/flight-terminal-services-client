@@ -9,12 +9,13 @@
 #
 # Parse the standard error output from running `fly cluster launch`.
 #
-class ParseLaunchErrorCommand
+class ParseFlyStderrCommand
   INVALID_KEY_PAIR = /^Error: Invalid key pair name '([^']*)'/
   INVALID_ACCESS_KEY = /^Error: Unable to connect to AWS: invalid credentials/
   INVALID_SECRET_KEY = /^Error: Unable to connect to AWS: connection to endpoint failed \(SignatureDoesNotMatch:/
   BAD_REGION = /^Error: Bad region: (.*)/
   CLUSTER_NAME_TAKEN = /^Error: AlreadyExistsException:/
+  CLUSTER_NOT_FOUND = /^Error: dynamo: no item found/
 
   class LaunchError < Struct.new(:stderr, :detail); end
   class InvalidKeyPair < LaunchError; end
@@ -22,6 +23,7 @@ class ParseLaunchErrorCommand
   class BadRegion < LaunchError; end
   class ClusterNameTaken < LaunchError; end
   class UnexpectedError < LaunchError; end
+  class ClusterNotFound < LaunchError; end
 
   def initialize(stderr)
     @stderr = stderr
@@ -39,6 +41,8 @@ class ParseLaunchErrorCommand
       BadRegion.new(@stderr, $1)
     when CLUSTER_NAME_TAKEN
       ClusterNameTaken.new(@stderr, nil)
+    when CLUSTER_NOT_FOUND
+      ClusterNotFound.new(@stderr, nil)
     else
       UnexpectedError.new(@stderr)
     end.tap do |err|

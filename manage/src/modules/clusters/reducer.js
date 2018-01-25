@@ -6,9 +6,14 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { combineReducers } from 'redux';
-import { apiRequest, loadingStates } from 'flight-reactware';
+import { apiRequest, loadingStates, modals } from 'flight-reactware';
 
-import { LOAD_CLUSTER_REQUESTED, TUTORIAL_ACCESS_PERMITTED } from './actionTypes';
+import {
+  LOAD_CLUSTER_REQUESTED,
+  TUTORIAL_ACCESS_PERMITTED,
+  MODAL_SHOWN,
+  MODAL_HIDDEN,
+} from './actionTypes';
 
 // A reducer to maintain the hostname for the current cluster being stewarded.
 function hostnameReducer(state = null, { meta, type }) {
@@ -52,6 +57,7 @@ const metaReducers = combineReducers({
   tutorialAccessPermitted: (state=false, { type }) => (
     type === TUTORIAL_ACCESS_PERMITTED ? true : state
   ),
+  terminationModal: modals.createModalReducer(MODAL_SHOWN, MODAL_HIDDEN),
 });
 
 function dataReducer(state = {}, { type, payload }) {

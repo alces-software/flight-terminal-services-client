@@ -26,13 +26,13 @@ class ClustersMailerPreview < ActionMailer::Preview
 
   def failed
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
-    error = ParseLaunchErrorCommand.new(output).perform
+    error = ParseFlyStderrCommand.new(output).perform
     ClustersMailer.failed(launch_config, error)
   end
 
   def failed_with_tenant_branding
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
-    error = ParseLaunchErrorCommand.new(output).perform
+    error = ParseFlyStderrCommand.new(output).perform
     ClustersMailer.failed(launch_config_with_tenant_branding, error)
   end
 

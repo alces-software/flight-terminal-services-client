@@ -9,10 +9,13 @@ import { createStructuredSelector } from 'reselect';
 
 import * as selectors from '../selectors';
 import QueueManagementIntro from '../components/QueueManagementIntro';
+import TerminateClusterIntro from '../components/TerminateClusterIntro';
 import withCluster from '../components/withCluster';
 import ManagementUnsupported from '../components/ManagementUnsupported';
+import Modal from '../components/Modal';
 
 const cards = [
+  TerminateClusterIntro,
   QueueManagementIntro,
 ];
 
@@ -55,6 +58,7 @@ const ManageIntro = ({ availableManageItems, cluster }) => {
 
   return (
     <Container>
+      <Modal />
       <PageHeading
         overview={overview}
         sections={[]}
@@ -69,7 +73,10 @@ const ManageIntro = ({ availableManageItems, cluster }) => {
                 key={Card.manageItemKey}
                 md={6}
               >
-                <Card {...cluster.attributes} />
+                <Card
+                  {...cluster.attributes}
+                  cluster={cluster}
+                />
               </Col>
             ))
         }

@@ -59,7 +59,7 @@ class ClustersMailerTest < ActionMailer::TestCase
 
   test "failed" do
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
-    error = ParseLaunchErrorCommand.new(output).perform
+    error = ParseFlyStderrCommand.new(output).perform
 
     lc = launch_config
     mail = ClustersMailer.failed(lc, error)
@@ -72,7 +72,7 @@ class ClustersMailerTest < ActionMailer::TestCase
 
   test "failed with tenant branding" do
     output = File.read(Rails.root.join('test/mailers/previews/failed.deleted-whilst-creating.sample'))
-    error = ParseLaunchErrorCommand.new(output).perform
+    error = ParseFlyStderrCommand.new(output).perform
 
     lc = launch_config_with_tenant_branding
     mail = ClustersMailer.failed(lc, error)

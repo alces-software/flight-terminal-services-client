@@ -18,8 +18,9 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   attribute :consumes_credits
   attribute :current_compute_queues
   attribute :domain
-  attribute :qualified_name
   attribute :is_solo
+  attribute :qualified_name
+  attribute :status
 
   def records_for(relation_name)
     case relation_name
@@ -40,6 +41,14 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
 
   def is_solo
     !advanced_cluster?
+  end
+
+  def custom_links(options)
+    base_url = options[:serializer].link_builder.base_url
+    url_helpers = Rails.application.routes.url_helpers
+    {
+      terminate: url_helpers.cluster_terminate_url(_model, host: base_url),
+    }
   end
 
   private
