@@ -42,11 +42,18 @@ class Cluster < ApplicationRecord
   end
 
   before_update do
-    if status == 'TERMINATION_COMPLETE'
-      most_recent_credit_usage = cluster.credit_usages.order(:start_at).last
+    if status_changed? && status == 'TERMINATION_COMPLETE'
+      most_recent_credit_usage = credit_usages.order(:start_at).last
       next if most_recent_credit_usage.nil?
       next unless most_recent_credit_usage.end_at.nil?
       most_recent_credit_usage.end_at = Time.now.utc.to_datetime
+      # We need to manually save the credit usage.  It won't be saved with
+      # auto association saving due to the way it was loaded from the database
+      # (`credit_usages.order(...).last`).  Only associated records loaded
+      # with a plain `credit_usages` would be saved by auto association
+      # saving.
+      saved = most_recent_credit_usage.save(validate: false)
+      raise ActiveRecord::Rollback unless saved
     end
   end
 
