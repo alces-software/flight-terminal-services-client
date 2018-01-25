@@ -10,7 +10,7 @@ class QueueTerminationMailer < ApplicationMailer
 
   def terminating(user, clusters, grace_period)
     @cluster_names = clusters.map {|c| c.cluster_name }
-    @grace_period = grace_period
+    @grace_period_in_hours = (grace_period / (60 * 60)).floor
 
     mail to: user.email,
       subject: "Your Alces Flight Compute HPC compute queues are being terminated"
