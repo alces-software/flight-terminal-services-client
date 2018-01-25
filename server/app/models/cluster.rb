@@ -41,6 +41,15 @@ class Cluster < ApplicationRecord
     credit_usages.build if consumes_credits?
   end
 
+  before_update do
+    if status == 'TERMINATION_COMPLETE'
+      most_recent_credit_usage = cluster.credit_usages.order(:start_at).last
+      next if most_recent_credit_usage.nil?
+      next unless most_recent_credit_usage.end_at.nil?
+      most_recent_credit_usage.end_at = Time.now.utc.to_datetime
+    end
+  end
+
   class << self
     # Return attributes suitable for creating a new cluster from the given
     # launch config.
