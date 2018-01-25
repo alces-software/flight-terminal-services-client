@@ -18,6 +18,10 @@ class Cluster < ApplicationRecord
     where(consumes_credits: true)
   }
 
+  scope :running, ->() {
+    where.not(status: 'TERMINATION_COMPLETE')
+  }
+
   belongs_to :user
   has_many :compute_queue_actions
   has_many :credit_usages

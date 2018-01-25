@@ -1,0 +1,33 @@
+<%#
+  Copyright (C) 2018 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+
+Your Alces Flight account has insufficient compute credits remaining to
+continue running all of your current clusters.
+
+To prevent unexpected charges being made to your account, all compute queues
+for the clusters below will be terminated shortly.
+
+The clusters will continue running for <%= @grace_period %> hours, allowing
+you access to save any work.  After <%= @grace_period %> hours, if you have
+not added additional compute credits to your account your clusters will be
+terminated.
+
+The clusters affected are:
+
+<% @cluster_names.each do |cluster_name| %>
+  - <%= cluster_name %>
+<% end %>
+
+<% note do %>
+    You are receiving this email because you have started an Alces Flight
+    Compute HPC cluster with the Alces Flight Launch service.
+<% end %>
+
+<%= render 'shared/contact_us' %>
+
+The Alces Flight Crew.
