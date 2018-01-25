@@ -55,8 +55,15 @@ class Cluster < ApplicationRecord
         domain: domain_from_launch_config(launch_config),
         master_node_cost_per_hour: master_node_cost_per_hour(payment),
         qualified_name: qualified_cluster_name,
-        region: launch_config.region,
         user: payment.user,
+      }
+    end
+
+    # Return attributes suitable for creating a new cluster from the given fly
+    # params.
+    def attributes_from_fly_params(fly_params)
+      {
+        region: region_from_fly_params(fly_params),
       }
     end
 
@@ -71,6 +78,21 @@ class Cluster < ApplicationRecord
         end
       end
       return nil
+    end
+
+    def region_from_fly_params(fly_params)
+      region = Rails.configuration.alces.default_region
+      region_arg_found = false
+      fly_params.cmd.each do |arg|
+        if region_arg_found
+          region = arg
+          region_arg_found = false
+        end
+        if arg == '--region'
+          region_arg_found = true
+        end
+      end
+      return region
     end
 
     def master_node_cost_per_hour(payment)
