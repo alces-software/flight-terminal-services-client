@@ -12,7 +12,7 @@ class TerminateClusterCommand
   end
 
   def perform
-    msg = "Requesting termination of cluster #{@cluster.id}:#{@cluster.qualified_name}"
+    msg = "Terminating cluster #{@cluster.id}:#{@cluster.qualified_name}"
     Alces.app.logger.info(msg)
 
     unless @cluster.can_terminate?

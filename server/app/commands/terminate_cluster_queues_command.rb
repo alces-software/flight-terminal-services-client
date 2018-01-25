@@ -14,6 +14,10 @@ class TerminateClusterQueuesCommand
   end
 
   def perform
+    msg = "Requesting termination of compute queues for " +
+      "#{@cluster.id}:#{@cluster.qualified_name}"
+    Alces.app.logger.info(msg)
+
     uri = terminate_cluster_uri
     Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
       req = Net::HTTP::Delete.new(uri)

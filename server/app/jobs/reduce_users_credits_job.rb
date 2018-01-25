@@ -21,6 +21,8 @@ class ReduceUsersCreditsJob < ApplicationJob
 
     if @user.compute_credits > 0
       # Nothing to do.
+      msg = "User #{@user.username}:#{@user.id} has sufficient credits"
+      Alces.app.logger.info(msg)
     elsif !@user.termination_warning_active
       terminate_compute_queues
     elsif @user.termination_warning_active && grace_period_expired?
@@ -28,6 +30,8 @@ class ReduceUsersCreditsJob < ApplicationJob
     else
       # The user has an active termination warning, but the grace period has
       # not yet expired. Nothing to do yet.
+      msg = "Grace period for #{@user.username}:#{@user.id} has not yet expired"
+      Alces.app.logger.info(msg)
     end
   end
 
@@ -48,7 +52,7 @@ class ReduceUsersCreditsJob < ApplicationJob
   end
 
   def terminate_compute_queues
-    msg = "Requesting termination of user's cluster's queues " +
+    msg = "Requesting termination of user's cluster's compute queues " +
       "#{@user.username}:#{@user.id}"
     Alces.app.logger.info(msg)
 
@@ -62,6 +66,8 @@ class ReduceUsersCreditsJob < ApplicationJob
   end
 
   def terminate_clusters
+    msg = "Terminating user's clusters #{@user.username}:#{@user.id}"
+    Alces.app.logger.info(msg)
     relevant_clusters.each do |cluster|
       TerminateClusterCommand.new(cluster).perform
     end
