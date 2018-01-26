@@ -15,7 +15,10 @@ const cards = [
     render: SshAccessIntro,
   },
   {
-    display: (cluster) => cluster.attributes.hasWebTerminal,
+    display: (cluster) => {
+      const { attributes, meta } = cluster;
+      return attributes.hasWebTerminal && meta && meta.isLaunchCluster;
+    },
     render: TerminalIntro,
   },
   {
