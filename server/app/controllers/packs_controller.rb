@@ -20,6 +20,8 @@ class PacksController < ApplicationController
 
     User.transaction do
       current_user.compute_credits += token.credits
+      current_user.credits_last_updated_at = Time.now.utc
+      current_user.termination_warning_active = false
       current_user.save!
       token.mark_as(:used, current_user.email)
     end

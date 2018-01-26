@@ -46,9 +46,9 @@ class LaunchClusterCommand
       @payment_processor.process_about_to_launch
       BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
         perform
-      fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
+      @fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
         perform
-      @runner = FlyRunner.new(fly_params, @launch_config)
+      @runner = FlyRunner.new(@fly_params, @launch_config)
       send_about_to_launch_email
       @runner.perform
       Rails.logger.info "Launch thread completed #{@runner.failed? ? 'un' : ''}successfully"
@@ -112,10 +112,13 @@ class LaunchClusterCommand
     auth_token_detail = details.detect {|d| d.title == 'Token'}
     uuid = uuid_detail.value
     auth_token = auth_token_detail.value
-    attrs = Cluster.attributes_from_launch_config(@launch_config)
 
     Cluster.create!(
-      attrs.merge(
+      {}.merge(
+        Cluster.attributes_from_launch_config(@launch_config)
+      ).merge(
+        Cluster.attributes_from_fly_params(@fly_params)
+      ).merge(
         id: uuid,
         auth_token: auth_token,
         status: 'CREATE_COMPLETE'
