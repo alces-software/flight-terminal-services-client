@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FlipCard from 'react-flipcard';
-import styled from 'styled-components';
 import { compose, withState, withHandlers } from 'recompose';
+import { Styles } from 'flight-reactware';
 
 import { clusterSpecShape } from '../propTypes';
 import CardBack from './CardBack';
 import CardFront from './CardFront';
-
-const withStyles = (...args) => (Component) => styled(Component)(...args);
 
 const propTypes = {
   className: PropTypes.string.isRequired,
@@ -44,7 +42,7 @@ const cardHeight = 360;
 const cardWidth = 564;
 
 const enhance = compose(
-  withStyles`
+  Styles.withStyles`
     .ReactFlipCard,
     .ReactFlipCard__Front,
     .ReactFlipCard__Back {
