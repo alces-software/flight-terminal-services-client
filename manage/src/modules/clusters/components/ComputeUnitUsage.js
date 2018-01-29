@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { compose, setStatic } from 'recompose';
 
 import creditUsages from '../../../modules/creditUsages';
 import * as selectors from '../selectors';
@@ -48,9 +49,17 @@ ComputeUnitUsage.propTypes = {
   currentCreditConsumption: PropTypes.number,
   totalCreditConsumption: PropTypes.number,
 };
-ComputeUnitUsage.manageItemKey = 'computeUnitUsage';
+// ComputeUnitUsage.manageItemKey = 'computeUnitUsage';
 
-export default connect(createStructuredSelector({
-  currentCreditConsumption: selectors.currentCreditConsumption,
-  totalCreditConsumption: creditUsages.selectors.totalAccruedUsageForAp,
-}))(ComputeUnitUsage);
+const enhance = compose(
+  setStatic('manageItemKey', 'computeUnitUsage'),
+
+  creditUsages.withCreditUsageContext,
+
+  connect(createStructuredSelector({
+    currentCreditConsumption: selectors.currentCreditConsumption,
+    totalCreditConsumption: creditUsages.selectors.totalAccruedUsageForAp,
+  })),
+);
+
+export default enhance(ComputeUnitUsage);

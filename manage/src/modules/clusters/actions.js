@@ -7,8 +7,6 @@
  *===========================================================================*/
 import { jsonApi } from 'flight-reactware';
 
-import creditUsages from '../creditUsages';
-
 import {
   LOAD_CLUSTER_REQUESTED,
   MODAL_SHOWN,
@@ -16,7 +14,7 @@ import {
   TERMINATION,
   TUTORIAL_ACCESS_PERMITTED,
 } from './actionTypes';
-import { currentCluster, retrieval } from './selectors';
+import { retrieval } from './selectors';
 
 const showModal = (error) => ({
   type: MODAL_SHOWN,
@@ -70,11 +68,7 @@ export function loadCluster(hostname) {
       dispatch(loadAttributesFromRunningCluster(hostname))
         .then((resp) => {
           const clusterId = resp.payload.data.data.id;
-          return dispatch(loadClusterResource(clusterId, hostname))
-            .then(() => {
-              const cluster = currentCluster(getState());
-              return dispatch(creditUsages.actions.loadCurrentCreditUsage(cluster));
-            });
+          return dispatch(loadClusterResource(clusterId, hostname));
         })
         .catch(e => e);
     };
