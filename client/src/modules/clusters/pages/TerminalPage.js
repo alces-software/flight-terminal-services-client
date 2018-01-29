@@ -73,7 +73,10 @@ const enhance = compose(
   withCluster,
 
   branch(
-    ({ cluster }) => !cluster.attributes.hasWebTerminal,
+    ({ cluster }) => {
+      const { attributes, meta } = cluster;
+      return !attributes.hasWebTerminal || !(meta && meta.isLaunchCluster);
+    },
     renderComponent(({ hostname }) => <Redirect to={`/cluster/${hostname}`} />),
   )
 );

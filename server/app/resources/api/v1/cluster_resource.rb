@@ -27,6 +27,12 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     end
   end
 
+  def meta(options)
+    {
+      isLaunchCluster: true,
+    }
+  end
+
   private
 
   def inside_accounting_period(ar_relation)
