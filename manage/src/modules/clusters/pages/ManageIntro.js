@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import * as selectors from '../selectors';
+import ComputeUnitUsage from '../components/ComputeUnitUsage';
 import QueueManagementIntro from '../components/QueueManagementIntro';
 import TerminateClusterIntro from '../components/TerminateClusterIntro';
 import withCluster from '../components/withCluster';
@@ -17,6 +18,7 @@ import Modal from '../components/Modal';
 const cards = [
   TerminateClusterIntro,
   QueueManagementIntro,
+  ComputeUnitUsage,
 ];
 
 const propTypes = {

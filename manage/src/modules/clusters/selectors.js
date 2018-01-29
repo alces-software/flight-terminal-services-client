@@ -148,6 +148,7 @@ export const availableManageItems = createSelector(
     const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
     const links = cluster.links || {};
     return {
+      computeUnitUsage: true,
       queueManagement: hasQueueManagement || hasQueueManangement,
       terminateCluster: links.terminate,
     };
@@ -161,4 +162,44 @@ export const modalError = createSelector(
   modalData,
 
   (data) => data.error == null ? undefined : data.error,
+);
+
+const creditUsages = createSelector(
+  currentCluster,
+  selectorUtils.buildJsonApiResourceSelectors('creditUsages').jsonApiData,
+
+  (cluster, creditUsagesData) => (
+    selectorUtils.relatedResourcesSelector(
+      cluster,
+      creditUsagesData,
+      'creditUsages'
+    )
+    .filter(cu => cu)
+  ),
+);
+
+export const currentCreditConsumption = createSelector(
+  creditUsages,
+
+  (creditUsages) => {
+    if (creditUsages == null || creditUsages.length < 1) {
+      return undefined;
+    }
+    const unsorted = Object.keys(creditUsages).reduce(
+      (accum, k) => { accum.push(creditUsages[k]); return accum; },
+      []
+    );
+    const sorted = unsorted.sort((a, b) => {
+      if (a.attributes.endAt == null) {
+        return -1;
+      }
+      if (b.attributes.endAt == null) {
+        return 1;
+      }
+      return a.attributes.endAt < b.attributes.endAt;
+    });
+
+    const mostRecent = sorted[0];
+    return mostRecent.attributes.totalCuInUse;
+  },
 );

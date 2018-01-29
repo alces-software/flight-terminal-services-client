@@ -15,6 +15,8 @@ class Api::V1::CreditUsageResource < Api::V1::ApplicationResource
   attribute :start_at
   attribute :total_cu_in_use
 
+  paginator :offset
+
   has_one :cluster
 
   after_create :finalize_current_credit_usage
