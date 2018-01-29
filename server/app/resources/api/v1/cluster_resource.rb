@@ -27,7 +27,7 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     end
   end
 
-  def meta
+  def meta(options)
     {
       isLaunchCluster: true,
     }
