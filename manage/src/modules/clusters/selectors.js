@@ -130,12 +130,13 @@ export const availableAccessItems = createSelector(
 
   (cluster, meta) => {
     const { hasVpn, hasWebTerminal } = cluster.attributes;
+    const { isLaunchCluster } = cluster.meta || {};
 
     return {
       ssh: true,
       vpn: hasVpn,
-      terminal: hasWebTerminal,
-      tutorials: hasWebTerminal && meta.tutorialAccessPermitted,
+      terminal: hasWebTerminal && isLaunchCluster,
+      tutorials: hasWebTerminal && isLaunchCluster && meta.tutorialAccessPermitted,
     };
   },
 );
