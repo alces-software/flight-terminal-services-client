@@ -1,50 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
-import { Card, CardBlock, CardHeader, CardText } from 'reactstrap';
+import { Card, CardHeader } from 'reactstrap';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Styles } from 'flight-reactware';
 
-import withCreditUsageContext from './withCreditUsageContext';
 import * as selectors from '../selectors';
-
-const Text = ({
-  clusterName,
-  status,
-  currentCreditConsumption,
-  totalCreditConsumption,
-}) => {
-  if (status === 'TERMINATION_COMPLETE') {
-    return (
-      <CardText>
-        Cluster <em>{clusterName}</em> has been terminated and is no longer
-        consuming compute credits.  Whilst running it consumed
-        {' '}{totalCreditConsumption}{' '} compute credits.
-      </CardText>
-    );
-  }
-  return (
-    <div>
-      <CardText>
-        Cluster <em>{clusterName}</em> is currently consuming compute credits
-        and will continue to do so until terminated.
-      </CardText>
-      <CardText>
-        It is currently consuming {' '}{currentCreditConsumption}{' '} compute
-        units per hour and has consumed a total of
-        {' '}{totalCreditConsumption}{' '} compute units.
-      </CardText>
-    </div>
-  );
-};
-Text.propTypes = {
-  clusterName: PropTypes.string.isRequired,
-  currentCreditConsumption: PropTypes.number,
-  status: PropTypes.string.isRequired,
-  totalCreditConsumption: PropTypes.number,
-};
+import withCreditUsageContext from './withCreditUsageContext';
+import { CardMedias, CardMedia } from './CardMedia';
 
 const ComputeUnitUsageReport = ({
   className,
@@ -56,26 +21,53 @@ const ComputeUnitUsageReport = ({
   if (!consumesCredits) {
     return null;
   }
+  const isTerminated = status === 'TERMINATION_COMPLETE';
   return (
     <Card
       className={className}
-      color={status === 'TERMINATION_COMPLETE' ? 'danger' : 'success'}
+      color={isTerminated ? 'danger' : 'success'}
       outline
     >
       <CardHeader>
-        <span><em>{clusterName}</em> compute credit usage</span>
+        <span>Compute credit usage</span>
         <span className="pull-right">
           <FontAwesome name="line-chart" />
         </span>
       </CardHeader>
-      <CardBlock>
-        <Text
-          clusterName={clusterName}
-          currentCreditConsumption={currentCreditConsumption}
-          status={status}
-          totalCreditConsumption={totalCreditConsumption}
-        />
-      </CardBlock>
+      <CardMedias>
+        <CardMedia
+          iconName="server"
+          title="Cluster name:"
+        >
+          { clusterName }
+        </CardMedia>
+        <CardMedia
+          iconName={isTerminated ? 'times-circle' : 'check-circle'}
+          title="Status:"
+        >
+          {
+            isTerminated
+              ? 'Terminated.  No longer consuming credits.'
+              : 'Running.  Currently consuming credits.'
+          }
+        </CardMedia>
+        <CardMedia
+          iconName="line-chart"
+          title="Credit burn rate:"
+        >
+          {
+            isTerminated
+              ? <span>N/A</span>
+              : <span>{currentCreditConsumption} compute credits per-hour.</span>
+          }
+        </CardMedia>
+        <CardMedia
+          iconName="ticket"
+          title="Total credit consumption:"
+        >
+          {totalCreditConsumption} compute credits.
+        </CardMedia>
+      </CardMedias>
     </Card>
   );
 };
