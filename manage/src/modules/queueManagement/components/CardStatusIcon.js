@@ -2,53 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 
+const iconPropsForStatus = {
+  CREATE_IN_PROGRESS: {
+    name: 'cog',
+    spin: true
+  },
+  MODIFY_IN_PROGRESS: {
+    name: 'cog',
+    spin: true,
+  },
+  CREATE_COMPLETE: {
+    name: 'check-square-o'
+  },
+  DELETE_IN_PROGRESS: {
+    name: 'trash'
+  },
+  UNCONFIGURED: {
+    name: 'square-o'
+  },
+};
+
 const CardStatusIcon = ({ status }) => {
-  switch (status) {
-    case 'CREATE_IN_PROGRESS':
-      return (
-        <FontAwesome
-          className="float-right"
-          name="cog"
-          spin
-        />
-      );
-
-    case 'MODIFY_IN_PROGRESS':
-      return (
-        <FontAwesome
-          className="float-right"
-          name="cog"
-          spin
-        />
-      );
-
-    case 'CREATE_COMPLETE':
-      return (
-        <FontAwesome
-          className="float-right"
-          name="check-square-o"
-        />
-      );
-
-    case 'DELETE_IN_PROGRESS':
-      return (
-        <FontAwesome
-          className="float-right"
-          name="trash"
-        />
-      );
-
-    case 'UNCONFIGURED':
-      return (
-        <FontAwesome
-          className="float-right"
-          name="square-o"
-        />
-      );
-
-    default:
-      return null;
+  const props = iconPropsForStatus[status];
+  if (props == null) {
+    return null;
   }
+  return (
+    <FontAwesome
+      className="float-right"
+      {...props}
+    />
+  );
 };
 
 CardStatusIcon.propTypes = {

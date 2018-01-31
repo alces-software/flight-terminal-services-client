@@ -16,6 +16,7 @@ const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
+      consumesCredits: PropTypes.bool.isRequired,
     }).isRequired,
   }).isRequired,
   queues: PropTypes.arrayOf(PropTypes.shape({
@@ -65,6 +66,7 @@ const QueueCards = ({ cluster, queues, }) => {
             xs={12}
           >
             <QueueCard
+              consumesCredits={cluster.attributes.consumesCredits}
               queue={queue}
             />
           </Col>

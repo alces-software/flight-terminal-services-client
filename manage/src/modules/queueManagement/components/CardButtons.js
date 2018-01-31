@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, ButtonToolbar } from 'reactstrap';
-import { connect } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
+import { Button, ButtonToolbar } from 'reactstrap';
+import { Styles } from 'flight-reactware';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
 
 import RemoveQueueButton from './RemoveQueueButton';
 import { showQueueManagementForm } from '../actions';
 
-const CardButtons = ({ dispatch, queue, status }) => {
+const CardButtons = ({ className, dispatch, queue, status }) => {
   let buttons;
   switch (status) {
     case 'UNCONFIGURED':
@@ -47,13 +49,14 @@ const CardButtons = ({ dispatch, queue, status }) => {
   }
 
   return (
-    <ButtonToolbar className="justify-content-center">
+    <ButtonToolbar className={`justify-content-center ${className}`}>
       {buttons}
     </ButtonToolbar>
   );
 };
 
 CardButtons.propTypes = {
+  className: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   queue: PropTypes.shape({
     spec: PropTypes.shape({
@@ -69,4 +72,12 @@ CardButtons.propTypes = {
   ]).isRequired,
 };
 
-export default connect()(CardButtons);
+const enhance = compose(
+  Styles.withStyles`
+    margin-top: 1em;
+  `,
+
+  connect(),
+);
+
+export default enhance(CardButtons);

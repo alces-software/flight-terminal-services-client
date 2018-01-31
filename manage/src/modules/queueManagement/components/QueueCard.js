@@ -12,7 +12,7 @@ import StatusText from './CardStatusText';
 import StatusIcon from './CardStatusIcon';
 import Buttons from './CardButtons';
 
-const QueueCard = styled(({ className, queue }) => (
+const QueueCard = styled(({ className, consumesCredits, queue }) => (
   <Card className={className}>
     <CardBlock>
       <StatusIcon status={queue.status} />
@@ -22,13 +22,13 @@ const QueueCard = styled(({ className, queue }) => (
       <CardText>
         {queue.spec.description}
       </CardText>
-      <CardText>
-        <StatusText
-          current={queue.current}
-          modification={queue.modification}
-          status={queue.status}
-        />
-      </CardText>
+      <StatusText
+        consumesCredits={consumesCredits}
+        cuPerNode={queue.spec.cuPerNode}
+        current={queue.current}
+        modification={queue.modification}
+        status={queue.status}
+      />
       <Buttons
         queue={queue}
         status={queue.status}
@@ -47,9 +47,11 @@ const QueueCard = styled(({ className, queue }) => (
 
 QueueCard.propTypes = {
   className: PropTypes.string,
+  consumesCredits: PropTypes.bool.isRequired,
   queue: PropTypes.shape({
     status: PropTypes.string.isRequired,
     spec: PropTypes.shape({
+      cuPerNode: PropTypes.number.isRequired,
       description: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     }),
