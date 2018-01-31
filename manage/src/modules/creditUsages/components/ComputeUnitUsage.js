@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, setStatic } from 'recompose';
 
-import creditUsages from '../../../modules/creditUsages';
+import withCreditUsageContext from './withCreditUsageContext';
+import clusters from '../../../modules/clusters';
 import * as selectors from '../selectors';
-import AccessIntroCard from './AccessIntroCard';
 
 const ComputeUnitUsage = ({
   consumesCredits,
@@ -35,12 +35,12 @@ const ComputeUnitUsage = ({
     );
   }
   return (
-    <AccessIntroCard
+    <clusters.AccessIntroCard
       headerText="Compute unit usage"
       iconName="tachometer"
     >
       {text}
-    </AccessIntroCard>
+    </clusters.AccessIntroCard>
   );
 };
 
@@ -54,11 +54,11 @@ ComputeUnitUsage.propTypes = {
 const enhance = compose(
   setStatic('manageItemKey', 'computeUnitUsage'),
 
-  creditUsages.withCreditUsageContext,
+  withCreditUsageContext,
 
   connect(createStructuredSelector({
     currentCreditConsumption: selectors.currentCreditConsumption,
-    totalCreditConsumption: creditUsages.selectors.totalAccruedUsageForAp,
+    totalCreditConsumption: selectors.totalAccruedUsageForAp,
   })),
 );
 
