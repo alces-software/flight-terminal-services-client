@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Page from './components/Page';
 import {
   clusters,
+  creditUsages,
   queueManagement,
 } from './modules';
 import licenseData from './data/licenses.json';
@@ -76,6 +77,11 @@ const routes = [
             component: clusters.pages.ManageIntro,
             title: 'Manage',
             pageKey: 'Manage',
+            cards: [
+              clusters.TerminateClusterIntro,
+              queueManagement.QueueManagementIntro,
+              creditUsages.ComputeUnitUsage,
+            ],
           },
           notFoundRouteConfig,
         ],

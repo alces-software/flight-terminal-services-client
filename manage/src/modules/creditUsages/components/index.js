@@ -1,5 +1,5 @@
 /*=============================================================================
- * Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
+ * Copyright (C) 2018 Stephen F. Norledge and Alces Flight Ltd.
  *
  * This file is part of Flight Launch.
  *
@@ -8,8 +8,12 @@
 
 // Add publicly exported components here and to the export below.
 // Any components which are intended to only be used internally to the
-// queueManagement module should not be included here.
-import QueueManagementContext from './QueueManagementContext';
-import QueueManagementIntro from './QueueManagementIntro';
+// clusters module should not be included here.
+import ComputeUnitUsage from './ComputeUnitUsage';
+import withCreditUsageContext from './withCreditUsageContext';
 
-export { QueueManagementContext, QueueManagementIntro };
+export {
+  ComputeUnitUsage,
+  withCreditUsageContext,
+};
+

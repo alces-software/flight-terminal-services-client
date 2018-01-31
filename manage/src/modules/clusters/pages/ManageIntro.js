@@ -3,26 +3,20 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'reactstrap';
 import { PageHeading } from 'flight-reactware';
-import { branch, compose, nest, renderComponent } from 'recompose';
+import { branch, compose, nest, renderComponent, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import * as selectors from '../selectors';
-import QueueManagementIntro from '../components/QueueManagementIntro';
-import TerminateClusterIntro from '../components/TerminateClusterIntro';
 import withCluster from '../components/withCluster';
 import ManagementUnsupported from '../components/ManagementUnsupported';
 import Modal from '../components/Modal';
-
-const cards = [
-  TerminateClusterIntro,
-  QueueManagementIntro,
-];
 
 const propTypes = {
   availableManageItems: PropTypes.shape({
     queueManagement: PropTypes.bool.isRequired,
   }),
+  cards: PropTypes.arrayOf(PropTypes.node).isRequired,
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
@@ -46,7 +40,7 @@ const EqualHeightRow = styled(Row)`
   }
 `;
 
-const ManageIntro = ({ availableManageItems, cluster }) => {
+const ManageIntro = ({ availableManageItems, cards, cluster }) => {
   const clusterName = cluster.attributes.clusterName;
   const overview = (
     <span>
@@ -101,6 +95,8 @@ const enhance = compose(
     },
     renderComponent(nest(Container, ManagementUnsupported)),
   ),
+
+  withProps(({ route }) => ({ cards: route.cards })),
 );
 
 export default enhance(ManageIntro);

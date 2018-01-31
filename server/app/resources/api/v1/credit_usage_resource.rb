@@ -15,6 +15,8 @@ class Api::V1::CreditUsageResource < Api::V1::ApplicationResource
   attribute :start_at
   attribute :total_cu_in_use
 
+  paginator :offset
+
   has_one :cluster
 
   after_create :finalize_current_credit_usage
@@ -45,9 +47,25 @@ class Api::V1::CreditUsageResource < Api::V1::ApplicationResource
     @model.duration(ap_start, ap_end)
   end
 
-  def self.records(options={})
-    context = options[:context]
-    super.between(context[:ap_start], context[:ap_end])
+  class << self
+    def records(options={})
+      context = options[:context]
+      super.between(context[:ap_start], context[:ap_end])
+    end
+
+    def top_level_meta(options)
+      context = options[:context]
+      source_resource = options[:source_resource]
+      total_accrued_usage_for_ap = CreditUsage.sum_usages(
+        source_resource._model.credit_usages,
+        context[:ap_start],
+        context[:ap_end],
+      ) unless source_resource.nil?
+
+      {
+        total_accrued_usage_for_ap: total_accrued_usage_for_ap,
+      }
+    end
   end
 
   def total_cu_in_use
