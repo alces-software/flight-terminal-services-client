@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AccessIntroCard from './AccessIntroCard';
+import clusters from '../../../modules/clusters';
 
 const QueueManagementIntro = ({ hostname }) => (
-  <AccessIntroCard
+  <clusters.AccessIntroCard
     buttonHref={`/manage/${hostname}/queue-management`}
     buttonText="Manage compute queues"
     headerText="Cluster compute queue management"
@@ -13,7 +13,7 @@ const QueueManagementIntro = ({ hostname }) => (
     Your cluster has been configured to support management of its compute
     queues through Flight Manage.  You can create, modify and remove compute
     queues by visiting the queue management page.
-  </AccessIntroCard>
+  </clusters.AccessIntroCard>
 );
 
 QueueManagementIntro.propTypes = {

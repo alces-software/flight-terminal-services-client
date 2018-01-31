@@ -79,7 +79,7 @@ const routes = [
             pageKey: 'Manage',
             cards: [
               clusters.TerminateClusterIntro,
-              clusters.QueueManagementIntro,
+              queueManagement.QueueManagementIntro,
               creditUsages.ComputeUnitUsage,
             ],
           },

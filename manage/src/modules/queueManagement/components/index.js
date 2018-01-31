@@ -10,5 +10,6 @@
 // Any components which are intended to only be used internally to the
 // queueManagement module should not be included here.
 import QueueManagementContext from './QueueManagementContext';
+import QueueManagementIntro from './QueueManagementIntro';
 
-export { QueueManagementContext };
+export { QueueManagementContext, QueueManagementIntro };
