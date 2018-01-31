@@ -40,6 +40,14 @@ function messageFromDetails(details) {
         You could either launch a different cluster, or use a different token.
       </span>
     );
+  } else if (hasPropError(details, 'payment.token', 'does not provide enough runtime')) {
+    return (
+      <span>
+        The token that you have entered will not provide enough runtime to
+        launch the selected cluster.  You could either launch a different
+        cluster, or use a different token.
+      </span>
+    );
   } else if (hasPropError(details, 'payment.user', 'user has insufficient credits')) {
     return (
       <span>
