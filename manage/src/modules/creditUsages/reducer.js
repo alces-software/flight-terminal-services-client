@@ -9,15 +9,20 @@ import { combineReducers } from 'redux';
 import { apiRequest, jsonApi } from 'flight-reactware';
 import { get } from 'lodash';
 
-function totalAccruedUsageForApReducer(state = null, { meta, payload, type }) {
+function totalAccruedUsageForApReducer(state = {}, { meta, payload, type }) {
   switch (type) {
     case apiRequest.resolved(jsonApi.actionTypes.RELATION_REQUESTED):
       const relationName = get(meta, 'previousAction.meta.relationName');
-      if (relationName !== 'creditUsages') {
+      const entityType = get(meta, 'previousAction.meta.entity.type');
+      if (entityType !== 'clusters' || relationName !== 'creditUsages') {
         return state;
       }
       const usage = get(payload, 'data.meta.totalAccruedUsageForAp');
-      return usage;
+      const entityId = get(meta, 'previousAction.meta.entity.id');
+      return {
+        ...state,
+        [entityId]: usage
+      };
 
     default:
       return state;

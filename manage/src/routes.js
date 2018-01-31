@@ -123,6 +123,17 @@ const routes = [
           notFoundRouteConfig,
         ],
       },
+      {
+        path: '/credits/usage',
+        component: clusters.withClustersContext,
+        routes: [
+          {
+            path: '/credits/usage',
+            title: 'Compute credit usage report',
+            component: creditUsages.pages.Report,
+          }
+        ]
+      },
       notFoundRouteConfig,
     ],
   },
