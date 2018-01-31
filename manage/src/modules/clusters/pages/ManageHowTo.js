@@ -12,8 +12,8 @@ const ManageHowTo = () => (
     />
     <Box>
       <p>
-        You can use Alces Flight Manage to gain easy access and assisitance in
-        managing any Alces Flight HPC cluster.
+        You can use Alces Flight Manage to gain assisitance in managing any
+        Alces Flight HPC cluster.
       </p>
       <p>
         If you launched your cluster through the AWS Marketplace, you will

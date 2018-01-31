@@ -27,9 +27,16 @@ const loadingStatesConfig = {
     get(resource, 'meta.loadingStates.key') ||
     get(resource, 'attributes.username')
   ),
-  pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
-  rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
-  resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
+  self: {
+    pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
+    rejected: apiRequest.rejected(jsonApi.actionTypes.RESOURCE_REQUESTED),
+    resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
+  },
+  relationship: {
+    pending: jsonApi.actionTypes.RELATION_REQUESTED,
+    rejected: apiRequest.rejected(jsonApi.actionTypes.RELATION_REQUESTED),
+    resolved: apiRequest.resolved(jsonApi.actionTypes.RELATION_REQUESTED),
+  },
 };
 
 export default {

@@ -8,34 +8,40 @@
 import { createSelector } from 'reselect';
 import { selectorUtils } from 'flight-reactware';
 
-import clusters from '../../modules/clusters';
-
 import { NAME } from './constants';
 
 const creditUsagesState = state => state[NAME];
 const creditUsagesMeta = state => creditUsagesState(state).meta;
 
-export function totalAccruedUsageForAp(state) {
-  const total = creditUsagesMeta(state).totalAccruedUsageForAp;
-  if (total == null) {
-    return undefined;
-  } else {
-    return Math.floor(total);
-  }
-}
+export const totalAccruedUsageForAp = createSelector(
+  (state, props) => props.cluster,
+  creditUsagesMeta,
+
+  (cluster, meta) => {
+    const totalsByClusterId = meta.totalAccruedUsageForAp;
+    const totalForCluster = totalsByClusterId[cluster.id];
+    if (totalForCluster == null) {
+      return undefined;
+    } else {
+      return Math.round(totalForCluster);
+    }
+  },
+);
 
 const creditUsages = createSelector(
-  clusters.selectors.currentCluster,
+  (state, props) => props.cluster,
   selectorUtils.buildJsonApiResourceSelectors('creditUsages').jsonApiData,
 
-  (cluster, creditUsagesData) => (
-    selectorUtils.relatedResourcesSelector(
-      cluster,
-      creditUsagesData,
-      'creditUsages'
-    )
-    .filter(cu => cu)
-  ),
+  (cluster, creditUsagesData) => {
+    return (
+      selectorUtils.relatedResourcesSelector(
+        cluster,
+        creditUsagesData,
+        'creditUsages'
+      )
+      .filter(cu => cu)
+    );
+  },
 );
 
 export const currentCreditConsumption = createSelector(

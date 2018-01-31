@@ -105,6 +105,21 @@ export function terminateCluster(cluster) {
 }
 
 
+export function loadClustersConsumingCredits(user) {
+  return jsonApi.actions.loadRelationshipAndLinkageData({
+    source: user,
+    relationName: 'clusters',
+    params: {
+      'fields[clusters]': [
+        'clusterName',
+        'consumesCredits',
+        'creditUsages',
+        'status',
+      ].join(','),
+      'filter[consumesCredits]': true,
+    },
+  });
+}
 
 // function dispatchFakeActions(dispatch, hostname, resource) {
 //   const previousAction = {

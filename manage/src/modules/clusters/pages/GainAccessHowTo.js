@@ -12,14 +12,6 @@ const AccessHowTo = () => (
     />
     <Box>
       <p>
-        You can use Alces Flight Manage to gain access to any cluster you
-        have launched with Alces Flight Launch.  When the cluster becomes
-        available you will receive an email with the access details including
-        an access link. Click on it and you will be returned to this page with
-        the details for your cluster loaded.
-      </p>
-      <hr />
-      <p>
         You can use Alces Flight Manage to gain easy access to any Alces
         Flight HPC cluster.
       </p>

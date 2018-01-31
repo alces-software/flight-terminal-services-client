@@ -148,7 +148,7 @@ export const availableManageItems = createSelector(
     const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
     const links = cluster.links || {};
     return {
-      computeUnitUsage: true,
+      computeUnitUsageReport: true,
       queueManagement: hasQueueManagement || hasQueueManangement,
       terminateCluster: links.terminate,
     };
@@ -162,4 +162,23 @@ export const modalError = createSelector(
   modalData,
 
   (data) => data.error == null ? undefined : data.error,
+);
+
+export const clustersConsumingCredits = createSelector(
+  jsonApiData,
+
+  (clustersById) => {
+    return Object.keys(clustersById)
+      .reduce(
+        (accum, clusterId) => {
+          const cluster = clustersById[clusterId];
+          if (cluster.attributes.consumesCredits) {
+            accum.push(cluster);
+          }
+          return accum;
+        },
+        []
+      )
+      .sort((a, b) => { return a.attributes.clusterName < b.attributes.clusterName; });
+  }
 );

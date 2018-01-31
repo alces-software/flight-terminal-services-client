@@ -6,12 +6,12 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Add publicly exported components here and to the export below.
-// Any components which are intended to only be used internally to the
-// clusters module should not be included here.
-import ComputeUnitUsageReport from './ComputeUnitUsageReport';
+// Add publicly exported pages here and to the export below.
+// Any pages which are intended to only be used internally to the
+// creditUsages module should not be included here.
+
+import Report from './Report';
 
 export {
-  ComputeUnitUsageReport,
+  Report,
 };
-
