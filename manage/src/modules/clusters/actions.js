@@ -116,6 +116,7 @@ export function loadClustersConsumingCredits(user) {
         'creditUsages',
         'status',
       ].join(','),
+      'filter[consumesCredits]': true,
     },
   });
 }
