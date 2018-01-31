@@ -80,7 +80,7 @@ const routes = [
             cards: [
               clusters.TerminateClusterIntro,
               queueManagement.QueueManagementIntro,
-              creditUsages.ComputeUnitUsage,
+              creditUsages.ComputeUnitUsageReport,
             ],
           },
           notFoundRouteConfig,

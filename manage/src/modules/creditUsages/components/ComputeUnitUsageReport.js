@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import { Card, CardHeader } from 'reactstrap';
-import { compose } from 'recompose';
+import { compose, setStatic } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Styles } from 'flight-reactware';
@@ -15,6 +15,7 @@ const ComputeUnitUsageReport = ({
   className,
   cluster,
   currentCreditConsumption,
+  outlineStatus,
   totalCreditConsumption,
 }) => {
   const { clusterName, consumesCredits, status } = cluster.attributes;
@@ -25,8 +26,8 @@ const ComputeUnitUsageReport = ({
   return (
     <Card
       className={className}
-      color={isTerminated ? 'danger' : 'success'}
-      outline
+      color={!outlineStatus ? undefined : isTerminated ? 'danger' : 'success'}
+      outline={outlineStatus}
     >
       <CardHeader>
         <span>Compute credit usage</span>
@@ -77,10 +78,17 @@ ComputeUnitUsageReport.propTypes = {
   cluster: PropTypes.object.isRequired,
   // consumesCredits: PropTypes.bool.isRequired,
   currentCreditConsumption: PropTypes.number,
+  outlineStatus: PropTypes.bool.isRequired,
   totalCreditConsumption: PropTypes.number,
 };
 
+ComputeUnitUsageReport.defaultProps = {
+  outlineStatus: false,
+};
+
 const enhance = compose(
+  setStatic('manageItemKey', 'computeUnitUsageReport'),
+
   Styles.withStyles``,
 
   withCreditUsageContext,

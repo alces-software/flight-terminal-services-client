@@ -56,6 +56,7 @@ const Report = ({ clusters }) => {
               >
                 <ComputeUnitUsageReport
                   cluster={cluster}
+                  outlineStatus
                 />
               </Col>
             ))

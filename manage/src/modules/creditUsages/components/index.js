@@ -9,9 +9,9 @@
 // Add publicly exported components here and to the export below.
 // Any components which are intended to only be used internally to the
 // clusters module should not be included here.
-import ComputeUnitUsage from './ComputeUnitUsage';
+import ComputeUnitUsageReport from './ComputeUnitUsageReport';
 
 export {
-  ComputeUnitUsage,
+  ComputeUnitUsageReport,
 };
 
