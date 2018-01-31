@@ -9,7 +9,7 @@ import { createStructuredSelector } from 'reselect';
 import * as selectors from '../selectors';
 // import LoadError from './LoadError';
 
-const withCluster = compose(
+const withClusters = compose(
   connect(createStructuredSelector({
     clusters: selectors.clustersConsumingCredits,
     // retrieval: selectors.retrieval,
@@ -26,4 +26,4 @@ const withCluster = compose(
 
 );
 
-export default withCluster;
+export default withClusters;

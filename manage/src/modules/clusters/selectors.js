@@ -168,15 +168,6 @@ export const clustersConsumingCredits = createSelector(
   jsonApiData,
 
   (clustersById) => {
-    // const clusters = [];
-    // Object.keys(clustersById).forEach((clusterId) => {
-    //   const cluster = clustersById[clusterId];
-    //   if (cluster.attributes.consumesCredits) {
-    //     clusters.push(cluster);
-    //   }
-    // });
-    // return clusters;
-
     return Object.keys(clustersById)
       .reduce(
         (accum, clusterId) => {

@@ -76,7 +76,6 @@ const ComputeUnitUsageReport = ({
 ComputeUnitUsageReport.propTypes = {
   className: PropTypes.string,
   cluster: PropTypes.object.isRequired,
-  // consumesCredits: PropTypes.bool.isRequired,
   currentCreditConsumption: PropTypes.number,
   outlineStatus: PropTypes.bool.isRequired,
   totalCreditConsumption: PropTypes.number,
