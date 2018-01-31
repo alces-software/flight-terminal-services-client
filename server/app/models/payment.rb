@@ -135,6 +135,15 @@ class Payment
       errors.add(:token, 'token is not queued for launch')
     elsif ! token.can_launch_spec?(cluster_spec)
       errors.add(:token, 'token cannot launch cluster spec')
+    elsif runtime_in_minutes < minimum_runtime
+      errors.add(:token, 'does not provide enough runtime')
     end
+  end
+
+  private
+
+  def minimum_runtime
+    minimum_runtime = ENV['MINIMUM_PERMITTED_RUNTIME'].to_i
+    minimum_runtime > 0 ? minimum_runtime : 60
   end
 end
