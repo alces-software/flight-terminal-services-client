@@ -33,12 +33,14 @@ class ClusterLaunchConfig
   attr_accessor :collection
   attr_accessor :payment
   attr_accessor :queues
+  attr_accessor :max_credit_usage
 
   def attributes
     {
       'collection' => nil,
       'email' => nil,
       'key_pair' => nil,
+      'max_credit_usage' => nil,
       'name' => nil,
       'queues' => nil,
       'region' => nil,
