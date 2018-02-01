@@ -9,15 +9,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'reactstrap';
-import { Section, makeSection } from 'flight-reactware';
+import { PageHeading, Section, makeSection } from 'flight-reactware';
 import { compose } from 'recompose';
 
 import clusters from '../../clusters';
 
 import ComputeUnitUsageReport from '../components/ComputeUnitUsageReport';
+import UserComputeUnitUsageReport from '../components/UserComputeUnitUsageReport';
 
 const sections = {
-  report: makeSection('Compute credit usage report', 'report', 'blue', 'document'),
+  overview: makeSection('Compute credit usage overview', 'overview', 'blue', 'ticket'), 
+  report: makeSection('Compute credit usage report', 'report', 'green', 'book'),
 };
 
 const EqualHeightRow = styled(Row)`
@@ -37,10 +39,34 @@ const EqualHeightRow = styled(Row)`
 const Report = ({ clusters }) => {
   return (
     <Container >
+      <PageHeading
+        overview="View your current compute credits and your compute credit
+        usage."
+        sections={Object.values(sections)}
+        title="Your compute credit usage."
+      />
       <Section
         overview="Below you will find a list of all your clusters which have
         consumed your compute credits."
-        section={sections.topUp}
+        section={sections.overview}
+        title="Your current compute credits."
+      >
+        <Row>
+          <Col
+            lg={4}
+            md={6}
+            sm={12}
+            xl={4}
+            xs={12}
+          >
+            <UserComputeUnitUsageReport clusters={clusters} />
+          </Col>
+        </Row>
+      </Section>
+      <Section
+        overview="Below you will find a list of all your clusters which have
+        consumed your compute credits."
+        section={sections.report}
         title="Your compute credit usage report."
       >
         <EqualHeightRow>

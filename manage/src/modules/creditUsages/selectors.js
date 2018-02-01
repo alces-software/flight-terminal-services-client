@@ -55,17 +55,24 @@ export const currentCreditConsumption = createSelector(
       (accum, k) => { accum.push(creditUsages[k]); return accum; },
       []
     );
-    const sorted = unsorted.sort((a, b) => {
-      if (a.attributes.endAt == null) {
-        return -1;
-      }
-      if (b.attributes.endAt == null) {
-        return 1;
-      }
-      return a.attributes.endAt < b.attributes.endAt;
-    });
 
-    const mostRecent = sorted[0];
-    return mostRecent.attributes.totalCuInUse;
+    const currentCreditUsage = unsorted.find(cu => cu.attributes.endAt == null);
+    if (currentCreditUsage == null) {
+      return null;
+    } else {
+      return currentCreditUsage.attributes.totalCuInUse;
+    }
   },
+);
+
+export const usersCreditConsumption = createSelector(
+  state => state,
+  (state, props) => props.clusters,
+
+  (state, clusters) => {
+    const burnRates = clusters.map(cluster =>
+      currentCreditConsumption(state, { cluster })
+    );
+    return burnRates.filter(a => a).reduce((a, b) => a + b, 0);
+  }
 );

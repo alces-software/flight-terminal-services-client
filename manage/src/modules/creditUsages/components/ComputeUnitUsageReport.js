@@ -57,7 +57,7 @@ const ComputeUnitUsageReport = ({
           title="Credit burn rate:"
         >
           {
-            isTerminated
+            currentCreditConsumption == null
               ? <span>N/A</span>
               : <span>{currentCreditConsumption} compute credits per-hour.</span>
           }
