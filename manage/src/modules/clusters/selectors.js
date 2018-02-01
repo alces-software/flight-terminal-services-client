@@ -179,6 +179,13 @@ export const clustersConsumingCredits = createSelector(
         },
         []
       )
-      .sort((a, b) => { return a.attributes.clusterName < b.attributes.clusterName; });
+      .sort((a, b) => { 
+        const aName = a.attributes.clusterName.toLowerCase();
+        const bName = b.attributes.clusterName.toLowerCase();
+        if (aName === bName) {
+          return 0;
+        }
+        return aName < bName ? -1 : 1;
+      });
   }
 );
