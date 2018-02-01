@@ -134,5 +134,16 @@ namespace :alces do
         UpdateClusterStatusesJob.perform_now
       end
     end
+
+
+
+    namespace :credits do
+      namespace :exceeded do
+        desc "Process any clusters which have exceeded their maximum credits"
+        task :process => :environment do |args|
+          ProcessClustersExceedingCreditLimitJob.perform_now
+        end
+      end
+    end
   end
 end

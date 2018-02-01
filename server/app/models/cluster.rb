@@ -37,6 +37,13 @@ class Cluster < ApplicationRecord
     presence: true,
     inclusion: { within: STATUSES }
 
+  validates :max_credit_usage,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      only_integer: true
+    },
+    allow_blank: true
+
   before_create do
     credit_usages.build if consumes_credits?
   end
