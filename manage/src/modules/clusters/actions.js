@@ -114,6 +114,7 @@ export function loadClustersConsumingCredits(user) {
         'clusterName',
         'consumesCredits',
         'creditUsages',
+        'maxCreditUsage',
         'status',
       ].join(','),
       'filter[consumesCredits]': true,
