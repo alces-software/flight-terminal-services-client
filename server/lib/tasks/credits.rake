@@ -10,7 +10,7 @@
 namespace :alces do
   namespace :credits do
     desc "Reduce remaining credits for all users and take appropriate action"
-    task :reduce => :environment do |args|
+    task :reduce => [:environment, :'alces:clusters:status:update'] do |args|
       ap_end = Time.now.utc
       User.all.each do |user|
         ReduceUsersCreditsJob.perform_now(user, ap_end)

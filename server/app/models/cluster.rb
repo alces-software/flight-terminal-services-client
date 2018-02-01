@@ -117,6 +117,10 @@ class Cluster < ApplicationRecord
     end
   end
 
+  def is_running?
+    status != 'TERMINATION_COMPLETE'
+  end
+
   def can_terminate?
     ['CREATE_COMPLETE', 'TERMINATION_FAILED'].include?(status)
   end

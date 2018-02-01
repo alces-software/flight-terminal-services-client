@@ -35,11 +35,11 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   end
 
   def available_compute_queues
-    tracon_cluster_details.available_queues if advanced_cluster?
+    tracon_cluster_details.available_queues if advanced_cluster? && @model.is_running?
   end
 
   def current_compute_queues
-    tracon_cluster_details.current_queues if advanced_cluster?
+    tracon_cluster_details.current_queues if advanced_cluster? && @model.is_running?
   end
 
   def is_solo

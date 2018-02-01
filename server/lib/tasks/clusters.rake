@@ -127,5 +127,12 @@ namespace :alces do
         }
       end
     end
+
+    namespace :status do
+      desc "Update the status for running clusters"
+      task :update => :environment do |args|
+        UpdateClusterStatusesJob.perform_now
+      end
+    end
   end
 end
