@@ -107,6 +107,7 @@ class ClustersController < ApplicationController
       :collection,
       :email,
       :key_pair,
+      :maxCreditUsage,
       :name,
       :region,
       queues: permitted_queues
@@ -115,6 +116,7 @@ class ClustersController < ApplicationController
 
     params.require(:clusterLaunch).permit(*permitted_params).tap do |h|
       required_params.each {|p| h.require(p) }
+      h['max_credit_usage'] = h.delete('maxCreditUsage') if h.key?('maxCreditUsage')
     end
   end
 

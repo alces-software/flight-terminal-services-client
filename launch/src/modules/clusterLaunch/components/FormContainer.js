@@ -40,12 +40,21 @@ function validate(allValues, state, props) {
     errors.launchToken = 'error';
   }
 
+  let e;
   // XXX Should this be guarded behind a check for whether we're asking the
   // user for the desired runtime?
   const { desiredRuntime } = allValues;
-  const e = v.required(desiredRuntime) || v.decimalInteger(desiredRuntime);
+  e = v.required(desiredRuntime) || v.decimalInteger(desiredRuntime);
   if (e) {
     errors.desiredRuntime = e;
+  }
+
+  // XXX Should this be guarded behind a check for whether we're asking the
+  // user for a max credit usage?
+  const { maxCreditUsage } = allValues;
+  e = v.decimalInteger(maxCreditUsage);
+  if (e) {
+    errors.maxCreditUsage = e;
   }
 
   const clusterName = getClusterName(allValues);
@@ -99,6 +108,7 @@ class ClusterLaunchFormContainer extends React.Component {
     desiredRuntime: null,
     email: '',
     launchToken: '',
+    maxCreditUsage: null,
     queues: {},
     selectedCollection: undefined,
   }
@@ -221,6 +231,7 @@ class ClusterLaunchFormContainer extends React.Component {
         clusterLaunch: {
           collection: collectionUrl,
           email: email,
+          maxCreditUsage: this.state.values.maxCreditUsage,
           name: getClusterName(this.state.values),
           queues: this.state.values.queues,
         },

@@ -20,6 +20,7 @@ const propTypes = {
   desiredRuntime: PropTypes.number,
   isRuntimeFixed: PropTypes.bool.isRequired,
   isUsingLaunchToken: PropTypes.bool.isRequired,
+  maxCreditUsage: PropTypes.number,
   singleLaunchOption: PropTypes.bool.isRequired,
   tokenCredits: PropTypes.number,
 };
@@ -62,12 +63,27 @@ function calculateRuntime(clusterCostPerHour, tokenCredits) {
 const ClusterRuntimeExplanation = ({
   chargingModel,
   desiredRuntime,
+  maxCreditUsage,
   singleLaunchOption,
   tokenCredits,
   isRuntimeFixed,
   isUsingLaunchToken,
 }) => {
   if (!isRuntimeFixed) {
+    if (maxCreditUsage) {
+      return (
+        <div>
+          <p>
+            Launching this cluster will consume the compute credits assigned to
+            your account.  It will continue running until either you terminate
+            it, it reaches its credit consumption limit or your account runs
+            out of credits.  If it reaches its credit consumption limit or
+            your account runs out of credits, the cluster will be <strong>shut
+              down automatically</strong>.
+          </p>
+        </div>
+      );
+    }
     return (
       <div>
         <p>

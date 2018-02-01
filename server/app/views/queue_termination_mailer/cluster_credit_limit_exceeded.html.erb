@@ -1,0 +1,30 @@
+<%#
+  Copyright (C) 2018 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+
+<p>
+Your Alces Flight HPC cluster <em><%= @cluster_name %></em> has exceeded its
+credit limit.  To prevent unexpected charges being made to your account, all
+compute queues for the cluster will be terminated shortly.
+</p>
+
+<p>
+The cluster will continue running for <%= @grace_period_in_hours %> hours,
+allowing you access to save any work.  After <%= @grace_period_in_hours %>
+hours, the cluster will be terminated.
+</p>
+
+<% note do %>
+    <p class="notes">
+    You are receiving this email because you have started an Alces Flight
+    Compute HPC cluster with the Alces Flight Launch service.
+    </p>
+<% end %>
+
+<%= render 'shared/contact_us' %>
+
+<p>The Alces Flight Crew.</p>

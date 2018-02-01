@@ -33,6 +33,7 @@ const propTypes = {
   desiredRuntime: PropTypes.number,
   isRuntimeFixed: PropTypes.bool.isRequired,
   isUsingLaunchToken: PropTypes.bool.isRequired,
+  maxCreditUsage: PropTypes.number,
   onChange: PropTypes.func.isRequired,
   selectedLaunchOptionIndex: PropTypes.number.isRequired,
   token: PropTypes.shape({
@@ -47,6 +48,7 @@ const LaunchOptions = ({
   desiredRuntime,
   isRuntimeFixed,
   isUsingLaunchToken,
+  maxCreditUsage,
   onChange,
   selectedLaunchOptionIndex,
   token,
@@ -58,6 +60,7 @@ const LaunchOptions = ({
         desiredRuntime={desiredRuntime}
         isRuntimeFixed={isRuntimeFixed}
         isUsingLaunchToken={isUsingLaunchToken}
+        maxCreditUsage={maxCreditUsage}
         token={token}
       />
     );
@@ -90,6 +93,7 @@ const LaunchOptions = ({
         desiredRuntime={desiredRuntime}
         isRuntimeFixed={isRuntimeFixed}
         isUsingLaunchToken={isUsingLaunchToken}
+        maxCreditUsage={maxCreditUsage}
         tokenCredits={token == null ? undefined : token.attributes.credits}
       />
     </div>

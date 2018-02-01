@@ -27,6 +27,10 @@ export function canSelectRuntime({ clusterSpec, launchUser }) {
   return isSoloCluster(clusterSpec) && canUseCredits({ launchUser });
 }
 
+export function canSetCreditLimit({ clusterSpec, launchUser }) {
+  return !isSoloCluster(clusterSpec) && canUseCredits({ launchUser });
+}
+
 export function isRuntimeFixed({ clusterSpec, isUsingLaunchToken }) {
   return isSoloCluster(clusterSpec) || isUsingLaunchToken;
 }

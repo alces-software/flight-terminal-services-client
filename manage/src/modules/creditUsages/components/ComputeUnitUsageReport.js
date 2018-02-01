@@ -68,6 +68,16 @@ const ComputeUnitUsageReport = ({
         >
           {totalCreditConsumption} compute credits.
         </CardMedia>
+        <CardMedia
+          iconName="bullseye"
+          title="Credit limit:"
+        >
+          {
+            cluster.attributes.maxCreditUsage
+              ? <span>{cluster.attributes.maxCreditUsage} compute credits.</span>
+              : <span>N/A</span>
+          }
+        </CardMedia>
       </CardMedias>
     </Card>
   );

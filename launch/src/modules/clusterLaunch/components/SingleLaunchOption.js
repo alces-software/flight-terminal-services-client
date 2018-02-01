@@ -24,6 +24,7 @@ const propTypes = {
   desiredRuntime: PropTypes.number,
   isRuntimeFixed: PropTypes.bool.isRequired,
   isUsingLaunchToken: PropTypes.bool.isRequired,
+  maxCreditUsage: PropTypes.number,
   token: PropTypes.shape({
     attributes: PropTypes.shape({
       credits: PropTypes.number.isRequired,
@@ -37,6 +38,7 @@ const SingleLaunchOption = ({
   token,
   isRuntimeFixed,
   isUsingLaunchToken,
+  maxCreditUsage,
 }) => {
   const selectedLaunchOption = clusterSpec.launchOptions.options[0];
 
@@ -46,6 +48,7 @@ const SingleLaunchOption = ({
       desiredRuntime={desiredRuntime}
       isRuntimeFixed={isRuntimeFixed}
       isUsingLaunchToken={isUsingLaunchToken}
+      maxCreditUsage={maxCreditUsage}
       singleLaunchOption
       tokenCredits={token == null ? undefined : token.attributes.credits}
     />

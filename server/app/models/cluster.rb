@@ -37,6 +37,13 @@ class Cluster < ApplicationRecord
     presence: true,
     inclusion: { within: STATUSES }
 
+  validates :max_credit_usage,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      only_integer: true
+    },
+    allow_blank: true
+
   before_create do
     credit_usages.build if consumes_credits?
   end
@@ -70,6 +77,7 @@ class Cluster < ApplicationRecord
         consumes_credits: payment.using_ongoing_credits?,
         domain: domain_from_launch_config(launch_config),
         master_node_cost_per_hour: master_node_cost_per_hour(payment),
+        max_credit_usage: launch_config.max_credit_usage,
         qualified_name: qualified_cluster_name,
         user: payment.user,
       }

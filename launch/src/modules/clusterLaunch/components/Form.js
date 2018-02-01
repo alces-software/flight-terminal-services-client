@@ -21,10 +21,12 @@ import EmailInput from './EmailInput';
 import LaunchConfirmationText from './LaunchConfirmationText';
 import LaunchOptions from './LaunchOptions';
 import QueuesConfiguration from './QueuesConfiguration';
+import SelectMaxCreditUsageInput from './SelectMaxCreditUsageInput';
 import SelectRuntimeInput from './SelectRuntimeInput';
 import TokenInput from './TokenInput';
 import {
   canSelectRuntime,
+  canSetCreditLimit,
   getDefaultClusterName,
   getDefaultEmail,
   isRuntimeFixed,
@@ -45,6 +47,7 @@ export class ClusterLaunchForm extends React.Component {
       desiredRuntime: PropTypes.any,
       email: PropTypes.any,
       launchToken: PropTypes.any,
+      maxCreditUsage: PropTypes.any,
     }),
     handleSubmit: PropTypes.func.isRequired,
     isUsingLaunchToken: PropTypes.bool.isRequired,
@@ -69,6 +72,7 @@ export class ClusterLaunchForm extends React.Component {
       desiredRuntime: PropTypes.number,
       email: PropTypes.string,
       launchToken: PropTypes.string,
+      maxCreditUsage: PropTypes.number,
       queues: PropTypes.object.isRequired,
       selectedCollection: PropTypes.string,
       selectedLaunchOptionIndex: PropTypes.number,
@@ -93,6 +97,21 @@ export class ClusterLaunchForm extends React.Component {
     },
     {
       render: () => (
+        <SelectMaxCreditUsageInput
+          error={this.props.errors.maxCreditUsage}
+          id={this.props.clusterSpec.ui.title}
+          onChange={this.props.onChange}
+          onUseLaunchToken={this.props.onUseLaunchToken}
+          value={this.props.values.maxCreditUsage}
+        />
+      ),
+      skip: () => !canSetCreditLimit(this.props) || this.props.isUsingLaunchToken,
+      valid: () => (
+        this.props.isUsingLaunchToken ? true : !this.props.errors.maxCreditUsage
+      ),
+    },
+    {
+      render: () => (
         <TokenInput
           error={this.props.errors.launchToken}
           id={this.props.clusterSpec.ui.title}
@@ -112,6 +131,7 @@ export class ClusterLaunchForm extends React.Component {
           desiredRuntime={this.props.values.desiredRuntime}
           isRuntimeFixed={isRuntimeFixed(this.props)}
           isUsingLaunchToken={this.props.isUsingLaunchToken}
+          maxCreditUsage={this.props.values.maxCreditUsage}
           onChange={this.props.onChange}
           selectedLaunchOptionIndex={this.props.values.selectedLaunchOptionIndex}
           tokenName={this.props.tokenName}
