@@ -62,8 +62,11 @@ class ReduceUsersCreditsJob < ApplicationJob
       "#{@user.username}:#{@user.id}"
     Alces.app.logger.info(msg)
 
-    QueueTerminationMailer.terminating(@user, relevant_clusters, grace_period).
-      deliver_now
+    QueueTerminationMailer.user_credits_exceeded(
+      @user,
+      relevant_clusters,
+      grace_period
+    ).deliver_now
     @user.termination_warning_sent_at = Time.now.utc
     @user.termination_warning_active = true
     @user.save!

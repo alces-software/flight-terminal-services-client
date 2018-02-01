@@ -59,8 +59,8 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
 
   def terminate_compute_queues(cluster)
     if cluster.user.present?
-      QueueTerminationMailer.terminating(cluster.user, [cluster], grace_period).
-        deliver_now
+      QueueTerminationMailer.cluster_credit_limit_exceeded(cluster, grace_period)
+        .deliver_now
     end
     cluster.termination_warning_sent_at = Time.now.utc
     cluster.termination_warning_active = true
