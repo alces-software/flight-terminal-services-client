@@ -64,21 +64,70 @@ const QueueManagementPage = ({
       </Section>
       <Section
         overview="Compute queues allow you to configure and control the
-        compute resources available to your cluster."
+        compute resources available within your cluster."
         section={sections.about}
         title="What are compute queues?"
       >
         <Row>
           <Col>
             <p>
-              Lorem ipsum...
+              With configurable compute queues, you're in control of selecting
+              the balance of resources to suit both your HPC workload and your
+              budget.  First choose from the available queue resource types:
+            </p>
+            <ul>
+              <li>
+                <em>General</em> - a good base-level performance for a variety
+                of workloads
+              </li>
+              <li>
+                <em>GPU</em> - access to GPUs for workloads that are tuned for
+                GPGPU computation
+              </li>
+              <li>
+                <em>Highmem</em> - larger quantity of RAM per core for
+                workloads that require high amounts of memory
+              </li>
+              <li>
+                <em>Balanced</em> - high-level performance with a balanced
+                quantity of RAM per core for workloads that are tuned for CPU
+                computation
+              </li>
+            </ul>
+            <p>
+              Once you've decided on what kind of resources are suitable,
+              choose a durability option:
+            </p>
+            <ul>
+              <li>
+                <em>Pilot</em> - less powerful resources, intended for
+                initially testing out workloads at a small scale (only
+                available for general and GPU resource types)
+              </li>
+              <li>
+                <em>Economy</em> - value cost over availability; workloads
+                have a small chance of being interrupted, but resources are
+                significantly cheaper to operate
+              </li>
+              <li>
+                <em>Durable</em> - value availability over cost; workloads
+                will never be interrupted, but resources are more expensive to
+                operate
+              </li>
+            </ul>
+            <p>
+              Once added to your cluster, new queues will become available to
+              your cluster job scheduler, allowing you to choose which queue
+              suits your workload at job submission time.
             </p>
             <p>
-              More information about compute queues can be found on our{' '}
-              <DocsSiteLink>documentation site</DocsSiteLink>.  We also have a
-              {' '}
-              <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
-              {' '} available for you to join in and read through.
+              More information about job schedulers and compute queues can be
+              found on our
+              {' '}<DocsSiteLink>documentation site</DocsSiteLink>{' '}.
+              If you have questions about compute queues, visit our
+              {' '}<CommunitySiteLink>Community Support Portal</CommunitySiteLink>{' '}
+              where you can pose your query and engage with the rest of the
+              Alces Flight community.
             </p>
           </Col>
         </Row>
