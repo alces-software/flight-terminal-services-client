@@ -7,11 +7,10 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import { branch, compose, renderComponent } from 'recompose';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { DelaySpinner } from 'flight-reactware';
 import tokens from '../../../modules/tokens';
 
 import ClusterRuntimeExplanation from './ClusterRuntimeExplanation';
@@ -102,25 +101,10 @@ const LaunchOptions = ({
 
 const mapStateToProps = createStructuredSelector({
   token: tokens.selectors.tokenFromName,
-  tokenIsLoading: tokens.selectors.isLoading,
 });
 
 const enhance = compose(
   connect(mapStateToProps),
-
-  branch(
-    ({ isUsingLaunchToken, token }) => isUsingLaunchToken && token == null,
-    renderComponent(({ tokenIsLoading }) => (
-      <div>
-        {
-          tokenIsLoading ?
-            // eslint-disable-next-line react/jsx-max-props-per-line
-            <span>Loading token <DelaySpinner inline size="small" /></span> :
-            <span>Failed to load token</span>
-        }
-      </div>
-    )),
-  ),
 );
 
 LaunchOptions.propTypes = propTypes;

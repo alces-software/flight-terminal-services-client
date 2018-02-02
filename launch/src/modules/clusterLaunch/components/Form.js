@@ -116,6 +116,7 @@ export class ClusterLaunchForm extends React.Component {
           error={this.props.errors.launchToken}
           id={this.props.clusterSpec.ui.title}
           onChange={this.props.onChange}
+          tokenName={this.props.tokenName}
           value={this.props.values.launchToken}
         />
       ),
@@ -186,14 +187,14 @@ export class ClusterLaunchForm extends React.Component {
   ].filter(pg => pg.skip == null || !pg.skip());
 
   handleShowNextPage = () => {
-    // XXX Not sure this is correct anymore.
     const indexOfTokenPage = 0;
     const leavingTokenPage = this.props.currentPageIndex === indexOfTokenPage &&
       this.props.isUsingLaunchToken;
     if (leavingTokenPage) {
       this.props.onTokenEntered();
+    } else {
+      this.props.onShowNextPage();
     }
-    this.props.onShowNextPage();
   }
 
   render() {

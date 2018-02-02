@@ -1,5 +1,5 @@
 /*=============================================================================
- * Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
+ * Copyright (C) 2017-2018 Stephen F. Norledge and Alces Flight Ltd.
  *
  * This file is part of Flight Launch.
  *
@@ -7,6 +7,12 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
+import { branch, compose, renderComponent } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { DelaySpinner } from 'flight-reactware';
+
+import tokens from '../../../modules/tokens';
 
 import Input from './Input';
 
@@ -33,4 +39,24 @@ const TokenInput = ({ error, id, onChange, value }) => (
 
 TokenInput.propTypes = propTypes;
 
-export default TokenInput;
+
+const enhance = compose(
+  connect(createStructuredSelector({
+    tokenIsLoading: tokens.selectors.isLoading,
+  })),
+
+  branch(
+    ({ tokenIsLoading }) => tokenIsLoading,
+    renderComponent(() => (
+      <div>
+        Loading token{' '}
+        <DelaySpinner
+          inline
+          size="small"
+        />
+      </div>
+    )),
+  ),
+);
+
+export default enhance(TokenInput);
