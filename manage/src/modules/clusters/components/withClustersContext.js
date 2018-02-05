@@ -1,7 +1,9 @@
-import { compose, lifecycle } from 'recompose';
+import React from 'react';
+import { Redirect } from 'react-router';
+import { branch, compose, lifecycle, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
-import { renderRoutes } from 'react-router-config';
 import { createStructuredSelector } from 'reselect';
+import { renderRoutes } from 'react-router-config';
 
 import launchUsers from '../../launchUsers';
 
@@ -15,6 +17,11 @@ const enhance = compose(
   connect(createStructuredSelector({
     user: launchUsers.selectors.currentUser,
   })),
+
+  branch(
+    ({ user }) => !user,
+    renderComponent(() => <Redirect to={'/'} />),
+  ),
 
   lifecycle({
     componentDidMount: function componentDidMount() {
