@@ -1,11 +1,14 @@
 import { compose } from 'redux';
 import {
+  auth,
   createReducers as createFlightReducers,
   jsonApi,
   loadingStates,
+  reducerUtils,
 } from 'flight-reactware';
 import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
+import { combineReducers } from 'redux';
 
 import * as modules from '../modules';
 
@@ -36,7 +39,7 @@ const moduleReducers = Object.keys(modules).reduce(
   {},
 );
 
-export default (cookies) => ({
+const createAppReducers = (cookies) => ({
   ...createFlightReducers(cookies),
   ...moduleReducers,
   entities: compose(
@@ -46,3 +49,11 @@ export default (cookies) => ({
   form: formReducer,
   router: routerReducer,
 });
+
+export default (cookies) => {
+  const appReducers = combineReducers(createAppReducers(cookies));
+  return reducerUtils.withStateResetting({
+    keepStateSlices: [ 'router' ],
+    resetOn: [ auth.actionTypes.LOGOUT ]
+  })(appReducers);
+};

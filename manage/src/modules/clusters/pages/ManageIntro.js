@@ -16,7 +16,7 @@ const propTypes = {
   availableManageItems: PropTypes.shape({
     queueManagement: PropTypes.bool.isRequired,
   }),
-  cards: PropTypes.arrayOf(PropTypes.node).isRequired,
+  cards: PropTypes.arrayOf(PropTypes.func).isRequired,  // Array of react components.
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,

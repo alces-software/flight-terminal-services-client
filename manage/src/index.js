@@ -5,7 +5,7 @@ import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { createCookieMiddleware } from 'redux-cookie';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { renderRoutes } from 'react-router-config';
 
 import { Analytics } from 'flight-reactware';
@@ -29,9 +29,7 @@ delete window.__PRELOADED_STATE__;
 const history = createHistory();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
-  combineReducers({
-    ...createReducers(cookies),
-  }),
+  createReducers(cookies),
   preloadedState,
   composeEnhancers(
     applyMiddleware(
