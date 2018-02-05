@@ -40,7 +40,10 @@ CallToAction.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  to: PropTypes.object,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
 };
 
 export default styled(CallToAction)`
