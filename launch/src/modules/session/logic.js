@@ -1,12 +1,12 @@
 /*=============================================================================
- * Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
+ * Copyright (C) 2017-2018 Stephen F. Norledge and Alces Flight Ltd.
  *
  * This file is part of Flight Launch.
  *
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-// Import and export the public facing API for the onboarding module.
+// Business logic handling sessions.
 
 import { auth } from 'flight-reactware';
 
@@ -17,8 +17,8 @@ let alcesUserLoaded = false;
 function loadAlcesUserOnInitialization(dispatch) {
   if (!alcesUserLoaded) {
     alcesUserLoaded = true;
-    dispatch(anvilUsers.actions.loadUser('alces'))
-      .catch(e => e);
+    const promise = dispatch(anvilUsers.actions.loadUser('alces'));
+    if (promise) { promise.catch(e => e); }
   }
 }
 
@@ -28,10 +28,10 @@ function loadUsersWhenAuthChanges(dispatch, getState) {
   if (currentUser !== previousCurrentUser) {
     previousCurrentUser = currentUser;
     if (currentUser != null) {
-      dispatch(launchUsers.actions.loadUser(currentUser.username))
-        .catch(e => e);
-      dispatch(anvilUsers.actions.loadUser(currentUser.username))
-        .catch(e => e);
+      let promise = dispatch(launchUsers.actions.loadUser(currentUser.username));
+      if (promise) { promise.catch(e => e); }
+      promise = dispatch(anvilUsers.actions.loadUser(currentUser.username));
+      if (promise) { promise.catch(e => e); }
     }
   }
 };
