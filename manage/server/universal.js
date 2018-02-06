@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const React = require('react');
 const { Provider } = require('react-redux');
-const { applyMiddleware, createStore, combineReducers } = require('redux');
+const { applyMiddleware, createStore } = require('redux');
 const { default: thunk } = require('redux-thunk');
 const { default: promiseMiddleware } = require('redux-simple-promise');
 
@@ -33,9 +33,7 @@ module.exports = function universalLoader(req, res) {
     const cookies = new Cookies(req.headers.cookie);
 
     const store = createStore(
-      combineReducers({
-        ...createReducer(cookies),
-      }),
+      createReducer(cookies),
       {},
       applyMiddleware(
         flightMiddleware,
