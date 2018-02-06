@@ -4,6 +4,7 @@ import { branch, compose, lifecycle, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { renderRoutes } from 'react-router-config';
+import { auth, showSpinnerUntil } from 'flight-reactware';
 
 import launchUsers from '../../launchUsers';
 
@@ -15,12 +16,18 @@ const ClustersContext = ({ route }) => {
 
 const enhance = compose(
   connect(createStructuredSelector({
+    authUser: auth.selectors.currentUserSelector,
     user: launchUsers.selectors.currentUser,
+    userRetrieval: launchUsers.selectors.retrieval,
   })),
 
   branch(
-    ({ user }) => !user,
+    ({ authUser }) => !authUser,
     renderComponent(() => <Redirect to={'/'} />),
+  ),
+
+  showSpinnerUntil(
+    ({ userRetrieval }) => userRetrieval.initiated && !userRetrieval.pending
   ),
 
   lifecycle({
