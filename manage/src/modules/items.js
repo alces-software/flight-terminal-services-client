@@ -8,7 +8,7 @@ export default function(clusterHostname) {
   const hostname = clusterHostname;
   return [
     makeItem('Overview', 'home', makeLink(currentSite, '/')),
-    makeItem('Access', 'key', makeLink(currentSite, `/cluster/${hostname || ''}`)),
+    makeItem('Access', 'key', makeLink(currentSite, `/access/${hostname || ''}`)),
     makeItem('Manage', 'dashboard', makeLink(currentSite, `/manage/${hostname || ''}`)),
   ];
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Container,
@@ -14,10 +15,13 @@ import {
   makeSection,
 } from 'flight-reactware';
 import FontAwesome from 'react-fontawesome';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import ContextLink from '../elements/ContextLink';
 import CommunitySiteLink from '../elements/CommunitySiteLink';
+import ContextLink from '../elements/ContextLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
+import { clusters } from '../modules';
 
 const sections = {
   whatIsIt: makeSection('What is Flight Manage?', 'what-is-it', 'pink', 'question'),
@@ -49,7 +53,7 @@ const CallToAction = styled(({ children, className, icon, to }) => {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
 `;
 
-const Home = () => {
+const Home = ({ clusterHostname }) => {
   return (
     <div>
       <Container fluid>
@@ -115,7 +119,7 @@ const Home = () => {
             <Col className="d-flex justify-content-center">
               <CallToAction
                 icon="play-circle"
-                to={'/cluster'}
+                to={`/access/${clusterHostname || ''}`}
               >
                 Access your clusters now
               </CallToAction>
@@ -144,4 +148,10 @@ const Home = () => {
   );
 };
 
-export default Home;
+Home.propTypes = {
+  clusterHostname: PropTypes.string,
+};
+
+export default connect(createStructuredSelector({
+  clusterHostname: clusters.selectors.hostname,
+}))(Home);
