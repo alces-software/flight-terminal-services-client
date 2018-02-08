@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
-  CardBlock,
+  CardBody,
   CardText,
   CardTitle,
 } from 'reactstrap';
@@ -14,7 +14,7 @@ import Buttons from './CardButtons';
 
 const QueueCard = styled(({ className, consumesCredits, queue }) => (
   <Card className={className}>
-    <CardBlock>
+    <CardBody>
       <StatusIcon status={queue.status} />
       <CardTitle>
         {queue.spec.name}
@@ -33,7 +33,7 @@ const QueueCard = styled(({ className, consumesCredits, queue }) => (
         queue={queue}
         status={queue.status}
       />
-    </CardBlock>
+    </CardBody>
   </Card>
 ))`
   ${props => {

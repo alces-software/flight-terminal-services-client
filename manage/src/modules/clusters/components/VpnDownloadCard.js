@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardBlock, CardHeader, CardText } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardText } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 
 const iconName = {
@@ -39,7 +39,7 @@ const VpnDownloadCard = ({ config }) => (
       <FontAwesome name={iconName[config.os]} />{' '}
       {headerText[config.os]}
     </CardHeader>
-    <CardBlock>
+    <CardBody>
       <CardText>
         {cardText[config.os]}
       </CardText>
@@ -51,7 +51,7 @@ const VpnDownloadCard = ({ config }) => (
           <FontAwesome name="download" /> Download
         </Button>
       </div>
-    </CardBlock>
+    </CardBody>
   </Card>
 );
 

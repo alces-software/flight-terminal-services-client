@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBlock } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -25,7 +25,7 @@ const CardBack = ({
   tenantIdentifier
 }) => (
   <Card>
-    <CardBlock>
+    <CardBody>
       <CardTitleBlock
         logoOnRight
         logoSrc={clusterSpec.ui.logoUrl}
@@ -38,7 +38,7 @@ const CardBack = ({
         onCancel={showFront}
         tenantIdentifier={tenantIdentifier}
       />
-    </CardBlock>
+    </CardBody>
   </Card>
 );
 

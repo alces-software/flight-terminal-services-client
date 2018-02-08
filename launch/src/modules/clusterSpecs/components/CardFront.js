@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Card, CardBlock, CardText } from 'reactstrap';
+import { Card, CardBody, CardText } from 'reactstrap';
 
 import { CardTitleBlock } from 'flight-reactware';
 
@@ -21,7 +21,7 @@ const CardFront = styled(({ className, clusterSpec, showBack }) => (
     className={className}
     onClick={showBack}
   >
-    <CardBlock>
+    <CardBody>
       <CardTitleBlock
         logoOnRight
         logoSrc={clusterSpec.ui.logoUrl}
@@ -30,7 +30,7 @@ const CardFront = styled(({ className, clusterSpec, showBack }) => (
       />
       <CardText>{clusterSpec.ui.body}</CardText>
       <FooterIcons clusterSpec={clusterSpec} />
-    </CardBlock>
+    </CardBody>
     <CardOverlay showLaunchForm={showBack} />
   </Card>
 ))`

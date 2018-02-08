@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardBlock, CardHeader, CardText } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardText } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import { LinkContainer } from 'flight-reactware';
 
@@ -51,12 +51,12 @@ const AccessIntroCard = ({
           <FontAwesome name={iconName} />
         </span>
       </CardHeader>
-      <CardBlock>
+      <CardBody>
         <CardText>
           {children}
         </CardText>
         { buttons }
-      </CardBlock>
+      </CardBody>
     </Card>
   );
 };
