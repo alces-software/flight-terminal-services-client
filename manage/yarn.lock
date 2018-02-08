@@ -3440,9 +3440,9 @@ flatten@^1.0.2:
     styled-components "^2.0.1"
     validator "^8.2.0"
 
-flight-tutorials-client@/home/ben/projects/flight-tutorials-client/flight-tutorials-client-v0.1.5.tgz:
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.5/flight-tutorials-client.tgz":
   version "0.1.5"
-  resolved "/home/ben/projects/flight-tutorials-client/flight-tutorials-client-v0.1.5.tgz#359b1353e3767094af7d6396d4f8eec3c928f84a"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.5/flight-tutorials-client.tgz#359b1353e3767094af7d6396d4f8eec3c928f84a"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
