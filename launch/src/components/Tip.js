@@ -75,8 +75,10 @@ const Text = styled.span`
 `;
 
 const Tip = styled(({ className, noIcon, text, type, wide }) => {
+  const isInvalid = ['error', 'warning'].includes(type);
+  const invalidClass = isInvalid ? 'invalid-feedback' : '';
   return (
-    <div className={`${className} form-control-feedback`}>
+    <div className={`${className} form-control-feedback ${invalidClass}`}>
       <TipIcon
         noIcon={noIcon}
         type={type}
@@ -96,6 +98,7 @@ const Tip = styled(({ className, noIcon, text, type, wide }) => {
   position: relative;
   margin-top: -5px;
   display: inline-block;
+  font-size: 100%;
 
   ${props => props.wide && 'margin-right: -15px;'}
 

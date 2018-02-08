@@ -53,8 +53,11 @@ class Input extends React.Component {
   getValidationState() {
     if (!this.state.touched) {
       return null;
+    } else if ( this.props.error ) {
+      return false;
+    } else {
+      return true;
     }
-    return this.props.error;
   }
 
   blur() {
@@ -66,7 +69,6 @@ class Input extends React.Component {
     return (
       <FormGroup
         className="Input"
-        color={this.getValidationState()}
       >
         <Label
           className="form-control-label"
@@ -79,8 +81,8 @@ class Input extends React.Component {
           innerRef={(inputEl) => { this.inputEl = inputEl; }}
           onChange={this.handleChange}
           placeholder={placeholder}
-          state={this.getValidationState()}
           type={type}
+          valid={this.getValidationState()}
           value={this.props.value}
         />
         {
