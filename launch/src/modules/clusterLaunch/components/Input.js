@@ -75,8 +75,8 @@ class Input extends React.Component {
           {this.props.label}
         </Label>
         <ReactstrapInput
-          getRef={(inputEl) => { this.inputEl = inputEl; }}
           id={id}
+          innerRef={(inputEl) => { this.inputEl = inputEl; }}
           onChange={this.handleChange}
           placeholder={placeholder}
           state={this.getValidationState()}
