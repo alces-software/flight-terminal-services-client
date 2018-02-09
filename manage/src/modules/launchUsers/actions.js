@@ -10,7 +10,7 @@ import { jsonApi } from 'flight-reactware';
 import { currentUser, retrieval } from './selectors';
 
 export function loadUser(username) {
-  // We need to include the type and the hostname attribute for the
+  // We need to include the type and the username attribute for the
   // loadingStates module.
   const resource = {
     type: 'launchUsers',
