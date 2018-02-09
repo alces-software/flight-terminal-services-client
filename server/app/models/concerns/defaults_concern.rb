@@ -13,16 +13,21 @@ module DefaultsConcern
   end
 
   def set_default_values
-    self.class.defaults.each do |attribute, default_or_lambda|
-      next unless self.send(attribute).nil?
-      value =
-        if default_or_lambda.respond_to?(:call)
-          default_or_lambda.call(self, self[attribute])
-        else
-          default_or_lambda
-        end
-      self.send("#{attribute}=", value)
+    self.class.defaults.each_key do |attribute|
+      set_default_value(attribute)
     end
+  end
+
+  def set_default_value(attribute)
+    default_or_lambda = self.class.defaults[attribute]
+    return unless self.send(attribute).nil?
+    value =
+      if default_or_lambda.respond_to?(:call)
+        default_or_lambda.call(self, self[attribute])
+      else
+        default_or_lambda
+      end
+    self.send("#{attribute}=", value)
   end
 
   class_methods do

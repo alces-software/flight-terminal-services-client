@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   end)
 
   post 'clusters/launch'
+  post 'clusters/terminate/:id', to: 'clusters#terminate', as: :cluster_terminate
+  post 'packs/top-up-from-token', to: 'packs#top_up_from_token'
 
   #
   # Routes for all non-admin client communication other than loading the
@@ -55,10 +57,10 @@ Rails.application.routes.draw do
       jsonapi_resources :launch_users, only: [:index, :show] do
         # Read-only access to the clusters relationship.
         jsonapi_links :clusters, only: [:show]
-        jsonapi_related_resource :clusters
+        jsonapi_related_resources :clusters
         # Read-only access to the credit_usages relationship.
         jsonapi_links :credit_usages, only: [:show]
-        jsonapi_related_resource :credit_usages
+        jsonapi_related_resources :credit_usages
       end
     end
   end

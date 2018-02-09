@@ -1,0 +1,22 @@
+<%#
+  Copyright (C) 2018 Stephen F. Norledge and Alces Software Ltd.
+
+  This file is part of Alces Launch.
+
+  All rights reserved, see LICENSE.txt.
+%>
+
+Your Alces Flight Compute HPC cluster "<%= @cluster_name %>" has failed to terminate.
+
+The error message received is below:
+
+<%= error_message(@error) %>
+Please try again.  If the problem continues please
+visit our Community Support Portal <http://community.alces-flight.com>.
+
+The Alces Flight Crew.
+
+<% note do %>
+    You are receiving this email because you have started an Alces Flight
+    Compute HPC cluster with the Alces Flight Launch service.
+<% end %>

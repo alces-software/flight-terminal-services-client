@@ -7,46 +7,37 @@
 #==============================================================================
 
 class TerminateClusterQueuesCommand
-  def initialize(user:)
-    @user = user
+  include ApiEndpointUrlsConcern
+
+  def initialize(cluster)
+    @cluster = cluster
   end
 
   def perform
-    msg = "Requesting termination of user's cluster's queues " +
-      "#{@user.username}:#{@user.id}"
+    msg = "Requesting termination of compute queues for " +
+      "#{@cluster.id}:#{@cluster.qualified_name}"
     Alces.app.logger.info(msg)
-    # Make HTTP post to traccon.
 
-    @user.clusters.consuming_credits.each do |cluster|
-      terminate_cluster(cluster)
+    uri = terminate_cluster_uri
+    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      req = Net::HTTP::Delete.new(uri)
+      req.content_type = 'application/json'
+      req.basic_auth(auth_user, auth_password)
+      http.request(req)
     end
   end
 
   private
 
-  def terminate_cluster(cluster)
-    uri = terminate_cluster_uri(cluster)
-    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-      req = Net::HTTP::Delete.new(uri)
-      req.content_type = 'application/json'
-      req.basic_auth(auth_user(cluster), auth_password(cluster))
-      http.request(req)
-    end
+  def auth_user
+    "#{@cluster.qualified_name}.#{@cluster.domain}.alces.network"
   end
 
-  def auth_user(cluster)
-    "#{cluster.qualified_name}.#{cluster.domain}.alces.network"
+  def auth_password
+    @cluster.auth_token
   end
 
-  def auth_password(cluster)
-    cluster.auth_token
-  end
-
-  def terminate_cluster_uri(cluster)
-    URI("#{tracon_base_url}/clusters/#{cluster.qualified_name}/queues")
-  end
-
-  def tracon_base_url
-    ENV['TRACON_BASE_URL']
+  def terminate_cluster_uri
+    URI("#{tracon_base_url(local: true)}/clusters/#{@cluster.qualified_name}/queues")
   end
 end

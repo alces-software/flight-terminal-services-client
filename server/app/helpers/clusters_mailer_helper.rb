@@ -42,11 +42,13 @@ module ClustersMailerHelper
 
   def error_message(error)
     case error
-    when ParseLaunchErrorCommand::ClusterNameTaken
+    when ParseFlyStderrCommand::ClusterNameTaken
       "The cluster name you have chosen is already in use.  Please choose a " +
       "different cluster name and try again."
-    when ParseLaunchErrorCommand::LaunchError
+    when ParseFlyStderrCommand::LaunchError
       error.stderr
+    when nil
+      "An unknown error occurred"
     else
       error
     end

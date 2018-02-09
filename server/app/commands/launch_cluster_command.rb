@@ -13,59 +13,58 @@ require 'tmpdir'
 #
 # An overview of the launch process is:
 #
-#  1. Have `fly` build a new parameter directory.
+#  1. Check that the payment is valid.
 #
-#  2. Merge in any overrides present in `@launch_config.spec`.
+#  2. Have `fly` build a new parameter directory, and configure values
+#     appropriately.
 #
-#  3. Run the `fly cluster launch` command in a background thread, using the
-#     correct parameter directory.
+#  3. Run the `fly cluster launch` using the correct parameter directory.
 #
-#  5. In the background thread, when the fly launch command has completed,
-#     send an email to that affect.
+#  4. When the fly launch command has completed, send an email to that affect
+#     and create a cluster model.
+#
+#  5. Update / rollback the payment as appropriate.
 #
 class LaunchClusterCommand
-  delegate :stdout, :stderr, to: :@run_fly_cmd
+  delegate :stdout, :stderr, to: :@runner
 
   def initialize(launch_config)
     @launch_config = launch_config
+    @payment_processor = ProcessPaymentCommand.load(@launch_config)
   end
 
   def perform
     Rails.logger.info("Launching cluster #{@launch_config.name} " +
                       "with spec #{@launch_config.spec.inspect}")
 
-    # Check that the launch config's token is still queued.  This prevents
-    # launching a duplicate cluster should the active job be processed twice,
-    # which is possible with SQS.
-    if @launch_config.using_token? && ! @launch_config.token.queued?
-      Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +
-                        "Current status is #{@launch_config.token.status}")
+    unless @payment_processor.valid_to_launch?
+      send_payment_invalid_email
       return
     end
 
-    mark_token_as(:in_use)
     begin
+      @payment_processor.process_about_to_launch
       BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
         perform
-      fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
+      @fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
         perform
-      @run_fly_cmd = RunFlyLaunchCommand.new(fly_params, @launch_config)
+      @runner = FlyRunner.new(@fly_params, @launch_config)
       send_about_to_launch_email
-      @run_fly_cmd.perform
-      Rails.logger.info "Launch thread completed #{@run_fly_cmd.failed? ? 'un' : ''}successfully"
-      if @run_fly_cmd.failed?
-        Rails.logger.info("Launch error: #{@run_fly_cmd.stderr}") 
-        mark_token_as(:available)
+      @runner.perform
+      Rails.logger.info "Launch thread completed #{@runner.failed? ? 'un' : ''}successfully"
+      if @runner.failed?
+        Rails.logger.info("Launch error: #{@runner.stderr}") 
+        @payment_processor.process_launch_failed
         send_failed_email
       else
-        mark_token_as(:used)
+        @payment_processor.process_launch_succeeded
         create_cluster_model
         send_completed_email
       end
     rescue
       Rails.logger.info "Launch thread raised exception #{$!}"
       Rails.logger.info "Launch thread raised exception #{$!.backtrace}"
-      mark_token_as(:available)
+      @payment_processor.process_launch_failed
       send_failed_email
     ensure
       FileUtils.rm_r(parameter_dir, secure: true)
@@ -80,13 +79,21 @@ class LaunchClusterCommand
     )
   end
 
+  def send_payment_invalid_email
+    return unless @payment_processor.send_invalid_email?
+    ClustersMailer.payment_invalid(@launch_config).
+      deliver_now
+  end
+
   def send_about_to_launch_email
     ClustersMailer.about_to_launch(@launch_config).
       deliver_now
   end
 
   def send_failed_email
-    err = ParseLaunchErrorCommand.new(@run_fly_cmd.stderr).perform
+    unless @runner.nil?
+      err = ParseLaunchErrorCommand.new(@runner.stderr).perform
+    end
     ClustersMailer.failed(@launch_config, err).
       deliver_now
   rescue
@@ -94,25 +101,28 @@ class LaunchClusterCommand
   end
 
   def send_completed_email
-    ClustersMailer.launched(@launch_config, @run_fly_cmd.stdout).
+    ClustersMailer.launched(@launch_config, @runner.stdout).
       deliver_now
   end
 
   def create_cluster_model
-    parsed_output = ParseOutputCommand.new(@run_fly_cmd.stdout).perform
+    parsed_output = ParseOutputCommand.new(@runner.stdout).perform
     details = parsed_output.details
     uuid_detail = details.detect {|d| d.title == 'UUID'}
     auth_token_detail = details.detect {|d| d.title == 'Token'}
     uuid = uuid_detail.value
     auth_token = auth_token_detail.value
-    attrs = Cluster.attributes_from_launch_config(@launch_config)
 
-    Cluster.create!(attrs.merge(id: uuid, auth_token: auth_token))
-  end
-
-  def mark_token_as(status)
-    if @launch_config.using_token?
-      @launch_config.token.mark_as(status, @launch_config.email)
-    end
+    Cluster.create!(
+      {}.merge(
+        Cluster.attributes_from_launch_config(@launch_config)
+      ).merge(
+        Cluster.attributes_from_fly_params(@fly_params)
+      ).merge(
+        id: uuid,
+        auth_token: auth_token,
+        status: 'CREATE_COMPLETE'
+      )
+    )
   end
 end

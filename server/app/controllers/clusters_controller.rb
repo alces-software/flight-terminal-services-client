@@ -13,36 +13,33 @@ class ClustersController < ApplicationController
     cluster_launch_config = build_launch_config
     return if cluster_launch_config.nil?
 
+    payment = cluster_launch_config.payment
     if cluster_launch_config.invalid?
+      errors = cluster_launch_config.errors.messages
+      errors.merge!(payment: payment.errors.messages) if payment.invalid?
       render status: :unprocessable_entity, json: {
         status: 422,
         error: 'Unprocessable Entity',
-        details: cluster_launch_config.errors.messages
+        details: errors
       }
       return
     end
 
-    # If a token is being used, it needs to be marked as queued prior to
-    # scheduling ClusterLaunchJob, or else we could fall foul of a race
-    # condition in which the token is still AVAILABLE when we try to process
-    # the job.
-    if cluster_launch_config.using_token?
-      cluster_launch_config.token.mark_as(:queued, cluster_launch_config.email)
-    end
-
+    payment_processor = ProcessPaymentCommand.load(cluster_launch_config)
     begin
+      payment_processor.process_about_to_queue
       ClusterLaunchJob.perform_later(
-        cluster_launch_config.as_json,
-        cluster_launch_config.spec.as_json,
-        cluster_launch_config.tenant,
-        cluster_launch_config.token,
-        cluster_launch_config.launch_option.as_json,
-        cluster_launch_config.user,
+        launch_config_params: cluster_launch_config.as_json,
+        cluster_spec_params: cluster_launch_config.spec.as_json,
+        tenant: cluster_launch_config.tenant,
+        payment_params: payment.as_json,
+        token: payment.token,
+        launch_option_params: payment.launch_option.as_json,
+        user: payment.user,
       )
     rescue
-      if cluster_launch_config.using_token?
-        cluster_launch_config.token.mark_as(:available, cluster_launch_config.email)
-      end
+      Rails.logger.warn("Queueing cluster launch failed: #{$!.message}")
+      payment_processor.process_queue_failed
     end
 
     render(
@@ -54,26 +51,44 @@ class ClustersController < ApplicationController
     )
   end
 
+  def terminate
+    cluster = Cluster.find(params[:id])
+    unless cluster.can_terminate?
+      render status: :unacceptable
+      return
+    end
+    TerminateClusterJob.perform_later(cluster)
+    render status: :accepted
+  end
+
   private
 
   def build_launch_config
     tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
-
-    token = find_token(tenant)
+    payment = Payment.new(payment_params)
+    payment.token = find_token(tenant) if payment.using_token?
 
     cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
     launch_option = LaunchOption.new(launch_option_params(cluster_spec))
+    payment.cluster_spec = cluster_spec
+    payment.launch_option = launch_option
     config_params = cluster_launch_config_params.merge(
       spec: cluster_spec,
       tenant: tenant,
-      token: token,
-      launch_option: launch_option,
-      user: current_user,
+      payment: payment,
     )
     ClusterLaunchConfig.new(config_params)
   rescue ClusterSpec::Error, TokenNotFound
     render_build_exception($!)
     return nil
+  end
+
+  def payment_params
+    params.require(:payment).permit(:method, :runtime).tap do |h|
+      h.require(:method)
+      h['user'] = current_user
+      h['validation_state'] = 'about_to_queue'
+    end
   end
 
   def cluster_spec_params
@@ -89,34 +104,32 @@ class ClustersController < ApplicationController
       h[q] = [:desired, :min, :max]
     end
     permitted_params = [
+      :collection,
       :email,
+      :key_pair,
+      :maxCreditUsage,
       :name,
       :region,
-      :key_pair,
-      :collection,
       queues: permitted_queues
     ]
     required_params = [:email, :name]
 
     params.require(:clusterLaunch).permit(*permitted_params).tap do |h|
       required_params.each {|p| h.require(p) }
+      h['max_credit_usage'] = h.delete('maxCreditUsage') if h.key?('maxCreditUsage')
     end
   end
 
   def launch_option_params(cluster_spec)
-    selected_index = params.require(:clusterLaunch).require(:selectedLaunchOptionIndex)
-    params = cluster_spec.selected_launch_option(selected_index)
-    params.tap do |h|
-      h['cost_per_hour'] = h.delete('costPerHour') if h.key?('costPerHour')
+    selected_index = params.require(:launchOption).require(:index)
+    launch_option_from_spec = cluster_spec.selected_launch_option(selected_index)
+    launch_option_from_spec.tap do |h|
+      h['charging_model'] = h.delete('chargingModel') if h.key?('chargingModel')
+      h.delete('costPerHour') if h.key?('costPerHour')
     end
   end
 
   def find_token(tenant)
-    # A cluster can be launched using either a token or user's credits.  If a
-    # token parameter is given the request is an attempt to launch with a
-    # token.
-    return nil if params[:token].blank?
-
     tenant.tokens.find_by(params.require(:token).permit(:name)).tap do |token|
       raise TokenNotFound if token.nil?
     end

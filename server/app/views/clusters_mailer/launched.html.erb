@@ -14,10 +14,18 @@ Your <%= @cluster_spec_name %> <code><%= @cluster_name %></code> has reached
 cruising altitude and is available for use.
 </p>
 
+<%- if @payment.has_expiration? -%>
 <p>
 Remember, the flight time for this cluster is <%= @runtime %>. Please
 remember to save your work.
 </p>
+<%- else -%>
+<p>
+Remember, this cluster will consume your account's compute credits until it is
+terminated.  If your account runs out of compute credits the cluster will be
+shut down automatically.
+</p>
+<%- end -%>
 
 <p>
 You can find details about your cluster including how to access it

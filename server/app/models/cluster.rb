@@ -7,8 +7,19 @@
 #==============================================================================
 
 class Cluster < ApplicationRecord
+  STATUSES = [
+    'CREATE_COMPLETE',
+    'TERMINATION_IN_PROGRESS',
+    'TERMINATION_FAILED',
+    'TERMINATION_COMPLETE',
+  ].freeze
+
   scope :consuming_credits, ->() {
     where(consumes_credits: true)
+  }
+
+  scope :running, ->() {
+    where.not(status: 'TERMINATION_COMPLETE')
   }
 
   belongs_to :user
@@ -22,18 +33,61 @@ class Cluster < ApplicationRecord
   validates :consumes_credits,
     inclusion: { in: [ true, false ] }
 
+  validates :status,
+    presence: true,
+    inclusion: { within: STATUSES }
+
+  validates :max_credit_usage,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      only_integer: true
+    },
+    allow_blank: true
+
+  before_create do
+    credit_usages.build if consumes_credits?
+  end
+
+  before_update do
+    if status_changed? && status == 'TERMINATION_COMPLETE'
+      most_recent_credit_usage = credit_usages.order(:start_at).last
+      next if most_recent_credit_usage.nil?
+      next unless most_recent_credit_usage.end_at.nil?
+      most_recent_credit_usage.end_at = Time.now.utc.to_datetime
+      # We need to manually save the credit usage.  It won't be saved with
+      # auto association saving due to the way it was loaded from the database
+      # (`credit_usages.order(...).last`).  Only associated records loaded
+      # with a plain `credit_usages` would be saved by auto association
+      # saving.
+      saved = most_recent_credit_usage.save(validate: false)
+      raise ActiveRecord::Rollback unless saved
+    end
+  end
+
   class << self
     # Return attributes suitable for creating a new cluster from the given
     # launch config.
     def attributes_from_launch_config(launch_config)
       hash = HashEmailCommand.new(launch_config.email).perform
       qualified_cluster_name = "#{launch_config.name}-#{hash}"
+      payment = launch_config.payment
 
       {
-        consumes_credits: !launch_config.using_token?,
+        cluster_name: launch_config.name,
+        consumes_credits: payment.using_ongoing_credits?,
         domain: domain_from_launch_config(launch_config),
+        master_node_cost_per_hour: master_node_cost_per_hour(payment),
+        max_credit_usage: launch_config.max_credit_usage,
         qualified_name: qualified_cluster_name,
-        user: launch_config.user,
+        user: payment.user,
+      }
+    end
+
+    # Return attributes suitable for creating a new cluster from the given fly
+    # params.
+    def attributes_from_fly_params(fly_params)
+      {
+        region: region_from_fly_params(fly_params),
       }
     end
 
@@ -47,6 +101,35 @@ class Cluster < ApplicationRecord
           domain_arg_found = true
         end
       end
+      return nil
     end
+
+    def region_from_fly_params(fly_params)
+      region = Rails.configuration.alces.default_region
+      region_arg_found = false
+      fly_params.cmd.each do |arg|
+        if region_arg_found
+          region = arg
+          region_arg_found = false
+        end
+        if arg == '--region'
+          region_arg_found = true
+        end
+      end
+      return region
+    end
+
+    def master_node_cost_per_hour(payment)
+      return nil unless payment.using_ongoing_credits?
+      payment.launch_option.master_node_cost_per_hour
+    end
+  end
+
+  def is_running?
+    status != 'TERMINATION_COMPLETE'
+  end
+
+  def can_terminate?
+    ['CREATE_COMPLETE', 'TERMINATION_FAILED'].include?(status)
   end
 end

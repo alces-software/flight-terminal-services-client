@@ -10,20 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027105411) do
+ActiveRecord::Schema.define(version: 20180201133011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
 
   create_table "clusters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string   "auth_token",       limit: 255, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "auth_token",                  limit: 255,                             null: false
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
     t.uuid     "user_id"
-    t.boolean  "consumes_credits",             null: false
-    t.string   "domain",                       null: false
-    t.string   "qualified_name",               null: false
+    t.boolean  "consumes_credits",                                                    null: false
+    t.string   "domain"
+    t.string   "qualified_name",                                                      null: false
+    t.integer  "master_node_cost_per_hour"
+    t.string   "cluster_name",                limit: 255,                             null: false
+    t.string   "region",                      limit: 64,                              null: false
+    t.string   "status",                      limit: 64,  default: "CREATE_COMPLETE", null: false
+    t.integer  "max_credit_usage"
+    t.boolean  "termination_warning_active",              default: false,             null: false
+    t.datetime "termination_warning_sent_at"
     t.index ["user_id"], name: "index_clusters_on_user_id", using: :btree
   end
 
@@ -43,12 +50,13 @@ ActiveRecord::Schema.define(version: 20171027105411) do
   end
 
   create_table "credit_usages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.datetime "start_at",                 null: false
+    t.datetime "start_at",                            null: false
     t.datetime "end_at"
-    t.float    "cu_in_use",  default: 0.0, null: false
-    t.uuid     "cluster_id",               null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.float    "queues_cu_in_use",      default: 0.0, null: false
+    t.uuid     "cluster_id",                          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "master_node_cu_in_use",               null: false
     t.index ["cluster_id"], name: "index_credit_usages_on_cluster_id", using: :btree
   end
 
@@ -87,15 +95,18 @@ ActiveRecord::Schema.define(version: 20171027105411) do
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string   "username",                limit: 255,             null: false
-    t.string   "email",                   limit: 255,             null: false
-    t.uuid     "flight_id",                                       null: false
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.integer  "compute_credits",                     default: 0, null: false
+    t.string   "username",                    limit: 255,                 null: false
+    t.string   "email",                       limit: 255,                 null: false
+    t.uuid     "flight_id",                                               null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.integer  "compute_credits",                         default: 0,     null: false
     t.datetime "credits_last_reduced_at"
-    t.index ["flight_id"], name: "index_users_on_flight_id", using: :btree
-    t.index ["username"], name: "index_users_on_username", using: :btree
+    t.datetime "credits_last_updated_at"
+    t.boolean  "termination_warning_active",              default: false, null: false
+    t.datetime "termination_warning_sent_at"
+    t.index ["flight_id"], name: "index_users_on_flight_id", unique: true, using: :btree
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
   add_foreign_key "clusters", "users", on_update: :cascade, on_delete: :restrict

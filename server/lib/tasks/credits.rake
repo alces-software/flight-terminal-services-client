@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
+# Copyright (C) 2018 Stephen F. Norledge and Alces Flight Ltd.
 #
 # This file is part of Alces Launch.
 #
@@ -9,12 +9,12 @@
 
 namespace :alces do
   namespace :credits do
-    desc "Reduce remaining credits for all users and take appropriate action"
-    task :reduce => :environment do |args|
-      ap_end = Time.now.utc
-      User.all.each do |user|
-        ReduceUsersCreditsJob.perform_now(user, ap_end)
-      end
-    end
+    desc "Process credits for users and credit limits for clusters"
+    task :process => [
+      :environment,
+      :'alces:clusters:status:update',
+      :'alces:clusters:credits:exceeded:process',
+      :'alces:users:credits:reduce',
+    ]
   end
 end

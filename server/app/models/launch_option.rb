@@ -10,10 +10,10 @@ class LaunchOption
   include ActiveModel::Model
   include ActiveModel::Serializers::JSON
 
-  attr_accessor :name
+  attr_accessor :charging_model
   attr_accessor :description
-  attr_accessor :cost_per_hour
   attr_accessor :fly
+  attr_accessor :name
 
   # Return a list of command line arguments for Flight Attendant's cluster
   # launch command.
@@ -43,10 +43,18 @@ class LaunchOption
 
   def attributes
     {
-      'name' => nil,
+      'charging_model' => nil,
       'description' => nil,
-      'cost_per_hour' => nil,
       'fly' => nil,
+      'name' => nil,
     }
+  end
+
+  def upfront_cost_per_hour
+    @charging_model['upfront']['clusterCostPerHour']
+  end
+
+  def master_node_cost_per_hour
+    @charging_model['ongoing']['masterNodeCostPerHour']
   end
 end
