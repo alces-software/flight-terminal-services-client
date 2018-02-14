@@ -8,6 +8,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+function mkPluralization(singular, plural) {
+  return function(number) {
+    return number === 1 ? singular : plural;
+  };
+}
+const unitOrUnits = mkPluralization('unit', 'units');
+const dayOrDays = mkPluralization('day', 'days');
+const hourOrHours = mkPluralization('hour', 'hours');
+const minuteOrMinutes = mkPluralization('minute', 'minutes');
+
 const propTypes = {
   chargingModel: PropTypes.shape({
     upfront: PropTypes.shape({
@@ -53,11 +63,12 @@ function calculateRuntime(clusterCostPerHour, tokenCredits) {
   }
 
   if (days > 0) {
-    return `${days} days and ${hours} hours`;
+    return `${days} ${dayOrDays(days)} and ${hours} ${hourOrHours(hours)}`;
   } else if (hours < 1) {
-    return `${Math.trunc(minutes)} minutes`;
+    return `${Math.trunc(minutes)} ${minuteOrMinutes(minutes)}`;
   }
-  return `${hours}${fuzzyMinutes} hours`;
+  let unit = fuzzyMinutes === '' ? hourOrHours(hours) : 'hours';
+  return `${hours}${fuzzyMinutes} ${unit}`;
 }
 
 const ClusterRuntimeExplanation = ({
@@ -133,7 +144,7 @@ const ClusterRuntimeExplanation = ({
     <p>
       {selections}{' '}
       you have selected for this cluster will consume{' '}
-      <strong>{creditCost}{' '}compute units</strong>.
+      <strong>{creditCost}{' '}compute {unitOrUnits(creditCost)}</strong>.
       The compute units will be subtracted from your account when the cluster
       begins to launch.  When the cluster's runtime has elapsed, the cluster
       will be <strong>shut down automatically</strong>.

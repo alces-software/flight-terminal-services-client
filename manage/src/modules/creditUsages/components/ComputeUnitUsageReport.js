@@ -11,6 +11,13 @@ import * as selectors from '../selectors';
 import withCreditUsageContext from './withCreditUsageContext';
 import { CardMedias, CardMedia } from './CardMedia';
 
+function mkPluralization(singular, plural) {
+  return function(number) {
+    return number === 1 ? singular : plural;
+  };
+}
+const unitOrUnits = mkPluralization('unit', 'units');
+
 const ComputeUnitUsageReport = ({
   className,
   cluster,
@@ -59,14 +66,18 @@ const ComputeUnitUsageReport = ({
           {
             currentCreditConsumption == null
               ? <span>N/A</span>
-              : <span>{currentCreditConsumption} compute units per-hour.</span>
+              : <span>
+                {currentCreditConsumption} compute 
+                {' '}{unitOrUnits(currentCreditConsumption)} per-hour.
+              </span>
           }
         </CardMedia>
         <CardMedia
           iconName="ticket"
           title="Total consumption:"
         >
-          {totalCreditConsumption} compute units.
+          {totalCreditConsumption} compute
+          {' '}{unitOrUnits(totalCreditConsumption)}.
         </CardMedia>
         <CardMedia
           iconName="bullseye"
@@ -74,7 +85,10 @@ const ComputeUnitUsageReport = ({
         >
           {
             cluster.attributes.maxCreditUsage
-              ? <span>{cluster.attributes.maxCreditUsage} compute units.</span>
+              ? <span>
+                {cluster.attributes.maxCreditUsage} compute
+                {' '}{unitOrUnits(cluster.attributes.maxCreditUsage)}.
+              </span>
               : <span>N/A</span>
           }
         </CardMedia>

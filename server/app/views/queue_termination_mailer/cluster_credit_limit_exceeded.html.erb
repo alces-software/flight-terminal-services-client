@@ -13,9 +13,10 @@ terminated shortly.
 </p>
 
 <p>
-The cluster will continue running for <%= @grace_period_in_hours %> hours,
-allowing you access to save any work.  After <%= @grace_period_in_hours %>
-hours, the cluster will be terminated.
+The cluster will continue running for <%= @grace_period_in_hours %> <%=
+'hour'.pluralize(@grace_period_in_hours) %>, allowing you access to save any
+work.  After <%= @grace_period_in_hours %> <%=
+'hour'.pluralize(@grace_period_in_hours) %>, the cluster will be terminated.
 </p>
 
 <% note do %>

@@ -10,6 +10,13 @@ import launchUsers from '../../../modules/launchUsers';
 import * as selectors from '../selectors';
 import * as actions from '../actions';
 
+function mkPluralization(singular, plural) {
+  return function(number) {
+    return number === 1 ? singular : plural;
+  };
+}
+const unitOrUnits = mkPluralization('unit', 'units');
+
 const UnexpectedMessage = () => (
   <div>
     <p>
@@ -29,7 +36,7 @@ function hasError(errorDetails, prop, error) {
 const SuccessMessage = ({ computeCredits }) => (
   <span>
     Your account has been successfully updated.  You now have {computeCredits}
-    {' '}compute units available.
+    {' '}compute {unitOrUnits(computeCredits)} available.
   </span>
 );
 SuccessMessage.propTypes = {
