@@ -74,12 +74,12 @@ const ClusterRuntimeExplanation = ({
       return (
         <div>
           <p>
-            Launching this cluster will consume the compute credits assigned to
-            your account.  It will continue running until either you terminate
-            it, it reaches its credit consumption limit or your account runs
-            out of credits.  If it reaches its credit consumption limit or
-            your account runs out of credits, the cluster will be <strong>shut
-              down automatically</strong>.
+            Launching this cluster will consume your Alces Flight compute
+            units, whilst it continues to run.  If the cluster reaches it
+            compute unit consumption limit or your account runs out of compute
+            units the cluster will be <strong>shut down
+              automatically</strong>.  You can terminate the cluster at any
+            point to prevent further compute unit consumption.
           </p>
         </div>
       );
@@ -87,11 +87,11 @@ const ClusterRuntimeExplanation = ({
     return (
       <div>
         <p>
-          Launching this cluster will consume the compute credits assigned to
-          your account.  It will continue running until either you terminate
-          it, or your account runs out of credits.  Once your account runs out
-          of credits, the cluster will be <strong>shut down
-            automatically</strong>.
+          Launching this cluster will consume your Alces Flight compute units,
+          whilst it continues to run.  If your account runs out of compute
+          units the cluster will be <strong>shut down automatically</strong>.
+          You can terminate the cluster at any point to prevent further
+          compute unit consumption.
         </p>
       </div>
     );
@@ -132,11 +132,11 @@ const ClusterRuntimeExplanation = ({
   return (
     <p>
       {selections}{' '}
-      you have selected will cost{' '}
-      <strong>{creditCost}{' '}credits</strong> for this cluster.
-      Your account will be charged for these credits when the cluster begins
-      to launch.  When the cluster's runtime has elapsed,
-      the cluster will be <strong>shut down automatically</strong>.
+      you have selected for this cluster will consume{' '}
+      <strong>{creditCost}{' '}compute units</strong>.
+      The compute units will be subtracted from your account when the cluster
+      begins to launch.  When the cluster's runtime has elapsed, the cluster
+      will be <strong>shut down automatically</strong>.
     </p>
   );
 };

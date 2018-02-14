@@ -28,12 +28,12 @@ const UserComputeUnitUsageReport = ({
     <CardMedias>
       <CardMedia
         iconName="ticket"
-        title="Current compute credits:"
+        title="Current compute units:"
       >
         {
           user == null
             ? null
-            : <span>{user.attributes.computeCredits} compute credits.</span>
+            : <span>{user.attributes.computeCredits} compute units.</span>
         }
       </CardMedia>
       <CardMedia
@@ -48,12 +48,12 @@ const UserComputeUnitUsageReport = ({
       </CardMedia>
       <CardMedia
         iconName="line-chart"
-        title="Credit burn rate:"
+        title="Component unit burn rate:"
       >
         {
           usersCreditConsumption == null
             ? <span>N/A</span>
-            : <span>{usersCreditConsumption} compute credits per-hour.</span>
+            : <span>{usersCreditConsumption} compute units per-hour.</span>
         }
       </CardMedia>
     </CardMedias>

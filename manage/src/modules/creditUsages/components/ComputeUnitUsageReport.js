@@ -30,7 +30,7 @@ const ComputeUnitUsageReport = ({
       outline={outlineStatus}
     >
       <CardHeader>
-        <span>Compute credit usage</span>
+        <span>Compute unit usage</span>
         <span className="pull-right">
           <FontAwesome name="line-chart" />
         </span>
@@ -48,33 +48,33 @@ const ComputeUnitUsageReport = ({
         >
           {
             isTerminated
-              ? 'Terminated.  No longer consuming credits.'
-              : 'Running.  Currently consuming credits.'
+              ? 'Terminated.  No longer consuming compute units.'
+              : 'Running.  Currently consuming compute units.'
           }
         </CardMedia>
         <CardMedia
           iconName="line-chart"
-          title="Credit burn rate:"
+          title="Compute unit burn rate:"
         >
           {
             currentCreditConsumption == null
               ? <span>N/A</span>
-              : <span>{currentCreditConsumption} compute credits per-hour.</span>
+              : <span>{currentCreditConsumption} compute units per-hour.</span>
           }
         </CardMedia>
         <CardMedia
           iconName="ticket"
-          title="Total credit consumption:"
+          title="Total consumption:"
         >
-          {totalCreditConsumption} compute credits.
+          {totalCreditConsumption} compute units.
         </CardMedia>
         <CardMedia
           iconName="bullseye"
-          title="Credit limit:"
+          title="Consumption limit:"
         >
           {
             cluster.attributes.maxCreditUsage
-              ? <span>{cluster.attributes.maxCreditUsage} compute credits.</span>
+              ? <span>{cluster.attributes.maxCreditUsage} compute units.</span>
               : <span>N/A</span>
           }
         </CardMedia>

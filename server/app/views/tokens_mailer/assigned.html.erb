@@ -29,7 +29,7 @@ branding_header %>.  You can find your token details below.
                     <dl>
                         <dt>Launch token</dt>
                         <dd><%= @token.name %></dd>
-                        <dt>Allocated credits</dt>
+                        <dt>Allocated compute units</dt>
                         <dd><%= @token.credits %></dd>
                         <% unless @tenant.identifier == 'default' %>
                             <dt>Tenant</dt>

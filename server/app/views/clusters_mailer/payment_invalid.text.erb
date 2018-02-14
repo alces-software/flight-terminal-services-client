@@ -10,14 +10,14 @@ Unfortunately, we are not able to launch your <%= @cluster_spec_name %>
 "<%= @cluster_name %>".
 
 <%- if @payment.using_upfront_credits? -%>
-  Your account no longer has sufficient credits to run the cluster for the
-  desired duration.  If you add sufficient credits to your account you will
-  then be able to re-launch the cluster.
+Your account no longer has sufficient compute units to run the cluster for
+the desired duration.  If you add sufficient compute units to your account
+you will then be able to re-launch the cluster.
 <%- end -%>
 <%- if @payment.using_ongoing_credits? -%>
-  Your account no longer has sufficient credits to run the cluster.  If you
-  add sufficient credits to your account you will then be able to re-launch
-  the cluster.
+Your account no longer has sufficient compute units to run the cluster.  If
+you add sufficient compute units to your account you will then be able to
+re-launch the cluster.
 <%- end -%>
 
 <% note do %>

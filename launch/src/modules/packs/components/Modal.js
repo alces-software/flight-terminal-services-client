@@ -29,7 +29,7 @@ function hasError(errorDetails, prop, error) {
 const SuccessMessage = ({ computeCredits }) => (
   <span>
     Your account has been successfully updated.  You now have {computeCredits}
-    {' '}compute credits available.
+    {' '}compute units available.
   </span>
 );
 SuccessMessage.propTypes = {
@@ -69,7 +69,7 @@ const Modal = ({
   <StandardModal
     isOpen={isOpen}
     size="lg"
-    title={modalErrors ? "Account update failed" : "Account credits updated"}
+    title={modalErrors ? "Compute unit top up failed" : "Compute units topped up"}
     toggle={closeModal}
   >
     {
