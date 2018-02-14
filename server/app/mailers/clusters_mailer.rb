@@ -12,6 +12,9 @@ class ClustersMailer < ApplicationMailer
     @cluster_name = launch_config.name
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @payment = launch_config.payment
+
+    mail to: launch_config.email,
+      subject: "Your Alces Flight Compute HPC cluster has failed to launch"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
