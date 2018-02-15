@@ -9,10 +9,11 @@ main() {
     abort_if_uncommitted_changes_present
 
     # XXX Should this check be made in deploy.sh?
+    header "Checking build variables for launch client"
     local app_mode app_nav_mode
     app_mode=$(get_app_mode)
     app_nav_mode=$(get_app_nav_mode)
-    header "Building launch client with"
+    subheader "Building launch client with"
     echo "  app mode = ${app_mode}"
     echo "  app nav mode = ${app_nav_mode}"
     wait_for_confirmation
