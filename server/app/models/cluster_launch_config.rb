@@ -63,6 +63,12 @@ class ClusterLaunchConfig
     errors.add(:payment, 'invalid') unless payment.valid?
   end
 
+  def max_credit_usage=(value)
+    @max_credit_usage = Integer(value)
+  rescue ArgumentError
+    @max_credit_usage = value
+  end
+
   def access_key
     Rails.configuration.alces.access_key
   end

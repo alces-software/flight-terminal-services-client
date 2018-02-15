@@ -13,11 +13,16 @@ Your <%= @cluster_spec_name %> "<%= @cluster_name %>" will begin launching short
 Once you are in flight, the evaluation period for your Alces Flight Compute
 HPC cluster will be <%= @runtime %>.  Please remember to save your work as you go
 as, once the trial completes, the cluster will shutdown automatically.
+<%- elsif @max_credit_usage.present? -%>
+This cluster will consume your compute units until it is terminated or it
+reaches its limit of <%= @max_credit_usage %> compute <%=
+'unit'.pluralize(@max_credit_usage) %>.  Should your account run out of
+compute units then your cluster will be shut down automatically.  Please
+remember to save your work as you go.
 <%- else -%>
-    This cluster will consume your compute units until it is terminated (or it
-    reaches the compute unit limit you set at launch time).  Should your
-    account run out of compute units then your cluster will be shut down
-    automatically.  Please remember to save your work as you go.
+This cluster will consume your compute units until it is terminated.  Should
+your account run out of compute units then your cluster will be shut down
+automatically.  Please remember to save your work as you go.
 <%- end -%>
 
 You will receive another email shortly letting you know that your Alces Flight

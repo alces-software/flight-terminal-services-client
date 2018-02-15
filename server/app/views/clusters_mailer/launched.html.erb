@@ -19,11 +19,18 @@ cruising altitude and is available for use.
 Remember, the flight time for this cluster is <%= @runtime %>. Please
 remember to save your work.
 </p>
+<%- elsif @max_credit_usage.present? -%>
+<p>
+Remember, this cluster will consume your Alces Flight compute units until it
+is terminated or it reaches its limit of <%= @max_credit_usage %> compute <%=
+'unit'.pluralize(@max_credit_usage) %>.  If you run out of compute units the
+cluster will be shut down automatically.
+</p>
 <%- else -%>
 <p>
-Remember, this cluster will consume your account's compute credits until it is
-terminated.  If your account runs out of compute credits the cluster will be
-shut down automatically.
+Remember, this cluster will consume your Alces Flight compute units until it
+is terminated.  If you run out of compute units the cluster will be shut down
+automatically.
 </p>
 <%- end -%>
 

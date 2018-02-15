@@ -6,12 +6,12 @@
   All rights reserved, see LICENSE.txt.
 %>
 
-Your Alces Flight HPC cluster "<%= @cluster_name %>" has exceeded its credit
-limit.  To prevent unexpected charges being made to your account, all compute
-queues for the cluster will be terminated shortly.
+Your Alces Flight HPC cluster "<%= @cluster_name %>" has exceeded its compute
+unit consumption limit.  All compute queues for the cluster will be terminated
+shortly.
 
-The cluster will continue running for <%= @grace_period_in_hours %> hours, allowing you access to save
-any work.  After <%= @grace_period_in_hours %> hours, the cluster will be terminated.
+The cluster will continue running for <%= @grace_period_in_hours %> <%= 'hour'.pluralize(@grace_period_in_hours) %>, allowing you access to save
+any work.  After <%= @grace_period_in_hours %> <%= 'hour'.pluralize(@grace_period_in_hours) %>, the cluster will be terminated.
 
 <% note do %>
     You are receiving this email because you have started an Alces Flight

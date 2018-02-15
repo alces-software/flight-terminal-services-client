@@ -24,9 +24,9 @@ const SelectRuntimeInput = ({ error, id, onChange, onUseLaunchToken, value }) =>
     <Input
       error={error}
       help="Enter the number of hours for which you would like the cluster to
-      run.  Your account will have the appropriate number of credits deducted.
-      You will be given an opportunity to review this figure before the cluster
-      launches."
+      run.  Your account will have the appropriate number of compute units
+      deducted.  You will be given an opportunity to review this figure before
+      the cluster launches."
       id={`${id}-desired-runtime`}
       label="Enter the number of hours the cluster should run for"
       name="desiredRuntime"

@@ -51,9 +51,9 @@ function messageFromDetails(details) {
   } else if (hasPropError(details, 'payment.user', 'user has insufficient credits')) {
     return (
       <span>
-        Your Alces Flight account currently has insufficient compute credits
-        to launch that cluster.  You could add more compute credits to your
-        account or use a Launch token.
+        Your Alces Flight account currently has insufficient compute units
+        to launch that cluster.  You could add more compute units to your
+        account or use a launch token.
       </span>
     );
   } else if (hasPropError(details, 'cluster_name', 'taken')) {

@@ -16,6 +16,13 @@ import launchUsers from '../../launchUsers';
 import * as selectors from '../selectors';
 import { CardMedias, CardMedia } from './CardMedia';
 
+function mkPluralization(singular, plural) {
+  return function(number) {
+    return number === 1 ? singular : plural;
+  };
+}
+const unitOrUnits = mkPluralization('unit', 'units');
+
 const UserComputeUnitUsageReport = ({
   clusters,
   user,
@@ -28,12 +35,15 @@ const UserComputeUnitUsageReport = ({
     <CardMedias>
       <CardMedia
         iconName="ticket"
-        title="Current compute credits:"
+        title="Current compute units:"
       >
         {
           user == null
             ? null
-            : <span>{user.attributes.computeCredits} compute credits.</span>
+            : <span>
+              {user.attributes.computeCredits} compute
+              {' '}{unitOrUnits(user.attributes.computeCredits)}.
+            </span>
         }
       </CardMedia>
       <CardMedia
@@ -48,12 +58,15 @@ const UserComputeUnitUsageReport = ({
       </CardMedia>
       <CardMedia
         iconName="line-chart"
-        title="Credit burn rate:"
+        title="Compute unit burn rate:"
       >
         {
           usersCreditConsumption == null
             ? <span>N/A</span>
-            : <span>{usersCreditConsumption} compute credits per-hour.</span>
+            : <span>
+              {usersCreditConsumption} compute
+              {' '}{unitOrUnits(usersCreditConsumption)} per-hour.
+            </span>
         }
       </CardMedia>
     </CardMedias>

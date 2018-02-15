@@ -19,8 +19,8 @@ const LaunchConfirmationText = ({ isRuntimeFixed }) => {
         <p>
           You are about to launch an Alces Flight Compute HPC cluster through
           the Alces Flight Launch service.  By clicking the launch button you
-          understand your Alces Flight account will incur charges against its
-          compute credits whilst the cluster runs.  If your compute credits
+          understand that whilst the cluster is running it will consume some
+          of your Alces Flight account's compute units.  If your compute units
           run out, Alces Flight reserve the right to terminate the cluster
           without notice.
         </p>
