@@ -3326,9 +3326,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.29/flight-reactware.tgz":
-  version "0.1.29"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.29/flight-reactware.tgz#34cd29baa810f166754b664287d65b686d00aebe"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.31/flight-reactware.tgz":
+  version "0.1.31"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.31/flight-reactware.tgz#fd01df681c4d1bbed36d02c41e86a1c469d81ee2"
   dependencies:
     axios "^0.16.2"
     babel-preset-react-app "^3.0.1"
