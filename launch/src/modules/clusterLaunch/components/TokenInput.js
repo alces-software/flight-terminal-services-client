@@ -23,6 +23,7 @@ const propTypes = {
   value: PropTypes.string,
 };
 
+// XXX remove or keep use of "charges" below?
 const TokenInput = ({ error, id, onChange, value }) => (
   <Input
     error={error}

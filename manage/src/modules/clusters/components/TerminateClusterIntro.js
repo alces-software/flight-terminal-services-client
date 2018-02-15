@@ -10,8 +10,9 @@ const TerminateClusterIntro = ({ cluster, consumesCredits, hostname }) => {
     text = (
       <span>
         Once you have finished with your cluster you can terminate it to
-        prevent further charges by clicking the "Terminate" button below.
-        Please ensure that you have saved any work first.
+        prevent any further consumption of your compute units.  To do this
+        click the "Terminate" button below.  Please ensure that you have saved
+        any work first.
       </span>
     );
   } else {

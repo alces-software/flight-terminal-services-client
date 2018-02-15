@@ -2,6 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CardText } from 'reactstrap';
 
+function mkPluralization(singular, plural) {
+  return function(number) {
+    return number === 1 ? singular : plural;
+  };
+}
+const unitOrUnits = mkPluralization('unit', 'units');
+const nodeOrNodes = mkPluralization('node', 'nodes');
+
 const CardStatusText = ({
   consumesCredits,
   cuPerNode,
@@ -15,7 +23,8 @@ const CardStatusText = ({
         <div>
           <CardText>
             This queue is currently being configured by your cluster.  When
-            available, it will run {modification.desired} nodes, with a
+            available, it will run {modification.desired}
+            {' '}{nodeOrNodes(modification.desired)}, with a
             minimum of {' '}{modification.min} and a maximum of
             {' '}{modification.max}.
           </CardText>
@@ -24,9 +33,10 @@ const CardStatusText = ({
               ? (
                 <CardText>
                   When complete, this queue will consume {cuPerNode}{' '}
-                  compute units per-node per-hour, for a total consumption of
-                  {' '}{modification.desired * cuPerNode} compute units
-                  per-hour.
+                  compute {unitOrUnits(cuPerNode)} per-node per-hour, for a
+                  total consumption of
+                  {' '}{modification.desired * cuPerNode} compute
+                  {' '}{unitOrUnits(cuPerNode)} per-hour.
                 </CardText>
               )
               : null
@@ -40,7 +50,8 @@ const CardStatusText = ({
           <CardText>
             This queue is available to your cluster and is currently being
             reconfigured.  When complete, it will run
-            {' '}{modification.desired} nodes with a minimum of
+            {' '}{modification.desired} {nodeOrNodes(modification.desired)}{' '}
+            with a minimum of
             {' '}{modification.min} and a maximum of
             {' '}{modification.max}.
           </CardText>
@@ -48,9 +59,11 @@ const CardStatusText = ({
             consumesCredits
               ? (
                 <CardText>
-                  This queue consumes {cuPerNode} compute units per-node
-                  per-hour, for a total consumption of
-                  {' '}{modification.desired * cuPerNode}{' '} compute units
+                  This queue consumes {cuPerNode} compute
+                  {' '}{unitOrUnits(cuPerNode)} per-node per-hour, for a total
+                  consumption of
+                  {' '}{modification.desired * cuPerNode}{' '} compute
+                  {' '}{unitOrUnits(modification.desired * cuPerNode)}{' '}
                   per hour.
                 </CardText>
               )
@@ -64,17 +77,18 @@ const CardStatusText = ({
         <div>
           <CardText>
             This queue is available to your cluster.  It is running
-            {' '}{current.current} nodes with a minimum of {current.min} and a
-            maximum of {' '}{current.max}.
+            {' '}{current.current} {nodeOrNodes(current.current)} with a
+            minimum of {current.min} and a maximum of {current.max}.
           </CardText>
           {
             consumesCredits
               ? (
                 <CardText>
-                  This queue consumes {cuPerNode} compute units per-node
-                  per-hour, for a total consumption of
+                  This queue consumes {cuPerNode} compute
+                  {' '}{unitOrUnits(cuPerNode)} per-node per-hour, for a total
+                  consumption of
                   {' '}{current.current * cuPerNode}{' '}
-                  compute units per hour.
+                  compute {unitOrUnits(current.current * cuPerNode)} per hour.
                 </CardText>
               )
               : null
@@ -94,8 +108,8 @@ const CardStatusText = ({
               ? (
                 <CardText>
                   If added to your cluster, this queue will consume
-                  {' '}{cuPerNode}{' '} compute units per-node per-hour.
-                  Currently it consumes 0 compute units.
+                  {' '}{cuPerNode}{' '} compute {unitOrUnits(cuPerNode)}{' '}
+                  per-node per-hour.  Currently it consumes 0 compute units.
                 </CardText>
               )
               : null

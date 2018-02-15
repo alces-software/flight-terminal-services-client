@@ -57,7 +57,7 @@ const TopUpPage = () => {
             </p>
             <p>
               Once you’ve secured a token simply enter it into the form
-              opposite and click "Top up".  The token's credits will be
+              opposite and click "Top up".  The token's compute units will be
               allocated to your account and you can use them to launch an HPC
               cluster.
             </p>
@@ -76,7 +76,7 @@ const TopUpPage = () => {
             </h4>
             <p>
               Enter your Flight Launch token in the form below, and click "Top
-              up".  The token's credits will be allocated to your Flight
+              up".  The token's compute units will be allocated to your Flight
               account.
             </p>
             <TopUpForm />

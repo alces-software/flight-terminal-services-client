@@ -105,12 +105,12 @@ const QueueManagementPage = ({
                 available for general and GPU resource types)
               </li>
               <li>
-                <em>Economy</em> - value cost over availability; workloads
+                <em>Economy</em> - prioritizes cost over availability; workloads
                 have a small chance of being interrupted, but resources are
                 significantly cheaper to operate
               </li>
               <li>
-                <em>Durable</em> - value availability over cost; workloads
+                <em>Durable</em> - prioritizes availability over cost; workloads
                 will never be interrupted, but resources are more expensive to
                 operate
               </li>

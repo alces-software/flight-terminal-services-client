@@ -8,6 +8,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+function mkPluralization(singular, plural) {
+  return function(number) {
+    return number === 1 ? singular : plural;
+  };
+}
+const unitOrUnits = mkPluralization('unit', 'units');
+const dayOrDays = mkPluralization('day', 'days');
+const hourOrHours = mkPluralization('hour', 'hours');
+const minuteOrMinutes = mkPluralization('minute', 'minutes');
+
 const propTypes = {
   chargingModel: PropTypes.shape({
     upfront: PropTypes.shape({
@@ -53,11 +63,12 @@ function calculateRuntime(clusterCostPerHour, tokenCredits) {
   }
 
   if (days > 0) {
-    return `${days} days and ${hours} hours`;
+    return `${days} ${dayOrDays(days)} and ${hours} ${hourOrHours(hours)}`;
   } else if (hours < 1) {
-    return `${Math.trunc(minutes)} minutes`;
+    return `${Math.trunc(minutes)} ${minuteOrMinutes(minutes)}`;
   }
-  return `${hours}${fuzzyMinutes} hours`;
+  let unit = fuzzyMinutes === '' ? hourOrHours(hours) : 'hours';
+  return `${hours}${fuzzyMinutes} ${unit}`;
 }
 
 const ClusterRuntimeExplanation = ({
@@ -74,12 +85,12 @@ const ClusterRuntimeExplanation = ({
       return (
         <div>
           <p>
-            Launching this cluster will consume the compute credits assigned to
-            your account.  It will continue running until either you terminate
-            it, it reaches its credit consumption limit or your account runs
-            out of credits.  If it reaches its credit consumption limit or
-            your account runs out of credits, the cluster will be <strong>shut
-              down automatically</strong>.
+            Launching this cluster will consume your Alces Flight compute
+            units, whilst it continues to run.  If the cluster reaches it
+            compute unit consumption limit or your account runs out of compute
+            units the cluster will be <strong>shut down
+              automatically</strong>.  You can terminate the cluster at any
+            point to prevent further compute unit consumption.
           </p>
         </div>
       );
@@ -87,11 +98,11 @@ const ClusterRuntimeExplanation = ({
     return (
       <div>
         <p>
-          Launching this cluster will consume the compute credits assigned to
-          your account.  It will continue running until either you terminate
-          it, or your account runs out of credits.  Once your account runs out
-          of credits, the cluster will be <strong>shut down
-            automatically</strong>.
+          Launching this cluster will consume your Alces Flight compute units,
+          whilst it continues to run.  If your account runs out of compute
+          units the cluster will be <strong>shut down automatically</strong>.
+          You can terminate the cluster at any point to prevent further
+          compute unit consumption.
         </p>
       </div>
     );
@@ -132,11 +143,11 @@ const ClusterRuntimeExplanation = ({
   return (
     <p>
       {selections}{' '}
-      you have selected will cost{' '}
-      <strong>{creditCost}{' '}credits</strong> for this cluster.
-      Your account will be charged for these credits when the cluster begins
-      to launch.  When the cluster's runtime has elapsed,
-      the cluster will be <strong>shut down automatically</strong>.
+      you have selected for this cluster will consume{' '}
+      <strong>{creditCost}{' '}compute {unitOrUnits(creditCost)}</strong>.
+      The compute units will be subtracted from your account when the cluster
+      begins to launch.  When the cluster's runtime has elapsed, the cluster
+      will be <strong>shut down automatically</strong>.
     </p>
   );
 };

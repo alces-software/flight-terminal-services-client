@@ -18,8 +18,8 @@ import ComputeUnitUsageReport from '../components/ComputeUnitUsageReport';
 import UserComputeUnitUsageReport from '../components/UserComputeUnitUsageReport';
 
 const sections = {
-  overview: makeSection('Compute credit usage overview', 'overview', 'blue', 'ticket'), 
-  report: makeSection('Compute credit usage report', 'report', 'green', 'book'),
+  overview: makeSection('Compute unit usage overview', 'overview', 'blue', 'ticket'), 
+  report: makeSection('Compute unit usage report', 'report', 'green', 'book'),
 };
 
 const EqualHeightRow = styled(Row)`
@@ -40,16 +40,16 @@ const Report = ({ clusters }) => {
   return (
     <Container >
       <PageHeading
-        overview="View your current compute credits and your compute credit
+        overview="View your current compute units and your compute unit
         usage."
         sections={Object.values(sections)}
-        title="Your compute credit usage."
+        title="Your compute unit usage."
       />
       <Section
-        overview="Below you will find a list of all your clusters which have
-        consumed your compute credits."
+        overview="Below you will find an overview of your current compute
+        units."
         section={sections.overview}
-        title="Your current compute credits."
+        title="Your current compute units."
       >
         <Row>
           <Col
@@ -65,9 +65,9 @@ const Report = ({ clusters }) => {
       </Section>
       <Section
         overview="Below you will find a list of all your clusters which have
-        consumed your compute credits."
+        consumed your compute units."
         section={sections.report}
-        title="Your compute credit usage report."
+        title="Your compute unit usage report."
       >
         <EqualHeightRow>
           {
