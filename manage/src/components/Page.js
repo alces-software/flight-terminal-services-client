@@ -11,11 +11,12 @@ import { clusters } from '../modules';
 
 const Page = ({
   children,
+  cluster,
   clusterHostname,
   pageKey,
   title,
 }) => {
-  const items = getItems(clusterHostname);
+  const items = getItems(clusterHostname, cluster);
   return (
     <div>
       <Helmet>
@@ -35,11 +36,13 @@ const Page = ({
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,
+  cluster: PropTypes.object,
   clusterHostname: PropTypes.string,
   pageKey: PropTypes.string,
   title: PropTypes.string.isRequired,
 };
 
 export default connect(createStructuredSelector({
+  cluster: clusters.selectors.currentCluster,
   clusterHostname: clusters.selectors.hostname,
 }))(Page);
