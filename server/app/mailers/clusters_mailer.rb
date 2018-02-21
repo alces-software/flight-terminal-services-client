@@ -30,6 +30,7 @@ class ClustersMailer < ApplicationMailer
 
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @runtime = determine_runtime(launch_config)
+    @grace_period_in_hours = grace_period_in_hours
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster is now boarding"
@@ -82,5 +83,11 @@ class ClustersMailer < ApplicationMailer
     return nil unless payment.has_expiration?
 
     payment.runtime_in_minutes(humanized: true)
+  end
+
+  def grace_period_in_hours
+    gp = ENV['CREDIT_EXHAUSTION_CLUSTER_TERMINATION_GRACE_PERIOD'].to_i
+    gp = gp > 0 ? gp.hours : 24.hours
+    (gp / (60 * 60)).floor
   end
 end
