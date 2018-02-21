@@ -10,7 +10,7 @@ class QueueTerminationMailer < ApplicationMailer
 
   def user_credits_exceeded(user, clusters, grace_period)
     @grace_period_in_hours = (grace_period / (60 * 60)).floor
-    @cluster_names = clusters.map {|c| c.cluster_name }
+    @clusters = clusters
 
     mail to: user.email,
       subject: "Your Alces Flight Compute HPC compute queues are being terminated"
@@ -18,7 +18,7 @@ class QueueTerminationMailer < ApplicationMailer
 
   def cluster_credit_limit_exceeded(cluster, grace_period)
     @grace_period_in_hours = (grace_period / (60 * 60)).floor
-    @cluster_name = cluster.cluster_name
+    @cluster = cluster
 
     mail to: cluster.user.email,
       subject: "Your Alces Flight Compute HPC compute queues are being terminated"

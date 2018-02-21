@@ -21,13 +21,22 @@ compute units to your account your clusters will be terminated.
 </p>
 
 <p>
+During their grace period your clusters will continue to consume your compute
+units due to the running login node.  Once you have saved your work, you can
+terminate the cluster to prevent any further consumption.
+</p>
+
+<p>
 The clusters affected are:
 </p>
 
 <ul>
-<% @cluster_names.each do |cluster_name| %>
-    <li><%= cluster_name %></li>
-<% end %>
+    <% @clusters.each do |cluster| %>
+        <li>
+            <%= cluster.cluster_name %> &mdash;
+            <%= link_to 'terminate', cluster_terminate_url(cluster) %>
+        </li>
+    <% end %>
 </ul>
 
 <% note do %>

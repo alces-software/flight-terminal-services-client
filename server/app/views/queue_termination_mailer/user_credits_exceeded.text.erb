@@ -17,8 +17,8 @@ clusters will be terminated.
 
 The clusters affected are:
 
-<% @cluster_names.each do |cluster_name| %>
-  - <%= cluster_name %>
+<% @clusters.each do |cluster| %>
+  * <%= cluster.cluster_name %> -- <%= link_to 'terminate', cluster_terminate_url(cluster) %>
 <% end %>
 
 <% note do %>
