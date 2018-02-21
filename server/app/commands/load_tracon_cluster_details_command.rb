@@ -17,10 +17,23 @@ class LoadTraconClusterDetailsCommand
   def perform
   end
 
+  def web_access_url
+    outputs['WebAccess']
+  end
+
+  def resolved_web_access_url
+    index_doc = web_access_url.ends_with?('/') ?
+      "#{web_access_url}www/index.json" :
+      "#{web_access_url}/www/index.json"
+    resolved_url = UrlResolver.new.resolve(index_doc)
+    resolved_url.host
+  end
+
   def available_queues
     @available_queues ||=
       begin
-        Alces.app.logger.info("Requesting tracon available queue details for cluster #{fqdn}")
+        msg = "Requesting tracon available queue details for cluster #{@cluster.fully_qualified_stack_name}"
+        Alces.app.logger.info(msg)
         response = make_request(available_queues_uri)
         return nil if response.nil?
         response.reduce([]) do |a, q|
@@ -38,7 +51,8 @@ class LoadTraconClusterDetailsCommand
   def current_queues
     @current_queues ||=
       begin
-        Alces.app.logger.info("Requesting tracon current queue details for cluster #{fqdn}")
+        msg = "Requesting tracon current queue details for cluster #{@cluster.fully_qualified_stack_name}"
+        Alces.app.logger.info(msg)
         response = make_request(current_queues_uri)
         return nil if response.nil?
         response.map do |q|
@@ -49,10 +63,24 @@ class LoadTraconClusterDetailsCommand
 
   private
 
+  def outputs
+    return {} if details.nil?
+    details['outputs']
+  end
+
+  def details
+    @details ||=
+      begin
+        msg = "Requesting tracon details for cluster #{@cluster.fully_qualified_stack_name}"
+        Alces.app.logger.info(msg)
+        make_request(cluster_details_uri)
+      end
+  end
+
   def make_request(uri)
     body = open(
       uri.to_s,
-      http_basic_authentication: [fqdn, @cluster.auth_token]
+      http_basic_authentication: [@cluster.fully_qualified_stack_name, @cluster.auth_token]
     ).read
     if body.empty?
       nil
@@ -70,10 +98,6 @@ class LoadTraconClusterDetailsCommand
       Alces.app.logger.info(msg)
       nil
     end
-  end
-
-  def fqdn
-    "#{@cluster.qualified_name}.#{@cluster.domain}"
   end
 
   def cluster_details_uri
