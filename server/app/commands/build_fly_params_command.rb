@@ -33,7 +33,7 @@ class BuildFlyParamsCommand
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
       *@launch_config.spec.args,
-      *@launch_config.payment.launch_option.args,
+      *@launch_config.launch_option.args,
       *launch_config_key_pair_and_region,
       '--parameter-directory', @parameter_dir,
       *runtime_flag,

@@ -14,23 +14,19 @@ class ClusterLaunchJob < ApplicationJob
     launch_config_params:,
     launch_option_params:,
     payment_params:,
-    tenant:,
-    token:,
-    user:
+    tenant:
   )
     begin
       spec = ClusterSpec.new(cluster_spec_params)
       launch_option = LaunchOption.new(launch_option_params)
       payment = Payment.new(payment_params.merge(
         cluster_spec: spec,
-        launch_option: launch_option,
-        token: token,
-        user: user,
       ))
       launch_config = ClusterLaunchConfig.new(launch_config_params)
       launch_config.payment = payment
       launch_config.spec = spec
       launch_config.tenant = tenant
+      launch_config.launch_option = launch_option
       if Rails.env.development? && ENV['SKIP_LAUNCH'] == 'true'
         msg = "Not launching cluster. Change SKIP_LAUNCH environment " +
           "variable to launch clusters"

@@ -121,7 +121,8 @@ class LaunchClusterCommand
       ).merge(
         id: uuid,
         auth_token: auth_token,
-        status: 'CREATE_COMPLETE'
+        status: 'CREATE_COMPLETE',
+        payment: @launch_config.payment,
       )
     )
   end

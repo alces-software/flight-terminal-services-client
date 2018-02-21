@@ -25,6 +25,7 @@ class Cluster < ApplicationRecord
   belongs_to :user
   has_many :compute_queue_actions
   has_many :credit_usages
+  has_one :payment
 
   validates :auth_token,
     length: {maximum: 255},
@@ -121,7 +122,7 @@ class Cluster < ApplicationRecord
 
     def master_node_cost_per_hour(payment)
       return nil unless payment.using_ongoing_credits?
-      payment.launch_option.master_node_cost_per_hour
+      payment.master_node_cost_per_hour
     end
   end
 

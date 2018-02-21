@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201133011) do
+ActiveRecord::Schema.define(version: 20180221154631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,22 @@ ActiveRecord::Schema.define(version: 20180201133011) do
     t.datetime "updated_at",                          null: false
     t.integer  "master_node_cu_in_use",               null: false
     t.index ["cluster_id"], name: "index_credit_usages_on_cluster_id", using: :btree
+  end
+
+  create_table "payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer  "master_node_cost_per_hour"
+    t.integer  "max_credit_usage"
+    t.integer  "runtime"
+    t.integer  "upfront_cost_per_hour"
+    t.string   "method",                    limit: 64, null: false
+    t.uuid     "cluster_id",                           null: false
+    t.uuid     "token_id"
+    t.uuid     "user_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["cluster_id"], name: "index_payments_on_cluster_id", using: :btree
+    t.index ["token_id"], name: "index_payments_on_token_id", using: :btree
+    t.index ["user_id"], name: "index_payments_on_user_id", using: :btree
   end
 
   create_table "tenants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -112,5 +128,8 @@ ActiveRecord::Schema.define(version: 20180201133011) do
   add_foreign_key "clusters", "users", on_update: :cascade, on_delete: :restrict
   add_foreign_key "compute_queue_actions", "clusters", on_update: :cascade, on_delete: :restrict
   add_foreign_key "credit_usages", "clusters", on_update: :cascade, on_delete: :restrict
+  add_foreign_key "payments", "clusters", on_update: :cascade, on_delete: :restrict
+  add_foreign_key "payments", "tokens", on_update: :cascade, on_delete: :restrict
+  add_foreign_key "payments", "users", on_update: :cascade, on_delete: :restrict
   add_foreign_key "tokens", "tenants", on_update: :cascade, on_delete: :restrict
 end

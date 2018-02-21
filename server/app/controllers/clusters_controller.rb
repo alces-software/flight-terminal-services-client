@@ -16,7 +16,7 @@ class ClustersController < ApplicationController
     payment = cluster_launch_config.payment
     if cluster_launch_config.invalid?
       errors = cluster_launch_config.errors.messages
-      errors.merge!(payment: payment.errors.messages) if payment.invalid?
+      errors.merge!(payment: payment.errors.messages) if payment.invalid?(:queue)
       render status: :unprocessable_entity, json: {
         status: 422,
         error: 'Unprocessable Entity',
@@ -33,9 +33,7 @@ class ClustersController < ApplicationController
         cluster_spec_params: cluster_launch_config.spec.as_json,
         tenant: cluster_launch_config.tenant,
         payment_params: payment.as_json,
-        token: payment.token,
-        launch_option_params: payment.launch_option.as_json,
-        user: payment.user,
+        launch_option_params: cluster_launch_config.launch_option.as_json,
       )
     rescue
       Rails.logger.warn("Queueing cluster launch failed: #{$!.message}")
@@ -72,11 +70,13 @@ class ClustersController < ApplicationController
     cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
     launch_option = LaunchOption.new(launch_option_params(cluster_spec))
     payment.cluster_spec = cluster_spec
-    payment.launch_option = launch_option
+    payment.upfront_cost_per_hour = launch_option.upfront_cost_per_hour
+    payment.master_node_cost_per_hour = launch_option.master_node_cost_per_hour
     config_params = cluster_launch_config_params.merge(
       spec: cluster_spec,
       tenant: tenant,
       payment: payment,
+      launch_option: launch_option,
     )
     ClusterLaunchConfig.new(config_params)
   rescue ClusterSpec::Error, TokenNotFound
@@ -88,7 +88,6 @@ class ClustersController < ApplicationController
     params.require(:payment).permit(:method, :runtime).tap do |h|
       h.require(:method)
       h['user'] = current_user
-      h['validation_state'] = 'about_to_queue'
     end
   end
 

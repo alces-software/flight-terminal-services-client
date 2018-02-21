@@ -34,6 +34,7 @@ class ClusterLaunchConfig
   attr_accessor :payment
   attr_accessor :queues
   attr_accessor :max_credit_usage
+  attr_accessor :launch_option
 
   def attributes
     {
