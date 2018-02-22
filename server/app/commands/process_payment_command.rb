@@ -21,22 +21,13 @@ class ProcessPaymentCommand
       # running.
       ProcessPayment::NoopPaymentProcessor.new(launch_config)
     else
-      raise UnknownPaymentType, launch_config.payment_method
+      raise UnknownPaymentType, launch_config.payment.method
     end
   end
 
   def initialize(launch_config)
     @launch_config = launch_config
     @payment = launch_config.payment
-  end
-
-  def valid_to_launch?
-    @payment.valid?(:launch).tap do |is_valid|
-      log_invalid_reason unless is_valid
-    end
-  end
-
-  def log_invalid_reason
   end
 
   def send_invalid_email?

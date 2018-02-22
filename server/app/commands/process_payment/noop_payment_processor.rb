@@ -8,10 +8,6 @@
 
 module ProcessPayment
   class NoopPaymentProcessor < ProcessPaymentCommand
-    def valid_to_launch?
-      true
-    end
-
     def process_about_to_queue
     end
 

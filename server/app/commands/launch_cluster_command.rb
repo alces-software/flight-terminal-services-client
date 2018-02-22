@@ -30,6 +30,7 @@ class LaunchClusterCommand
 
   def initialize(launch_config)
     @launch_config = launch_config
+    @payment = @launch_config.payment
     @payment_processor = ProcessPaymentCommand.load(@launch_config)
   end
 
@@ -37,7 +38,8 @@ class LaunchClusterCommand
     Rails.logger.info("Launching cluster #{@launch_config.name} " +
                       "with spec #{@launch_config.spec.inspect}")
 
-    unless @payment_processor.valid_to_launch?
+    unless @payment.valid?(:launch)
+      Rails.logger.info("Payment invalid: #{@payment.errors.details.inspect}")
       send_payment_invalid_email
       return
     end
