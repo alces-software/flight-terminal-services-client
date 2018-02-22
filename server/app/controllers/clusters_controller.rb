@@ -40,6 +40,7 @@ class ClustersController < ApplicationController
     rescue
       Rails.logger.warn("Queueing cluster launch failed: #{$!.message}")
       payment_processor.process_queue_failed
+      raise
     end
 
     render(
