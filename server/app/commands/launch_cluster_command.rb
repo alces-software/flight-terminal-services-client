@@ -28,15 +28,18 @@ require 'tmpdir'
 class LaunchClusterCommand
   delegate :stdout, :stderr, to: :@runner
 
-  def initialize(launch_config)
+  def initialize(cluster_spec:, launch_config:, launch_option:, payment:, tenant:)
+    @cluster_spec = cluster_spec
     @launch_config = launch_config
-    @payment = @launch_config.payment
-    @payment_processor = ProcessPaymentCommand.load(@launch_config)
+    @launch_option = launch_option
+    @payment = payment
+    @payment_processor = ProcessPaymentCommand.load(payment, launch_config.email)
+    @tenant = tenant
   end
 
   def perform
     Rails.logger.info("Launching cluster #{@launch_config.name} " +
-                      "with spec #{@launch_config.spec.inspect}")
+                      "with spec #{@cluster_spec.inspect}")
 
     unless @payment.valid?(:launch)
       Rails.logger.info("Payment invalid: #{@payment.errors.details.inspect}")
@@ -46,10 +49,16 @@ class LaunchClusterCommand
 
     begin
       @payment_processor.process_about_to_launch
-      BuildParameterDirectoryCommand.new(parameter_dir, @launch_config.spec, @launch_config).
-        perform
-      @fly_params = BuildFlyParamsCommand.new(parameter_dir, @launch_config).
-        perform
+      BuildParameterDirectoryCommand.new(
+        parameter_dir, @cluster_spec, @launch_config, @launch_option
+      ).perform
+      @fly_params = BuildFlyParamsCommand.new(
+        parameter_dir,
+        @cluster_spec,
+        @launch_config,
+        @launch_option,
+        @payment
+      ).perform
       @runner = FlyRunner.new(@fly_params, @launch_config)
       send_about_to_launch_email
       @runner.perform
@@ -83,12 +92,12 @@ class LaunchClusterCommand
 
   def send_payment_invalid_email
     return unless @payment_processor.send_invalid_email?
-    ClustersMailer.payment_invalid(@launch_config).
+    ClustersMailer.payment_invalid(@cluster_spec, @launch_config, @payment).
       deliver_now
   end
 
   def send_about_to_launch_email
-    ClustersMailer.about_to_launch(@launch_config).
+    ClustersMailer.about_to_launch(@cluster_spec, @launch_config, @payment, @tenant).
       deliver_now
   end
 
@@ -96,15 +105,20 @@ class LaunchClusterCommand
     unless @runner.nil?
       err = ParseFlyStderrCommand.new(@runner.stderr).perform
     end
-    ClustersMailer.failed(@launch_config, err).
+    ClustersMailer.failed(@cluster_spec, @launch_config, err, @tenant).
       deliver_now
   rescue
     Rails.logger.info("$!: #{$!.inspect}")
   end
 
   def send_completed_email
-    ClustersMailer.launched(@launch_config, @runner.stdout).
-      deliver_now
+    ClustersMailer.launched(
+      @cluster_spec,
+      @launch_config,
+      @runner.stdout,
+      @payment,
+      @tenant,
+    ).deliver_now
   end
 
   def create_cluster_model
@@ -119,12 +133,16 @@ class LaunchClusterCommand
       {}.merge(
         Cluster.attributes_from_launch_config(@launch_config)
       ).merge(
+        Cluster.attributes_from_cluster_spec(@cluster_spec)
+      ).merge(
+        Cluster.attributes_from_payment(@payment)
+      ).merge(
         Cluster.attributes_from_fly_params(@fly_params)
       ).merge(
         id: uuid,
         auth_token: auth_token,
         status: 'CREATE_COMPLETE',
-        payment: @launch_config.payment,
+        payment: @payment,
       )
     )
   end

@@ -9,25 +9,25 @@
 class ProcessPaymentCommand
   class UnknownPaymentType < RuntimeError; end
 
-  def self.load(launch_config)
-    case launch_config.payment.method
+  def self.load(payment, email)
+    case payment.method
     when 'token'
-      ProcessPayment::TokenPaymentProcessor.new(launch_config)
+      ProcessPayment::TokenPaymentProcessor.new(payment, email)
     when 'credits:upfront'
-      ProcessPayment::CreditsUpFrontPaymentProcessor.new(launch_config)
+      ProcessPayment::CreditsUpFrontPaymentProcessor.new(payment, email)
     when 'credits:ongoing'
       # No processing of payment is required here.  Credits will be
       # periodically removed from the user's account whilst the cluster is
       # running.
-      ProcessPayment::NoopPaymentProcessor.new(launch_config)
+      ProcessPayment::NoopPaymentProcessor.new(payment, email)
     else
-      raise UnknownPaymentType, launch_config.payment.method
+      raise UnknownPaymentType, payment.method
     end
   end
 
-  def initialize(launch_config)
-    @launch_config = launch_config
-    @payment = launch_config.payment
+  def initialize(payment, email)
+    @payment = payment
+    @email = email
   end
 
   def send_invalid_email?

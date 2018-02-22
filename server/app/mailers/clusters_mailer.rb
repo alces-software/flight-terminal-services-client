@@ -8,10 +8,10 @@
 #==============================================================================
 class ClustersMailer < ApplicationMailer
 
-  def payment_invalid(launch_config)
+  def payment_invalid(cluster_spec, launch_config, payment)
     @cluster_name = launch_config.name
-    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @payment = launch_config.payment
+    @cluster_spec_name = cluster_spec.meta['titleLowerCase'] || 'cluster'
+    @payment = payment
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster has failed to launch"
@@ -22,14 +22,14 @@ class ClustersMailer < ApplicationMailer
   #
   #   en.clusters_mailer.about_to_launch.subject
   #
-  def about_to_launch(launch_config)
+  def about_to_launch(cluster_spec, launch_config, payment, tenant)
     @cluster_name = launch_config.name
-    @tenant = launch_config.tenant
-    @payment = launch_config.payment
+    @tenant = tenant
+    @payment = payment
     @max_credit_usage = @payment.max_credit_usage
 
-    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @runtime = determine_runtime(launch_config)
+    @cluster_spec_name = cluster_spec.meta['titleLowerCase'] || 'cluster'
+    @runtime = determine_runtime(payment)
     @grace_period_in_hours = grace_period_in_hours
 
     mail to: launch_config.email,
@@ -41,15 +41,15 @@ class ClustersMailer < ApplicationMailer
   #
   #   en.clusters_mailer.launched.subject
   #
-  def launched(launch_config, output)
+  def launched(cluster_spec, launch_config, output, payment, tenant)
     @parsed_output = ParseOutputCommand.new(output).perform
     @cluster_details = @parsed_output.details
     @access_details = @parsed_output.access
     @cluster_name = launch_config.name
-    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
-    @runtime = determine_runtime(launch_config)
-    @tenant = launch_config.tenant
-    @payment = launch_config.payment
+    @cluster_spec_name = cluster_spec.meta['titleLowerCase'] || 'cluster'
+    @runtime = determine_runtime(payment)
+    @tenant = tenant
+    @payment = payment
     @max_credit_usage = @payment.max_credit_usage
 
     @resources = @parsed_output.resources.
@@ -66,11 +66,11 @@ class ClustersMailer < ApplicationMailer
   #
   #   en.clusters_mailer.failed.subject
   #
-  def failed(launch_config, error)
+  def failed(cluster_spec, launch_config, error, tenant)
     @cluster_name = launch_config.name
-    @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
+    @cluster_spec_name = cluster_spec.meta['titleLowerCase'] || 'cluster'
     @error = error
-    @tenant = launch_config.tenant
+    @tenant = tenant
 
     mail to: launch_config.email,
       subject: "Your Alces Flight Compute HPC cluster has failed to launch"
@@ -78,8 +78,7 @@ class ClustersMailer < ApplicationMailer
 
   private
 
-  def determine_runtime(launch_config)
-    payment = launch_config.payment
+  def determine_runtime(payment)
     return nil unless payment.has_expiration?
 
     payment.runtime_in_minutes(humanized: true)

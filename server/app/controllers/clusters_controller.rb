@@ -10,14 +10,13 @@ class ClustersController < ApplicationController
   class TokenNotFound < RuntimeError ; end
 
   def launch
-    cluster_launch_config = build_launch_config
-    return if cluster_launch_config.nil?
+    build_models
+    return if @cluster_launch_config.nil?
 
-    payment = cluster_launch_config.payment
-    payment_invalid = payment.invalid?(:queue)
-    if cluster_launch_config.invalid? || payment_invalid
-      errors = cluster_launch_config.errors.messages
-      errors.merge!(payment: payment.errors.messages) if payment_invalid
+    payment_invalid = @payment.invalid?(:queue)
+    if @cluster_launch_config.invalid? || payment_invalid
+      errors = @cluster_launch_config.errors.messages
+      errors.merge!(payment: @payment.errors.messages) if payment_invalid
       render status: :unprocessable_entity, json: {
         status: 422,
         error: 'Unprocessable Entity',
@@ -26,15 +25,15 @@ class ClustersController < ApplicationController
       return
     end
 
-    payment_processor = ProcessPaymentCommand.load(cluster_launch_config)
+    payment_processor = ProcessPaymentCommand.load(@payment, @cluster_launch_config.email)
     begin
       payment_processor.process_about_to_queue
       ClusterLaunchJob.perform_later(
-        launch_config_params: cluster_launch_config.as_json,
-        cluster_spec_params: cluster_launch_config.spec.as_json,
-        tenant: cluster_launch_config.tenant,
-        payment_params: payment.as_json,
-        launch_option_params: cluster_launch_config.launch_option.as_json,
+        launch_config_params: @cluster_launch_config.as_json,
+        cluster_spec_params: @cluster_spec.as_json,
+        tenant: @tenant,
+        payment_params: @payment.as_json,
+        launch_option_params: @launch_option.as_json,
       )
     rescue
       Rails.logger.warn("Queueing cluster launch failed: #{$!.message}")
@@ -44,8 +43,8 @@ class ClustersController < ApplicationController
 
     render(
       json: {
-        cluster_name: cluster_launch_config.name,
-        email: cluster_launch_config.email,
+        cluster_name: @cluster_launch_config.name,
+        email: @cluster_launch_config.email,
       },
       status: :accepted
     )
@@ -63,29 +62,19 @@ class ClustersController < ApplicationController
 
   private
 
-  def build_launch_config
-    tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
-    payment = Payment.new(payment_params)
-    payment.token = find_token(tenant) if payment.using_token?
-
-    cluster_spec = ClusterSpec.load(cluster_spec_params, tenant)
-    launch_option = LaunchOption.new(launch_option_params(cluster_spec))
-    payment.cluster_spec = cluster_spec
-    payment.upfront_cost_per_hour = launch_option.upfront_cost_per_hour
-    payment.master_node_cost_per_hour = launch_option.master_node_cost_per_hour
-    config_params = cluster_launch_config_params.merge(
-      spec: cluster_spec,
-      tenant: tenant,
-      payment: payment,
-      launch_option: launch_option,
-    )
-    ClusterLaunchConfig.new(config_params)
+  def build_models
+    @tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
+    @cluster_spec = ClusterSpec.load(cluster_spec_params, @tenant)
+    @launch_option = LaunchOption.new(launch_option_params(@cluster_spec))
+    @payment = Payment.new(payment_params(@cluster_spec, @launch_option))
+    @payment.token = find_token(@tenant) if @payment.using_token?
+    @cluster_launch_config = ClusterLaunchConfig.new(cluster_launch_config_params)
   rescue ClusterSpec::Error, TokenNotFound
     render_build_exception($!)
     return nil
   end
 
-  def payment_params
+  def payment_params(cluster_spec, launch_option)
     permitted_params = [
       :maxCreditUsage,
       :method,
@@ -95,7 +84,11 @@ class ClustersController < ApplicationController
       h.require(:method)
       h['max_credit_usage'] = h.delete('maxCreditUsage') if h.key?('maxCreditUsage')
       h['user'] = current_user
-    end
+    end.merge(
+      cluster_spec: @cluster_spec,
+      upfront_cost_per_hour: @launch_option.upfront_cost_per_hour,
+      master_node_cost_per_hour: @launch_option.master_node_cost_per_hour,
+    )
   end
 
   def cluster_spec_params

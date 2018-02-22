@@ -43,7 +43,7 @@ module ProcessPayment
     private
 
     def mark_token_as(status)
-      @payment.token.mark_as(status, @launch_config.email)
+      @payment.token.mark_as(status, @email)
     end
   end
 end

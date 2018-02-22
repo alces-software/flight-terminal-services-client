@@ -28,12 +28,8 @@ class ClusterLaunchConfig
   attr_accessor :key_pair
   attr_accessor :name
   attr_accessor :region
-  attr_accessor :spec # An instance of ClusterSpec.
-  attr_accessor :tenant
   attr_accessor :collection
-  attr_accessor :payment
   attr_accessor :queues
-  attr_accessor :launch_option
 
   def attributes
     {

@@ -14,9 +14,12 @@ class BuildFlyParamsCommand
   # Refactor to remove this.
   class Result < Struct.new(:cmd, :env); end
 
-  def initialize(parameter_dir, launch_config)
+  def initialize(parameter_dir, cluster_spec, launch_config, launch_option, payment)
     @parameter_dir = parameter_dir
+    @cluster_spec = cluster_spec
     @launch_config = launch_config
+    @launch_option = launch_option
+    @payment = payment
   end
 
   def perform
@@ -25,15 +28,15 @@ class BuildFlyParamsCommand
 
   def build_command
     cmd = [
-      @launch_config.spec.fly_executable_path,
+      @cluster_spec.fly_executable_path,
       'cluster',
       'launch',
       qualified_cluster_name,
       *default_options,
       '--access-key', @launch_config.access_key,
       '--secret-key', @launch_config.secret_key,
-      *@launch_config.spec.args,
-      *@launch_config.launch_option.args,
+      *@cluster_spec.args,
+      *@launch_option.args,
       *launch_config_key_pair_and_region,
       '--parameter-directory', @parameter_dir,
       *runtime_flag,
@@ -82,9 +85,8 @@ class BuildFlyParamsCommand
   end
 
   def runtime_flag
-    payment = @launch_config.payment
-    return [] unless payment.has_expiration?
+    return [] unless @payment.has_expiration?
 
-    ['--runtime', payment.runtime_in_minutes.to_s]
+    ['--runtime', @payment.runtime_in_minutes.to_s]
   end
 end
