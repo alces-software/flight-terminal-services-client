@@ -231,11 +231,11 @@ class ClusterLaunchFormContainer extends React.Component {
         clusterLaunch: {
           collection: collectionUrl,
           email: email,
-          maxCreditUsage: this.state.values.maxCreditUsage,
           name: getClusterName(this.state.values),
           queues: this.state.values.queues,
         },
         payment: {
+          maxCreditUsage: this.state.values.maxCreditUsage,
           method: this.paymentMethod(),
           runtime: this.state.values.desiredRuntime,
         },

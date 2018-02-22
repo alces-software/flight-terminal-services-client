@@ -14,9 +14,10 @@ class ClustersController < ApplicationController
     return if cluster_launch_config.nil?
 
     payment = cluster_launch_config.payment
-    if cluster_launch_config.invalid?
+    payment_invalid = payment.invalid?(:queue)
+    if cluster_launch_config.invalid? || payment_invalid
       errors = cluster_launch_config.errors.messages
-      errors.merge!(payment: payment.errors.messages) if payment.invalid?(:queue)
+      errors.merge!(payment: payment.errors.messages) if payment_invalid
       render status: :unprocessable_entity, json: {
         status: 422,
         error: 'Unprocessable Entity',
@@ -85,8 +86,14 @@ class ClustersController < ApplicationController
   end
 
   def payment_params
-    params.require(:payment).permit(:method, :runtime).tap do |h|
+    permitted_params = [
+      :maxCreditUsage,
+      :method,
+      :runtime,
+    ]
+    params.require(:payment).permit(*permitted_params).tap do |h|
       h.require(:method)
+      h['max_credit_usage'] = h.delete('maxCreditUsage') if h.key?('maxCreditUsage')
       h['user'] = current_user
     end
   end
@@ -107,7 +114,6 @@ class ClustersController < ApplicationController
       :collection,
       :email,
       :key_pair,
-      :maxCreditUsage,
       :name,
       :region,
       queues: permitted_queues
@@ -116,7 +122,6 @@ class ClustersController < ApplicationController
 
     params.require(:clusterLaunch).permit(*permitted_params).tap do |h|
       required_params.each {|p| h.require(p) }
-      h['max_credit_usage'] = h.delete('maxCreditUsage') if h.key?('maxCreditUsage')
     end
   end
 

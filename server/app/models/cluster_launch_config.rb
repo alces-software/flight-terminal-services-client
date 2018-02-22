@@ -33,7 +33,6 @@ class ClusterLaunchConfig
   attr_accessor :collection
   attr_accessor :payment
   attr_accessor :queues
-  attr_accessor :max_credit_usage
   attr_accessor :launch_option
 
   def attributes
@@ -41,7 +40,6 @@ class ClusterLaunchConfig
       'collection' => nil,
       'email' => nil,
       'key_pair' => nil,
-      'max_credit_usage' => nil,
       'name' => nil,
       'queues' => nil,
       'region' => nil,
@@ -59,16 +57,6 @@ class ClusterLaunchConfig
       with: /\A[a-z0-9][-a-z0-9]*[a-z0-9]\z/,
       message: 'invalid format'
     }
-
-  validate do
-    errors.add(:payment, 'invalid') unless payment.valid?
-  end
-
-  def max_credit_usage=(value)
-    @max_credit_usage = Integer(value)
-  rescue ArgumentError, TypeError
-    @max_credit_usage = value
-  end
 
   def access_key
     Rails.configuration.alces.access_key

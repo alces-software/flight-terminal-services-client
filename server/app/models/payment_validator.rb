@@ -31,10 +31,26 @@ class PaymentValidator < ActiveModel::Validator
   private
 
   def validate_ongoing_credits(payment)
+    # We wish to ensure that the user has enough credits to run the cluster
+    # for a minimum sensible period of time.  Likewise, if there is a limit on
+    # the credits that the cluster can consume, it needs to sufficient to run
+    # the cluster for that minimal period of time.
+    #
+    # As the per-hour cost of the cluster depends on the compute queues it is
+    # running, the best we can do is to ensure that the login node alone will
+    # run for that minimal period of time.
+
     user = payment.user
     return unless user.present?
+
+    min_credits = (payment.master_node_cost_per_hour * minimum_runtime / 60).ceil
+
     if ! user.has_compute_credits?
       payment.errors.add(:user, 'user has insufficient credits')
+    elsif user.compute_credits < min_credits
+      payment.errors.add(:user, 'user has insufficient credits')
+    elsif payment.max_credit_usage.present? && payment.max_credit_usage < min_credits
+      payment.errors.add(:max_credit_usage, 'is too small')
     end
   end
 

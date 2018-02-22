@@ -26,7 +26,7 @@ class ClustersMailer < ApplicationMailer
     @cluster_name = launch_config.name
     @tenant = launch_config.tenant
     @payment = launch_config.payment
-    @max_credit_usage = launch_config.max_credit_usage
+    @max_credit_usage = @payment.max_credit_usage
 
     @cluster_spec_name = launch_config.spec.meta['titleLowerCase'] || 'cluster'
     @runtime = determine_runtime(launch_config)
@@ -50,7 +50,7 @@ class ClustersMailer < ApplicationMailer
     @runtime = determine_runtime(launch_config)
     @tenant = launch_config.tenant
     @payment = launch_config.payment
-    @max_credit_usage = launch_config.max_credit_usage
+    @max_credit_usage = @payment.max_credit_usage
 
     @resources = @parsed_output.resources.
       select {|r| r.final_status == 'CREATE_COMPLETE'}.

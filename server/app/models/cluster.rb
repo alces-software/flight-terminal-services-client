@@ -78,7 +78,7 @@ class Cluster < ApplicationRecord
         consumes_credits: payment.using_ongoing_credits?,
         domain: domain_from_launch_config(launch_config),
         master_node_cost_per_hour: master_node_cost_per_hour(payment),
-        max_credit_usage: launch_config.max_credit_usage,
+        max_credit_usage: payment.max_credit_usage,
         qualified_name: qualified_cluster_name,
         user: payment.user,
       }
