@@ -90,8 +90,8 @@ const enhance = compose(
   })),
 
   branch(
-    ({ cluster, launchClusterRetrieval }) => {
-      return launchClusterRetrieval.rejected || cluster.attributes.isSolo;
+    ({ launchClusterRetrieval }) => {
+      return launchClusterRetrieval.rejected;
     },
     renderComponent(nest(Container, ManagementUnsupported)),
   ),

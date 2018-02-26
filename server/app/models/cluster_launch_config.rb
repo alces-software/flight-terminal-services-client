@@ -65,7 +65,7 @@ class ClusterLaunchConfig
 
   def max_credit_usage=(value)
     @max_credit_usage = Integer(value)
-  rescue ArgumentError
+  rescue ArgumentError, TypeError
     @max_credit_usage = value
   end
 

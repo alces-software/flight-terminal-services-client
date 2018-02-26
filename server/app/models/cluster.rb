@@ -132,4 +132,8 @@ class Cluster < ApplicationRecord
   def can_terminate?
     ['CREATE_COMPLETE', 'TERMINATION_FAILED'].include?(status)
   end
+
+  def fully_qualified_stack_name
+    "#{qualified_name}.#{domain}"
+  end
 end

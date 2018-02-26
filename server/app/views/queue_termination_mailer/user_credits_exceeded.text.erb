@@ -10,15 +10,15 @@ Your Alces Flight account has insufficient compute units remaining to continue
 running all of your current clusters.  All compute queues for the clusters
 below will be terminated shortly.
 
-The clusters will continue running for <%= @grace_period_in_hours %> <%= 'hour'.pluralize(@grace_period_in_hours) %>,
+The clusters' login node will continue running for <%= @grace_period_in_hours %> <%= 'hour'.pluralize(@grace_period_in_hours) %>,
 allowing you access to save any work.  After <%= @grace_period_in_hours %>
 <%= 'hour'.pluralize(@grace_period_in_hours) %>, if you have not added additional compute units to your account your
 clusters will be terminated.
 
 The clusters affected are:
 
-<% @cluster_names.each do |cluster_name| %>
-  - <%= cluster_name %>
+<% @clusters.each do |cluster| %>
+  * <%= cluster.cluster_name %> -- <%= link_to 'terminate', cluster_terminate_url(cluster) %>
 <% end %>
 
 <% note do %>
