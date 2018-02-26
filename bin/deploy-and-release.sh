@@ -35,7 +35,7 @@ main() {
     echo "${NEW_VERSION} has been deployed to staging app."
     echo "Test that all is good and then we'll deploy launch and manage staging apps to production"
     wait_for_confirmation
-    run_deploy_script --dokku-remote dokku --skip-launch-client-build
+    run_deploy_script --production --skip-launch-client-build
 
     header "Migrating production database"
     migrate_production_database
