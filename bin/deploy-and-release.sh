@@ -99,7 +99,7 @@ migrate_production_database() {
     production_app=$( git remote get-url dokku | cut -d: -f2 )
 
     ssh ${dokku_server} \
-        "dokku run \"${production_app}\" rake db:migrate:status; dokku run \"${production_app}\" rake db:migrate"
+        "dokku --rm run \"${production_app}\" rake db:migrate:status; dokku --rm run \"${production_app}\" rake db:migrate"
 }
 
 run_merge_script() {
