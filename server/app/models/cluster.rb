@@ -14,8 +14,8 @@ class Cluster < ApplicationRecord
     'TERMINATION_COMPLETE',
   ].freeze
 
-  scope :consuming_credits, ->() {
-    where(consumes_credits: true)
+  scope :using_ongoing_credits, ->() {
+    joins(:payment).merge(Payment.using_ongoing_credits)
   }
 
   scope :running, ->() {
@@ -31,22 +31,12 @@ class Cluster < ApplicationRecord
     length: {maximum: 255},
     presence: true
 
-  validates :consumes_credits,
-    inclusion: { in: [ true, false ] }
-
   validates :status,
     presence: true,
     inclusion: { within: STATUSES }
 
-  validates :max_credit_usage,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      only_integer: true
-    },
-    allow_blank: true
-
   before_create do
-    credit_usages.build if consumes_credits?
+    credit_usages.build if payment.using_ongoing_credits?
   end
 
   before_update do
@@ -83,21 +73,6 @@ class Cluster < ApplicationRecord
     def attributes_from_cluster_spec(cluster_spec)
       {
         domain: domain_from_launch_config(cluster_spec),
-      }
-    end
-
-    # Return attributes suitable for creating a new cluster from the given
-    # payment.
-    def attributes_from_payment(payment)
-      master_node_cost_per_hour = payment.using_ongoing_credits? ?
-        payment.master_node_cost_per_hour :
-        nil
-
-      {
-        consumes_credits: payment.using_ongoing_credits?,
-        master_node_cost_per_hour: master_node_cost_per_hour,
-        max_credit_usage: payment.max_credit_usage,
-        user: payment.user,
       }
     end
 

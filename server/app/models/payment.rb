@@ -13,6 +13,10 @@ class Payment < ApplicationRecord
     'token',
   ].freeze
 
+  scope :using_ongoing_credits, ->() {
+    where(method: 'credits:ongoing')
+  }
+
   belongs_to :user
   belongs_to :cluster
   belongs_to :token

@@ -44,10 +44,10 @@ class CreditUsage < ApplicationRecord
       greater_than_or_equal_to: 0
     }
   default :master_node_cu_in_use, ->(r, a){
-    if r.cluster.nil?
+    if r.cluster.nil? || r.cluster.payment.nil?
       nil
     else
-      r.cluster.master_node_cost_per_hour || 0
+      r.cluster.payment.master_node_cost_per_hour || 0
     end
   }
   before_validation do
@@ -75,7 +75,9 @@ class CreditUsage < ApplicationRecord
   end
 
   validate do
-    if cluster && !cluster.consumes_credits?
+    if cluster.nil?
+      # A validation error will be added elsewhere for the lack of a cluster.
+    elsif !cluster.payment || !cluster.payment.using_ongoing_credits?
       errors.add(:cluster, 'cluster does not consume credits')
     end
   end

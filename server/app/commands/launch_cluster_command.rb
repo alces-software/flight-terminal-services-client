@@ -135,14 +135,14 @@ class LaunchClusterCommand
       ).merge(
         Cluster.attributes_from_cluster_spec(@cluster_spec)
       ).merge(
-        Cluster.attributes_from_payment(@payment)
-      ).merge(
         Cluster.attributes_from_fly_params(@fly_params)
       ).merge(
         id: uuid,
         auth_token: auth_token,
-        status: 'CREATE_COMPLETE',
         payment: @payment,
+        status: 'CREATE_COMPLETE',
+        user: @payment.user,
+        consumes_credits: false,
       )
     )
   end

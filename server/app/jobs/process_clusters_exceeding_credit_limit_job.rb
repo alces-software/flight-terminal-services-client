@@ -10,8 +10,9 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
   queue_as :default
 
   def perform
-    Cluster.running.each do |cluster|
-      if cluster.max_credit_usage.nil?
+    Cluster.using_ongoing_credits.running.each do |cluster|
+      payment = cluster.payment
+      if payment.max_credit_usage.nil?
         # Nothing to do.
         msg = "Cluster #{cluster_identifier(cluster)} has no credit limit set"
         Alces.app.logger.info(msg)
@@ -40,7 +41,7 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
       nil,
       nil,
     )
-    limit = cluster.max_credit_usage
+    limit = cluster.payment.max_credit_usage
     consumed >= limit
   end
 
