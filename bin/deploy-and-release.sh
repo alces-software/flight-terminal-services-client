@@ -33,16 +33,15 @@ main() {
 
     echo ""
     echo "${NEW_VERSION} has been deployed to staging app."
-    echo "Test that all is good and then we'll promote launch and manage staging apps to production"
+    echo "Test that all is good and then we'll deploy launch and manage staging apps to production"
     wait_for_confirmation
-    promote_launch_staging_to_production
-    promote_manage_staging_to_production
+    run_deploy_script --remote dokku --skip-launch-client-build
 
     header "Migrating production database"
     migrate_production_database
 
     echo ""
-    echo "Staging has been promoted to production."
+    echo "App has been deployed to production."
     echo "Test that all is good and then we'll continue with tag creation and pushing"
     wait_for_confirmation
 
@@ -90,35 +89,7 @@ commit_version_bump() {
 }
 
 run_deploy_script() {
-    "${REPO_ROOT}"/bin/deploy.sh
-}
-
-promote_launch_staging_to_production() {
-    local dokku_server
-    local staging_app
-    local production_app
-
-    dokku_server=$( git remote get-url dokku-staging | cut -d@ -f2 | cut -d: -f1 )
-    staging_app=$( git remote get-url dokku-staging | cut -d: -f2 )
-    production_app=$( git remote get-url dokku | cut -d: -f2 )
-
-    subheader "Promoting ${staging_app} to ${production_app}"
-    ssh ${dokku_server} \
-        "sudo docker tag dokku/${staging_app} dokku/${production_app} ; dokku tags:deploy ${production_app} latest"
-}
-
-promote_manage_staging_to_production() {
-    local dokku_server
-    local staging_app
-    local production_app
-
-    dokku_server=$( git remote get-url dokku-manage-staging | cut -d@ -f2 | cut -d: -f1 )
-    staging_app=$( git remote get-url dokku-manage-staging | cut -d: -f2 )
-    production_app=$( git remote get-url dokku-manage | cut -d: -f2 )
-
-    subheader "Promoting ${staging_app} to ${production_app}"
-    ssh ${dokku_server} \
-        "sudo docker tag dokku/${staging_app} dokku/${production_app} ; dokku tags:deploy ${production_app} latest"
+    "${REPO_ROOT}"/bin/deploy.sh "$@"
 }
 
 migrate_production_database() {
