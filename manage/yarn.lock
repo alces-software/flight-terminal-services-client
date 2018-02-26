@@ -3402,9 +3402,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.31/flight-reactware.tgz":
-  version "0.1.31"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.31/flight-reactware.tgz#fd01df681c4d1bbed36d02c41e86a1c469d81ee2"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.32/flight-reactware.tgz":
+  version "0.1.32"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.32/flight-reactware.tgz#87c858a9b28dc7b394169661c10600094b01ab8a"
   dependencies:
     axios "^0.16.2"
     babel-preset-react-app "^3.0.1"
@@ -3440,9 +3440,9 @@ flatten@^1.0.2:
     styled-components "^2.0.1"
     validator "^8.2.0"
 
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.6/flight-tutorials-client.tgz":
-  version "0.1.6"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.6/flight-tutorials-client.tgz#796d5a54ef098b0540fcb69249749e12330f74c1"
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.7/flight-tutorials-client.tgz":
+  version "0.1.7"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.7/flight-tutorials-client.tgz#e9330636b8d05db782f2f54b35ee622d05b614d0"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
@@ -7914,8 +7914,8 @@ stylis@3.x:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.4.0.tgz#55c6530ebceeca5976d54fb4adc67578afee828d"
 
 stylis@^3.4.0:
-  version "3.4.8"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.4.8.tgz#94380babbcd4c75726215794ca985b38ec96d1a3"
+  version "3.4.10"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.4.10.tgz#a135cab4b9ff208e327fbb5a6fde3fa991c638ee"
 
 supports-color@^0.2.0:
   version "0.2.0"
@@ -8050,8 +8050,8 @@ tcomb-validation@^3.0.0:
     tcomb "^3.0.0"
 
 tcomb@^3.0.0:
-  version "3.2.24"
-  resolved "https://registry.yarnpkg.com/tcomb/-/tcomb-3.2.24.tgz#7f427053cc393b5997c4c3d859ca20411180887b"
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/tcomb/-/tcomb-3.2.25.tgz#4df5f436263252325d6b48afb50ab89d8a8c035a"
 
 term-size@^1.2.0:
   version "1.2.0"
