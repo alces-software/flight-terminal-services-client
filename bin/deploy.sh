@@ -76,11 +76,10 @@ deploy_server() {
 
 deploy_manage_client() {
     (
-    local tmp_branch remote
-    remote=dokku-manage-staging
+    local tmp_branch
     tmp_branch=manage-deployment-$(date +%s)
     git branch ${tmp_branch} $(git subtree split --prefix manage HEAD )
-    git push ${remote} -f ${tmp_branch}:master
+    git push ${MANAGE_REMOTE} -f ${tmp_branch}:master
     git branch -D ${tmp_branch}
     ) 2> >(indent 1>&2) | indent
 }
@@ -118,12 +117,13 @@ usage() {
     echo
     echo "Deploy HEAD to a dokku app"
     echo
-    echo -e "      --dokku-remote REMOTE\t\tThe git remote to deploy to"
+    echo -e "      --production\t\tDeploy to the production environment"
     echo -e "      --skip-launch-client-build\t\tDon't rebuild the launch client"
     echo -e "      --help\t\tShow this help message"
 }
 
 REMOTE=dokku-staging
+MANAGE_REMOTE=dokku-manage-staging
 SKIP_LAUNCH_CLIENT_BUILD=false
 
 parse_arguments() {
@@ -131,9 +131,9 @@ parse_arguments() {
         key="$1"
 
         case $key in
-            --dokku-remote)
-                REMOTE=$2
-                shift
+            --production)
+                REMOTE=dokku
+                MANAGE_REMOTE=dokku-manage
                 shift
                 ;;
 

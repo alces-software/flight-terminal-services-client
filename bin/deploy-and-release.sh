@@ -35,7 +35,7 @@ main() {
     echo "${NEW_VERSION} has been deployed to staging app."
     echo "Test that all is good and then we'll deploy launch and manage staging apps to production"
     wait_for_confirmation
-    run_deploy_script --remote dokku --skip-launch-client-build
+    run_deploy_script --production --skip-launch-client-build
 
     header "Migrating production database"
     migrate_production_database
@@ -99,7 +99,7 @@ migrate_production_database() {
     production_app=$( git remote get-url dokku | cut -d: -f2 )
 
     ssh ${dokku_server} \
-        "dokku run \"${production_app}\" rake db:migrate:status; dokku run \"${production_app}\" rake db:migrate"
+        "dokku --rm run \"${production_app}\" rake db:migrate:status; dokku --rm run \"${production_app}\" rake db:migrate"
 }
 
 run_merge_script() {
