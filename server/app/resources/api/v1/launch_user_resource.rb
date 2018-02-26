@@ -15,6 +15,7 @@ class Api::V1::LaunchUserResource < Api::V1::ApplicationResource
 
   has_many :clusters
   has_many :credit_usages
+  has_many :payments
 
   filter :username
 
