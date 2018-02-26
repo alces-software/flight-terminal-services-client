@@ -9,6 +9,7 @@ import * as actions from '../actions';
 
 const TerminateButton = withConfirmation({
   confirmButtonText: 'Terminate',
+  confirmButtonColor: 'danger',
   confirmText: (
     <div>
       <p>
@@ -42,7 +43,7 @@ const TerminateButton = withConfirmation({
   return (
     <Button
       {...props}
-      color="success"
+      color="danger"
     >
       { submitting ? submittingText : 'Terminate' }
       {confirmationPopover}

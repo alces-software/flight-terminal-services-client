@@ -39,7 +39,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.default_url_options = {
-    host: 'flight-launch.lvh.me',
+    host: 'launch.alces-flight.lvh.me',
     port: ENV['PORT'] || '4000'
   }
   config.roadie.url_options = config.action_mailer.default_url_options

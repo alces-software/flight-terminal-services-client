@@ -145,12 +145,16 @@ export const availableManageItems = createSelector(
   currentCluster,
 
   (cluster) => {
-    const { hasQueueManagement, hasQueueManangement } = cluster.attributes;
+    const {
+      consumesCredits,
+      hasQueueManagement,
+      hasQueueManangement,
+    } = cluster.attributes;
     const links = cluster.links || {};
     return {
-      computeUnitUsageReport: true,
+      computeUnitUsageReport: consumesCredits,
       queueManagement: hasQueueManagement || hasQueueManangement,
-      terminateCluster: links.terminate,
+      terminateCluster: !!links.terminate,
     };
   },
 );

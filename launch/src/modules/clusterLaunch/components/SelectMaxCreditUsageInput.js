@@ -22,12 +22,17 @@ const SelectMaxCreditUsageInput = ({ error, id, onChange, onUseLaunchToken, valu
   <div>
     <Input
       error={error}
-      help="If you wish to limit the maximum number of compute units this
-      cluster can consume, enter the number above.  Once the cluster reaches
-      the limit it will be terminated.  You will be notified and given a
-      chance to ensure your work is saved."
+      help="
+      You may limit the number of compute units this cluster will consume
+      before it begins its automated shutdown procedure.  Once the limit is
+      reached, the cluster's compute queues will be terminated, you will be
+      notified and given a chance to ensure your work is saved.  The cluster's
+      login node will continue to consume some compute units during this grace
+      period.
+      "
       id={`${id}-max-credit-usage`}
-      label="Enter the maximum number of compute units this cluster can consume"
+      label="Enter the maximum number of compute units this cluster can
+      consume before its compute queues are terminated"
       name="maxCreditUsage"
       onChange={onChange}
       optional

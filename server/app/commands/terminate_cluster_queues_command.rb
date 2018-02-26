@@ -30,7 +30,7 @@ class TerminateClusterQueuesCommand
   private
 
   def auth_user
-    "#{@cluster.qualified_name}.#{@cluster.domain}.alces.network"
+    "#{@cluster.fully_qualified_stack_name}.alces.network"
   end
 
   def auth_password

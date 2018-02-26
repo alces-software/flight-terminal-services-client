@@ -7,16 +7,23 @@
 %>
 
 <p>
-Your Alces Flight HPC cluster <em><%= @cluster_name %></em> has exceeded its
+Your Alces Flight HPC cluster <em><%= @cluster.cluster_name %></em> has exceeded its
 compute unit consumption limit.  All compute queues for the cluster will be
 terminated shortly.
 </p>
 
 <p>
-The cluster will continue running for <%= @grace_period_in_hours %> <%=
+The cluster login node will continue running for <%= @grace_period_in_hours %> <%=
 'hour'.pluralize(@grace_period_in_hours) %>, allowing you access to save any
 work.  After <%= @grace_period_in_hours %> <%=
 'hour'.pluralize(@grace_period_in_hours) %>, the cluster will be terminated.
+</p>
+
+<p>
+During this grace period your cluster will continue to consume your compute
+units due to the running login node.  Once you have saved your work, you can
+<%= link_to 'terminate the cluster', terminate_url(@cluster) %>
+to prevent any further consumption.
 </p>
 
 <% note do %>

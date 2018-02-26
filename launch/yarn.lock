@@ -3326,9 +3326,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.31/flight-reactware.tgz":
-  version "0.1.31"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.31/flight-reactware.tgz#fd01df681c4d1bbed36d02c41e86a1c469d81ee2"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.32/flight-reactware.tgz":
+  version "0.1.32"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.32/flight-reactware.tgz#87c858a9b28dc7b394169661c10600094b01ab8a"
   dependencies:
     axios "^0.16.2"
     babel-preset-react-app "^3.0.1"
@@ -7903,8 +7903,8 @@ tcomb-validation@^3.0.0:
     tcomb "^3.0.0"
 
 tcomb@^3.0.0:
-  version "3.2.24"
-  resolved "https://registry.yarnpkg.com/tcomb/-/tcomb-3.2.24.tgz#7f427053cc393b5997c4c3d859ca20411180887b"
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/tcomb/-/tcomb-3.2.25.tgz#4df5f436263252325d6b48afb50ab89d8a8c035a"
 
 term-size@^1.2.0:
   version "1.2.0"
