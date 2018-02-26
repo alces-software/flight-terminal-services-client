@@ -86,7 +86,7 @@ const ClusterRuntimeExplanation = ({
         <div>
           <p>
             Launching this cluster will consume your Alces Flight compute
-            units, whilst it continues to run.  If the cluster reaches it
+            units, whilst it continues to run.  If the cluster reaches its
             compute unit consumption limit or your account runs out of compute
             units the cluster will be <strong>shut down
               automatically</strong>.  You can terminate the cluster at any
