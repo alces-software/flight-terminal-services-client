@@ -77,12 +77,13 @@ class ClustersController < ApplicationController
   def payment_params(cluster_spec, launch_option)
     permitted_params = [
       :maxCreditUsage,
-      :method,
+      :paymentMethod,
       :runtime,
     ]
     params.require(:payment).permit(*permitted_params).tap do |h|
-      h.require(:method)
+      h.require(:paymentMethod)
       h['max_credit_usage'] = h.delete('maxCreditUsage') if h.key?('maxCreditUsage')
+      h['payment_method'] = h.delete('paymentMethod') if h.key?('paymentMethod')
       h['user'] = current_user
     end.merge(
       cluster_spec: @cluster_spec,

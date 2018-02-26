@@ -14,7 +14,11 @@ class Payment < ApplicationRecord
   ].freeze
 
   scope :using_ongoing_credits, ->() {
-    where(method: 'credits:ongoing')
+    where(payment_method: 'credits:ongoing')
+  }
+
+  scope :using_credits, ->() {
+    where(payment_method: ['credits:ongoing', 'credits:upfront'])
   }
 
   belongs_to :user
@@ -29,7 +33,7 @@ class Payment < ApplicationRecord
     presence: true,
     if: ->(p){ p.using_ongoing_credits? }
 
-  validates :method,
+  validates :payment_method,
     inclusion: { within: METHODS }
 
   validates :token,
@@ -53,15 +57,15 @@ class Payment < ApplicationRecord
     on: :launch
 
   def using_token?
-    method == 'token'
+    payment_method == 'token'
   end
 
   def using_ongoing_credits?
-    method == 'credits:ongoing'
+    payment_method == 'credits:ongoing'
   end
 
   def using_upfront_credits?
-    method == 'credits:upfront'
+    payment_method == 'credits:upfront'
   end
 
   def has_expiration?

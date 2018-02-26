@@ -10,7 +10,7 @@ class ProcessPaymentCommand
   class UnknownPaymentType < RuntimeError; end
 
   def self.load(payment, email)
-    case payment.method
+    case payment.payment_method
     when 'token'
       ProcessPayment::TokenPaymentProcessor.new(payment, email)
     when 'credits:upfront'
@@ -21,7 +21,7 @@ class ProcessPaymentCommand
       # running.
       ProcessPayment::NoopPaymentProcessor.new(payment, email)
     else
-      raise UnknownPaymentType, payment.method
+      raise UnknownPaymentType, payment.payment_method
     end
   end
 

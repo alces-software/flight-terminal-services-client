@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180226104625) do
+ActiveRecord::Schema.define(version: 20180226155134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20180226104625) do
     t.integer  "max_credit_usage"
     t.integer  "runtime"
     t.integer  "upfront_cost_per_hour"
-    t.string   "method",                    limit: 64, null: false
+    t.string   "payment_method",            limit: 64, null: false
     t.uuid     "cluster_id",                           null: false
     t.uuid     "token_id"
     t.uuid     "user_id"

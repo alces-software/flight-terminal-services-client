@@ -236,7 +236,7 @@ class ClusterLaunchFormContainer extends React.Component {
         },
         payment: {
           maxCreditUsage: this.state.values.maxCreditUsage,
-          method: this.paymentMethod(),
+          paymentMethod: this.paymentMethod(),
           runtime: this.state.values.desiredRuntime,
         },
         launchOption: {
