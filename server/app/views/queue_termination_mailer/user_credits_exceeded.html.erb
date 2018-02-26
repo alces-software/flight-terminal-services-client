@@ -34,7 +34,7 @@ The clusters affected are:
     <% @clusters.each do |cluster| %>
         <li>
             <%= cluster.cluster_name %> &mdash;
-            <%= link_to 'terminate', cluster_terminate_url(cluster) %>
+            <%= link_to 'terminate', terminate_url(cluster) %>
         </li>
     <% end %>
 </ul>
