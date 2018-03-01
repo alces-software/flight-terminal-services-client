@@ -9,14 +9,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'reactstrap';
 import styled from 'styled-components';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import payments from '../../payments';
 
 import QueueCard from './QueueCard';
+import LoadError from './LoadError';
 
 const propTypes = {
   cluster: PropTypes.shape({
     attributes: PropTypes.shape({
       clusterName: PropTypes.string.isRequired,
-      consumesCredits: PropTypes.bool.isRequired,
+    }).isRequired,
+  }).isRequired,
+  payment: PropTypes.shape({
+    attributes: PropTypes.shape({
+      paymentMethod: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   queues: PropTypes.arrayOf(PropTypes.shape({
@@ -40,7 +50,7 @@ const EqualHeightRow = styled(Row)`
   }
 `;
 
-const QueueCards = ({ cluster, queues, }) => {
+const QueueCards = ({ cluster, payment, queues, }) => {
   const { clusterName } = cluster.attributes;
   if (!queues.length) {
     return (
@@ -66,8 +76,8 @@ const QueueCards = ({ cluster, queues, }) => {
             xs={12}
           >
             <QueueCard
-              consumesCredits={cluster.attributes.consumesCredits}
               queue={queue}
+              usingOngoingCredits={payments.utils.usingOngoingCredits(payment)}
             />
           </Col>
         ))
@@ -78,4 +88,14 @@ const QueueCards = ({ cluster, queues, }) => {
 
 QueueCards.propTypes = propTypes;
 
-export default QueueCards;
+const enhace = compose(
+  payments.withPaymentContext({
+    NoClusterProvided: LoadError,
+  }),
+
+  connect(createStructuredSelector({
+    payment: payments.selectors.paymentForCluster,
+  })),
+);
+
+export default enhace(QueueCards);

@@ -22,7 +22,6 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   attribute :current_compute_queues
   attribute :domain
   attribute :is_solo
-  attribute :max_credit_usage
   attribute :qualified_name
   attribute :status
 

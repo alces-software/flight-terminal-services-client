@@ -8,6 +8,7 @@ import Page from './components/Page';
 import {
   clusters,
   creditUsages,
+  payments,
   queueManagement,
 } from './modules';
 import licenseData from './data/licenses.json';
@@ -125,7 +126,7 @@ const routes = [
       },
       {
         path: '/credits/usage',
-        component: clusters.withClustersContext,
+        component: payments.withPaymentsContext,
         routes: [
           {
             path: '/credits/usage',
