@@ -142,7 +142,6 @@ class LaunchClusterCommand
         payment: @payment,
         status: 'CREATE_COMPLETE',
         user: @payment.user,
-        consumes_credits: false,
       )
     )
   end

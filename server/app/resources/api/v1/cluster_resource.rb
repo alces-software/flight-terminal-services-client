@@ -18,14 +18,11 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
 
   attribute :available_compute_queues
   attribute :cluster_name
-  attribute :consumes_credits
   attribute :current_compute_queues
   attribute :domain
   attribute :is_solo
   attribute :qualified_name
   attribute :status
-
-  filter :consumes_credits
 
   def records_for(relation_name)
     case relation_name
