@@ -1,5 +1,5 @@
 #==============================================================================
-# Copyright (C) 2017 Stephen F. Norledge and Alces Flight Ltd.
+# Copyright (C) 2017-2018 Stephen F. Norledge and Alces Flight Ltd.
 #
 # This file is part of Alces Launch.
 #
@@ -11,20 +11,18 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     class_name: 'LaunchUser',
     relation_name: 'user',
     foreign_key: 'user_id'
+  has_one :payment,
+    foreign_key_on: :related
   has_many :compute_queue_actions
   has_many :credit_usages
 
   attribute :available_compute_queues
   attribute :cluster_name
-  attribute :consumes_credits
   attribute :current_compute_queues
   attribute :domain
   attribute :is_solo
-  attribute :max_credit_usage
   attribute :qualified_name
   attribute :status
-
-  filter :consumes_credits
 
   def records_for(relation_name)
     case relation_name

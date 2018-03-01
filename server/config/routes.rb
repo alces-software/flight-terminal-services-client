@@ -36,9 +36,10 @@ Rails.application.routes.draw do
       jsonapi_resources :tenants, only: [:index, :show]
 
       jsonapi_resources :clusters, only: [:show] do
-        # Read-only access to the cluster's compute queue actions and user
-        # relationship.  Creating and deleting compute queue actions, should
-        # be done directly against the compute queue resource (URLs).
+        # Read-only access to all of the cluster's relationships.
+        #
+        # Creating and deleting compute queue actions, should be done directly
+        # against the compute queue resource (URLs).
         jsonapi_relationships only: [:show]
       end
 
@@ -61,6 +62,18 @@ Rails.application.routes.draw do
         # Read-only access to the credit_usages relationship.
         jsonapi_links :credit_usages, only: [:show]
         jsonapi_related_resources :credit_usages
+        # Read-only access to the payments relationship.
+        jsonapi_links :payments, only: [:show]
+        jsonapi_related_resources :payments
+      end
+
+      jsonapi_resources :payments, only: [:index, :show] do
+        # Read-only access to the cluster relationship.
+        jsonapi_links :cluster, only: [:show]
+        jsonapi_related_resources :cluster
+        # Read-only access to the user relationship.
+        jsonapi_links :user, only: [:show]
+        jsonapi_related_resources :user
       end
     end
   end

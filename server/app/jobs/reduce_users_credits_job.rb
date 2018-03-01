@@ -52,7 +52,7 @@ class ReduceUsersCreditsJob < ApplicationJob
   end
 
   def terminate_compute_queues
-    if relevant_clusters.empty?
+    if clusters_using_ongoing_credits.empty?
       msg = "User has no relevant cluster. Skipping termination of compute queues " +
         "#{@user.username}:#{@user.id}"
       Alces.app.logger.info(msg)
@@ -64,13 +64,13 @@ class ReduceUsersCreditsJob < ApplicationJob
 
     QueueTerminationMailer.user_credits_exceeded(
       @user,
-      relevant_clusters,
+      clusters_using_ongoing_credits,
       grace_period
     ).deliver_now
     @user.termination_warning_sent_at = Time.now.utc
     @user.termination_warning_active = true
     @user.save!
-    relevant_clusters.each do |cluster|
+    clusters_using_ongoing_credits.each do |cluster|
       TerminateClusterQueuesCommand.new(cluster).perform
     end
   end
@@ -78,7 +78,7 @@ class ReduceUsersCreditsJob < ApplicationJob
   def terminate_clusters
     msg = "Terminating user's clusters #{@user.username}:#{@user.id}"
     Alces.app.logger.info(msg)
-    relevant_clusters.each do |cluster|
+    clusters_using_ongoing_credits.each do |cluster|
       TerminateClusterCommand.new(cluster).perform
     end
   end
@@ -92,7 +92,7 @@ class ReduceUsersCreditsJob < ApplicationJob
     gp > 0 ? gp.hours : 24.hours
   end
 
-  def relevant_clusters
-    @user.clusters.consuming_credits.running
+  def clusters_using_ongoing_credits
+    @user.clusters.using_ongoing_credits.running
   end
 end

@@ -11,8 +11,11 @@ import styled from 'styled-components';
 import { Container, Row, Col } from 'reactstrap';
 import { PageHeading, Section, makeSection } from 'flight-reactware';
 import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import clusters from '../../clusters';
+import payments from '../../payments';
 
 import ComputeUnitUsageReport from '../components/ComputeUnitUsageReport';
 import UserComputeUnitUsageReport from '../components/UserComputeUnitUsageReport';
@@ -98,7 +101,12 @@ Report.propTypes = {
 };
 
 const enhance = compose(
-  clusters.withClusters,
+  payments.withPayments,
+
+  connect(createStructuredSelector({
+    clusters: clusters.selectors.clustersForPayments,
+  })),
+
 );
 
 export default enhance(Report);

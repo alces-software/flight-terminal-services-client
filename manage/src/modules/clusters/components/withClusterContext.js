@@ -24,7 +24,10 @@ export default function withClusterContext({ NoClusterSpecified }) {
         const { dispatch, hostname } = this.props;
         const request = dispatch(actions.loadCluster(hostname));
         if (request) {
-          request.catch(error => error);
+          request.catch((error) => {
+            console.log('error:', error);  // eslint-disable-line no-console
+            return error;
+          });
         }
         const urlParams = new URLSearchParams(this.props.location.search);
         if (urlParams.has('permitTutorialAccess')) {

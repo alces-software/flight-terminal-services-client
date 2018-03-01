@@ -14,14 +14,10 @@ import AccessIntroCard from './AccessIntroCard';
 import TerminateClusterIntro from './TerminateClusterIntro';
 import withCluster from './withCluster';
 import withClusterContext from './withClusterContext';
-import withClusters from './withClusters';
-import withClustersContext from './withClustersContext';
 
 export {
   AccessIntroCard,
   TerminateClusterIntro,
   withCluster,
   withClusterContext,
-  withClusters,
-  withClustersContext,
 };

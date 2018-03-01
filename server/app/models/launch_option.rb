@@ -51,10 +51,12 @@ class LaunchOption
   end
 
   def upfront_cost_per_hour
-    @charging_model['upfront']['clusterCostPerHour']
+    upfront = @charging_model['upfront'] || {}
+    upfront['clusterCostPerHour']
   end
 
   def master_node_cost_per_hour
-    @charging_model['ongoing']['masterNodeCostPerHour']
+    ongoing = @charging_model['ongoing'] || {}
+    ongoing['masterNodeCostPerHour']
   end
 end

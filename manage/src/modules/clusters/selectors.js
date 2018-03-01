@@ -146,13 +146,13 @@ export const availableManageItems = createSelector(
 
   (cluster) => {
     const {
-      consumesCredits,
       hasQueueManagement,
       hasQueueManangement,
     } = cluster.attributes;
+    const { isLaunchCluster=false } = cluster.meta || {};
     const links = cluster.links || {};
     return {
-      computeUnitUsageReport: consumesCredits,
+      computeUnitUsageReport: isLaunchCluster,
       queueManagement: hasQueueManagement || hasQueueManangement,
       terminateCluster: !!links.terminate,
     };
@@ -168,21 +168,27 @@ export const modalError = createSelector(
   (data) => data.error == null ? undefined : data.error,
 );
 
-export const clustersConsumingCredits = createSelector(
+export const clusterForPayment = createSelector(
+  (state, props) => props.payment,
   jsonApiData,
 
-  (clustersById) => {
-    return Object.keys(clustersById)
-      .reduce(
-        (accum, clusterId) => {
-          const cluster = clustersById[clusterId];
-          if (cluster.attributes.consumesCredits) {
-            accum.push(cluster);
-          }
-          return accum;
-        },
-        []
-      )
+  (payment, clustersData) => {
+    return selectorUtils.relatedResourceSelector(
+        payment,
+        clustersData,
+        'cluster'
+      );
+  },
+);
+
+export const clustersForPayments = createSelector(
+  state => state,
+  (state, props) => props.payments,
+
+  (state, payments) => {
+    return payments
+      .map(p => clusterForPayment(state, { payment: p }))
+      .filter(c => c)
       .sort((a, b) => { 
         const aName = a.attributes.clusterName.toLowerCase();
         const bName = b.attributes.clusterName.toLowerCase();
@@ -191,5 +197,5 @@ export const clustersConsumingCredits = createSelector(
         }
         return aName < bName ? -1 : 1;
       });
-  }
+  },
 );

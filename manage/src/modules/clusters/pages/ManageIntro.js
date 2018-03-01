@@ -7,10 +7,13 @@ import { branch, compose, nest, renderComponent, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import payments from '../../payments';
+
 import * as selectors from '../selectors';
-import withCluster from '../components/withCluster';
+import LoadError from '../components/LoadError';
 import ManagementUnsupported from '../components/ManagementUnsupported';
 import Modal from '../components/Modal';
+import withCluster from '../components/withCluster';
 
 const propTypes = {
   availableManageItems: PropTypes.shape({
@@ -24,6 +27,7 @@ const propTypes = {
       hostname: PropTypes.string.isRequired,
     }),
   }),
+  payment: PropTypes.object,
 };
 
 const EqualHeightRow = styled(Row)`
@@ -40,7 +44,7 @@ const EqualHeightRow = styled(Row)`
   }
 `;
 
-const ManageIntro = ({ availableManageItems, cards, cluster }) => {
+const ManageIntro = ({ availableManageItems, cards, cluster, payment }) => {
   const clusterName = cluster.attributes.clusterName;
   const overview = (
     <span>
@@ -70,6 +74,7 @@ const ManageIntro = ({ availableManageItems, cards, cluster }) => {
                 <Card
                   {...cluster.attributes}
                   cluster={cluster}
+                  payment={payment}
                 />
               </Col>
             ))
@@ -83,6 +88,10 @@ ManageIntro.propTypes = propTypes;
 
 const enhance = compose(
   withCluster,
+
+  payments.withPaymentContext({
+    NoClusterProvided: LoadError,
+  }),
 
   connect(createStructuredSelector({
     availableManageItems: selectors.availableManageItems,

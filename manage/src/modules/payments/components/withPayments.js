@@ -23,9 +23,9 @@ import * as selectors from '../selectors';
 // change to using an `id` consistently.  That will make fixing the above
 // issues much simpler.  Until then, we're going to have to live with them.
 //
-const withClusters = compose(
+const withPayments = compose(
   connect(createStructuredSelector({
-    clusters: selectors.clustersConsumingCredits,
+    payments: selectors.paymentsUsingCredits,
     // retrieval: selectors.retrieval,
   })),
 
@@ -40,4 +40,4 @@ const withClusters = compose(
 
 );
 
-export default withClusters;
+export default withPayments;

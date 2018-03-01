@@ -14,8 +14,8 @@ class Cluster < ApplicationRecord
     'TERMINATION_COMPLETE',
   ].freeze
 
-  scope :consuming_credits, ->() {
-    where(consumes_credits: true)
+  scope :using_ongoing_credits, ->() {
+    joins(:payment).merge(Payment.using_ongoing_credits)
   }
 
   scope :running, ->() {
@@ -25,27 +25,18 @@ class Cluster < ApplicationRecord
   belongs_to :user
   has_many :compute_queue_actions
   has_many :credit_usages
+  has_one :payment
 
   validates :auth_token,
     length: {maximum: 255},
     presence: true
 
-  validates :consumes_credits,
-    inclusion: { in: [ true, false ] }
-
   validates :status,
     presence: true,
     inclusion: { within: STATUSES }
 
-  validates :max_credit_usage,
-    numericality: {
-      greater_than_or_equal_to: 0,
-      only_integer: true
-    },
-    allow_blank: true
-
   before_create do
-    credit_usages.build if consumes_credits?
+    credit_usages.build if payment.using_ongoing_credits?
   end
 
   before_update do
@@ -70,16 +61,18 @@ class Cluster < ApplicationRecord
     def attributes_from_launch_config(launch_config)
       hash = HashEmailCommand.new(launch_config.email).perform
       qualified_cluster_name = "#{launch_config.name}-#{hash}"
-      payment = launch_config.payment
 
       {
         cluster_name: launch_config.name,
-        consumes_credits: payment.using_ongoing_credits?,
-        domain: domain_from_launch_config(launch_config),
-        master_node_cost_per_hour: master_node_cost_per_hour(payment),
-        max_credit_usage: launch_config.max_credit_usage,
         qualified_name: qualified_cluster_name,
-        user: payment.user,
+      }
+    end
+
+    # Return attributes suitable for creating a new cluster from the given
+    # cluster spec.
+    def attributes_from_cluster_spec(cluster_spec)
+      {
+        domain: domain_from_launch_config(cluster_spec),
       }
     end
 
@@ -91,9 +84,9 @@ class Cluster < ApplicationRecord
       }
     end
 
-    def domain_from_launch_config(launch_config)
+    def domain_from_launch_config(cluster_spec)
       domain_arg_found = false
-      launch_config.spec.args.each do |arg|
+      cluster_spec.args.each do |arg|
         if domain_arg_found
           return arg
         end
@@ -117,11 +110,6 @@ class Cluster < ApplicationRecord
         end
       end
       return region
-    end
-
-    def master_node_cost_per_hour(payment)
-      return nil unless payment.using_ongoing_credits?
-      payment.launch_option.master_node_cost_per_hour
     end
   end
 

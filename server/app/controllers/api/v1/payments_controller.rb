@@ -5,22 +5,5 @@
 #
 # All rights reserved, see LICENSE.txt.
 #==============================================================================
-
-module ProcessPayment
-  class NoopPaymentProcessor < ProcessPaymentCommand
-    def process_about_to_queue
-    end
-
-    def process_queue_failed
-    end
-
-    def process_about_to_launch
-    end
-
-    def process_launch_failed
-    end
-
-    def process_launch_succeeded
-    end
-  end
+class Api::V1::PaymentsController < Api::V1::ApplicationResourceController
 end

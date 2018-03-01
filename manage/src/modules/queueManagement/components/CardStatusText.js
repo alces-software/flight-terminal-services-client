@@ -11,7 +11,7 @@ const unitOrUnits = mkPluralization('unit', 'units');
 const nodeOrNodes = mkPluralization('node', 'nodes');
 
 const CardStatusText = ({
-  consumesCredits,
+  usingOngoingCredits,
   cuPerNode,
   current,
   modification,
@@ -29,7 +29,7 @@ const CardStatusText = ({
             {' '}{modification.max}.
           </CardText>
           {
-            consumesCredits
+            usingOngoingCredits
               ? (
                 <CardText>
                   When complete, this queue will consume {cuPerNode}{' '}
@@ -56,7 +56,7 @@ const CardStatusText = ({
             {' '}{modification.max}.
           </CardText>
           {
-            consumesCredits
+            usingOngoingCredits
               ? (
                 <CardText>
                   This queue consumes {cuPerNode} compute
@@ -81,7 +81,7 @@ const CardStatusText = ({
             minimum of {current.min} and a maximum of {current.max}.
           </CardText>
           {
-            consumesCredits
+            usingOngoingCredits
               ? (
                 <CardText>
                   This queue consumes {cuPerNode} compute
@@ -104,7 +104,7 @@ const CardStatusText = ({
             cluster, click on "Add to cluster" below.
           </CardText>
           {
-            consumesCredits
+            usingOngoingCredits
               ? (
                 <CardText>
                   If added to your cluster, this queue will consume
@@ -124,7 +124,7 @@ const CardStatusText = ({
             This queue is being removed from your cluster.
           </CardText>
           {
-            consumesCredits
+            usingOngoingCredits
               ? (
                 <CardText>
                   Once removed it will no longer consume any compute units.
@@ -141,7 +141,6 @@ const CardStatusText = ({
 };
 
 CardStatusText.propTypes = {
-  consumesCredits: PropTypes.bool.isRequired,
   cuPerNode: PropTypes.number.isRequired,
   current: PropTypes.shape({
     current: PropTypes.number.isRequired,
@@ -160,6 +159,7 @@ CardStatusText.propTypes = {
     'MODIFY_IN_PROGRESS',
     'DELETE_IN_PROGRESS',
   ]).isRequired,
+  usingOngoingCredits: PropTypes.bool.isRequired,
 };
 
 export default CardStatusText;

@@ -10,7 +10,7 @@ import launchUsers from '../../launchUsers';
 
 import * as actions from '../actions';
 
-const ClustersContext = ({ route }) => {
+const PaymentsContext = ({ route }) => {
   return renderRoutes(route.routes);
 };
 
@@ -34,9 +34,12 @@ const enhance = compose(
     componentDidMount: function componentDidMount() {
       const { dispatch, user } = this.props;
       if (user != null) {
-        const request = dispatch(actions.loadClustersConsumingCredits(user));
+        const request = dispatch(actions.loadPaymentsUsingCredits(user));
         if (request) {
-          request.catch(error => error);
+          request.catch((error) => {
+            console.log('error:', error);  // eslint-disable-line no-console
+            return error;
+          });
         }
       }
     },
@@ -46,13 +49,16 @@ const enhance = compose(
       const nextUserId = ( nextProps.user || {} ).id;
       const thisUserId = ( user || {} ).id;
       if (nextUserId !== thisUserId) {
-        const request = dispatch(actions.loadClustersConsumingCredits(nextProps.user));
+        const request = dispatch(actions.loadPaymentsUsingCredits(nextProps.user));
         if (request) {
-          request.catch(error => error);
+          request.catch((error) => {
+            console.log('error:', error);  // eslint-disable-line no-console
+            return error;
+          });
         }
       }
     },
   }),
 );
 
-export default enhance(ClustersContext);
+export default enhance(PaymentsContext);
