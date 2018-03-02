@@ -56,6 +56,14 @@ function messageFromDetails(details) {
         account or use a launch token.
       </span>
     );
+  } else if (hasPropError(details, 'payment.max_credit_usage', 'is too small')) {
+    return (
+      <span>
+        The compute unit limit you have set does not provide sufficient
+        runtime for the cluster.  You could use a greater compute unit limit
+        or select a different cluster.
+      </span>
+    );
   } else if (hasPropError(details, 'cluster_name', 'taken')) {
     return (
       <span>

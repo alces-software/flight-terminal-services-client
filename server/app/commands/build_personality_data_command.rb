@@ -13,7 +13,8 @@
 class BuildPersonalityDataCommand
   include ApiEndpointUrlsConcern
 
-  def initialize(launch_config)
+  def initialize(cluster_spec, launch_config)
+    @cluster_spec = cluster_spec
     @launch_config = launch_config
   end
 
@@ -34,7 +35,7 @@ class BuildPersonalityDataCommand
   end
 
   def generate_initial_queues_data
-    return {} unless @launch_config.spec.feature(:initialQueueConfiguration)
+    return {} unless @cluster_spec.feature(:initialQueueConfiguration)
     return {} if @launch_config.queues.nil? || @launch_config.queues.empty?
     {
       'queues' => @launch_config.queues.to_hash
@@ -50,7 +51,7 @@ class BuildPersonalityDataCommand
   end
 
   def generate_collections_data
-    return {} unless @launch_config.spec.feature(:forgeCollections)
+    return {} unless @cluster_spec.feature(:forgeCollections)
     return {} if @launch_config.collection.nil?
     {
       'collections' => Array.wrap(@launch_config.collection)
@@ -58,9 +59,8 @@ class BuildPersonalityDataCommand
   end
 
   def generate_compute_personality
-    attrs = Cluster.attributes_from_launch_config(@launch_config)
-    qualified_name = attrs[:qualified_name]
-    domain = attrs[:domain]
+    qualified_name = Cluster.attributes_from_launch_config(@launch_config)[:qualified_name]
+    domain = Cluster.attributes_from_cluster_spec(@cluster_spec)[:domain]
 
     {
       'compute' => {

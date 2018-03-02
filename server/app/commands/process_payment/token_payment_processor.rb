@@ -8,11 +8,6 @@
 
 module ProcessPayment
   class TokenPaymentProcessor < ProcessPaymentCommand
-    def log_invalid_reason
-      Rails.logger.info("Launch token for #{@launch_config.name} invalid. " +
-                        "Current status is #{@payment.token.status}")
-    end
-
     def send_invalid_email?
       # The only reason this could have failed is due to an SQS job being
       # processed multiple times.  We don't want to send an email explaining
@@ -48,7 +43,7 @@ module ProcessPayment
     private
 
     def mark_token_as(status)
-      @payment.token.mark_as(status, @launch_config.email)
+      @payment.token.mark_as(status, @email)
     end
   end
 end

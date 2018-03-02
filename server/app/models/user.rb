@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   has_many :clusters
   has_many :credit_usages, through: :clusters
+  has_many :payments
 
   validates :username, uniqueness: true
 

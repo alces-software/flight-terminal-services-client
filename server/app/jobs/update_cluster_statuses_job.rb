@@ -28,8 +28,8 @@ class UpdateClusterStatusesJob < ApplicationJob
 
   def process_domain(domain)
     Alces.app.logger.info("Requesting live clusters for domain #{domain}")
-    live_clusters = make_request(available_clusters_uri, domain)
     cluster_records = Cluster.running.where(domain: domain)
+    live_clusters = make_request(available_clusters_uri, domain)
     cluster_records.each do |cluster_record|
       unless is_live?(cluster_record, live_clusters)
         cluster_record.update(status: 'TERMINATION_COMPLETE')

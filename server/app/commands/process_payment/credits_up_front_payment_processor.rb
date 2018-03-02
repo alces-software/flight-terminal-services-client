@@ -17,11 +17,11 @@ module ProcessPayment
     def process_about_to_launch
       @payment.user.compute_credits -= @payment.required_credits
       @payment.user.save!
-      @credits_subtracted = true
+      @credits_deducted = true
     end
 
     def process_launch_failed
-      return unless @credits_subtracted
+      return unless @credits_deducted
       @payment.user.compute_credits += @payment.required_credits
       begin
         @payment.user.save!

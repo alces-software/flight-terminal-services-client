@@ -21,10 +21,11 @@ class BuildParameterDirectoryCommand
     'ClusterName' => :cluster_name,
   }.freeze
 
-  def initialize(parameter_dir, cluster_spec, launch_config)
+  def initialize(parameter_dir, cluster_spec, launch_config, launch_option)
     @parameter_dir = parameter_dir
     @cluster_spec = cluster_spec
     @launch_config = launch_config
+    @launch_option = launch_option
   end
 
   def perform
@@ -37,7 +38,7 @@ class BuildParameterDirectoryCommand
   end
 
   def create_parameter_directory
-    fly_exe_path = @launch_config.spec.fly_executable_path
+    fly_exe_path = @cluster_spec.fly_executable_path
     cmd = [fly_exe_path, '--create-parameter-directory', @parameter_dir]
     Rails.logger.debug("Creating fly parameter directory: #{cmd.inspect}")
     exit_status = Open3.popen3(*cmd) do |stdin, stdout, stderr, wait_thr|
@@ -58,9 +59,8 @@ class BuildParameterDirectoryCommand
   end
 
   def merge_launch_option_overrides
-    launch_option = @launch_config.payment.launch_option
-    overrides = launch_option.parameter_directory_overrides
-    merge_overrides(overrides, "launch option #{launch_option.name}")
+    overrides = @launch_option.parameter_directory_overrides
+    merge_overrides(overrides, "launch option #{@launch_option.name}")
   end
 
   def merge_personality_data
@@ -72,9 +72,11 @@ class BuildParameterDirectoryCommand
     # So let's not include any personality data.  This heuristic will become
     # outdated soon and should be removed.
     #
-    return unless @launch_config.spec.feature(:personalityData)
+    return unless @cluster_spec.feature(:personalityData)
 
-    personality_data = BuildPersonalityDataCommand.new(@launch_config).perform
+    personality_data = BuildPersonalityDataCommand.new(
+      @cluster_spec, @launch_config
+    ).perform
     overrides = {
       "cluster-compute" => {
         "PersonalityData" => personality_data

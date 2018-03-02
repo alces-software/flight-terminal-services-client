@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import payments from '../../payments';
+
 import AccessIntroCard from './AccessIntroCard';
 import TerminateButton from './TerminateButton';
 
-const TerminateClusterIntro = ({ cluster, consumesCredits, hostname }) => {
+const TerminateClusterIntro = ({ cluster, hostname, payment }) => {
   let text;
-  if (consumesCredits) {
+  if (payments.utils.usingOngoingCredits(payment)) {
     text = (
       <span>
         Once you have finished with your cluster you can terminate it to
@@ -43,8 +45,8 @@ const TerminateClusterIntro = ({ cluster, consumesCredits, hostname }) => {
 
 TerminateClusterIntro.propTypes = {
   cluster: PropTypes.object.isRequired,
-  consumesCredits: PropTypes.bool.isRequired,
   hostname: PropTypes.string.isRequired,
+  payment: PropTypes.object,
 };
 TerminateClusterIntro.manageItemKey = 'terminateCluster';
 

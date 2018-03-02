@@ -9,7 +9,6 @@
 class DetermineRuntimeCommand
   def initialize(payment, humanized: false)
     @payment = payment
-    @launch_option = @payment.launch_option
     @humanized = humanized
   end
 
@@ -26,7 +25,7 @@ class DetermineRuntimeCommand
       return ENV['CLUSTER_RUNTIME']
     end
 
-    spec_cost_per_hour = @launch_option.upfront_cost_per_hour.to_f
+    spec_cost_per_hour = @payment.upfront_cost_per_hour.to_f
     if @payment.using_token?
       fractional_hours = @payment.token.credits.to_f / spec_cost_per_hour
     elsif

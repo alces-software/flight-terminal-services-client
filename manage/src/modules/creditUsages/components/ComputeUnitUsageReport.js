@@ -7,8 +7,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Styles } from 'flight-reactware';
 
-import * as selectors from '../selectors';
+import payments from '../../payments';
+
 import withCreditUsageContext from './withCreditUsageContext';
+import CurrentCreditConsumption from './CurrentCreditConsumption';
+import TotalCreditConsumption from './TotalCreditConsumption';
 import { CardMedias, CardMedia } from './CardMedia';
 
 function mkPluralization(singular, plural) {
@@ -18,17 +21,26 @@ function mkPluralization(singular, plural) {
 }
 const unitOrUnits = mkPluralization('unit', 'units');
 
+function statusText(status) {
+  let prefix;
+  if (status === 'TERMINATION_COMPLETE') {
+    prefix = 'Terminated.';
+  } else {
+    prefix = 'Running.';
+  }
+  return prefix;
+}
+
 const ComputeUnitUsageReport = ({
   className,
   cluster,
-  currentCreditConsumption,
   outlineStatus,
-  totalCreditConsumption,
+  payment,
 }) => {
-  const { clusterName, consumesCredits, status } = cluster.attributes;
-  if (!consumesCredits) {
+  if (payment === null) {
     return null;
   }
+  const { clusterName, status } = cluster.attributes;
   const isTerminated = status === 'TERMINATION_COMPLETE';
   return (
     <Card
@@ -53,41 +65,34 @@ const ComputeUnitUsageReport = ({
           iconName={isTerminated ? 'times-circle' : 'check-circle'}
           title="Status:"
         >
-          {
-            isTerminated
-              ? 'Terminated.  No longer consuming compute units.'
-              : 'Running.  Currently consuming compute units.'
-          }
+          { statusText(status) }
         </CardMedia>
         <CardMedia
           iconName="line-chart"
           title="Compute unit burn rate:"
         >
-          {
-            currentCreditConsumption == null
-              ? <span>N/A</span>
-              : <span>
-                {currentCreditConsumption} compute 
-                {' '}{unitOrUnits(currentCreditConsumption)} per-hour.
-              </span>
-          }
+          <CurrentCreditConsumption
+            cluster={cluster}
+          />
         </CardMedia>
         <CardMedia
           iconName="ticket"
           title="Total consumption:"
         >
-          {totalCreditConsumption} compute
-          {' '}{unitOrUnits(totalCreditConsumption)}.
+          <TotalCreditConsumption
+            cluster={cluster}
+            payment={payment}
+          />
         </CardMedia>
         <CardMedia
           iconName="bullseye"
           title="Consumption limit:"
         >
           {
-            cluster.attributes.maxCreditUsage
+            payment.attributes.maxCreditUsage
               ? <span>
-                {cluster.attributes.maxCreditUsage} compute
-                {' '}{unitOrUnits(cluster.attributes.maxCreditUsage)}.
+                {payment.attributes.maxCreditUsage} compute
+                {' '}{unitOrUnits(payment.attributes.maxCreditUsage)}.
               </span>
               : <span>N/A</span>
           }
@@ -100,9 +105,8 @@ const ComputeUnitUsageReport = ({
 ComputeUnitUsageReport.propTypes = {
   className: PropTypes.string,
   cluster: PropTypes.object.isRequired,
-  currentCreditConsumption: PropTypes.number,
   outlineStatus: PropTypes.bool.isRequired,
-  totalCreditConsumption: PropTypes.number,
+  payment: PropTypes.object.isRequired,
 };
 
 ComputeUnitUsageReport.defaultProps = {
@@ -114,12 +118,11 @@ const enhance = compose(
 
   Styles.withStyles``,
 
-  withCreditUsageContext,
-
   connect(createStructuredSelector({
-    currentCreditConsumption: selectors.currentCreditConsumption,
-    totalCreditConsumption: selectors.totalAccruedUsageForAp,
+    payment: payments.selectors.paymentForCluster,
   })),
+
+  withCreditUsageContext,
 );
 
 export default enhance(ComputeUnitUsageReport);
