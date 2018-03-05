@@ -13,10 +13,11 @@ terminated shortly.
 </p>
 
 <p>
-The cluster login node will continue running for <%= @grace_period_in_hours %> <%=
-'hour'.pluralize(@grace_period_in_hours) %>, allowing you access to save any
-work.  After <%= @grace_period_in_hours %> <%=
-'hour'.pluralize(@grace_period_in_hours) %>, the cluster will be terminated.
+The cluster login node will continue running until
+<%= @cluster.grace_period_expires_at.strftime("%FT%T") %>
+(<%= distance_of_time_in_words(@now, @cluster.grace_period_expires_at) %>),
+allowing you access to save any work.  After this grace period has expired,
+the cluster will be terminated.
 </p>
 
 <p>

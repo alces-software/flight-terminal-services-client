@@ -18,14 +18,14 @@ This cluster will consume your compute units until it is terminated or it
 reaches its limit of <%= @max_credit_usage %> compute <%=
 'unit'.pluralize(@max_credit_usage) %>.  Should your account run out of
 compute units then your cluster will begin to shut down automatically.
-During this time you will have access to your cluster's login node for <%=
-@grace_period_in_hours %>  <%= 'hour'.pluralize(@grace_period_in_hours) %> to
-enable you to save your work.  Please remember to save your work as you go.
+During this time you will have access to your cluster's login node for upto
+<%= @grace_period_in_hours %>  <%= 'hour'.pluralize(@grace_period_in_hours) %>
+to enable you to save your work.  Please remember to save your work as you go.
 <%- else -%>
 This cluster will consume your compute units until it is terminated.  Should
 your account run out of compute units then your cluster will begin to shut down
 automatically.  During this time you will have access to your cluster's login
-node for <%= @grace_period_in_hours %>  <%= 'hour'.pluralize(@grace_period_in_hours) %>
+node for upto <%= @grace_period_in_hours %>  <%= 'hour'.pluralize(@grace_period_in_hours) %>
 to enable you to save your work.  Please remember to save your work as you go.
 <%- end -%>
 

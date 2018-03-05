@@ -10,17 +10,17 @@ class QueueTerminationMailer < ApplicationMailer
 
   helper_method :terminate_url
 
-  def user_credits_exceeded(user, clusters, grace_period)
-    @grace_period_in_hours = (grace_period / (60 * 60)).floor
+  def user_credits_exceeded(user, clusters)
     @clusters = clusters
+    @now = Time.now.utc
 
     mail to: user.email,
       subject: "Your Alces Flight Compute HPC compute queues are being terminated"
   end
 
-  def cluster_credit_limit_exceeded(cluster, grace_period)
-    @grace_period_in_hours = (grace_period / (60 * 60)).floor
+  def cluster_credit_limit_exceeded(cluster)
     @cluster = cluster
+    @now = Time.now.utc
 
     mail to: cluster.user.email,
       subject: "Your Alces Flight Compute HPC compute queues are being terminated"

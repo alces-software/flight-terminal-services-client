@@ -24,9 +24,9 @@ class ReduceUsersCreditsJob < ApplicationJob
       msg = "User #{@user.username}:#{@user.id} has sufficient credits"
       Alces.app.logger.info(msg)
     elsif !@user.termination_warning_active
-      terminate_compute_queues
-    elsif @user.termination_warning_active && grace_period_expired?
-      terminate_clusters
+      process_grace_period_commencement
+    elsif @user.termination_warning_active
+      terminate_clusters_with_expired_grace_period
     else
       # The user has an active termination warning, but the grace period has
       # not yet expired. Nothing to do yet.
@@ -51,7 +51,7 @@ class ReduceUsersCreditsJob < ApplicationJob
     end
   end
 
-  def terminate_compute_queues
+  def process_grace_period_commencement
     if clusters_using_ongoing_credits.empty?
       msg = "User has no relevant cluster. Skipping termination of compute queues " +
         "#{@user.username}:#{@user.id}"
@@ -62,37 +62,53 @@ class ReduceUsersCreditsJob < ApplicationJob
       "#{@user.username}:#{@user.id}"
     Alces.app.logger.info(msg)
 
+    set_cluster_grace_periods
+    send_queue_termination_email
+    set_user_termination_warning
+    terminate_compute_queues
+  end
+
+  def set_cluster_grace_periods
+    clusters_using_ongoing_credits.each do |cluster|
+      next if cluster.grace_period_expires_at.present?
+      cluster.update_attributes!(
+        grace_period_expires_at: Time.now.utc + cluster.grace_period
+      )
+    end
+  end
+
+  def send_queue_termination_email
     QueueTerminationMailer.user_credits_exceeded(
       @user,
       clusters_using_ongoing_credits,
-      grace_period
     ).deliver_now
-    @user.termination_warning_sent_at = Time.now.utc
-    @user.termination_warning_active = true
-    @user.save!
+  end
+
+  def set_user_termination_warning
+    @user.update_attributes!(
+      termination_warning_sent_at: Time.now.utc,
+      termination_warning_active: true,
+    )
+  end
+
+  def terminate_compute_queues
     clusters_using_ongoing_credits.each do |cluster|
       TerminateClusterQueuesCommand.new(cluster).perform
     end
   end
 
-  def terminate_clusters
-    msg = "Terminating user's clusters #{@user.username}:#{@user.id}"
+  def terminate_clusters_with_expired_grace_period
+    msg = "Terminating clusters with expired grace periods for user " +
+      "#{@user.username}:#{@user.id}"
     Alces.app.logger.info(msg)
+    now = Time.now.utc
     clusters_using_ongoing_credits.each do |cluster|
+      next unless cluster.grace_period_expired?(now)
       TerminateClusterCommand.new(cluster).perform
     end
   end
 
-  def grace_period_expired?
-    @user.termination_warning_sent_at + grace_period < Time.now.utc
-  end
-
-  def grace_period
-    gp = ENV['CREDIT_EXHAUSTION_CLUSTER_TERMINATION_GRACE_PERIOD'].to_i
-    gp > 0 ? gp.hours : 24.hours
-  end
-
   def clusters_using_ongoing_credits
-    @user.clusters.using_ongoing_credits.running
+    @_clusters_using_ongoing_credits ||= @user.clusters.using_ongoing_credits.running
   end
 end
