@@ -20,6 +20,7 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   attribute :cluster_name
   attribute :current_compute_queues
   attribute :domain
+  attribute :grace_period_expires_at
   attribute :is_solo
   attribute :qualified_name
   attribute :status

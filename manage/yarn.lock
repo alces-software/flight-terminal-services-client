@@ -3402,44 +3402,6 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.32/flight-reactware.tgz":
-  version "0.1.32"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.32/flight-reactware.tgz#87c858a9b28dc7b394169661c10600094b01ab8a"
-  dependencies:
-    axios "^0.16.2"
-    babel-preset-react-app "^3.0.1"
-    invariant "^2.2.2"
-    jwt-decode "^2.2.0"
-    lodash "^4.17.4"
-    moment "^2.18.1"
-    node-noop "^1.0.0"
-    pluralize "^7.0.0"
-    polished "^1.3.0"
-    query-string "^5.0.0"
-    react-cookie-banner "^0.0.18"
-    react-fontawesome "^1.6.1"
-    react-form "^1.2.8"
-    react-ga "^2.3.5"
-    react-helmet "^5.1.3"
-    react-images "https://github.com/mjtko/react-images"
-    react-markdown "^2.5.0"
-    react-redux "^5.0.5"
-    react-router-dom "^4.2.2"
-    react-router-redux "5.0.0-alpha.8"
-    react-s-alert "^1.3.0"
-    react-scroll "1.5.4"
-    reactstrap "^5.0.0-beta"
-    recompose "^0.24.0"
-    redux "^3.7.1"
-    redux-axios-middleware "^4.0.0"
-    redux-cookie "^0.5.9"
-    redux-form "^6.8.0"
-    redux-simple-promise "^2.0.2"
-    reselect "^3.0.1"
-    seamless-immutable "^7.1.2"
-    styled-components "^2.0.1"
-    validator "^8.2.0"
-
 "flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.34/flight-reactware.tgz":
   version "0.1.34"
   resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.34/flight-reactware.tgz#580f40a3e91c990c08507d71c3115345ac2a8077"
@@ -3477,20 +3439,6 @@ flatten@^1.0.2:
     seamless-immutable "^7.1.2"
     styled-components "^2.0.1"
     validator "^8.2.0"
-
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.7/flight-tutorials-client.tgz":
-  version "0.1.7"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.7/flight-tutorials-client.tgz#e9330636b8d05db782f2f54b35ee622d05b614d0"
-  dependencies:
-    debug "^2.6.8"
-    react-fontawesome "^1.6.1"
-    react-markdown "^2.5.0"
-    reactstrap "5.0.0-beta"
-    socket.io-client "^2.0.3"
-    socket.io-stream "^0.9.1"
-    styled-components "^2.1.2"
-    terminal.js "^1.0.9"
-    url-search-params-polyfill "^2.0.0"
 
 "flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.8/flight-tutorials-client.tgz":
   version "0.1.8"
@@ -6831,6 +6779,10 @@ react-side-effect@^1.1.0:
   dependencies:
     exenv "^1.2.1"
     shallowequal "^0.2.2"
+
+react-timeago@^3.4.3:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/react-timeago/-/react-timeago-3.4.3.tgz#eb9061eefb044e4a2b09ce8c99d34645b2dbfa25"
 
 react-transition-group@^1.1.3:
   version "1.2.1"

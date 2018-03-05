@@ -22,9 +22,10 @@ export function loadPaymentsUsingCredits(user) {
         'fields[clusters]': [
           'clusterName',
           'creditUsages',
+          'gracePeriodExpiresAt',
+          'isSolo',
           'payment',
           'status',
-          'isSolo',
         ].join(','),
       },
     });
