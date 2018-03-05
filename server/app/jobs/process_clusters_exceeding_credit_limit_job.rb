@@ -50,7 +50,7 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
   end
 
   def grace_period_expired?(cluster)
-    cluster.termination_warning_sent_at + cluster.grace_period < Time.now.utc
+    cluster.grace_period_expires_at < Time.now.utc
   end
 
   def terminate_compute_queues(cluster)
@@ -58,9 +58,12 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
       QueueTerminationMailer.cluster_credit_limit_exceeded(cluster)
         .deliver_now
     end
-    cluster.termination_warning_sent_at = Time.now.utc
-    cluster.termination_warning_active = true
-    cluster.save!
+    warning_sent_at = Time.now.utc
+    cluster.update_attributes!(
+      termination_warning_sent_at: warning_sent_at,
+      termination_warning_active: true,
+      grace_period_expires_at: warning_sent_at + cluster.grace_period
+    )
     TerminateClusterQueuesCommand.new(cluster).perform
   end
 
