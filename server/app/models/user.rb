@@ -50,4 +50,9 @@ class User < ApplicationRecord
   def has_compute_credits?
     compute_credits.present? && compute_credits > 0
   end
+
+  def grace_period
+    gp = ENV['CREDIT_EXHAUSTION_CLUSTER_TERMINATION_GRACE_PERIOD'].to_i
+    gp > 0 ? gp.hours : 24.hours
+  end
 end

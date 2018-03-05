@@ -65,7 +65,6 @@ class ReduceUsersCreditsJob < ApplicationJob
     QueueTerminationMailer.user_credits_exceeded(
       @user,
       clusters_using_ongoing_credits,
-      grace_period
     ).deliver_now
     @user.termination_warning_sent_at = Time.now.utc
     @user.termination_warning_active = true
@@ -84,12 +83,7 @@ class ReduceUsersCreditsJob < ApplicationJob
   end
 
   def grace_period_expired?
-    @user.termination_warning_sent_at + grace_period < Time.now.utc
-  end
-
-  def grace_period
-    gp = ENV['CREDIT_EXHAUSTION_CLUSTER_TERMINATION_GRACE_PERIOD'].to_i
-    gp > 0 ? gp.hours : 24.hours
+    @user.termination_warning_sent_at + @user.grace_period < Time.now.utc
   end
 
   def clusters_using_ongoing_credits
