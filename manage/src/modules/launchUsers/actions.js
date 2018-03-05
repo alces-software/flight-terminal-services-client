@@ -6,7 +6,6 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 import { jsonApi } from 'flight-reactware';
-
 import { currentUser, retrieval } from './selectors';
 
 export function loadUser(username) {
