@@ -22,6 +22,14 @@ class Cluster < ApplicationRecord
     where.not(status: 'TERMINATION_COMPLETE')
   }
 
+  scope :grace_period_active, ->() {
+    where.not(grace_period_expires_at: nil)
+  }
+
+  scope :termination_warning_inactive, -> () {
+    where(termination_warning_active: false)
+  }
+
   belongs_to :user
   has_many :compute_queue_actions
   has_many :credit_usages
