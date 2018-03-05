@@ -10,15 +10,24 @@ Your Alces Flight account has insufficient compute units remaining to continue
 running all of your current clusters.  All compute queues for the clusters
 below will be terminated shortly.
 
-The clusters' login node will continue running for <%= @grace_period_in_hours %> <%= 'hour'.pluralize(@grace_period_in_hours) %>,
-allowing you access to save any work.  After <%= @grace_period_in_hours %>
-<%= 'hour'.pluralize(@grace_period_in_hours) %>, if you have not added additional compute units to your account your
-clusters will be terminated.
+A grace period will be provided for each cluster during which time the
+cluster's login node will continue running allowing you access to save any
+work.  After the grace period expires, if you have not added additional
+compute units to your account your clusters will be terminated.
+
+During their grace period your clusters will continue to consume your compute
+units due to the running login node.  Once you have saved your work, you can
+terminate the cluster to prevent any further consumption.
 
 The clusters affected are:
 
 <% @clusters.each do |cluster| %>
-  * <%= cluster.cluster_name %> -- <%= link_to 'terminate', terminate_url(cluster) %>
+<%= cluster.cluster_name %>
+  * Cluster name: <%= cluster.cluster_name %>
+  * Grace period expiration: <%= cluster.grace_period_expires_at.strftime("%FT%T") %>
+    (<%= distance_of_time_in_words(@now, cluster.grace_period_expires_at) %>)
+  * Terminate now: <<%= terminate_url(cluster) %>>
+
 <% end %>
 
 <% note do %>
