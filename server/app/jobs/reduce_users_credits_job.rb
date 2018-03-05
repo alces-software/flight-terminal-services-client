@@ -103,7 +103,7 @@ class ReduceUsersCreditsJob < ApplicationJob
     Alces.app.logger.info(msg)
     now = Time.now.utc
     clusters_using_ongoing_credits.each do |cluster|
-      next unless cluster.grace_period_expires_at < now
+      next unless cluster.grace_period_expired?(now)
       TerminateClusterCommand.new(cluster).perform
     end
   end

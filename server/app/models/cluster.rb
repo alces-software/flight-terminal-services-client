@@ -143,4 +143,8 @@ class Cluster < ApplicationRecord
       base_gp
     end
   end
+
+  def grace_period_expired?(now=Time.now.utc)
+    grace_period_expires_at < now
+  end
 end

@@ -20,9 +20,9 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
         # Nothing to do.
         msg = "Cluster #{cluster_identifier(cluster)} has not exceeded credit limit"
         Alces.app.logger.info(msg)
-      elsif ! termination_warning_active?(cluster)
+      elsif ! cluster.termination_warning_active?
         terminate_compute_queues(cluster)
-      elsif termination_warning_active?(cluster) && grace_period_expired?(cluster)
+      elsif cluster.termination_warning_active? && cluster.grace_period_expired?
         terminate_cluster(cluster)
       else
         # The cluster has an active termination warning, but the grace period has
@@ -43,14 +43,6 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
     )
     limit = cluster.payment.max_credit_usage
     consumed >= limit
-  end
-
-  def termination_warning_active?(cluster)
-    cluster.termination_warning_active?
-  end
-
-  def grace_period_expired?(cluster)
-    cluster.grace_period_expires_at < Time.now.utc
   end
 
   def terminate_compute_queues(cluster)
