@@ -126,7 +126,13 @@ class Cluster < ApplicationRecord
   end
 
   def grace_period
-    gp = ENV['CREDIT_EXHAUSTION_CLUSTER_TERMINATION_GRACE_PERIOD'].to_i
-    gp > 0 ? gp.hours : 24.hours
+    base_gp = ENV['CREDIT_EXHAUSTION_CLUSTER_TERMINATION_GRACE_PERIOD'].to_i
+    base_gp = base_gp > 0 ? base_gp.hours : 24.hours
+    current_runtime = Time.now.utc - created_at
+    if current_runtime < base_gp
+      current_runtime.seconds
+    else
+      base_gp
+    end
   end
 end
