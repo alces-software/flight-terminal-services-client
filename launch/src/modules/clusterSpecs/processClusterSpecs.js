@@ -24,6 +24,7 @@ export function processClusterSpecs(clusterSpecs) {
         icons: icons,
       },
       features: clusterSpec.features || {},
+      availability: clusterSpec.availability || "any",
     };
   });
 }

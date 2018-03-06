@@ -64,7 +64,7 @@ class ClustersController < ApplicationController
 
   def build_models
     @tenant = Tenant.find_by!(params.require(:tenant).permit(:identifier))
-    @cluster_spec = ClusterSpec.load(cluster_spec_params, @tenant)
+    @cluster_spec = ClusterSpec.load(cluster_spec_params, @tenant, current_user)
     @launch_option = LaunchOption.new(launch_option_params(@cluster_spec))
     @payment = Payment.new(payment_params(@cluster_spec, @launch_option))
     @payment.token = find_token(@tenant) if @payment.using_token?
@@ -142,6 +142,14 @@ class ClustersController < ApplicationController
         error: 'Unprocessable Entity',
         details: {
           cluster_spec: ["spec not found"],
+        }
+      }
+    when ClusterSpec::ClusterSpecNotAuthorized
+      render status: :forbidden, json: {
+        status: 403,
+        error: 'Forbidden',
+        details: {
+          cluster_spec: ["spec not authorized"],
         }
       }
     when ClusterSpec::ClusterSpecsNotValid
