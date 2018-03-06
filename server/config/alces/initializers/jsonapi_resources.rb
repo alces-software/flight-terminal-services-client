@@ -34,7 +34,7 @@ initializer do
     config.raise_if_parameters_not_allowed = true
 
     # :none, :offset, :paged, or a custom paginator name
-    config.default_paginator = :none
+    config.default_paginator = :optional_offset
 
     # Output pagination links at top level
     config.top_level_links_include_pagination = true
