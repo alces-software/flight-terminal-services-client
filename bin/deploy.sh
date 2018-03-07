@@ -116,6 +116,12 @@ get_app_nav_mode() {
     grep REACT_APP_NAV_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
 }
 
+wait_for_confirmation() {
+    echo ""
+    echo "Press enter to continue or Ctrl-C to abort like a coward"
+    read -s
+}
+
 header() {
     echo -e "=====> $@"
 }
