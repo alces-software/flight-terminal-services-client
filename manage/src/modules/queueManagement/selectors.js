@@ -59,12 +59,17 @@ export const allQueues = createSelector(
     );
 
     const createOrModifyActionsMap = [].concat(queueActions)
-      .sort(qa => qa.attributes.createdAt)  // Take only the most recent.
       .filter(({ attributes: qa }) =>
         ['PENDING', 'IN_PROGRESS'].includes(qa.status)
       )
       .reduce(
-        (accum, { attributes }) => { accum[attributes.spec] = attributes; return accum; },
+        (accum, { attributes }) => {
+          const existing = accum[attributes.spec];
+          if (existing == null || existing.createdAt < attributes.createdAt) {
+            accum[attributes.spec] = attributes;
+          }
+          return accum;
+        },
         {}
       );
 
