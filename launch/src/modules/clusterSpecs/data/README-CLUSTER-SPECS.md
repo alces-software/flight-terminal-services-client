@@ -52,6 +52,7 @@ cluster spec object has four parts to it.
     "fly": {...},
     "launchOptions": {...},
     "features": {...},
+    "availability": ...,
 }
 ```
 
@@ -80,6 +81,8 @@ subtitle, icons, logoUrl and description (body) of the cluster spec.  E.g.,
 
     "fly": {...},
     "launchOptions": {...},
+    "features": {...},
+    "availability": ...,
 }
 ```
 
@@ -207,6 +210,8 @@ example `fly` section is shown below.
     }
 
     "launchOptions": {...},
+    "features": {...},
+    "availability": ...,
 },
 ```
 
@@ -286,6 +291,8 @@ extend the launch client app to support more than two options.
     },
 
     "fly": {...}
+    "features": {...},
+    "availability": ...,
 }
 ```
 
@@ -351,14 +358,36 @@ supports.  At the time of writing, there are three supported features:
     "fly": {...},
 
     "features": {
-      "personalityData": true | false,
       "forgeCollections": true | false,
-      "initialQueueConfiguration": true | false
+      "initialQueueConfiguration": true | false,
+      "personalityData": true | false
     }
 }
 ```
 
+#### Availability section
 
+The availability section determines whether the cluster spec is avaiable to
+the current user.  There are three valid values
+
+ - `anonymous`: only anonymous users have access to the cluster spec.
+ - `authenticated`: only authenticated users have access to the cluster spec.
+ - `any`: both anonymous and authenticated users have access to the cluster
+   spec.
+
+Availability defaults to `any`.
+
+```
+{
+    "key": UUID,
+    "ui": {...},
+    "launchOptions": {...},
+    "fly": {...},
+    "features": {...},
+
+    "availability": "anonymous" | "authenticated" | "any"
+}
+```
 
 ## Example
 
@@ -447,7 +476,8 @@ An example of a cluster specs json file with three cluster specs is given below.
             "SchedulerType": "gridscheduler"
           }
         }
-      }
+      },
+      "availability": "any"
     },
   
     {
@@ -505,7 +535,8 @@ An example of a cluster specs json file with three cluster specs is given below.
             "SchedulerType": "gridscheduler"
           }
         }
-      }
+      },
+      "availability": "authenticated"
     },
   
     {
@@ -571,7 +602,8 @@ An example of a cluster specs json file with three cluster specs is given below.
             "SchedulerType": "slurm"
           }
         }
-      }
+      },
+      "availability": "anonymous"
     },
   ]
 ```
