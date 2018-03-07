@@ -8,8 +8,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
+import styled from 'styled-components';
 
 import Input from './Input';
+
+const AlignedButton = styled(Button)`
+  vertical-align: unset;
+`;
 
 const propTypes = {
   error: PropTypes.string,
@@ -36,13 +41,13 @@ const SelectRuntimeInput = ({ error, id, onChange, onUseLaunchToken, value }) =>
     />
     <p>
       Alternatively, you can{' '}
-      <Button
+      <AlignedButton
         color="link"
         onClick={onUseLaunchToken}
         style={{ padding: 0 }}
       >
         use a Flight Launch token
-      </Button>.
+      </AlignedButton>.
     </p>
   </div>
 );
