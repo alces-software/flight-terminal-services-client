@@ -46,14 +46,21 @@ export const computeQueueActions = createSelector(
   ),
 );
 
-export const allQueues = createSelector(
-  clusters.selectors.currentCluster,
+const computeQueues = state => stateSlice(state).queues;
+
+// Return list of available queues decorated with their current configuration
+// and the most recent outstanding modification if any.
+export const decoratedQueues = createSelector(
+  computeQueues,
   computeQueueActions,
 
-  (cluster, queueActions) => {
-    const { availableComputeQueues, currentComputeQueues } = cluster.attributes;
+  (queues, queueActions) => {
+    if (queues.current == null || queues.available == null) {
+      // return undefined;
+      return [];
+    }
 
-    const currentQueuesMap = currentComputeQueues.reduce(
+    const currentQueuesMap = queues.current.reduce(
       (accum, q) => { accum[q.spec] = q; return accum; },
       {}
     );
@@ -73,7 +80,7 @@ export const allQueues = createSelector(
         {}
       );
 
-    const queues = availableComputeQueues
+    const decorated = queues.available
       .map(qspec => {
         const queue = currentQueuesMap[qspec.spec];
         const createOrModifyAction = createOrModifyActionsMap[qspec.spec];
@@ -94,6 +101,6 @@ export const allQueues = createSelector(
         };
       });
 
-    return queues;
+    return decorated;
   },
 );

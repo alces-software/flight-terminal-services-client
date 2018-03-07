@@ -16,9 +16,7 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   has_many :compute_queue_actions
   has_many :credit_usages
 
-  attribute :available_compute_queues
   attribute :cluster_name
-  attribute :current_compute_queues
   attribute :domain
   attribute :grace_period_expires_at
   attribute :is_solo
@@ -34,14 +32,6 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     end
   end
 
-  def available_compute_queues
-    tracon_cluster_details.available_queues if advanced_cluster? && @model.is_running?
-  end
-
-  def current_compute_queues
-    tracon_cluster_details.current_queues if advanced_cluster? && @model.is_running?
-  end
-
   def is_solo
     !advanced_cluster?
   end
@@ -50,6 +40,7 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     base_url = options[:serializer].link_builder.base_url
     url_helpers = Rails.application.routes.url_helpers
     {
+      queues: url_helpers.cluster_queues_url(_model, host: base_url),
       terminate: url_helpers.cluster_terminate_url(_model, host: base_url),
     }
   end
@@ -64,14 +55,6 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
 
   def inside_accounting_period(ar_relation)
     ar_relation.between(@context[:ap_start], @context[:ap_end])
-  end
-
-  def tracon_cluster_details
-    return @tracon_command if @tracon_command
-
-    @tracon_command = LoadTraconClusterDetailsCommand.new(cluster: @model)
-    @tracon_command.perform
-    @tracon_command
   end
 
   def advanced_cluster?

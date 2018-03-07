@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     [200, {}, ["OK"]]
   end)
 
+  get 'clusters/queues/:id', to: 'clusters#queues', as: :cluster_queues
   post 'clusters/launch'
   post 'clusters/terminate/:id', to: 'clusters#terminate', as: :cluster_terminate
   post 'packs/top-up-from-token', to: 'packs#top_up_from_token'

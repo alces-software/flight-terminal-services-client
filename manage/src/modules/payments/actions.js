@@ -19,14 +19,6 @@ export function loadPaymentsUsingCredits(user) {
       params: {
         'filter[usingCredits]': true,
         'include': 'cluster',
-        'fields[clusters]': [
-          'clusterName',
-          'creditUsages',
-          'gracePeriodExpiresAt',
-          'isSolo',
-          'payment',
-          'status',
-        ].join(','),
       },
     });
     return dispatch(loadPaymentsAction)

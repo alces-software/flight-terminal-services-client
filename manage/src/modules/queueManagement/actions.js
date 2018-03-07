@@ -9,7 +9,7 @@ import { jsonApi } from 'flight-reactware';
 
 import clusters from '../../modules/clusters';
 
-import { MODAL_HIDDEN, MODAL_SHOWN } from './actionTypes';
+import { LOAD_QUEUES_REQUESTED, MODAL_HIDDEN, MODAL_SHOWN } from './actionTypes';
 import * as selectors from './selectors';
 
 // Create a ComputeQueueActionResource on the launch server which will
@@ -92,6 +92,19 @@ export function showQueueManagementForm(queue, action) {
     payload: {
       action,
       queue,
+    },
+  };
+}
+
+export function loadComputeQueues(cluster) {
+  return {
+    type: LOAD_QUEUES_REQUESTED,
+    meta: {
+      apiRequest: {
+        config: {
+          url: cluster.links.queues,
+        },
+      },
     },
   };
 }
