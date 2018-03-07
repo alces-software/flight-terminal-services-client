@@ -11,6 +11,15 @@ main() {
     build_token_generator_app
     if [ "$SKIP_LAUNCH_CLIENT_BUILD" == "false" ] ; then
         header "Building launch client"
+        subheader "Checking build variables for launch client"
+        local app_mode app_nav_mode
+        app_mode=$(get_app_mode)
+        app_nav_mode=$(get_app_nav_mode)
+        subheader "Building launch client with"
+        echo "  REACT_APP_MODE=${app_mode}"
+        echo "  REACT_APP_NAV_MODE=${app_nav_mode}"
+        wait_for_confirmation
+
         build_launch_client
     fi
     subheader "Committing client bundles"
@@ -99,6 +108,13 @@ remove_client_bundles_commit() {
     git reset --hard HEAD~1 2> >(indent 1>&2) | indent
 }
 
+get_app_mode() {
+    grep REACT_APP_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
+}
+
+get_app_nav_mode() {
+    grep REACT_APP_NAV_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
+}
 
 header() {
     echo -e "=====> $@"
