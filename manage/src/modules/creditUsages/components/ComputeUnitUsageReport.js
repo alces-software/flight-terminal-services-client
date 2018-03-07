@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
+import TimeAgo from 'react-timeago';
 import { Card, CardHeader } from 'reactstrap';
 import { compose, setStatic } from 'recompose';
 import { connect } from 'react-redux';
@@ -11,6 +12,7 @@ import payments from '../../payments';
 
 import withCreditUsageContext from './withCreditUsageContext';
 import CurrentCreditConsumption from './CurrentCreditConsumption';
+import StatusText from './StatusText';
 import TotalCreditConsumption from './TotalCreditConsumption';
 import { CardMedias, CardMedia } from './CardMedia';
 
@@ -21,16 +23,6 @@ function mkPluralization(singular, plural) {
 }
 const unitOrUnits = mkPluralization('unit', 'units');
 
-function statusText(status) {
-  let prefix;
-  if (status === 'TERMINATION_COMPLETE') {
-    prefix = 'Terminated.';
-  } else {
-    prefix = 'Running.';
-  }
-  return prefix;
-}
-
 const ComputeUnitUsageReport = ({
   className,
   cluster,
@@ -40,7 +32,7 @@ const ComputeUnitUsageReport = ({
   if (payment === null) {
     return null;
   }
-  const { clusterName, status } = cluster.attributes;
+  const { clusterName, status, gracePeriodExpiresAt } = cluster.attributes;
   const isTerminated = status === 'TERMINATION_COMPLETE';
   return (
     <Card
@@ -65,7 +57,20 @@ const ComputeUnitUsageReport = ({
           iconName={isTerminated ? 'times-circle' : 'check-circle'}
           title="Status:"
         >
-          { statusText(status) }
+          <StatusText
+            gracePeriodExpiresAt={gracePeriodExpiresAt}
+            status={status}
+          />
+        </CardMedia>
+        <CardMedia
+          iconName="clock-o"
+          title="Grace period expiration:"
+        >
+          {
+            !isTerminated && gracePeriodExpiresAt
+              ? <span><TimeAgo date={gracePeriodExpiresAt} />.</span>
+              : <span>N/A</span>
+          }
         </CardMedia>
         <CardMedia
           iconName="line-chart"

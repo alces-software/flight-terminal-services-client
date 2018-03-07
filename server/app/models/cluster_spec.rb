@@ -21,9 +21,10 @@ class ClusterSpec
   class UnableToRetrieveClusterSpecs < Error; end
   class ClusterSpecsNotValid < Error; end
   class ClusterSpecNotFound < Error; end
+  class ClusterSpecNotAuthorized < Error; end
 
   class << self
-    def load(params, tenant)
+    def load(params, tenant, user)
       file = params['file']
       name = params['name']
       if Rails.env.development? && file == 'dev'
@@ -47,6 +48,13 @@ class ClusterSpec
 
       if spec.nil?
         raise ClusterSpecNotFound
+      end
+
+      case spec['availability'] || 'any'
+      when 'anonymous'
+        raise ClusterSpecNotAuthorized if user.present?
+      when 'authenticated'
+        raise ClusterSpecNotAuthorized if user.nil?
       end
 
       new(

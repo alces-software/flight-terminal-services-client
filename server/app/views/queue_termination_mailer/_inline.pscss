@@ -1,0 +1,16 @@
+/*=============================================================================
+ * Copyright (C) 2018 Stephen F. Norledge and Alces Flight Ltd.
+ *
+ * This file is part of Flight Launch.
+ *
+ * All rights reserved, see LICENSE.txt.
+ *===========================================================================*/
+@import 'layouts/mailer/inline_content';
+
+.cluster-details-title {
+    @extend %section-title;
+}
+
+.cluster-resources-title {
+    @extend %section-title;
+}

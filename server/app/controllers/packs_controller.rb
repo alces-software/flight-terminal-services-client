@@ -23,6 +23,10 @@ class PacksController < ApplicationController
       current_user.credits_last_updated_at = Time.now.utc
       current_user.termination_warning_active = false
       current_user.save!
+      current_user.clusters.grace_period_active.termination_warning_inactive.each do |cluster|
+        cluster.grace_period_expires_at = nil
+        cluster.save!
+      end
       token.mark_as(:used, current_user.email)
     end
   rescue

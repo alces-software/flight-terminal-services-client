@@ -5,6 +5,7 @@
 
   All rights reserved, see LICENSE.txt.
 %>
+<% setup %>
 
 <p>
 Your Alces Flight account has insufficient compute units remaining to continue
@@ -13,10 +14,9 @@ below will be terminated shortly.
 </p>
 
 <p>
-The clusters' login node will continue running for <%= @grace_period_in_hours %> <%=
-'hour'.pluralize(@grace_period_in_hours) %>, allowing you access to save any
-work.  After <%= @grace_period_in_hours %> <%=
-'hour'.pluralize(@grace_period_in_hours) %>, if you have not added additional
+A grace period will be provided for each cluster during which time the
+cluster's login node will continue running allowing you access to save any
+work.  After the grace period expires, if you have not added additional
 compute units to your account your clusters will be terminated.
 </p>
 
@@ -30,14 +30,36 @@ terminate the cluster to prevent any further consumption.
 The clusters affected are:
 </p>
 
-<ul>
-    <% @clusters.each do |cluster| %>
-        <li>
-            <%= cluster.cluster_name %> &mdash;
-            <%= link_to 'terminate', terminate_url(cluster) %>
-        </li>
-    <% end %>
-</ul>
+<% @clusters.each do |cluster| %>
+<blockquote>
+    <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <h4 class="cluster-details-title">Cluster <%= cluster.cluster_name %></h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="<%= td_width(1) %>">
+                    <dl>
+                        <dt>Cluster name</dt>
+                        <dd><%= cluster.cluster_name %></dd>
+                        <dt>Grace period expiration</dt>
+                        <dd>
+                        <%= cluster.grace_period_expires_at.strftime("%FT%T") %>
+                        (<%= distance_of_time_in_words(@now, cluster.grace_period_expires_at) %>)
+                        </dd>
+                        <dt>Terminate cluster</dt>
+                        <dd><%= link_to 'Terminate now', terminate_url(cluster) %></dd>
+                    </dl>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</blockquote>
+<% end %>
 
 <% note do %>
     <p class="notes">

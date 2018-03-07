@@ -8,16 +8,6 @@ main() {
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
 
-    # XXX Should this check be made in deploy.sh?
-    header "Checking build variables for launch client"
-    local app_mode app_nav_mode
-    app_mode=$(get_app_mode)
-    app_nav_mode=$(get_app_nav_mode)
-    subheader "Building launch client with"
-    echo "  app mode = ${app_mode}"
-    echo "  app nav mode = ${app_nav_mode}"
-    wait_for_confirmation
-
     NEW_VERSION=$(get_new_version)
     header "Going to deploy, tag and push version ${NEW_VERSION}"
     wait_for_confirmation
@@ -54,14 +44,6 @@ abort_if_uncommitted_changes_present() {
         echo "$0: Uncommitted changes present aborting. Either stash or commit."
         exit 2
     fi
-}
-
-get_app_mode() {
-    grep REACT_APP_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
-}
-
-get_app_nav_mode() {
-    grep REACT_APP_NAV_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
 }
 
 get_new_version() {

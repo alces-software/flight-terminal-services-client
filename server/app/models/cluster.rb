@@ -22,6 +22,14 @@ class Cluster < ApplicationRecord
     where.not(status: 'TERMINATION_COMPLETE')
   }
 
+  scope :grace_period_active, ->() {
+    where.not(grace_period_expires_at: nil)
+  }
+
+  scope :termination_warning_inactive, -> () {
+    where(termination_warning_active: false)
+  }
+
   belongs_to :user
   has_many :compute_queue_actions
   has_many :credit_usages
@@ -123,5 +131,20 @@ class Cluster < ApplicationRecord
 
   def fully_qualified_stack_name
     "#{qualified_name}.#{domain}"
+  end
+
+  def grace_period
+    base_gp = ENV['CREDIT_EXHAUSTION_CLUSTER_TERMINATION_GRACE_PERIOD'].to_i
+    base_gp = base_gp > 0 ? base_gp.hours : 24.hours
+    current_runtime = Time.now.utc - created_at
+    if current_runtime < base_gp
+      current_runtime.seconds
+    else
+      base_gp
+    end
+  end
+
+  def grace_period_expired?(now=Time.now.utc)
+    grace_period_expires_at < now
   end
 end
