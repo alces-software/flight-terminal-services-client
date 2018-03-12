@@ -156,7 +156,7 @@ const enhance = compose(
 
   connect(
     createStructuredSelector({
-      queues: selectors.allQueues,
+      queues: selectors.decoratedQueues,
       showingModal: selectors.showingModal,
     }),
     { toggleModal: actions.toggleModal }

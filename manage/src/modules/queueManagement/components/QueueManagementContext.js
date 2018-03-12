@@ -14,20 +14,32 @@ const QueueManagementContext = ({ route }) => {
   return renderRoutes(route.routes);
 };
 
-function periodicallyLoadComputeQueueActions() {
-  const { computeQueueActions, dispatch } = this.props;
-
-  computeQueueActions
-    .forEach((qa) => {
-      if (['PENDING', 'IN_PROGRESS'].includes(qa.attributes.status)) {
-        dispatch(actions.loadComputeQueueAction(qa));
-      }
+function periodicallyReloadQueues() {
+  const { cluster, computeQueueActions, dispatch } = this.props;
+  catchingErrors(dispatch(actions.loadComputeQueues(cluster)))
+    .then(() => {
+      computeQueueActions
+        .forEach((qa) => {
+          if (['PENDING', 'IN_PROGRESS'].includes(qa.attributes.status)) {
+            catchingErrors(dispatch(actions.loadComputeQueueAction(qa)));
+          }
+        });
     });
 
   this.setTimeoutId = setTimeout(
-    periodicallyLoadComputeQueueActions.bind(this),
+    periodicallyReloadQueues.bind(this),
     60 * 1000,
   );
+}
+
+function catchingErrors(promise) {
+  if (promise) {
+    promise.catch((error) => {
+      console.log('error:', error);  // eslint-disable-line no-console
+      return error;
+    });
+  }
+  return promise;
 }
 
 const enhance = compose(
@@ -41,11 +53,9 @@ const enhance = compose(
   lifecycle({
     componentDidMount: function componentDidMount() {
       const { cluster, dispatch } = this.props;
-      const request = dispatch(actions.loadComputeQueueActions(cluster));
-      if (request) {
-        request.catch(error => error);
-      }
-      periodicallyLoadComputeQueueActions.bind(this)();
+      catchingErrors(dispatch(actions.loadComputeQueues(cluster)));
+      catchingErrors(dispatch(actions.loadComputeQueueActions(cluster)));
+      periodicallyReloadQueues.bind(this)();
     },
 
     componentWillUnmount: function componentWillUnmount() {

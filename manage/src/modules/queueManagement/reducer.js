@@ -6,7 +6,9 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-import { MODAL_HIDDEN, MODAL_SHOWN } from './actionTypes';
+import { apiRequest } from 'flight-reactware';
+
+import { LOAD_QUEUES_REQUESTED, MODAL_HIDDEN, MODAL_SHOWN } from './actionTypes';
 
 const initialState = {
   showingModal: false,
@@ -14,6 +16,10 @@ const initialState = {
   action: undefined,
   // The queue being created or modified.
   editingQueue: undefined,
+  queues: {
+    available: undefined,
+    current: undefined,
+  },
 };
 
 export default function reducer(state = initialState, action) {
@@ -28,6 +34,9 @@ export default function reducer(state = initialState, action) {
 
     case MODAL_HIDDEN:
       return { ...state, showingModal: false };
+
+    case apiRequest.resolved(LOAD_QUEUES_REQUESTED):
+      return { ...state, queues: action.payload.data };
 
     default:
       return state;

@@ -60,6 +60,16 @@ class ClustersController < ApplicationController
     render status: :accepted
   end
 
+  def queues
+    cluster = Cluster.find(params[:id])
+    tracon_command = LoadTraconClusterDetailsCommand.new(cluster: cluster)
+    tracon_command.perform
+    render json: {
+      available: tracon_command.available_queues,
+      current: tracon_command.current_queues,
+    }
+  end
+
   private
 
   def build_models
