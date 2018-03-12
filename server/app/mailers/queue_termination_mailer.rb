@@ -28,8 +28,8 @@ class QueueTerminationMailer < ApplicationMailer
 
   def terminate_url(cluster)
     base = ENV['MANAGE_CLIENT_BASE_URL'] || ''
-    @tracon_command ||= LoadTraconClusterDetailsCommand.new(cluster: cluster)
-    hostname = @tracon_command.resolved_web_access_url
+    resolve_command ||= ResolveClusterHostnameCommand.new(cluster: cluster)
+    hostname = resolve_command.perform
     if base.ends_with?('/')
       "#{base}manage/#{hostname}"
     else

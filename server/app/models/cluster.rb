@@ -35,6 +35,9 @@ class Cluster < ApplicationRecord
   has_many :credit_usages
   has_one :payment
 
+  validates :access_url,
+    length: {maximum: 2048}
+
   validates :auth_token,
     length: {maximum: 255},
     presence: true
@@ -119,6 +122,10 @@ class Cluster < ApplicationRecord
       end
       return region
     end
+  end
+
+  def advanced?
+    domain.present?
   end
 
   def is_running?
