@@ -34,6 +34,7 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   end
 
   def hostname
+    return nil unless advanced_cluster?
     return nil unless status == 'CREATE_COMPLETE'
     tracon_command = LoadTraconClusterDetailsCommand.new(cluster: _model)
     tracon_command.resolved_web_access_url

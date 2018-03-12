@@ -22,6 +22,7 @@ class LoadTraconClusterDetailsCommand
   end
 
   def resolved_web_access_url
+    return nil if web_access_url.nil?
     index_doc = web_access_url.ends_with?('/') ?
       "#{web_access_url}www/index.json" :
       "#{web_access_url}/www/index.json"

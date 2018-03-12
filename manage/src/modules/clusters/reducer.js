@@ -9,6 +9,7 @@ import { combineReducers } from 'redux';
 import { apiRequest, loadingStates, modals } from 'flight-reactware';
 
 import {
+  ACTIVE_CLUSTER_CHANGED,
   LOAD_CLUSTER_REQUESTED,
   TUTORIAL_ACCESS_PERMITTED,
   MODAL_SHOWN,
@@ -16,8 +17,11 @@ import {
 } from './actionTypes';
 
 // A reducer to maintain the hostname for the current cluster being stewarded.
-function hostnameReducer(state = null, { meta, type }) {
+function hostnameReducer(state = null, { meta, payload, type }) {
   switch (type) {
+    case ACTIVE_CLUSTER_CHANGED:
+      return payload.hostname;
+
     case LOAD_CLUSTER_REQUESTED:
       return meta.hostname;
 

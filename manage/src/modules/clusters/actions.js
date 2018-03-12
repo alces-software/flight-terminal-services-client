@@ -8,6 +8,7 @@
 import { jsonApi } from 'flight-reactware';
 
 import {
+  ACTIVE_CLUSTER_CHANGED,
   LOAD_CLUSTER_REQUESTED,
   MODAL_SHOWN,
   MODAL_HIDDEN,
@@ -61,6 +62,15 @@ function loadClusterResource(clusterId, hostname) {
   return jsonApi.actions.loadResource(resource);
 }
 
+function activeClusterChanged(hostname) {
+  return {
+    type: ACTIVE_CLUSTER_CHANGED,
+    payload: {
+      hostname
+    }
+  };
+}
+
 export function loadCluster(hostname) {
   return (dispatch, getState) => {
     const { initiated, rejected } = retrieval(getState(), { hostname });
@@ -71,6 +81,8 @@ export function loadCluster(hostname) {
           return dispatch(loadClusterResource(clusterId, hostname));
         })
         .catch(e => e);
+    } else {
+      dispatch(activeClusterChanged(hostname));
     };
   };
 }
