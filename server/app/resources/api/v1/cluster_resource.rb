@@ -19,6 +19,7 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   attribute :cluster_name
   attribute :domain
   attribute :grace_period_expires_at
+  attribute :hostname
   attribute :is_solo
   attribute :qualified_name
   attribute :status
@@ -30,6 +31,12 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     else
       super
     end
+  end
+
+  def hostname
+    return nil unless status == 'CREATE_COMPLETE'
+    tracon_command = LoadTraconClusterDetailsCommand.new(cluster: _model)
+    tracon_command.resolved_web_access_url
   end
 
   def is_solo
