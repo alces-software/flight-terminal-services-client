@@ -14,6 +14,30 @@ const PaymentsContext = ({ route }) => {
   return renderRoutes(route.routes);
 };
 
+function periodicallyLoadPayments() {
+  const { dispatch, user } = this.props;
+
+  if (user != null) {
+    catchingErrors(dispatch(actions.loadPaymentsUsingCredits(user)));
+  }
+
+  this.setTimeoutId = setTimeout(
+    periodicallyLoadPayments.bind(this),
+    60 * 1000,
+  );
+}
+
+// XXX Move this to a utils module.
+function catchingErrors(promise) {
+  if (promise) {
+    promise.catch((error) => {
+      console.log('error:', error);  // eslint-disable-line no-console
+      return error;
+    });
+  }
+  return promise;
+}
+
 const enhance = compose(
   connect(createStructuredSelector({
     authUser: auth.selectors.currentUserSelector,
@@ -32,30 +56,31 @@ const enhance = compose(
 
   lifecycle({
     componentDidMount: function componentDidMount() {
-      const { dispatch, user } = this.props;
+      const { user } = this.props;
       if (user != null) {
-        const request = dispatch(actions.loadPaymentsUsingCredits(user));
-        if (request) {
-          request.catch((error) => {
-            console.log('error:', error);  // eslint-disable-line no-console
-            return error;
-          });
-        }
+        periodicallyLoadPayments.bind(this)();
       }
     },
 
     componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-      const { dispatch, user } = this.props;
+      const { user } = this.props;
       const nextUserId = ( nextProps.user || {} ).id;
       const thisUserId = ( user || {} ).id;
       if (nextUserId !== thisUserId) {
-        const request = dispatch(actions.loadPaymentsUsingCredits(nextProps.user));
-        if (request) {
-          request.catch((error) => {
-            console.log('error:', error);  // eslint-disable-line no-console
-            return error;
-          });
+        if (this.setTimeoutId != null) {
+          clearTimeout(this.setTimeoutId);
+          this.setTimeoutId = undefined;
         }
+        if (nextProps.user) {
+          periodicallyLoadPayments.bind(this)();
+        }
+      }
+    },
+
+    componentWillUnmount: function componentWillUnmount() {
+      if (this.setTimeoutId != null) {
+        clearTimeout(this.setTimeoutId);
+        this.setTimeoutId = undefined;
       }
     },
   }),
