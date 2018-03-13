@@ -8,6 +8,7 @@
 #==============================================================================
 class QueueTerminationMailer < ApplicationMailer
 
+  include TerminateUrlConcern
   helper_method :terminate_url
 
   def user_credits_exceeded(user, clusters)
@@ -24,16 +25,5 @@ class QueueTerminationMailer < ApplicationMailer
 
     mail to: cluster.user.email,
       subject: "Your Alces Flight Compute HPC compute queues are being terminated"
-  end
-
-  def terminate_url(cluster)
-    base = ENV['MANAGE_CLIENT_BASE_URL'] || ''
-    resolve_command ||= ResolveClusterHostnameCommand.new(cluster: cluster)
-    hostname = resolve_command.perform
-    if base.ends_with?('/')
-      "#{base}manage/#{hostname}"
-    else
-      "#{base}/manage/#{hostname}"
-    end
   end
 end

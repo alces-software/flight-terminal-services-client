@@ -26,7 +26,7 @@ class ReduceUsersCreditsJob < ApplicationJob
     elsif !@user.termination_warning_active
       process_grace_period_commencement
     elsif @user.termination_warning_active
-      terminate_clusters_with_expired_grace_period
+      process_cluster_grace_periods
     else
       # The user has an active termination warning, but the grace period has
       # not yet expired. Nothing to do yet.
@@ -97,13 +97,31 @@ class ReduceUsersCreditsJob < ApplicationJob
     end
   end
 
-  def terminate_clusters_with_expired_grace_period
-    msg = "Terminating clusters with expired grace periods for user " +
-      "#{@user.username}:#{@user.id}"
-    Alces.app.logger.info(msg)
+  def process_cluster_grace_periods
     now = Time.now.utc
+    warn = []
+    terminate = []
+
     clusters_using_ongoing_credits.each do |cluster|
-      next unless cluster.grace_period_expired?(now)
+      if cluster.grace_period_expiration_approaching?(now)
+        warn << cluster
+      elsif cluster.grace_period_expired?(now)
+        terminate << cluster
+      end
+    end
+
+    msg = "Sending grace period expiring email for user " +
+      "#{@user.username}:#{@user.id} clusters: #{warn.map(&:id)}"
+    Alces.app.logger.info(msg)
+    unless warn.empty?
+      ClusterTerminationMailer.grace_periods_expiring(@user, warn).
+        deliver_now
+    end
+
+    msg = "Terminating clusters with expired grace periods for user " +
+      "#{@user.username}:#{@user.id} clusters: #{terminate.map(&:id)}"
+    Alces.app.logger.info(msg)
+    terminate.each do |cluster|
       TerminateClusterCommand.new(cluster).perform
     end
   end
