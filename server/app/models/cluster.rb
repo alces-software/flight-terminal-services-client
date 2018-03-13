@@ -137,7 +137,11 @@ class Cluster < ApplicationRecord
   end
 
   def fully_qualified_stack_name
-    "#{qualified_name}.#{domain}"
+    if domain.present?
+      "#{qualified_name}.#{domain}"
+    else
+      "#{qualified_name}.cluster"
+    end
   end
 
   def grace_period

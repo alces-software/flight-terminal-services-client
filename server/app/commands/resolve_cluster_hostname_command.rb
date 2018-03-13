@@ -15,7 +15,6 @@ class ResolveClusterHostnameCommand
     # Currently we can only obtain the hostname for advanced clusters.  This
     # is a limitation with using tracon to obtain the web access url from the
     # stacks output.
-    return nil unless @cluster.advanced?
     return nil unless @cluster.status == 'CREATE_COMPLETE'
 
     failed = false
