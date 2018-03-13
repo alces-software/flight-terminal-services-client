@@ -34,6 +34,18 @@ export default function withClusterContext({ NoClusterSpecified }) {
           dispatch(actions.permitTutorialsAccess());
         }
       },
+
+      componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+        if (this.props.hostname !== nextProps.hostname) {
+          const request = this.props.dispatch(actions.loadCluster(nextProps.hostname));
+          if (request) {
+            request.catch((error) => {
+              console.log('error:', error);  // eslint-disable-line no-console
+              return error;
+            });
+          }
+        }
+      }
     }),
   );
 

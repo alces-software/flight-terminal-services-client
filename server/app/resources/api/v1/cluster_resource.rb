@@ -16,9 +16,11 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
   has_many :compute_queue_actions
   has_many :credit_usages
 
+  attribute :access_url
   attribute :cluster_name
   attribute :domain
   attribute :grace_period_expires_at
+  attribute :hostname
   attribute :is_solo
   attribute :qualified_name
   attribute :status
@@ -32,8 +34,12 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
     end
   end
 
+  def hostname
+    ResolveClusterHostnameCommand.new(cluster: _model).perform
+  end
+
   def is_solo
-    !advanced_cluster?
+    !@model.advanced?
   end
 
   def custom_links(options)
@@ -55,9 +61,5 @@ class Api::V1::ClusterResource < Api::V1::ApplicationResource
 
   def inside_accounting_period(ar_relation)
     ar_relation.between(@context[:ap_start], @context[:ap_end])
-  end
-
-  def advanced_cluster?
-    @model.domain.present?
   end
 end
