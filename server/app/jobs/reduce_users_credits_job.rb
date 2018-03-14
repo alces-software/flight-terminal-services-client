@@ -103,7 +103,8 @@ class ReduceUsersCreditsJob < ApplicationJob
     terminate = []
 
     clusters_using_ongoing_credits.each do |cluster|
-      if cluster.grace_period_expiration_approaching?(now)
+      if cluster.grace_period_expiration_approaching?(now) &&
+          cluster.grace_period_expiring_email_sent_at.nil?
         warn << cluster
       elsif cluster.grace_period_expired?(now)
         terminate << cluster
@@ -116,6 +117,11 @@ class ReduceUsersCreditsJob < ApplicationJob
     unless warn.empty?
       ClusterTerminationMailer.grace_periods_expiring(@user, warn).
         deliver_now
+      warn.each do |cluster|
+        cluster.update_attributes!(
+          grace_period_expiring_email_sent_at: now,
+        )
+      end
     end
 
     msg = "Terminating clusters with expired grace periods for user " +

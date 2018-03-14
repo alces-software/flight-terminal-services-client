@@ -10,26 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312150547) do
+ActiveRecord::Schema.define(version: 20180314115629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
 
   create_table "clusters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string   "auth_token",                  limit: 255,                              null: false
-    t.datetime "created_at",                                                           null: false
-    t.datetime "updated_at",                                                           null: false
+    t.string   "auth_token",                          limit: 255,                              null: false
+    t.datetime "created_at",                                                                   null: false
+    t.datetime "updated_at",                                                                   null: false
     t.uuid     "user_id"
     t.string   "domain"
-    t.string   "qualified_name",                                                       null: false
-    t.string   "cluster_name",                limit: 255,                              null: false
-    t.string   "region",                      limit: 64,                               null: false
-    t.string   "status",                      limit: 64,   default: "CREATE_COMPLETE", null: false
-    t.boolean  "termination_warning_active",               default: false,             null: false
+    t.string   "qualified_name",                                                               null: false
+    t.string   "cluster_name",                        limit: 255,                              null: false
+    t.string   "region",                              limit: 64,                               null: false
+    t.string   "status",                              limit: 64,   default: "CREATE_COMPLETE", null: false
+    t.boolean  "termination_warning_active",                       default: false,             null: false
     t.datetime "termination_warning_sent_at"
     t.datetime "grace_period_expires_at"
-    t.string   "access_url",                  limit: 2048
+    t.string   "access_url",                          limit: 2048
+    t.datetime "grace_period_expiring_email_sent_at"
     t.index ["user_id"], name: "index_clusters_on_user_id", using: :btree
   end
 
