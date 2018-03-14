@@ -22,6 +22,8 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
         Alces.app.logger.info(msg)
       elsif ! cluster.termination_warning_active?
         terminate_compute_queues(cluster)
+      elsif send_grace_period_expiring_email?(cluster)
+        send_grace_period_expiring_email(cluster)
       elsif cluster.termination_warning_active? && cluster.grace_period_expired?
         terminate_cluster(cluster)
       else
@@ -58,6 +60,21 @@ class ProcessClustersExceedingCreditLimitJob < ApplicationJob
         .deliver_now
     end
     TerminateClusterQueuesCommand.new(cluster).perform
+  end
+
+  def send_grace_period_expiring_email?(cluster)
+    cluster.termination_warning_active? &&
+      cluster.grace_period_expiration_approaching? &&
+      cluster.grace_period_expiring_email_sent_at.nil?
+  end
+
+  def send_grace_period_expiring_email(cluster)
+    return if cluster.user.nil?
+    ClusterTerminationMailer.grace_period_expiring(cluster).
+      deliver_now
+    cluster.update_attributes!(
+      grace_period_expiring_email_sent_at: Time.now.utc,
+    )
   end
 
   def terminate_cluster(cluster)

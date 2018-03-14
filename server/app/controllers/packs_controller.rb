@@ -25,6 +25,7 @@ class PacksController < ApplicationController
       current_user.save!
       current_user.clusters.grace_period_active.termination_warning_inactive.each do |cluster|
         cluster.grace_period_expires_at = nil
+        cluster.grace_period_expiring_email_sent_at = nil
         cluster.save!
       end
       token.mark_as(:used, current_user.email)
