@@ -127,6 +127,7 @@ class ReduceUsersCreditsJob < ApplicationJob
   end
 
   def clusters_using_ongoing_credits
-    @_clusters_using_ongoing_credits ||= @user.clusters.using_ongoing_credits.running
+    @_clusters_using_ongoing_credits ||=
+      @user.clusters.using_ongoing_credits.termination_warning_inactive.running
   end
 end
