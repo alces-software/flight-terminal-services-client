@@ -122,12 +122,10 @@ class LaunchClusterCommand
   end
 
   def create_cluster_model
-    parsed_output = ParseOutputCommand.new(@runner.stdout).perform
-    details = parsed_output.details
-    uuid_detail = details.detect {|d| d.title == 'UUID'}
-    auth_token_detail = details.detect {|d| d.title == 'Token'}
-    uuid = uuid_detail.value
-    auth_token = auth_token_detail.value
+    details = ParseOutputCommand.new(@runner.stdout).perform.details
+    uuid = get_detail(details, 'UUID')
+    auth_token = get_detail(details, 'Token')
+    access_url = get_detail(details, 'Access URL')
 
     Cluster.create!(
       {}.merge(
@@ -138,11 +136,17 @@ class LaunchClusterCommand
         Cluster.attributes_from_fly_params(@fly_params)
       ).merge(
         id: uuid,
+        access_url: access_url,
         auth_token: auth_token,
         payment: @payment,
         status: 'CREATE_COMPLETE',
         user: @payment.user,
       )
     )
+  end
+
+  def get_detail(details, key)
+    detail = details.detect { |d| d.title == key }
+    detail.nil? ? nil : detail.value
   end
 end

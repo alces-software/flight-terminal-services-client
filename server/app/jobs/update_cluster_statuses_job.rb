@@ -17,7 +17,7 @@ class UpdateClusterStatusesJob < ApplicationJob
       begin
         process_domain(domain)
       rescue
-        msg = "Processing domain #{domain} failed. #{$!.message}"
+        msg = "Processing domain #{domain.inspect} failed. #{$!.message}"
         Alces.app.logger.info(msg)
         next
       end
@@ -27,7 +27,11 @@ class UpdateClusterStatusesJob < ApplicationJob
   private
 
   def process_domain(domain)
-    Alces.app.logger.info("Requesting live clusters for domain #{domain}")
+    if domain.present?
+      Alces.app.logger.info("Requesting live clusters for domain #{domain.inspect}")
+    else
+      Alces.app.logger.info("Requesting live solo clusters")
+    end
     cluster_records = Cluster.running.where(domain: domain)
     live_clusters = make_request(available_clusters_uri, domain)
     cluster_records.each do |cluster_record|
@@ -59,7 +63,7 @@ class UpdateClusterStatusesJob < ApplicationJob
     end
   rescue OpenURI::HTTPError
     if $!.message =~ /^401 Unauthorized/
-      msg = "Request for domain #{domain} unauthorized. Ensure TRACON_PEPPER is correct."
+      msg = "Request for domain #{domain.inspect} unauthorized. Ensure TRACON_PEPPER is correct."
       Alces.app.logger.info(msg)
       raise
     else
@@ -68,7 +72,7 @@ class UpdateClusterStatusesJob < ApplicationJob
   end
 
   def domain_authentication(domain)
-    username = domain
+    username = domain.present? ? domain : 'cluster'
     password = "#{username}:#{ENV['TRACON_PEPPER']}"
     encoded_password = Base64.encode64(Digest::MD5.digest(password)).chomp
     [ username, encoded_password ]

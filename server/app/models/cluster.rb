@@ -35,6 +35,9 @@ class Cluster < ApplicationRecord
   has_many :credit_usages
   has_one :payment
 
+  validates :access_url,
+    length: {maximum: 2048}
+
   validates :auth_token,
     length: {maximum: 255},
     presence: true
@@ -121,6 +124,10 @@ class Cluster < ApplicationRecord
     end
   end
 
+  def advanced?
+    domain.present?
+  end
+
   def is_running?
     status != 'TERMINATION_COMPLETE'
   end
@@ -130,7 +137,11 @@ class Cluster < ApplicationRecord
   end
 
   def fully_qualified_stack_name
-    "#{qualified_name}.#{domain}"
+    if domain.present?
+      "#{qualified_name}.#{domain}"
+    else
+      "#{qualified_name}.cluster"
+    end
   end
 
   def grace_period
@@ -146,5 +157,16 @@ class Cluster < ApplicationRecord
 
   def grace_period_expired?(now=Time.now.utc)
     grace_period_expires_at < now
+  end
+
+  # Return true if the cluster is within the final X hours of its grace
+  # period.
+  def grace_period_expiration_approaching?(now=Time.now.utc)
+    return false unless grace_period_expires_at.present?
+    return false if grace_period_expired?
+
+    duration = ENV['CREDIT_EXHAUSTION_CLUSTER_GRACE_PERIOD_FINAL_WARNING'].to_i
+    duration = duration > 0 ? duration.hours : 2.hours
+    grace_period_expires_at - duration < now
   end
 end

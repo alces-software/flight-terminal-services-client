@@ -7,6 +7,7 @@ import { compose, setStatic } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Styles } from 'flight-reactware';
+import { Link } from 'react-router-dom';
 
 import payments from '../../payments';
 
@@ -32,7 +33,12 @@ const ComputeUnitUsageReport = ({
   if (payment === null) {
     return null;
   }
-  const { clusterName, status, gracePeriodExpiresAt } = cluster.attributes;
+  const {
+    clusterName,
+    status,
+    gracePeriodExpiresAt,
+    hostname,
+  } = cluster.attributes;
   const isTerminated = status === 'TERMINATION_COMPLETE';
   return (
     <Card
@@ -51,7 +57,13 @@ const ComputeUnitUsageReport = ({
           iconName="server"
           title="Cluster name:"
         >
-          { clusterName }
+          {
+            hostname ?
+              <Link to={`/access/${cluster.attributes.hostname}`} >
+                { clusterName }
+              </Link> :
+              clusterName
+          }
         </CardMedia>
         <CardMedia
           iconName={isTerminated ? 'times-circle' : 'check-circle'}

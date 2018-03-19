@@ -6,5 +6,6 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
+export const LOAD_QUEUES_REQUESTED = '@launch/queueManagement/LOAD_QUEUES_REQUESTED';
 export const MODAL_HIDDEN = '@launch/queueManagement/MODAL_HIDDEN';
 export const MODAL_SHOWN = '@launch/queueManagement/MODAL_SHOWN';

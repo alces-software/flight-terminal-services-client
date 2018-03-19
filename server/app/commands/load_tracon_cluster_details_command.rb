@@ -21,14 +21,6 @@ class LoadTraconClusterDetailsCommand
     outputs['WebAccess']
   end
 
-  def resolved_web_access_url
-    index_doc = web_access_url.ends_with?('/') ?
-      "#{web_access_url}www/index.json" :
-      "#{web_access_url}/www/index.json"
-    resolved_url = UrlResolver.new.resolve(index_doc)
-    resolved_url.host
-  end
-
   def available_queues
     @available_queues ||=
       begin
