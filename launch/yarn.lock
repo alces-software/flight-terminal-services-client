@@ -3326,9 +3326,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.35/flight-reactware.tgz":
-  version "0.1.35"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.35/flight-reactware.tgz#f5812db654d4a8cbaf308b4e170c971dd4600274"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.36/flight-reactware.tgz":
+  version "0.1.36"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.36/flight-reactware.tgz#1db70e29325e74aaca656e8764ca2aafb0a66f28"
   dependencies:
     axios "^0.16.2"
     babel-preset-react-app "^3.0.1"
@@ -3352,7 +3352,7 @@ flatten@^1.0.2:
     react-router-redux "5.0.0-alpha.8"
     react-s-alert "^1.3.0"
     react-scroll "1.5.4"
-    reactstrap "^5.0.0-beta"
+    reactstrap "5.0.0-beta"
     recompose "^0.24.0"
     redux "^3.7.1"
     redux-axios-middleware "^4.0.0"
@@ -5037,10 +5037,6 @@ lodash.isfunction@^3.0.8:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-3.0.8.tgz#4db709fc81bc4a8fd7127a458a5346c5cdce2c6b"
 
-lodash.isfunction@^3.0.9:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-3.0.9.tgz#06de25df4db327ac931981d1bdb067e5af68d051"
-
 lodash.isobject@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/lodash.isobject/-/lodash.isobject-3.0.2.tgz#3c8fb8d5b5bf4bf90ae06e14f2a530a4ed935e1d"
@@ -5918,10 +5914,6 @@ popper.js@^1.12.5:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.13.0.tgz#e1e7ff65cc43f7cf9cf16f1510a75e81f84f4565"
 
-popper.js@^1.12.9:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.1.tgz#b8815e5cda6f62fc2042e47618649f75866e6753"
-
 portfinder@^1.0.9:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.13.tgz#bb32ecd87c27104ae6ee44b5a3ccbf0ebb1aede9"
@@ -6568,25 +6560,12 @@ react-markdown@^2.5.0:
     commonmark-react-renderer "^4.3.4"
     prop-types "^15.5.1"
 
-react-popper@0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-0.8.1.tgz#a5e1cf10581598709f8f220eb3631d6c8c8716af"
-  dependencies:
-    popper.js "^1.12.9"
-    prop-types "^15.6.0"
-
 react-popper@^0.7.2:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-0.7.5.tgz#71c25946f291db381231281f6b95729e8b801596"
   dependencies:
     popper.js "^1.12.5"
     prop-types "^15.5.10"
-
-react-portal@^4.1.2:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.1.3.tgz#0cb58333bc02186ccd2f0997790e4573623dce87"
-  dependencies:
-    prop-types "^15.5.8"
 
 react-recaptcha@^2.3.2:
   version "2.3.5"
@@ -6737,7 +6716,7 @@ react-transition-group@^1.2.0:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
-react-transition-group@^2.2.0, react-transition-group@^2.2.1:
+react-transition-group@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.2.1.tgz#e9fb677b79e6455fd391b03823afe84849df4a10"
   dependencies:
@@ -6778,19 +6757,6 @@ reactstrap@5.0.0-beta:
     prop-types "^15.5.8"
     react-popper "^0.7.2"
     react-transition-group "^2.2.0"
-
-reactstrap@^5.0.0-beta:
-  version "5.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-5.0.0-beta.2.tgz#2c783b63ef1224975b3a6a28c69e7ae642e2b775"
-  dependencies:
-    classnames "^2.2.3"
-    lodash.isfunction "^3.0.9"
-    lodash.isobject "^3.0.2"
-    lodash.tonumber "^4.0.3"
-    prop-types "^15.5.8"
-    react-popper "0.8.1"
-    react-portal "^4.1.2"
-    react-transition-group "^2.2.1"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
