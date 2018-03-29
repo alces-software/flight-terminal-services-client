@@ -19,7 +19,7 @@ const propTypes = {
 const LoadError = ({ hostname }) => (
   <MissingNotice title="Unable to load cluster">
     Unfortunately, the details for the cluster at <code>{hostname}</code>
-    cannot be loaded.  Please check that the hostname is correct and try
+    {' '}cannot be loaded.  Please check that the hostname is correct and try
     again, or visit our{' '}
     <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
     {' '}for further help.
