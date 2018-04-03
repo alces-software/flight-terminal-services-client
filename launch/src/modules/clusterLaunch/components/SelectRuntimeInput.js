@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import Input from './Input';
 
 const AlignedButton = styled(Button)`
-  vertical-align: unset;
+  vertical-align: baseline;
 `;
 
 const propTypes = {
