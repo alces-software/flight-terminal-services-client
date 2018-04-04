@@ -1,13 +1,13 @@
-// import { Container } from 'reactstrap';
-// import { branch, compose, nest, renderComponent } from 'recompose';
-import { compose } from 'recompose';
+import { Container } from 'reactstrap';
+import { branch, compose, nest, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 // import { showSpinnerUntil } from 'flight-reactware';
 
 import * as selectors from '../selectors';
-// import LoadError from './LoadError';
+import LoadError from './LoadError';
+
 
 // XXX Show a spinner whilst waiting for retrievals to arrive.
 // XXX Avoid showing a spinner when reloading credit consumptions.
@@ -26,17 +26,17 @@ import * as selectors from '../selectors';
 const withPayments = compose(
   connect(createStructuredSelector({
     payments: selectors.paymentsUsingCredits,
-    // retrieval: selectors.retrieval,
+    retrieval: selectors.retrieval,
   })),
 
   // showSpinnerUntil(
   //   ({ retrieval }) => retrieval.initiated && !retrieval.pending
   // ),
 
-  // branch(
-  //   ({ retrieval }) => retrieval.rejected,
-  //   renderComponent(nest(Container, LoadError)),
-  // ),
+  branch(
+    ({ retrieval }) => retrieval.rejected,
+    renderComponent(nest(Container, LoadError)),
+  ),
 
 );
 

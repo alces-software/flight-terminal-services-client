@@ -8,6 +8,8 @@
 import { createSelector } from 'reselect';
 import { selectorUtils } from 'flight-reactware';
 
+import launchUsers from '../../modules/launchUsers';
+
 import { NAME } from './constants';
 
 const {
@@ -51,3 +53,4 @@ export const paymentForCluster = createSelector(
   },
 );
 
+export const retrieval = launchUsers.selectors.relationshipRetrieval('payments');

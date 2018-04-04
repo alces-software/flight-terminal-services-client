@@ -45,3 +45,12 @@ export const currentUser = createSelector(
     return userFromUsername(state, { username: user.username });
   }
 );
+
+export const relationshipRetrieval = relationName => createSelector(
+  jsonApiState,
+  usernameFromPropsOrState,
+  () => relationName,
+
+  loadingStates.selectors.relationshipRetrieval,
+);
+

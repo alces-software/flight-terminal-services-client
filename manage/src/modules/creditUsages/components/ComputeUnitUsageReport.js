@@ -12,17 +12,11 @@ import { Link } from 'react-router-dom';
 import payments from '../../payments';
 
 import withCreditUsageContext from './withCreditUsageContext';
+import ConsumptionLimit from './ConsumptionLimit';
 import CurrentCreditConsumption from './CurrentCreditConsumption';
 import StatusText from './StatusText';
 import TotalCreditConsumption from './TotalCreditConsumption';
 import { CardMedias, CardMedia } from './CardMedia';
-
-function mkPluralization(singular, plural) {
-  return function(number) {
-    return number === 1 ? singular : plural;
-  };
-}
-const unitOrUnits = mkPluralization('unit', 'units');
 
 const ComputeUnitUsageReport = ({
   className,
@@ -30,9 +24,6 @@ const ComputeUnitUsageReport = ({
   outlineStatus,
   payment,
 }) => {
-  if (payment === null) {
-    return null;
-  }
   const {
     clusterName,
     status,
@@ -59,7 +50,7 @@ const ComputeUnitUsageReport = ({
         >
           {
             hostname ?
-              <Link to={`/access/${cluster.attributes.hostname}`} >
+              <Link to={`/access/${hostname}`} >
                 { clusterName }
               </Link> :
               clusterName
@@ -105,14 +96,7 @@ const ComputeUnitUsageReport = ({
           iconName="bullseye"
           title="Consumption limit:"
         >
-          {
-            payment.attributes.maxCreditUsage
-              ? <span>
-                {payment.attributes.maxCreditUsage} compute
-                {' '}{unitOrUnits(payment.attributes.maxCreditUsage)}.
-              </span>
-              : <span>N/A</span>
-          }
+          <ConsumptionLimit payment={payment} />
         </CardMedia>
       </CardMedias>
     </Card>
@@ -123,7 +107,7 @@ ComputeUnitUsageReport.propTypes = {
   className: PropTypes.string,
   cluster: PropTypes.object.isRequired,
   outlineStatus: PropTypes.bool.isRequired,
-  payment: PropTypes.object.isRequired,
+  payment: PropTypes.object,
 };
 
 ComputeUnitUsageReport.defaultProps = {

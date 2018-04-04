@@ -8,6 +8,8 @@
 import { createSelector } from 'reselect';
 import { selectorUtils } from 'flight-reactware';
 
+import clusters from '../../modules/clusters';
+
 import { NAME } from './constants';
 
 const creditUsagesState = state => state[NAME];
@@ -76,3 +78,5 @@ export const usersCreditConsumption = createSelector(
     return burnRates.filter(a => a).reduce((a, b) => a + b, 0);
   }
 );
+
+export const retrieval = clusters.selectors.relationshipRetrieval('creditUsages');

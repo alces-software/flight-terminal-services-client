@@ -22,7 +22,7 @@ const loadingStatesConfig = {
     if (resource.meta != null && resource.meta.loadingStates != null) {
       return resource.meta.loadingStates.key;
     }
-    return resource.attributes.hostname;
+    return resource.attributes.hostname || resource.id;
   },
   self: {
     pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
