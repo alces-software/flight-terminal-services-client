@@ -22,7 +22,7 @@ const loadingStatesConfig = {
     if (resource.meta != null && resource.meta.loadingStates != null) {
       return resource.meta.loadingStates.key;
     }
-    return resource.attributes.hostname;
+    return resource.attributes.hostname || resource.id;
   },
   self: {
     pending: jsonApi.actionTypes.RESOURCE_REQUESTED,
@@ -30,9 +30,16 @@ const loadingStatesConfig = {
     resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
   },
   relationship: {
-    pending: jsonApi.actionTypes.RELATION_REQUESTED,
-    rejected: apiRequest.rejected(jsonApi.actionTypes.RELATION_REQUESTED),
-    resolved: apiRequest.resolved(jsonApi.actionTypes.RELATION_REQUESTED),
+    related: {
+      pending: jsonApi.actionTypes.RELATION_REQUESTED,
+      rejected: apiRequest.rejected(jsonApi.actionTypes.RELATION_REQUESTED),
+      resolved: apiRequest.resolved(jsonApi.actionTypes.RELATION_REQUESTED),
+    },
+    self: {
+      pending: jsonApi.actionTypes.LINKAGE_DATA_REQUESTED,
+      rejected: apiRequest.rejected(jsonApi.actionTypes.LINKAGE_DATA_REQUESTED),
+      resolved: apiRequest.resolved(jsonApi.actionTypes.LINKAGE_DATA_REQUESTED),
+    }
   },
 };
 

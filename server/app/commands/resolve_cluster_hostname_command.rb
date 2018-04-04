@@ -37,9 +37,12 @@ class ResolveClusterHostnameCommand
       resolved_url = UrlResolver.new.resolve(index_doc)
       resolved_url.host
     rescue
-      raise if failed
-      failed = true
-      retry
+      if failed
+        nil
+      else
+        failed = true
+        retry
+      end
     end
   end
 end

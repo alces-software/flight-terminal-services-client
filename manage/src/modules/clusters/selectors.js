@@ -24,7 +24,12 @@ export function hostname(state) {
 }
 
 function hostnameFromPropsOrStore(state, props) {
-  return props.hostname || hostname(state);
+  if (props.hostname) {
+    return props.hostname;
+  } else if (props.cluster) {
+    return props.cluster.attributes.hostname || props.cluster.id;
+  }
+  return hostname(state);
 }
 
 const hostnameIndex = selectorUtils.buildIndexSelector(

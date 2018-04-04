@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { showSpinnerUntil, DelaySpinner } from 'flight-reactware';
 
 import * as selectors from '../selectors';
 
@@ -39,8 +40,20 @@ TotalCreditConsumption.propTypes = {
 
 const enhance = compose(
   connect(createStructuredSelector({
+    retrieval: selectors.retrieval,
     totalCreditConsumption: selectors.totalAccruedUsageForAp,
   })),
+
+  showSpinnerUntil(
+    ({ payment, retrieval }) => !!payment && retrieval.initiated && !retrieval.pending,
+    () => (
+      <DelaySpinner
+        inline
+        size="small"
+      />
+    ),
+  ),
+
 );
 
 export default enhance(TotalCreditConsumption);

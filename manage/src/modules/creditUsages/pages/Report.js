@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'reactstrap';
-import { PageHeading, Section, makeSection } from 'flight-reactware';
+import { PageHeading, Section, makeSection, showSpinnerUntil } from 'flight-reactware';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -18,6 +18,7 @@ import clusters from '../../clusters';
 import payments from '../../payments';
 
 import ComputeUnitUsageReport from '../components/ComputeUnitUsageReport';
+import NoUsagesFound from '../components/NoUsagesFound';
 import UserComputeUnitUsageReport from '../components/UserComputeUnitUsageReport';
 
 const sections = {
@@ -72,25 +73,30 @@ const Report = ({ clusters }) => {
         section={sections.report}
         title="Your compute unit usage report."
       >
-        <EqualHeightRow>
-          {
-            clusters.map(cluster => (
-              <Col
-                key={cluster.id}
-                lg={4}
-                md={6}
-                sm={12}
-                xl={4}
-                xs={12}
-              >
-                <ComputeUnitUsageReport
-                  cluster={cluster}
-                  outlineStatus
-                />
-              </Col>
-            ))
-          }
-        </EqualHeightRow>
+        {
+          clusters ?
+            <EqualHeightRow>
+              {
+                clusters.map(cluster => (
+                  <Col
+                    key={cluster.id}
+                    lg={4}
+                    md={6}
+                    sm={12}
+                    xl={4}
+                    xs={12}
+                  >
+                    <ComputeUnitUsageReport
+                      cluster={cluster}
+                      outlineStatus
+                    />
+                  </Col>
+                ))
+              }
+            </EqualHeightRow>
+            :
+            <NoUsagesFound />
+        }
       </Section>
     </Container>
   );
@@ -105,7 +111,12 @@ const enhance = compose(
 
   connect(createStructuredSelector({
     clusters: clusters.selectors.clustersForPayments,
+    retrieval: payments.selectors.retrieval,
   })),
+
+  showSpinnerUntil(
+    ({ retrieval }) => retrieval.hasEverResolved,
+  ),
 
 );
 
