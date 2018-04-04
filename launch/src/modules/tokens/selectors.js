@@ -29,12 +29,12 @@ export const isLoading = createSelector(
   jsonApiState,
   tokenNameProp,
 
-  (ts, tokenName) => loadingStates.selectors.isPending(ts, tokenName),
+  (ts, tokenName) => loadingStates.selectors.retrieval(ts, tokenName).pending,
 );
 
 export const hasLoaded = createSelector(
   jsonApiState,
   tokenNameProp,
 
-  (ts, tokenName) => loadingStates.selectors.isResolved(ts, tokenName),
+  (ts, tokenName) => loadingStates.selectors.retrieval(ts, tokenName).resolved,
 );
