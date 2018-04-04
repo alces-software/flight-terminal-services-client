@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'reactstrap';
-import { PageHeading, Section, makeSection } from 'flight-reactware';
+import { PageHeading, Section, makeSection, showSpinnerUntil } from 'flight-reactware';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -105,7 +105,12 @@ const enhance = compose(
 
   connect(createStructuredSelector({
     clusters: clusters.selectors.clustersForPayments,
+    retrieval: payments.selectors.retrieval,
   })),
+
+  showSpinnerUntil(
+    ({ retrieval }) => retrieval.hasEverResolved,
+  ),
 
 );
 
