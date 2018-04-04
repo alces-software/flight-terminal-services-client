@@ -5,6 +5,7 @@
 require 'uri'
 require 'net/http'
 require 'openssl'
+require 'timeout'
 
 #
 # Resolve a given URL by following redirects.
@@ -19,7 +20,9 @@ class UrlResolver
   end
 
   def resolve(uri_str)
-    do_resolve(uri_str, 1)
+    Timeout.timeout(timeout) do
+      do_resolve(uri_str, 1)
+    end
   end
 
   private
