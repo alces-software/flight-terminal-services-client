@@ -11,28 +11,45 @@ import clusters from '../clusters';
 
 import * as selectors from './selectors';
 
-export function loadPaymentsUsingCredits(user) {
+// Return action to load all cluster payments using credits for the given
+// user.
+function loadPaymentsAction(user) {
+  return jsonApi.actions.loadRelationshipAndLinkageData({
+    source: user,
+    relationName: 'payments',
+    params: {
+      'filter[usingCredits]': true,
+      'include': 'cluster',
+    },
+  });
+}
+
+// Load any missing linkage data linking cluster to payment.
+//
+// If the cluster/payment linkage data is already present there is no need to
+// reload it.
+function loadPaymentLinkageData() {
   return (dispatch, getState) => {
-    const loadPaymentsAction = jsonApi.actions.loadRelationshipAndLinkageData({
-      source: user,
-      relationName: 'payments',
-      params: {
-        'filter[usingCredits]': true,
-        'include': 'cluster',
-      },
-    });
-    return dispatch(loadPaymentsAction)
-      .then(() => {
-        const payments = selectors.paymentsUsingCredits(getState());
-        const cls = clusters.selectors.clustersForPayments(getState(), { payments });
-        return Promise.all(cls.map(cluster => {
-          const action = jsonApi.actions.loadRelationshipAndLinkageData({
-            source: cluster,
-            relationName: 'payment',
-          });
-          return dispatch(action);
-        }));
+    const payments = selectors.paymentsUsingCredits(getState());
+    const cls = clusters.selectors.clustersForPayments(getState(), { payments });
+    const loadPaymentActions = cls.filter(cluster =>
+      !selectors.paymentForCluster(getState(), { cluster })
+    ).map(cluster => {
+      const loadLinkageAction = jsonApi.actions.loadRelationshipLinkageData({
+        source: cluster,
+        relationName: 'payment',
       });
+      return dispatch(loadLinkageAction);
+    });
+
+    return Promise.all(loadPaymentActions);
+  };
+}
+
+export function loadPaymentsUsingCredits(user) {
+  return (dispatch) => {
+    return dispatch(loadPaymentsAction(user))
+      .then(() => dispatch(loadPaymentLinkageData()));
   };
 }
 
