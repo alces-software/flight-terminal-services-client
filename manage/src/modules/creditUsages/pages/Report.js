@@ -18,6 +18,7 @@ import clusters from '../../clusters';
 import payments from '../../payments';
 
 import ComputeUnitUsageReport from '../components/ComputeUnitUsageReport';
+import NoUsagesFound from '../components/NoUsagesFound';
 import UserComputeUnitUsageReport from '../components/UserComputeUnitUsageReport';
 
 const sections = {
@@ -72,25 +73,30 @@ const Report = ({ clusters }) => {
         section={sections.report}
         title="Your compute unit usage report."
       >
-        <EqualHeightRow>
-          {
-            clusters.map(cluster => (
-              <Col
-                key={cluster.id}
-                lg={4}
-                md={6}
-                sm={12}
-                xl={4}
-                xs={12}
-              >
-                <ComputeUnitUsageReport
-                  cluster={cluster}
-                  outlineStatus
-                />
-              </Col>
-            ))
-          }
-        </EqualHeightRow>
+        {
+          clusters ?
+            <EqualHeightRow>
+              {
+                clusters.map(cluster => (
+                  <Col
+                    key={cluster.id}
+                    lg={4}
+                    md={6}
+                    sm={12}
+                    xl={4}
+                    xs={12}
+                  >
+                    <ComputeUnitUsageReport
+                      cluster={cluster}
+                      outlineStatus
+                    />
+                  </Col>
+                ))
+              }
+            </EqualHeightRow>
+            :
+            <NoUsagesFound />
+        }
       </Section>
     </Container>
   );
