@@ -30,9 +30,16 @@ const loadingStatesConfig = {
     resolved: apiRequest.resolved(jsonApi.actionTypes.RESOURCE_REQUESTED),
   },
   relationship: {
-    pending: jsonApi.actionTypes.RELATION_REQUESTED,
-    rejected: apiRequest.rejected(jsonApi.actionTypes.RELATION_REQUESTED),
-    resolved: apiRequest.resolved(jsonApi.actionTypes.RELATION_REQUESTED),
+    related: {
+      pending: jsonApi.actionTypes.RELATION_REQUESTED,
+      rejected: apiRequest.rejected(jsonApi.actionTypes.RELATION_REQUESTED),
+      resolved: apiRequest.resolved(jsonApi.actionTypes.RELATION_REQUESTED),
+    },
+    self: {
+      pending: jsonApi.actionTypes.LINKAGE_DATA_REQUESTED,
+      rejected: apiRequest.rejected(jsonApi.actionTypes.LINKAGE_DATA_REQUESTED),
+      resolved: apiRequest.resolved(jsonApi.actionTypes.LINKAGE_DATA_REQUESTED),
+    }
   },
 };
 
