@@ -19,6 +19,7 @@ function periodicallyLoadPayments() {
 
   if (user != null) {
     catchingErrors(dispatch(actions.loadPaymentsUsingCredits(user)));
+    catchingErrors(dispatch(launchUsers.actions.reloadCurrentUser()));
   }
 
   this.setTimeoutId = setTimeout(
@@ -51,7 +52,9 @@ const enhance = compose(
   ),
 
   showSpinnerUntil(
-    ({ userRetrieval }) => userRetrieval.initiated && !userRetrieval.pending
+    ({ userRetrieval }) => userRetrieval.hasEverResolved || (
+      userRetrieval.initiated && !userRetrieval.pending
+    )
   ),
 
   lifecycle({
