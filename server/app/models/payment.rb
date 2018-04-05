@@ -36,6 +36,13 @@ class Payment < ApplicationRecord
   validates :payment_method,
     inclusion: { within: METHODS }
 
+  validates :runtime,
+    numericality: {
+      greater_than: 0,
+      only_integer: true
+    },
+    allow_blank: true
+
   validates :token,
     presence: true,
     if: ->(p){ p.using_token? }
