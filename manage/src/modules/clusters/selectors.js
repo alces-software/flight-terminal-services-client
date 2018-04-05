@@ -23,12 +23,17 @@ export function hostname(state) {
   return clustersMeta(state).hostname;
 }
 
-function hostnameFromPropsOrStore(state, props) {
+function clusterIdentifier(state, props) {
+  // If we've been given the hostname or cluster in `props` return the
+  // identifier from that, prefering the hostname over the cluster's id.
   if (props.hostname) {
     return props.hostname;
   } else if (props.cluster) {
     return props.cluster.attributes.hostname || props.cluster.id;
   }
+
+  // We've not been given the identifier or cluster in `props`, let's return
+  // the "current cluster" identifier.
   return hostname(state);
 }
 
@@ -42,7 +47,7 @@ const hostnameIndex = selectorUtils.buildIndexSelector(
 // Launch server.
 export const launchClusterRetrieval = createSelector(
   jsonApiState,
-  hostnameFromPropsOrStore,
+  clusterIdentifier,
 
   loadingStates.selectors.retrieval,
 );
@@ -51,7 +56,7 @@ export const launchClusterRetrieval = createSelector(
 // cluster itself.
 const clusterRetrieval = createSelector(
   clustersState,
-  hostnameFromPropsOrStore,
+  clusterIdentifier,
 
   loadingStates.selectors.retrieval,
 );
@@ -83,7 +88,7 @@ export const retrieval = createSelector(
 
 export const relationshipRetrieval = relationName => createSelector(
   jsonApiState,
-  hostnameFromPropsOrStore,
+  clusterIdentifier,
   () => relationName,
 
   loadingStates.selectors.relationshipRetrieval,
