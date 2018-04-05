@@ -16,6 +16,7 @@ const propTypes = {
   showLaunchForm: PropTypes.func.isRequired,
 };
 
+// XXX Merge into ./Card.js ?
 const CardFront = styled(({ className, clusterSpec, showLaunchForm }) => (
   <Card
     className={className}

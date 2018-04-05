@@ -19,6 +19,7 @@ const propTypes = {
   toggle: PropTypes.func.isRequired,
 };
 
+// XXX Rename to SuccessModal or something?
 const LaunchedModal = ({ clusterName, email, toggle, isOpen }) => (
   <StandardModal
     isOpen={isOpen}

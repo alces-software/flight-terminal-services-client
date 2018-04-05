@@ -169,6 +169,7 @@ class ClusterLaunchFormContainer extends React.Component {
     });
   }
 
+  // XXX Perhaps all this needs to do is call `this.props.onCancel`.
   handleCancel = () => {
     this.props.onCancel();
     this.resetForm();
@@ -265,9 +266,11 @@ class ClusterLaunchFormContainer extends React.Component {
       },
       showLaunchedModal: true,
     });
+    // XXX Perhaps we should close the modal here instead.
     this.resetForm();
   }
 
+  // XXX This may not be needed anymore.  The form container is unmounted.
   resetForm() {
     const errors = validate(this.initialValues, this.state, this.props);
     this.setState({
