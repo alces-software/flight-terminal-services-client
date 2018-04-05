@@ -13,13 +13,13 @@ const cardTextHeight = 175;
 
 const propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
-  showBack: PropTypes.func.isRequired,
+  showLaunchForm: PropTypes.func.isRequired,
 };
 
-const CardFront = styled(({ className, clusterSpec, showBack }) => (
+const CardFront = styled(({ className, clusterSpec, showLaunchForm }) => (
   <Card
     className={className}
-    onClick={showBack}
+    onClick={showLaunchForm}
   >
     <CardBody>
       <CardTitleBlock
@@ -31,7 +31,7 @@ const CardFront = styled(({ className, clusterSpec, showBack }) => (
       <CardText>{clusterSpec.ui.body}</CardText>
       <FooterIcons clusterSpec={clusterSpec} />
     </CardBody>
-    <CardOverlay showLaunchForm={showBack} />
+    <CardOverlay showLaunchForm={showLaunchForm} />
   </Card>
 ))`
   .card-text {

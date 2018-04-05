@@ -9,5 +9,13 @@
 // Import and export the public facing API for the clusterLaunch module.
 
 import * as components from './components';
+import * as constants from './constants';
+import * as actions from './actions';
+import reducer from './reducer';
 
-export default { ...components };
+export default {
+  ...components,
+  actions,
+  constants,
+  reducer,
+};

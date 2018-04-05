@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import branding from '../../branding';
+import clusterLaunch from '../../clusterLaunch';
 import tenants from '../../tenants';
 
 import * as clusterSpecsSelectors from '../selectors';
@@ -18,6 +19,7 @@ import { clusterSpecShape } from '../propTypes';
 const Wrapper = ({ children }) => {
   return (
     <div>
+      <clusterLaunch.LaunchFormModal />
       <Container fluid>
         <branding.PageHeading
           brandingLogo
