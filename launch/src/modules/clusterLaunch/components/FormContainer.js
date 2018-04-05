@@ -44,7 +44,7 @@ function validate(allValues, state, props) {
   // XXX Should this be guarded behind a check for whether we're asking the
   // user for the desired runtime?
   const { desiredRuntime } = allValues;
-  e = v.required(desiredRuntime) || v.decimalInteger(desiredRuntime);
+  e = v.required(desiredRuntime) || v.decimalInteger(desiredRuntime) || v.positiveNumber(desiredRuntime);
   if (e) {
     errors.desiredRuntime = e;
   }
@@ -52,7 +52,7 @@ function validate(allValues, state, props) {
   // XXX Should this be guarded behind a check for whether we're asking the
   // user for a max credit usage?
   const { maxCreditUsage } = allValues;
-  e = v.decimalInteger(maxCreditUsage);
+  e = v.decimalInteger(maxCreditUsage) || v.positiveNumber(maxCreditUsage);
   if (e) {
     errors.maxCreditUsage = e;
   }

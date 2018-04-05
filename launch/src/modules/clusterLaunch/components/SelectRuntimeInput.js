@@ -10,11 +10,41 @@ import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
 
+import Tip from '../../../components/Tip';
+
 import Input from './Input';
 
 const AlignedButton = styled(Button)`
   vertical-align: baseline;
 `;
+
+function tip(error) {
+  switch (error) {
+    case 'required':
+      return (
+        <Tip
+          text="A runtime is required."
+          type="error"
+        />
+      );
+    case 'not_a_decimal_integer':
+      return (
+        <Tip
+          text="This doesn't look like a valid number."
+          type="error"
+        />
+      );
+    case 'non_positive_number':
+      return (
+        <Tip
+          text="The runtime must be positive."
+          type="error"
+        />
+      );
+    default:
+      return undefined;
+  }
+}
 
 const propTypes = {
   error: PropTypes.string,
@@ -36,6 +66,7 @@ const SelectRuntimeInput = ({ error, id, onChange, onUseLaunchToken, value }) =>
       label="Enter the number of hours the cluster should run for"
       name="desiredRuntime"
       onChange={onChange}
+      tip={tip(error)}
       type="number"
       value={value}
     />
