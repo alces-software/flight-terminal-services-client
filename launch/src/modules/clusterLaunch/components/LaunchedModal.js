@@ -7,25 +7,30 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { StandardModal } from 'flight-reactware';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 
+import * as actions from '../actions';
+import * as selectors from '../selectors';
+
 const propTypes = {
+  closeModal: PropTypes.func.isRequired,
   clusterName: PropTypes.string,
   email: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired,
 };
 
 // XXX Rename to SuccessModal or something?
-const LaunchedModal = ({ clusterName, email, toggle, isOpen }) => (
+const LaunchedModal = ({ clusterName, email, closeModal, isOpen }) => (
   <StandardModal
     isOpen={isOpen}
     size="lg"
     title="Your Alces Flight Compute HPC cluster is getting ready for take-off"
-    toggle={toggle}
+    toggle={closeModal}
   >
     <p>
       Your Alces Flight Compute HPC cluster, <em>{clusterName}</em>, is in the process of being
@@ -45,4 +50,14 @@ const LaunchedModal = ({ clusterName, email, toggle, isOpen }) => (
 
 LaunchedModal.propTypes = propTypes;
 
-export default LaunchedModal;
+const enhance = compose(
+  connect(createStructuredSelector({
+    isOpen: selectors.launchedModal.isModalOpen,
+    clusterName: selectors.launchedModal.clusterName,
+    email: selectors.launchedModal.email,
+  }), {
+    closeModal: actions.launchedModal.hide,
+  }),
+);
+
+export default enhance(LaunchedModal);

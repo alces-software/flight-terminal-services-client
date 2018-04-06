@@ -7,11 +7,17 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
+import { apiRequest, jsonApi, StandardModal } from 'flight-reactware';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { get } from 'lodash';
 import { isFSA } from 'flux-standard-action';
 
-import { apiRequest, jsonApi, StandardModal } from 'flight-reactware';
 import CommunitySiteLink from '../../../elements/CommunitySiteLink';
+
+import * as actions from '../actions';
+import * as selectors from '../selectors';
 
 function hasPropError(errorDetails, prop, error) {
   const propDetails = get(errorDetails, prop);
@@ -119,6 +125,7 @@ function unexpectedMessage(message) {
 };
 
 const propTypes = {
+  closeModal: PropTypes.func.isRequired,
   error: PropTypes.shape({
     exception: PropTypes.string,
     details: PropTypes.object,
@@ -126,14 +133,13 @@ const propTypes = {
   }),
   isOpen: PropTypes.bool.isRequired,
   title: PropTypes.node,
-  toggle: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   title: 'Your HPC cluster failed to launch',
 };
 
-const ErrorModal = ({ error, toggle, isOpen, title }) => {
+const ErrorModal = ({ error, closeModal, isOpen, title }) => {
   let errorMessage;
   if (error && error.details) {
     errorMessage = messageFromDetails(error.details);
@@ -156,7 +162,7 @@ const ErrorModal = ({ error, toggle, isOpen, title }) => {
       isOpen={isOpen}
       size="lg"
       title={title}
-      toggle={toggle}
+      toggle={closeModal}
     >
       {errorMessage}
     </StandardModal>
@@ -166,4 +172,14 @@ const ErrorModal = ({ error, toggle, isOpen, title }) => {
 ErrorModal.propTypes = propTypes;
 ErrorModal.defaultProps = defaultProps;
 
-export default ErrorModal;
+const enhance = compose(
+  connect(createStructuredSelector({
+    error: selectors.errorModal.error,
+    isOpen: selectors.errorModal.isModalOpen,
+    title: selectors.errorModal.title,
+  }), {
+    closeModal: actions.errorModal.hide,
+  }),
+);
+
+export default enhance(ErrorModal);

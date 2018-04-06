@@ -47,7 +47,7 @@ const enhance = compose(
     null,
     (dispatch, { clusterSpec, clusterSpecsFile }) => ({
       showLaunchForm: () => dispatch(
-        clusterLaunch.actions.showModal(clusterSpec, clusterSpecsFile)
+        clusterLaunch.actions.formModal.show(clusterSpec, clusterSpecsFile)
       ),
     })
   ),

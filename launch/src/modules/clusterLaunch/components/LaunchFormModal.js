@@ -16,9 +16,12 @@ const LaunchFormModal = ({
   clusterSpec,
   clusterSpecsFile,
   isOpen,
+  onError,
+  onSuccess,
   tenantIdentifier,
 }) => (
   <StandardModal
+    closeButtonText="Cancel"
     isOpen={isOpen}
     size="lg"
     title={"Launch an Alces Flight HPC cluster"}
@@ -27,7 +30,8 @@ const LaunchFormModal = ({
     <Form
       clusterSpec={clusterSpec}
       clusterSpecsFile={clusterSpecsFile}
-      onCancel={closeModal}
+      onError={onError}
+      onSuccess={onSuccess}
       tenantIdentifier={tenantIdentifier}
     />
   </StandardModal>
@@ -38,6 +42,8 @@ LaunchFormModal.propTypes = {
   clusterSpec: clusterSpecShape.isRequired,
   clusterSpecsFile: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  onError: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired,
   tenantIdentifier: PropTypes.string,
 };
 
@@ -49,6 +55,11 @@ export default connect(
     tenantIdentifier: tenants.selectors.identifier,
   }),
   {
-    closeModal: actions.hideModal,
+    closeModal: actions.formModal.hide,
+    onError: actions.errorModal.show,
+    onSuccess: (clusterName, email) => (dispatch) => {
+      dispatch(actions.formModal.hide());
+      return dispatch(actions.launchedModal.show(clusterName, email));
+    },
   }
 )(LaunchFormModal);

@@ -51,7 +51,6 @@ export class ClusterLaunchForm extends React.Component {
     }),
     handleSubmit: PropTypes.func.isRequired,
     isUsingLaunchToken: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onQueueChange: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
@@ -209,7 +208,6 @@ export class ClusterLaunchForm extends React.Component {
         handleSubmit={this.props.handleSubmit}
         height={formHeight}
         id={`clusterLaunchForm-${this.props.clusterSpec.key}`}
-        onCancel={this.props.onCancel}
         onConfirm={this.props.handleSubmit}
         onShowNextPage={this.handleShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}

@@ -20,8 +20,6 @@ import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 
 import * as analytics from '../analytics';
 import ClusterLaunchForm from './Form';
-import ErrorModal from './ErrorModal';
-import LaunchedModal from './LaunchedModal';
 import { canUseCredits, getClusterName, getDefaultEmail } from '../utils';
 
 const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
@@ -98,7 +96,8 @@ class ClusterLaunchFormContainer extends React.Component {
     dispatch: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     launchUser: PropTypes.object,
-    onCancel: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func,
     tenantIdentifier: PropTypes.string,
   };
 
@@ -116,20 +115,12 @@ class ClusterLaunchFormContainer extends React.Component {
   state = {
     currentPageIndex: 0,
     isUsingLaunchToken: true,
-    showErrorModal: false,
-    showLaunchedModal: false,
     submitting: false,
     values: this.initialValues,
     errors: {
       clusterName: undefined,
       email: undefined,
       launchToken: undefined,
-    },
-    modalProps: {
-      clusterName: undefined,
-      email: undefined,
-      error: undefined,
-      title: undefined,
     },
     token: undefined,
   }
@@ -168,12 +159,6 @@ class ClusterLaunchFormContainer extends React.Component {
       };
     });
   }
-
-  // XXX Perhaps all this needs to do is call `this.props.onCancel`.
-  handleCancel = () => {
-    this.props.onCancel();
-    this.resetForm();
-  };
 
   handleFormChange = ({ name, value }) => {
     const errors = validate({
@@ -259,41 +244,15 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleSuccessfulLaunch(json) {
     analytics.clusterLaunchAccepted(this.props.clusterSpec);
-    this.setState({
-      modalProps: {
-        clusterName: json.cluster_name,
-        email: json.email,
-      },
-      showLaunchedModal: true,
-    });
-    // XXX Perhaps we should close the modal here instead.
-    this.resetForm();
-  }
-
-  // XXX This may not be needed anymore.  The form container is unmounted.
-  resetForm() {
-    const errors = validate(this.initialValues, this.state, this.props);
-    this.setState({
-      submitting: false,
-      values: {
-        ...this.initialValues,
-        selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
-      },
-      currentPageIndex: 0,
-      errors: errors,
-      isUsingLaunchToken: !canUseCredits(this.props),
-    });
+    if (this.props.onSuccess) {
+      this.props.onSuccess();
+    }
   }
 
   handleFailedLaunch(json) {
     analytics.clusterLaunchRejected(this.props.clusterSpec, json);
-    this.setState({
-      modalProps: {
-        error: json
-      },
-      showErrorModal: true,
-      submitting: false,
-    });
+    this.setState({ submitting: false });
+    this.props.onError({ error: json });
   }
 
   handleUnexpectedError = (exception) => {
@@ -303,15 +262,8 @@ class ClusterLaunchFormContainer extends React.Component {
     } else {
       message = exception.toString();
     }
-    this.setState({
-      submitting: false,
-      modalProps: {
-        error: {
-          unexpected: message,
-        },
-      },
-      showErrorModal: true,
-    });
+    this.setState({ submitting: false });
+    this.props.onError({ error: { unexpected: message } });
   }
 
   handleSubmit = (event) => {
@@ -342,10 +294,6 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
   }
 
-  hideModal = () => {
-    this.setState({ showLaunchedModal: false, showErrorModal: false });
-  }
-
   handleTokenEntered = () => {
     this.props.dispatch(tokens.actions.loadToken(this.state.values.launchToken))
       .then((response) => {
@@ -361,12 +309,9 @@ class ClusterLaunchFormContainer extends React.Component {
         });
       })
       .catch((error) => {
-        this.setState({
-          modalProps: {
-            error,
-            title: 'Verifying your launch token has failed',
-          },
-          showErrorModal: true,
+        this.props.onError({
+          error,
+          title: 'Verifying your launch token has failed',
         });
       });
   }
@@ -381,33 +326,20 @@ class ClusterLaunchFormContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <ErrorModal
-          {...this.state.modalProps}
-          isOpen={this.state.showErrorModal}
-          toggle={this.hideModal}
-        />
-        <LaunchedModal
-          {...this.state.modalProps}
-          isOpen={this.state.showLaunchedModal}
-          toggle={this.hideModal}
-        />
-        <ClusterLaunchForm
-          {...this.state}
-          {...this.props}
-          emailRef={(el) => { this.emailInput = el; }}
-          // eslint-disable-next-line react/jsx-handler-names
-          handleSubmit={this.handleSubmit}
-          onCancel={this.handleCancel}
-          onChange={this.handleFormChange}
-          onQueueChange={this.handleQueueChange}
-          onShowNextPage={this.handleShowNextPage}
-          onShowPreviousPage={this.handleShowPreviousPage}
-          onTokenEntered={this.handleTokenEntered}
-          onUseLaunchToken={this.handleUseLaunchToken}
-          tokenName={this.state.values.launchToken}
-        />
-      </div>
+      <ClusterLaunchForm
+        {...this.state}
+        {...this.props}
+        emailRef={(el) => { this.emailInput = el; }}
+        // eslint-disable-next-line react/jsx-handler-names
+        handleSubmit={this.handleSubmit}
+        onChange={this.handleFormChange}
+        onQueueChange={this.handleQueueChange}
+        onShowNextPage={this.handleShowNextPage}
+        onShowPreviousPage={this.handleShowPreviousPage}
+        onTokenEntered={this.handleTokenEntered}
+        onUseLaunchToken={this.handleUseLaunchToken}
+        tokenName={this.state.values.launchToken}
+      />
     );
   }
 }

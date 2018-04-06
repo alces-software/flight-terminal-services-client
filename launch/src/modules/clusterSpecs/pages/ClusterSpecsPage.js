@@ -20,6 +20,8 @@ const Wrapper = ({ children }) => {
   return (
     <div>
       <clusterLaunch.LaunchFormModal />
+      <clusterLaunch.ErrorModal />
+      <clusterLaunch.LaunchedModal />
       <Container fluid>
         <branding.PageHeading
           brandingLogo

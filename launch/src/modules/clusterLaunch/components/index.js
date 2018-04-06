@@ -9,6 +9,12 @@
 // Add publicly exported components here and to the export below.
 // Any components which are intended to only be used internally to the
 // onboarding module should not be included here.
+import ErrorModal from './ErrorModal';
 import LaunchFormModal from './LaunchFormModal';
+import LaunchedModal from './LaunchedModal';
 
-export { LaunchFormModal };
+export {
+  ErrorModal,
+  LaunchFormModal,
+  LaunchedModal,
+};
