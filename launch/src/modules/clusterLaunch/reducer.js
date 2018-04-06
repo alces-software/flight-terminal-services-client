@@ -1,10 +1,16 @@
 import { combineReducers } from 'redux';
 import { modals } from 'flight-reactware';
 
-import { MODAL_SHOWN, MODAL_HIDDEN } from './actionTypes';
+import {
+  FORM_MODAL_HIDDEN,
+  FORM_MODAL_SHOWN,
+} from './actionTypes';
+
 
 const reducer = combineReducers({
-  launchModal: modals.createModalReducer(MODAL_SHOWN, MODAL_HIDDEN),
+  form: combineReducers({
+    modal: modals.createModalReducer(FORM_MODAL_SHOWN, FORM_MODAL_HIDDEN),
+  }),
 });
 
 export default reducer;

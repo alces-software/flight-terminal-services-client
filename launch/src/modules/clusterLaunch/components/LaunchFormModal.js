@@ -43,9 +43,9 @@ LaunchFormModal.propTypes = {
 
 export default connect(
   createStructuredSelector({
-    clusterSpec: selectors.clusterSpec,
-    clusterSpecsFile: selectors.clusterSpecsFile,
-    isOpen: selectors.isModalShowing,
+    clusterSpec: selectors.formModal.clusterSpec,
+    clusterSpecsFile: selectors.formModal.clusterSpecsFile,
+    isOpen: selectors.formModal.isModalOpen,
     tenantIdentifier: tenants.selectors.identifier,
   }),
   {

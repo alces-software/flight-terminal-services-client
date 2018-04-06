@@ -3,17 +3,20 @@ import { modals } from 'flight-reactware';
 
 import { NAME } from './constants';
 
-export const isModalShowing = modals.createModalSelector(NAME, 'launchModal');
-export const modalData = modals.createModalDataSelector(NAME, 'launchModal');
+const formModalData = modals.createModalDataSelector(NAME, 'form', 'modal');
 
-export const clusterSpecsFile = createSelector(
-  modalData,
+export const formModal = {
+  modalData: formModalData,
 
-  (data) => data.payload == null ? undefined : data.payload.clusterSpecsFile,
-);
+  isModalOpen: modals.createModalSelector(NAME, 'form', 'modal'),
 
-export const clusterSpec = createSelector(
-  modalData,
+  clusterSpecsFile: createSelector(
+    formModalData,
+    (data) => data.payload == null ? undefined : data.payload.clusterSpecsFile,
+  ),
 
-  (data) => data.payload == null ? undefined : data.payload.clusterSpec,
-);
+  clusterSpec: createSelector(
+    formModalData,
+    (data) => data.payload == null ? undefined : data.payload.clusterSpec,
+  )
+};

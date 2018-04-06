@@ -1,8 +1,8 @@
 import * as selectors from './selectors';
-import { MODAL_HIDDEN, MODAL_SHOWN } from './actionTypes';
+import { FORM_MODAL_HIDDEN, FORM_MODAL_SHOWN } from './actionTypes';
 
 export const showModal = (clusterSpec, clusterSpecsFile) => ({
-  type: MODAL_SHOWN,
+  type: FORM_MODAL_SHOWN,
   payload: {
     clusterSpec,
     clusterSpecsFile,
@@ -10,10 +10,10 @@ export const showModal = (clusterSpec, clusterSpecsFile) => ({
 });
 
 export const hideModal = () => (dispatch, getState) => {
-  const existingModalData = selectors.modalData(getState());
+  const existingModalData = selectors.formModal.modalData(getState());
 
   return dispatch({
-    type: MODAL_HIDDEN,
+    type: FORM_MODAL_HIDDEN,
     ...existingModalData,
   });
 };
