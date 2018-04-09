@@ -96,7 +96,6 @@ export class ClusterLaunchForm extends React.Component {
           error={this.props.errors.maxCreditUsage}
           id={this.props.clusterSpec.ui.title}
           onChange={this.props.onChange}
-          onUseLaunchToken={this.props.onUseLaunchToken}
           value={this.props.values.maxCreditUsage}
         />
       ),

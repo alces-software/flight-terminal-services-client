@@ -37,11 +37,10 @@ const propTypes = {
   error: PropTypes.arrayOf(PropTypes.string),
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  onUseLaunchToken: PropTypes.func,
   value: PropTypes.string,
 };
 
-const SelectMaxCreditUsageInput = ({ error, id, onChange, onUseLaunchToken, value }) => {
+const SelectMaxCreditUsageInput = ({ error, id, onChange, value }) => {
   error = Array.isArray(error) ? error[0] : error;
   return (
     <div>
