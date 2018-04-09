@@ -86,15 +86,6 @@ class ClusterLaunchFormContainer extends React.Component {
     });
   }
 
-
-  setFormRef = (form) => {
-    this.form = form.getWrappedInstance();
-  }
-
-  renderButtons() {
-    return this.form && this.form.renderButtons();
-  }
-
   defaultLaunchOptionIndex() {
     return this.props.clusterSpec.launchOptions.defaultOptionIndex;
   }
@@ -299,7 +290,6 @@ class ClusterLaunchFormContainer extends React.Component {
         onShowPreviousPage={this.handleShowPreviousPage}
         onTokenEntered={this.handleTokenEntered}
         onUseLaunchToken={this.handleUseLaunchToken}
-        ref={this.setFormRef}
         tokenName={this.state.values.launchToken}
       />
     );
@@ -311,8 +301,7 @@ const enhance = compose(
     collections: collections.selectors.availableCollections,
     authToken: auth.selectors.ssoToken,
     launchUser: launchUsers.selectors.currentUser,
-  }),
-  null, null, { withRef: true }),
+  })),
 );
 
 export default enhance(ClusterLaunchFormContainer);
