@@ -187,6 +187,14 @@ export class ClusterLaunchForm extends React.Component {
     }
   }
 
+  setFormRef = (form) => {
+    this.multiPageForm = form;
+  }
+
+  renderButtons() {
+    return this.multiPageForm && this.multiPageForm.renderButtons();
+  }
+
   render() {
     return (
       <MultiPageForm
@@ -203,6 +211,7 @@ export class ClusterLaunchForm extends React.Component {
         onShowNextPage={this.handleShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}
         pages={this.pages()}
+        ref={this.setFormRef}
         submitButtonContent={<span>Launch{' '}<FontAwesome name="plane" /></span>}
         submitting={this.props.submitting}
         submittingButtonContent={<span>
@@ -220,4 +229,4 @@ export class ClusterLaunchForm extends React.Component {
 export default connect(createStructuredSelector({
   tokenHasLoaded: tokens.selectors.hasLoaded,
   token: tokens.selectors.tokenFromName,
-}))(ClusterLaunchForm);
+}), null, null, { withRef: true })(ClusterLaunchForm);

@@ -11,35 +11,52 @@ import * as actions from '../actions';
 import * as selectors from '../selectors';
 import Form from './FormContainer';
 
-const LaunchFormModal = ({
-  closeModal,
-  clusterSpec,
-  clusterSpecsFile,
-  isOpen,
-  onError,
-  onSuccess,
-  tenantIdentifier,
-}) => (
-  <StandardModal
-    closeButtonText="Cancel"
-    isOpen={isOpen}
-    size="lg"
-    title={"Launch an Alces Flight HPC cluster"}
-    toggle={closeModal}
-  >
-    {
-      clusterSpec == null || clusterSpecsFile == null ?
-        null :
-        <Form
-          clusterSpec={clusterSpec}
-          clusterSpecsFile={clusterSpecsFile}
-          onError={onError}
-          onSuccess={onSuccess}
-          tenantIdentifier={tenantIdentifier}
-        />
-    }
-  </StandardModal>
-);
+class LaunchFormModal extends React.Component {
+  setFormRef = (form) => {
+    this.form = form.getWrappedInstance();
+    this.forceUpdate();
+  }
+
+  render() {
+    const {
+      closeModal,
+      clusterSpec,
+      clusterSpecsFile,
+      isOpen,
+      onError,
+      onSuccess,
+      tenantIdentifier,
+    } = this.props;
+
+    return (
+      <StandardModal
+        buttons={
+          <span className="mr-auto">
+            { this.form && this.form.renderButtons() }
+          </span>
+        }
+        closeButtonText="Cancel"
+        isOpen={isOpen}
+        size="lg"
+        title={"Launch an Alces Flight HPC cluster"}
+        toggle={closeModal}
+      >
+        {
+          clusterSpec == null || clusterSpecsFile == null ?
+            null :
+            <Form
+              clusterSpec={clusterSpec}
+              clusterSpecsFile={clusterSpecsFile}
+              onError={onError}
+              onSuccess={onSuccess}
+              ref={this.setFormRef}
+              tenantIdentifier={tenantIdentifier}
+            />
+        }
+      </StandardModal>
+    );
+  }
+}
 
 LaunchFormModal.propTypes = {
   closeModal: PropTypes.func,
