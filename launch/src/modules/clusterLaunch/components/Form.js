@@ -32,7 +32,7 @@ import {
   isRuntimeFixed,
 } from '../utils';
 
-const formHeight = '224px';
+const formMinHeight = '224px';
 
 export class ClusterLaunchForm extends React.Component {
   static propTypes = {
@@ -197,8 +197,8 @@ export class ClusterLaunchForm extends React.Component {
         currentPageIndex={this.props.currentPageIndex}
         // eslint-disable-next-line react/jsx-handler-names
         handleSubmit={this.props.handleSubmit}
-        height={formHeight}
         id={`clusterLaunchForm-${this.props.clusterSpec.key}`}
+        minHeight={formMinHeight}
         onConfirm={this.props.handleSubmit}
         onShowNextPage={this.handleShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}
