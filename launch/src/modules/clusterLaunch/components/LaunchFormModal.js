@@ -27,20 +27,24 @@ const LaunchFormModal = ({
     title={"Launch an Alces Flight HPC cluster"}
     toggle={closeModal}
   >
-    <Form
-      clusterSpec={clusterSpec}
-      clusterSpecsFile={clusterSpecsFile}
-      onError={onError}
-      onSuccess={onSuccess}
-      tenantIdentifier={tenantIdentifier}
-    />
+    {
+      clusterSpec == null || clusterSpecsFile == null ?
+        null :
+        <Form
+          clusterSpec={clusterSpec}
+          clusterSpecsFile={clusterSpecsFile}
+          onError={onError}
+          onSuccess={onSuccess}
+          tenantIdentifier={tenantIdentifier}
+        />
+    }
   </StandardModal>
 );
 
 LaunchFormModal.propTypes = {
   closeModal: PropTypes.func,
-  clusterSpec: clusterSpecShape.isRequired,
-  clusterSpecsFile: PropTypes.string.isRequired,
+  clusterSpec: clusterSpecShape,
+  clusterSpecsFile: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   onError: PropTypes.func.isRequired,
   onSuccess: PropTypes.func.isRequired,
