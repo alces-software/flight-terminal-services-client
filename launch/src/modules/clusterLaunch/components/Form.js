@@ -32,9 +32,7 @@ import {
   isRuntimeFixed,
 } from '../utils';
 
-const cardHeight = 360;
-const titleAndButtonsHeight = 156;
-const formHeight = `${cardHeight - titleAndButtonsHeight}px`;
+const formHeight = '224px';
 
 export class ClusterLaunchForm extends React.Component {
   static propTypes = {
@@ -89,10 +87,8 @@ export class ClusterLaunchForm extends React.Component {
           value={this.props.values.desiredRuntime}
         />
       ),
-      skip: () => !canSelectRuntime(this.props) || this.props.isUsingLaunchToken,
-      valid: () => (
-        this.props.isUsingLaunchToken ? true : !this.props.errors.desiredRuntime
-      ),
+      skip: () => !canSelectRuntime(this.props),
+      valid: () => !this.props.errors.desiredRuntime,
     },
     {
       render: () => (
@@ -104,10 +100,8 @@ export class ClusterLaunchForm extends React.Component {
           value={this.props.values.maxCreditUsage}
         />
       ),
-      skip: () => !canSetCreditLimit(this.props) || this.props.isUsingLaunchToken,
-      valid: () => (
-        this.props.isUsingLaunchToken ? true : !this.props.errors.maxCreditUsage
-      ),
+      skip: () => !canSetCreditLimit(this.props),
+      valid: () => !this.props.errors.maxCreditUsage,
     },
     {
       render: () => (
@@ -120,9 +114,7 @@ export class ClusterLaunchForm extends React.Component {
         />
       ),
       skip: () => !this.props.isUsingLaunchToken,
-      valid: () => (
-        this.props.isUsingLaunchToken ? !this.props.errors.launchToken : true
-      ),
+      valid: () => !this.props.errors.launchToken,
     },
     {
       render: () => (

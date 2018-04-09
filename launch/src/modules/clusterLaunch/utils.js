@@ -6,6 +6,13 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
+export function getEmail(email, _, props) {
+  if ( email != null && email.length >= 1 ) {
+    return email;
+  }
+  return getDefaultEmail(props);
+}
+
 export function getDefaultEmail(props, state={}) {
   const token = state.token || props.token;
   const launchUser = state.launchUser || props.launchUser;
@@ -23,12 +30,16 @@ export function canUseCredits({ launchUser }) {
   return !!(launchUser && launchUser.attributes.computeCredits > 0);
 }
 
-export function canSelectRuntime({ clusterSpec, launchUser }) {
-  return isSoloCluster(clusterSpec) && canUseCredits({ launchUser });
+export function canSelectRuntime({ clusterSpec, launchUser, isUsingLaunchToken }) {
+  return isSoloCluster(clusterSpec) &&
+    canUseCredits({ launchUser }) &&
+    !isUsingLaunchToken;
 }
 
-export function canSetCreditLimit({ clusterSpec, launchUser }) {
-  return !isSoloCluster(clusterSpec) && canUseCredits({ launchUser });
+export function canSetCreditLimit({ clusterSpec, launchUser, isUsingLaunchToken }) {
+  return !isSoloCluster(clusterSpec) &&
+    canUseCredits({ launchUser }) &&
+    !isUsingLaunchToken;
 }
 
 export function isRuntimeFixed({ clusterSpec, isUsingLaunchToken }) {

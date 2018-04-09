@@ -7,11 +7,10 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import validatorUtils from 'validator';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { createStructuredSelector } from 'reselect';
-import { auth, validation as v } from 'flight-reactware';
+import { auth } from 'flight-reactware';
 
 import collections from '../../../modules/collections';
 import launchUsers from '../../../modules/launchUsers';
@@ -21,68 +20,14 @@ import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 import * as analytics from '../analytics';
 import ClusterLaunchForm from './Form';
 import { canUseCredits, getClusterName, getDefaultEmail } from '../utils';
-
-const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
-const oneCharClusterNameRe = /^[a-z0-9]$/;
+import { validator } from '../validations';
 
 function strip(string) {
   return string.replace(/^ */, '').replace(/ *$/, '');
 }
 
 function validate(allValues, state, props) {
-  const errors = {};
-
-  if (state.isUsingLaunchToken && (
-    allValues.launchToken == null || allValues.launchToken.length < 5)
-  ) {
-    errors.launchToken = 'error';
-  }
-
-  let e;
-  // XXX Should this be guarded behind a check for whether we're asking the
-  // user for the desired runtime?
-  const { desiredRuntime } = allValues;
-  e = v.required(desiredRuntime) || v.decimalInteger(desiredRuntime) || v.positiveNumber(desiredRuntime);
-  if (e) {
-    errors.desiredRuntime = e;
-  }
-
-  // XXX Should this be guarded behind a check for whether we're asking the
-  // user for a max credit usage?
-  const { maxCreditUsage } = allValues;
-  e = v.decimalInteger(maxCreditUsage) || v.positiveNumber(maxCreditUsage);
-  if (e) {
-    errors.maxCreditUsage = e;
-  }
-
-  const clusterName = getClusterName(allValues);
-  if (clusterName == null || !clusterName.length) {
-    errors.clusterName = 'blank';
-  } else if (clusterName.length <= 1 && !oneCharClusterNameRe.test(clusterName)) {
-    errors.clusterName = 'format';
-  } else if (clusterName.length > 1 && !clusterNameRe.test(clusterName)) {
-    errors.clusterName = 'format';
-  }
-
-  const email = allValues.email;
-  const emailNotGiven = email == null || email.length < 1;
-  const defaultEmail = getDefaultEmail(props, state);
-
-  if (emailNotGiven && defaultEmail != null) {
-    // Validate the email assigned to the token.
-    if (!validatorUtils.isEmail(defaultEmail)) {
-      errors.email = 'invalid';
-    }
-  } else {
-    // Validate the entered email.
-    if (emailNotGiven) {
-      errors.email = 'blank';
-    } else if (!validatorUtils.isEmail(allValues.email)) {
-      errors.email = 'invalid';
-    }
-  }
-
-  return errors;
+  return validator(allValues, { ...props, ...state });
 }
 
 class ClusterLaunchFormContainer extends React.Component {
