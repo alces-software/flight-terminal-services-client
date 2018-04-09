@@ -146,7 +146,7 @@ class ClusterLaunchFormContainer extends React.Component {
       };
     }
 
-    return fetch('/clusters/launch', {
+    return fetch(`${process.env.REACT_APP_API_BASE_URL}/clusters/launch`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
