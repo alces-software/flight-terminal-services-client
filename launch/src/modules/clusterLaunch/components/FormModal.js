@@ -11,7 +11,7 @@ import * as actions from '../actions';
 import * as selectors from '../selectors';
 import Form from './FormContainer';
 
-const LaunchFormModal = ({
+const FormModal = ({
   closeModal,
   clusterSpec,
   clusterSpecsFile,
@@ -41,7 +41,7 @@ const LaunchFormModal = ({
   </StandardModal>
 );
 
-LaunchFormModal.propTypes = {
+FormModal.propTypes = {
   closeModal: PropTypes.func,
   clusterSpec: clusterSpecShape,
   clusterSpecsFile: PropTypes.string,
@@ -63,7 +63,7 @@ export default connect(
     onError: actions.errorModal.show,
     onSuccess: (clusterName, email) => (dispatch) => {
       dispatch(actions.formModal.hide());
-      return dispatch(actions.launchedModal.show(clusterName, email));
+      return dispatch(actions.successModal.show(clusterName, email));
     },
   }
-)(LaunchFormModal);
+)(FormModal);

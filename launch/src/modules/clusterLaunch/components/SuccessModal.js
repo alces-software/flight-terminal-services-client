@@ -24,8 +24,7 @@ const propTypes = {
   isOpen: PropTypes.bool.isRequired,
 };
 
-// XXX Rename to SuccessModal or something?
-const LaunchedModal = ({ clusterName, email, closeModal, isOpen }) => (
+const SuccessModal = ({ clusterName, email, closeModal, isOpen }) => (
   <StandardModal
     isOpen={isOpen}
     size="lg"
@@ -48,16 +47,16 @@ const LaunchedModal = ({ clusterName, email, closeModal, isOpen }) => (
   </StandardModal>
 );
 
-LaunchedModal.propTypes = propTypes;
+SuccessModal.propTypes = propTypes;
 
 const enhance = compose(
   connect(createStructuredSelector({
-    isOpen: selectors.launchedModal.isModalOpen,
-    clusterName: selectors.launchedModal.clusterName,
-    email: selectors.launchedModal.email,
+    isOpen: selectors.successModal.isModalOpen,
+    clusterName: selectors.successModal.clusterName,
+    email: selectors.successModal.email,
   }), {
-    closeModal: actions.launchedModal.hide,
+    closeModal: actions.successModal.hide,
   }),
 );
 
-export default enhance(LaunchedModal);
+export default enhance(SuccessModal);

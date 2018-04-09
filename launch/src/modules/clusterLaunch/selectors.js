@@ -5,7 +5,7 @@ import { NAME } from './constants';
 
 const errorModalData = modals.createModalDataSelector(NAME, 'error', 'modal');
 const formModalData = modals.createModalDataSelector(NAME, 'form', 'modal');
-const launchedModalData = modals.createModalDataSelector(NAME, 'launched', 'modal');
+const successModalData = modals.createModalDataSelector(NAME, 'success', 'modal');
 
 export const errorModal = {
   modalData: errorModalData,
@@ -39,18 +39,18 @@ export const formModal = {
   )
 };
 
-export const launchedModal = {
-  modalData: launchedModalData,
+export const successModal = {
+  modalData: successModalData,
 
-  isModalOpen: modals.createModalSelector(NAME, 'launched', 'modal'),
+  isModalOpen: modals.createModalSelector(NAME, 'success', 'modal'),
 
   clusterName: createSelector(
-    launchedModalData,
+    successModalData,
     (data) => data.payload == null ? undefined : data.payload.clusterName,
   ),
 
   email: createSelector(
-    launchedModalData,
+    successModalData,
     (data) => data.payload == null ? undefined : data.payload.email,
   ),
 };

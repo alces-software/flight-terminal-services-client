@@ -10,11 +10,11 @@
 // Any components which are intended to only be used internally to the
 // onboarding module should not be included here.
 import ErrorModal from './ErrorModal';
-import LaunchFormModal from './LaunchFormModal';
-import LaunchedModal from './LaunchedModal';
+import FormModal from './FormModal';
+import SuccessModal from './SuccessModal';
 
 export {
   ErrorModal,
-  LaunchFormModal,
-  LaunchedModal,
+  FormModal,
+  SuccessModal,
 };

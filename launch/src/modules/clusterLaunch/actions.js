@@ -4,8 +4,8 @@ import {
   ERROR_MODAL_SHOWN,
   FORM_MODAL_HIDDEN,
   FORM_MODAL_SHOWN,
-  LAUNCHED_MODAL_HIDDEN,
-  LAUNCHED_MODAL_SHOWN,
+  SUCCESS_MODAL_HIDDEN,
+  SUCCESS_MODAL_SHOWN,
 } from './actionTypes';
 
 export const formModal = {
@@ -27,9 +27,9 @@ export const formModal = {
   },
 };
 
-export const launchedModal = {
+export const successModal = {
   show: (clusterName, email) => ({
-    type: LAUNCHED_MODAL_SHOWN,
+    type: SUCCESS_MODAL_SHOWN,
     payload: {
       clusterName,
       email,
@@ -37,7 +37,7 @@ export const launchedModal = {
   }),
 
   hide: () => ({
-    type: LAUNCHED_MODAL_HIDDEN,
+    type: SUCCESS_MODAL_HIDDEN,
   }),
 };
 

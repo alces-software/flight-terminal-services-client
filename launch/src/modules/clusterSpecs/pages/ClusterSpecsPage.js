@@ -19,9 +19,9 @@ import { clusterSpecShape } from '../propTypes';
 const Wrapper = ({ children }) => {
   return (
     <div>
-      <clusterLaunch.LaunchFormModal />
+      <clusterLaunch.FormModal />
       <clusterLaunch.ErrorModal />
-      <clusterLaunch.LaunchedModal />
+      <clusterLaunch.SuccessModal />
       <Container fluid>
         <branding.PageHeading
           brandingLogo

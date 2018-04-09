@@ -6,8 +6,8 @@ import {
   ERROR_MODAL_SHOWN,
   FORM_MODAL_HIDDEN,
   FORM_MODAL_SHOWN,
-  LAUNCHED_MODAL_HIDDEN,
-  LAUNCHED_MODAL_SHOWN,
+  SUCCESS_MODAL_HIDDEN,
+  SUCCESS_MODAL_SHOWN,
 } from './actionTypes';
 
 const reducer = combineReducers({
@@ -19,8 +19,8 @@ const reducer = combineReducers({
     modal: modals.createModalReducer(FORM_MODAL_SHOWN, FORM_MODAL_HIDDEN),
   }),
 
-  launched: combineReducers({
-    modal: modals.createModalReducer(LAUNCHED_MODAL_SHOWN, LAUNCHED_MODAL_HIDDEN),
+  success: combineReducers({
+    modal: modals.createModalReducer(SUCCESS_MODAL_SHOWN, SUCCESS_MODAL_HIDDEN),
   }),
 });
 
