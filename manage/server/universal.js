@@ -66,10 +66,10 @@ module.exports = function universalLoader(req, res) {
     } else {
       // we're good, send the response
       const RenderedApp = htmlData
-          .replace('<title></title>', helmet.title.toString())
-          .replace('<div id="root">', '<div id="root">' + markup)
-          .replace('<script id="preload">', '<script id="preload">window.__PRELOADED_STATE__ = ' + JSON.stringify(store.getState()).replace(/</g, '\\u003c') + ';')
-          .replace('</head>', sheet.getStyleTags() + '</head>');
+        .replace('<title></title>', helmet.title.toString())
+        .replace('<div id="root">', '<div id="root">' + markup)
+        .replace('<script id="preload">', '<script id="preload">window.__PRELOADED_STATE__ = ' + JSON.stringify(store.getState()).replace(/</g, '\\u003c') + ';')
+        .replace('</head>', sheet.getStyleTags() + '</head>');
       res.send(RenderedApp);
     }
   });
