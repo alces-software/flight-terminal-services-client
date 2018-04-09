@@ -73,13 +73,16 @@ class ClusterLaunchFormContainer extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
-      errors: validate(this.state.values, this.state, this.props),
       currentPageIndex: 0,
       isUsingLaunchToken: !canUseCredits(this.props),
       values: {
         ...this.state.values,
         selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
       }
+    }, () => {
+      this.setState({
+        errors: validate(this.state.values, this.state, this.props),
+      });
     });
   }
 
@@ -262,7 +265,11 @@ class ClusterLaunchFormContainer extends React.Component {
   }
 
   handleUseLaunchToken = () => {
-    this.setState({ isUsingLaunchToken: true });
+    this.setState({ isUsingLaunchToken: true }, () => {
+      this.setState({
+        errors: validate(this.state.values, this.state, this.props),
+      });
+    });
   }
 
   blurEmailField() {
