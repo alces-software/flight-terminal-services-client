@@ -12,6 +12,15 @@ const flyShape = PropTypes.shape({
   parameterDirectoryOverrides: PropTypes.object.isRequired,
 });
 
+const chargingModelShape = PropTypes.shape({
+  upfront: PropTypes.shape({
+    clusterCostPerHour: PropTypes.number.isRequired,
+  }),
+  ongoing: PropTypes.shape({
+    masterNodeCostPerHour: PropTypes.number.isRequired,
+  }),
+});
+
 export const clusterSpecShape = PropTypes.shape({
   ui: PropTypes.shape({
     body: PropTypes.string.isRequired,
@@ -23,7 +32,7 @@ export const clusterSpecShape = PropTypes.shape({
   launchOptions: PropTypes.shape({
     defaultOptionIndex: PropTypes.number.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
-      costPerHour: PropTypes.number.isRequired,
+      chargingModel: chargingModelShape,
       name: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
       fly: flyShape,

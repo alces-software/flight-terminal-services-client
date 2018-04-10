@@ -31,6 +31,7 @@ const ClusterSpecCardDeck = styled(({ className, clusterSpecs }) => {
   ${ClusterSpecCard} {
     padding-left: ${cardDeckPadding / 2}px;
     padding-right: ${cardDeckPadding / 2}px;
+    padding-bottom: ${cardDeckPadding / 2}px;
   }
 `;
 

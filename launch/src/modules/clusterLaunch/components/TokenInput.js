@@ -17,25 +17,28 @@ import tokens from '../../../modules/tokens';
 import Input from './Input';
 
 const propTypes = {
-  error: PropTypes.string,
+  error: PropTypes.arrayOf(PropTypes.string),
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   value: PropTypes.string,
 };
 
 // XXX remove or keep use of "charges" below?
-const TokenInput = ({ error, id, onChange, value }) => (
-  <Input
-    error={error}
-    help="A Flight Launch token allows you to try out Alces Flight Compute
-    without incurring any charges."
-    id={`${id}-launch-token`}
-    label="Enter your Flight Launch token"
-    name="launchToken"
-    onChange={onChange}
-    value={value}
-  />
-);
+const TokenInput = ({ error, id, onChange, value }) => {
+  error = Array.isArray(error) ? error[0] : error;
+  return (
+    <Input
+      error={error}
+      help="A Flight Launch token allows you to try out Alces Flight Compute
+      without incurring any charges."
+      id={`${id}-launch-token`}
+      label="Enter your Flight Launch token"
+      name="launchToken"
+      onChange={onChange}
+      value={value}
+    />
+  );
+};
 
 
 TokenInput.propTypes = propTypes;

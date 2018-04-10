@@ -97,7 +97,9 @@ const enhance = compose(
   })),
 
   showSpinnerUntil(
-    ({ launchUserRetrieval: r }) => r.initiated && !r.pending,
+    ({ launchUserRetrieval: r }) => r.hasEverResolved || (
+      r.initiated && !r.pending
+    )
   ),
 
   branch(

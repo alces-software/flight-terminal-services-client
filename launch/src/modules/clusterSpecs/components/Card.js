@@ -1,38 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FlipCard from 'react-flipcard';
-import { compose, withState, withHandlers } from 'recompose';
-import { Styles } from 'flight-reactware';
+import { Card, CardBody, CardText } from 'reactstrap';
+import { CardTitleBlock, Styles } from 'flight-reactware';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
+import clusterLaunch from '../../clusterLaunch';
+
+import * as selectors from '../selectors';
+import CardOverlay, { ReactwareCardOverlay } from './CardOverlay';
+import FooterIcons from './FooterIcons';
 import { clusterSpecShape } from '../propTypes';
-import CardBack from './CardBack';
-import CardFront from './CardFront';
 
 const propTypes = {
   className: PropTypes.string.isRequired,
   clusterSpec: clusterSpecShape.isRequired,
-  isFlipped: PropTypes.bool.isRequired,
-  onKeyDown: PropTypes.func.isRequired,
-  showBack: PropTypes.func.isRequired,
-  showFront: PropTypes.func.isRequired,
+  showLaunchForm: PropTypes.func.isRequired,
 };
 
-const ClusterSpecCard = ({ className, clusterSpec, isFlipped, onKeyDown, showBack, showFront }) => (
+const ClusterSpecCard = ({ className, clusterSpec, showLaunchForm }) => (
   <div className={className} >
-    <FlipCard
-      disabled
-      flipped={isFlipped}
-      onKeyDown={onKeyDown}
-    >
-      <CardFront
-        clusterSpec={clusterSpec}
-        showBack={showBack}
-      />
-      <CardBack
-        clusterSpec={clusterSpec}
-        showFront={showFront}
-      />
-    </FlipCard>
+    <Card onClick={showLaunchForm} >
+      <CardBody>
+        <CardTitleBlock
+          logoOnRight
+          logoSrc={clusterSpec.ui.logoUrl}
+          subtitle={clusterSpec.ui.subtitle}
+          title={clusterSpec.ui.title}
+        />
+        <CardText>{clusterSpec.ui.body}</CardText>
+        <FooterIcons clusterSpec={clusterSpec} />
+      </CardBody>
+      <CardOverlay showLaunchForm={showLaunchForm} />
+    </Card>
   </div>
 );
 
@@ -40,33 +41,35 @@ ClusterSpecCard.propTypes = propTypes;
 
 const cardHeight = 360;
 const cardWidth = 564;
+const cardTextHeight = 175;
 
 const enhance = compose(
   Styles.withStyles`
-    .ReactFlipCard,
-    .ReactFlipCard__Front,
-    .ReactFlipCard__Back {
-      box-sizing: border-box;
-      width: ${cardWidth}px;
-      height: ${cardHeight}px;
-    }
-
     .card {
       height: ${cardHeight}px;
+      width: ${cardWidth}px;
+    }
+    .card-text {
+      height: ${cardTextHeight}px;
+      margin-bottom: 0px;
+    }
+    &:hover ${ReactwareCardOverlay} {
+      opacity: 1;
     }
   `,
 
-  withState('isFlipped', 'setFlipped', false),
-  withHandlers({
-    showFront: ({ setFlipped }) => () => setFlipped(false),
-    showBack: ({ setFlipped }) => () => setFlipped(true),
-    onKeyDown: ({ isFlipped, setFlipped }) => (event) => {
-      if (isFlipped && event.keyCode === 27) {
-        setFlipped(false);
-      }
-    },
-  }),
+  connect(createStructuredSelector({
+    clusterSpecsFile: selectors.clusterSpecsFile,
+  })),
 
+  connect(
+    null,
+    (dispatch, { clusterSpec, clusterSpecsFile }) => ({
+      showLaunchForm: () => dispatch(
+        clusterLaunch.actions.formModal.show(clusterSpec, clusterSpecsFile)
+      ),
+    })
+  ),
 );
 
 export default enhance(ClusterSpecCard);

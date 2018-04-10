@@ -7,11 +7,10 @@
  *===========================================================================*/
 import React from 'react';
 import PropTypes from 'prop-types';
-import validatorUtils from 'validator';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { createStructuredSelector } from 'reselect';
-import { auth, validation as v } from 'flight-reactware';
+import { auth } from 'flight-reactware';
 
 import collections from '../../../modules/collections';
 import launchUsers from '../../../modules/launchUsers';
@@ -20,71 +19,15 @@ import { clusterSpecShape } from '../../../modules/clusterSpecs/propTypes';
 
 import * as analytics from '../analytics';
 import ClusterLaunchForm from './Form';
-import ErrorModal from './ErrorModal';
-import LaunchedModal from './LaunchedModal';
 import { canUseCredits, getClusterName, getDefaultEmail } from '../utils';
-
-const clusterNameRe = /^[a-z0-9][-a-z0-9]*[a-z0-9]$/;
-const oneCharClusterNameRe = /^[a-z0-9]$/;
+import { validator } from '../validations';
 
 function strip(string) {
   return string.replace(/^ */, '').replace(/ *$/, '');
 }
 
 function validate(allValues, state, props) {
-  const errors = {};
-
-  if (state.isUsingLaunchToken && (
-    allValues.launchToken == null || allValues.launchToken.length < 5)
-  ) {
-    errors.launchToken = 'error';
-  }
-
-  let e;
-  // XXX Should this be guarded behind a check for whether we're asking the
-  // user for the desired runtime?
-  const { desiredRuntime } = allValues;
-  e = v.required(desiredRuntime) || v.decimalInteger(desiredRuntime) || v.positiveNumber(desiredRuntime);
-  if (e) {
-    errors.desiredRuntime = e;
-  }
-
-  // XXX Should this be guarded behind a check for whether we're asking the
-  // user for a max credit usage?
-  const { maxCreditUsage } = allValues;
-  e = v.decimalInteger(maxCreditUsage) || v.positiveNumber(maxCreditUsage);
-  if (e) {
-    errors.maxCreditUsage = e;
-  }
-
-  const clusterName = getClusterName(allValues);
-  if (clusterName == null || !clusterName.length) {
-    errors.clusterName = 'blank';
-  } else if (clusterName.length <= 1 && !oneCharClusterNameRe.test(clusterName)) {
-    errors.clusterName = 'format';
-  } else if (clusterName.length > 1 && !clusterNameRe.test(clusterName)) {
-    errors.clusterName = 'format';
-  }
-
-  const email = allValues.email;
-  const emailNotGiven = email == null || email.length < 1;
-  const defaultEmail = getDefaultEmail(props, state);
-
-  if (emailNotGiven && defaultEmail != null) {
-    // Validate the email assigned to the token.
-    if (!validatorUtils.isEmail(defaultEmail)) {
-      errors.email = 'invalid';
-    }
-  } else {
-    // Validate the entered email.
-    if (emailNotGiven) {
-      errors.email = 'blank';
-    } else if (!validatorUtils.isEmail(allValues.email)) {
-      errors.email = 'invalid';
-    }
-  }
-
-  return errors;
+  return validator(allValues, { ...props, ...state });
 }
 
 class ClusterLaunchFormContainer extends React.Component {
@@ -98,7 +41,8 @@ class ClusterLaunchFormContainer extends React.Component {
     dispatch: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     launchUser: PropTypes.object,
-    onCancel: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func,
     tenantIdentifier: PropTypes.string,
   };
 
@@ -116,8 +60,6 @@ class ClusterLaunchFormContainer extends React.Component {
   state = {
     currentPageIndex: 0,
     isUsingLaunchToken: true,
-    showErrorModal: false,
-    showLaunchedModal: false,
     submitting: false,
     values: this.initialValues,
     errors: {
@@ -125,25 +67,22 @@ class ClusterLaunchFormContainer extends React.Component {
       email: undefined,
       launchToken: undefined,
     },
-    modalProps: {
-      clusterName: undefined,
-      email: undefined,
-      error: undefined,
-      title: undefined,
-    },
     token: undefined,
   }
 
   componentDidMount() {
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
-      errors: validate(this.state.values, this.state, this.props),
       currentPageIndex: 0,
       isUsingLaunchToken: !canUseCredits(this.props),
       values: {
         ...this.state.values,
         selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
       }
+    }, () => {
+      this.setState({
+        errors: validate(this.state.values, this.state, this.props),
+      });
     });
   }
 
@@ -168,11 +107,6 @@ class ClusterLaunchFormContainer extends React.Component {
       };
     });
   }
-
-  handleCancel = () => {
-    this.props.onCancel();
-    this.resetForm();
-  };
 
   handleFormChange = ({ name, value }) => {
     const errors = validate({
@@ -212,7 +146,7 @@ class ClusterLaunchFormContainer extends React.Component {
       };
     }
 
-    return fetch('/clusters/launch', {
+    return fetch(`${process.env.REACT_APP_API_BASE_URL}/clusters/launch`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -258,39 +192,15 @@ class ClusterLaunchFormContainer extends React.Component {
 
   handleSuccessfulLaunch(json) {
     analytics.clusterLaunchAccepted(this.props.clusterSpec);
-    this.setState({
-      modalProps: {
-        clusterName: json.cluster_name,
-        email: json.email,
-      },
-      showLaunchedModal: true,
-    });
-    this.resetForm();
-  }
-
-  resetForm() {
-    const errors = validate(this.initialValues, this.state, this.props);
-    this.setState({
-      submitting: false,
-      values: {
-        ...this.initialValues,
-        selectedLaunchOptionIndex: this.defaultLaunchOptionIndex(),
-      },
-      currentPageIndex: 0,
-      errors: errors,
-      isUsingLaunchToken: !canUseCredits(this.props),
-    });
+    if (this.props.onSuccess) {
+      this.props.onSuccess();
+    }
   }
 
   handleFailedLaunch(json) {
     analytics.clusterLaunchRejected(this.props.clusterSpec, json);
-    this.setState({
-      modalProps: {
-        error: json
-      },
-      showErrorModal: true,
-      submitting: false,
-    });
+    this.setState({ submitting: false });
+    this.props.onError({ error: json });
   }
 
   handleUnexpectedError = (exception) => {
@@ -300,15 +210,8 @@ class ClusterLaunchFormContainer extends React.Component {
     } else {
       message = exception.toString();
     }
-    this.setState({
-      submitting: false,
-      modalProps: {
-        error: {
-          unexpected: message,
-        },
-      },
-      showErrorModal: true,
-    });
+    this.setState({ submitting: false });
+    this.props.onError({ error: { unexpected: message } });
   }
 
   handleSubmit = (event) => {
@@ -339,10 +242,6 @@ class ClusterLaunchFormContainer extends React.Component {
     this.setState({ currentPageIndex: this.state.currentPageIndex - 1 });
   }
 
-  hideModal = () => {
-    this.setState({ showLaunchedModal: false, showErrorModal: false });
-  }
-
   handleTokenEntered = () => {
     this.props.dispatch(tokens.actions.loadToken(this.state.values.launchToken))
       .then((response) => {
@@ -358,18 +257,19 @@ class ClusterLaunchFormContainer extends React.Component {
         });
       })
       .catch((error) => {
-        this.setState({
-          modalProps: {
-            error,
-            title: 'Verifying your launch token has failed',
-          },
-          showErrorModal: true,
+        this.props.onError({
+          error,
+          title: 'Verifying your launch token has failed',
         });
       });
   }
 
   handleUseLaunchToken = () => {
-    this.setState({ isUsingLaunchToken: true });
+    this.setState({ isUsingLaunchToken: true }, () => {
+      this.setState({
+        errors: validate(this.state.values, this.state, this.props),
+      });
+    });
   }
 
   blurEmailField() {
@@ -378,33 +278,20 @@ class ClusterLaunchFormContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <ErrorModal
-          {...this.state.modalProps}
-          isOpen={this.state.showErrorModal}
-          toggle={this.hideModal}
-        />
-        <LaunchedModal
-          {...this.state.modalProps}
-          isOpen={this.state.showLaunchedModal}
-          toggle={this.hideModal}
-        />
-        <ClusterLaunchForm
-          {...this.state}
-          {...this.props}
-          emailRef={(el) => { this.emailInput = el; }}
-          // eslint-disable-next-line react/jsx-handler-names
-          handleSubmit={this.handleSubmit}
-          onCancel={this.handleCancel}
-          onChange={this.handleFormChange}
-          onQueueChange={this.handleQueueChange}
-          onShowNextPage={this.handleShowNextPage}
-          onShowPreviousPage={this.handleShowPreviousPage}
-          onTokenEntered={this.handleTokenEntered}
-          onUseLaunchToken={this.handleUseLaunchToken}
-          tokenName={this.state.values.launchToken}
-        />
-      </div>
+      <ClusterLaunchForm
+        {...this.state}
+        {...this.props}
+        emailRef={(el) => { this.emailInput = el; }}
+        // eslint-disable-next-line react/jsx-handler-names
+        handleSubmit={this.handleSubmit}
+        onChange={this.handleFormChange}
+        onQueueChange={this.handleQueueChange}
+        onShowNextPage={this.handleShowNextPage}
+        onShowPreviousPage={this.handleShowPreviousPage}
+        onTokenEntered={this.handleTokenEntered}
+        onUseLaunchToken={this.handleUseLaunchToken}
+        tokenName={this.state.values.launchToken}
+      />
     );
   }
 }

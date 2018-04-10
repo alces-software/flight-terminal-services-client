@@ -13,7 +13,7 @@ import Tip from '../../../components/Tip';
 import Input from './Input';
 
 const propTypes = {
-  error: PropTypes.string,
+  error: PropTypes.arrayOf(PropTypes.string),
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
@@ -21,6 +21,7 @@ const propTypes = {
 };
 
 const ClusterNameInput = ({ error, id, onChange, placeholder, value }) => {
+  error = Array.isArray(error) ? error[0] : error;
   let tip;
   switch (error) {
     case 'blank':

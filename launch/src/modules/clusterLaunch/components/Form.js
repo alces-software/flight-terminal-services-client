@@ -32,9 +32,7 @@ import {
   isRuntimeFixed,
 } from '../utils';
 
-const cardHeight = 360;
-const titleAndButtonsHeight = 156;
-const formHeight = `${cardHeight - titleAndButtonsHeight}px`;
+const formMinHeight = '224px';
 
 export class ClusterLaunchForm extends React.Component {
   static propTypes = {
@@ -51,7 +49,6 @@ export class ClusterLaunchForm extends React.Component {
     }),
     handleSubmit: PropTypes.func.isRequired,
     isUsingLaunchToken: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onQueueChange: PropTypes.func.isRequired,
     onShowNextPage: PropTypes.func.isRequired,
@@ -90,10 +87,8 @@ export class ClusterLaunchForm extends React.Component {
           value={this.props.values.desiredRuntime}
         />
       ),
-      skip: () => !canSelectRuntime(this.props) || this.props.isUsingLaunchToken,
-      valid: () => (
-        this.props.isUsingLaunchToken ? true : !this.props.errors.desiredRuntime
-      ),
+      skip: () => !canSelectRuntime(this.props),
+      valid: () => !this.props.errors.desiredRuntime,
     },
     {
       render: () => (
@@ -101,14 +96,11 @@ export class ClusterLaunchForm extends React.Component {
           error={this.props.errors.maxCreditUsage}
           id={this.props.clusterSpec.ui.title}
           onChange={this.props.onChange}
-          onUseLaunchToken={this.props.onUseLaunchToken}
           value={this.props.values.maxCreditUsage}
         />
       ),
-      skip: () => !canSetCreditLimit(this.props) || this.props.isUsingLaunchToken,
-      valid: () => (
-        this.props.isUsingLaunchToken ? true : !this.props.errors.maxCreditUsage
-      ),
+      skip: () => !canSetCreditLimit(this.props),
+      valid: () => !this.props.errors.maxCreditUsage,
     },
     {
       render: () => (
@@ -121,9 +113,7 @@ export class ClusterLaunchForm extends React.Component {
         />
       ),
       skip: () => !this.props.isUsingLaunchToken,
-      valid: () => (
-        this.props.isUsingLaunchToken ? !this.props.errors.launchToken : true
-      ),
+      valid: () => !this.props.errors.launchToken,
     },
     {
       render: () => (
@@ -207,9 +197,8 @@ export class ClusterLaunchForm extends React.Component {
         currentPageIndex={this.props.currentPageIndex}
         // eslint-disable-next-line react/jsx-handler-names
         handleSubmit={this.props.handleSubmit}
-        height={formHeight}
         id={`clusterLaunchForm-${this.props.clusterSpec.key}`}
-        onCancel={this.props.onCancel}
+        minHeight={formMinHeight}
         onConfirm={this.props.handleSubmit}
         onShowNextPage={this.handleShowNextPage}
         onShowPreviousPage={this.props.onShowPreviousPage}

@@ -47,41 +47,44 @@ function tip(error) {
 }
 
 const propTypes = {
-  error: PropTypes.string,
+  error: PropTypes.arrayOf(PropTypes.string),
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   onUseLaunchToken: PropTypes.func,
   value: PropTypes.string,
 };
 
-const SelectRuntimeInput = ({ error, id, onChange, onUseLaunchToken, value }) => (
-  <div>
-    <Input
-      error={error}
-      help="Enter the number of hours for which you would like the cluster to
-      run.  Your account will have the appropriate number of compute units
-      deducted.  You will be given an opportunity to review this figure before
-      the cluster launches."
-      id={`${id}-desired-runtime`}
-      label="Enter the number of hours the cluster should run for"
-      name="desiredRuntime"
-      onChange={onChange}
-      tip={tip(error)}
-      type="number"
-      value={value}
-    />
-    <p>
-      Alternatively, you can{' '}
-      <AlignedButton
-        color="link"
-        onClick={onUseLaunchToken}
-        style={{ padding: 0 }}
-      >
-        use a Flight Launch token
-      </AlignedButton>.
-    </p>
-  </div>
-);
+const SelectRuntimeInput = ({ error, id, onChange, onUseLaunchToken, value }) => {
+  error = Array.isArray(error) ? error[0] : error;
+  return (
+    <div>
+      <Input
+        error={error}
+        help="Enter the number of hours for which you would like the cluster to
+        run.  Your account will have the appropriate number of compute units
+        deducted.  You will be given an opportunity to review this figure before
+        the cluster launches."
+        id={`${id}-desired-runtime`}
+        label="Enter the number of hours the cluster should run for"
+        name="desiredRuntime"
+        onChange={onChange}
+        tip={tip(error)}
+        type="number"
+        value={value}
+      />
+      <p>
+        Alternatively, you can{' '}
+        <AlignedButton
+          color="link"
+          onClick={onUseLaunchToken}
+          style={{ padding: 0 }}
+        >
+          use a Flight Launch token
+        </AlignedButton>.
+      </p>
+    </div>
+  );
+};
 
 
 SelectRuntimeInput.propTypes = propTypes;
