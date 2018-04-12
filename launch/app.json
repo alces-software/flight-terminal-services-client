@@ -1,0 +1,10 @@
+{
+  "name": "flight-launch",
+  "description": "The Flight Launch client web app",
+  "repository": "https://github.com/alces-software/flight-launch",
+  "scripts": {
+    "dokku": {
+      "predeploy": "yarn run build"
+    }
+  }
+}
