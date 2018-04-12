@@ -41,7 +41,8 @@ app.use('/', index);
 // Those apps are served directly from the launch-api server at present, but
 // that could change in the future so we use a 302 redirect.
 app.use(new RegExp('/(alces/)?admin'), (req, res) => {
-  res.redirect(302, `//launch-api.lvh.me:4003${req.originalUrl}`);
+  const newHost = req.hostname.replace(/^launch/, 'launch-api');
+  res.redirect(302, `//${newHost}${req.originalUrl}`);
 });
 
 // Serve static assets
