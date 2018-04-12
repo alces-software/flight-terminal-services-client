@@ -3412,9 +3412,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.37/flight-reactware.tgz":
-  version "0.1.37"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.37/flight-reactware.tgz#bf6984ddd5fec1bb078d2ed480c5daaf451be658"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.39/flight-reactware.tgz":
+  version "0.1.39"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.39/flight-reactware.tgz#e1902c1485df95bec69a501634759e544cbe01c6"
   dependencies:
     array-includes "^3.0.3"
     axios "^0.16.2"
@@ -3452,9 +3452,9 @@ flatten@^1.0.2:
     styled-components "^2.0.1"
     validator "^8.2.0"
 
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.12/flight-tutorials-client.tgz":
-  version "0.1.12"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.12/flight-tutorials-client.tgz#17dcaaaf92eb0a4ac2df986cc1664ffebf879515"
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.13/flight-tutorials-client.tgz":
+  version "0.1.13"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.13/flight-tutorials-client.tgz#2e727f3388829a164ed6d2d2cef5c25b335f93e9"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
@@ -6845,8 +6845,8 @@ react-transition-group@^2.2.0:
     warning "^3.0.0"
 
 react@>=0.13.0, "react@^15.6.2 || ^16.0":
-  version "16.3.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.3.0.tgz#fc5a01c68f91e9b38e92cf83f7b795ebdca8ddff"
+  version "16.3.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.3.1.tgz#4a2da433d471251c69b6033ada30e2ed1202cfd8"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"

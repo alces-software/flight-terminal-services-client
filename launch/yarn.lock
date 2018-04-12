@@ -3336,9 +3336,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.37/flight-reactware.tgz":
-  version "0.1.37"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.37/flight-reactware.tgz#bf6984ddd5fec1bb078d2ed480c5daaf451be658"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.39/flight-reactware.tgz":
+  version "0.1.39"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.39/flight-reactware.tgz#e1902c1485df95bec69a501634759e544cbe01c6"
   dependencies:
     array-includes "^3.0.3"
     axios "^0.16.2"
