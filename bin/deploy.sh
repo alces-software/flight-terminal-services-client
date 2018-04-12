@@ -9,27 +9,16 @@ main() {
     header "Building admin and token generator apps"
     build_admin_app
     build_token_generator_app
-    if [ "$SKIP_LAUNCH_CLIENT_BUILD" == "false" ] ; then
-        header "Building launch client"
-        subheader "Checking build variables for launch client"
-        local app_mode app_nav_mode
-        app_mode=$(get_app_mode)
-        app_nav_mode=$(get_app_nav_mode)
-        subheader "Building launch client with"
-        echo "  REACT_APP_MODE=${app_mode}"
-        echo "  REACT_APP_NAV_MODE=${app_nav_mode}"
-        wait_for_confirmation
-
-        build_launch_client
-    fi
     subheader "Committing client bundles"
     commit_client_bundles
     trap remove_client_bundles_commit EXIT
-    header "Deploying to ${REMOTE}"
+    header "Deploying server to ${SERVER_REMOTE}"
     deploy_server
     header "Migrating database"
     migrate_database
-    header "Deploying manage client"
+    header "Deploying launch client to ${LAUNCH_REMOTE}"
+    deploy_launch_client
+    header "Deploying manage client" to ${MANAGE_REMOTE}
     deploy_manage_client
 }
 
@@ -56,15 +45,6 @@ build_token_generator_app() {
     ) 2> >(indent 1>&2) | indent
 }
 
-build_launch_client() {
-    (
-    rm -rf launch/build/
-    pushd launch/
-    yarn run build
-    popd
-    ) 2> >(indent 1>&2) | indent
-}
-
 commit_client_bundles() {
     (
     cp -ar launch/build/*  server/public/
@@ -78,7 +58,17 @@ deploy_server() {
     local tmp_branch
     tmp_branch=deployment-$(date +%s)
     git branch ${tmp_branch} $(git subtree split --prefix server HEAD )
-    git push ${REMOTE} -f ${tmp_branch}:master
+    git push ${SERVER_REMOTE} -f ${tmp_branch}:master
+    git branch -D ${tmp_branch}
+    ) 2> >(indent 1>&2) | indent
+}
+
+deploy_launch_client() {
+    (
+    local tmp_branch
+    tmp_branch=launch-deployment-$(date +%s)
+    git branch ${tmp_branch} $(git subtree split --prefix launch HEAD )
+    git push ${LAUNCH_REMOTE} -f ${tmp_branch}:master
     git branch -D ${tmp_branch}
     ) 2> >(indent 1>&2) | indent
 }
@@ -96,8 +86,8 @@ deploy_manage_client() {
 migrate_database() {
     local dokku_server
     local dokku_app
-    dokku_server=$( git remote get-url "${REMOTE}" | cut -d@ -f2 | cut -d: -f1 )
-    dokku_app=$( git remote get-url "${REMOTE}" | cut -d: -f2 )
+    dokku_server=$( git remote get-url "${SERVER_REMOTE}" | cut -d@ -f2 | cut -d: -f1 )
+    dokku_app=$( git remote get-url "${SERVER_REMOTE}" | cut -d: -f2 )
 
     ssh ${dokku_server} \
         "dokku run \"${dokku_app}\" rake db:migrate:status; dokku run \"${dokku_app}\" rake db:migrate"
@@ -106,14 +96,6 @@ migrate_database() {
 remove_client_bundles_commit() {
     subheader "Removing client bundles commit"
     git reset --hard HEAD~1 2> >(indent 1>&2) | indent
-}
-
-get_app_mode() {
-    grep REACT_APP_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
-}
-
-get_app_nav_mode() {
-    grep REACT_APP_NAV_MODE launch/.env | grep -v '^ *#' | tail -n1 | cut -d = -f 2
 }
 
 wait_for_confirmation() {
@@ -140,13 +122,12 @@ usage() {
     echo "Deploy HEAD to a dokku app"
     echo
     echo -e "      --production\t\tDeploy to the production environment"
-    echo -e "      --skip-launch-client-build\t\tDon't rebuild the launch client"
     echo -e "      --help\t\tShow this help message"
 }
 
-REMOTE=dokku-staging
+SERVER_REMOTE=dokku-api-staging
 MANAGE_REMOTE=dokku-manage-staging
-SKIP_LAUNCH_CLIENT_BUILD=false
+LAUNCH_REMOTE=dokku-launch-staging
 
 parse_arguments() {
     while [[ $# > 0 ]] ; do
@@ -154,13 +135,16 @@ parse_arguments() {
 
         case $key in
             --production)
-                REMOTE=dokku
+                SERVER_REMOTE=dokku-api
                 MANAGE_REMOTE=dokku-manage
+                LAUNCH_REMOTE=dokku-launch
                 shift
                 ;;
 
-            --skip-launch-client-build)
-                SKIP_LAUNCH_CLIENT_BUILD=true
+            --test)
+                SERVER_REMOTE=dokku-api-test
+                MANAGE_REMOTE=dokku-manage-test
+                LAUNCH_REMOTE=dokku-launch-test
                 shift
                 ;;
 

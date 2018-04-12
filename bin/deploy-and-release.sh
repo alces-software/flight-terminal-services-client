@@ -27,9 +27,6 @@ main() {
     wait_for_confirmation
     run_deploy_script --production
 
-    header "Migrating production database"
-    migrate_production_database
-
     echo ""
     echo "App has been deployed to production."
     echo "Test that all is good and then we'll continue with tag creation and pushing"
@@ -72,16 +69,6 @@ commit_version_bump() {
 
 run_deploy_script() {
     "${REPO_ROOT}"/bin/deploy.sh "$@"
-}
-
-migrate_production_database() {
-    local dokku_server
-    local production_app
-    dokku_server=$( git remote get-url dokku-staging | cut -d@ -f2 | cut -d: -f1 )
-    production_app=$( git remote get-url dokku | cut -d: -f2 )
-
-    ssh ${dokku_server} \
-        "dokku --rm run \"${production_app}\" rake db:migrate:status; dokku --rm run \"${production_app}\" rake db:migrate"
 }
 
 run_merge_script() {

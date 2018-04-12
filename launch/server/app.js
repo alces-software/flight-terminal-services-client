@@ -35,15 +35,6 @@ app.use(morgan('combined'));
 
 app.use('/', index);
 
-// Redirect requests to admin and token generator apps to the launch-api
-// server.
-//
-// Those apps are served directly from the launch-api server at present, but
-// that could change in the future so we use a 302 redirect.
-app.use(new RegExp('/(alces/)?admin'), (req, res) => {
-  res.redirect(302, `//launch-api.lvh.me:4003${req.originalUrl}`);
-});
-
 // Serve static assets
 app.use(express.static(path.resolve(process.env.APPROOT, 'build')));
 app.use('/static', express.static(path.resolve(process.env.APPROOT, 'build')));
