@@ -1,3 +1,0 @@
-Error: ResourceNotReady: failed waiting for successful resource state
-caused by: ValidationError: Stack with id flight-cluster-bens-test does not exist
-	status code: 400, request id: bb637ed5-0d64-11e7-8e21-eb14435f0a96

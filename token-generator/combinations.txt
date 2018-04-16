@@ -1,8 +1,0 @@
-adjective adjective animal
-adjective adjective thing
-adjective animal animal
-adjective animal thing
-adverb verb animal
-adverb verb thing
-adverb adjective animal
-adverb adjective thing

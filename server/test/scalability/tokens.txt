@@ -1,9 +1,0 @@
-# Newline delimited list of tokens to use by launch_clusters.rb
-# The first tab character and anything after it are ignored.  Which is a
-# convenient format for pasting in tokens from the token generator.
-# Any lines beginning with `#` are ignored.
-loyally-nod-bottle-cap	Unrestricted	ben
-delightful-coyote-oryx	Unrestricted	ben
-nicely-sparkling-zebu	Unrestricted	ben
-zestily-filthy-flowers	Unrestricted	ben
-long-baboon-pool-stick	Unrestricted	ben
