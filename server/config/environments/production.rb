@@ -52,7 +52,7 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = {
     protocol: 'https',
-    host: ENV['ACTION_MAILER_URL_OPTIONS_HOST'] || 'launch.alces-flight.com'
+    host: ENV['ACTION_MAILER_URL_OPTIONS_HOST'] || 'launch-api.alces-flight.com'
   }
   config.roadie.url_options = config.action_mailer.default_url_options
   config.action_mailer.delivery_method = :smtp
