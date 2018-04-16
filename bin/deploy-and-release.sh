@@ -17,6 +17,8 @@ main() {
     subheader "Bumping version"
     bump_version
     commit_version_bump
+    subheader "Building licensables"
+    build_licensables
 
     header "Running deploy script"
     run_deploy_script
@@ -65,6 +67,21 @@ commit_version_bump() {
         "${REPO_ROOT}/launch/src/data/version.json" \
         "${REPO_ROOT}/manage/src/data/version.json" \
         "${REPO_ROOT}/server/lib/launch/version.json"
+}
+
+build_licensables() {
+    local app
+    for app in launch manage; do
+        (
+        cd ${app}
+        yarn run build:licensables
+        if [ $( git status --porcelain src/data/licenses.json | wc -l ) -eq 0 ] ; then
+            echo "Licensables up-to-date"
+        else
+            git commit -m 'Updated licenses.json' src/data/licenses.json
+        fi
+        ) 2> >(indent 1>&2) | indent
+    done
 }
 
 run_deploy_script() {
