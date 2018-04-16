@@ -10,7 +10,7 @@
 set -eu
 set -o pipefail
 
-REPO_ROOT="$(git rev-parse --show-toplevel)/manage"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
 
 main() {
     parse_arguments "$@"
@@ -19,25 +19,20 @@ main() {
 }
 
 setup() {
-    header "Setting up manage client"
-    pushd "${REPO_ROOT}"
+    cd "${REPO_ROOT}"
     subheader "Creating .env file (if it doesn't exist)"
     cp -an .env.example .env
     subheader "Installing packages"
     yarn 2> >(indent 1>&2) | indent
-    popd
 
     # Make sure the prompt isn't indented.
     echo
 }
 
 usage() {
-    echo "Usage: $(basename $0) [--remote-gems]"
+    echo "Usage: $(basename $0)"
     echo
-    echo "Build the launch client and server docker containers."
-    echo
-    echo "If --remote-gems is given gems will be downloaded from the internet where needed."
-    echo "Otherwise they will have to be cached."
+    echo "Build the manage client."
 }
 
 

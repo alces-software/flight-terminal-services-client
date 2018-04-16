@@ -6,7 +6,7 @@ main() {
     parse_arguments "$@"
     header "Checking repo is clean"
     abort_if_uncommitted_changes_present
-    header "Deploying manage client" to ${REMOTE}
+    header "Deploying" to ${REMOTE}
     deploy
 }
 

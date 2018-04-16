@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-REPO_ROOT="$(git rev-parse --show-toplevel)/manage"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
 VERSION_FILE="${REPO_ROOT}/src/data/version.json"
 
 main() {
