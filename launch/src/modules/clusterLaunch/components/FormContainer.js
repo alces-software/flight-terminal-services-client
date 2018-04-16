@@ -193,7 +193,7 @@ class ClusterLaunchFormContainer extends React.Component {
   handleSuccessfulLaunch(json) {
     analytics.clusterLaunchAccepted(this.props.clusterSpec);
     if (this.props.onSuccess) {
-      this.props.onSuccess();
+      this.props.onSuccess(json.cluster_name, json.email);
     }
   }
 
