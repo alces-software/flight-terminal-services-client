@@ -3412,9 +3412,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.40/flight-reactware.tgz":
-  version "0.1.40"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.40/flight-reactware.tgz#d7d8500f78ddace204e87757cbaf1510822acd4d"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.44/flight-reactware.tgz":
+  version "0.1.44"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.44/flight-reactware.tgz#da275c0bc34fcae138023db1f89d5a103e694aa3"
   dependencies:
     array-includes "^3.0.3"
     axios "^0.16.2"
@@ -3451,10 +3451,11 @@ flatten@^1.0.2:
     seamless-immutable "^7.1.2"
     styled-components "^2.0.1"
     validator "^8.2.0"
+    zxcvbn "^4.4.2"
 
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.14/flight-tutorials-client.tgz":
-  version "0.1.14"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.14/flight-tutorials-client.tgz#9a52cb584e7bf1cde58af9d76bf2ddb27d4d6fa7"
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.15/flight-tutorials-client.tgz":
+  version "0.1.15"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.15/flight-tutorials-client.tgz#58ff16610a6ce2d761ed88e894cf562ce38a6589"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
@@ -6641,8 +6642,8 @@ react-form@^1.2.8:
     prop-types "^15.5.8"
 
 react-ga@^2.3.5:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.2.tgz#1574b26e30ed668e4e74735527314393b22c55a9"
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.3.tgz#0f447c73664c069a5fc341f6f431262e3d4c23c4"
   optionalDependencies:
     prop-types "^15.6.0"
     react "^15.6.2 || ^16.0"
@@ -6845,8 +6846,8 @@ react-transition-group@^2.2.0:
     warning "^3.0.0"
 
 react@>=0.13.0, "react@^15.6.2 || ^16.0":
-  version "16.3.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.3.2.tgz#fdc8420398533a1e58872f59091b272ce2f91ea9"
+  version "16.4.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.4.0.tgz#402c2db83335336fba1962c08b98c6272617d585"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -8904,3 +8905,7 @@ yargs@~3.10.0:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
+
+zxcvbn@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/zxcvbn/-/zxcvbn-4.4.2.tgz#28ec17cf09743edcab056ddd8b1b06262cc73c30"
