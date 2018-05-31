@@ -855,11 +855,11 @@
     "licenses": "UNKNOWN",
     "publisher": "Alces Flight Limited"
   },
-  "flight-reactware@0.1.40": {
+  "flight-reactware@0.1.44": {
     "licenses": "ISC",
     "publisher": "Alces Flight Ltd"
   },
-  "flight-tutorials-client@0.1.14": {
+  "flight-tutorials-client@0.1.15": {
     "licenses": "MIT"
   },
   "flux-standard-action@0.6.0": {
@@ -1684,7 +1684,7 @@
     "repository": "https://github.com/tannerlinsley/react-form",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/react-form/LICENSE"
   },
-  "react-ga@2.5.2": {
+  "react-ga@2.5.3": {
     "licenses": "Apache-2.0",
     "repository": "https://github.com/react-ga/react-ga",
     "publisher": "@adamlofting",
@@ -1804,7 +1804,7 @@
     "repository": "https://github.com/facebook/react",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/react/LICENSE"
   },
-  "react@16.3.2": {
+  "react@16.4.0": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/tcomb-react/node_modules/react/LICENSE"
@@ -2278,5 +2278,11 @@
     "repository": "https://github.com/unshiftio/yeast",
     "publisher": "Arnout Kazemier",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/yeast/LICENSE"
+  },
+  "zxcvbn@4.4.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dropbox/zxcvbn",
+    "publisher": "Dan Wheeler",
+    "licenseFile": "/home/ben/projects/flight-manage/node_modules/zxcvbn/LICENSE.txt"
   }
 }
