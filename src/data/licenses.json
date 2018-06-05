@@ -765,7 +765,7 @@
     "email": "me@feedic.com",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/entities/LICENSE"
   },
-  "es-abstract@1.11.0": {
+  "es-abstract@1.12.0": {
     "licenses": "MIT",
     "repository": "https://github.com/ljharb/es-abstract",
     "publisher": "Jordan Harband",
@@ -855,11 +855,11 @@
     "licenses": "UNKNOWN",
     "publisher": "Alces Flight Limited"
   },
-  "flight-reactware@0.1.44": {
+  "flight-reactware@0.1.45": {
     "licenses": "ISC",
     "publisher": "Alces Flight Ltd"
   },
-  "flight-tutorials-client@0.1.15": {
+  "flight-tutorials-client@0.1.16": {
     "licenses": "MIT"
   },
   "flux-standard-action@0.6.0": {
@@ -1444,7 +1444,7 @@
     "url": "http://github.com/broofa",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/express/node_modules/mime/LICENSE"
   },
-  "moment@2.22.1": {
+  "moment@2.22.2": {
     "licenses": "MIT",
     "repository": "https://github.com/moment/moment",
     "publisher": "Iskren Ivov Chernev",
@@ -2054,7 +2054,7 @@
     "publisher": "Glen Maddern",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/styled-components/LICENSE"
   },
-  "styled-components@2.4.0": {
+  "styled-components@2.4.1": {
     "licenses": "MIT",
     "repository": "https://github.com/styled-components/styled-components",
     "publisher": "Glen Maddern",
