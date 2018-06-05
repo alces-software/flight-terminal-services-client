@@ -2730,8 +2730,8 @@ error-ex@^1.2.0:
     is-arrayish "^0.2.1"
 
 es-abstract@^1.6.1:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.11.0.tgz#cce87d518f0496893b1a30cd8461835535480681"
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.12.0.tgz#9dbbdd27c6856f0001421ca18782d786bf8a6165"
   dependencies:
     es-to-primitive "^1.1.1"
     function-bind "^1.1.1"
@@ -3412,9 +3412,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.44/flight-reactware.tgz":
-  version "0.1.44"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.44/flight-reactware.tgz#da275c0bc34fcae138023db1f89d5a103e694aa3"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.45/flight-reactware.tgz":
+  version "0.1.45"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.45/flight-reactware.tgz#3ddebc24c12337cc71311321eced7aecf8837cb2"
   dependencies:
     array-includes "^3.0.3"
     axios "^0.16.2"
@@ -3453,9 +3453,9 @@ flatten@^1.0.2:
     validator "^8.2.0"
     zxcvbn "^4.4.2"
 
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.15/flight-tutorials-client.tgz":
-  version "0.1.15"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.15/flight-tutorials-client.tgz#58ff16610a6ce2d761ed88e894cf562ce38a6589"
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.16/flight-tutorials-client.tgz":
+  version "0.1.16"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.16/flight-tutorials-client.tgz#d8c198465af235a3bf69c8f41ce052bebe6409d1"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
@@ -5454,8 +5454,8 @@ module-not-found-error@^1.0.0:
   resolved "https://registry.yarnpkg.com/module-not-found-error/-/module-not-found-error-1.0.1.tgz#cf8b4ff4f29640674d6cdd02b0e3bc523c2bbdc0"
 
 moment@^2.18.1:
-  version "2.22.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 morgan@^1.8.2:
   version "1.9.0"
@@ -7931,8 +7931,8 @@ styled-components@^2.0.1:
     supports-color "^3.2.3"
 
 styled-components@^2.1.2:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.4.0.tgz#086d0fd483d54638837fca3ea546a030b94adf75"
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.4.1.tgz#663bd0485d4b6ab46f946210dc03d2398d1ade74"
   dependencies:
     buffer "^5.0.3"
     css-to-react-native "^2.0.3"
