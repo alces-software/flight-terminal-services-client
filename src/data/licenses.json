@@ -555,6 +555,12 @@
     "publisher": "Jed Watson",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/classnames/LICENSE"
   },
+  "classnames@2.2.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/JedWatson/classnames",
+    "publisher": "Jed Watson",
+    "licenseFile": "/home/ben/projects/flight-manage/node_modules/react-cookie-banner/node_modules/classnames/LICENSE"
+  },
   "commonmark-react-renderer@4.3.4": {
     "licenses": "MIT",
     "repository": "https://github.com/rexxars/commonmark-react-renderer",
@@ -855,11 +861,11 @@
     "licenses": "UNKNOWN",
     "publisher": "Alces Flight Limited"
   },
-  "flight-reactware@0.1.45": {
+  "flight-reactware@0.1.46": {
     "licenses": "ISC",
     "publisher": "Alces Flight Ltd"
   },
-  "flight-tutorials-client@0.1.16": {
+  "flight-tutorials-client@0.1.17": {
     "licenses": "MIT"
   },
   "flux-standard-action@0.6.0": {
@@ -987,6 +993,13 @@
     "email": "mcridgway@gmail.com",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/react-redux/node_modules/hoist-non-react-statics/LICENSE.md"
   },
+  "hoist-non-react-statics@2.5.4": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/mridgway/hoist-non-react-statics",
+    "publisher": "Michael Ridgway",
+    "email": "mcridgway@gmail.com",
+    "licenseFile": "/home/ben/projects/flight-manage/node_modules/flight-reactware/node_modules/hoist-non-react-statics/LICENSE.md"
+  },
   "http-errors@1.6.2": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/http-errors",
@@ -1051,6 +1064,13 @@
     "publisher": "Andres Suarez",
     "email": "zertosh@gmail.com",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/invariant/LICENSE"
+  },
+  "invariant@2.2.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/zertosh/invariant",
+    "publisher": "Andres Suarez",
+    "email": "zertosh@gmail.com",
+    "licenseFile": "/home/ben/projects/flight-manage/node_modules/flight-reactware/node_modules/react-router-dom/node_modules/invariant/LICENSE"
   },
   "ipaddr.js@1.5.2": {
     "licenses": "MIT",
@@ -1559,12 +1579,12 @@
   "path-to-regexp@0.1.7": {
     "licenses": "MIT",
     "repository": "https://github.com/component/path-to-regexp",
-    "licenseFile": "/home/ben/projects/flight-manage/node_modules/path-to-regexp/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-manage/node_modules/express/node_modules/path-to-regexp/LICENSE"
   },
   "path-to-regexp@1.7.0": {
     "licenses": "MIT",
     "repository": "https://github.com/pillarjs/path-to-regexp",
-    "licenseFile": "/home/ben/projects/flight-manage/node_modules/react-router/node_modules/path-to-regexp/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-manage/node_modules/path-to-regexp/LICENSE"
   },
   "pluralize@7.0.0": {
     "licenses": "MIT",
@@ -1747,11 +1767,19 @@
     "licenses": "MIT",
     "repository": "https://github.com/reacttraining/react-router"
   },
+  "react-router-dom@4.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/reacttraining/react-router"
+  },
   "react-router-redux@5.0.0-alpha.8": {
     "licenses": "MIT",
     "repository": "https://github.com/reacttraining/react-router"
   },
   "react-router@4.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/reacttraining/react-router"
+  },
+  "react-router@4.3.1": {
     "licenses": "MIT",
     "repository": "https://github.com/reacttraining/react-router"
   },
@@ -2238,6 +2266,14 @@
     "email": "berkeley@r3dm.com",
     "url": "http://www.freecodecamp.com",
     "licenseFile": "/home/ben/projects/flight-manage/node_modules/warning/LICENSE.md"
+  },
+  "warning@4.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/BerkeleyTrue/warning",
+    "publisher": "Berkeley Martinez",
+    "email": "berkeley@berkeleytrue.com",
+    "url": "http://www.berkeleytrue.com",
+    "licenseFile": "/home/ben/projects/flight-manage/node_modules/flight-reactware/node_modules/warning/LICENSE.md"
   },
   "whatwg-fetch@2.0.2": {
     "licenses": "MIT",
