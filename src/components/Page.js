@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import { ProductBar } from 'flight-reactware';
 
 import getItems from '../modules/items';
+import { session } from '../modules';
 
 const Page = ({
   children,
-  cluster,
-  clusterHostname,
   pageKey,
+  site,
   title,
 }) => {
-  const items = getItems(clusterHostname, cluster);
+  const items = getItems(site);
   return (
     <div>
       <Helmet>
@@ -33,10 +35,11 @@ const Page = ({
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,
-  cluster: PropTypes.object,
-  clusterHostname: PropTypes.string,
   pageKey: PropTypes.string,
+  site: PropTypes.object,
   title: PropTypes.string.isRequired,
 };
 
-export default Page;
+export default connect(createStructuredSelector({
+  site: session.selectors.site,
+}))(Page);

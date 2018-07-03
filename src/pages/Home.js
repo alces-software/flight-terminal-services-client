@@ -78,7 +78,7 @@ const Home = () => {
                 Simply use {' '}
                 <ContextLink
                   linkSite="Directory"
-                  location="/terminal"
+                  location="/directory"
                 >
                   the embeded terminal
                 </ContextLink>{' '}
@@ -94,7 +94,7 @@ const Home = () => {
                 Simply use {' '}
                 <ContextLink
                   linkSite="Directory"
-                  location="/terminal"
+                  location="/directory"
                 >
                   the embeded terminal
                 </ContextLink>{' '}
@@ -106,7 +106,7 @@ const Home = () => {
             <Col className="d-flex justify-content-center">
               <CallToAction
                 icon="play-circle"
-                to="/terminal"
+                to="/directory"
               >
                 Manage your user and group directory now
               </CallToAction>

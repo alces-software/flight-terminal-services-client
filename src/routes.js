@@ -4,7 +4,7 @@ import { makeMetaPages, makeMetaPageRouteConfigs } from 'flight-reactware';
 
 import App from './components/App';
 import Home from './pages/Home';
-import Terminal from './pages/Terminal';
+import Directory from './pages/Directory';
 import Page from './components/Page';
 import licenseData from './data/licenses.json';
 
@@ -47,10 +47,10 @@ const routes = [
         title: 'Overview',
       },
       {
-        path: '/terminal',
+        path: '/directory',
         exact: true,
-        component: Terminal,
-        title: 'Terminal',
+        component: Directory,
+        title: 'Directory',
       },
       notFoundRouteConfig,
     ],

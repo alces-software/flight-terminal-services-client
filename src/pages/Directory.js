@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Container } from 'reactstrap';
 import { PageHeading } from 'flight-reactware';
-// import { Redirect } from 'react-router';
+import { Redirect } from 'react-router';
 import { compose, branch, renderComponent } from 'recompose';
-// import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-// import * as selectors from '../selectors';
 import Terminal from '../components/Terminal';
-// import withCluster from '../components/withCluster';
+import { session } from '../modules';
 
 const propTypes = {
   jwt: PropTypes.string.isRequired,
+  site: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 const Centered = styled.div`
@@ -27,20 +28,16 @@ const env = {
   LANG: 'en_GB.UTF-8',
 };
 
-const TerminalPage = ({ jwt }) => {
+const DirectoryPage = ({ jwt, site }) => {
   const title = (
     <span>
-      Cluster Terminal for <em>cluster.attributes.clusterName</em>
+      <em>{site.name}</em> Directory
     </span>
   );
   const overview = (
     <span>
-      You can use the terminal below to access your cluster.  On first
-      connecting to the cluster, you will need to provide the initial
-      password which you will have received via email.  You will then
-      be asked to change your password.  To do so you will need to
-      provide the initial password a second time and then enter your
-      new password twice.
+      The terminal below contains the Flight Directory CLI tool for your site,
+      which you can use to manage your sites users and groups.
     </span>
   );
 
@@ -67,19 +64,19 @@ const TerminalPage = ({ jwt }) => {
   );
 };
 
-TerminalPage.propTypes = propTypes;
+DirectoryPage.propTypes = propTypes;
 
 const enhance = compose(
-  // withCluster,
-
   connect(createStructuredSelector({
     jwt: (state) => state.auth.ssoToken,
+    site: session.selectors.site,
   })),
 
+  // XXX Delay this until we've finished fetching the site.
   branch(
-    ({ jwt }) => !jwt,
-    renderComponent(() => <div>Loading...</div>),
+    ({ site }) => !site,
+    renderComponent(() => <Redirect to="/" />),
   )
 );
 
-export default enhance(TerminalPage);
+export default enhance(DirectoryPage);

@@ -10,7 +10,7 @@
 
 import { auth } from 'flight-reactware';
 
-import launchUsers from '../../modules/launchUsers';
+import * as actions from './actions';
 
 let previousCurrentUser;
 function loadUsersWhenAuthChanges(dispatch, getState) {
@@ -18,11 +18,12 @@ function loadUsersWhenAuthChanges(dispatch, getState) {
   if (currentUser !== previousCurrentUser) {
     previousCurrentUser = currentUser;
     if (currentUser != null) {
-      const promise = dispatch(launchUsers.actions.loadUser(currentUser.username));
+      const promise = dispatch(actions.fetchFlightDirectoryConfig());
       if (promise) { promise.catch(e => e); }
     }
   }
 };
+
 
 export default [
   loadUsersWhenAuthChanges,
