@@ -13,6 +13,9 @@ export function fetchFlightDirectoryConfig() {
           withCredentials: true,
         },
       },
+      loadingState: {
+        key: 'singleton',
+      },
     },
   };
 }

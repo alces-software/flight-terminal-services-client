@@ -1,4 +1,5 @@
-import { apiRequest } from 'flight-reactware';
+import { combineReducers } from 'redux';
+import { apiRequest, loadingStates } from 'flight-reactware';
 
 import {
   LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED,
@@ -9,7 +10,15 @@ const initialState = {
   site: null,
 };
 
-function reducer(state=initialState, action) {
+const metaReducers = combineReducers({
+  [loadingStates.constants.NAME]: loadingStates.reducer({
+    pending: LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED,
+    resolved: apiRequest.resolved(LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED),
+    rejected: apiRequest.rejected(LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED),
+  }),
+});
+
+function dataReducer(state=initialState, action) {
   switch (action.type) {
     case apiRequest.resolved(LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED):
       const data = action.payload.data;
@@ -26,4 +35,7 @@ function reducer(state=initialState, action) {
   }
 }
 
-export default reducer;
+export default combineReducers({
+  data: dataReducer,
+  meta: metaReducers,
+});

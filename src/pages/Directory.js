@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Container } from 'reactstrap';
-import { PageHeading } from 'flight-reactware';
+import { PageHeading, showSpinnerUntil } from 'flight-reactware';
 import { Redirect } from 'react-router';
-import { compose, branch, renderComponent } from 'recompose';
+import { compose, branch, nest, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import Terminal from '../components/Terminal';
+import LoadError from '../components/LoadError';
 import { session } from '../modules';
 
 const propTypes = {
@@ -69,10 +70,19 @@ DirectoryPage.propTypes = propTypes;
 const enhance = compose(
   connect(createStructuredSelector({
     jwt: (state) => state.auth.ssoToken,
+    retrieval: session.selectors.retrieval,
     site: session.selectors.site,
   })),
 
-  // XXX Delay this until we've finished fetching the site.
+  showSpinnerUntil(
+    ({ retrieval }) => retrieval.initiated && !retrieval.pending
+  ),
+
+  branch(
+    ({ retrieval }) => retrieval.rejected,
+    renderComponent(nest(Container, LoadError)),
+  ),
+
   branch(
     ({ site }) => !site,
     renderComponent(() => <Redirect to="/" />),
