@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import { ProductBar } from 'flight-reactware';
 
 import getItems from '../modules/items';
-import { clusters } from '../modules';
 
 const Page = ({
   children,
@@ -42,7 +39,4 @@ Page.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-export default connect(createStructuredSelector({
-  cluster: clusters.selectors.currentCluster,
-  clusterHostname: clusters.selectors.hostname,
-}))(Page);
+export default Page;

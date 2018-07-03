@@ -1,6 +1,6 @@
 {
-  "name": "flight-manage",
-  "version": "0.2.0",
+  "name": "flight-directory-client",
+  "version": "0.1.0",
   "private": true,
   "author": "Alces Flight Limited",
   "license": "All Rights Reserved",
@@ -11,7 +11,6 @@
     "compression": "^1.6.2",
     "express": "^4.15.3",
     "flight-reactware": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.46/flight-reactware.tgz",
-    "flight-tutorials-client": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.17/flight-tutorials-client.tgz",
     "history": "^4.6.1",
     "ignore-styles": "^5.0.1",
     "morgan": "^1.8.2",
@@ -36,7 +35,6 @@
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "seamless-immutable": "^7.1.2",
-    "socket.io-client": "^2.0.3",
     "styled-components": "^2.0.1",
     "universal-cookie": "^2.1.0",
     "url-search-params-polyfill": "^2.0.0",
@@ -63,7 +61,7 @@
     "webpack": "^3.0.0"
   },
   "scripts": {
-    "start": "PORT=3004 node scripts/customized-config start",
+    "start": "PORT=3008 node scripts/customized-config start",
     "build": "node scripts/customized-config build && NODE_ENV=production webpack --config config/webpack.server.config.js",
     "build:client": "node scripts/customized-config build",
     "build:server": "NODE_ENV=production webpack --config config/webpack.server.config.js",

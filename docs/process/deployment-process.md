@@ -2,15 +2,16 @@
 
 ## Prerequisites
 
- - A checked out copy of the flight-manage git repo.
+ - A checked out copy of the flight-directory-client git repo.
  - Some git remotes which can be created with:
-   - `git remote add dokku dokku@apps.alces-flight.com:flight-manage`
-   - `git remote add dokku-staging dokku@apps.alces-flight.com:flight-manage-staging`
+   - `git remote add dokku dokku@apps.alces-flight.com:flight-directory-client`
+   - `git remote add dokku-staging dokku@apps.alces-flight.com:flight-directory-client-staging`
  - Some unix tools: `ruby` and `jq`.
 
 ## How to deploy a branch to production.
 
-To deploy a new release of Flight Manage follow the instructions below:
+To deploy a new release of Flight Directory Client follow the instructions
+below:
 
  1. Checkout the branch you wish to deploy.
  2. Run `./bin/deploy-and-release.sh`.
@@ -23,7 +24,7 @@ To deploy a new release of Flight Manage follow the instructions below:
  1. Checks that there are no uncommited changes.
  2. Determines the next tag to use (e.g., 201704.15).
  3. Creates a new release branch (e.g., release/201704.15).
- 4. Bumps the version file used by the manage client.
+ 4. Bumps the version file used by the directory client.
  5. Runs `./bin/deploy.sh` to deploy the app to staging.
  6. Runs `./bin/deploy.sh --production` again to deploy the app to production.
  7. Merges, tags and pushes to github.

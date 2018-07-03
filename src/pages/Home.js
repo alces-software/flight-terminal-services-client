@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
   Button,
   Container,
@@ -15,16 +15,13 @@ import {
   makeSection,
 } from 'flight-reactware';
 import FontAwesome from 'react-fontawesome';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import CommunitySiteLink from '../elements/CommunitySiteLink';
 import ContextLink from '../elements/ContextLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
-import { clusters } from '../modules';
 
 const sections = {
-  whatIsIt: makeSection('What is Flight Manage?', 'what-is-it', 'pink', 'question'),
+  whatIsIt: makeSection('What is Flight Directory?', 'what-is-it', 'pink', 'question'),
   moreInfo: makeSection('Getting more information', 'more-information', 'blue', 'book'),
 };
 
@@ -53,65 +50,55 @@ const CallToAction = styled(({ children, className, icon, to }) => {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
 `;
 
-const Home = ({ clusterHostname }) => {
+const Home = () => {
   return (
     <div>
       <Container fluid>
         <PageHeading
-          overview="This service has been developed to help access and manage
-          a Flight High Performance Computing (HPC) cluster."
+          overview="This service has been developed to help manage users and
+          groups on a Flight High Performance Computing (HPC) cluster."
           sections={Object.values(sections)}
-          title="Welcome to Alces Flight Manage!"
+          title="Welcome to Alces Flight Directory!"
         />
       </Container>
       <Container>
         <Section
-          overview="The Alces Flight Manage service provides easy access to
-          your Flight HPC clusters and assistance with managing them."
+          overview="The Alces Flight Directory service provides easy
+          management of your Flight HPC clusters users and groups."
           section={sections.whatIsIt}
-          title="What is Alces Flight Manage?"
+          title="What is Alces Flight Directory?"
         >
           <Row>
             <Col>
-              <SectionIcon name="plane" />
+              <SectionIcon name="user" />
               <h4>
-                Launch a Flight HPC cluster
+                Manage users
               </h4>
               <p>
                 Simply use {' '}
                 <ContextLink
-                  linkSite="Launch"
-                  location="/"
+                  linkSite="Directory"
+                  location="/terminal"
                 >
-                  Alces Flight Launch
+                  the embeded terminal
                 </ContextLink>{' '}
-                to launch a preconfigured HPC cluster.  Once you are notified
-                that your HPC cluster is active follow the provided link to
-                gain access to your cluster and assistance with managing it.
+                to manage your HPC clusters users.
               </p>
             </Col>
             <Col>
-              <SectionIcon name="terminal" />
+              <SectionIcon name="users" />
               <h4>
                 Access your HPC cluster
               </h4>
               <p>
-                With Alces Flight Manage you can learn more about your cluster
-                with Flight Compute tutorials; gain access using the
-                in-browser terminal; or obtain the cluster's SSH and VPN
-                access details.
-              </p>
-            </Col>
-            <Col>
-              <SectionIcon name="dashboard" />
-              <h4>
-                Manage your HPC cluster
-              </h4>
-              <p>
-                Alces Flight Manage will assist you in managing your
-                long-running HPC clusters.  You can manage your cluster's
-                compute queues to ensure maximum efficiency at the lowest
-                cost.
+                Simply use {' '}
+                <ContextLink
+                  linkSite="Directory"
+                  location="/terminal"
+                >
+                  the embeded terminal
+                </ContextLink>{' '}
+                to manage your HPC clusters users.
               </p>
             </Col>
           </Row>
@@ -119,16 +106,16 @@ const Home = ({ clusterHostname }) => {
             <Col className="d-flex justify-content-center">
               <CallToAction
                 icon="play-circle"
-                to={`/access/${clusterHostname || ''}`}
+                to="/terminal"
               >
-                Access your clusters now
+                Manage your user and group directory now
               </CallToAction>
             </Col>
           </Row>
         </Section>
         <Section
-          overview="Want to spend some time reading up on Alces Flight Compute
-          prior to starting your evaluation?"
+          overview="Want to spend some time reading up on Alces Flight Directory
+          first?"
           section={sections.moreInfo}
           title="Getting more information."
         >
@@ -149,9 +136,6 @@ const Home = ({ clusterHostname }) => {
 };
 
 Home.propTypes = {
-  clusterHostname: PropTypes.string,
 };
 
-export default connect(createStructuredSelector({
-  clusterHostname: clusters.selectors.hostname,
-}))(Home);
+export default Home;

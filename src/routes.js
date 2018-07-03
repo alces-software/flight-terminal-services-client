@@ -4,13 +4,8 @@ import { makeMetaPages, makeMetaPageRouteConfigs } from 'flight-reactware';
 
 import App from './components/App';
 import Home from './pages/Home';
+import Terminal from './pages/Terminal';
 import Page from './components/Page';
-import {
-  clusters,
-  creditUsages,
-  payments,
-  queueManagement,
-} from './modules';
 import licenseData from './data/licenses.json';
 
 const metaPages = makeMetaPages(Page, {
@@ -23,7 +18,6 @@ const notFoundRouteConfig = {
 };
 
 const redirects = {
-  '/cluster': (location) => location.pathname.replace('cluster', 'access'),
 };
 const redirectRoutes = Object.keys(redirects).map((k) => {
   const target = redirects[k];
@@ -53,87 +47,10 @@ const routes = [
         title: 'Overview',
       },
       {
-        component: clusters.withClusterContext({
-          NoClusterSpecified: clusters.pages.ManageHowTo,
-        }),
-        path: '/manage/:hostname?',
-        routes: [
-          {
-            component: queueManagement.QueueManagementContext,
-            path: '/manage/:hostname/queue-management',
-            routes: [
-              {
-                path: '/manage/:hostname/queue-management',
-                exact: true,
-                component: queueManagement.pages.QueueManagement,
-                title: 'Queue Management',
-                pageKey: 'Manage',
-              },
-              notFoundRouteConfig,
-            ]
-          },
-          {
-            path: '/manage/:hostname?',
-            exact: true,
-            component: clusters.pages.ManageIntro,
-            title: 'Manage',
-            pageKey: 'Manage',
-            cards: [
-              clusters.TerminateClusterIntro,
-              queueManagement.QueueManagementIntro,
-              creditUsages.ComputeUnitUsageReport,
-            ],
-          },
-          notFoundRouteConfig,
-        ],
-      },
-      {
-        component: clusters.withClusterContext({
-          NoClusterSpecified: clusters.pages.GainAccessHowTo,
-        }),
-        path: '/access/:hostname?',
-        routes: [
-          {
-            path: '/access/:hostname/vpn',
-            exact: true,
-            component: clusters.pages.VpnDetails,
-            title: 'VPN Access',
-            pageKey: 'Access',
-          },
-          {
-            path: '/access/:hostname/tutorials',
-            exact: true,
-            component: clusters.pages.Tutorials,
-            title: 'Tutorial',
-            pageKey: 'Access',
-          },
-          {
-            path: '/access/:hostname/terminal',
-            exact: true,
-            component: clusters.pages.Terminal,
-            title: 'Terminal Access',
-            pageKey: 'Access',
-          },
-          {
-            path: '/access/:hostname?',
-            exact: true,
-            component: clusters.pages.AccessIntro,
-            title: 'Access',
-            pageKey: 'Access',
-          },
-          notFoundRouteConfig,
-        ],
-      },
-      {
-        path: '/credits/usage',
-        component: payments.withPaymentsContext,
-        routes: [
-          {
-            path: '/credits/usage',
-            title: 'Compute credit usage report',
-            component: creditUsages.pages.Report,
-          }
-        ]
+        path: '/terminal',
+        exact: true,
+        component: Terminal,
+        title: 'Terminal',
       },
       notFoundRouteConfig,
     ],

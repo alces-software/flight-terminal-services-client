@@ -1,8 +1,7 @@
 # Getting started
 
-Below are instructions on getting started with developing the manage client.
-Similar instructions for the launch api server and launch client can be found
-in their repos.
+Below are instructions on getting started with developing the directory
+client.
 
 ## Initial setup
 
@@ -30,6 +29,6 @@ with:
 yarn run start
 ```
 
-Flight Manage will then be accessible at
-`http://launch.alces-flight.lvh.me:3004`.  Configuring the port has been left
+Flight Directory Client will then be accessible at
+`http://launch.alces-flight.lvh.me:3008`.  Configuring the port has been left
 as a future enhancement.
