@@ -9,7 +9,7 @@ import { showSpinnerUntil } from 'flight-reactware';
 
 import LoadError from '../components/LoadError';
 import TerminalPage from './Terminal';
-import { session } from '../modules';
+import { services } from '../modules';
 
 const propTypes = {
   jwt: PropTypes.string.isRequired,
@@ -59,9 +59,9 @@ DirectoryPage.propTypes = propTypes;
 const enhance = compose(
   connect(createStructuredSelector({
     jwt: (state) => state.auth.ssoToken,
-    retrieval: session.selectors.retrieval,
-    site: session.selectors.site,
-    siteId: session.selectors.siteId,
+    retrieval: services.selectors.retrieval,
+    site: services.selectors.site,
+    siteId: services.selectors.siteId,
   })),
 
   showSpinnerUntil(

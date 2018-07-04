@@ -3,20 +3,20 @@ import { loadingStates } from 'flight-reactware';
 
 import { NAME } from './constants';
 
-const sessionState = state => state[NAME];
-const sessionData = state => sessionState(state).data;
-const sessionMeta = state => sessionState(state).meta;
+const servicesState = state => state[NAME];
+const servicesData = state => servicesState(state).data;
+const servicesMeta = state => servicesState(state).meta;
 
 export function siteId(state) {
-  return sessionMeta(state).siteId;
+  return servicesMeta(state).siteId;
 }
 
 export function site(state) {
-  return sessionData(state).site;
+  return servicesData(state).site;
 }
 
 export const retrieval = createSelector(
-  sessionState,
+  servicesState,
   () => 'singleton',
 
   loadingStates.selectors.retrieval,

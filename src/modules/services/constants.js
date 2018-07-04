@@ -6,4 +6,4 @@
  * All rights reserved, see LICENSE.txt.
  *===========================================================================*/
 
-export const NAME = 'session';
+export const NAME = 'services';

@@ -7,7 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import { ProductBar } from 'flight-reactware';
 
 import getItems from '../modules/items';
-import { session } from '../modules';
+import { services } from '../modules';
 
 const Page = ({
   children,
@@ -43,6 +43,6 @@ Page.propTypes = {
 };
 
 export default connect(createStructuredSelector({
-  site: session.selectors.site,
-  siteId: session.selectors.siteId,
+  site: services.selectors.site,
+  siteId: services.selectors.siteId,
 }))(Page);
