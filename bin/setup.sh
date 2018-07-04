@@ -32,7 +32,7 @@ setup() {
 usage() {
     echo "Usage: $(basename $0)"
     echo
-    echo "Build the flight directory client."
+    echo "Build the flight terminal services client."
 }
 
 

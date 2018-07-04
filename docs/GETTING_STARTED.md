@@ -1,7 +1,7 @@
 # Getting started
 
-Below are instructions on getting started with developing the directory
-client.
+Below are instructions on getting started with developing the terminal
+services client.
 
 ## Initial setup
 
@@ -29,6 +29,6 @@ with:
 yarn run start
 ```
 
-Flight Directory Client will then be accessible at
+Flight Terminal Services Client will then be accessible at
 `http://launch.alces-flight.lvh.me:3008`.  Configuring the port has been left
 as a future enhancement.

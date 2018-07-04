@@ -7,9 +7,9 @@ const currentSite = process.env.REACT_APP_SITE;
 
 export default function(site) {
   let overviewItem;
-  const overviewLink = makeLink(currentSite, '/');
+  const overviewLink = makeLink('Center', '/');
   if (site) {
-    overviewItem = makeItem(site.name, 'institution', overviewLink, null, 'Overview');
+    overviewItem = makeItem(site.name, 'institution', overviewLink);
   } else {
     overviewItem = makeItem('Overview', 'home', overviewLink);
   }

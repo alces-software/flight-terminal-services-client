@@ -1,3 +1,3 @@
-# Flight Directory Client
+# Flight Terminal Services Client
 
 XXX Write this

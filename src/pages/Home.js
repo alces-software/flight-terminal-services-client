@@ -21,7 +21,7 @@ import ContextLink from '../elements/ContextLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
 
 const sections = {
-  whatIsIt: makeSection('What is Flight Directory?', 'what-is-it', 'pink', 'question'),
+  whatIsIt: makeSection('What is Flight Terminal Services?', 'what-is-it', 'pink', 'question'),
   moreInfo: makeSection('Getting more information', 'more-information', 'blue', 'book'),
 };
 
@@ -55,24 +55,24 @@ const Home = () => {
     <div>
       <Container fluid>
         <PageHeading
-          overview="This service has been developed to help manage users and
-          groups on a Flight High Performance Computing (HPC) cluster."
+          overview="This service has been developed to help manage your Flight
+          High Performance Computing (HPC) cluster."
           sections={Object.values(sections)}
-          title="Welcome to Alces Flight Directory!"
+          title="Welcome to Alces Flight Terminal Services!"
         />
       </Container>
       <Container>
         <Section
-          overview="The Alces Flight Directory service provides easy
-          management of your Flight HPC clusters users and groups."
+          overview="The Alces Flight Terminal service provides access to a
+          number of tools to ease the management of your Flight HPC cluster."
           section={sections.whatIsIt}
-          title="What is Alces Flight Directory?"
+          title="What is Alces Flight Terminal Services?"
         >
           <Row>
             <Col>
               <SectionIcon name="user" />
               <h4>
-                Manage users
+                Manage your site's users and groups
               </h4>
               <p>
                 Simply use {' '}
@@ -82,23 +82,7 @@ const Home = () => {
                 >
                   the embeded terminal
                 </ContextLink>{' '}
-                to manage your HPC clusters users.
-              </p>
-            </Col>
-            <Col>
-              <SectionIcon name="users" />
-              <h4>
-                Access your HPC cluster
-              </h4>
-              <p>
-                Simply use {' '}
-                <ContextLink
-                  linkSite="Directory"
-                  location="/directory"
-                >
-                  the embeded terminal
-                </ContextLink>{' '}
-                to manage your HPC clusters users.
+                to manage your HPC cluster's users and groups.
               </p>
             </Col>
           </Row>
@@ -114,8 +98,8 @@ const Home = () => {
           </Row>
         </Section>
         <Section
-          overview="Want to spend some time reading up on Alces Flight Directory
-          first?"
+          overview="Want to spend some time reading up on Alces Flight
+          Terminal Services first?"
           section={sections.moreInfo}
           title="Getting more information."
         >
