@@ -5,17 +5,25 @@ const { makeLink } = ContextLink;
 
 const currentSite = process.env.REACT_APP_SITE;
 
+function overviewItem() {
+  return makeItem('Overview', 'home', makeLink(currentSite, '/'));
+}
+
+function siteItem(site) {
+  return makeItem(site.name, 'institution', makeLink('Center', '/'));
+}
+
+function directoryItem() {
+  return makeItem('Directory', 'id-card', makeLink(currentSite, '/directory'));
+}
+
 export default function(site) {
-  let overviewItem;
-  const overviewLink = makeLink('Center', '/');
-  if (site) {
-    overviewItem = makeItem(site.name, 'institution', overviewLink);
-  } else {
-    overviewItem = makeItem('Overview', 'home', overviewLink);
-  }
   const items = [
-    overviewItem,
-    makeItem('Directory', 'id-card', makeLink(currentSite, '/directory')),
+    site == null ? overviewItem() : siteItem(site),
+    site == null ? null : directoryItem(),
   ];
-  return items;
+  return items.reduce((accum, item) => {
+    if (item != null) { accum.push(item); };
+    return accum;
+  }, []);
 }

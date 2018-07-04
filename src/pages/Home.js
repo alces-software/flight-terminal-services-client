@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import {
   Button,
   Container,
@@ -117,9 +116,6 @@ const Home = () => {
       </Container>
     </div>
   );
-};
-
-Home.propTypes = {
 };
 
 export default Home;
