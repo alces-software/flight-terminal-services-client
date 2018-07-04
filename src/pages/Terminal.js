@@ -7,6 +7,7 @@ import { PageHeading } from 'flight-reactware';
 import Terminal from '../components/Terminal';
 
 const propTypes = {
+  auth: PropTypes.object,
   columns: PropTypes.number,
   overview: PropTypes.node.isRequired,
   rows: PropTypes.number,
@@ -23,6 +24,7 @@ const Centered = styled.div`
 `;
 
 const TerminalPage = ({
+  auth,
   columns=80,
   overview,
   rows=25,
@@ -42,6 +44,7 @@ const TerminalPage = ({
       </Container>
       <Centered>
         <Terminal
+          auth={auth}
           columns={columns}
           rows={rows}
           {...termProps || {}}

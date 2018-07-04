@@ -7,17 +7,17 @@ import {
 } from 'flight-tutorials-client';
 
 const propTypes = {
+  auth: PropTypes.object,
   columns: PropTypes.number,
   env: PropTypes.object,
-  jwt: PropTypes.string.isRequired,
   rows: PropTypes.number,
   socketIOPath: PropTypes.string.isRequired,
   socketIOUrl: PropTypes.string.isRequired,
 };
 
-const Terminal = ({ columns, env, jwt, rows, socketIOPath, socketIOUrl }) => (
+const Terminal = ({ auth, columns, env, rows, socketIOPath, socketIOUrl }) => (
   <SocketContainer
-    jwt={jwt}
+    auth={auth}
     socketIOPath={socketIOPath}
     socketIOUrl={socketIOUrl}
   >

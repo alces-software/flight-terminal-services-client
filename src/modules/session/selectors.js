@@ -5,6 +5,11 @@ import { NAME } from './constants';
 
 const sessionState = state => state[NAME];
 const sessionData = state => sessionState(state).data;
+const sessionMeta = state => sessionState(state).meta;
+
+export function siteId(state) {
+  return sessionMeta(state).siteId;
+}
 
 export function site(state) {
   return sessionData(state).site;

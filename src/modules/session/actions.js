@@ -4,8 +4,13 @@ import {
 
 const centerBaseUrl = process.env.REACT_APP_CENTER_BASE_URL;
 
-export function fetchFlightDirectoryConfig() {
-  const url = `${centerBaseUrl}/flight_directory_config`;
+export function fetchFlightDirectoryConfig(siteId) {
+  let url;
+  if (siteId == null) {
+    url = `${centerBaseUrl}/flight_directory_config`;
+  } else {
+    url = `${centerBaseUrl}/sites/${siteId}/flight_directory_config`;
+  }
   return {
     type: LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED,
     meta: {
@@ -18,6 +23,7 @@ export function fetchFlightDirectoryConfig() {
       loadingState: {
         key: 'singleton',
       },
+      siteId: siteId,
     },
   };
 }

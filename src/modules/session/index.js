@@ -8,14 +8,14 @@
 
 // Import and export the public facing API for the session module.
 
+import * as actions from './actions';
 import * as constants from './constants';
 import * as selectors from './selectors';
-import logic from './logic';
 import reducer from './reducer';
 
 export default {
+  actions,
   constants,
-  logic,
   reducer,
   selectors,
 };

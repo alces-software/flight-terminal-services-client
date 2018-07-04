@@ -16,13 +16,14 @@ const propTypes = {
   site: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  siteId: PropTypes.number.isRequired,
 };
 
 const env = {
   LANG: 'en_GB.UTF-8',
 };
 
-const DirectoryPage = ({ jwt, site }) => {
+const DirectoryPage = ({ jwt, site, siteId }) => {
   const title = (
     <span>
       <em>{site.name}</em> Directory
@@ -37,13 +38,16 @@ const DirectoryPage = ({ jwt, site }) => {
 
   return (
     <TerminalPage
+      auth={{
+        jwt: jwt,
+        siteId: siteId
+      }}
       columns={120}
       overview={overview}
       socketIOPath={process.env.REACT_APP_TERMINAL_SERVICE_SOCKET_IO_PATH}
       socketIOUrl={process.env.REACT_APP_TERMINAL_SERVICE_URL}
       termProps={{
         env: env,
-        jwt: jwt,
       }}
       title={title}
     />
@@ -57,6 +61,7 @@ const enhance = compose(
     jwt: (state) => state.auth.ssoToken,
     retrieval: session.selectors.retrieval,
     site: session.selectors.site,
+    siteId: session.selectors.siteId,
   })),
 
   showSpinnerUntil(

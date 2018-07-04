@@ -10,7 +10,19 @@ const initialState = {
   site: null,
 };
 
+// A reducer to maintain the siteId.
+function siteIdReducer(state = null, { meta, payload, type }) {
+  switch (type) {
+    case LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED:
+      return meta.siteId == null ? null : meta.siteId;
+
+    default:
+      return state;
+  }
+}
+
 const metaReducers = combineReducers({
+  siteId: siteIdReducer,
   [loadingStates.constants.NAME]: loadingStates.reducer({
     pending: LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED,
     resolved: apiRequest.resolved(LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED),
