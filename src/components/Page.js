@@ -13,9 +13,10 @@ const Page = ({
   children,
   pageKey,
   site,
+  siteId,
   title,
 }) => {
-  const items = getItems(site);
+  const items = getItems(siteId, site);
   return (
     <div>
       <Helmet>
@@ -37,9 +38,11 @@ Page.propTypes = {
   children: PropTypes.node.isRequired,
   pageKey: PropTypes.string,
   site: PropTypes.object,
+  siteId: PropTypes.string,
   title: PropTypes.string.isRequired,
 };
 
 export default connect(createStructuredSelector({
   site: session.selectors.site,
+  siteId: session.selectors.siteId,
 }))(Page);

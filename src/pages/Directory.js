@@ -26,7 +26,7 @@ const env = {
 const DirectoryPage = ({ jwt, site, siteId }) => {
   const title = (
     <span>
-      <em>{site.name}</em> Directory
+      Directory terminal: {site.name}
     </span>
   );
   const overview = (
