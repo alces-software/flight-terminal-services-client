@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Container } from 'reactstrap';
 import { PageHeading } from 'flight-reactware';
 
 import Terminal from '../components/Terminal';
@@ -34,11 +35,13 @@ const TerminalPage = ({
 }) => {
   return (
     <div>
-      <PageHeading
-        overview={overview}
-        sections={[]}
-        title={title}
-      />
+      <Container fluid>
+        <PageHeading
+          overview={overview}
+          sections={[]}
+          title={title}
+        />
+      </Container>
       <Centered>
         <Terminal
           auth={auth}
