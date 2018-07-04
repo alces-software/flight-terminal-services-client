@@ -2,7 +2,7 @@ import { compose, lifecycle, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 
-import { services } from '../modules';
+import * as actions from '../actions';
 
 const SiteContext = ({ children, route }) => {
   return renderRoutes(route.routes);
@@ -17,7 +17,7 @@ export default function withSiteContext() {
     lifecycle({
       componentDidMount: function componentDidMount() {
         const { dispatch, siteId } = this.props;
-        const request = dispatch(services.actions.fetchTerminalServicesConfig(siteId));
+        const request = dispatch(actions.fetchTerminalServicesConfig(siteId));
         if (request) {
           request.catch((error) => {
             console.log('error:', error);  // eslint-disable-line no-console
@@ -28,7 +28,7 @@ export default function withSiteContext() {
 
       componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
         if (this.props.siteId !== nextProps.siteId) {
-          const action = services.actions.fetchTerminalServicesConfig(nextProps.siteId);
+          const action = actions.fetchTerminalServicesConfig(nextProps.siteId);
           const request = this.props.dispatch(action);
           if (request) {
             request.catch((error) => {

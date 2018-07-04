@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MissingNotice } from 'flight-reactware';
 
-import CommunitySiteLink from '../elements/CommunitySiteLink';
+import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 
 const LoadError = () => (
   <MissingNotice title="Unable to load directory details">

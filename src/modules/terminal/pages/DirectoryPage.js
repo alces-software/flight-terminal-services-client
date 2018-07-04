@@ -8,8 +8,8 @@ import { createStructuredSelector } from 'reselect';
 import { showSpinnerUntil } from 'flight-reactware';
 
 import LoadError from '../components/LoadError';
-import TerminalPage from './Terminal';
-import { services } from '../modules';
+import TerminalPage from './TerminalPage';
+import services from '../../../modules/services';
 
 const propTypes = {
   jwt: PropTypes.string.isRequired,

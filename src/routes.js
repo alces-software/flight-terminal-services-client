@@ -3,11 +3,10 @@ import { Redirect } from 'react-router-dom';
 import { makeMetaPages, makeMetaPageRouteConfigs } from 'flight-reactware';
 
 import App from './components/App';
-import Directory from './pages/Directory';
 import Home from './pages/Home';
 import Page from './components/Page';
 import licenseData from './data/licenses.json';
-import withSiteContext from './components/withSiteContext';
+import { terminal, services } from './modules';
 
 const metaPages = makeMetaPages(Page, {
   softwareLicenses: licenseData,
@@ -49,12 +48,12 @@ const routes = [
       },
       {
         path: '/sites/:siteId',
-        component: withSiteContext(),
+        component: services.withSiteContext(),
         routes: [
           {
             path: '/sites/:siteId/directory',
             exact: true,
-            component: Directory,
+            component: terminal.pages.Directory,
             title: 'Directory',
             pageKey: 'Directory',
           },
@@ -62,12 +61,12 @@ const routes = [
       },
       {
         path: '/',
-        component: withSiteContext(),
+        component: services.withSiteContext(),
         routes: [
           {
             path: '/directory',
             exact: true,
-            component: Directory,
+            component: terminal.pages.Directory,
             title: 'Directory',
             pageKey: 'Directory',
           },
