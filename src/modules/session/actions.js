@@ -7,9 +7,9 @@ const centerBaseUrl = process.env.REACT_APP_CENTER_BASE_URL;
 export function fetchFlightDirectoryConfig(siteId) {
   let url;
   if (siteId == null) {
-    url = `${centerBaseUrl}/flight_directory_config`;
+    url = `${centerBaseUrl}/terminal_services`;
   } else {
-    url = `${centerBaseUrl}/sites/${siteId}/flight_directory_config`;
+    url = `${centerBaseUrl}/sites/${siteId}/terminal_services`;
   }
   return {
     type: LOAD_FLIGHT_DIRECTORY_CONFIG_REQUESTED,
