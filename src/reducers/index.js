@@ -6,7 +6,6 @@ import {
   loadingStates,
   reducerUtils,
 } from 'flight-reactware';
-import { reducer as formReducer } from 'redux-form';
 import { routerReducer } from 'react-router-redux';
 import { combineReducers } from 'redux';
 
@@ -46,7 +45,6 @@ const createAppReducers = (cookies) => ({
     jsonApi.withIndexes(entityIndexes),
     loadingStates.withLoadingStates(loadingStatesConfig),
   )(jsonApi.reducer),
-  form: formReducer,
   router: routerReducer,
 });
 
