@@ -13,10 +13,10 @@ function overviewItem() {
   return makeItem('Overview', 'home', makeLink(currentSite, '/'));
 }
 
-function siteItem(siteId, site) {
+function siteItem(currentUser, site) {
   let link;
-  if (siteId) {
-    link = makeLink('Center', `/sites/${siteId}`);
+  if (currentUser && currentUser.isAdmin) {
+    link = makeLink('Center', `/sites/${site.id}`);
   } else {
     link = makeLink('Center', '/');
   }
@@ -27,11 +27,12 @@ function directoryItem() {
   return makeItem('Directory', 'id-card', makeLink(currentSite, '/directory'));
 }
 
-export default function(siteId, site) {
+export default function(currentUser, site, siteRetrieval) {
+  const haveSite = siteRetrieval.resolved && site != null;
   const items = [
-    siteId == null ? null : allSitesItem(),
-    site == null ? overviewItem() : siteItem(siteId, site),
-    site == null ? null : directoryItem(),
+    currentUser && currentUser.isAdmin ? allSitesItem() : null,
+    haveSite ? siteItem(currentUser, site) : overviewItem(),
+    haveSite ? directoryItem() : null,
   ];
   return items.reduce((accum, item) => {
     if (item != null) { accum.push(item); };

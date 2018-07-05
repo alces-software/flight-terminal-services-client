@@ -7,16 +7,17 @@ import { createStructuredSelector } from 'reselect';
 import { ProductBar } from 'flight-reactware';
 
 import getItems from '../modules/items';
-import { services } from '../modules';
+import { services, users } from '../modules';
 
 const Page = ({
   children,
+  currentUser,
   pageKey,
   site,
-  siteId,
+  siteRetrieval,
   title,
 }) => {
-  const items = getItems(siteId, site);
+  const items = getItems(currentUser, site, siteRetrieval);
   return (
     <div>
       <Helmet>
@@ -36,13 +37,15 @@ const Page = ({
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,
+  currentUser: PropTypes.object,
   pageKey: PropTypes.string,
   site: PropTypes.object,
-  siteId: PropTypes.string,
+  siteRetrieval: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
 };
 
 export default connect(createStructuredSelector({
   site: services.selectors.site,
-  siteId: services.selectors.siteId,
+  siteRetrieval: services.selectors.retrieval,
+  currentUser: users.selectors.currentUser,
 }))(Page);

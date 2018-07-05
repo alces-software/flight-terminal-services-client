@@ -15,15 +15,15 @@ const propTypes = {
   jwt: PropTypes.string.isRequired,
   site: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    id: PropTypes.number,
   }).isRequired,
-  siteId: PropTypes.number.isRequired,
 };
 
 const env = {
   LANG: 'en_GB.UTF-8',
 };
 
-const DirectoryPage = ({ jwt, site, siteId }) => {
+const DirectoryPage = ({ jwt, site }) => {
   const title = (
     <span>
       Directory terminal: {site.name}
@@ -40,7 +40,7 @@ const DirectoryPage = ({ jwt, site, siteId }) => {
     <TerminalPage
       auth={{
         jwt: jwt,
-        siteId: siteId
+        siteId: site.id,
       }}
       columns={120}
       overview={overview}
@@ -61,7 +61,6 @@ const enhance = compose(
     jwt: (state) => state.auth.ssoToken,
     retrieval: services.selectors.retrieval,
     site: services.selectors.site,
-    siteId: services.selectors.siteId,
   })),
 
   showSpinnerUntil(
