@@ -15,7 +15,7 @@ const propTypes = {
   jwt: PropTypes.string.isRequired,
   site: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    id: PropTypes.number,
+    id: PropTypes.string,
   }).isRequired,
 };
 
