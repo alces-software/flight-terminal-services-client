@@ -19,6 +19,9 @@ ContextLink.propTypes = {
   location: PropTypes.string.isRequired,
 };
 
-ContextLink.makeLinkProps = ReactwareContextLink.makeLinkProps;
+ContextLink.makeLinkProps = (...props) => ReactwareContextLink.makeLinkProps(
+  process.env.REACT_APP_SITE,
+  ...props,
+);
 
 export default ContextLink;

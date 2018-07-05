@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { apiRequest, loadingStates } from 'flight-reactware';
 
 import {
+  EXPLICIT_SITE_REQUESTED,
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
 } from './actionTypes';
 
@@ -13,6 +14,9 @@ const initialState = {
 // A reducer to maintain the siteId.
 function siteIdReducer(state = null, { meta, payload, type }) {
   switch (type) {
+    case EXPLICIT_SITE_REQUESTED:
+      return payload;
+
     case LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED:
       return meta.siteId == null ? null : meta.siteId;
 

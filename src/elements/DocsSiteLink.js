@@ -23,10 +23,6 @@ const DocsSiteLink = ({ children }) => (
 DocsSiteLink.propTypes = propTypes;
 DocsSiteLink.defaultProps = defaultProps;
 
-export const docsSiteHref = ContextLink.makeLinkProps(
-  process.env.REACT_APP_SITE,
- 'Docs',
- '/',
-).href;
+export const docsSiteHref = ContextLink.makeLinkProps('Docs', '/',).href;
 
 export default DocsSiteLink;
