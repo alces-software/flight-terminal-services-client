@@ -74,7 +74,10 @@ const App = ({ location, route }) => {
 
   return (
     <ScrollToTop>
-      <Page site={process.env.REACT_APP_SITE}>
+      <Page
+        serviceText={process.env.REACT_APP_SERVICE_TEXT}
+        site={process.env.REACT_APP_SITE}
+      >
         <Helmet
           defaultTitle={productName}
           titleTemplate={`${productName} - %s`}

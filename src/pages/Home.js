@@ -20,7 +20,7 @@ import ContextLink from '../elements/ContextLink';
 import DocsSiteLink from '../elements/DocsSiteLink';
 
 const sections = {
-  whatIsIt: makeSection('What is Flight Terminal Services?', 'what-is-it', 'pink', 'question'),
+  whatIsIt: makeSection('What is Flight Console?', 'what-is-it', 'pink', 'question'),
   moreInfo: makeSection('Getting more information', 'more-information', 'blue', 'book'),
 };
 
@@ -57,15 +57,15 @@ const Home = () => {
           overview="This service has been developed to help manage your Flight
           High Performance Computing (HPC) cluster."
           sections={Object.values(sections)}
-          title="Welcome to Alces Flight Terminal Services!"
+          title="Welcome to Alces Flight Console!"
         />
       </Container>
       <Container>
         <Section
-          overview="The Alces Flight Terminal service provides access to a
+          overview="The Alces Flight Console service provides access to a
           number of tools to ease the management of your Flight HPC cluster."
           section={sections.whatIsIt}
-          title="What is Alces Flight Terminal Services?"
+          title="What is Alces Flight Console?"
         >
           <Row>
             <Col>
@@ -76,7 +76,7 @@ const Home = () => {
               <p>
                 Simply use {' '}
                 <ContextLink
-                  linkSite="Directory"
+                  linkSite="Console"
                   location="/directory"
                 >
                   the embeded terminal
@@ -98,7 +98,7 @@ const Home = () => {
         </Section>
         <Section
           overview="Want to spend some time reading up on Alces Flight
-          Terminal Services first?"
+          Console first?"
           section={sections.moreInfo}
           title="Getting more information."
         >
