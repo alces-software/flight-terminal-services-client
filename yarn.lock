@@ -1239,8 +1239,8 @@ babel-preset-react-app@^3.0.0:
     babel-preset-react "6.24.1"
 
 babel-preset-react-app@^3.0.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/babel-preset-react-app/-/babel-preset-react-app-3.1.1.tgz#d3f06a79742f0e89d7afcb72e282d9809c850920"
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/babel-preset-react-app/-/babel-preset-react-app-3.1.2.tgz#49ba3681b917c4e5c73a5249d3ef4c48fae064e2"
   dependencies:
     babel-plugin-dynamic-import-node "1.1.0"
     babel-plugin-syntax-dynamic-import "6.18.0"
@@ -1484,8 +1484,8 @@ bootstrap@4.0.0-alpha.6:
     tether "^1.4.0"
 
 bowser@^1.0.0:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.9.3.tgz#6643ae4d783f31683f6d23156976b74183862162"
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.9.4.tgz#890c58a2813a9d3243704334fa81b96a5c150c9a"
 
 boxen@^0.6.0:
   version "0.6.0"
@@ -3420,9 +3420,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.48/flight-reactware.tgz":
-  version "0.1.48"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.48/flight-reactware.tgz#14f4fb641d141c9c02db0cc44965600f6d0fc9ff"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.49/flight-reactware.tgz":
+  version "0.1.49"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.49/flight-reactware.tgz#dbe7cccc0a4e20cc301558323ab786ee3bcfea59"
   dependencies:
     array-includes "^3.0.3"
     axios "^0.16.2"
@@ -3461,9 +3461,9 @@ flatten@^1.0.2:
     validator "^8.2.0"
     zxcvbn "^4.4.2"
 
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.18/flight-tutorials-client.tgz":
-  version "0.1.18"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.18/flight-tutorials-client.tgz#938efb936b026e5e6ba23468aa0506d920bde74f"
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.19/flight-tutorials-client.tgz":
+  version "0.1.19"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.19/flight-tutorials-client.tgz#d92693089871aae46198318df810057fb3fae9cb"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
@@ -3890,8 +3890,8 @@ hoist-non-react-statics@^2.2.1, hoist-non-react-statics@^2.3.0:
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
 
 hoist-non-react-statics@^2.5.0:
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.4.tgz#fc3b1ac05d2ae3abedec84eba846511b0d4fcc4f"
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -6061,8 +6061,8 @@ pluralize@^7.0.0:
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
 
 polished@^1.3.0:
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-1.9.2.tgz#d705cac66f3a3ed1bd38aad863e2c1e269baf6b6"
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-1.9.3.tgz#d61b8a0c4624efe31e2583ff24a358932b6b75e1"
 
 popper.js@^1.12.5:
   version "1.13.0"
@@ -6417,10 +6417,9 @@ promise@7.1.1, promise@^7.1.1:
     asap "~2.0.3"
 
 prop-types@^15.5.1, prop-types@^15.6.1:
-  version "15.6.1"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
-    fbjs "^0.8.16"
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
@@ -6883,8 +6882,8 @@ react-transition-group@^2.2.0:
     warning "^3.0.0"
 
 react@>=0.13.0, "react@^15.6.2 || ^16.0":
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.4.0.tgz#402c2db83335336fba1962c08b98c6272617d585"
+  version "16.4.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.4.1.tgz#de51ba5764b5dbcd1f9079037b862bd26b82fe32"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -7443,8 +7442,8 @@ schema-utils@^0.x:
     chalk "^2.3.0"
 
 seamless-immutable@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/seamless-immutable/-/seamless-immutable-7.1.2.tgz#c87a1eba6767a32455311d76600ac5eddeafbb69"
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/seamless-immutable/-/seamless-immutable-7.1.3.tgz#d32a8a202a331dffa69e4069a367a2159252490e"
 
 seedable-random@0.0.1:
   version "0.0.1"
