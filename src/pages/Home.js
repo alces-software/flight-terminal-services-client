@@ -21,7 +21,6 @@ import DocsSiteLink from '../elements/DocsSiteLink';
 
 const sections = {
   whatIsIt: makeSection('What is Flight Console?', 'what-is-it', 'pink', 'question'),
-  moreInfo: makeSection('Getting more information', 'more-information', 'blue', 'book'),
 };
 
 const CallToAction = styled(({ children, className, icon, to }) => {
@@ -54,34 +53,35 @@ const Home = () => {
     <div>
       <Container fluid>
         <PageHeading
-          overview="This service has been developed to help manage your Flight
-          High Performance Computing (HPC) cluster."
+          overview="This service provides facilities to help manage and access your Alces Flight
+          Center clusters."
           sections={Object.values(sections)}
-          title="Welcome to Alces Flight Console!"
+          title="Welcome to the Alces Flight Center console service."
         />
       </Container>
       <Container>
         <Section
-          overview="The Alces Flight Console service provides access to a
-          number of tools to ease the management of your Flight HPC cluster."
+          overview="The Alces Flight Center console service provides access to an
+          expanding suite of tools that ease the management of and access to your Alces Flight Center HPC clusters."
           section={sections.whatIsIt}
-          title="What is Alces Flight Console?"
+          title="What is the console service?"
         >
           <Row>
             <Col>
               <SectionIcon name="user" />
               <h4>
-                Manage your site's users and groups
+                Alces Flight Directory
               </h4>
               <p>
-                Simply use {' '}
+                Alces Flight Directory provides an easy-to-use command-line interface,
+                accessible through an {' '}
                 <ContextLink
                   linkSite="Console"
                   location="/directory"
                 >
-                  the embeded terminal
-                </ContextLink>{' '}
-                to manage your HPC cluster's users and groups.
+                  embeded terminal
+                </ContextLink>{', '}
+                giving you rapid access to user, group and host management across your compute estate.
               </p>
             </Col>
           </Row>
@@ -91,27 +91,10 @@ const Home = () => {
                 icon="play-circle"
                 to="/directory"
               >
-                Manage your user and group directory now
+                Open Alces Flight Directory console
               </CallToAction>
             </Col>
           </Row>
-        </Section>
-        <Section
-          overview="Want to spend some time reading up on Alces Flight
-          Console first?"
-          section={sections.moreInfo}
-          title="Getting more information."
-        >
-          <p>
-            We have a{' '}
-            <DocsSiteLink>documentation site</DocsSiteLink> dedicated to the
-            cause as well as a {' '}
-            <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
-            {' '} available for you to join in and read through.
-          </p>
-          <p>
-            Enjoy your flight!
-          </p>
         </Section>
       </Container>
     </div>
