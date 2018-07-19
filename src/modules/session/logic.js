@@ -34,6 +34,7 @@ function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
 
   if (centerUser === previousCenterUser) { return; }
   if (centerUser == null) { return; }
+  previousCenterUser = centerUser;
 
   if (!centerUser.isAdmin) {
     // A non-admin user.  The site is implicitly *their* site.  Let's load the
