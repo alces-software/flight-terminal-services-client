@@ -11,6 +11,8 @@ import LoadError from '../components/LoadError';
 import TerminalPage from './TerminalPage';
 import services from '../../../modules/services';
 
+const NestedLoadError = nest(Container, LoadError);
+
 const propTypes = {
   jwt: PropTypes.string.isRequired,
   site: PropTypes.shape({
@@ -69,7 +71,7 @@ const enhance = compose(
 
   branch(
     ({ retrieval }) => retrieval.rejected,
-    renderComponent(nest(Container, LoadError)),
+    renderComponent(() => <NestedLoadError />),
   ),
 
   branch(
