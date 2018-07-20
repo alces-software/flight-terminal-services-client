@@ -36,13 +36,12 @@ const env = {
 const DirectoryPage = ({ jwt, site }) => {
   const title = (
     <span>
-      Directory terminal: {site.name}
+      Flight Directory: {site.name}
     </span>
   );
   const overview = (
     <span>
-      The terminal below contains the Flight Directory CLI tool for your site,
-      which you can use to manage your sites users and groups.
+      Alces Flight Directory provides user, group and host management across your compute estate.
     </span>
   );
 
