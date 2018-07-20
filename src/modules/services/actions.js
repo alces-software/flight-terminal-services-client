@@ -1,3 +1,5 @@
+import { auth } from 'flight-reactware';
+
 import {
   EXPLICIT_SITE_REQUESTED,
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
@@ -8,6 +10,9 @@ const centerBaseUrl = process.env.REACT_APP_CENTER_BASE_URL;
 
 export function fetchTerminalServicesConfig(siteId) {
   return (dispatch, getState) => {
+    const ssoUser = auth.selectors.currentUserSelector(getState());
+    if (ssoUser == null) { return; }
+
     const { initiated, rejected } = retrieval(getState());
     if (!initiated || rejected) {
       let url;
