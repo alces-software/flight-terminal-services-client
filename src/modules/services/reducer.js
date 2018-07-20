@@ -25,6 +25,23 @@ function siteIdReducer(state = null, { meta, payload, type }) {
   }
 }
 
+function errorReducer(state = null, action) {
+  switch (action.type) {
+    case LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED:
+    case apiRequest.resolved(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED):
+      return null;
+
+    case apiRequest.rejected(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED):
+      if (action.error.response.status === 404) {
+        return 'NO_TERMINAL_SERVICES';
+      }
+      return state;
+
+    default:
+      return state;
+  }
+}
+
 const metaReducers = combineReducers({
   siteId: siteIdReducer,
   [loadingStates.constants.NAME]: loadingStates.reducer({
@@ -32,6 +49,7 @@ const metaReducers = combineReducers({
     resolved: apiRequest.resolved(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED),
     rejected: apiRequest.rejected(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED),
   }),
+  error: errorReducer,
 });
 
 function dataReducer(state=initialState, action) {

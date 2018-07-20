@@ -5,13 +5,21 @@ import { Redirect } from 'react-router';
 import { compose, branch, nest, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { showSpinnerUntil } from 'flight-reactware';
+import { auth, showSpinnerUntil } from 'flight-reactware';
 
-import LoadError from '../components/LoadError';
-import TerminalPage from './TerminalPage';
+import centerUsers from '../../../modules/centerUsers';
 import services from '../../../modules/services';
 
+import CenterAccountIsViewerError from '../components/CenterAccountIsViewerError';
+import LoadError from '../components/LoadError';
+import NoCenterAccountError from '../components/NoCenterAccountError';
+import NotLoggedInError from '../components/NotLoggedInError';
+import TerminalPage from './TerminalPage';
+
 const NestedLoadError = nest(Container, LoadError);
+const NestedNotLoggedInError = nest(Container, NotLoggedInError);
+const NestedNoCenterAccount = nest(Container, NoCenterAccountError);
+const NestedCenterAccountIsViewerError = nest(Container, CenterAccountIsViewerError);
 
 const propTypes = {
   jwt: PropTypes.string.isRequired,
@@ -60,17 +68,43 @@ DirectoryPage.propTypes = propTypes;
 
 const enhance = compose(
   connect(createStructuredSelector({
-    jwt: (state) => state.auth.ssoToken,
-    retrieval: services.selectors.retrieval,
+    centerUser: centerUsers.selectors.currentUser,
+    centerUserRetrieval: centerUsers.selectors.retrieval,
+    jwt: auth.selectors.ssoToken,
+    servicesRetrieval: services.selectors.retrieval,
     site: services.selectors.site,
+    ssoUser: auth.selectors.currentUserSelector,
   })),
 
+  branch(
+    ({ ssoUser }) => ssoUser == null,
+    renderComponent(() => <NestedNotLoggedInError />),
+  ),
+
   showSpinnerUntil(
-    ({ retrieval }) => retrieval.initiated && !retrieval.pending
+    ({ centerUser, centerUserRetrieval, servicesRetrieval }) => {
+      const waitingOnCenterUser = !centerUserRetrieval.initiated
+        || centerUserRetrieval.pending;
+      const centerUserPresent = centerUser != null;
+      const waitingOnServices = !servicesRetrieval.initiated
+        || servicesRetrieval.pending;
+
+      return !waitingOnCenterUser && (!centerUserPresent || !waitingOnServices);
+    }
   ),
 
   branch(
-    ({ retrieval }) => retrieval.rejected,
+    ({ centerUser }) => centerUser == null,
+    renderComponent(() => <NestedNoCenterAccount />),
+  ),
+
+  branch(
+    ({ centerUser }) => centerUser.role === 'viewer',
+    renderComponent(() => <NestedCenterAccountIsViewerError />),
+  ),
+
+  branch(
+    ({ servicesRetrieval }) => servicesRetrieval.rejected,
     renderComponent(() => <NestedLoadError />),
   ),
 

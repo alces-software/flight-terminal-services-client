@@ -20,6 +20,10 @@ export function siteId(state) {
   return servicesMeta(state).siteId;
 }
 
+export function loadError(state) {
+  return servicesMeta(state).error;
+}
+
 // The data downloaded from Center about the site.
 function siteData(state) {
   return servicesData(state).site;
