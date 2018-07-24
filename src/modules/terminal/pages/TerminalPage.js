@@ -17,10 +17,8 @@ const propTypes = {
   title: PropTypes.node.isRequired,
 };
 
-const Centered = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+const PaddedContainer = styled(Container)`
+  padding-bottom: 15px;
 `;
 
 const TerminalPage = ({
@@ -42,7 +40,7 @@ const TerminalPage = ({
           title={title}
         />
       </Container>
-      <Centered>
+      <PaddedContainer fluid>
         <Terminal
           auth={auth}
           columns={columns}
@@ -51,7 +49,7 @@ const TerminalPage = ({
           socketIOPath={socketIOPath}
           socketIOUrl={socketIOUrl}
         />
-      </Centered>
+      </PaddedContainer>
     </div>
   );
 };
