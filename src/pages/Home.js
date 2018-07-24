@@ -15,9 +15,7 @@ import {
 } from 'flight-reactware';
 import FontAwesome from 'react-fontawesome';
 
-import CommunitySiteLink from '../elements/CommunitySiteLink';
 import ContextLink from '../elements/ContextLink';
-import DocsSiteLink from '../elements/DocsSiteLink';
 
 const sections = {
   whatIsIt: makeSection('What is Flight Console?', 'what-is-it', 'pink', 'question'),

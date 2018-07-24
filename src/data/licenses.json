@@ -468,6 +468,12 @@
     "repository": "https://github.com/jshttp/basic-auth",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/basic-auth/LICENSE"
   },
+  "batch-processor@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/wnr/batch-processor",
+    "publisher": "Lucas Wiener",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/batch-processor/LICENSE"
+  },
   "better-assert@1.0.2": {
     "licenses": "MIT*",
     "repository": "https://github.com/visionmedia/better-assert",
@@ -757,6 +763,11 @@
     "repository": "https://github.com/kilian/electron-to-chromium/",
     "publisher": "Kilian Valkhof"
   },
+  "element-resize-detector@1.1.14": {
+    "licenses": "MIT",
+    "repository": "https://github.com/wnr/element-resize-detector",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/element-resize-detector/LICENSE"
+  },
   "encodeurl@1.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/pillarjs/encodeurl",
@@ -879,7 +890,7 @@
     "licenses": "UNKNOWN",
     "publisher": "Alces Flight Limited"
   },
-  "flight-tutorials-client@0.1.19": {
+  "flight-tutorials-client@0.1.20": {
     "licenses": "MIT"
   },
   "flux-standard-action@0.6.0": {
@@ -1320,6 +1331,14 @@
     "url": "http://allyoucanleet.com/",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/commonmark-react-renderer/node_modules/lodash.assign/LICENSE"
   },
+  "lodash.debounce@4.0.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "url": "http://allyoucanleet.com/",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.debounce/LICENSE"
+  },
   "lodash.isarguments@3.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/lodash/lodash",
@@ -1399,6 +1418,14 @@
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.restparam/LICENSE.txt"
+  },
+  "lodash.throttle@4.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "url": "http://allyoucanleet.com/",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.throttle/LICENSE"
   },
   "lodash.tonumber@4.0.3": {
     "licenses": "MIT",
@@ -1822,6 +1849,13 @@
     "url": "http://github.com/gaearon",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-side-effect/LICENSE"
   },
+  "react-sizeme@2.5.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ctrlplusb/react-sizeme",
+    "publisher": "Sean Matheson",
+    "email": "sean@ctrlplusb.com",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-sizeme/LICENSE"
+  },
   "react-transition-group@1.2.0": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/reactjs/react-transition-group"
@@ -2032,6 +2066,14 @@
     "url": "github.com/Dashed",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/shallowequal/LICENSE"
   },
+  "shallowequal@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dashed/shallowequal",
+    "publisher": "Alberto Leal",
+    "email": "mailforalberto@gmail.com",
+    "url": "github.com/dashed",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-sizeme/node_modules/shallowequal/LICENSE"
+  },
   "socket.io-client@2.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/Automattic/socket.io-client",
@@ -2095,7 +2137,7 @@
     "email": "sultantarimo@me.com",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/stylis/LICENSE.md"
   },
-  "stylis@3.5.1": {
+  "stylis@3.5.3": {
     "licenses": "MIT",
     "repository": "https://github.com/thysultan/stylis.js",
     "publisher": "Sultan Tarimo",
