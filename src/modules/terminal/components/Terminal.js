@@ -16,7 +16,9 @@ const propTypes = {
 };
 
 const productBarHeight = '( 100px + 1rem + 1rem + 52px )';
-const extraSpace = '( 2rem )';
+const terminalPadding = '( 15px + 15px )';
+const lineHeight = '21px';
+const terminalHeight = `calc( 100vh - ${productBarHeight} - ${terminalPadding} - ${lineHeight} )`;
 
 const Terminal = ({ auth, columns, env, rows, socketIOPath, socketIOUrl }) => (
   <SocketContainer
@@ -47,7 +49,7 @@ const Terminal = ({ auth, columns, env, rows, socketIOPath, socketIOUrl }) => (
             onSessionRestartRequestClosed={onSessionRestartRequestClosed}
             requestSessionRestart={requestSessionRestart}
             socketError={socketError}
-            terminalHeight={`calc( 100vh - ${productBarHeight} - ${extraSpace} )`}
+            terminalHeight={terminalHeight}
           >
             {terminal}
           </TerminalLayout>
