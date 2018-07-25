@@ -18,7 +18,8 @@ const propTypes = {
 const productBarHeight = '( 100px + 1rem + 1rem + 52px )';
 const terminalPadding = '( 15px + 15px )';
 const lineHeight = '21px';
-const terminalHeight = `calc( 100vh - ${productBarHeight} - ${terminalPadding} - ${lineHeight} )`;
+const showOutputButtonHeight = '( 36px + 16px )';
+const terminalHeight = `calc( 100vh - ${productBarHeight} - ${terminalPadding} - ${lineHeight} - ${showOutputButtonHeight} )`;
 
 const Terminal = ({ auth, columns, env, rows, socketIOPath, socketIOUrl }) => (
   <SocketContainer
@@ -38,16 +39,22 @@ const Terminal = ({ auth, columns, env, rows, socketIOPath, socketIOUrl }) => (
         socket={socket}
       >
         {({
+          getTerminalOutput,
           onSessionRestartAccepted,
           onSessionRestartRequestClosed,
+          onShowTerminalOutput,
           requestSessionRestart,
+          showTerminalOutput,
           terminal,
         }) => (
           <TerminalLayout
+            getTerminalOutput={getTerminalOutput}
             onCloseSocketError={onCloseSocketError}
             onSessionRestartAccepted={onSessionRestartAccepted}
             onSessionRestartRequestClosed={onSessionRestartRequestClosed}
+            onShowTerminalOutput={onShowTerminalOutput}
             requestSessionRestart={requestSessionRestart}
+            showTerminalOutput={showTerminalOutput}
             socketError={socketError}
             terminalHeight={terminalHeight}
           >
