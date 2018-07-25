@@ -2444,6 +2444,12 @@ default-require-extensions@^1.0.0:
   dependencies:
     strip-bom "^2.0.0"
 
+defaults@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
+  dependencies:
+    clone "^1.0.2"
+
 define-properties@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.2.tgz#83a73f2fea569898fb737193c8f873caf6d45c94"
@@ -3471,6 +3477,47 @@ flatten@^1.0.2:
     validator "^8.2.0"
     zxcvbn "^4.4.2"
 
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.50/flight-reactware.tgz":
+  version "0.1.50"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.50/flight-reactware.tgz#cb0a037ab5f5281f8b120d3746b2152f8a61ba56"
+  dependencies:
+    array-includes "^3.0.3"
+    axios "^0.16.2"
+    babel-preset-react-app "^3.0.1"
+    invariant "^2.2.2"
+    jwt-decode "^2.2.0"
+    lodash "^4.17.4"
+    moment "^2.18.1"
+    node-noop "^1.0.0"
+    object.values "^1.0.4"
+    pluralize "^7.0.0"
+    polished "^1.3.0"
+    query-string "^5.0.0"
+    react-cookie-banner "^0.0.18"
+    react-fontawesome "^1.6.1"
+    react-form "^1.2.8"
+    react-ga "^2.3.5"
+    react-helmet "^5.1.3"
+    react-images "https://github.com/mjtko/react-images"
+    react-markdown "^2.5.0"
+    react-redux "^5.0.5"
+    react-router-dom "^4.2.2"
+    react-router-redux "5.0.0-alpha.8"
+    react-s-alert "^1.3.0"
+    react-scroll "1.5.4"
+    reactstrap "5.0.0-beta"
+    recompose "^0.24.0"
+    redux "^3.7.1"
+    redux-axios-middleware "^4.0.0"
+    redux-cookie "^0.5.9"
+    redux-form "^6.8.0"
+    redux-simple-promise "^2.0.2"
+    reselect "^3.0.1"
+    seamless-immutable "^7.1.2"
+    styled-components "^2.0.1"
+    validator "^8.2.0"
+    zxcvbn "^4.4.2"
+
 "flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.20/flight-tutorials-client.tgz":
   version "0.1.20"
   resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.20/flight-tutorials-client.tgz#51dee934881d574b9c2310aba1f2df2016ecd8ef"
@@ -3484,6 +3531,21 @@ flatten@^1.0.2:
     socket.io-stream "^0.9.1"
     styled-components "^2.1.2"
     terminal.js "^1.0.9"
+    url-search-params-polyfill "^2.0.0"
+
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.21/flight-tutorials-client.tgz":
+  version "0.1.21"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.21/flight-tutorials-client.tgz#8192dc27ff285e833b6cfcc0fea3c7e9881baa59"
+  dependencies:
+    debug "^2.6.8"
+    react-fontawesome "^1.6.1"
+    react-markdown "^2.5.0"
+    react-sizeme "^2.5.2"
+    reactstrap "5.0.0-beta"
+    socket.io-client "^2.0.3"
+    socket.io-stream "^0.9.1"
+    styled-components "^2.1.2"
+    terminal.js "https://github.com/alces-software/terminal.js.git#release/1.1.0"
     url-search-params-polyfill "^2.0.0"
 
 flux-standard-action@0.6.0:
@@ -8162,6 +8224,12 @@ terminal.js@^1.0.9:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/terminal.js/-/terminal.js-1.0.10.tgz#8faade2699e854874a43016590fdf5b5d34fc3c0"
 
+"terminal.js@https://github.com/alces-software/terminal.js.git#release/1.1.0":
+  version "1.1.10"
+  resolved "https://github.com/alces-software/terminal.js.git#e236070ab75172931dea22a928f78520f0a51729"
+  dependencies:
+    wcwidth "^1.0.1"
+
 test-exclude@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/test-exclude/-/test-exclude-4.1.1.tgz#4d84964b0966b0087ecc334a2ce002d3d9341e26"
@@ -8602,6 +8670,12 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   resolved "https://registry.yarnpkg.com/wbuf/-/wbuf-1.7.2.tgz#d697b99f1f59512df2751be42769c1580b5801fe"
   dependencies:
     minimalistic-assert "^1.0.0"
+
+wcwidth@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/wcwidth/-/wcwidth-1.0.1.tgz#f0b0dcf915bc5ff1528afadb2c0e17b532da2fe8"
+  dependencies:
+    defaults "^1.0.3"
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
