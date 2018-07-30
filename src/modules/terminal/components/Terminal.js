@@ -39,25 +39,25 @@ const Terminal = ({ auth, columns, env, rows, socketIOPath, socketIOUrl }) => (
         socket={socket}
       >
         {({
-          getTerminalOutput,
+          getSessionHistory,
           onSessionRestartAccepted,
           onSessionRestartRequestClosed,
-          onShowTerminalOutput,
+          onShowSessionHistory,
           requestSessionRestart,
-          showTerminalOutput,
+          showSessionHistory,
           terminal,
         }) => (
           <TerminalLayout
-            getTerminalOutput={getTerminalOutput}
+            getSessionHistory={getSessionHistory}
             onCloseSocketError={onCloseSocketError}
             onSessionRestartAccepted={onSessionRestartAccepted}
             onSessionRestartRequestClosed={onSessionRestartRequestClosed}
-            onShowTerminalOutput={onShowTerminalOutput}
+            onShowSessionHistory={onShowSessionHistory}
             requestSessionRestart={requestSessionRestart}
-            showTerminalOutput={showTerminalOutput}
+            sessionHistoryHeight={terminalHeight}
+            showSessionHistory={showSessionHistory}
             socketError={socketError}
             terminalHeight={terminalHeight}
-            terminalOutputHeight={terminalHeight}
           >
             {terminal}
           </TerminalLayout>
