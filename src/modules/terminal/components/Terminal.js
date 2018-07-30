@@ -57,6 +57,7 @@ const Terminal = ({ auth, columns, env, rows, socketIOPath, socketIOUrl }) => (
             showTerminalOutput={showTerminalOutput}
             socketError={socketError}
             terminalHeight={terminalHeight}
+            terminalOutputHeight={terminalHeight}
           >
             {terminal}
           </TerminalLayout>
