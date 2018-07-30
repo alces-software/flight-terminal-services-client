@@ -3436,9 +3436,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.49/flight-reactware.tgz":
-  version "0.1.49"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.49/flight-reactware.tgz#dbe7cccc0a4e20cc301558323ab786ee3bcfea59"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.51/flight-reactware.tgz":
+  version "0.1.51"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.51/flight-reactware.tgz#35004944b5bd0dcb5c3c6527f501801a20eea492"
   dependencies:
     array-includes "^3.0.3"
     axios "^0.16.2"
@@ -3477,65 +3477,9 @@ flatten@^1.0.2:
     validator "^8.2.0"
     zxcvbn "^4.4.2"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.50/flight-reactware.tgz":
-  version "0.1.50"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.50/flight-reactware.tgz#cb0a037ab5f5281f8b120d3746b2152f8a61ba56"
-  dependencies:
-    array-includes "^3.0.3"
-    axios "^0.16.2"
-    babel-preset-react-app "^3.0.1"
-    invariant "^2.2.2"
-    jwt-decode "^2.2.0"
-    lodash "^4.17.4"
-    moment "^2.18.1"
-    node-noop "^1.0.0"
-    object.values "^1.0.4"
-    pluralize "^7.0.0"
-    polished "^1.3.0"
-    query-string "^5.0.0"
-    react-cookie-banner "^0.0.18"
-    react-fontawesome "^1.6.1"
-    react-form "^1.2.8"
-    react-ga "^2.3.5"
-    react-helmet "^5.1.3"
-    react-images "https://github.com/mjtko/react-images"
-    react-markdown "^2.5.0"
-    react-redux "^5.0.5"
-    react-router-dom "^4.2.2"
-    react-router-redux "5.0.0-alpha.8"
-    react-s-alert "^1.3.0"
-    react-scroll "1.5.4"
-    reactstrap "5.0.0-beta"
-    recompose "^0.24.0"
-    redux "^3.7.1"
-    redux-axios-middleware "^4.0.0"
-    redux-cookie "^0.5.9"
-    redux-form "^6.8.0"
-    redux-simple-promise "^2.0.2"
-    reselect "^3.0.1"
-    seamless-immutable "^7.1.2"
-    styled-components "^2.0.1"
-    validator "^8.2.0"
-    zxcvbn "^4.4.2"
-
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.20/flight-tutorials-client.tgz":
-  version "0.1.20"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.20/flight-tutorials-client.tgz#51dee934881d574b9c2310aba1f2df2016ecd8ef"
-  dependencies:
-    debug "^2.6.8"
-    react-fontawesome "^1.6.1"
-    react-markdown "^2.5.0"
-    react-sizeme "^2.5.2"
-    reactstrap "5.0.0-beta"
-    socket.io-client "^2.0.3"
-    socket.io-stream "^0.9.1"
-    styled-components "^2.1.2"
-    terminal.js "^1.0.9"
-    url-search-params-polyfill "^2.0.0"
-
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.21/flight-tutorials-client.tgz":
-  version "0.1.21"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.21/flight-tutorials-client.tgz#8192dc27ff285e833b6cfcc0fea3c7e9881baa59"
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.22/flight-tutorials-client.tgz":
+  version "0.1.22"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.22/flight-tutorials-client.tgz#d3ab3640aac39ac1ae54fa3eb0df1b6c51d31744"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
@@ -8219,10 +8163,6 @@ term-size@^1.2.0:
   resolved "https://registry.yarnpkg.com/term-size/-/term-size-1.2.0.tgz#458b83887f288fc56d6fffbfad262e26638efa69"
   dependencies:
     execa "^0.7.0"
-
-terminal.js@^1.0.9:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/terminal.js/-/terminal.js-1.0.10.tgz#8faade2699e854874a43016590fdf5b5d34fc3c0"
 
 "terminal.js@https://github.com/alces-software/terminal.js.git#release/1.1.0":
   version "1.1.10"
