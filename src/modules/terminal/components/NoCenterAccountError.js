@@ -1,13 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { MissingNotice } from 'flight-reactware';
-import { compose } from 'recompose';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 import ContextLink from '../../../elements/ContextLink';
-import services from '../../../modules/services';
 
 const NoCenterAccountError = () => {
   return (
@@ -27,14 +22,6 @@ const NoCenterAccountError = () => {
   );
 };
 
-NoCenterAccountError.propTypes = {
-  error: PropTypes.string,
-};
+NoCenterAccountError.propTypes = { };
 
-const enhance = compose(
-  connect(createStructuredSelector({
-    ssoUser: services.selectors.loadError,
-  })),
-);
-
-export default enhance(NoCenterAccountError);
+export default NoCenterAccountError;
