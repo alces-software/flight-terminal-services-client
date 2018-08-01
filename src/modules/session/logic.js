@@ -18,7 +18,12 @@ import services from '../../modules/services';
 let previousSsoUser;
 function loadUserWhenAuthChanges(dispatch, getState) {
   const ssoUser = auth.selectors.currentUserSelector(getState());
-  if (ssoUser !== previousSsoUser) {
+  if (ssoUser == null) {
+    previousSsoUser = null;
+    return;
+  }
+  const previousId = previousSsoUser == null ? null : previousSsoUser.flight_id;
+  if (ssoUser.flight_id !== previousId) {
     previousSsoUser = ssoUser;
     if (ssoUser != null) {
       const promise = dispatch(centerUsers.actions.loadUser(ssoUser.username));
