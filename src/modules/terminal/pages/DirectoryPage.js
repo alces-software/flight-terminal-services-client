@@ -82,7 +82,7 @@ const enhance = compose(
     servicesRetrieval: services.selectors.retrieval,
     site: services.selectors.site,
     ssoUser: auth.selectors.currentUserSelector,
-    ssoTokenAged: auth.selectors.ssoTokenAged,
+    ssoTokenMatured: auth.selectors.ssoTokenMatured,
     confirmingPassword: auth.selectors.confirmingPassword,
     confirmPasswordFormManuallyShown: auth.selectors.confirmPassword.manuallyShown,
   })),
@@ -108,8 +108,8 @@ const enhance = compose(
   ),
 
   branch(
-    ({ confirmingPassword, confirmPasswordFormManuallyShown, ssoTokenAged }) => {
-      return ssoTokenAged && ( !confirmingPassword || confirmPasswordFormManuallyShown );
+    ({ confirmingPassword, confirmPasswordFormManuallyShown, ssoTokenMatured }) => {
+      return ssoTokenMatured && ( !confirmingPassword || confirmPasswordFormManuallyShown );
     },
     renderComponent(() => <NestedTokenTooOld />),
   ),
@@ -117,8 +117,8 @@ const enhance = compose(
   // If the terminal is not current displayed and we're confirming the user's
   // password display a spinner.
   showSpinnerUntil(
-    ({ confirmingPassword, ssoTokenAged, terminalIsMounted }) => {
-      if (ssoTokenAged && confirmingPassword && !terminalIsMounted) {
+    ({ confirmingPassword, ssoTokenMatured, terminalIsMounted }) => {
+      if (ssoTokenMatured && confirmingPassword && !terminalIsMounted) {
         return false;
       }
       return true;
