@@ -68,7 +68,8 @@ function fetchServicesAndRedirect(dispatch, siteId) {
 }
 
 export default [
-  auth.logic.periodicallyCheckSessionAge,
+  auth.logic.checkSessionMaturity,
+  auth.logic.checkSessionExpiration,
   loadUserWhenAuthChanges,
   loadTerminalServicesConfigWhenAuthChanges,
 ];
