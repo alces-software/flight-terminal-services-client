@@ -77,7 +77,7 @@ const Home = () => {
                   linkSite="Console"
                   location="/directory"
                 >
-                  embeded terminal
+                  embedded terminal
                 </ContextLink>{', '}
                 giving you rapid access to user, group and host management across your compute estate.
               </p>
