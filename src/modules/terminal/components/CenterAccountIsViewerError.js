@@ -1,11 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { MissingNotice } from 'flight-reactware';
-import { compose } from 'recompose';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-
-import services from '../../../modules/services';
 
 import SiteDashboardLink from './SiteDashboardLink';
 
@@ -22,14 +16,6 @@ const CenterAccountIsViewerError = () => {
   );
 };
 
-CenterAccountIsViewerError.propTypes = {
-  error: PropTypes.string,
-};
+CenterAccountIsViewerError.propTypes = { };
 
-const enhance = compose(
-  connect(createStructuredSelector({
-    ssoUser: services.selectors.loadError,
-  })),
-);
-
-export default enhance(CenterAccountIsViewerError);
+export default CenterAccountIsViewerError;
