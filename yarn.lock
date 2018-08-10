@@ -2444,6 +2444,12 @@ default-require-extensions@^1.0.0:
   dependencies:
     strip-bom "^2.0.0"
 
+defaults@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
+  dependencies:
+    clone "^1.0.2"
+
 define-properties@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.2.tgz#83a73f2fea569898fb737193c8f873caf6d45c94"
@@ -3430,9 +3436,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.49/flight-reactware.tgz":
-  version "0.1.49"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.49/flight-reactware.tgz#dbe7cccc0a4e20cc301558323ab786ee3bcfea59"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.53/flight-reactware.tgz":
+  version "0.1.53"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.53/flight-reactware.tgz#1f657d9deee4ad82ebb16e912faf6727e6f6f5c8"
   dependencies:
     array-includes "^3.0.3"
     axios "^0.16.2"
@@ -3471,9 +3477,9 @@ flatten@^1.0.2:
     validator "^8.2.0"
     zxcvbn "^4.4.2"
 
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.20/flight-tutorials-client.tgz":
-  version "0.1.20"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.20/flight-tutorials-client.tgz#51dee934881d574b9c2310aba1f2df2016ecd8ef"
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.27/flight-tutorials-client.tgz":
+  version "0.1.27"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.27/flight-tutorials-client.tgz#4719315087c22f79a8186917db8aa8668f5214d3"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
@@ -3483,7 +3489,7 @@ flatten@^1.0.2:
     socket.io-client "^2.0.3"
     socket.io-stream "^0.9.1"
     styled-components "^2.1.2"
-    terminal.js "^1.0.9"
+    terminal.js "https://github.com/alces-software/terminal.js.git#release/1.1.1"
     url-search-params-polyfill "^2.0.0"
 
 flux-standard-action@0.6.0:
@@ -8158,9 +8164,11 @@ term-size@^1.2.0:
   dependencies:
     execa "^0.7.0"
 
-terminal.js@^1.0.9:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/terminal.js/-/terminal.js-1.0.10.tgz#8faade2699e854874a43016590fdf5b5d34fc3c0"
+"terminal.js@https://github.com/alces-software/terminal.js.git#release/1.1.1":
+  version "1.1.10"
+  resolved "https://github.com/alces-software/terminal.js.git#87f33fc58fc163ea16af02ffb4362bf54729982f"
+  dependencies:
+    wcwidth "^1.0.1"
 
 test-exclude@^4.1.1:
   version "4.1.1"
@@ -8602,6 +8610,12 @@ wbuf@^1.1.0, wbuf@^1.7.2:
   resolved "https://registry.yarnpkg.com/wbuf/-/wbuf-1.7.2.tgz#d697b99f1f59512df2751be42769c1580b5801fe"
   dependencies:
     minimalistic-assert "^1.0.0"
+
+wcwidth@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/wcwidth/-/wcwidth-1.0.1.tgz#f0b0dcf915bc5ff1528afadb2c0e17b532da2fe8"
+  dependencies:
+    defaults "^1.0.3"
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

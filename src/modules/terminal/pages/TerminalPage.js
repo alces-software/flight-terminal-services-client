@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Container } from 'reactstrap';
-import { PageHeading } from 'flight-reactware';
 
 import Terminal from '../components/Terminal';
 
@@ -18,6 +17,7 @@ const propTypes = {
 };
 
 const PaddedContainer = styled(Container)`
+  padding-top: 15px;
   padding-bottom: 15px;
 `;
 
@@ -32,25 +32,16 @@ const TerminalPage = ({
   title,
 }) => {
   return (
-    <div>
-      <Container fluid>
-        <PageHeading
-          overview={overview}
-          sections={[]}
-          title={title}
-        />
-      </Container>
-      <PaddedContainer fluid>
-        <Terminal
-          auth={auth}
-          columns={columns}
-          rows={rows}
-          {...termProps || {}}
-          socketIOPath={socketIOPath}
-          socketIOUrl={socketIOUrl}
-        />
-      </PaddedContainer>
-    </div>
+    <PaddedContainer fluid>
+      <Terminal
+        auth={auth}
+        columns={columns}
+        rows={rows}
+        {...termProps || {}}
+        socketIOPath={socketIOPath}
+        socketIOUrl={socketIOUrl}
+      />
+    </PaddedContainer>
   );
 };
 
