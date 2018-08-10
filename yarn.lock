@@ -3477,9 +3477,9 @@ flatten@^1.0.2:
     validator "^8.2.0"
     zxcvbn "^4.4.2"
 
-"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.25/flight-tutorials-client.tgz":
-  version "0.1.25"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.25/flight-tutorials-client.tgz#a1babaa9c30527f6f30d8995615d84408f7f7ac2"
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.26/flight-tutorials-client.tgz":
+  version "0.1.26"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.26/flight-tutorials-client.tgz#1460bf14964718f2cbe55cc7e5e1ed523c3c0259"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
