@@ -3436,9 +3436,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.51/flight-reactware.tgz":
-  version "0.1.51"
-  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.51/flight-reactware.tgz#35004944b5bd0dcb5c3c6527f501801a20eea492"
+"flight-reactware@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.53/flight-reactware.tgz":
+  version "0.1.53"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.53/flight-reactware.tgz#1f657d9deee4ad82ebb16e912faf6727e6f6f5c8"
   dependencies:
     array-includes "^3.0.3"
     axios "^0.16.2"
@@ -3480,6 +3480,21 @@ flatten@^1.0.2:
 "flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.22/flight-tutorials-client.tgz":
   version "0.1.22"
   resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.22/flight-tutorials-client.tgz#d3ab3640aac39ac1ae54fa3eb0df1b6c51d31744"
+  dependencies:
+    debug "^2.6.8"
+    react-fontawesome "^1.6.1"
+    react-markdown "^2.5.0"
+    react-sizeme "^2.5.2"
+    reactstrap "5.0.0-beta"
+    socket.io-client "^2.0.3"
+    socket.io-stream "^0.9.1"
+    styled-components "^2.1.2"
+    terminal.js "https://github.com/alces-software/terminal.js.git#release/1.1.0"
+    url-search-params-polyfill "^2.0.0"
+
+"flight-tutorials-client@https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.23/flight-tutorials-client.tgz":
+  version "0.1.23"
+  resolved "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.23/flight-tutorials-client.tgz#729408eb46ee6922e2f7d3325adefac81da8e0c3"
   dependencies:
     debug "^2.6.8"
     react-fontawesome "^1.6.1"
