@@ -574,6 +574,14 @@
     "publisher": "Jed Watson",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-cookie-banner/node_modules/classnames/LICENSE"
   },
+  "clone@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pvorb/node-clone",
+    "publisher": "Paul Vorbach",
+    "email": "paul@vorba.ch",
+    "url": "http://paul.vorba.ch/",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/clone/LICENSE"
+  },
   "commonmark-react-renderer@4.3.4": {
     "licenses": "MIT",
     "repository": "https://github.com/rexxars/commonmark-react-renderer",
@@ -717,6 +725,13 @@
     "email": "mail@substack.net",
     "url": "http://substack.net",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/deep-equal/LICENSE"
+  },
+  "defaults@1.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/tmpvar/defaults",
+    "publisher": "Elijah Insua",
+    "email": "tmpvar@gmail.com",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/defaults/LICENSE"
   },
   "define-properties@1.1.2": {
     "licenses": "MIT",
@@ -882,7 +897,7 @@
     "email": "doug@somethingdoug.com",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/finalhandler/LICENSE"
   },
-  "flight-reactware@0.1.49": {
+  "flight-reactware@0.1.53": {
     "licenses": "ISC",
     "publisher": "Alces Flight Ltd"
   },
@@ -890,7 +905,7 @@
     "licenses": "UNKNOWN",
     "publisher": "Alces Flight Limited"
   },
-  "flight-tutorials-client@0.1.20": {
+  "flight-tutorials-client@0.1.24": {
     "licenses": "MIT"
   },
   "flux-standard-action@0.6.0": {
@@ -2201,7 +2216,7 @@
     "email": "giulio.canti@gmail.com",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tcomb/LICENSE"
   },
-  "terminal.js@1.0.10": {
+  "terminal.js@1.1.10": {
     "licenses": "MIT",
     "repository": "https://github.com/Gottox/terminal.js",
     "publisher": "Enno Boland",
@@ -2316,6 +2331,12 @@
     "email": "berkeley@berkeleytrue.com",
     "url": "http://www.berkeleytrue.com",
     "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-reactware/node_modules/warning/LICENSE.md"
+  },
+  "wcwidth@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/timoxley/wcwidth",
+    "publisher": "Tim Oxley",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/wcwidth/LICENSE"
   },
   "whatwg-fetch@2.0.2": {
     "licenses": "MIT",
