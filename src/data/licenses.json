@@ -905,7 +905,7 @@
     "licenses": "UNKNOWN",
     "publisher": "Alces Flight Limited"
   },
-  "flight-tutorials-client@0.1.24": {
+  "flight-tutorials-client@0.1.28": {
     "licenses": "MIT"
   },
   "flux-standard-action@0.6.0": {
