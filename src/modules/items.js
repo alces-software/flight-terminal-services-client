@@ -30,7 +30,7 @@ function serviceItem(currentUser, serviceUi, serviceType, site) {
   } else {
     path = `/${serviceType}`;
   }
-  return makeItem(serviceUi.title, 'id-card', makeLink(currentSite, path));
+  return makeItem(serviceUi.title, serviceUi.icon, makeLink(currentSite, path));
 }
 
 export default function(currentUser, site, siteRetrieval, serviceUi, serviceType) {
