@@ -1,14 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { MissingNotice } from 'flight-reactware';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import CommunitySiteLink from '../../../elements/CommunitySiteLink';
 import ContextLink from '../../../elements/ContextLink';
+import services from '../../../modules/services';
 
-const NoCenterAccountError = () => {
+const NoCenterAccountError = ({ serviceUi }) => {
   return (
-    <MissingNotice title="Unable to access the Alces Flight Directory service.">
-      The Alces Flight Directory service is available to organisation managers
-      only. Please{' '}
+    <MissingNotice
+      title={`Unable to access the Alces Flight ${serviceUi.title} service.`}
+    >
+      The Alces Flight {serviceUi.title} service is available to organisation
+      managers only. Please{' '}
       <ContextLink
         linkSite="Home"
         location="/contact"
@@ -22,6 +29,14 @@ const NoCenterAccountError = () => {
   );
 };
 
-NoCenterAccountError.propTypes = { };
+NoCenterAccountError.propTypes = {
+  serviceUi: PropTypes.object,
+};
 
-export default NoCenterAccountError;
+const enhance = compose(
+  connect(createStructuredSelector({
+    serviceUi: services.selectors.ui,
+  })),
+);
+
+export default enhance(NoCenterAccountError);

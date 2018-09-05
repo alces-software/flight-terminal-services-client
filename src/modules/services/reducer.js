@@ -4,11 +4,24 @@ import { apiRequest, loadingStates } from 'flight-reactware';
 import {
   EXPLICIT_SITE_REQUESTED,
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
+  SERVICE_TYPE,
 } from './actionTypes';
 
 const initialState = {
+  ui: null,
   site: null,
 };
+
+// A reducer to maintain the service type.
+function serviceTypeReducer(state = null, { payload, type }) {
+  switch (type) {
+    case SERVICE_TYPE:
+      return payload;
+
+    default:
+      return state;
+  }
+}
 
 // A reducer to maintain the siteId.
 function siteIdReducer(state = null, { meta, payload, type }) {
@@ -42,6 +55,7 @@ function errorReducer(state = null, action) {
 }
 
 const metaReducers = combineReducers({
+  serviceType: serviceTypeReducer,
   siteId: siteIdReducer,
   [loadingStates.constants.NAME]: loadingStates.reducer({
     pending: LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
@@ -56,6 +70,7 @@ function dataReducer(state=initialState, action) {
     case apiRequest.resolved(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED):
       const data = action.payload.data;
       return {
+        ui: data.ui,
         site: data.site,
       };
 

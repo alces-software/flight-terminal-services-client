@@ -41,6 +41,14 @@ export const site = createSelector(
   },
 );
 
+export function serviceType(state) {
+  return servicesMeta(state).serviceType;
+}
+
+export function ui(state) {
+  return servicesData(state).ui;
+}
+
 export const retrieval = createSelector(
   servicesState,
   () => 'singleton',

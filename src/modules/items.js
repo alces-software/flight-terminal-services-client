@@ -23,16 +23,22 @@ function siteItem(currentUser, site) {
   return makeItem(site.name, 'institution', link);
 }
 
-function directoryItem() {
-  return makeItem('Directory', 'id-card', makeLink(currentSite, '/directory'));
+function serviceItem(currentUser, serviceUi, serviceType, site) {
+  let path;
+  if (currentUser && currentUser.isAdmin) {
+    path = `/sites/${site.id}/${serviceType}`;
+  } else {
+    path = `/${serviceType}`;
+  }
+  return makeItem(serviceUi.title, 'id-card', makeLink(currentSite, path));
 }
 
-export default function(currentUser, site, siteRetrieval) {
+export default function(currentUser, site, siteRetrieval, serviceUi, serviceType) {
   const haveSite = siteRetrieval.resolved && site != null;
   const items = [
     currentUser && currentUser.isAdmin ? allSitesItem() : null,
     haveSite ? siteItem(currentUser, site) : overviewItem(),
-    haveSite ? directoryItem() : null,
+    haveSite ? serviceItem(currentUser, serviceUi, serviceType, site) : null,
   ];
   return items.reduce((accum, item) => {
     if (item != null) { accum.push(item); };

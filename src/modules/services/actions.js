@@ -3,12 +3,13 @@ import { auth } from 'flight-reactware';
 import {
   EXPLICIT_SITE_REQUESTED,
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
+  SERVICE_TYPE,
 } from './actionTypes';
 import { retrieval } from './selectors';
 
 const centerBaseUrl = process.env.REACT_APP_CENTER_BASE_URL;
 
-export function fetchTerminalServicesConfig(siteId) {
+export function fetchTerminalServicesConfig(siteId, serviceType) {
   return (dispatch, getState) => {
     const ssoUser = auth.selectors.currentUserSelector(getState());
     if (ssoUser == null) { return; }
@@ -17,9 +18,9 @@ export function fetchTerminalServicesConfig(siteId) {
     if (!initiated || rejected) {
       let url;
       if (siteId == null) {
-        url = `${centerBaseUrl}/terminal_services`;
+        url = `${centerBaseUrl}/terminal_services?service_type=${serviceType}`;
       } else {
-        url = `${centerBaseUrl}/sites/${siteId}/terminal_services`;
+        url = `${centerBaseUrl}/sites/${siteId}/terminal_services?service_type=${serviceType}`;
       }
       const action = {
         type: LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
@@ -45,5 +46,12 @@ export function explicitSiteRequested(siteId) {
   return {
     type: EXPLICIT_SITE_REQUESTED,
     payload: siteId,
+  };
+}
+
+export function setServiceType(serviceType) {
+  return {
+    type: SERVICE_TYPE,
+    payload: serviceType,
   };
 }
