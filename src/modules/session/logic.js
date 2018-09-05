@@ -43,25 +43,33 @@ function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
   previousCenterUser = centerUser;
 
   if (!centerUser.isAdmin) {
-    // A non-admin user.  The site is implicitly *their* site.  Let's load the
-    // terminal services config and redirect to the directory terminal.
-    // XXX We can't automatically redirect to the directory terminal.  their
-    // site may not have one; or they may have previously been on another
-    // service.
-    fetchServicesAndRedirect(dispatch, serviceType);
-  } else if (site.id != null) {
-    // We have an admin user, and we know which site they are interested
-    // in.  Let's load the terminal services config and redirect to the
-    // directory terminal.
-    // XXX We can't automatically redirect to the directory terminal.  their
-    // site may not have one; or they may have previously been on another
-    // service.
-    fetchServicesAndRedirect(dispatch, serviceType, site.id);
+    // For non-admin users we have two cases: 1) we know the service they are
+    // after; 2) we don't know the service they are after.
+    if (serviceType != null) {
+      // We know the service and the site is implicitly *their* site.  We can
+      // load the terminal service config and redirect to the correct terminal
+      // page.
+      fetchServicesAndRedirect(dispatch, serviceType);
+    } else {
+      // Send them back to Center so they can select the service.
+      const url = ContextLink.makeLinkProps('Center', '/').href;
+      window.location = url;
+    }
   } else {
-    // We have an admin user, but we don't know which site they are interested
-    // in.  Redirect to Center and they can select.
-    const url = ContextLink.makeLinkProps('Center', '/sites',).href;
-    window.location = url;
+    // For admin users we have three cases: 1) we know both the site and
+    // service they are after; 2) we don't know the site they are after; 3) we
+    // don't know the service they are after.
+    if (serviceType != null && site.id != null) {
+      fetchServicesAndRedirect(dispatch, serviceType, site.id);
+    } else if (site.id != null) {
+      // Send them back to Center so they can select the service.
+      const url = ContextLink.makeLinkProps('Center', `/sites/${site.id}`).href;
+      window.location = url;
+    } else {
+      // Send them back to Center so they can select the site.
+      const url = ContextLink.makeLinkProps('Center', '/sites').href;
+      window.location = url;
+    }
   }
 }
 
