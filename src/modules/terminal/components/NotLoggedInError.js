@@ -1,21 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { MissingNotice } from 'flight-reactware';
-import { compose } from 'recompose';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-
-import services from '../../../modules/services';
 
 import SignInLink from './SignInLink';
 
-const NotLoggedInError = ({ serviceUi }) => {
+const NotLoggedInError = () => {
   return (
     <MissingNotice
-      title={`Unable to access the Alces Flight ${serviceUi ? serviceUi.title : 'XXX'} service.`}
+      title="Unable to access the Alces Flight Center console service."
     >
       You must be signed in to your Alces Flight account in order to access
-      the Alces Flight {serviceUi ? serviceUi.title : 'XXX'} service for your organisation. Please{' '}
+      the Alces Flight Center console service for your organisation. Please{' '}
       <SignInLink>
         sign in
       </SignInLink>
@@ -24,14 +18,6 @@ const NotLoggedInError = ({ serviceUi }) => {
   );
 };
 
-NotLoggedInError.propTypes = {
-  serviceUi: PropTypes.object,
-};
+NotLoggedInError.propTypes = { };
 
-const enhance = compose(
-  connect(createStructuredSelector({
-    serviceUi: services.selectors.ui,
-  })),
-);
-
-export default enhance(NotLoggedInError);
+export default NotLoggedInError;
