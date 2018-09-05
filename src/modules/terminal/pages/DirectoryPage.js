@@ -43,17 +43,6 @@ const env = {
 };
 
 const DirectoryPage = ({ jwt, site }) => {
-  const title = (
-    <span>
-      Flight Directory: {site.name}
-    </span>
-  );
-  const overview = (
-    <span>
-      Alces Flight Directory provides user, group and host management across your compute estate.
-    </span>
-  );
-
   return (
     <TerminalPage
       auth={{
@@ -61,13 +50,11 @@ const DirectoryPage = ({ jwt, site }) => {
         siteId: site.id,
       }}
       columns={120}
-      overview={overview}
       socketIOPath={process.env.REACT_APP_TERMINAL_SERVICE_SOCKET_IO_PATH}
       socketIOUrl={process.env.REACT_APP_TERMINAL_SERVICE_URL}
       termProps={{
         env: env,
       }}
-      title={title}
     />
   );
 };
