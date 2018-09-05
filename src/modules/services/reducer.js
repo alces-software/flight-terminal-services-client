@@ -7,7 +7,6 @@ import {
 } from './actionTypes';
 
 const initialState = {
-  flightDirectoryConfig: null,
   site: null,
 };
 
@@ -57,7 +56,6 @@ function dataReducer(state=initialState, action) {
     case apiRequest.resolved(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED):
       const data = action.payload.data;
       return {
-        flightDirectoryConfig: data.flight_directory_config,
         site: data.site,
       };
 
