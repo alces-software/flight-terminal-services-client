@@ -10,7 +10,7 @@
     "bootstrap": "4.0.0-alpha.6",
     "compression": "^1.6.2",
     "express": "^4.15.3",
-    "flight-reactware": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.53/flight-reactware.tgz",
+    "flight-reactware": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.1.56/flight-reactware.tgz",
     "flight-tutorials-client": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightTutorials/0.1.29/flight-tutorials-client.tgz",
     "history": "^4.6.1",
     "ignore-styles": "^5.0.1",
@@ -71,6 +71,6 @@
     "serve": "APPROOT=$(pwd) node build/server/server.js"
   },
   "engines": {
-    "node": "8.x.x"
+    "node": ">=8.x.x"
   }
 }
