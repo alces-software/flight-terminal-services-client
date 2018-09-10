@@ -97,13 +97,15 @@ function fetchServicesAndRedirect(dispatch, serviceType, clusterId, siteId) {
   if (promise) {
     promise
       .then(() => {
+        let path;
         if (clusterId) {
-          dispatch(push(`/clusters/${clusterId}/${serviceType}`));
+          path = `/clusters/${clusterId}/${serviceType}`;
         } else if (siteId) {
-          dispatch(push(`/sites/${siteId}/${serviceType}`));
+          path = `/sites/${siteId}/${serviceType}`;
         } else {
-          dispatch(push(`/${serviceType}`));
+          path = `/${serviceType}`;
         }
+        dispatch(push(path));
       })
       .catch(e => e);
   }

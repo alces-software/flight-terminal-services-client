@@ -37,27 +37,24 @@ const PaddedContainer = styled(Container)`
 `;
 
 const propTypes = {
-  clusterId: PropTypes.string.isRequired,
+  clusterId: PropTypes.string,
   jwt: PropTypes.string.isRequired,
   serviceType: PropTypes.string.isRequired,
-  site: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])
-  }).isRequired,
+  siteId: PropTypes.string,
 };
 
 const env = {
   LANG: 'en_GB.UTF-8',
 };
 
-const TerminalPage = ({ clusterId, jwt, serviceType, site }) => {
+const TerminalPage = ({ clusterId, jwt, serviceType, siteId }) => {
   return (
     <PaddedContainer fluid>
       <Terminal
         auth={{
           jwt: jwt,
           serviceType: serviceType,
-          siteId: site.id,
+          siteId: siteId,
           clusterId: clusterId,
         }}
         columns={120}
@@ -79,11 +76,13 @@ const enhance = compose(
     centerUser: centerUsers.selectors.currentUser,
     centerUserRetrieval: centerUsers.selectors.retrieval,
     clusterId: services.selectors.clusterId,
+    cluster: services.selectors.cluster,
     confirmPasswordFormManuallyShown: auth.selectors.confirmPassword.manuallyShown,
     confirmingPassword: auth.selectors.confirmingPassword,
     jwt: auth.selectors.ssoToken,
     serviceType: services.selectors.serviceType,
     servicesRetrieval: services.selectors.retrieval,
+    siteId: services.selectors.siteId,
     site: services.selectors.site,
     ssoTokenMatured: auth.selectors.ssoTokenMatured,
     ssoUser: auth.selectors.currentUserSelector,
@@ -157,7 +156,7 @@ const enhance = compose(
   ),
 
   branch(
-    ({ site }) => !site,
+    ({ cluster, site }) => !cluster && !site,
     renderComponent(() => <Redirect to="/" />),
   ),
 
