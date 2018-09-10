@@ -2,10 +2,8 @@ import { combineReducers } from 'redux';
 import { apiRequest, loadingStates } from 'flight-reactware';
 
 import {
-  EXPLICIT_CLUSTER_REQUESTED,
-  EXPLICIT_SITE_REQUESTED,
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
-  SERVICE_TYPE,
+  SET_SCOPE,
 } from './actionTypes';
 
 const initialState = {
@@ -14,39 +12,15 @@ const initialState = {
   ui: null,
 };
 
-// A reducer to maintain the service type.
-function serviceTypeReducer(state = null, { payload, type }) {
+// A reducer to maintain the scope requested.
+function scopeReducer(state = null, { payload, type }) {
   switch (type) {
-    case SERVICE_TYPE:
-      return payload;
-
-    default:
-      return state;
-  }
-}
-
-// A reducer to maintain the clusterId.
-function clusterIdReducer(state = null, { meta, payload, type }) {
-  switch (type) {
-    case EXPLICIT_CLUSTER_REQUESTED:
-      return payload;
-
-    case LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED:
-      return meta.clusterId == null ? null : meta.clusterId;
-
-    default:
-      return state;
-  }
-}
-
-// A reducer to maintain the siteId.
-function siteIdReducer(state = null, { meta, payload, type }) {
-  switch (type) {
-    case EXPLICIT_SITE_REQUESTED:
-      return payload;
-
-    case LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED:
-      return meta.siteId == null ? null : meta.siteId;
+    case SET_SCOPE:
+      return {
+        scope: payload.scope,
+        id: payload.scopeId,
+        serviceType: payload.serviceType,
+      };
 
     default:
       return state;
@@ -71,9 +45,7 @@ function errorReducer(state = null, action) {
 }
 
 const metaReducers = combineReducers({
-  clusterId: clusterIdReducer,
-  serviceType: serviceTypeReducer,
-  siteId: siteIdReducer,
+  scope: scopeReducer,
   [loadingStates.constants.NAME]: loadingStates.reducer({
     pending: LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
     resolved: apiRequest.resolved(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED),

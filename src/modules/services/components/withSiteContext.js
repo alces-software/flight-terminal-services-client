@@ -11,26 +11,20 @@ const SiteContext = ({ children, route }) => {
 export default function withSiteContext() {
   const enhance = compose(
     withProps(props => ({
-      clusterId: props.match.params.clusterId,
+      scope: props.match.params.scope,
+      scopeId: props.match.params.scopeId,
       serviceType: props.match.params.serviceType,
-      siteId: props.match.params.siteId,
     })),
 
     connect(),
 
     lifecycle({
       componentDidMount: function componentDidMount() {
-        const { clusterId, dispatch, serviceType, siteId } = this.props;
-        if (clusterId != null) {
-          dispatch(actions.explicitClusterRequested(clusterId));
-        }
-        if (siteId != null) {
-          dispatch(actions.explicitSiteRequested(siteId));
-        }
-        dispatch(actions.setServiceType(serviceType));
+        const { dispatch, scope, scopeId, serviceType } = this.props;
+        dispatch(actions.setScope(scope, scopeId, serviceType));
         const request = dispatch(actions.fetchTerminalServicesConfig(
-          siteId,
-          clusterId,
+          scope,
+          scopeId,
           serviceType
         ));
         if (request) {
@@ -42,20 +36,23 @@ export default function withSiteContext() {
       },
 
       componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-        const { thisClusterId, thisSiteId, thisServiceType } = this.props;
-        const { nextClusterId, nextSiteId, nextServiceType } = nextProps;
-        if (thisClusterId === nextClusterId &&
-          thisSiteId === nextSiteId &&
+        const { thisScope, thisScopeId, thisServiceType } = this.props;
+        const { nextScope, nextScopeId, nextServiceType } = nextProps;
+        if (thisScope === nextScope &&
+          thisScopeId === nextScopeId &&
           thisServiceType === nextServiceType)
         {
           // Nothing relevant has changed; nothing to do.
           return;
         }
-        this.props.dispatch(actions.explicitClusterRequested(nextClusterId));
-        this.props.dispatch(actions.explicitSiteRequested(nextSiteId));
+        this.props.dispatch(actions.setScope(
+          nextScope,
+          nextScopeId,
+          nextServiceType
+        ));
         const action = actions.fetchTerminalServicesConfig(
-          nextSiteId,
-          nextClusterId,
+          nextScope,
+          nextScopeId,
           nextServiceType
         );
         const request = this.props.dispatch(action);

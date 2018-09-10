@@ -15,7 +15,7 @@ const Page = ({
   cluster,
   currentUser,
   pageKey,
-  serviceType,
+  scope,
   serviceUi,
   site,
   serviceConfigRetrieval,
@@ -27,7 +27,7 @@ const Page = ({
     site,
     serviceConfigRetrieval,
     serviceUi,
-    serviceType
+    scope
   );
   return (
     <div>
@@ -51,8 +51,8 @@ Page.propTypes = {
   cluster: PropTypes.object,
   currentUser: PropTypes.object,
   pageKey: PropTypes.string,
+  scope: PropTypes.object,
   serviceConfigRetrieval: PropTypes.object.isRequired,
-  serviceType: PropTypes.string,
   serviceUi: PropTypes.object,
   site: PropTypes.object,
   title: PropTypes.string.isRequired,
@@ -64,7 +64,7 @@ const enhance = compose(
     clusterRetrieval: services.selectors.retrieval,
     currentUser: users.selectors.currentUser,
     serviceConfigRetrieval: services.selectors.retrieval,
-    serviceType: services.selectors.serviceType,
+    scope: services.selectors.scope,
     serviceUi: services.selectors.ui,
     site: services.selectors.site,
   })),

@@ -23,24 +23,17 @@ function siteItem(currentUser, site) {
   return makeItem(site.name, 'institution', link);
 }
 
-function clusterItem(currentUser, cluster) {
-  let link;
-  if (currentUser && currentUser.isAdmin) {
-    link = makeLink('Center', `/clusters/${cluster.id}`);
-  } else {
-    link = makeLink('Center', '/');
-  }
+function clusterItem(cluster) {
+  const link = makeLink('Center', `/clusters/${cluster.id}`);
   return makeItem(cluster.name, 'server', link);
 }
 
-function serviceItem(currentUser, serviceUi, serviceType, site, cluster) {
+function serviceItem(serviceUi, scope) {
   let path;
-  if (cluster != null) {
-    path = `/clusters/${cluster.id}/${serviceType}`;
-  } else if (currentUser && currentUser.isAdmin) {
-    path = `/sites/${site.id}/${serviceType}`;
+  if (scope.scope) {
+    path = `/${scope.scope}/${scope.id}/${scope.serviceType}`;
   } else {
-    path = `/${serviceType}`;
+    path = `/${scope.serviceType}`;
   }
   return makeItem(serviceUi.title, serviceUi.icon, makeLink(currentSite, path));
 }
@@ -51,15 +44,15 @@ export default function(
   site,
   serviceConfigRetrieval,
   serviceUi,
-  serviceType
+  scope,
 ) {
-  const haveSite = serviceConfigRetrieval.resolved && site != null;
+  const haveConfig = serviceConfigRetrieval.resolved && site != null;
   const haveCluster = serviceConfigRetrieval.resolved && cluster != null;
   const items = [
     currentUser && currentUser.isAdmin ? allSitesItem() : null,
-    haveSite ? siteItem(currentUser, site) : overviewItem(),
-    haveCluster ? clusterItem(currentUser, cluster) : null,
-    haveSite ? serviceItem(currentUser, serviceUi, serviceType, site, cluster) : null,
+    haveConfig ? siteItem(currentUser, site) : overviewItem(),
+    haveCluster ? clusterItem(cluster) : null,
+    haveConfig ? serviceItem(serviceUi, scope) : null,
   ];
   return items.reduce((accum, item) => {
     if (item != null) { accum.push(item); };

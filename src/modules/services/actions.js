@@ -1,32 +1,31 @@
 import { auth } from 'flight-reactware';
 
 import {
-  EXPLICIT_SITE_REQUESTED,
-  EXPLICIT_CLUSTER_REQUESTED,
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
-  SERVICE_TYPE,
+  SET_SCOPE,
 } from './actionTypes';
 import { retrieval } from './selectors';
 
 const centerBaseUrl = process.env.REACT_APP_CENTER_BASE_URL;
 
-function buildUrl(siteId, clusterId, serviceType) {
-  if (clusterId != null) {
-    return `${centerBaseUrl}/clusters/${clusterId}/terminal_services?service_type=${serviceType}`;
-  } else if (siteId != null) {
-    return `${centerBaseUrl}/sites/${siteId}/terminal_services?service_type=${serviceType}`;
+function buildUrl(scope, scopeId, serviceType) {
+  let prefix;
+  if (scope != null) {
+    prefix = `${centerBaseUrl}/${scope}/${scopeId}`;
+  } else {
+    prefix = `${centerBaseUrl}`;
   }
-  return `${centerBaseUrl}/terminal_services?service_type=${serviceType}`;
+  return `${prefix}/terminal_services?service_type=${serviceType}`;
 }
 
-export function fetchTerminalServicesConfig(siteId, clusterId, serviceType) {
+export function fetchTerminalServicesConfig(scope, scopeId, serviceType) {
   return (dispatch, getState) => {
     const ssoUser = auth.selectors.currentUserSelector(getState());
     if (ssoUser == null) { return; }
 
     const { initiated, rejected } = retrieval(getState());
     if (!initiated || rejected) {
-      const url = buildUrl(siteId, clusterId, serviceType);
+      const url = buildUrl(scope, scopeId, serviceType);
       const action = {
         type: LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
         meta: {
@@ -39,8 +38,9 @@ export function fetchTerminalServicesConfig(siteId, clusterId, serviceType) {
           loadingState: {
             key: 'singleton',
           },
-          clusterId: clusterId,
-          siteId: siteId,
+          scope: scope,
+          scopeId: scopeId,
+          serviceType: serviceType,
         },
       };
       return dispatch(action);
@@ -48,23 +48,13 @@ export function fetchTerminalServicesConfig(siteId, clusterId, serviceType) {
   };
 }
 
-export function explicitClusterRequested(clusterId) {
+export function setScope(scope, scopeId, serviceType) {
   return {
-    type: EXPLICIT_CLUSTER_REQUESTED,
-    payload: clusterId,
-  };
-}
-
-export function explicitSiteRequested(siteId) {
-  return {
-    type: EXPLICIT_SITE_REQUESTED,
-    payload: siteId,
-  };
-}
-
-export function setServiceType(serviceType) {
-  return {
-    type: SERVICE_TYPE,
-    payload: serviceType,
+    type: SET_SCOPE,
+    payload: {
+      scope,
+      scopeId,
+      serviceType,
+    },
   };
 }
