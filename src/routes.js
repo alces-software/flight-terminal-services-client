@@ -34,6 +34,14 @@ const redirectRoutes = Object.keys(redirects).map((k) => {
     ),
   };
 });
+
+const terminalRoute = {
+  exact: true,
+  component: terminal.pages.Terminal,
+  title: serviceUi => serviceUi == null ? '' : serviceUi.title,
+  pageKey: serviceUi => serviceUi == null ? '' : serviceUi.name,
+};
+
 const routes = [
   ...redirectRoutes,
   {
@@ -47,28 +55,32 @@ const routes = [
         title: 'Overview',
       },
       {
-        path: '/sites/:siteId',
+        path: '/clusters/:clusterId/:serviceType',
         component: services.withSiteContext(),
         routes: [
           {
-            path: '/sites/:siteId/directory',
-            exact: true,
-            component: terminal.pages.Directory,
-            title: 'Directory',
-            pageKey: 'Directory',
+            ...terminalRoute,
+            path: '/clusters/:clusterId/:serviceType',
           },
         ],
       },
       {
-        path: '/',
+        path: '/sites/:siteId/:serviceType',
         component: services.withSiteContext(),
         routes: [
           {
-            path: '/directory',
-            exact: true,
-            component: terminal.pages.Directory,
-            title: 'Directory',
-            pageKey: 'Directory',
+            ...terminalRoute,
+            path: '/sites/:siteId/:serviceType',
+          },
+        ],
+      },
+      {
+        path: '/:serviceType',
+        component: services.withSiteContext(),
+        routes: [
+          {
+            ...terminalRoute,
+            path: '/:serviceType',
           },
         ],
       },

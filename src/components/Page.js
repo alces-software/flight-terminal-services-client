@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -11,13 +12,23 @@ import { services, users } from '../modules';
 
 const Page = ({
   children,
+  cluster,
   currentUser,
   pageKey,
+  serviceType,
+  serviceUi,
   site,
-  siteRetrieval,
+  serviceConfigRetrieval,
   title,
 }) => {
-  const items = getItems(currentUser, site, siteRetrieval);
+  const items = getItems(
+    currentUser,
+    cluster,
+    site,
+    serviceConfigRetrieval,
+    serviceUi,
+    serviceType
+  );
   return (
     <div>
       <Helmet>
@@ -37,15 +48,26 @@ const Page = ({
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,
+  cluster: PropTypes.object,
   currentUser: PropTypes.object,
   pageKey: PropTypes.string,
+  serviceConfigRetrieval: PropTypes.object.isRequired,
+  serviceType: PropTypes.string,
+  serviceUi: PropTypes.object,
   site: PropTypes.object,
-  siteRetrieval: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
 };
 
-export default connect(createStructuredSelector({
-  site: services.selectors.site,
-  siteRetrieval: services.selectors.retrieval,
-  currentUser: users.selectors.currentUser,
-}))(Page);
+const enhance = compose(
+  connect(createStructuredSelector({
+    cluster: services.selectors.cluster,
+    clusterRetrieval: services.selectors.retrieval,
+    currentUser: users.selectors.currentUser,
+    serviceConfigRetrieval: services.selectors.retrieval,
+    serviceType: services.selectors.serviceType,
+    serviceUi: services.selectors.ui,
+    site: services.selectors.site,
+  })),
+);
+
+export default enhance(Page);

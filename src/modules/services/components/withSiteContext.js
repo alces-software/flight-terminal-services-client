@@ -10,17 +10,29 @@ const SiteContext = ({ children, route }) => {
 
 export default function withSiteContext() {
   const enhance = compose(
-    withProps(props => ({ siteId: props.match.params.siteId })),
+    withProps(props => ({
+      clusterId: props.match.params.clusterId,
+      serviceType: props.match.params.serviceType,
+      siteId: props.match.params.siteId,
+    })),
 
     connect(),
 
     lifecycle({
       componentDidMount: function componentDidMount() {
-        const { dispatch, siteId } = this.props;
+        const { clusterId, dispatch, serviceType, siteId } = this.props;
+        if (clusterId != null) {
+          dispatch(actions.explicitClusterRequested(clusterId));
+        }
         if (siteId != null) {
           dispatch(actions.explicitSiteRequested(siteId));
         }
-        const request = dispatch(actions.fetchTerminalServicesConfig(siteId));
+        dispatch(actions.setServiceType(serviceType));
+        const request = dispatch(actions.fetchTerminalServicesConfig(
+          siteId,
+          clusterId,
+          serviceType
+        ));
         if (request) {
           request.catch((error) => {
             console.log('error:', error);  // eslint-disable-line no-console
@@ -30,18 +42,28 @@ export default function withSiteContext() {
       },
 
       componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-        if (this.props.siteId !== nextProps.siteId) {
-          if (nextProps.siteId != null) {
-            this.props.dispatch(actions.explicitSiteRequested(nextProps.siteId));
-          }
-          const action = actions.fetchTerminalServicesConfig(nextProps.siteId);
-          const request = this.props.dispatch(action);
-          if (request) {
-            request.catch((error) => {
-              console.log('error:', error);  // eslint-disable-line no-console
-              return error;
-            });
-          }
+        const { thisClusterId, thisSiteId, thisServiceType } = this.props;
+        const { nextClusterId, nextSiteId, nextServiceType } = nextProps;
+        if (thisClusterId === nextClusterId &&
+          thisSiteId === nextSiteId &&
+          thisServiceType === nextServiceType)
+        {
+          // Nothing relevant has changed; nothing to do.
+          return;
+        }
+        this.props.dispatch(actions.explicitClusterRequested(nextClusterId));
+        this.props.dispatch(actions.explicitSiteRequested(nextSiteId));
+        const action = actions.fetchTerminalServicesConfig(
+          nextSiteId,
+          nextClusterId,
+          nextServiceType
+        );
+        const request = this.props.dispatch(action);
+        if (request) {
+          request.catch((error) => {
+            console.log('error:', error);  // eslint-disable-line no-console
+            return error;
+          });
         }
       }
     }),

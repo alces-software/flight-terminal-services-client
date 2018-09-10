@@ -20,9 +20,33 @@ export function siteId(state) {
   return servicesMeta(state).siteId;
 }
 
+export function clusterId(state) {
+  return servicesMeta(state).clusterId;
+}
+
 export function loadError(state) {
   return servicesMeta(state).error;
 }
+
+// The data downloaded from Center about the cluster.
+function clusterData(state) {
+  return servicesData(state).cluster;
+}
+
+export const cluster = createSelector(
+  clusterData,
+  clusterId,
+
+  (cluster, id) => {
+    if (cluster == null && id == null) {
+      return undefined;
+    }
+    return {
+      id: id,
+      ...cluster,
+    };
+  },
+);
 
 // The data downloaded from Center about the site.
 function siteData(state) {
@@ -35,11 +59,19 @@ export const site = createSelector(
 
   (site, id) => {
     return {
-      ...site,
       id: id,
+      ...site,
     };
   },
 );
+
+export function serviceType(state) {
+  return servicesMeta(state).serviceType;
+}
+
+export function ui(state) {
+  return servicesData(state).ui;
+}
 
 export const retrieval = createSelector(
   servicesState,
