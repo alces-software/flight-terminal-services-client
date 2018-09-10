@@ -52,10 +52,10 @@ function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
       // or the specified cluster.  We can load the terminal service config
       // and redirect to the correct terminal page.
       fetchServicesAndRedirect(dispatch, scope);
-    } else if (scope != null && scope.scope != null) {
+    } else if (scope != null && scope.type != null) {
       // They are after a cluster service, but have not provided the service
       // type.  Send them back to Center so they can select the cluster service.
-      const url = ContextLink.makeLinkProps('Center', `/${scope.scope}/${scope.id}`).href;
+      const url = ContextLink.makeLinkProps('Center', `/${scope.type}/${scope.id}`).href;
       window.location = url;
     } else {
       // Send them back to Center so they can select the site service.
@@ -67,11 +67,11 @@ function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
     // the site or cluster they are after; 2) we know the site they are
     // after, but not the service; 3) we know the cluster they are after but
     // not the service; 4) we don't know the service they are after.
-    if (scope != null && scope.scope != null && scope.id != null && scope.serviceType != null) {
+    if (scope != null && scope.type != null && scope.id != null && scope.serviceType != null) {
       fetchServicesAndRedirect(dispatch, scope);
-    } else if (scope != null && scope.scope != null && scope.id != null) {
+    } else if (scope != null && scope.type != null && scope.id != null) {
       // Send them back to Center so they can select the service.
-      const url = ContextLink.makeLinkProps('Center', `/${scope.scope}/${scope.id}`).href;
+      const url = ContextLink.makeLinkProps('Center', `/${scope.type}/${scope.id}`).href;
       window.location = url;
     } else {
       // Send them back to Center so they can navigate from all sites to the
@@ -84,7 +84,7 @@ function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
 
 function fetchServicesAndRedirect(dispatch, scope) {
   const action = services.actions.fetchTerminalServicesConfig(
-    scope.scope,
+    scope.type,
     scope.id,
     scope.serviceType
   );
@@ -93,8 +93,8 @@ function fetchServicesAndRedirect(dispatch, scope) {
     promise
       .then(() => {
         let path;
-        if (scope.scope) {
-          path = `/${scope.scope}/${scope.id}/${scope.serviceType}`;
+        if (scope.type) {
+          path = `/${scope.type}/${scope.id}/${scope.serviceType}`;
         } else {
           path = `/${scope.serviceType}`;
         }

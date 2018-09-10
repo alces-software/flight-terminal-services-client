@@ -11,7 +11,7 @@ const SiteContext = ({ children, route }) => {
 export default function withSiteContext() {
   const enhance = compose(
     withProps(props => ({
-      scope: props.match.params.scope,
+      scopeType: props.match.params.scopeType,
       scopeId: props.match.params.scopeId,
       serviceType: props.match.params.serviceType,
     })),
@@ -20,10 +20,10 @@ export default function withSiteContext() {
 
     lifecycle({
       componentDidMount: function componentDidMount() {
-        const { dispatch, scope, scopeId, serviceType } = this.props;
-        dispatch(actions.setScope(scope, scopeId, serviceType));
+        const { dispatch, scopeType, scopeId, serviceType } = this.props;
+        dispatch(actions.setScope(scopeType, scopeId, serviceType));
         const request = dispatch(actions.fetchTerminalServicesConfig(
-          scope,
+          scopeType,
           scopeId,
           serviceType
         ));

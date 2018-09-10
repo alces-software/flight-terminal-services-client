@@ -43,7 +43,7 @@ export const siteLink = createSelector(
   (scope, site) => {
     if (site != null) {
       return site.link.path;
-    } else if (scope.scope === 'sites' && scope.id != null) {
+    } else if (scope.type === 'sites' && scope.id != null) {
       return `/sites/${scope.id}`;
     } else {
       return '/';

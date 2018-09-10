@@ -55,12 +55,12 @@ const routes = [
         title: 'Overview',
       },
       {
-        path: '/:scope/:scopeId/:serviceType',
+        path: '/:scopeType/:scopeId/:serviceType',
         component: services.withSiteContext(),
         routes: [
           {
             ...terminalRoute,
-            path: '/:scope/:scopeId/:serviceType',
+            path: '/:scopeType/:scopeId/:serviceType',
           },
         ],
       },

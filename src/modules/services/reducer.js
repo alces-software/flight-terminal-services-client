@@ -16,8 +16,8 @@ function scopeReducer(state = null, { payload, type }) {
   switch (type) {
     case SET_SCOPE:
       return {
-        scope: payload.scope,
-        id: payload.scopeId,
+        type: payload.type,
+        id: payload.id,
         serviceType: payload.serviceType,
       };
 
