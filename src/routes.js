@@ -39,7 +39,7 @@ const terminalRoute = {
   exact: true,
   component: terminal.pages.Terminal,
   title: serviceUi => serviceUi == null ? '' : serviceUi.title,
-  pageKey: serviceUi => serviceUi == null ? '' : serviceUi.name,
+  pageKey: scope => scope == null ? '' : `/${scope.type}/${scope.id}/${scope.serviceType}`,
 };
 
 const routes = [
@@ -55,28 +55,18 @@ const routes = [
         title: 'Overview',
       },
       {
-        path: '/clusters/:clusterId/:serviceType',
-        component: services.withSiteContext(),
+        path: '/:scopeType/:scopeId/:serviceType',
+        component: services.withScopeContext(),
         routes: [
           {
             ...terminalRoute,
-            path: '/clusters/:clusterId/:serviceType',
-          },
-        ],
-      },
-      {
-        path: '/sites/:siteId/:serviceType',
-        component: services.withSiteContext(),
-        routes: [
-          {
-            ...terminalRoute,
-            path: '/sites/:siteId/:serviceType',
+            path: '/:scopeType/:scopeId/:serviceType',
           },
         ],
       },
       {
         path: '/:serviceType',
-        component: services.withSiteContext(),
+        component: services.withScopeContext(),
         routes: [
           {
             ...terminalRoute,

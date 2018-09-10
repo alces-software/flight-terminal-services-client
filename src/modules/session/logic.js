@@ -35,9 +35,7 @@ function loadUserWhenAuthChanges(dispatch, getState) {
 let previousCenterUser;
 function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
   const centerUser = centerUsers.selectors.currentUser(getState());
-  const clusterId = services.selectors.clusterId(getState());
-  const serviceType = services.selectors.serviceType(getState());
-  const siteId = services.selectors.siteId(getState());
+  const scope = services.selectors.scope(getState());
 
   if (centerUser === previousCenterUser) { return; }
   if (centerUser == null) { return; }
@@ -49,15 +47,15 @@ function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
     // site service; 2) we know the cluster they are after but not the
     // service; cluster is not specified; 3) we don't know the service they
     // are after and the cluster is not specified.
-    if (serviceType != null) {
+    if (scope != null && scope.serviceType != null) {
       // We know the service and the scope is either implicitly *their* site
       // or the specified cluster.  We can load the terminal service config
       // and redirect to the correct terminal page.
-      fetchServicesAndRedirect(dispatch, serviceType, clusterId);
-    } else if (clusterId != null) {
+      fetchServicesAndRedirect(dispatch, scope);
+    } else if (scope != null && scope.type != null) {
       // They are after a cluster service, but have not provided the service
       // type.  Send them back to Center so they can select the cluster service.
-      const url = ContextLink.makeLinkProps('Center', `/clusters/${clusterId}`).href;
+      const url = ContextLink.makeLinkProps('Center', `/${scope.type}/${scope.id}`).href;
       window.location = url;
     } else {
       // Send them back to Center so they can select the site service.
@@ -69,41 +67,36 @@ function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
     // the site or cluster they are after; 2) we know the site they are
     // after, but not the service; 3) we know the cluster they are after but
     // not the service; 4) we don't know the service they are after.
-    if (serviceType != null && (clusterId != null || siteId != null)) {
-      fetchServicesAndRedirect(dispatch, serviceType, clusterId, siteId);
-    } else if (clusterId != null) {
-      // Send them back to Center so they can select the cluster service.
-      const url = ContextLink.makeLinkProps('Center', `/clusters/${clusterId}`).href;
-      window.location = url;
-    } else if (siteId != null) {
-      // Send them back to Center so they can select the site service.
-      const url = ContextLink.makeLinkProps('Center', `/sites/${siteId}`).href;
+    if (scope != null && scope.type != null && scope.id != null && scope.serviceType != null) {
+      fetchServicesAndRedirect(dispatch, scope);
+    } else if (scope != null && scope.type != null && scope.id != null) {
+      // Send them back to Center so they can select the service.
+      const url = ContextLink.makeLinkProps('Center', `/${scope.type}/${scope.id}`).href;
       window.location = url;
     } else {
-      // Send them back to Center so they can select the site.
+      // Send them back to Center so they can navigate from all sites to the
+      // desired service.
       const url = ContextLink.makeLinkProps('Center', '/sites').href;
       window.location = url;
     }
   }
 }
 
-function fetchServicesAndRedirect(dispatch, serviceType, clusterId, siteId) {
+function fetchServicesAndRedirect(dispatch, scope) {
   const action = services.actions.fetchTerminalServicesConfig(
-    siteId,
-    clusterId,
-    serviceType
+    scope.type,
+    scope.id,
+    scope.serviceType
   );
   const promise = dispatch(action);
   if (promise) {
     promise
       .then(() => {
         let path;
-        if (clusterId) {
-          path = `/clusters/${clusterId}/${serviceType}`;
-        } else if (siteId) {
-          path = `/sites/${siteId}/${serviceType}`;
+        if (scope.type) {
+          path = `/${scope.type}/${scope.id}/${scope.serviceType}`;
         } else {
-          path = `/${serviceType}`;
+          path = `/${scope.serviceType}`;
         }
         dispatch(push(path));
       })

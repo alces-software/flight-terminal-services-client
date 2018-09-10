@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
-import { Redirect } from 'react-router';
 import {
   branch,
   compose,
@@ -37,25 +36,21 @@ const PaddedContainer = styled(Container)`
 `;
 
 const propTypes = {
-  clusterId: PropTypes.string,
   jwt: PropTypes.string.isRequired,
-  serviceType: PropTypes.string.isRequired,
-  siteId: PropTypes.string,
+  scope: PropTypes.object,
 };
 
 const env = {
   LANG: 'en_GB.UTF-8',
 };
 
-const TerminalPage = ({ clusterId, jwt, serviceType, siteId }) => {
+const TerminalPage = ({ jwt, scope }) => {
   return (
     <PaddedContainer fluid>
       <Terminal
         auth={{
           jwt: jwt,
-          serviceType: serviceType,
-          siteId: siteId,
-          clusterId: clusterId,
+          scope: scope,
         }}
         columns={120}
         rows={25}
@@ -75,15 +70,11 @@ const enhance = compose(
   connect(createStructuredSelector({
     centerUser: centerUsers.selectors.currentUser,
     centerUserRetrieval: centerUsers.selectors.retrieval,
-    clusterId: services.selectors.clusterId,
-    cluster: services.selectors.cluster,
     confirmPasswordFormManuallyShown: auth.selectors.confirmPassword.manuallyShown,
     confirmingPassword: auth.selectors.confirmingPassword,
     jwt: auth.selectors.ssoToken,
-    serviceType: services.selectors.serviceType,
+    scope: services.selectors.scope,
     servicesRetrieval: services.selectors.retrieval,
-    siteId: services.selectors.siteId,
-    site: services.selectors.site,
     ssoTokenMatured: auth.selectors.ssoTokenMatured,
     ssoUser: auth.selectors.currentUserSelector,
   })),
@@ -153,11 +144,6 @@ const enhance = compose(
   branch(
     ({ servicesRetrieval }) => servicesRetrieval.rejected,
     renderComponent(() => <NestedLoadError />),
-  ),
-
-  branch(
-    ({ cluster, site }) => !cluster && !site,
-    renderComponent(() => <Redirect to="/" />),
   ),
 
   // All of our edge cases are dealt with, we're ready to display the

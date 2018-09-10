@@ -70,16 +70,16 @@ const productName = process.env.REACT_APP_PRODUCT_NAME;
 const propTypes = {
   location: PropTypes.object,
   route: PropTypes.object,
-  serviceType: PropTypes.string,
+  scope: PropTypes.object,
   serviceUi: PropTypes.object,
 };
 
-const App = ({ location, route, serviceType, serviceUi }) => {
+const App = ({ location, route, scope, serviceUi }) => {
   const branch = matchRoutes(routes, location.pathname);
   const lastRouteComponent = branch[branch.length - 1].route;
 
   const pageKey = isFunction(lastRouteComponent.pageKey) ?
-    lastRouteComponent.pageKey(serviceType) :
+    lastRouteComponent.pageKey(scope) :
     lastRouteComponent.pageKey;
   const title = isFunction(lastRouteComponent.title) ?
     lastRouteComponent.title(serviceUi) :
@@ -125,7 +125,7 @@ const enhance = compose(
   withRouter,
 
   connect(createStructuredSelector({
-    serviceType: services.selectors.serviceType,
+    scope: services.selectors.scope,
     serviceUi: services.selectors.ui,
   })),
 );
