@@ -31,41 +31,24 @@ export function loadError(state) {
   return servicesMeta(state).error;
 }
 
-// The data downloaded from Center about the cluster.
-function clusterData(state) {
-  return servicesData(state).cluster;
-}
+// Return the Center-relative path to the site.  The site is not necessarily
+// the current scope.
+//
+// This can be used to link to the site page in Center regardless of the
+// current scope.
+export const siteLink = createSelector(
+  scope,
+  (state) => servicesData(state).site,
 
-export const cluster = createSelector(
-  clusterData,
-  clusterId,
-
-  (cluster, id) => {
-    if (cluster == null && id == null) {
-      return undefined;
+  (scope, site) => {
+    if (site != null) {
+      return site.link.path;
+    } else if (scope.scope === 'sites' && scope.id != null) {
+      return `/sites/${scope.id}`;
+    } else {
+      return '/';
     }
-    return {
-      id: id,
-      ...cluster,
-    };
-  },
-);
-
-// The data downloaded from Center about the site.
-function siteData(state) {
-  return servicesData(state).site;
-}
-
-export const site = createSelector(
-  siteData,
-  siteId,
-
-  (site, id) => {
-    return {
-      id: id,
-      ...site,
-    };
-  },
+  }
 );
 
 export function ui(state) {

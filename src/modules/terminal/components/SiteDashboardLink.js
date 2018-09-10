@@ -7,12 +7,11 @@ import { createStructuredSelector } from 'reselect';
 import ContextLink from '../../../elements/ContextLink';
 import services from '../../../modules/services';
 
-const SiteDashboardLink = ({ children, siteId }) => {
-  const location = siteId == null ? '/' : `/sites/${siteId}`;
+const SiteDashboardLink = ({ children, siteLink }) => {
   return (
     <ContextLink
       linkSite="Center"
-      location={location}
+      location={siteLink}
     >
       {children}
     </ContextLink>
@@ -21,12 +20,12 @@ const SiteDashboardLink = ({ children, siteId }) => {
 
 SiteDashboardLink.propTypes = {
   children: PropTypes.node.isRequired,
-  siteId: PropTypes.string,
+  siteLink: PropTypes.string,
 };
 
 const enhance = compose(
   connect(createStructuredSelector({
-    siteId: services.selectors.siteId,
+    siteLink: services.selectors.siteLink,
   })),
 );
 

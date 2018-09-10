@@ -7,7 +7,6 @@ import {
 } from './actionTypes';
 
 const initialState = {
-  cluster: null,
   site: null,
   ui: null,
 };
@@ -59,7 +58,6 @@ function dataReducer(state=initialState, action) {
     case apiRequest.resolved(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED):
       const data = action.payload.data;
       return {
-        cluster: data.cluster,
         site: data.site,
         ui: data.ui,
       };

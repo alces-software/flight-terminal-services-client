@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
-import { Redirect } from 'react-router';
 import {
   branch,
   compose,
@@ -71,13 +70,11 @@ const enhance = compose(
   connect(createStructuredSelector({
     centerUser: centerUsers.selectors.currentUser,
     centerUserRetrieval: centerUsers.selectors.retrieval,
-    cluster: services.selectors.cluster,
     confirmPasswordFormManuallyShown: auth.selectors.confirmPassword.manuallyShown,
     confirmingPassword: auth.selectors.confirmingPassword,
     jwt: auth.selectors.ssoToken,
     scope: services.selectors.scope,
     servicesRetrieval: services.selectors.retrieval,
-    site: services.selectors.site,
     ssoTokenMatured: auth.selectors.ssoTokenMatured,
     ssoUser: auth.selectors.currentUserSelector,
   })),
@@ -147,11 +144,6 @@ const enhance = compose(
   branch(
     ({ servicesRetrieval }) => servicesRetrieval.rejected,
     renderComponent(() => <NestedLoadError />),
-  ),
-
-  branch(
-    ({ cluster, site }) => !cluster && !site,
-    renderComponent(() => <Redirect to="/" />),
   ),
 
   // All of our edge cases are dealt with, we're ready to display the
