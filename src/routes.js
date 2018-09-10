@@ -56,7 +56,7 @@ const routes = [
       },
       {
         path: '/:scopeType/:scopeId/:serviceType',
-        component: services.withSiteContext(),
+        component: services.withScopeContext(),
         routes: [
           {
             ...terminalRoute,
@@ -66,7 +66,7 @@ const routes = [
       },
       {
         path: '/:serviceType',
-        component: services.withSiteContext(),
+        component: services.withScopeContext(),
         routes: [
           {
             ...terminalRoute,

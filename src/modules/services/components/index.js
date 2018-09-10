@@ -2,8 +2,8 @@
 // components which are intended to only be used internally to the module
 // should not be included here.
 
-import withSiteContext from './withSiteContext';
+import withScopeContext from './withScopeContext';
 
 export {
-  withSiteContext,
+  withScopeContext,
 };

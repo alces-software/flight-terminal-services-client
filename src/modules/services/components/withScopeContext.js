@@ -8,7 +8,7 @@ const SiteContext = ({ children, route }) => {
   return renderRoutes(route.routes);
 };
 
-export default function withSiteContext() {
+export default function withScopeContext() {
   const enhance = compose(
     withProps(props => ({
       scopeType: props.match.params.scopeType,
