@@ -6,7 +6,7 @@ const { makeLink } = ContextLink;
 const currentSite = process.env.REACT_APP_SITE;
 
 function allSitesItem() {
-  return makeItem('All sites', 'globe', makeLink('Center', '/'));
+  return makeItem('All sites', 'globe', makeLink('Center', '/sites'));
 }
 
 function overviewItem() {
