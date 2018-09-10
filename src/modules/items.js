@@ -15,7 +15,7 @@ export default function(serviceConfigRetrieval, serviceUi) {
   }
   return serviceUi.breadcrumbs.reduce((accum, crumb) => {
     const link = makeLink(crumb.link.site || currentSite, crumb.link.path);
-    const item = makeItem(crumb.text, crumb.icon, link);
+    const item = makeItem(crumb.text, crumb.icon, link, null, link.location);
     accum.push(item);
     return accum;
   }, []);

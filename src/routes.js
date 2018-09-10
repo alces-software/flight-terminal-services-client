@@ -39,7 +39,7 @@ const terminalRoute = {
   exact: true,
   component: terminal.pages.Terminal,
   title: serviceUi => serviceUi == null ? '' : serviceUi.title,
-  pageKey: scope => scope == null ? '' : `${scope.scope}/${scope.id}/${scope.serviceType}`,
+  pageKey: scope => scope == null ? '' : `/${scope.type}/${scope.id}/${scope.serviceType}`,
 };
 
 const routes = [
