@@ -3,7 +3,6 @@ import { apiRequest, loadingStates } from 'flight-reactware';
 
 import {
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
-  SET_SCOPE,
 } from './actionTypes';
 
 const initialState = {
@@ -12,13 +11,13 @@ const initialState = {
 };
 
 // A reducer to maintain the scope requested.
-function scopeReducer(state = null, { payload, type }) {
+function scopeReducer(state = null, { meta, payload, type }) {
   switch (type) {
-    case SET_SCOPE:
+    case LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED:
       return {
-        type: payload.type,
-        id: payload.id,
-        serviceType: payload.serviceType,
+        type: meta.scope.type,
+        id: meta.scope.id,
+        serviceType: meta.scope.serviceType,
       };
 
     default:

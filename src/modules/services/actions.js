@@ -2,7 +2,6 @@ import { auth } from 'flight-reactware';
 
 import {
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
-  SET_SCOPE,
 } from './actionTypes';
 import { retrieval } from './selectors';
 
@@ -47,16 +46,5 @@ export function fetchTerminalServicesConfig(scopeType, scopeId, serviceType) {
       };
       return dispatch(action);
     }
-  };
-}
-
-export function setScope(scopeType, scopeId, serviceType) {
-  return {
-    type: SET_SCOPE,
-    payload: {
-      type: scopeType,
-      id: scopeId,
-      serviceType,
-    },
   };
 }

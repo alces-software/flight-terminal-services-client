@@ -21,7 +21,6 @@ export default function withSiteContext() {
     lifecycle({
       componentDidMount: function componentDidMount() {
         const { dispatch, scopeType, scopeId, serviceType } = this.props;
-        dispatch(actions.setScope(scopeType, scopeId, serviceType));
         const request = dispatch(actions.fetchTerminalServicesConfig(
           scopeType,
           scopeId,
@@ -45,11 +44,6 @@ export default function withSiteContext() {
           // Nothing relevant has changed; nothing to do.
           return;
         }
-        this.props.dispatch(actions.setScope(
-          nextScope,
-          nextScopeId,
-          nextServiceType
-        ));
         const action = actions.fetchTerminalServicesConfig(
           nextScope,
           nextScopeId,
