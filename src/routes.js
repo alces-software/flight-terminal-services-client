@@ -55,6 +55,16 @@ const routes = [
         title: 'Overview',
       },
       {
+        path: '/clusters/:clusterId/:serviceType',
+        component: services.withSiteContext(),
+        routes: [
+          {
+            ...terminalRoute,
+            path: '/clusters/:clusterId/:serviceType',
+          },
+        ],
+      },
+      {
         path: '/sites/:siteId/:serviceType',
         component: services.withSiteContext(),
         routes: [

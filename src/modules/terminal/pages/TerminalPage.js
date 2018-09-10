@@ -37,11 +37,12 @@ const PaddedContainer = styled(Container)`
 `;
 
 const propTypes = {
+  clusterId: PropTypes.string.isRequired,
   jwt: PropTypes.string.isRequired,
   serviceType: PropTypes.string.isRequired,
   site: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    id: PropTypes.string,
+    id: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ])
   }).isRequired,
 };
 
@@ -49,7 +50,7 @@ const env = {
   LANG: 'en_GB.UTF-8',
 };
 
-const TerminalPage = ({ jwt, serviceType, site }) => {
+const TerminalPage = ({ clusterId, jwt, serviceType, site }) => {
   return (
     <PaddedContainer fluid>
       <Terminal
@@ -57,6 +58,7 @@ const TerminalPage = ({ jwt, serviceType, site }) => {
           jwt: jwt,
           serviceType: serviceType,
           siteId: site.id,
+          clusterId: clusterId,
         }}
         columns={120}
         rows={25}
@@ -76,6 +78,7 @@ const enhance = compose(
   connect(createStructuredSelector({
     centerUser: centerUsers.selectors.currentUser,
     centerUserRetrieval: centerUsers.selectors.retrieval,
+    clusterId: services.selectors.clusterId,
     confirmPasswordFormManuallyShown: auth.selectors.confirmPassword.manuallyShown,
     confirmingPassword: auth.selectors.confirmingPassword,
     jwt: auth.selectors.ssoToken,
