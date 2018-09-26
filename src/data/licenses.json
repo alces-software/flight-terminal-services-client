@@ -2,14 +2,14 @@
   "accepts@1.3.4": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/accepts",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/compression/node_modules/accepts/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/compression/node_modules/accepts/LICENSE"
   },
   "after@0.8.2": {
     "licenses": "MIT",
     "repository": "https://github.com/Raynos/after",
     "publisher": "Raynos",
     "email": "raynos2@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/after/LICENCE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/after/LICENCE"
   },
   "ansi-regex@2.1.1": {
     "licenses": "MIT",
@@ -17,7 +17,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/ansi-regex/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/ansi-regex/license"
   },
   "ansi-styles@2.2.1": {
     "licenses": "MIT",
@@ -25,7 +25,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/chalk/node_modules/ansi-styles/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/chalk/node_modules/ansi-styles/license"
   },
   "aphrodite@0.5.0": {
     "licenses": "MIT",
@@ -38,7 +38,7 @@
     "publisher": "Blake Embrey",
     "email": "hello@blakeembrey.com",
     "url": "http://blakeembrey.me",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/array-flatten/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/array-flatten/LICENSE"
   },
   "array-includes@3.0.3": {
     "licenses": "MIT",
@@ -46,34 +46,34 @@
     "publisher": "Jordan Harband",
     "email": "ljharb@gmail.com",
     "url": "http://ljharb.codes",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/array-includes/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/array-includes/LICENSE"
   },
   "arraybuffer.slice@0.0.7": {
     "licenses": "MIT",
     "repository": "https://github.com/rase-/arraybuffer.slice",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/arraybuffer.slice/LICENCE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/arraybuffer.slice/LICENCE"
   },
   "asap@2.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/kriskowal/asap",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/asap/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/asap/LICENSE.md"
   },
   "asap@2.0.6": {
     "licenses": "MIT",
     "repository": "https://github.com/kriskowal/asap",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/aphrodite/node_modules/asap/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/aphrodite/node_modules/asap/LICENSE.md"
   },
   "async-limiter@1.0.0": {
     "licenses": "MIT",
     "repository": "https://github.com/strml/async-limiter",
     "publisher": "Samuel Reed",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/async-limiter/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/async-limiter/LICENSE"
   },
   "axios@0.16.2": {
     "licenses": "MIT",
     "repository": "https://github.com/mzabriskie/axios",
     "publisher": "Matt Zabriskie",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/axios/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/axios/LICENSE"
   },
   "babel-code-frame@6.22.0": {
     "licenses": "MIT",
@@ -166,7 +166,7 @@
     "repository": "https://github.com/airbnb/babel-plugin-dynamic-import-node",
     "publisher": "Jordan Gensler",
     "email": "jordan.gensler@airbnb.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babel-plugin-dynamic-import-node/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babel-plugin-dynamic-import-node/LICENSE"
   },
   "babel-plugin-syntax-async-functions@6.13.0": {
     "licenses": "MIT",
@@ -365,7 +365,7 @@
     "repository": "https://github.com/babel/babel-preset-env",
     "publisher": "Henry Zhu",
     "email": "hi@henryzoo.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babel-preset-env/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babel-preset-env/LICENSE"
   },
   "babel-preset-flow@6.23.0": {
     "licenses": "MIT",
@@ -436,14 +436,14 @@
     "repository": "https://github.com/babel/babylon",
     "publisher": "Sebastian McKenzie",
     "email": "sebmck@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babylon/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babylon/LICENSE"
   },
   "babylon@6.18.0": {
     "licenses": "MIT",
     "repository": "https://github.com/babel/babylon",
     "publisher": "Sebastian McKenzie",
     "email": "sebmck@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babel-template/node_modules/babylon/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babel-template/node_modules/babylon/LICENSE"
   },
   "backo2@1.0.2": {
     "licenses": "MIT",
@@ -461,18 +461,18 @@
     "repository": "https://github.com/beatgammit/base64-js",
     "publisher": "T. Jameson Little",
     "email": "t.jameson.little@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/base64-js/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/base64-js/LICENSE"
   },
   "basic-auth@2.0.0": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/basic-auth",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/basic-auth/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/basic-auth/LICENSE"
   },
   "batch-processor@1.0.0": {
     "licenses": "MIT",
     "repository": "https://github.com/wnr/batch-processor",
     "publisher": "Lucas Wiener",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/batch-processor/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/batch-processor/LICENSE"
   },
   "better-assert@1.0.2": {
     "licenses": "MIT*",
@@ -487,14 +487,14 @@
   "body-parser@1.18.2": {
     "licenses": "MIT",
     "repository": "https://github.com/expressjs/body-parser",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/body-parser/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/body-parser/LICENSE"
   },
   "bootstrap@4.0.0-alpha.6": {
     "licenses": "MIT",
     "repository": "https://github.com/twbs/bootstrap",
     "publisher": "The Bootstrap Authors",
     "url": "https://github.com/twbs/bootstrap/graphs/contributors",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/bootstrap/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/bootstrap/LICENSE"
   },
   "bowser@1.9.4": {
     "licenses": "MIT",
@@ -502,7 +502,7 @@
     "publisher": "Dustin Diaz",
     "email": "dustin@dustindiaz.com",
     "url": "http://dustindiaz.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/bowser/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/bowser/LICENSE"
   },
   "browser-cookie-lite@1.0.4": {
     "licenses": "MIT",
@@ -515,7 +515,7 @@
     "repository": "https://github.com/ai/browserslist",
     "publisher": "Andrey Sitnik",
     "email": "andrey@sitnik.ru",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babel-preset-env/node_modules/browserslist/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babel-preset-env/node_modules/browserslist/LICENSE"
   },
   "buffer@5.0.8": {
     "licenses": "MIT",
@@ -523,7 +523,7 @@
     "publisher": "Feross Aboukhadijeh",
     "email": "feross@feross.org",
     "url": "http://feross.org",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/buffer/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/buffer/LICENSE"
   },
   "bytes@3.0.0": {
     "licenses": "MIT",
@@ -531,7 +531,7 @@
     "publisher": "TJ Holowaychuk",
     "email": "tj@vision-media.ca",
     "url": "http://tjholowaychuk.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/bytes/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/bytes/LICENSE"
   },
   "callsite@1.0.0": {
     "licenses": "MIT*",
@@ -544,7 +544,7 @@
     "publisher": "Ben Briggs",
     "email": "beneb.info@gmail.com",
     "url": "http://beneb.info",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/caniuse-lite/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/caniuse-lite/LICENSE"
   },
   "chain-function@1.0.0": {
     "licenses": "MIT",
@@ -554,7 +554,7 @@
   "chalk@1.1.3": {
     "licenses": "MIT",
     "repository": "https://github.com/chalk/chalk",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/chalk/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/chalk/license"
   },
   "change-emitter@0.1.3": {
     "licenses": "MIT",
@@ -566,13 +566,13 @@
     "licenses": "MIT",
     "repository": "https://github.com/JedWatson/classnames",
     "publisher": "Jed Watson",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/classnames/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/classnames/LICENSE"
   },
   "classnames@2.2.6": {
     "licenses": "MIT",
     "repository": "https://github.com/JedWatson/classnames",
     "publisher": "Jed Watson",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-cookie-banner/node_modules/classnames/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-cookie-banner/node_modules/classnames/LICENSE"
   },
   "clone@1.0.2": {
     "licenses": "MIT",
@@ -580,20 +580,20 @@
     "publisher": "Paul Vorbach",
     "email": "paul@vorba.ch",
     "url": "http://paul.vorba.ch/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/clone/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/clone/LICENSE"
   },
   "commonmark-react-renderer@4.3.4": {
     "licenses": "MIT",
     "repository": "https://github.com/rexxars/commonmark-react-renderer",
     "publisher": "Espen Hovlandsdal",
     "email": "espen@hovlandsdal.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/commonmark-react-renderer/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/commonmark-react-renderer/LICENSE"
   },
   "commonmark@0.24.0": {
     "licenses": "BSD-2-Clause",
     "repository": "https://github.com/jgm/commonmark.js",
     "publisher": "John MacFarlane",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/commonmark/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/commonmark/LICENSE"
   },
   "component-bind@1.0.0": {
     "licenses": "MIT*",
@@ -602,7 +602,7 @@
   "component-emitter@1.2.1": {
     "licenses": "MIT",
     "repository": "https://github.com/component/emitter",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/component-emitter/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/component-emitter/LICENSE"
   },
   "component-inherit@0.0.3": {
     "licenses": "MIT*",
@@ -611,24 +611,24 @@
   "compressible@2.0.12": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/compressible",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/compressible/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/compressible/LICENSE"
   },
   "compression@1.7.1": {
     "licenses": "MIT",
     "repository": "https://github.com/expressjs/compression",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/compression/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/compression/LICENSE"
   },
   "content-disposition@0.5.2": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/content-disposition",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/content-disposition/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/content-disposition/LICENSE"
   },
   "content-type@1.0.4": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/content-type",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/content-type/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/content-type/LICENSE"
   },
   "cookie-signature@1.0.6": {
     "licenses": "MIT",
@@ -641,40 +641,40 @@
     "repository": "https://github.com/jshttp/cookie",
     "publisher": "Roman Shtylman",
     "email": "shtylman@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/cookie/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/cookie/LICENSE"
   },
   "core-js@1.2.7": {
     "licenses": "MIT",
     "repository": "https://github.com/zloirock/core-js",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tcomb-react/node_modules/core-js/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/fbjs/node_modules/core-js/LICENSE"
   },
   "core-js@2.4.1": {
     "licenses": "MIT",
     "repository": "https://github.com/zloirock/core-js",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/core-js/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/core-js/LICENSE"
   },
   "create-react-class@15.6.2": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/create-react-class/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/create-react-class/LICENSE.txt"
   },
   "create-react-class@15.6.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-scrolllock/node_modules/create-react-class/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-scrolllock/node_modules/create-react-class/LICENSE.txt"
   },
   "css-color-keywords@1.0.0": {
     "licenses": "ISC",
     "repository": "https://github.com/sonicdoe/css-color-keywords",
     "publisher": "Jakob Krigovsky",
     "email": "jakob@krigovsky.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/css-color-keywords/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/css-color-keywords/LICENSE"
   },
   "css-to-react-native@2.0.4": {
     "licenses": "MIT",
     "repository": "https://github.com/styled-components/css-to-react-native",
     "publisher": "Jacob Parker",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/css-to-react-native/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/css-to-react-native/LICENSE.md"
   },
   "debug@2.2.0": {
     "licenses": "MIT",
@@ -687,21 +687,21 @@
     "repository": "https://github.com/visionmedia/debug",
     "publisher": "TJ Holowaychuk",
     "email": "tj@vision-media.ca",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babel-traverse/node_modules/debug/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babel-traverse/node_modules/debug/LICENSE"
   },
   "debug@2.6.9": {
     "licenses": "MIT",
     "repository": "https://github.com/visionmedia/debug",
     "publisher": "TJ Holowaychuk",
     "email": "tj@vision-media.ca",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/debug/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/debug/LICENSE"
   },
   "debug@3.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/visionmedia/debug",
     "publisher": "TJ Holowaychuk",
     "email": "tj@vision-media.ca",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/socket.io-client/node_modules/debug/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/socket.io-client/node_modules/debug/LICENSE"
   },
   "decode-uri-component@0.2.0": {
     "licenses": "MIT",
@@ -709,14 +709,14 @@
     "publisher": "Sam Verschueren",
     "email": "sam.verschueren@gmail.com",
     "url": "github.com/SamVerschueren",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/decode-uri-component/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/decode-uri-component/license"
   },
   "deep-diff@0.3.8": {
     "licenses": "MIT",
     "repository": "https://github.com/flitbit/diff",
     "publisher": "Phillip Clark",
     "email": "phillip@flitbit.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/deep-diff/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/deep-diff/LICENSE"
   },
   "deep-equal@1.0.1": {
     "licenses": "MIT",
@@ -724,27 +724,27 @@
     "publisher": "James Halliday",
     "email": "mail@substack.net",
     "url": "http://substack.net",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/deep-equal/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/deep-equal/LICENSE"
   },
   "defaults@1.0.3": {
     "licenses": "MIT",
     "repository": "https://github.com/tmpvar/defaults",
     "publisher": "Elijah Insua",
     "email": "tmpvar@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/defaults/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/defaults/LICENSE"
   },
   "define-properties@1.1.2": {
     "licenses": "MIT",
     "repository": "https://github.com/ljharb/define-properties",
     "publisher": "Jordan Harband",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/define-properties/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/define-properties/LICENSE"
   },
   "depd@1.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/dougwilson/nodejs-depd",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/depd/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/depd/LICENSE"
   },
   "destroy@1.0.4": {
     "licenses": "MIT",
@@ -752,12 +752,12 @@
     "publisher": "Jonathan Ong",
     "email": "me@jongleberry.com",
     "url": "http://jongleberry.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/destroy/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/destroy/LICENSE"
   },
   "doctrine@0.7.2": {
     "licenses": "BSD",
     "repository": "https://github.com/eslint/doctrine",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tcomb-react/node_modules/doctrine/LICENSE.esprima"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tcomb-react/node_modules/doctrine/LICENSE.esprima"
   },
   "dom-helpers@3.2.1": {
     "licenses": "MIT",
@@ -771,7 +771,7 @@
     "publisher": "Jonathan Ong",
     "email": "me@jongleberry.com",
     "url": "http://jongleberry.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/ee-first/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/ee-first/LICENSE"
   },
   "electron-to-chromium@1.3.27": {
     "licenses": "ISC",
@@ -781,35 +781,35 @@
   "element-resize-detector@1.1.14": {
     "licenses": "MIT",
     "repository": "https://github.com/wnr/element-resize-detector",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/element-resize-detector/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/element-resize-detector/LICENSE"
   },
   "encodeurl@1.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/pillarjs/encodeurl",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/encodeurl/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/encodeurl/LICENSE"
   },
   "encoding@0.1.12": {
     "licenses": "MIT",
     "repository": "https://github.com/andris9/encoding",
     "publisher": "Andris Reinman",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/encoding/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/encoding/LICENSE"
   },
   "engine.io-client@3.2.1": {
     "licenses": "MIT",
     "repository": "https://github.com/socketio/engine.io-client",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/engine.io-client/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/engine.io-client/LICENSE"
   },
   "engine.io-parser@2.1.2": {
     "licenses": "MIT",
     "repository": "https://github.com/socketio/engine.io-parser",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/engine.io-parser/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/engine.io-parser/LICENSE"
   },
   "entities@1.1.1": {
     "licenses": "BSD*",
     "repository": "https://github.com/fb55/node-entities",
     "publisher": "Felix Boehm",
     "email": "me@feedic.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/entities/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/entities/LICENSE"
   },
   "es-abstract@1.12.0": {
     "licenses": "MIT",
@@ -817,7 +817,7 @@
     "publisher": "Jordan Harband",
     "email": "ljharb@gmail.com",
     "url": "http://ljharb.codes",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/es-abstract/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/es-abstract/LICENSE"
   },
   "es-abstract@1.9.0": {
     "licenses": "MIT",
@@ -825,24 +825,24 @@
     "publisher": "Jordan Harband",
     "email": "ljharb@gmail.com",
     "url": "http://ljharb.codes",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/array-includes/node_modules/es-abstract/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/array-includes/node_modules/es-abstract/LICENSE"
   },
   "es-to-primitive@1.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/ljharb/es-to-primitive",
     "publisher": "Jordan Harband",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/es-to-primitive/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/es-to-primitive/LICENSE"
   },
   "es6-error@4.0.2": {
     "licenses": "MIT",
     "repository": "https://github.com/bjyoungblood/es6-error",
     "publisher": "Ben Youngblood",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/es6-error/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/es6-error/LICENSE.md"
   },
   "escape-html@1.0.3": {
     "licenses": "MIT",
     "repository": "https://github.com/component/escape-html",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/escape-html/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/escape-html/LICENSE"
   },
   "escape-string-regexp@1.0.5": {
     "licenses": "MIT",
@@ -850,54 +850,54 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/escape-string-regexp/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/escape-string-regexp/license"
   },
   "esutils@1.1.6": {
     "licenses": "BSD",
     "repository": "https://github.com/Constellation/esutils",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tcomb-react/node_modules/esutils/LICENSE.BSD"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tcomb-react/node_modules/esutils/LICENSE.BSD"
   },
   "esutils@2.0.2": {
     "licenses": "BSD",
     "repository": "https://github.com/estools/esutils",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/esutils/LICENSE.BSD"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/esutils/LICENSE.BSD"
   },
   "etag@1.8.1": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/etag",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/express/node_modules/etag/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/express/node_modules/etag/LICENSE"
   },
   "exenv@1.2.1": {
     "licenses": "BSD*",
     "repository": "https://github.com/JedWatson/exenv",
     "publisher": "Jed Watson",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/exenv/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/exenv/LICENSE"
   },
   "express@4.16.2": {
     "licenses": "MIT",
     "repository": "https://github.com/expressjs/express",
     "publisher": "TJ Holowaychuk",
     "email": "tj@vision-media.ca",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/express/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/express/LICENSE"
   },
   "fbjs@0.8.16": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/fbjs",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tcomb-react/node_modules/fbjs/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/prop-types/node_modules/fbjs/LICENSE"
   },
   "fbjs@0.8.9": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/facebook/fbjs",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/fbjs/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/fbjs/LICENSE"
   },
   "finalhandler@1.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/pillarjs/finalhandler",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/finalhandler/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/finalhandler/LICENSE"
   },
-  "flight-reactware@0.1.56": {
+  "flight-reactware@0.1.57": {
     "licenses": "ISC",
     "publisher": "Alces Flight Ltd"
   },
@@ -905,7 +905,7 @@
     "licenses": "UNKNOWN",
     "publisher": "Alces Flight Limited"
   },
-  "flight-tutorials-client@0.1.29": {
+  "flight-tutorials-client@0.1.30": {
     "licenses": "MIT"
   },
   "flux-standard-action@0.6.0": {
@@ -919,19 +919,19 @@
     "publisher": "Olivier Lalonde",
     "email": "olalonde@gmail.com",
     "url": "http://www.syskall.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/follow-redirects/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/follow-redirects/LICENSE"
   },
   "foreach@2.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/manuelstofer/foreach",
     "publisher": "Manuel Stofer",
     "email": "manuel@takimata.ch",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/foreach/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/foreach/LICENSE"
   },
   "forwarded@0.1.2": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/forwarded",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/forwarded/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/forwarded/LICENSE"
   },
   "fresh@0.5.2": {
     "licenses": "MIT",
@@ -939,21 +939,21 @@
     "publisher": "TJ Holowaychuk",
     "email": "tj@vision-media.ca",
     "url": "http://tjholowaychuk.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/express/node_modules/fresh/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/express/node_modules/fresh/LICENSE"
   },
   "function-bind@1.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/Raynos/function-bind",
     "publisher": "Raynos",
     "email": "raynos2@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/has/node_modules/function-bind/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/has/node_modules/function-bind/LICENSE"
   },
   "function-bind@1.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/Raynos/function-bind",
     "publisher": "Raynos",
     "email": "raynos2@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/function-bind/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/function-bind/LICENSE"
   },
   "get-comments@1.0.1": {
     "licenses": "MIT",
@@ -961,7 +961,7 @@
     "publisher": "Charlike Mike Reagent",
     "email": "@tunnckoCore",
     "url": "http://www.tunnckocore.tk",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/get-comments/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/get-comments/LICENSE.md"
   },
   "globals@9.16.0": {
     "licenses": "MIT",
@@ -969,7 +969,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "http://sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babel-traverse/node_modules/globals/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babel-traverse/node_modules/globals/license"
   },
   "globals@9.18.0": {
     "licenses": "MIT",
@@ -977,7 +977,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "http://sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/globals/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/globals/license"
   },
   "has-ansi@2.0.0": {
     "licenses": "MIT",
@@ -985,12 +985,12 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/has-ansi/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/has-ansi/license"
   },
   "has-binary2@1.0.3": {
     "licenses": "MIT",
     "publisher": "Kevin Roark",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/has-binary2/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/has-binary2/LICENSE"
   },
   "has-cors@1.1.0": {
     "licenses": "MIT",
@@ -1005,7 +1005,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/has-flag/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/has-flag/license"
   },
   "has@1.0.1": {
     "licenses": "MIT",
@@ -1017,28 +1017,28 @@
     "licenses": "MIT",
     "repository": "https://github.com/reacttraining/history",
     "publisher": "Michael Jackson",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/history/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/history/LICENSE.md"
   },
   "hoist-non-react-statics@1.2.0": {
     "licenses": "BSD",
     "repository": "https://github.com/mridgway/hoist-non-react-statics",
     "publisher": "Michael Ridgway",
     "email": "mridgway@yahoo-inc.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/hoist-non-react-statics/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/hoist-non-react-statics/LICENSE.md"
   },
   "hoist-non-react-statics@2.3.1": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/mridgway/hoist-non-react-statics",
     "publisher": "Michael Ridgway",
     "email": "mcridgway@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-redux/node_modules/hoist-non-react-statics/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-redux/node_modules/hoist-non-react-statics/LICENSE.md"
   },
   "hoist-non-react-statics@2.5.5": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/mridgway/hoist-non-react-statics",
     "publisher": "Michael Ridgway",
     "email": "mcridgway@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/flight-reactware/node_modules/hoist-non-react-statics/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-reactware/node_modules/hoist-non-react-statics/LICENSE.md"
   },
   "http-errors@1.6.2": {
     "licenses": "MIT",
@@ -1046,28 +1046,28 @@
     "publisher": "Jonathan Ong",
     "email": "me@jongleberry.com",
     "url": "http://jongleberry.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/http-errors/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/http-errors/LICENSE"
   },
   "hyphenate-style-name@1.0.2": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/rexxars/hyphenate-style-name",
     "publisher": "Espen Hovlandsdal",
     "email": "espen@hovlandsdal.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/hyphenate-style-name/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/hyphenate-style-name/LICENSE"
   },
   "iconv-lite@0.4.13": {
     "licenses": "MIT",
     "repository": "https://github.com/ashtuchkin/iconv-lite",
     "publisher": "Alexander Shtuchkin",
     "email": "ashtuchkin@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/encoding/node_modules/iconv-lite/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/encoding/node_modules/iconv-lite/LICENSE"
   },
   "iconv-lite@0.4.19": {
     "licenses": "MIT",
     "repository": "https://github.com/ashtuchkin/iconv-lite",
     "publisher": "Alexander Shtuchkin",
     "email": "ashtuchkin@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/iconv-lite/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/iconv-lite/LICENSE"
   },
   "ieee754@1.1.8": {
     "licenses": "BSD-3-Clause",
@@ -1075,14 +1075,14 @@
     "publisher": "Feross Aboukhadijeh",
     "email": "feross@feross.org",
     "url": "http://feross.org",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/ieee754/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/ieee754/LICENSE"
   },
   "ignore-styles@5.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/bkonkle/ignore-styles",
     "publisher": "Brandon Konkle",
     "email": "brandon@konkle.us",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/ignore-styles/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/ignore-styles/LICENSE"
   },
   "indexof@0.0.1": {
     "licenses": "MIT*"
@@ -1090,34 +1090,34 @@
   "inherits@2.0.3": {
     "licenses": "ISC",
     "repository": "https://github.com/isaacs/inherits",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/inherits/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/inherits/LICENSE"
   },
   "inline-style-prefixer@2.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/rofrischmann/inline-style-prefixer",
     "publisher": "Robin Frischmann",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/inline-style-prefixer/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/inline-style-prefixer/LICENSE"
   },
   "invariant@2.2.2": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/zertosh/invariant",
     "publisher": "Andres Suarez",
     "email": "zertosh@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/invariant/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/invariant/LICENSE"
   },
   "invariant@2.2.4": {
     "licenses": "MIT",
     "repository": "https://github.com/zertosh/invariant",
     "publisher": "Andres Suarez",
     "email": "zertosh@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/flight-reactware/node_modules/react-router-dom/node_modules/invariant/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-reactware/node_modules/react-router-dom/node_modules/invariant/LICENSE"
   },
   "ipaddr.js@1.5.2": {
     "licenses": "MIT",
     "repository": "https://github.com/whitequark/ipaddr.js",
     "publisher": "whitequark",
     "email": "whitequark@whitequark.org",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/ipaddr.js/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/ipaddr.js/LICENSE"
   },
   "is-buffer@1.1.6": {
     "licenses": "MIT",
@@ -1125,7 +1125,7 @@
     "publisher": "Feross Aboukhadijeh",
     "email": "feross@feross.org",
     "url": "http://feross.org/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-buffer/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-buffer/LICENSE"
   },
   "is-callable@1.1.3": {
     "licenses": "MIT",
@@ -1133,39 +1133,39 @@
     "publisher": "Jordan Harband",
     "email": "ljharb@gmail.com",
     "url": "http://ljharb.codes",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-callable/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-callable/LICENSE"
   },
   "is-date-object@1.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/ljharb/is-date-object",
     "publisher": "Jordan Harband",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-date-object/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-date-object/LICENSE"
   },
   "is-function@1.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/grncdr/js-is-function",
     "publisher": "Stephen Sugden",
     "email": "me@stephensugden.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-function/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-function/LICENSE"
   },
   "is-plain-object@2.0.4": {
     "licenses": "MIT",
     "repository": "https://github.com/jonschlinkert/is-plain-object",
     "publisher": "Jon Schlinkert",
     "url": "https://github.com/jonschlinkert",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-plain-object/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-plain-object/LICENSE"
   },
   "is-promise@2.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/then/is-promise",
     "publisher": "ForbesLindesay",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-promise/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-promise/LICENSE"
   },
   "is-regex@1.0.4": {
     "licenses": "MIT",
     "repository": "https://github.com/ljharb/is-regex",
     "publisher": "Jordan Harband",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-regex/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-regex/LICENSE"
   },
   "is-stream@1.1.0": {
     "licenses": "MIT",
@@ -1173,13 +1173,13 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-stream/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-stream/license"
   },
   "is-symbol@1.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/ljharb/is-symbol",
     "publisher": "Jordan Harband",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/is-symbol/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/is-symbol/LICENSE"
   },
   "isarray@0.0.1": {
     "licenses": "MIT",
@@ -1200,33 +1200,33 @@
     "repository": "https://github.com/jonschlinkert/isobject",
     "publisher": "Jon Schlinkert",
     "url": "https://github.com/jonschlinkert",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/isobject/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/isobject/LICENSE"
   },
   "isomorphic-fetch@2.2.1": {
     "licenses": "MIT",
     "repository": "https://github.com/matthew-andrews/isomorphic-fetch",
     "publisher": "Matt Andrews",
     "email": "matt@mattandre.ws",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/isomorphic-fetch/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/isomorphic-fetch/LICENSE"
   },
   "jquery@3.2.1": {
     "licenses": "MIT",
     "repository": "https://github.com/jquery/jquery",
     "publisher": "JS Foundation and other contributors",
     "url": "https://github.com/jquery/jquery/blob/3.2.1/AUTHORS.txt",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/jquery/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/jquery/LICENSE.txt"
   },
   "js-tokens@3.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/lydell/js-tokens",
     "publisher": "Simon Lydell",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/js-tokens/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/js-tokens/LICENSE"
   },
   "js-tokens@3.0.2": {
     "licenses": "MIT",
     "repository": "https://github.com/lydell/js-tokens",
     "publisher": "Simon Lydell",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babel-template/node_modules/js-tokens/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babel-template/node_modules/js-tokens/LICENSE"
   },
   "jsesc@0.5.0": {
     "licenses": "MIT",
@@ -1240,7 +1240,7 @@
     "publisher": "Jose F. Romaniello",
     "email": "jfromaniello@gmail.com",
     "url": "http://joseoncode.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/jwt-decode/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/jwt-decode/LICENSE"
   },
   "lodash-es@4.17.4": {
     "licenses": "MIT",
@@ -1248,7 +1248,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash-es/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash-es/LICENSE"
   },
   "lodash._arraymap@3.0.0": {
     "licenses": "MIT",
@@ -1256,7 +1256,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._arraymap/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._arraymap/LICENSE.txt"
   },
   "lodash._basedifference@3.0.3": {
     "licenses": "MIT",
@@ -1264,7 +1264,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._basedifference/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._basedifference/LICENSE"
   },
   "lodash._baseflatten@3.1.4": {
     "licenses": "MIT",
@@ -1272,7 +1272,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._baseflatten/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._baseflatten/LICENSE"
   },
   "lodash._basefor@3.0.3": {
     "licenses": "MIT",
@@ -1280,7 +1280,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._basefor/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._basefor/LICENSE"
   },
   "lodash._baseindexof@3.1.0": {
     "licenses": "MIT",
@@ -1288,7 +1288,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._baseindexof/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._baseindexof/LICENSE.txt"
   },
   "lodash._bindcallback@3.0.1": {
     "licenses": "MIT",
@@ -1296,7 +1296,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._bindcallback/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._bindcallback/LICENSE.txt"
   },
   "lodash._cacheindexof@3.0.2": {
     "licenses": "MIT",
@@ -1304,7 +1304,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._cacheindexof/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._cacheindexof/LICENSE.txt"
   },
   "lodash._createcache@3.1.2": {
     "licenses": "MIT",
@@ -1312,7 +1312,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._createcache/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._createcache/LICENSE"
   },
   "lodash._getnative@3.9.1": {
     "licenses": "MIT",
@@ -1320,7 +1320,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._getnative/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._getnative/LICENSE"
   },
   "lodash._pickbyarray@3.0.2": {
     "licenses": "MIT",
@@ -1328,7 +1328,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._pickbyarray/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._pickbyarray/LICENSE.txt"
   },
   "lodash._pickbycallback@3.0.0": {
     "licenses": "MIT",
@@ -1336,7 +1336,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash._pickbycallback/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash._pickbycallback/LICENSE.txt"
   },
   "lodash.assign@4.2.0": {
     "licenses": "MIT",
@@ -1344,7 +1344,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/commonmark-react-renderer/node_modules/lodash.assign/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/commonmark-react-renderer/node_modules/lodash.assign/LICENSE"
   },
   "lodash.debounce@4.0.8": {
     "licenses": "MIT",
@@ -1352,7 +1352,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.debounce/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.debounce/LICENSE"
   },
   "lodash.isarguments@3.1.0": {
     "licenses": "MIT",
@@ -1360,7 +1360,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.isarguments/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.isarguments/LICENSE"
   },
   "lodash.isarray@3.0.4": {
     "licenses": "MIT",
@@ -1368,7 +1368,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.isarray/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.isarray/LICENSE"
   },
   "lodash.isfunction@3.0.8": {
     "licenses": "MIT",
@@ -1376,7 +1376,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.isfunction/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.isfunction/LICENSE"
   },
   "lodash.isobject@3.0.2": {
     "licenses": "MIT",
@@ -1384,7 +1384,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.isobject/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.isobject/LICENSE.txt"
   },
   "lodash.isplainobject@3.2.0": {
     "licenses": "MIT",
@@ -1392,7 +1392,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.isplainobject/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.isplainobject/LICENSE"
   },
   "lodash.isplainobject@4.0.6": {
     "licenses": "MIT",
@@ -1400,7 +1400,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/commonmark-react-renderer/node_modules/lodash.isplainobject/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/commonmark-react-renderer/node_modules/lodash.isplainobject/LICENSE"
   },
   "lodash.keys@3.1.2": {
     "licenses": "MIT",
@@ -1408,7 +1408,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.keys/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.keys/LICENSE"
   },
   "lodash.keysin@3.0.8": {
     "licenses": "MIT",
@@ -1416,7 +1416,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.keysin/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.keysin/LICENSE.txt"
   },
   "lodash.omit@3.1.0": {
     "licenses": "MIT",
@@ -1424,7 +1424,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.omit/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.omit/LICENSE.txt"
   },
   "lodash.restparam@3.6.1": {
     "licenses": "MIT",
@@ -1432,7 +1432,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.restparam/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.restparam/LICENSE.txt"
   },
   "lodash.throttle@4.1.1": {
     "licenses": "MIT",
@@ -1440,7 +1440,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.throttle/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.throttle/LICENSE"
   },
   "lodash.tonumber@4.0.3": {
     "licenses": "MIT",
@@ -1448,7 +1448,7 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash.tonumber/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash.tonumber/LICENSE"
   },
   "lodash@4.17.4": {
     "licenses": "MIT",
@@ -1456,14 +1456,14 @@
     "publisher": "John-David Dalton",
     "email": "john.david.dalton@gmail.com",
     "url": "http://allyoucanleet.com/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/lodash/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/lodash/LICENSE"
   },
   "loose-envify@1.3.1": {
     "licenses": "MIT",
     "repository": "https://github.com/zertosh/loose-envify",
     "publisher": "Andres Suarez",
     "email": "zertosh@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/loose-envify/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/loose-envify/LICENSE"
   },
   "lorem-ipsum@1.0.4": {
     "licenses": "MIT*",
@@ -1475,14 +1475,14 @@
   "mdurl@1.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/markdown-it/mdurl",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/mdurl/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/mdurl/LICENSE"
   },
   "media-typer@0.3.0": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/media-typer",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/media-typer/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/media-typer/LICENSE"
   },
   "merge-descriptors@1.0.1": {
     "licenses": "MIT",
@@ -1490,27 +1490,27 @@
     "publisher": "Jonathan Ong",
     "email": "me@jongleberry.com",
     "url": "http://jongleberry.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/merge-descriptors/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/merge-descriptors/LICENSE"
   },
   "methods@1.1.2": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/methods",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/methods/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/methods/LICENSE"
   },
   "mime-db@1.30.0": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/mime-db",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/type-is/node_modules/mime-db/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/type-is/node_modules/mime-db/LICENSE"
   },
   "mime-db@1.31.0": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/mime-db",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/compressible/node_modules/mime-db/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/compressible/node_modules/mime-db/LICENSE"
   },
   "mime-types@2.1.17": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/mime-types",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/type-is/node_modules/mime-types/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/type-is/node_modules/mime-types/LICENSE"
   },
   "mime@1.4.1": {
     "licenses": "MIT",
@@ -1518,7 +1518,7 @@
     "publisher": "Robert Kieffer",
     "email": "robert@broofa.com",
     "url": "http://github.com/broofa",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/express/node_modules/mime/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/express/node_modules/mime/LICENSE"
   },
   "moment@2.22.2": {
     "licenses": "MIT",
@@ -1526,38 +1526,38 @@
     "publisher": "Iskren Ivov Chernev",
     "email": "iskren.chernev@gmail.com",
     "url": "https://github.com/ichernev",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/moment/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/moment/LICENSE"
   },
   "morgan@1.9.0": {
     "licenses": "MIT",
     "repository": "https://github.com/expressjs/morgan",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/morgan/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/morgan/LICENSE"
   },
   "ms@0.7.1": {
     "licenses": "MIT*",
     "repository": "https://github.com/guille/ms.js",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/socket.io-stream/node_modules/ms/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/socket.io-stream/node_modules/ms/LICENSE"
   },
   "ms@0.7.2": {
     "licenses": "MIT",
     "repository": "https://github.com/zeit/ms",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/babel-traverse/node_modules/ms/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/babel-traverse/node_modules/ms/LICENSE.md"
   },
   "ms@2.0.0": {
     "licenses": "MIT",
     "repository": "https://github.com/zeit/ms",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/ms/license.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/ms/license.md"
   },
   "negotiator@0.6.1": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/negotiator",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/negotiator/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/negotiator/LICENSE"
   },
   "node-fetch@1.6.3": {
     "licenses": "MIT",
     "repository": "https://github.com/bitinn/node-fetch",
     "publisher": "David Frank",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/node-fetch/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/node-fetch/LICENSE.md"
   },
   "node-noop@1.0.0": {
     "licenses": "BSD-2-Clause",
@@ -1570,7 +1570,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/object-assign/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/object-assign/license"
   },
   "object-component@0.0.3": {
     "licenses": "MIT*"
@@ -1581,25 +1581,25 @@
     "publisher": "Jordan Harband",
     "email": "ljharb@gmail.com",
     "url": "http://ljharb.codes",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/object-keys/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/object-keys/LICENSE"
   },
   "object.values@1.0.4": {
     "licenses": "MIT",
     "repository": "https://github.com/es-shims/Object.values",
     "publisher": "Jordan Harband",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/object.values/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/object.values/LICENSE"
   },
   "on-finished@2.3.0": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/on-finished",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/on-finished/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/on-finished/LICENSE"
   },
   "on-headers@1.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/on-headers",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/on-headers/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/on-headers/LICENSE"
   },
   "optimist@0.3.7": {
     "licenses": "MIT*",
@@ -1607,40 +1607,40 @@
     "publisher": "James Halliday",
     "email": "mail@substack.net",
     "url": "http://substack.net",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/optimist/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/optimist/LICENSE"
   },
   "parseqs@0.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/get/querystring",
     "publisher": "Gal Koren",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/parseqs/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/parseqs/LICENSE"
   },
   "parseuri@0.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/get/parseuri",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/parseuri/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/parseuri/LICENSE"
   },
   "parseurl@1.3.2": {
     "licenses": "MIT",
     "repository": "https://github.com/pillarjs/parseurl",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/finalhandler/node_modules/parseurl/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/finalhandler/node_modules/parseurl/LICENSE"
   },
   "pascalcase@0.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/jonschlinkert/pascalcase",
     "publisher": "Jon Schlinkert",
     "url": "https://github.com/jonschlinkert",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/pascalcase/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/pascalcase/LICENSE"
   },
   "path-to-regexp@0.1.7": {
     "licenses": "MIT",
     "repository": "https://github.com/component/path-to-regexp",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/express/node_modules/path-to-regexp/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/express/node_modules/path-to-regexp/LICENSE"
   },
   "path-to-regexp@1.7.0": {
     "licenses": "MIT",
     "repository": "https://github.com/pillarjs/path-to-regexp",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/path-to-regexp/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/path-to-regexp/LICENSE"
   },
   "pluralize@7.0.0": {
     "licenses": "MIT",
@@ -1648,7 +1648,7 @@
     "publisher": "Blake Embrey",
     "email": "hello@blakeembrey.com",
     "url": "http://blakeembrey.me",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/flight-reactware/node_modules/pluralize/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-reactware/node_modules/pluralize/LICENSE"
   },
   "polished@1.9.3": {
     "licenses": "MIT",
@@ -1656,7 +1656,7 @@
     "publisher": "Brian Hough",
     "email": "brian@brianhought.net",
     "url": "https://polished.js.org",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/polished/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/polished/LICENSE.md"
   },
   "popper.js@1.13.0": {
     "licenses": "MIT",
@@ -1669,47 +1669,47 @@
     "repository": "https://github.com/TrySound/postcss-value-parser",
     "publisher": "Bogdan Chadkin",
     "email": "trysound@yandex.ru",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/postcss-value-parser/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/postcss-value-parser/LICENSE"
   },
   "private@0.1.7": {
     "licenses": "MIT",
     "repository": "https://github.com/benjamn/private",
     "publisher": "Ben Newman",
     "email": "bn@cs.stanford.edu",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/private/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/private/LICENSE"
   },
   "promise@7.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/then/promise",
     "publisher": "ForbesLindesay",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/promise/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/promise/LICENSE"
   },
   "prop-types@15.5.9": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/reactjs/prop-types",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-fontawesome/node_modules/prop-types/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-fontawesome/node_modules/prop-types/LICENSE"
   },
   "prop-types@15.6.0": {
     "licenses": "MIT",
     "repository": "https://github.com/reactjs/prop-types",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/prop-types/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/prop-types/LICENSE"
   },
   "prop-types@15.6.2": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/prop-types",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-markdown/node_modules/prop-types/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tcomb-react/node_modules/prop-types/LICENSE"
   },
   "proxy-addr@2.0.2": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/proxy-addr",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/proxy-addr/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/proxy-addr/LICENSE"
   },
   "qs@6.5.1": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/ljharb/qs",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/body-parser/node_modules/qs/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/body-parser/node_modules/qs/LICENSE"
   },
   "query-string@5.1.1": {
     "licenses": "MIT",
@@ -1717,7 +1717,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/query-string/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/query-string/license"
   },
   "range-parser@1.2.0": {
     "licenses": "MIT",
@@ -1725,7 +1725,7 @@
     "publisher": "TJ Holowaychuk",
     "email": "tj@vision-media.ca",
     "url": "http://tjholowaychuk.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/range-parser/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/range-parser/LICENSE"
   },
   "raw-body@2.3.2": {
     "licenses": "MIT",
@@ -1733,19 +1733,19 @@
     "publisher": "Jonathan Ong",
     "email": "me@jongleberry.com",
     "url": "http://jongleberry.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/raw-body/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/raw-body/LICENSE"
   },
   "react-cookie-banner@0.0.18": {
     "licenses": "ISC",
     "repository": "https://github.com/buildo/react-cookie-banner",
     "publisher": "Francesco Cioria",
     "email": "francesco@buildo.io",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-cookie-banner/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-cookie-banner/LICENSE"
   },
   "react-dom@15.6.2": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-dom/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-dom/LICENSE"
   },
   "react-fontawesome@1.6.1": {
     "licenses": "MIT",
@@ -1753,45 +1753,45 @@
     "publisher": "Dana Woodman",
     "email": "dana@danawoodman.com",
     "url": "danawoodman.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-fontawesome/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-fontawesome/license"
   },
   "react-form@1.3.0": {
     "licenses": "MIT",
     "repository": "https://github.com/tannerlinsley/react-form",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-form/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-form/LICENSE"
   },
   "react-ga@2.5.3": {
     "licenses": "Apache-2.0",
     "repository": "https://github.com/react-ga/react-ga",
     "publisher": "@adamlofting",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-ga/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-ga/LICENSE"
   },
   "react-helmet@5.2.0": {
     "licenses": "MIT",
     "repository": "https://github.com/nfl/react-helmet",
     "publisher": "NFL",
     "email": "engineers@nfl.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-helmet/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-helmet/LICENSE"
   },
   "react-images@0.5.4": {
     "licenses": "MIT",
     "repository": "https://github.com/jossmac/react-images",
     "publisher": "Joss Mackison",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-images/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-images/LICENSE"
   },
   "react-lorem-component@0.12.2": {
     "licenses": "MIT",
     "repository": "https://github.com/martinandert/react-lorem-component",
     "publisher": "Martin Andert",
     "email": "mandert@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-lorem-component/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-lorem-component/LICENSE"
   },
   "react-markdown@2.5.1": {
     "licenses": "MIT",
     "repository": "https://github.com/rexxars/react-markdown",
     "publisher": "Espen Hovlandsdal",
     "email": "rexxars@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-markdown/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-markdown/LICENSE"
   },
   "react-popper@0.7.5": {
     "licenses": "MIT",
@@ -1799,13 +1799,13 @@
     "publisher": "Travis Arnold",
     "email": "travis@souporserious.com",
     "url": "http://souporserious.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-popper/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-popper/LICENSE"
   },
   "react-recaptcha@2.3.5": {
     "licenses": "BSD*",
     "repository": "https://github.com/appleboy/react-recaptcha",
     "publisher": "Bo-Yi Wu",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-recaptcha/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-recaptcha/LICENSE"
   },
   "react-redux@5.0.6": {
     "licenses": "MIT",
@@ -1813,7 +1813,7 @@
     "publisher": "Dan Abramov",
     "email": "dan.abramov@me.com",
     "url": "http://github.com/gaearon",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-redux/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-redux/LICENSE.md"
   },
   "react-router-config@1.0.0-beta.4": {
     "licenses": "MIT",
@@ -1843,7 +1843,7 @@
     "licenses": "MIT",
     "repository": "https://github.com/juliancwirko/react-s-alert",
     "publisher": "Julian Ćwirko",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-s-alert/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-s-alert/LICENSE"
   },
   "react-scroll@1.5.4": {
     "licenses": "MIT",
@@ -1854,7 +1854,7 @@
     "repository": "https://github.com/jossmac/react-scrolllock",
     "publisher": "Joss Mackison",
     "url": "https://github.com/jossmac",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-scrolllock/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-scrolllock/LICENSE"
   },
   "react-side-effect@1.1.0": {
     "licenses": "MIT",
@@ -1862,14 +1862,14 @@
     "publisher": "Dan Abramov",
     "email": "dan.abramov@me.com",
     "url": "http://github.com/gaearon",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-side-effect/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-side-effect/LICENSE"
   },
   "react-sizeme@2.5.2": {
     "licenses": "MIT",
     "repository": "https://github.com/ctrlplusb/react-sizeme",
     "publisher": "Sean Matheson",
     "email": "sean@ctrlplusb.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-sizeme/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-sizeme/LICENSE"
   },
   "react-transition-group@1.2.0": {
     "licenses": "BSD-3-Clause",
@@ -1882,22 +1882,22 @@
   "react-transition-group@2.2.1": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/reactjs/react-transition-group",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/reactstrap/node_modules/react-transition-group/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/reactstrap/node_modules/react-transition-group/LICENSE"
   },
   "react@15.6.2": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react/LICENSE"
   },
-  "react@16.4.1": {
+  "react@16.5.2": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tcomb-react/node_modules/react/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tcomb-react/node_modules/react/LICENSE"
   },
   "reactstrap@5.0.0-beta": {
     "licenses": "MIT",
     "repository": "https://github.com/reactstrap/reactstrap",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/reactstrap/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/reactstrap/LICENSE"
   },
   "recompose@0.24.0": {
     "licenses": "MIT",
@@ -1910,14 +1910,14 @@
     "repository": "https://github.com/svrcekmichal/redux-axios-middleware",
     "publisher": "Michal Svrcek",
     "email": "svrcekmichal@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/redux-axios-middleware/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/redux-axios-middleware/LICENSE.md"
   },
   "redux-cookie@0.5.9": {
     "licenses": "MIT",
     "repository": "https://github.com/iroy2000/redux-cookie",
     "publisher": "Roy Yu",
     "email": "iroy2000@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/redux-cookie/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/redux-cookie/LICENSE"
   },
   "redux-form@6.8.0": {
     "licenses": "MIT",
@@ -1925,14 +1925,14 @@
     "publisher": "Erik Rasmussen",
     "email": "rasmussenerik@gmail.com",
     "url": "http://github.com/erikras",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/redux-form/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/redux-form/LICENSE"
   },
   "redux-logger@3.0.6": {
     "licenses": "MIT",
     "repository": "https://github.com/theaqua/redux-logger",
     "publisher": "Eugene Rodionov",
     "url": "https://github.com/theaqua",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/redux-logger/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/redux-logger/LICENSE"
   },
   "redux-simple-promise@2.0.2": {
     "licenses": "MIT",
@@ -1945,17 +1945,17 @@
     "repository": "https://github.com/gaearon/redux-thunk",
     "publisher": "Dan Abramov",
     "email": "dan.abramov@me.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/redux-thunk/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/redux-thunk/LICENSE.md"
   },
   "redux@3.6.0": {
     "licenses": "MIT",
     "repository": "https://github.com/reactjs/redux",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/redux/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/redux/LICENSE.md"
   },
   "redux@3.7.2": {
     "licenses": "MIT",
     "repository": "https://github.com/reactjs/redux",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/flight-reactware/node_modules/redux/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-reactware/node_modules/redux/LICENSE.md"
   },
   "regenerate@1.3.2": {
     "licenses": "MIT",
@@ -1999,19 +1999,19 @@
     "publisher": "Benjamin Tan",
     "email": "demoneaux@gmail.com",
     "url": "https://d10.github.io/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/regjsgen/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/regjsgen/LICENSE.txt"
   },
   "regjsparser@0.1.5": {
     "licenses": "BSD*",
     "repository": "https://github.com/jviereck/regjsparser",
     "publisher": "'Julian Viereck'",
     "email": "julian.viereck@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/regjsparser/LICENSE.BSD"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/regjsparser/LICENSE.BSD"
   },
   "reselect@3.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/reactjs/reselect",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/reselect/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/reselect/LICENSE"
   },
   "resolve-pathname@2.2.0": {
     "licenses": "MIT",
@@ -2024,13 +2024,18 @@
     "publisher": "Feross Aboukhadijeh",
     "email": "feross@feross.org",
     "url": "http://feross.org",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/safe-buffer/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/safe-buffer/LICENSE"
   },
-  "seamless-immutable@7.1.3": {
+  "schedule@0.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/facebook/react",
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/schedule/LICENSE"
+  },
+  "seamless-immutable@7.1.4": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/rtfeldman/seamless-immutable",
     "publisher": "Richard Feldman",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/seamless-immutable/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/seamless-immutable/LICENSE"
   },
   "seedable-random@0.0.1": {
     "licenses": "BSD*",
@@ -2039,39 +2044,39 @@
   "semver@5.3.0": {
     "licenses": "ISC",
     "repository": "https://github.com/npm/node-semver",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/semver/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/semver/LICENSE"
   },
   "send@0.16.1": {
     "licenses": "MIT",
     "repository": "https://github.com/pillarjs/send",
     "publisher": "TJ Holowaychuk",
     "email": "tj@vision-media.ca",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/express/node_modules/send/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/express/node_modules/send/LICENSE"
   },
   "serve-static@1.13.1": {
     "licenses": "MIT",
     "repository": "https://github.com/expressjs/serve-static",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/serve-static/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/serve-static/LICENSE"
   },
   "setimmediate@1.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/yuzujs/setImmediate",
     "publisher": "YuzuJS",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/setimmediate/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/setimmediate/LICENSE.txt"
   },
   "setprototypeof@1.0.3": {
     "licenses": "ISC",
     "repository": "https://github.com/wesleytodd/setprototypeof",
     "publisher": "Wes Todd",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/setprototypeof/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/setprototypeof/LICENSE"
   },
   "setprototypeof@1.1.0": {
     "licenses": "ISC",
     "repository": "https://github.com/wesleytodd/setprototypeof",
     "publisher": "Wes Todd",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/express/node_modules/setprototypeof/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/express/node_modules/setprototypeof/LICENSE"
   },
   "shallowequal@0.2.2": {
     "licenses": "MIT",
@@ -2079,7 +2084,7 @@
     "publisher": "Alberto Leal",
     "email": "mailforalberto@gmail.com",
     "url": "github.com/Dashed",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/shallowequal/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/shallowequal/LICENSE"
   },
   "shallowequal@1.1.0": {
     "licenses": "MIT",
@@ -2087,29 +2092,29 @@
     "publisher": "Alberto Leal",
     "email": "mailforalberto@gmail.com",
     "url": "github.com/dashed",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/react-sizeme/node_modules/shallowequal/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/react-sizeme/node_modules/shallowequal/LICENSE"
   },
   "socket.io-client@2.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/Automattic/socket.io-client",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/socket.io-client/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/socket.io-client/LICENSE"
   },
   "socket.io-parser@3.2.0": {
     "licenses": "MIT",
     "repository": "https://github.com/Automattic/socket.io-parser",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/socket.io-parser/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/socket.io-parser/LICENSE"
   },
   "socket.io-stream@0.9.1": {
     "licenses": "MIT*",
     "repository": "https://github.com/nkzawa/socket.io-stream",
     "publisher": "Naoyuki Kanezawa",
     "email": "naoyuki.kanezawa@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/socket.io-stream/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/socket.io-stream/LICENSE"
   },
   "statuses@1.3.1": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/statuses",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/statuses/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/statuses/LICENSE"
   },
   "strict-uri-encode@1.1.0": {
     "licenses": "MIT",
@@ -2117,7 +2122,7 @@
     "publisher": "Kevin Mårtensson",
     "email": "kevinmartensson@gmail.com",
     "url": "github.com/kevva",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/strict-uri-encode/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/strict-uri-encode/license"
   },
   "string.prototype.repeat@0.2.0": {
     "licenses": "MIT",
@@ -2131,33 +2136,33 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/strip-ansi/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/strip-ansi/license"
   },
   "styled-components@2.2.3": {
     "licenses": "MIT",
     "repository": "https://github.com/styled-components/styled-components",
     "publisher": "Glen Maddern",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/styled-components/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/styled-components/LICENSE"
   },
   "styled-components@2.4.1": {
     "licenses": "MIT",
     "repository": "https://github.com/styled-components/styled-components",
     "publisher": "Glen Maddern",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/flight-tutorials-client/node_modules/styled-components/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-tutorials-client/node_modules/styled-components/LICENSE"
   },
   "stylis@3.4.0": {
     "licenses": "MIT",
     "repository": "https://github.com/thysultan/stylis.js",
     "publisher": "Sultan Tarimo",
     "email": "sultantarimo@me.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/stylis/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/stylis/LICENSE.md"
   },
   "stylis@3.5.3": {
     "licenses": "MIT",
     "repository": "https://github.com/thysultan/stylis.js",
     "publisher": "Sultan Tarimo",
     "email": "sultantarimo@me.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/flight-tutorials-client/node_modules/stylis/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-tutorials-client/node_modules/stylis/LICENSE.md"
   },
   "supports-color@2.0.0": {
     "licenses": "MIT",
@@ -2165,7 +2170,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/chalk/node_modules/supports-color/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/chalk/node_modules/supports-color/license"
   },
   "supports-color@3.2.3": {
     "licenses": "MIT",
@@ -2173,28 +2178,28 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/supports-color/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/supports-color/license"
   },
   "symbol-observable@1.0.4": {
     "licenses": "MIT",
     "repository": "https://github.com/blesh/symbol-observable",
     "publisher": "Ben Lesh",
     "email": "ben@benlesh.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/symbol-observable/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/symbol-observable/license"
   },
   "symbol-observable@1.2.0": {
     "licenses": "MIT",
     "repository": "https://github.com/blesh/symbol-observable",
     "publisher": "Ben Lesh",
     "email": "ben@benlesh.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/flight-reactware/node_modules/symbol-observable/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-reactware/node_modules/symbol-observable/license"
   },
   "tcomb-doc@0.5.2": {
     "licenses": "MIT",
     "repository": "https://github.com/gcanti/tcomb-doc",
     "publisher": "Giulio Canti",
     "email": "giulio.canti@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tcomb-doc/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tcomb-doc/LICENSE"
   },
   "tcomb-react@0.9.3": {
     "licenses": "MIT",
@@ -2207,33 +2212,33 @@
     "repository": "https://github.com/gcanti/tcomb-validation",
     "publisher": "Giulio Canti",
     "email": "giulio.canti@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tcomb-validation/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tcomb-validation/LICENSE"
   },
   "tcomb@3.2.27": {
     "licenses": "MIT",
     "repository": "https://github.com/gcanti/tcomb",
     "publisher": "Giulio Canti",
     "email": "giulio.canti@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tcomb/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tcomb/LICENSE"
   },
   "terminal.js@1.1.10": {
     "licenses": "MIT",
     "repository": "https://github.com/Gottox/terminal.js",
     "publisher": "Enno Boland",
     "email": "eb@s01.de",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/terminal.js/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/terminal.js/LICENSE"
   },
   "tether@1.4.1": {
     "licenses": "MIT",
     "repository": "https://github.com/HubSpot/tether",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/tether/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/tether/LICENSE"
   },
   "to-array@0.1.4": {
     "licenses": "MIT",
     "repository": "https://github.com/Raynos/to-array",
     "publisher": "Raynos",
     "email": "raynos2@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/to-array/LICENCE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/to-array/LICENCE"
   },
   "to-fast-properties@1.0.2": {
     "licenses": "MIT",
@@ -2241,7 +2246,7 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/regenerator-transform/node_modules/to-fast-properties/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/regenerator-transform/node_modules/to-fast-properties/license"
   },
   "to-fast-properties@1.0.3": {
     "licenses": "MIT",
@@ -2249,12 +2254,12 @@
     "publisher": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
     "url": "sindresorhus.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/to-fast-properties/license"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/to-fast-properties/license"
   },
   "type-is@1.6.15": {
     "licenses": "MIT",
     "repository": "https://github.com/jshttp/type-is",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/type-is/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/type-is/LICENSE"
   },
   "ua-parser-js@0.7.12": {
     "licenses": "(GPL-2.0 OR MIT)",
@@ -2267,7 +2272,7 @@
     "licenses": "MIT",
     "repository": "https://github.com/unshiftio/ultron",
     "publisher": "Arnout Kazemier",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/ultron/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/ultron/LICENSE"
   },
   "universal-cookie@2.1.0": {
     "licenses": "MIT",
@@ -2280,14 +2285,14 @@
     "repository": "https://github.com/stream-utils/unpipe",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/unpipe/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/unpipe/LICENSE"
   },
   "url-search-params-polyfill@2.0.3": {
     "licenses": "MIT",
     "repository": "https://github.com/jerrybendy/url-search-params-polyfill",
     "publisher": "Jerry Bendy",
     "email": "jerry@icewingcc.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/url-search-params-polyfill/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/url-search-params-polyfill/LICENSE"
   },
   "utils-merge@1.0.1": {
     "licenses": "MIT",
@@ -2295,14 +2300,14 @@
     "publisher": "Jared Hanson",
     "email": "jaredhanson@gmail.com",
     "url": "http://www.jaredhanson.net/",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/utils-merge/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/utils-merge/LICENSE"
   },
   "validator@8.2.0": {
     "licenses": "MIT",
     "repository": "https://github.com/chriso/validator.js",
     "publisher": "Chris O'Hara",
     "email": "cohara87@gmail.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/validator/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/validator/LICENSE"
   },
   "value-equal@0.4.0": {
     "licenses": "MIT",
@@ -2314,7 +2319,7 @@
     "repository": "https://github.com/jshttp/vary",
     "publisher": "Douglas Christopher Wilson",
     "email": "doug@somethingdoug.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/compression/node_modules/vary/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/compression/node_modules/vary/LICENSE"
   },
   "warning@3.0.0": {
     "licenses": "BSD-3-Clause",
@@ -2322,26 +2327,26 @@
     "publisher": "Berkeley Martinez",
     "email": "berkeley@r3dm.com",
     "url": "http://www.freecodecamp.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/warning/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/warning/LICENSE.md"
   },
-  "warning@4.0.1": {
+  "warning@4.0.2": {
     "licenses": "MIT",
     "repository": "https://github.com/BerkeleyTrue/warning",
     "publisher": "Berkeley Martinez",
     "email": "berkeley@berkeleytrue.com",
     "url": "http://www.berkeleytrue.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/flight-reactware/node_modules/warning/LICENSE.md"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/flight-reactware/node_modules/warning/LICENSE.md"
   },
   "wcwidth@1.0.1": {
     "licenses": "MIT",
     "repository": "https://github.com/timoxley/wcwidth",
     "publisher": "Tim Oxley",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/wcwidth/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/wcwidth/LICENSE"
   },
   "whatwg-fetch@2.0.2": {
     "licenses": "MIT",
     "repository": "https://github.com/github/fetch",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/isomorphic-fetch/node_modules/whatwg-fetch/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/isomorphic-fetch/node_modules/whatwg-fetch/LICENSE"
   },
   "wordwrap@0.0.3": {
     "licenses": "MIT",
@@ -2349,7 +2354,7 @@
     "publisher": "James Halliday",
     "email": "mail@substack.net",
     "url": "http://substack.net",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/wordwrap/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/wordwrap/LICENSE"
   },
   "ws@3.3.3": {
     "licenses": "MIT",
@@ -2357,31 +2362,31 @@
     "publisher": "Einar Otto Stangvik",
     "email": "einaros@gmail.com",
     "url": "http://2x.io",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/ws/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/ws/LICENSE"
   },
   "xmlhttprequest-ssl@1.5.5": {
     "licenses": "MIT",
     "repository": "https://github.com/mjwwit/node-XMLHttpRequest",
     "publisher": "Michael de Wit",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/xmlhttprequest-ssl/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/xmlhttprequest-ssl/LICENSE"
   },
   "xss-filters@1.2.7": {
     "licenses": "BSD",
     "repository": "https://github.com/yahoo/xss-filters",
     "publisher": "Adonis Fung",
     "email": "adon@yahoo-inc.com",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/xss-filters/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/xss-filters/LICENSE"
   },
   "yeast@0.1.2": {
     "licenses": "MIT",
     "repository": "https://github.com/unshiftio/yeast",
     "publisher": "Arnout Kazemier",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/yeast/LICENSE"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/yeast/LICENSE"
   },
   "zxcvbn@4.4.2": {
     "licenses": "MIT",
     "repository": "https://github.com/dropbox/zxcvbn",
     "publisher": "Dan Wheeler",
-    "licenseFile": "/home/bob/src/alces-software/flight-terminal-services-client/node_modules/zxcvbn/LICENSE.txt"
+    "licenseFile": "/home/ben/projects/flight-terminal-services-client/node_modules/zxcvbn/LICENSE.txt"
   }
 }
