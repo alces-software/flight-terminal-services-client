@@ -1,23 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { ProductBar } from 'flight-reactware';
 
 import getItems from '../modules/items';
-import { services, users } from '../modules';
+import { services } from '../modules';
 
 const Page = ({
   children,
-  currentUser,
   pageKey,
-  site,
-  siteRetrieval,
+  serviceUi,
+  serviceConfigRetrieval,
   title,
 }) => {
-  const items = getItems(currentUser, site, siteRetrieval);
+  const items = getItems(
+    serviceConfigRetrieval,
+    serviceUi,
+  );
   return (
     <div>
       <Helmet>
@@ -37,15 +40,17 @@ const Page = ({
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,
-  currentUser: PropTypes.object,
   pageKey: PropTypes.string,
-  site: PropTypes.object,
-  siteRetrieval: PropTypes.object.isRequired,
+  serviceConfigRetrieval: PropTypes.object.isRequired,
+  serviceUi: PropTypes.object,
   title: PropTypes.string.isRequired,
 };
 
-export default connect(createStructuredSelector({
-  site: services.selectors.site,
-  siteRetrieval: services.selectors.retrieval,
-  currentUser: users.selectors.currentUser,
-}))(Page);
+const enhance = compose(
+  connect(createStructuredSelector({
+    serviceConfigRetrieval: services.selectors.retrieval,
+    serviceUi: services.selectors.ui,
+  })),
+);
+
+export default enhance(Page);

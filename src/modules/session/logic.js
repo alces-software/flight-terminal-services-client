@@ -35,34 +35,71 @@ function loadUserWhenAuthChanges(dispatch, getState) {
 let previousCenterUser;
 function loadTerminalServicesConfigWhenAuthChanges(dispatch, getState) {
   const centerUser = centerUsers.selectors.currentUser(getState());
-  const site = services.selectors.site(getState());
+  const scope = services.selectors.scope(getState());
 
   if (centerUser === previousCenterUser) { return; }
   if (centerUser == null) { return; }
   previousCenterUser = centerUser;
 
   if (!centerUser.isAdmin) {
-    // A non-admin user.  The site is implicitly *their* site.  Let's load the
-    // terminal services config and redirect to the directory terminal.
-    fetchServicesAndRedirect(dispatch);
-  } else if (site.id != null) {
-    // We have an admin user, and we know which site they are interested
-    // in.  Let's load the terminal services config and redirect to the
-    // directory terminal.
-    fetchServicesAndRedirect(dispatch, site.id);
+    // For non-admin users we have three cases: 1) we know the service they
+    // are after and the cluster is either specified or it is assumed to be a
+    // site service; 2) we know the cluster they are after but not the
+    // service; cluster is not specified; 3) we don't know the service they
+    // are after and the cluster is not specified.
+    if (scope != null && scope.serviceType != null) {
+      // We know the service and the scope is either implicitly *their* site
+      // or the specified cluster.  We can load the terminal service config
+      // and redirect to the correct terminal page.
+      fetchServicesAndRedirect(dispatch, scope);
+    } else if (scope != null && scope.type != null) {
+      // They are after a cluster service, but have not provided the service
+      // type.  Send them back to Center so they can select the cluster service.
+      const url = ContextLink.makeLinkProps('Center', `/${scope.type}/${scope.id}`).href;
+      window.location = url;
+    } else {
+      // Send them back to Center so they can select the site service.
+      const url = ContextLink.makeLinkProps('Center', '/').href;
+      window.location = url;
+    }
   } else {
-    // We have an admin user, but we don't know which site they are interested
-    // in.  Redirect to Center and they can select.
-    const url = ContextLink.makeLinkProps('Center', '/',).href;
-    window.location = url;
+    // For admin users we have three cases: 1) we know the service and either
+    // the site or cluster they are after; 2) we know the site they are
+    // after, but not the service; 3) we know the cluster they are after but
+    // not the service; 4) we don't know the service they are after.
+    if (scope != null && scope.type != null && scope.id != null && scope.serviceType != null) {
+      fetchServicesAndRedirect(dispatch, scope);
+    } else if (scope != null && scope.type != null && scope.id != null) {
+      // Send them back to Center so they can select the service.
+      const url = ContextLink.makeLinkProps('Center', `/${scope.type}/${scope.id}`).href;
+      window.location = url;
+    } else {
+      // Send them back to Center so they can navigate from all sites to the
+      // desired service.
+      const url = ContextLink.makeLinkProps('Center', '/sites').href;
+      window.location = url;
+    }
   }
 }
 
-function fetchServicesAndRedirect(dispatch, siteId) {
-  const promise = dispatch(services.actions.fetchTerminalServicesConfig(siteId));
+function fetchServicesAndRedirect(dispatch, scope) {
+  const action = services.actions.fetchTerminalServicesConfig(
+    scope.type,
+    scope.id,
+    scope.serviceType
+  );
+  const promise = dispatch(action);
   if (promise) {
     promise
-      .then(() => { dispatch(push('/directory')); })
+      .then(() => {
+        let path;
+        if (scope.type) {
+          path = `/${scope.type}/${scope.id}/${scope.serviceType}`;
+        } else {
+          path = `/${scope.serviceType}`;
+        }
+        dispatch(push(path));
+      })
       .catch(e => e);
   }
 }

@@ -10,31 +10,35 @@ import services from '../../../modules/services';
 
 import SiteDashboardLink from './SiteDashboardLink';
 
-const NoTerminalServicesError = () => (
+const NoTerminalServicesError = ({ serviceType }) => (
   <MissingNotice
-    title="The Alces Flight Directory service is not configured for your organisation."
+    title="The requested service is not configured for your organisation."
   >
-    Your organisation has not requested access to the Alces Flight Directory
-    service. Please contact your{' '}
+    Your organisation has not requested access to the Alces Flight
+    {' '}<code>{serviceType}</code> service. Please contact your{' '}
     <SiteDashboardLink>account manager</SiteDashboardLink>
     {' '}if you would like to request this facility.
   </MissingNotice>
 );
 
+NoTerminalServicesError.propTypes = {
+  serviceType: PropTypes.string,
+};
+
 const GenericLoadError = () => (
   <MissingNotice
-    title="Unable to load directory details"
+    title="Unable to load service details"
   >
-    Unfortunately, the details for the directory service cannot be loaded.
+    Unfortunately, the details for the service cannot be loaded.
     Please try again, or visit our{' '}
     <CommunitySiteLink>Community Support Portal</CommunitySiteLink>
     {' '}for further help.
   </MissingNotice>
 );
 
-const LoadError = ({ error }) => {
+const LoadError = ({ error, serviceType }) => {
   if (error === 'NO_TERMINAL_SERVICES') {
-    return <NoTerminalServicesError />;
+    return <NoTerminalServicesError serviceType={serviceType} />;
   } else {
     return <GenericLoadError />;
   }
@@ -42,11 +46,13 @@ const LoadError = ({ error }) => {
 
 LoadError.propTypes = {
   error: PropTypes.string,
+  serviceType: PropTypes.string,
 };
 
 const enhance = compose(
   connect(createStructuredSelector({
     error: services.selectors.loadError,
+    serviceType: services.selectors.serviceType,
   })),
 );
 

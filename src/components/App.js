@@ -5,8 +5,11 @@ import Route from 'react-router/Route';
 import Switch from 'react-router/Switch';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { matchRoutes } from 'react-router-config';
 import { withRouter } from 'react-router';
+import isFunction from 'lodash.isfunction';
 
 import { Page } from 'flight-reactware';
 
@@ -14,6 +17,7 @@ import ScrollToTop from './ScrollToTop';
 import SitePage from './Page';
 import routes from '../routes';
 import appVersion from '../version';
+import { services } from '../modules';
 
 
 // Use our own version of `renderRoutes` which incorporates currently
@@ -66,11 +70,20 @@ const productName = process.env.REACT_APP_PRODUCT_NAME;
 const propTypes = {
   location: PropTypes.object,
   route: PropTypes.object,
+  scope: PropTypes.object,
+  serviceUi: PropTypes.object,
 };
 
-const App = ({ location, route }) => {
+const App = ({ location, route, scope, serviceUi }) => {
   const branch = matchRoutes(routes, location.pathname);
   const lastRouteComponent = branch[branch.length - 1].route;
+
+  const pageKey = isFunction(lastRouteComponent.pageKey) ?
+    lastRouteComponent.pageKey(scope) :
+    lastRouteComponent.pageKey;
+  const title = isFunction(lastRouteComponent.title) ?
+    lastRouteComponent.title(serviceUi) :
+    lastRouteComponent.title;
 
   return (
     <ScrollToTop>
@@ -88,8 +101,8 @@ const App = ({ location, route }) => {
           />
         </Helmet>
         <SitePage
-          pageKey={lastRouteComponent.pageKey}
-          title={lastRouteComponent.title}
+          pageKey={pageKey}
+          title={title}
         >
           <CSSTransitionGroup
             transitionEnterTimeout={250}
@@ -110,6 +123,11 @@ App.propTypes = propTypes;
 
 const enhance = compose(
   withRouter,
+
+  connect(createStructuredSelector({
+    scope: services.selectors.scope,
+    serviceUi: services.selectors.ui,
+  })),
 );
 
 export default enhance(App);

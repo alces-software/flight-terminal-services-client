@@ -2,23 +2,23 @@ import { combineReducers } from 'redux';
 import { apiRequest, loadingStates } from 'flight-reactware';
 
 import {
-  EXPLICIT_SITE_REQUESTED,
   LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
 } from './actionTypes';
 
 const initialState = {
-  flightDirectoryConfig: null,
   site: null,
+  ui: null,
 };
 
-// A reducer to maintain the siteId.
-function siteIdReducer(state = null, { meta, payload, type }) {
+// A reducer to maintain the scope requested.
+function scopeReducer(state = null, { meta, payload, type }) {
   switch (type) {
-    case EXPLICIT_SITE_REQUESTED:
-      return payload;
-
     case LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED:
-      return meta.siteId == null ? null : meta.siteId;
+      return {
+        type: meta.scope.type,
+        id: meta.scope.id,
+        serviceType: meta.scope.serviceType,
+      };
 
     default:
       return state;
@@ -43,7 +43,7 @@ function errorReducer(state = null, action) {
 }
 
 const metaReducers = combineReducers({
-  siteId: siteIdReducer,
+  scope: scopeReducer,
   [loadingStates.constants.NAME]: loadingStates.reducer({
     pending: LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED,
     resolved: apiRequest.resolved(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED),
@@ -57,8 +57,8 @@ function dataReducer(state=initialState, action) {
     case apiRequest.resolved(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED):
       const data = action.payload.data;
       return {
-        flightDirectoryConfig: data.flight_directory_config,
         site: data.site,
+        ui: data.ui,
       };
 
     case apiRequest.rejected(LOAD_TERMINAL_SERVICES_CONFIG_REQUESTED):

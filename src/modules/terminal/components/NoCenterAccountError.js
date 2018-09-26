@@ -6,9 +6,11 @@ import ContextLink from '../../../elements/ContextLink';
 
 const NoCenterAccountError = () => {
   return (
-    <MissingNotice title="Unable to access the Alces Flight Directory service.">
-      The Alces Flight Directory service is available to organisation managers
-      only. Please{' '}
+    <MissingNotice
+      title="Unable to access the Alces Flight Center console service."
+    >
+      The Alces Flight Center console service is available to organisation
+      managers only. Please{' '}
       <ContextLink
         linkSite="Home"
         location="/contact"
