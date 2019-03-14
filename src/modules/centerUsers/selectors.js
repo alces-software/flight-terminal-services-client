@@ -23,7 +23,7 @@ export const currentUser = createSelector(
     }
     return {
       ...user,
-      isAdmin: user.role === 'admin',
+      isAdmin: user.admin,
     };
   },
 );
