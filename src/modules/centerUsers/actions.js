@@ -5,7 +5,7 @@ import {
 const centerBaseUrl = process.env.REACT_APP_CENTER_BASE_URL;
 
 export function loadUser() {
-  const url = `${centerBaseUrl}/users`;
+  const url = `${centerBaseUrl}/users/current`;
   return {
     type: LOAD_CENTER_USER_REQUESTED,
     meta: {
