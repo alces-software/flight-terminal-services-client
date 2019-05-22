@@ -5,9 +5,9 @@
  - A checked out copy of the flight-terminal-services-client git repo.
  - Some git remotes which can be created with:
    - `git remote add dokku
-     dokku@apps.alces-flight.com:flight-terminal-services-client`
+     dokku@apps.alces-flight.com:flight-console`
    - `git remote add dokku-staging
-     dokku@apps.alces-flight.com:flight-terminal-services-client-staging`
+     dokku@apps.alces-flight.com:flight-console-staging`
  - Some unix tools: `ruby` and `jq`.
 
 ## How to deploy a branch to production.
