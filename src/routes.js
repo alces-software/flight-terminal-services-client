@@ -28,6 +28,7 @@ const redirectRoutes = Object.keys(redirects).map((k) => {
       <Redirect
         to={{
           pathname: target(location),
+          // eslint-disable-next-line react/prop-types
           search: location.search,
         }}
       />

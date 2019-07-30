@@ -9,6 +9,7 @@ const { default: promiseMiddleware } = require('redux-simple-promise');
 
 const { renderToString } = require('react-dom/server');
 const { StaticRouter } = require('react-router-dom');
+import { createMemoryHistory } from 'history';
 
 const { ServerStyleSheet, StyleSheetManager } = require('styled-components');
 const Cookies = require('universal-cookie');
@@ -20,7 +21,7 @@ const { default: createReducer } = require('../src/reducers');
 const { default: routes } = require('../src/routes');
 const { renderRoutes } = require('react-router-config');
 
-module.exports = function universalLoader(req, res) {
+export default function universalLoader(req, res) {
   const sheet = new ServerStyleSheet();
   const filePath = path.resolve(process.env.APPROOT, 'build', 'index.html');
 
@@ -31,9 +32,10 @@ module.exports = function universalLoader(req, res) {
     }
     const context = {};
     const cookies = new Cookies(req.headers.cookie);
+    const history = createMemoryHistory({ initialEntries: [req.url] });
 
     const store = createStore(
-      createReducer(cookies),
+      createReducer(cookies, history),
       {},
       applyMiddleware(
         flightMiddleware,

@@ -1,3 +1,4 @@
+require('dotenv').config();
 require('ignore-styles');
 const bodyParser = require('body-parser');
 const compression = require('compression');
@@ -5,21 +6,23 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 
-require('babel-register')({
-  ignore: function(filename) {
-    if ( filename.match(/\/(build|node_modules)\//) ) {
-      return true;
-    } else {
-      return false;
-    }
-  },
-  presets: ['es2015', 'react-app']
+require('@babel/register')({
+  ignore: [
+    function(filename) {
+      if ( filename.match(/\/babel-preset-react-app\//) ) {
+        return false;
+      } else {
+        return !!filename.match(/\/(build|node_modules)\//);
+      }
+    },
+  ],
+  presets: ["@babel/preset-env", "@babel/preset-react", "react-app"],
 });
 
 // routes
-const index = require('./routes/index');
+const index = require('./routes/index').default;
 const { default: api } = require('./routes/api');
-const universalLoader = require('./universal');
+const universalLoader = require('./universal').default;
 
 const app = express();
 

@@ -9,7 +9,7 @@
 // Business logic handling sessions.
 
 import { auth } from 'flight-reactware';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 import ContextLink from '../../elements/ContextLink';
 import centerUsers from '../../modules/centerUsers';
