@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import Route from 'react-router/Route';
-import Switch from 'react-router/Switch';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { Route, Switch, withRouter } from 'react-router';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { matchRoutes } from 'react-router-config';
-import { withRouter } from 'react-router';
 import isFunction from 'lodash.isfunction';
 
 import { Page } from 'flight-reactware';
@@ -26,8 +24,8 @@ import { services } from '../modules';
 // internally by `renderRoutes`.
 //
 // This fix is important due to the nesting of `Switch` under
-// `CSSTransitionGroup`.  When a `Switch` is nested under
-// `CSSTransitionGroup`, we must make sure that it uses the same `location`
+// `TransitionGroup`.  When a `Switch` is nested under
+// `TransitionGroup`, we must make sure that it uses the same `location`
 // when transitioning out as it did when transitioning in.  If it doesn't, the
 // `Switch` which is transitioning out, will perform unnecessary mounting and
 // unmounting of its children due to different components matching the updated
@@ -104,15 +102,15 @@ const App = ({ location, route, scope, serviceUi }) => {
           pageKey={pageKey}
           title={title}
         >
-          <CSSTransitionGroup
-            transitionEnterTimeout={250}
-            transitionLeave={false}
-            transitionName="fade"
-          >
-            <div key={lastRouteComponent.key || location.pathname}>
+          <TransitionGroup>
+            <CSSTransition
+              classNames="fade"
+              key={lastRouteComponent.key || location.pathname}
+              timeout={{ enter: 250, exit: 250 }}
+            >
               {renderRoutes(route.routes, {}, { location: location })}
-            </div>
-          </CSSTransitionGroup>
+            </CSSTransition>
+          </TransitionGroup>
         </SitePage>
       </Page>
     </ScrollToTop>
