@@ -44,7 +44,7 @@ createLogics(store);
 
 Analytics.initialize(process.env.REACT_APP_ANALYTICS_TRACKER_ID, history);
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
     <ConnectedRouter history={history}>
