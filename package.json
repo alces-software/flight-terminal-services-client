@@ -10,7 +10,7 @@
     "bootstrap": "4.0.0-alpha.6",
     "compression": "^1.6.2",
     "connected-react-router": "^6.5.2",
-    "express": "^4.15.3",
+    "express": "^4.17.3",
     "flight-reactware": "https://s3-eu-west-1.amazonaws.com/alces-flight/FlightReactware/0.3.2/flight-reactware.tgz",
     "flight-tutorials-client": "file:../flight-tutorials-client/flight-tutorials-client-v0.1.35.tgz",
     "history": "^4.6.1",
